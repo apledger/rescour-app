@@ -1,0 +1,148 @@
+@import "rescour_variables";
+@import "slider";
+@import "savedsearch";
+@import "market_filter";
+@import "market_list";
+@import "map";
+@import "details";
+@import "header";
+
+#Loading-Details {
+  position: absolute;
+  left: $filterWidth + $marketWidth;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: $light-gray;
+  z-index: 5;
+  display:none;
+}
+#Loading {
+  position: absolute; left: 0px; top: 0px; bottom:0px; right: 0px; background: $light-gray; z-index: 5;display:none;
+}
+
+.loading-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  p {
+    margin-left: -4em;
+    margin-bottom: 1em;
+    text-transform: uppercase;
+    font-size: 18px;
+    color: $gray;
+  }
+}
+
+.loading-icon {
+  text-shadow: #666 0 -1px 0;
+  margin-left: -1em;
+  color: $gray;
+}
+
+[ng\:cloak], [ng-cloak], .ng-cloak {
+  display: none;
+}
+
+header, section, footer {
+  display: block;
+}
+
+body {
+  height: 100%;
+  margin: 0;
+  font-size: 14px;
+  line-height: 20px;
+  color: $dark-gray;
+  background-color: white;
+}
+
+#Wrapper {
+  position: relative;
+  width: 100%;
+  min-height: 100%;
+  background-color: $light-gray;
+}
+
+.main-container {
+  position: absolute;
+  top: $headerHeight + 5px;
+  left: 0;
+  right: 0;
+  bottom: 21px;
+}
+
+#Footer {
+  position: fixed;
+  width: 100%;
+  bottom: 0px;
+  left: 0px;
+  height: 20px;
+  background-color: $light-gray;
+  border-top: 1px solid darken($light-gray, 20%);
+  z-index: 3000;
+}
+
+#Footer p {
+  text-align: center;
+}
+
+#Footer p a {
+  font-size: 10px;
+  margin-right: 10px;
+}
+
+.tooltip-inner {
+  opacity: 0.8;
+}
+
+.yellow {
+  color: $yellow;
+}
+
+.red {
+  color: $red;
+}
+
+/* Scroll Bar */
+::-webkit-scrollbar, ::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+  @include border-radius(5px);
+}
+
+::-webkit-scrollbar-thumb, ::-webkit-scrollbar-thumb {
+  background-color: darken($light-gray, 20%);
+  @include border-radius(5px);
+  @include box-shadow(rgba(0, 0, 0, 0.05) -1px 0 7px inset);
+}
+
+::-webkit-scrollbar-track-piece, ::-webkit-scrollbar-track-piece {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-corner, ::-webkit-scrollbar-corner {
+  display: none;
+}
+
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1040;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.hide {
+  display: none;
+}
+
+.toggle {
+  position: relative;
+  float: left;
+  margin-left: 15px;
+}

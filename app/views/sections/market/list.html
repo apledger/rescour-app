@@ -1,0 +1,65 @@
+<div id="MarketList" ng-controller="ListController">
+    <!--Toggle favorites button-->
+    <!--Item boxes display-->
+    <div class="market-wrap">
+        <div id="item-{{item.id}}" class="item-well" ng-repeat="item in items | filter: searchText | limitVisible: 50"
+             ng-show="item.isVisible">
+            <!--Thumbnail preview button-->
+
+
+            <!--Top bar of item box-->
+            <div class="dimensions clearfix">
+                <!--Location Button-->
+                <a href="javascript:" class="btn location" ng-click="panTo(item)">
+                    <i class="icon-map-marker"></i>
+                </a>
+
+                <div class="header-container">
+                    <div class="title"><a href="javascript:" ng-click="viewDetails(item)">{{item.title}}</a></div>
+                    <div class="ranges">
+                        <span>{{item.attributes.range["Number of Units"]}}&nbsp;</span>Units.&nbsp;
+                        Built in<span>&nbsp;{{item.attributes.range["Year Built"]}}</span>.
+                    </div>
+                </div>
+            </div>
+
+            <div class="preview" ng-click="showPictures(item)">
+                <div class="zoom-mask"></div>
+                <img ng-src="img/{{item.thumbnail}}" alt="">
+            </div>
+
+            <div class="description">
+                <div class="text-container">
+                    <p>{{item.description}}</p>
+                </div>
+            </div>
+
+            <div class="footer">
+                <div class="user-options">
+                    <!--Toggle favorite button-->
+                    <div class="footer-button" ng-click="toggleFavorites(item)">
+                        <i class="icon-star" ng-class="{'yellow': item.favorites}"></i>
+                    </div>
+
+                    <!--Toggle hidden button-->
+                    <div class="footer-button" ng-click="toggleHidden(item)">
+                        <i class="icon-ban-circle" ng-class="{'red': item.hidden}"></i>
+                    </div>
+
+                    <div class="footer-button" ng-click="showNotes(item)">
+                        <i class="icon-pencil"></i>
+                    </div>
+
+                    <!--Contact broker button-->
+                    <div class="footer-button" ng-click="contactBroker(item)">
+                        <i class="icon-envelope-alt"></i>
+
+                        <span>{{item.getAttribute("Broker")}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>

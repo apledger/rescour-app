@@ -1,0 +1,85 @@
+{
+    "range": [
+        {
+            "title" : "Year Created",
+            "low": null,
+            "high": null
+        },
+        {
+            "title" : "Number of Units",
+            "low": null,
+            "high": null
+        }
+    ],
+    "discreet": [
+        {
+            "title" : "Listing Brokerage Firm",
+            "values" : [ {
+                "title": "Broker 1",
+                "isSelected": false,
+                "status": "default",
+                "ids": []
+            },{
+                "title": "Broker 2",
+                "isSelected": false,
+                "status": "default",
+                "ids": []
+            },{
+                "title": "Broker 3",
+                "isSelected": false,
+                "status": "default",
+                "ids": []
+            },{
+                "title": "Broker 4",
+                "isSelected": false,
+                "status": "default",
+                "ids": []
+            },{
+                "title": "Broker 5",
+                "isSelected": false,
+                "status": "default",
+                "ids": []
+            } ]
+        },
+        {
+            "title" : "Location",
+            "values" : [ {
+                "title": "Atlanta",
+                "isSelected": false,
+                "status": "default",
+                "ids": [],
+                "location": [33.7489, -84.3881]
+            },{
+                "title": "Nashville",
+                "isSelected": false,
+                "status": "default",
+                "ids": [],
+                "location": [36.1658, -86.7844]
+            },{
+                "title": "Charlotte",
+                "isSelected": false,
+                "status": "default",
+                "ids": [],
+                "location": [35.2269, -80.8433]
+            },{
+                "title": "Birmingham",
+                "isSelected": false,
+                "status": "default",
+                "ids": [],
+                "location": [33.5206, -86.8025]
+            },{
+                "title": "Memphis",
+                "isSelected": false,
+                "status": "default",
+                "ids": [],
+                "location": [35.1494, -90.0489]
+            },{
+                "title": "Raleigh",
+                "isSelected": false,
+                "status": "default",
+                "ids": [],
+                "location": [35.7719, -78.6389]
+            } ]
+        }
+    ]
+}

@@ -1,0 +1,55 @@
+<header>
+    <a class="logo" href="/"></a>
+
+    <div class="navbar market-controls">
+        <ul class="nav" style="margin-left:15px;">
+            <li ng-class="{'active': toggle == 'all'}">
+                <a ng-click="refreshItems()" href="javascript:"><i class="icon-list"></i></a>
+            </li>
+            <li ng-class="{'active': toggle == 'favorites'}">
+                <a ng-click="showFavorites()" href="javascript:"><i class="icon-star"></i></a>
+            </li>
+            <li ng-class="{'active': toggle == 'hidden'}">
+                <a ng-click="showHidden()" href="javascript:"><i class="icon-ban-circle"></i></a>
+            </li>
+            <li ng-class="{'active': toggle == 'notes'}">
+                <a ng-click="showNotes()" href="javascript:"><i class="icon-pencil"></i></a>
+            </li>
+            <li>
+                <form class="navbar-search">
+                    <input type="text" class="search-query input-medium" ng-model="searchText.title"
+                           placeholder="Search">
+                </form>
+            </li>
+        </ul>
+    </div>
+
+    <div class="navbar">
+        <ul class="nav pull-right" style="padding-top:4px">
+            <li><a href="/account">My Account</a></li>
+            <li><a href="javascript:" ng-click="logout()">Logout</a></li>
+        </ul>
+    </div>
+</header>
+
+<div class="main-container">
+    <div filters></div>
+    <div market></div>
+    <!--Main Content-->
+    <div id="Loading-Details">
+        <div class="loading-container">
+            <p>Loading</p>
+            <i class="loading-icon icon-spinner icon-spin icon-4x"></i>
+        </div>
+    </div>
+    <section map center="center" selected="selectedItem" view="view"></section>
+    <!--Detail view over map-->
+    <div fade-in="current" class="property-details" current="selectedItem"></div>
+    <!--Modal dialog-->
+    <div ng-show="modal" ng-include="modal"></div>
+    <div class="modal-backdrop hide" ng-click="clear()" fade="modal"></div>
+</div>
+
+<section id="Footer">
+    <p><a href="javascript:">Copyright 2012</a><a href="javascript:">About Us</a></p>
+</section>

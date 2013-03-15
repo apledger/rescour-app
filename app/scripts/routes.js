@@ -8,12 +8,12 @@ angular.module('rescour.app')
             $httpProvider.defaults.withCredentials = true;
 
             $routeProvider.when('/login', {
-                templateUrl: "/views/login.html",
+                templateUrl: "/views/login/login.html",
                 controller: 'LoginController'
             });
 
             $routeProvider.when('/', {
-                templateUrl: "/views/app.html",
+                templateUrl: "/views/market/market.html",
                 controller: 'MarketController',
                 resolve: {
                     loadItems: function ($q, $_api, Items, $rootScope, Item) {
@@ -37,7 +37,7 @@ angular.module('rescour.app')
             });
 
             $routeProvider.when('/account', {
-                templateUrl: "/views/account.html",
+                templateUrl: "/views/account/account.html",
                 controller: 'MainController'
             });
 

@@ -15,7 +15,8 @@
     "leaflet": "~0.5.1",
     "angular-mocks": "~1.0.4",
     "font-awesome": "~3.0.2",
-    "requirejs-plugins": "latest"
+    "requirejs-plugins": "latest",
+    "angular-bootstrap": "~0.2.0"
   },
   "devDependencies": {
     "angular-scenario": "~1.0.4"

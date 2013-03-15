@@ -390,9 +390,7 @@ angular.module('nebuMarket')
                 }
             };
         }])
-    .service('Attributes',
-    function () {
-
+    .service('Attributes', function () {
         // Attributes Constructor
         function Attributes() {
             var defaults = {
@@ -432,7 +430,7 @@ angular.module('nebuMarket')
             } else {
                 this.discreet[attrID].values[value].ids.push(itemID);
             }
-        }
+        };
 
         Attributes.prototype.pushRangeID = function (attrID, itemID, value) {
             // Check to see if rangeID exists on itself
@@ -548,8 +546,7 @@ angular.module('nebuMarket')
     .factory('Templates',
     function () {
         return {
-            details: '/views/templates/details.html',
-            newSearch: '/views/templates/newSearch.html'
+            newSearch: '/template/newSearch.html'
         };
     })
     .factory('SavedSearch', ['$_api', '$http', '$q',

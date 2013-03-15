@@ -5,14 +5,14 @@ angular.module('nebuMarket')
         return {
             restrict: "A",
             replace: true,
-            templateUrl: '/views/sections/market/filter.html'
+            templateUrl: '/views/market/partials/marketFilter.html'
         };
     })
     .directive('market', function () {
         return {
             restrict: "A",
             replace: true,
-            templateUrl: '/views/sections/market/list.html'
+            templateUrl: '/views/market/partials/marketList.html'
         };
     })
     .directive('dropdownToggle',
@@ -246,7 +246,7 @@ angular.module('nebuMarket')
             scope: {
                 current: "="
             },
-            templateUrl: '/views/sections/market/property-details.html',
+            templateUrl: '/views/market/partials/marketDetails.html',
             controller: 'DetailsController',
             link: function (scope) {
                 scope.close = function () {

@@ -77,9 +77,10 @@
 <script type="text/javascript" src="scripts/services/marketServices.js"></script>
 <script type="text/javascript" src="scripts/services/rescourServices.js"></script>
 <script type="text/javascript" src="scripts/filters/limitVisible.js"></script>
-<script type="text/javascript" src="scripts/angular_components/tabs.js"></script>
-<script type="text/javascript" src="scripts/angular_components/carousel.js"></script>
-<script type="text/javascript" src="scripts/angular_components/transition.js"></script>
+<script type="text/javascript" src="scripts/lib/angular-bootstrap/ui-bootstrap-0.2.0.js"></script>
+<!--<script type="text/javascript" src="scripts/angular_components/tabs.js"></script>-->
+<!--<script type="text/javascript" src="scripts/angular_components/carousel.js"></script>-->
+<!--<script type="text/javascript" src="scripts/angular_components/transition.js"></script>-->
 <script type="text/javascript" src="scripts/routes.js"></script>
 <script type="text/javascript" src="scripts/run.js"></script>
 <% } %>

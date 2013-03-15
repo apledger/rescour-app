@@ -194,6 +194,22 @@ angular.module('nebuMarket')
         function ($scope, $http, $_api, $timeout) {
             $scope.newComment = {};
             $scope.newEmail = {};
+            $scope.panes = [
+                {heading: "Details", active: true},
+                {heading: "Pictures", active: false},
+                {heading: "Contact", active: false},
+                {heading: "Notes", active: false}
+            ];
+
+            $scope.$on('ChangeTab', function (event, title) {
+                angular.forEach($scope.panes, function (pane) {
+                    if (pane.heading === title) {
+                        pane.active = true;
+                    } else {
+                        pane.active = false;
+                    }
+                });
+            });
 
             $scope.addComment = function (message) {
                 if (message) {

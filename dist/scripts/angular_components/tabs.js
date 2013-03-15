@@ -34,13 +34,7 @@ angular.module('ui.bootstrap.tabs', [])
             }
         };
 
-        $scope.$on('ChangeTab', function (event, title) {
-            angular.forEach(panes, function (pane) {
-                if (pane.heading === title) {
-                    $scope.select(pane);
-                }
-            });
-        });
+
     }])
     .directive('tabs', function () {
         return {

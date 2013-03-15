@@ -399,7 +399,8 @@ angular.module('rescour.app.dev', ['rescour.app', 'ngMockE2E'])
         });
 
         $httpBackend.whenGET(/^\/views\//).passThrough();
-        $httpBackend.whenGET(/^\/view\//).passThrough();
+        $httpBackend.whenGET(/^\/template\//).passThrough();
+        $httpBackend.whenGET(/^template\//).passThrough();
     }]);
 
 angular.bootstrap(document, ['rescour.app.dev']);

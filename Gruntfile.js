@@ -6,8 +6,8 @@ var mountFolder = function (connect, dir) {
 };
 
 var yeomanConfig = {
-    app:'app',
-    dist:'dist'
+    app: 'app',
+    dist: 'dist'
 };
 
 module.exports = function (grunt) {
@@ -113,8 +113,8 @@ module.exports = function (grunt) {
             }
         }
         return {
-            dirs:dirs,
-            groups:groups
+            dirs: dirs,
+            groups: groups
         };
     };
 
@@ -145,7 +145,7 @@ module.exports = function (grunt) {
             separator = grunt.util.linefeed;
             contents = sourceContents.join(grunt.util.normalizelf(separator));
             compiled = grunt.template.process(contents, {
-                data:config.data
+                data: config.data
             });
             destination = dest.replace('.template', '.html');
             grunt.file.write(destination, compiled);
@@ -159,12 +159,12 @@ module.exports = function (grunt) {
     });
 
     grunt.initConfig({
-        yeoman:yeomanConfig,
-        connect:{
-            livereload:{
-                options:{
-                    port:9000,
-                    middleware:function (connect) {
+        yeoman: yeomanConfig,
+        connect: {
+            livereload: {
+                options: {
+                    port: 9000,
+                    middleware: function (connect) {
                         return [
                             lrSnippet,
                             mountFolder(connect, './dist')
@@ -172,10 +172,10 @@ module.exports = function (grunt) {
                     }
                 }
             },
-            test:{
-                options:{
-                    port:9000,
-                    middleware:function (connect) {
+            test: {
+                options: {
+                    port: 9000,
+                    middleware: function (connect) {
                         return [
                             mountFolder(connect, 'test')
                         ];
@@ -183,62 +183,62 @@ module.exports = function (grunt) {
                 }
             }
         },
-        open:{
-            server:{
-                url:'http://localhost:<%= connect.livereload.options.port %>'
+        open: {
+            server: {
+                url: 'http://localhost:<%= connect.livereload.options.port %>'
             }
         },
-        clean:{
-            dist:['./tmp', './dist'],
-            demo:['./tmp', './demo'],
-            prod:['./tmp', './prod'],
-            dev:['./tmp', './dev'],
-            temp:'./tmp',
-            images:'./dist/img'
+        clean: {
+            dist: ['./tmp', './dist'],
+            demo: ['./tmp', './demo'],
+            prod: ['./tmp', './prod'],
+            dev: ['./tmp', './dev'],
+            temp: './tmp',
+            images: './dist/img'
         },
-        imagemin:{
-            dist:{
-                options:{
-                    optimizationLevel:7,
-                    progressive:true
+        imagemin: {
+            dist: {
+                options: {
+                    optimizationLevel: 7,
+                    progressive: true
                 },
-                files:[
+                files: [
                     {
-                        expand:true,
-                        cwd:'./dist/img',
-                        src:'**/*.{png,jpg,jpeg}',
-                        dest:'./dist/img'
+                        expand: true,
+                        cwd: './dist/img',
+                        src: '**/*.{png,jpg,jpeg}',
+                        dest: './dist/img'
                     }
                 ]
             }
         },
-        htmlmin:{
-            dist:{
-                options:{
-                    removeCommentsFromCDATA:true,
-                    removeComments:true
+        htmlmin: {
+            dist: {
+                options: {
+                    removeCommentsFromCDATA: true,
+                    removeComments: true
                 },
-                files:[
+                files: [
                     {
-                        expand:true,
-                        cwd:'./tmp/',
-                        src:['*.html', '**/*.html'],
-                        dest:'./tmp/'
+                        expand: true,
+                        cwd: './tmp/',
+                        src: ['*.html', '**/*.html'],
+                        dest: './tmp/'
                     }
                 ]
             }
         },
-        compass:{
-            dist:{
-                options:{
-                    config:'config.rb',
-                    outputStyle:'compressed'
+        compass: {
+            dist: {
+                options: {
+                    config: 'config.rb',
+                    outputStyle: 'compressed'
                 }
             },
-            dev:{
-                options:{
-                    config:'config.rb',
-                    outputStyle:'expanded'
+            dev: {
+                options: {
+                    config: 'config.rb',
+                    outputStyle: 'expanded'
                 }
             }
         },
@@ -258,52 +258,58 @@ module.exports = function (grunt) {
          <script data-main="/scripts/main.js" src="/scripts/libs/require.js"></script>
          <% } %>
          */
-        template:{
-            dev:{
-                files:{
-                    './tmp/views/':'./app/views/**/*.template',
-                    './tmp/index.html':'./app/index.template'
+        template: {
+            dev: {
+                files: {
+                    './tmp/views/': './app/views/**/*.template',
+                    './tmp/index.html': './app/index.template'
                 },
-                environment:'dev'
+                environment: 'dev'
             },
-            prod:{
-                files:{
-                    './tmp/views/':'./app/views/**/*.template',
-                    './tmp/index.html':'./app/index.template'
+            prod: {
+                files: {
+                    './tmp/views/': './app/views/**/*.template',
+                    './tmp/index.html': './app/index.template'
                 },
-                environment:'prod'
+                environment: 'prod'
             },
-            local:{
-                files:{
-                    './tmp/views/':'./app/views/**/*.template',
-                    './tmp/index.html':'./app/index.template'
+            local: {
+                files: {
+                    './tmp/views/': './app/views/**/*.template',
+                    './tmp/index.html': './app/index.template'
                 },
-                environment:'local'
+                environment: 'local'
             },
-            demo:{
-                files:{
-                    './tmp/views/':'./app/views/**/*.template',
-                    './tmp/index.html':'./app/index.template'
+            demo: {
+                files: {
+                    './tmp/views/': './app/views/**/*.template',
+                    './tmp/index.html': './app/index.template'
                 },
-                environment:'demo'
+                environment: 'demo'
             }
         },
 
         // Copies directories and files from one location to another.
-        copy:{
+        copy: {
             // Copies libs and img directories to temp.
-            prep:{
-                files:[
-                    {expand:true, cwd:'./app/', src:['img/**', 'styles/**', 'scripts/**', 'views/**/*.html', '*.html'], dest:'./tmp/'}
+            prep: {
+                files: [
+                    {expand: true, cwd: './app/', src: [
+                        'img/**',
+                        'styles/**',
+                        'scripts/**',
+                        'views/**/*.html',
+                        'template/**/*.html',
+                        '*.html'], dest: './tmp/'}
                 ]
             },
             /*
              Copies the contents of the temp directory to the dist directory.
              In 'dev' individual files are used.
              */
-            dev:{
-                files:[
-                    {expand:true, cwd:'./tmp/', src:['**'], dest:'./dist/'}
+            dev: {
+                files: [
+                    {expand: true, cwd: './tmp/', src: ['**'], dest: './dist/'}
                 ]
             },
             /*
@@ -311,13 +317,13 @@ module.exports = function (grunt) {
              Dev is deployed to subtree dev for remote testing
              */
             deploydev: {
-                files:[
-                    {expand:true, cwd:'./tmp/', src:['**'], dest:'./dev/'}
+                files: [
+                    {expand: true, cwd: './tmp/', src: ['**'], dest: './dev/'}
                 ]
             },
             deploydemo: {
-                files:[
-                    {expand:true, cwd:'./tmp/', src:['img/**', 'scripts/scripts.min.js', 'styles/main.css', 'styles/fonts/**','styles/lib/**', '**/*.html',
+                files: [
+                    {expand: true, cwd: './tmp/', src: ['img/**', 'scripts/scripts.min.js', 'styles/main.css', 'styles/fonts/**', 'styles/lib/**', '**/*.html',
                         // Map specific libraries
                         'scripts/dev.js',
                         'scripts/lib/es5-shim/es5-shim.min.js',
@@ -326,7 +332,7 @@ module.exports = function (grunt) {
                         'scripts/lib/leaflet.markercluster-src.js',
                         'scripts/lib/leaflet-google.js',
                         'scripts/lib/angular/angular-mocks.js'
-                    ], dest:'./demo/'}
+                    ], dest: './demo/'}
                 ]
             },
             /*
@@ -335,55 +341,55 @@ module.exports = function (grunt) {
              The dist artifacts contain only the files necessary to run the application.
              */
             deployprod: {
-                files:[
-                    {expand:true, cwd:'./tmp/', src:['img/**', 'scripts/scripts.min.js', 'styles/**', '**/*.html',
+                files: [
+                    {expand: true, cwd: './tmp/', src: ['img/**', 'scripts/scripts.min.js', 'styles/**', '**/*.html',
                         // Map specific libraries
                         'scripts/lib/es5-shim/es5-shim.min.js',
                         'scripts/lib/json3/json3.min.js',
                         'scripts/lib/leaflet.js',
                         'scripts/lib/leaflet.markercluster-src.js',
                         'scripts/lib/leaflet-google.js'
-                    ], dest:'./prod/'}
+                    ], dest: './prod/'}
                 ]
             },
             // Task is run when a watched script is modified.
-            scripts:{
-                files:[
-                    {expand:true, cwd:'./app/', src:['scripts/**/*.js'], dest:'./dist/'}
+            scripts: {
+                files: [
+                    {expand: true, cwd: './app/', src: ['scripts/**/*.js'], dest: './dist/'}
                 ]
             },
             // Task is run when a watched style is modified.
-            styles:{
-                files:[
-                    {expand:true, cwd:'./tmp/', src:['styles/main.css'], dest:'./dist/'}
+            styles: {
+                files: [
+                    {expand: true, cwd: './tmp/', src: ['styles/main.css'], dest: './dist/'}
                 ]
             },
             // Task is run when the watched index.template file is modified.
-            index:{
-                files:[
-                    {expand:true, cwd:'./tmp/', src:['index.html'], dest:'./dist/'}
+            index: {
+                files: [
+                    {expand: true, cwd: './tmp/', src: ['index.html'], dest: './dist/'}
                 ]
             },
             // Task is run when a watched view is modified.
-            views:{
-                files:[
-                    {expand:true, cwd:'./app/', src:['views/**/*.html'], dest:'./dist/'}
+            views: {
+                files: [
+                    {expand: true, cwd: './app/', src: ['views/**/*.html'], dest: './dist/'}
                 ]
             },
             // Task is run when an image is modified.
-            images:{
-                files:[
-                    {expand:true, cwd:'./app/', src:['img/**'], dest:'./dist/'}
+            images: {
+                files: [
+                    {expand: true, cwd: './app/', src: ['img/**'], dest: './dist/'}
                 ]
             }
         },
-        uglify:{
-            options:{
-                mangle:true
+        uglify: {
+            options: {
+                mangle: true
             },
-            scripts:{
-                files:{
-                    './tmp/scripts/scripts.concatmin.js':['./tmp/scripts/scripts.concat.js']
+            scripts: {
+                files: {
+                    './tmp/scripts/scripts.concatmin.js': ['./tmp/scripts/scripts.concat.js']
                 }
             }
         },
@@ -396,16 +402,16 @@ module.exports = function (grunt) {
          RequireJS is still used for the 'dev' build.
          The main file is used only to establish the proper loading sequence.
          */
-        requirejs:{
-            scripts:{
-                options:{
-                    baseUrl:'./app/scripts/',
-                    findNestedDependencies:true,
-                    logLevel:0,
-                    mainConfigFile:'./app/scripts/main.js',
-                    name:'main',
+        requirejs: {
+            scripts: {
+                options: {
+                    baseUrl: './app/scripts/',
+                    findNestedDependencies: true,
+                    logLevel: 0,
+                    mainConfigFile: './app/scripts/main.js',
+                    name: 'main',
                     // Exclude main from the final output to avoid the dependency on RequireJS at runtime.
-                    onBuildWrite:function (moduleName, path, contents) {
+                    onBuildWrite: function (moduleName, path, contents) {
                         var modulesToExclude = ['main'],
                             shouldExcludeModule = modulesToExclude.indexOf(moduleName) >= 0;
 
@@ -415,25 +421,25 @@ module.exports = function (grunt) {
 
                         return contents;
                     },
-                    optimize:'uglify',
-                    out:'./tmp/scripts/scripts.min.js',
-                    preserveLicenseComments:false,
-                    skipModuleInsertion:true,
-                    uglify:{
+                    optimize: 'uglify',
+                    out: './tmp/scripts/scripts.min.js',
+                    preserveLicenseComments: false,
+                    skipModuleInsertion: true,
+                    uglify: {
                         // Let uglifier replace variables to further reduce file size.
-                        no_mangle:true
+                        no_mangle: true
                     }
                 }
             },
-            demo:{
-                options:{
-                    baseUrl:'./app/scripts/',
-                    findNestedDependencies:true,
-                    logLevel:0,
-                    mainConfigFile:'./app/scripts/demomain.js',
-                    name:'demomain',
+            demo: {
+                options: {
+                    baseUrl: './app/scripts/',
+                    findNestedDependencies: true,
+                    logLevel: 0,
+                    mainConfigFile: './app/scripts/demomain.js',
+                    name: 'demomain',
                     // Exclude main from the final output to avoid the dependency on RequireJS at runtime.
-                    onBuildWrite:function (moduleName, path, contents) {
+                    onBuildWrite: function (moduleName, path, contents) {
                         var modulesToExclude = ['demomain'],
                             shouldExcludeModule = modulesToExclude.indexOf(moduleName) >= 0;
 
@@ -443,44 +449,44 @@ module.exports = function (grunt) {
 
                         return contents;
                     },
-                    optimize:'uglify',
-                    out:'./tmp/scripts/scripts.min.js',
-                    preserveLicenseComments:false,
-                    skipModuleInsertion:true,
-                    uglify:{
+                    optimize: 'uglify',
+                    out: './tmp/scripts/scripts.min.js',
+                    preserveLicenseComments: false,
+                    skipModuleInsertion: true,
+                    uglify: {
                         // Let uglifier replace variables to further reduce file size.
-                        no_mangle:true
+                        no_mangle: true
                     }
                 }
             }
         },
 
-        watch:{
-            compass:{
-                files:['./app/styles/*.{scss,sass}', './app/styles/**/*.{scss,sass}'],
-                tasks:['compass:dev', 'copy:styles', 'livereload']
+        watch: {
+            compass: {
+                files: ['./app/styles/*.{scss,sass}', './app/styles/**/*.{scss,sass}'],
+                tasks: ['compass:dev', 'copy:styles', 'livereload']
             },
-            index:{
-                files:'./app/index.template',
-                tasks:['template:dev', 'copy:index', 'livereload']
+            index: {
+                files: './app/index.template',
+                tasks: ['template:dev', 'copy:index', 'livereload']
             },
-            views:{
-                files:['./app/views/**'],
-                tasks:['copy:views' , 'livereload']
+            views: {
+                files: ['./app/views/**'],
+                tasks: ['copy:views' , 'livereload']
             },
-            scripts:{
-                files:['./app/scripts/**/*.js'],
-                tasks:['copy:scripts', 'livereload']
+            scripts: {
+                files: ['./app/scripts/**/*.js'],
+                tasks: ['copy:scripts', 'livereload']
             },
-            images:{
-                files:['./app/img/**'],
-                tasks:['clean:images', 'copy:images', 'livereload']
+            images: {
+                files: ['./app/img/**'],
+                tasks: ['clean:images', 'copy:images', 'livereload']
             }
         },
 
-        hash:{
-            dist:{
-                files:['./dist/scripts/**/*.js']
+        hash: {
+            dist: {
+                files: ['./dist/scripts/**/*.js']
             }
         }
     });
@@ -570,7 +576,7 @@ module.exports = function (grunt) {
      Uses production api services and bootstrap with main application
      Enter the following command at the command line to execute this build task:
      grunt prod
-    */
+     */
     grunt.registerTask('deployprod', [
         'clean:prod',
         'compass:dist', // Compass compile and minify: app -> tmp

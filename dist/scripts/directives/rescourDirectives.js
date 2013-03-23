@@ -40,5 +40,28 @@ rescourApp
                 }, 1000);
             });
         };
-    }]);
+    }])
+    .directive('checkout', function () {
+        return {
+            link: function (scope, element, attrs) {
+                element.bind('click', function (e) {
+                    var token = function (res) {
+                        var $input = $('<input type=hidden name=stripeToken />').val(res.id);
+                        $('#Checkout').append($input).submit();
+                    };
 
+                    StripeCheckout.open({
+                        key: 'pk_test_czwzkTp2tactuLOEOqbMTRzG',
+                        address: true,
+                        amount: 5000,
+                        name: 'Joes Pistachios',
+                        description: 'A bag of Pistachios',
+                        panelLabel: 'Checkout',
+                        token: token
+                    });
+
+                    return false;
+                });
+            }
+        };
+    });

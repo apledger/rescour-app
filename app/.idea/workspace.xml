@@ -5,11 +5,11 @@
     <ignored path="app.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/dev.js" changelist="aa82f298-00d2-4341-8135-05564d90a0a5" time="1363286175918" ignored="false" />
-    <file path="/marketServices.js" changelist="aa82f298-00d2-4341-8135-05564d90a0a5" time="1363286429756" ignored="false" />
+    <file path="/marketServices.js" changelist="aa82f298-00d2-4341-8135-05564d90a0a5" time="1363921614907" ignored="false" />
     <file path="/marketControllers.js" changelist="aa82f298-00d2-4341-8135-05564d90a0a5" time="1363375345098" ignored="false" />
     <file path="/app.html" changelist="aa82f298-00d2-4341-8135-05564d90a0a5" time="1363281678439" ignored="false" />
     <file path="/marketDirectives.js" changelist="aa82f298-00d2-4341-8135-05564d90a0a5" time="1363115138946" ignored="false" />
-    <file path="/rescourControllers.js" changelist="aa82f298-00d2-4341-8135-05564d90a0a5" time="1363115264998" ignored="false" />
+    <file path="/rescourControllers.js" changelist="aa82f298-00d2-4341-8135-05564d90a0a5" time="1364067689324" ignored="false" />
     <file path="/app.js" changelist="aa82f298-00d2-4341-8135-05564d90a0a5" time="1363115297609" ignored="false" />
     <file path="/run.js" changelist="aa82f298-00d2-4341-8135-05564d90a0a5" time="1363115475827" ignored="false" />
     <file path="/routes.js" changelist="aa82f298-00d2-4341-8135-05564d90a0a5" time="1363275081988" ignored="false" />
@@ -20,6 +20,9 @@
     <file path="$PROJECT_DIR$/../dist/scripts/lib/angular-bootstrap/ui-bootstrap-0.2.0.min.js" changelist="aa82f298-00d2-4341-8135-05564d90a0a5" time="1363374872789" ignored="false" />
     <file path="/marketDetails.html" changelist="aa82f298-00d2-4341-8135-05564d90a0a5" time="1363375320930" ignored="false" />
     <file path="/marketFilter.html" changelist="aa82f298-00d2-4341-8135-05564d90a0a5" time="1363375750439" ignored="false" />
+    <file path="/account.html" changelist="aa82f298-00d2-4341-8135-05564d90a0a5" time="1364067535597" ignored="false" />
+    <file path="/rescourServices.js" changelist="aa82f298-00d2-4341-8135-05564d90a0a5" time="1364067472961" ignored="false" />
+    <file path="/rescourDirectives.js" changelist="aa82f298-00d2-4341-8135-05564d90a0a5" time="1364067505224" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,37 +62,19 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="_mixins.scss" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/styles/compass_twitter_bootstrap/_mixins.scss">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="524" column="49" selection-start="17655" selection-end="17655" vertical-scroll-proportion="0.0">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="marketServices.js" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/scripts/services/marketServices.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="8" column="0" selection-start="248" selection-end="248" vertical-scroll-proportion="0.0">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
           <file leaf-file-name="marketControllers.js" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/scripts/controllers/marketControllers.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="8" column="33" selection-start="362" selection-end="362" vertical-scroll-proportion="0.0">
+                <state line="43" column="45" selection-start="1843" selection-end="1843" vertical-scroll-proportion="0.0">
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="marketDirectives.js" pinned="false" current="true" current-in-tab="true">
+          <file leaf-file-name="marketDirectives.js" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/scripts/directives/marketDirectives.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="68" column="11" selection-start="435" selection-end="2441" vertical-scroll-proportion="0.87006736">
+                <state line="89" column="33" selection-start="3159" selection-end="3159" vertical-scroll-proportion="0.0">
                   <folding />
                 </state>
               </provider>
@@ -116,7 +101,7 @@
           <file leaf-file-name="marketDetails.html" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/views/market/partials/marketDetails.html">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="40" column="48" selection-start="1992" selection-end="1992" vertical-scroll-proportion="-25.0">
+                <state line="40" column="48" selection-start="1992" selection-end="1992" vertical-scroll-proportion="-0.625">
                   <folding />
                 </state>
               </provider>
@@ -125,7 +110,25 @@
           <file leaf-file-name="routes.js" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/scripts/routes.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="25" column="44" selection-start="1125" selection-end="1125" vertical-scroll-proportion="0.0">
+                <state line="27" column="0" selection-start="1207" selection-end="1207" vertical-scroll-proportion="0.0">
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="account.html" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/views/account/account.html">
+              <provider selected="true" editor-type-id="text-editor">
+                <state line="16" column="10" selection-start="389" selection-end="389" vertical-scroll-proportion="-10.0">
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="index.template" pinned="false" current="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/index.template">
+              <provider selected="true" editor-type-id="text-editor">
+                <state line="58" column="6" selection-start="2465" selection-end="2465" vertical-scroll-proportion="0.039408866">
                   <folding />
                 </state>
               </provider>
@@ -162,24 +165,6 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="main.js" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/scripts/main.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="41" column="14" selection-start="1305" selection-end="1305" vertical-scroll-proportion="0.0">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="run.js" pinned="false" current="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/scripts/run.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="17" column="39" selection-start="654" selection-end="654" vertical-scroll-proportion="0.17300381">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
           <file leaf-file-name="bootstrap.js" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/scripts/bootstrap.js">
               <provider selected="true" editor-type-id="text-editor">
@@ -192,16 +177,52 @@
           <file leaf-file-name="localAPIServices.js" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/scripts/services/api/localAPIServices.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="11" column="29" selection-start="376" selection-end="377" vertical-scroll-proportion="0.0">
+                <state line="11" column="29" selection-start="315" selection-end="315" vertical-scroll-proportion="0.0">
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="marketServices.js" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/scripts/services/marketServices.js">
+          <file leaf-file-name="_market_list.scss" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/styles/_market_list.scss">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="85" column="14" selection-start="4013" selection-end="4013" vertical-scroll-proportion="0.0">
+                <state line="2" column="14" selection-start="50" selection-end="50" vertical-scroll-proportion="-1.2">
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="rescourServices.js" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/scripts/services/rescourServices.js">
+              <provider selected="true" editor-type-id="text-editor">
+                <state line="0" column="13" selection-start="13" selection-end="13" vertical-scroll-proportion="0.0">
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="rescourDirectives.js" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/scripts/directives/rescourDirectives.js">
+              <provider selected="true" editor-type-id="text-editor">
+                <state line="4" column="49" selection-start="118" selection-end="118" vertical-scroll-proportion="0.0">
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="routes.js" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/scripts/routes.js">
+              <provider selected="true" editor-type-id="text-editor">
+                <state line="41" column="46" selection-start="1653" selection-end="1653" vertical-scroll-proportion="0.0">
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="rescourControllers.js" pinned="false" current="true" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/scripts/controllers/rescourControllers.js">
+              <provider selected="true" editor-type-id="text-editor">
+                <state line="26" column="9" selection-start="822" selection-end="822" vertical-scroll-proportion="0.37072244">
                   <folding />
                 </state>
               </provider>
@@ -219,22 +240,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/scripts/filters/limitVisible.js" />
-        <option value="$PROJECT_DIR$/scripts/run.js" />
-        <option value="$PROJECT_DIR$/scripts/demomain.js" />
-        <option value="$PROJECT_DIR$/styles/_market_filter.scss" />
-        <option value="$PROJECT_DIR$/styles/_map.scss" />
-        <option value="$PROJECT_DIR$/scripts/routes.js" />
-        <option value="$PROJECT_DIR$/views/app.html" />
         <option value="$PROJECT_DIR$/scripts/services/api/APIServices.js" />
         <option value="$PROJECT_DIR$/scripts/dev.js" />
         <option value="$PROJECT_DIR$/views/sections/market/list.html" />
-        <option value="$PROJECT_DIR$/scripts/services/marketServices.js" />
         <option value="$PROJECT_DIR$/scripts/angular_components/tabs.js" />
         <option value="$PROJECT_DIR$/views/market/partials/marketDetails.html" />
         <option value="$PROJECT_DIR$/scripts/controllers/marketControllers.js" />
         <option value="$PROJECT_DIR$/views/market/partials/marketFilter.html" />
         <option value="$PROJECT_DIR$/scripts/directives/marketDirectives.js" />
+        <option value="$PROJECT_DIR$/scripts/services/marketServices.js" />
+        <option value="$PROJECT_DIR$/styles/_market_list.scss" />
+        <option value="$PROJECT_DIR$/scripts/services/rescourServices.js" />
+        <option value="$PROJECT_DIR$/views/account/account.html" />
+        <option value="$PROJECT_DIR$/scripts/directives/rescourDirectives.js" />
+        <option value="$PROJECT_DIR$/index.template" />
+        <option value="$PROJECT_DIR$/scripts/routes.js" />
+        <option value="$PROJECT_DIR$/scripts/controllers/rescourControllers.js" />
       </list>
     </option>
   </component>
@@ -352,6 +373,24 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="account" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="styles" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -402,6 +441,46 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="lib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="scripts" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="lib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="angular" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="scripts" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="directives" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -433,10 +512,10 @@
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="options.lastSelected" value="editing.templates" />
-    <property name="last_opened_file_path" value="$USER_HOME$/rescour_scraper/v1.1/front/app" />
-    <property name="options.searchVisible" value="true" />
-    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../landing/app" />
     <property name="GoToClass.includeJavaFiles" value="false" />
+    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -479,7 +558,7 @@
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.10384818" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.14865577" sideWeight="0.84043515" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="true" content_ui="tabs" />
@@ -556,98 +635,16 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/styles/_rescour_variables.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="22" selection-start="198" selection-end="198" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/styles/compass_twitter_bootstrap/_variables.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="80" column="0" selection-start="2695" selection-end="2716" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/scripts/services/api/APIServices.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="44" column="19" selection-start="1317" selection-end="1317" vertical-scroll-proportion="0.0">
+        <state line="37" column="41" selection-start="1139" selection-end="1139" vertical-scroll-proportion="0.0">
           <folding />
         </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="21" selection-start="122" selection-end="122" vertical-scroll-proportion="0.05703422" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/scripts/services/api/localAPIServices.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="29" selection-start="376" selection-end="377" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/dev.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="0" selection-start="64" selection-end="64" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/styles/_market_filter.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="17" selection-start="229" selection-end="229" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/market/partials/marketDetails.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="40" column="48" selection-start="1992" selection-end="1992" vertical-scroll-proportion="-25.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/services/marketServices.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="0" selection-start="248" selection-end="248" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/controllers/rescourControllers.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="29" selection-start="44" selection-end="44" vertical-scroll-proportion="0.02851711">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/run.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="39" selection-start="654" selection-end="654" vertical-scroll-proportion="0.17300381">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/directives/rescourDirectives.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="19" selection-start="576" selection-end="576" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/controllers/marketControllers.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="33" selection-start="362" selection-end="362" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/styles/_map.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="61" column="0" selection-start="1286" selection-end="1286" vertical-scroll-proportion="0.0">
+        <state line="11" column="29" selection-start="315" selection-end="315" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -659,9 +656,93 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/directives/marketDirectives.js">
+    <entry file="file://$PROJECT_DIR$/views/market/partials/marketDetails.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="68" column="11" selection-start="435" selection-end="2441" vertical-scroll-proportion="0.87006736">
+        <state line="40" column="48" selection-start="1992" selection-end="1992" vertical-scroll-proportion="-0.625">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/styles/_market_list.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="14" selection-start="50" selection-end="50" vertical-scroll-proportion="-1.2">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/services/rescourServices.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="13" selection-start="13" selection-end="13" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="41" column="14" selection-start="1305" selection-end="1305" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/account/account.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="10" selection-start="389" selection-end="389" vertical-scroll-proportion="-10.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.template">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="58" column="6" selection-start="2465" selection-end="2465" vertical-scroll-proportion="0.039408866">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/services/marketServices.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="85" column="14" selection-start="4013" selection-end="4013" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.idea/app.iml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/run.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="29" column="63" selection-start="988" selection-end="988" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/directives/rescourDirectives.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="49" selection-start="118" selection-end="118" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/routes.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="41" column="46" selection-start="1653" selection-end="1653" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/controllers/rescourControllers.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="26" column="9" selection-start="822" selection-end="822" vertical-scroll-proportion="0.37072244">
           <folding />
         </state>
       </provider>

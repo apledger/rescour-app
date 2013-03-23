@@ -5833,7 +5833,7 @@ a.label:hover, a.badge:hover {
 }
 /* line 96, ../../app/styles/_market_list.scss */
 .item-well .dimensions .location {
-  font-size: 30px;
+  font-size: 28px;
   position: relative;
   float: left;
   color: white;

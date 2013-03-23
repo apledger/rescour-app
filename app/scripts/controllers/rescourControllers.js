@@ -20,4 +20,8 @@ angular.module('rescour.app')
             $scope.login = function () {
                 $scope.$emit("auth#loginRequest", $scope.creds);
             };
+        }])
+    .controller('AccountController', ['$scope',
+        function ($scope) {
+
         }]);

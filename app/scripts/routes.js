@@ -7,10 +7,6 @@ angular.module('rescour.app')
             $httpProvider.defaults.useXDomain = true;
             $httpProvider.defaults.withCredentials = true;
 
-            $routeProvider.when('/login', {
-                templateUrl: "/views/login/login.html",
-                controller: 'LoginController'
-            });
 
             $routeProvider.when('/', {
                 templateUrl: "/views/market/market.html",
@@ -36,9 +32,14 @@ angular.module('rescour.app')
                 }
             });
 
+            $routeProvider.when('/login', {
+                templateUrl: "/views/login/login.html",
+                controller: 'LoginController'
+            });
+
             $routeProvider.when('/account', {
                 templateUrl: "/views/account/account.html",
-                controller: 'MainController'
+                controller: 'AccountController'
             });
 
             $httpProvider.responseInterceptors.push('Interceptor');

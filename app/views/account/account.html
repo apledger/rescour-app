@@ -1,27 +1,6 @@
 <header>
     <a class="logo" href="/">
     </a>
-    <div class="navbar market-controls">
-        <ul class="nav" style="margin-left:15px;">
-            <li ng-class="{'active': toggle == 'all'}">
-                <a ng-click="refreshItems()"><i class="icon-list"></i></a>
-            </li>
-            <li ng-class="{'active': toggle == 'favorites'}">
-                <a ng-click="toggleFavorites()"><i class="icon-star"></i></a>
-            </li>
-            <li ng-class="{'active': toggle == 'hidden'}">
-                <a ng-click="toggleHidden()"><i class="icon-ban-circle"></i></a>
-            </li>
-            <li ng-class="{'active': toggle == 'notes'}">
-                <a ng-click="toggleNotes()"><i class="icon-pencil"></i></a>
-            </li>
-            <li>
-                <form class="navbar-search">
-                    <input type="text" class="search-query input-medium" ng-model="searchText.title" placeholder="Search">
-                </form>
-            </li>
-        </ul>
-    </div>
 
     <div class="navbar">
         <ul class="nav pull-right" style="padding-top:4px">
@@ -37,7 +16,9 @@
         <div class="spinner"></div>
     </div>
     <div>
-        Account Management!!!!!!
+        <form id="Checkout" class="form-horizontal">
+            <button checkout class="btn btn-large">Pay Now</button>
+        </form>
     </div>
 </div>
 

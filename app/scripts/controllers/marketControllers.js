@@ -88,10 +88,6 @@ angular.module('nebuMarket')
                 $scope.$broadcast('RenderMap');
             };
 
-            $scope.logout = function () {
-                $scope.$emit('auth#logoutRequest');
-            };
-
             $scope.$on("MapReady", function () {
                 $scope.filter();
                 $scope.attributes.modified = false;

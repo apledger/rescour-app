@@ -65,6 +65,8 @@ angular.module('rescour.app')
             $rootScope.$on('auth#logoutRequest', function () {
                 $_api.auth.logout(function () {
                     $rootScope.ping();
+                }, function () {
+                    $rootScope.ping();
                 });
             });
         }]);

@@ -41,20 +41,37 @@ rescourApp
             });
         };
     }])
-    .directive('checkout', function () {
+    .directive('checkout', ['$http', '$_api', function ($http, $_api) {
         return {
             link: function (scope, element, attrs) {
                 element.bind('click', function (e) {
                     var token = function (res) {
-                        var $input = $('<input type=hidden name=stripeToken />').val(res.id);
-                        $('#Checkout').append($input).submit();
+//                        var $input = $('<input type=hidden name=stripeToken />').val(res.id);
+//                        $('#Checkout').append($input).submit();
+                        var path = $_api.path + '/auth/users/user/payment/',
+                            config = angular.extend({
+                                transformRequest: $_api.loading.none
+                            }, $_api.config),
+                            body = JSON.stringify({token: res.id});
+                        console.log(body);
+
+                        $http.post(path, body, config).then(function (response) {
+                            if (response.data.status === "success") {
+                                console.log(response);
+                            } else {
+
+                            }
+                        }, function (response) {
+
+                        });
+
                     };
 
                     StripeCheckout.open({
-                        key: 'pk_test_czwzkTp2tactuLOEOqbMTRzG',
+                        key: 'pk_test_wSAqQNQKI7QqPmBpDcQLgGM7',
                         address: true,
                         amount: 5000,
-                        name: 'Joes Pistachios',
+                        name: 'Rescour',
                         description: 'A bag of Pistachios',
                         panelLabel: 'Checkout',
                         token: token
@@ -64,4 +81,4 @@ rescourApp
                 });
             }
         };
-    });
+    }]);

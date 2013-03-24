@@ -3,12 +3,12 @@
 angular.module('rescour.api', [])
     .factory('$_api', ['$http', function ($http) {
         var url = {
-            local: "http://10.0.1.92:6780/rescour",
+            local: "http://10.0.1.92:8080/rescour",
             dev: "http://dev.maasive.net/rescour",
             prod: "http://api.maasive.net/rescour"
         };
 
-        var path = url.dev;
+        var path = url.local;
         var config = {
             headers: {'Content-Type': 'application/json'},
             withCredentials: true
@@ -44,7 +44,7 @@ angular.module('rescour.api', [])
             },
             auth: {
                 check: function (successcb, failurecb) {
-                    $http.get(path + '/auth/check', config).then(successcb, failurecb);
+                    $http.get(path + '/auth/check/', config).then(successcb, failurecb);
                 },
                 login: function (creds, successcb, failurecb) {
                     $http.post(path + '/auth/login/', JSON.stringify(creds), config).then(successcb, failurecb);

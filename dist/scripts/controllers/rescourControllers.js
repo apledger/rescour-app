@@ -12,6 +12,9 @@ angular.module('rescour.app')
             $rootScope.$on("$routeChangeError", function (event, current, previous, rejection) {
 
             });
+            $scope.logout = function () {
+                $scope.$emit('auth#logoutRequest');
+            };
         }])
     .controller('LoginController', ['$scope',
         function ($scope) {
@@ -20,8 +23,9 @@ angular.module('rescour.app')
             $scope.login = function () {
                 $scope.$emit("auth#loginRequest", $scope.creds);
             };
-        }])
-    .controller('AccountController', ['$scope',
-        function ($scope) {
 
+        }])
+    .controller('AccountController', ['$scope', 'loadUser',
+        function ($scope, loadUser) {
+            $scope.user = loadUser;
         }]);

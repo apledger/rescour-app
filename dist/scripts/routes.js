@@ -39,7 +39,30 @@ angular.module('rescour.app')
 
             $routeProvider.when('/account', {
                 templateUrl: "/views/account/account.html",
-                controller: 'AccountController'
+                controller: 'AccountController',
+                resolve: {
+                    loadUser: function ($q, $_api, $rootScope, $http) {
+                        var defer = $q.defer(),
+                            self = this,
+                            path = $_api.path + '/auth/users/user/',
+                            config = angular.extend({
+                                transformRequest: $_api.loading.none
+                            }, $_api.config);
+
+                        $http.get(path, config).then(
+                            function (response) {
+                                console.log("Success: ", response);
+                                defer.resolve(response.data);
+                            },
+                            function (response) {
+                                console.log("Error: ", response);
+                                defer.reject();
+                            }
+                        );
+
+                        return defer.promise;
+                    }
+                }
             });
 
             $httpProvider.responseInterceptors.push('Interceptor');

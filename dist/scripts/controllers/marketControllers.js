@@ -1,14 +1,16 @@
 'use strict';
 
 angular.module('nebuMarket')
-    .controller("MarketController", ['$scope', 'Items', 'Filter', 'Attributes', '$timeout',
-        function ($scope, Items, Filter, Attributes, $timeout) {
+    .controller("MarketController", ['$scope', 'Items', 'Filter', 'Attributes', '$timeout', '$location', '$routeParams',
+        function ($scope, Items, Filter, Attributes, $timeout, $location, $routeParams) {
             $scope.items = Items.getItems();
             $scope.attributes = Attributes.active;
             $scope.view = null;
             $scope.toggle = null;
             $scope.selectedSearch = null;
             $scope.selectedItem = null;
+
+//            $routeParams.search()
 
             $scope.clear = function () {
                 $scope.modal = $scope.selectedItem = $scope.center = null;

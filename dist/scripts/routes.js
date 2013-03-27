@@ -6,7 +6,7 @@ angular.module('rescour.app')
 
             $httpProvider.defaults.useXDomain = true;
             $httpProvider.defaults.withCredentials = true;
-
+            $locationProvider.html5Mode(false);
 
             $routeProvider.when('/', {
                 templateUrl: "/views/market/market.html",
@@ -66,8 +66,6 @@ angular.module('rescour.app')
             });
 
             $httpProvider.responseInterceptors.push('Interceptor');
-
-            $locationProvider.html5Mode(true);
         }])
     .factory('Interceptor', ['$q', '$rootScope', '$timeout',
         function ($q, $rootScope, $timeout) {

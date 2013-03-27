@@ -1,33 +1,14 @@
 
-.map {
+.map.leaflet-container {
   position: absolute;
   left: $filterWidth + $marketWidth;
   top: 0;
   right: 0;
   bottom: 0;
   z-index: 1;
-}
-.popup-dimensions {
-  position: relative;
-  padding: 10px;
-  z-index: 2;
-
-  .title {
-    position: relative;
-    display: block;
-    font-size: 14px;
-    font-weight: bold;
-    color: $blue;
-    cursor: pointer;
-  }
-
-  .ranges {
-    position: relative;
-    display: block;
-    @include header_text;
-  }
 
 }
+
 /** Map Markers **/
 .leaflet-cluster-anim .leaflet-marker-icon, .leaflet-cluster-anim .leaflet-marker-shadow {
   -webkit-transition: -webkit-transform 0.25s ease-out, opacity 0.25s ease-in;
@@ -36,70 +17,115 @@
   transition: transform 0.25s ease-out, opacity 0.25s ease-in;
 }
 
-.marker-cluster-small {
-  //border: 2px solid rgba(241, 128, 23, 0.9);
-}
-
 .marker-cluster-small div {
-  background-color: rgba(241, 128, 23, 1);
-}
-
-.marker-cluster-small:active > div {
-  background-color: rgba(241, 128, 23, 1);
-}
-
-.marker-cluster-medium {
-  //border: 2px solid rgba(102, 124, 148, 0.9);
+  @include buttonBackground($btnSuccessBackground, $btnSuccessBackgroundHighlight);
 }
 
 .marker-cluster-medium div {
-  background-color: rgba(102, 124, 148, 1);
-}
-
-.marker-cluster-medium:hover div {
-  background-color: rgba(102, 124, 148, 1);
-}
-
-.marker-cluster-large {
-  //border: 2px solid rgba(117, 158, 130, 0.9);
+  @include buttonBackground($btnInfoBackground, $btnInfoBackgroundHighlight);
 }
 
 .marker-cluster-large div {
-  background-color: rgba(117, 158, 130, 1);
-}
-
-.marker-cluster-large:hover > div {
-  background-color: rgba(117, 158, 130, 1);
+  @include buttonBackground($btnPrimaryBackground, $btnPrimaryBackgroundHighlight);
 }
 
 .marker-cluster {
-  box-sizing: border-box;
-  background-clip: padding-box;
-  @include border-radius(50%);
-}
-
-.marker-cluster:hover > div {
-  @include box-shadow(inset 0px 1px 5px rgba(68, 68, 68, 0.95));
-  -webkit-transition: -webkit-box-shadow 0.1s;
-  -moz-transition: -moz-box-shadow 0.2s;
-  -o-transition: -o-box-shadow 0.2s;
-  transition: box-shadow 0.2s;
+  width: auto;
+  height: auto;
 }
 
 .marker-cluster div {
-  width: 32px;
-  height: 32px;
-  margin-left: 2px;
-  margin-top: 2px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-family: "proxima-nova", "Helvetica Neue", Helvetica, Arial, sans-serif;
   text-align: center;
-  @include border-radius(50%);
+  font-size: 16px;
+  line-height: 40px;
+  cursor: pointer;
+  transition: color .2s ease-in;
+  -webkit-touch-callout: none;
+  user-select: none;
+  border: 1px solid rgba(0,0,0,0.25);
+
+  &:hover {
+    @include box-shadow(#{inset 0 2px 4px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05)});
+    @include transition(background-position .2s linear);
+  }
 }
 
-.marker-cluster span {
-  line-height: 33px;
-  letter-spacing: 1px;
-  font-size: 13px;
-  font-weight: normal;
-  color: white;
-  text-shadow: -1px -1px 0px #666;
+/** Map Popup Styles **/
+.leaflet-popup-content-wrapper {
+  font-family: "proxima-nova", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  @include border-radius(5px);
+  padding: 0;
+
+  .leaflet-popup-content {
+    margin: 0;
+
+    .popup-striped-container {
+      position: relative;
+      box-sizing: border-box;
+      text-align: center;
+      vertical-align: middle;
+      width: 100%;
+      height: 30px;
+      padding: 5px 15px;
+
+      h4 {
+        margin: 0;
+        font-size: 16px;
+        font-weight: normal;
+      }
+
+      p {
+        margin: 0;
+      }
+
+      &.popup-footer {
+        border-top: 1px solid $grayLighter;
+      }
+
+      &.popup-header {
+        border-bottom: 1px solid $grayLighter;
+        @include buttonBackground($btnDangerBackground, $btnDangerBackgroundHighlight);
+        @include border-top-right-radius(5px);
+        @include border-top-left-radius(5px);
+      }
+    }
+
+    .popup-main-container {
+      position: relative;
+      padding: 15px;
+      background: $light-gray;
+
+      img {
+        position: relative;
+        float: left;
+        border: 5px solid white;
+        @include border-radius(2px);
+        @include box-shadow(rgba(0, 0, 0, 0.1) 0 0 2px 0px);
+        width: 100px;
+        height: 100px;
+      }
+
+      ul {
+        position: relative;
+        color: $grayDark;
+        padding: 5px 15px;
+        margin: 0;
+        display: inline-block;
+        width: auto;
+        font-size: 13px;
+
+        li {
+          padding: 2px 0px;
+        }
+
+        span {
+          font-weight: bold;
+        }
+      }
+    }
+  }
 }

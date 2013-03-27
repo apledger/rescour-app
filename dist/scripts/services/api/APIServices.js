@@ -8,7 +8,7 @@ angular.module('rescour.api', [])
             prod: "http://api.maasive.net/rescour"
         };
 
-        var path = url.local;
+        var path = url.dev;
         var config = {
             headers: {'Content-Type': 'application/json'},
             withCredentials: true

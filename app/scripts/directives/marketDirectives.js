@@ -153,93 +153,102 @@ angular.module('nebuMarket')
             });
         };
     })
-    .directive("map", ['Filter', 'Items', function (Filter, Items) {
-        return {
-            restrict: "A",
-            transclude: true,
-            scope: {
-                view: "=",
-                selected: "=",
-                center: "="
-            },
-            template: '<div class="map"></div>',
-            link: function (scope, element, attrs, ctrl) {
-                var templates = {
-                    hover: function (item) {
-                        return "<div class='popup-dimensions clearfix'>" +
-                            "<div id='popup-" + item.id + "' class='lead'>" + item.title + "</div>" +
-                            "</div>" +
-                            '<img src="img/' + item.thumbnail + '" style="padding-right: 10px;">';
-                    }
-                };
+    .directive("map", ['Filter', 'Items', '$compile',
+        function (Filter, Items, $compile) {
+            return {
+                restrict: "A",
+                transclude: true,
+                scope: {
+                    view: "=",
+                    selected: "=",
+                    center: "="
+                },
+                template: '<div class="map"></div>',
+                link: function (scope, element, attrs, ctrl) {
+                    var cloudmadeUrl = 'http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/37875/256/{z}/{x}/{y}.png',
+                        openstreetUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                        otileUrl = 'http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png',
+                        stamenUrl = 'http://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.jpg',
+                        cloudmade = new L.TileLayer(openstreetUrl, { maxZoom: 17, styleId: 22677 }),
+                        defaultLatLng = new L.LatLng(32.3667, -86.3000),
+                        defaultZoom = 6,
+                        $el = element.find(".map")[0],
+                        map = new L.Map($el, { center: defaultLatLng, zoom: defaultZoom, zoomControl: false, attributionControl: false}),
+                        markers = new L.MarkerClusterGroup({disableClusteringAtZoom: 13});
+                    // layers: [cloudmade],
 
-                var cloudmadeUrl = 'http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/37875/256/{z}/{x}/{y}.png',
-                    openstreetUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-                    otileUrl = 'http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png',
-                    stamenUrl = 'http://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.jpg',
-                    cloudmade = new L.TileLayer(openstreetUrl, { maxZoom: 17, styleId: 22677 }),
-                    defaultLatLng = new L.LatLng(32.3667, -86.3000),
-                    defaultZoom = 6,
-                    $el = element.find(".map")[0],
-                    map = new L.Map($el, { center: defaultLatLng, zoom: defaultZoom, zoomControl: false, attributionControl: false}),
-                    markers = new L.MarkerClusterGroup({disableClusteringAtZoom: 13});
-                // layers: [cloudmade],
+                    var googleLayer = new L.Google('ROADMAP');
+                    map.addLayer(googleLayer);
 
+                    map.addControl(new L.Control.Zoom({ position: 'topright' }));
+                    //map.scrollWheelZoom.disable();
 
-                var googleLayer = new L.Google('ROADMAP');
-                map.addLayer(googleLayer);
+                    // Listen for when a filter event is fired
 
+                    scope.$on("RenderMap", function () {
+                        // Markers plugin says better performance to clear all markers and recreate
+                        markers.clearLayers();
+                        // Zoom out
+                        map.setView(defaultLatLng, defaultZoom);
 
-                map.addControl(new L.Control.Zoom({ position: 'topright' }));
-                //map.scrollWheelZoom.disable();
-
-                // Listen for when a filter event is fired
-
-                scope.$on("RenderMap", function () {
-                    // Markers plugin says better performance to clear all markers and recreate
-                    markers.clearLayers();
-                    // Zoom out
-                    map.setView(defaultLatLng, defaultZoom);
-
-                    // Loop through each item
-                    _.each(Items.items, function (item) {
-                        // Check visibility
-                        if (item.isVisible) {
-                            // Initialize new marker at location
-                            item.marker = new L.Marker(new L.LatLng(item.location[0], item.location[1]), { title: item.title });
-                            // Open modal popup
-                            item.marker.on("click", function (e) {
-                                scope.$apply(function () {
-                                    scope.$parent.selectItem(item);
+                        // Loop through each item
+                        _.each(Items.items, function (item) {
+                            var popupTemplate =
+                                "<div class=\"popup-striped-container popup-header\">" +
+                                    "<h4 ng-click=\"doSomething()\">" + item.title + "</h4>" +
+                                "</div>" +
+                                "<div class=\"popup-main-container clearfix\">" +
+                                    "<img src=\"img/" + item.thumbnail + "\" alt=\"\"/>" +
+                                        "<ul>" +
+                                            "<li><span>" + item.getAttribute('Number of Units') + "</span> Units</li>" +
+                                            "<li>Built in <span>" + item.getAttribute('Year Built') + "</span></li>" +
+                                            "<li><span>" + item.getAttribute('Broker') + "</span></li>" +
+                                            "<li><span>" + item.getAttribute('State') + "</span></li>" +
+                                        "</ul>" +
+                                    "</div>" +
+                                    "<div class=\"popup-striped-container popup-footer\">\n    <p>" +
+                                    item.address.street1 + "</p>\n</div>";
+                            // Check visibility
+                            if (item.isVisible) {
+                                // Initialize new marker at location
+                                item.marker = new L.Marker(new L.LatLng(item.location[0], item.location[1]), { title: item.title });
+                                // Open modal popup
+                                item.marker.on("click", function (e) {
+                                    scope.$apply(function () {
+                                        scope.$parent.selectItem(item);
+                                    });
                                 });
-                            });
 
-                            // Bind mouseover popup
-                            item.marker.on("mouseover", function (e) {
+                                // Bind mouseover popup
+                                item.marker.on("mouseover", function (e) {
+                                    item.marker.bindPopup(popupTemplate, {closeButton: false, minWidth: 325}).openPopup();
+                                });
+                                // Add marker to marker group
+                                markers.addLayer(item.marker);
+                            }
+                        });
+                        // Add marker groups
+                        map.addLayer(markers);
+                    });
+
+                    scope.doSomething = function () {
+                        console.log("hello");
+                    };
+
+                    scope.$watch("center", function (item) {
+                        if (item) {
+                            markers.zoomToShowLayer(item.marker, function () {
+                                map.panTo(item.location);
                                 item.marker.bindPopup(templates.hover(item), {closeButton: false}).openPopup();
                             });
-                            // Add marker to marker group
-                            markers.addLayer(item.marker);
                         }
                     });
-                    // Add marker groups
-                    map.addLayer(markers);
-                });
 
-                scope.$watch("center", function (item) {
-                    if (item) {
-                        markers.zoomToShowLayer(item.marker, function () {
-                            map.panTo(item.location);
-                            item.marker.bindPopup(templates.hover(item), {closeButton: false}).openPopup();
-                        });
-                    }
-                });
-
-                // Let the controller know to initialize
-                scope.$emit("MapReady");
-            }
-        };
-    }])
+                    // Let the controller know to initialize
+                    scope.$emit("MapReady");
+                }
+            };
+        }])
     .directive('propertyDetails', function () {
         return {
             restrict: "C",

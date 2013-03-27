@@ -70,9 +70,9 @@ rescourApp
                     StripeCheckout.open({
                         key: 'pk_test_wSAqQNQKI7QqPmBpDcQLgGM7',
                         address: true,
-                        amount: 5000,
+                        amount: 1000000,
                         name: 'Rescour',
-                        description: 'A bag of Pistachios',
+                        description: 'Activate your trial!',
                         panelLabel: 'Checkout',
                         token: token
                     });

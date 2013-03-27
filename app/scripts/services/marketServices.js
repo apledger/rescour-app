@@ -61,6 +61,9 @@ angular.module('nebuMarket')
 
                 this.title = data.title || "Title not listed";
                 this.description = data.description || "No description provided.";
+                this.address = data.address || {
+                    street1: "No address listed"
+                };
                 this.thumbnail = data.thumbnail || "apt0.jpg";
                 this.favorites = data.favorites || false;
                 this.hidden = data.hidden || false;

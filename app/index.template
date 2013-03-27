@@ -11,13 +11,13 @@
     <title>REScour | Multi Family Institutional Listing Service</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.css" />
+    <link type="text/css" href="styles/lib/ui-lightness/jquery-ui-1.8.23.custom.css" rel="Stylesheet"/>
     <% if (environment === 'prod') { %>
     <link rel="stylesheet" href="/styles/main.css?v=<%= hash('./tmp/styles/main.css') %>"/>
     <% } else { %>
     <link rel="stylesheet" href="/styles/main.css"/>
     <% } %>
-    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.css" />
-    <link type="text/css" href="styles/lib/ui-lightness/jquery-ui-1.8.23.custom.css" rel="Stylesheet"/>
     <link rel="stylesheet" href="styles/lib/font-awesome/css/font-awesome.min.css">
 
     <!-- ClickJacking Defense begin (https://www.owasp.org/index.php/Clickjacking_Defense_Cheat_Sheet) -->

@@ -60,11 +60,9 @@ angular.module('rescour.app')
                         transformRequest: $_api.loading.none
                     }, $_api.config),
                     body = JSON.stringify({
-                        token: $location.search('token').target,
+                        token: $location.search().token,
                         password: $scope.creds.password
                     });
-
-                console.log(body);
 
                 $http.post(path, body, config).then(function (response) {
                     console.log(response);

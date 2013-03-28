@@ -81,4 +81,53 @@ rescourApp
                 });
             }
         };
-    }]);
+    }])
+
+    .directive("passwordVerify", function () {
+        return {
+            require: "ngModel",
+            scope: {
+                passwordVerify: '='
+            },
+            link: function (scope, element, attrs, ctrl) {
+
+                scope.$watch('passwordVerify', function (value) {
+                    ctrl.$viewValue = "";
+                    ctrl.$render();
+                    ctrl.$setValidity("passwordMatch", false);
+                });
+
+                ctrl.$parsers.unshift(function (viewValue) {
+                    var origin = scope.passwordVerify;
+                    if (origin !== viewValue) {
+                        ctrl.$setValidity("passwordMatch", false);
+                        return undefined;
+                    } else {
+                        ctrl.$setValidity("passwordMatch", true);
+                        return viewValue;
+                    }
+                });
+            }
+        };
+    })
+    .directive('passwordValidate', function () {
+        return {
+            require: 'ngModel',
+            link: function (scope, elm, attrs, ctrl) {
+                ctrl.$parsers.unshift(function (viewValue) {
+
+                    scope.pwdValidLength = (viewValue && viewValue.length >= 8 ? 'valid' : undefined);
+                    scope.pwdHasLetter = (viewValue && /[A-z]/.test(viewValue)) ? 'valid' : undefined;
+                    scope.pwdHasNumber = (viewValue && /\d/.test(viewValue)) ? 'valid' : undefined;
+
+                    if (scope.pwdValidLength && scope.pwdHasLetter && scope.pwdHasNumber) {
+                        ctrl.$setValidity('passwordValid', true);
+                        return viewValue;
+                    } else {
+                        ctrl.$setValidity('passwordValid', false);
+                        return undefined;
+                    }
+                });
+            }
+        };
+    });

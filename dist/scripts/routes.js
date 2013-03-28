@@ -37,6 +37,25 @@ angular.module('rescour.app')
                 controller: 'LoginController'
             });
 
+            $routeProvider.when('/login/forgot-password', {
+                templateUrl: "/views/login/forgotPassword.html",
+                controller: 'ForgotPasswordController',
+                resolve: {
+
+                }
+            });
+            $routeProvider.when('/login/reset-password', {
+                templateUrl: "/views/login/resetPassword.html",
+                controller: 'ResetPasswordController',
+                resolve: {
+                    checkToken: function ($location) {
+                        if (!$location.search('token').target) {
+                            $location.path('/login/forgot-password');
+                        }
+                    }
+                }
+            });
+
             $routeProvider.when('/account', {
                 templateUrl: "/views/account/account.html",
                 controller: 'AccountController',

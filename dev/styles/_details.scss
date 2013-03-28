@@ -1,0 +1,27 @@
+.property-details {
+  position: absolute;
+  left: $filterWidth + $marketWidth;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  background: white;
+  overflow-y: scroll;
+}
+.picture-container {
+  width: 600px;
+}
+
+.contact-selected {
+  background: lighten($light-green, 20%) !important;
+}
+
+.well.contact {
+  cursor: pointer;
+}
+h1 {
+  float:left;
+  font-weight: bold;
+  font-size: 2em;
+  padding: 10px;
+}

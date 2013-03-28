@@ -49,7 +49,7 @@ angular.module('rescour.app')
                 controller: 'ResetPasswordController',
                 resolve: {
                     checkToken: function ($location) {
-                        if (!$location.search('token').target) {
+                        if ($location.search().token) {
                             $location.path('/login/forgot-password');
                         }
                     }

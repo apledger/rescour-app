@@ -152,8 +152,8 @@ angular.module('nebuMarket')
                 item.isFavorite = !item.isFavorite;
             };
         }])
-    .controller("ListController", ['$scope',
-        function ($scope) {
+    .controller("ListController", ['$scope', 'detailPanes',
+        function ($scope, detailPanes) {
             $scope.panTo = function (item) {
                 $scope.selectedItem = null;
                 $scope.center = null;
@@ -170,44 +170,29 @@ angular.module('nebuMarket')
 
             $scope.showPictures = function (item) {
                 $scope.selectItem(item);
-                $scope.$broadcast("ChangeTab", "Pictures");
+                detailPanes.selectPane("Pictures");
             };
 
             $scope.showNotes = function (item) {
                 $scope.selectItem(item);
-                $scope.$broadcast("ChangeTab", "Notes");
+                detailPanes.selectPane("Notes");
             };
 
-            $scope.viewDetails = function (item) {
+            $scope.showDetails = function (item) {
                 $scope.selectItem(item);
-                $scope.$broadcast("ChangeTab", "Details");
+                detailPanes.selectPane("Details");
             };
 
-            $scope.contactBroker = function (item) {
+            $scope.showContact = function (item) {
                 $scope.selectItem(item);
-                $scope.$broadcast("ChangeTab", "Contact");
+                detailPanes.selectPane("Contact");
             };
         }])
-    .controller("DetailsController", ['$scope', '$http', '$_api', '$timeout',
-        function ($scope, $http, $_api, $timeout) {
+    .controller("DetailsController", ['$scope', '$http', '$_api', '$timeout', 'detailPanes',
+        function ($scope, $http, $_api, $timeout, detailPanes) {
             $scope.newComment = {};
             $scope.newEmail = {};
-            $scope.panes = [
-                {heading: "Details", active: true},
-                {heading: "Pictures", active: false},
-                {heading: "Contact", active: false},
-                {heading: "Notes", active: false}
-            ];
-
-            $scope.$on('ChangeTab', function (event, title) {
-                angular.forEach($scope.panes, function (pane) {
-                    if (pane.heading === title) {
-                        pane.active = true;
-                    } else {
-                        pane.active = false;
-                    }
-                });
-            });
+            $scope.panes = detailPanes.panes;
 
             $scope.addComment = function (message) {
                 if (message) {

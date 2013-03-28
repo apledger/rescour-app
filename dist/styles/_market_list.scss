@@ -36,7 +36,6 @@
   .preview {
     cursor: pointer;
     position: absolute;
-    float:right;
     top: 5px;
     right: 5px;
 
@@ -62,8 +61,9 @@
       display: none;
       background: url('../../../img/zoom-icon.png') no-repeat center rgba(0, 0, 0, 0.2);
     }
-
   }
+
+
 
   .dimensions {
     position: relative;

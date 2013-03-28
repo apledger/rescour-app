@@ -15,7 +15,7 @@
                 </a>
 
                 <div class="header-container">
-                    <div class="title"><a href="javascript:" ng-click="viewDetails(item)">{{item.title}}</a></div>
+                    <div class="title"><a href="javascript:" ng-click="showDetails(item)">{{item.title}}</a></div>
                     <div class="ranges">
                         <span>{{item.attributes.range["Number of Units"]}}&nbsp;</span>Units.&nbsp;
                         Built in<span>&nbsp;{{item.attributes.range["Year Built"]}}</span>.
@@ -51,7 +51,7 @@
                     </div>
 
                     <!--Contact broker button-->
-                    <div class="footer-button" ng-click="contactBroker(item)">
+                    <div class="footer-button" ng-click="showContact(item)">
                         <i class="icon-envelope-alt"></i>
 
                         <span>{{item.getAttribute("Broker")}}</span>

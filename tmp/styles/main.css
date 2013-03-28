@@ -5770,13 +5770,12 @@ a.label:hover, a.badge:hover {
 .item-well .preview {
   cursor: pointer;
   position: absolute;
-  float: right;
   top: 5px;
   right: 5px;
   line-height: 0;
   background: white;
 }
-/* line 47, ../../app/styles/_market_list.scss */
+/* line 46, ../../app/styles/_market_list.scss */
 .item-well .preview img {
   height: 100px;
   width: 100px;
@@ -5789,7 +5788,7 @@ a.label:hover, a.badge:hover {
   -moz-border-radius: 2px;
   border-radius: 2px;
 }
-/* line 56, ../../app/styles/_market_list.scss */
+/* line 55, ../../app/styles/_market_list.scss */
 .item-well .preview .zoom-mask {
   position: absolute;
   top: 0;
@@ -6124,6 +6123,13 @@ a.label:hover, a.badge:hover {
   -webkit-border-top-left-radius: 5px;
   -moz-border-radius-topleft: 5px;
   border-top-left-radius: 5px;
+  -webkit-border-bottom-left-radius: 0;
+  -moz-border-radius-bottomleft: 0;
+  border-bottom-left-radius: 0;
+  -webkit-border-bottom-right-radius: 0;
+  -moz-border-radius-bottomright: 0;
+  border-bottom-right-radius: 0;
+  cursor: pointer;
 }
 /* line 489, ../../app/styles/compass_twitter_bootstrap/_mixins.scss */
 .leaflet-popup-content-wrapper .leaflet-popup-content .popup-striped-container.popup-header:hover, .leaflet-popup-content-wrapper .leaflet-popup-content .popup-striped-container.popup-header:active, .leaflet-popup-content-wrapper .leaflet-popup-content .popup-striped-container.popup-header.active, .leaflet-popup-content-wrapper .leaflet-popup-content .popup-striped-container.popup-header.disabled, .leaflet-popup-content-wrapper .leaflet-popup-content .popup-striped-container.popup-header[disabled] {
@@ -6135,16 +6141,31 @@ a.label:hover, a.badge:hover {
 .leaflet-popup-content-wrapper .leaflet-popup-content .popup-striped-container.popup-header:active, .leaflet-popup-content-wrapper .leaflet-popup-content .popup-striped-container.popup-header.active {
   background-color: #722319 \9;
 }
-/* line 97, ../../app/styles/_map.scss */
+/* line 100, ../../app/styles/_map.scss */
 .leaflet-popup-content-wrapper .leaflet-popup-content .popup-main-container {
   position: relative;
   padding: 15px;
   background: #eeeeee;
 }
-/* line 102, ../../app/styles/_map.scss */
-.leaflet-popup-content-wrapper .leaflet-popup-content .popup-main-container img {
+/* line 105, ../../app/styles/_map.scss */
+.leaflet-popup-content-wrapper .leaflet-popup-content .popup-main-container .preview {
   position: relative;
   float: left;
+  display: inline-block;
+  cursor: pointer;
+}
+/* line 111, ../../app/styles/_map.scss */
+.leaflet-popup-content-wrapper .leaflet-popup-content .popup-main-container .preview .zoom-mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: none;
+  background: url("../../../img/zoom-icon.png") no-repeat center rgba(0, 0, 0, 0.2);
+}
+/* line 121, ../../app/styles/_map.scss */
+.leaflet-popup-content-wrapper .leaflet-popup-content .popup-main-container .preview img {
   border: 5px solid white;
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
@@ -6155,7 +6176,7 @@ a.label:hover, a.badge:hover {
   width: 100px;
   height: 100px;
 }
-/* line 112, ../../app/styles/_map.scss */
+/* line 131, ../../app/styles/_map.scss */
 .leaflet-popup-content-wrapper .leaflet-popup-content .popup-main-container ul {
   position: relative;
   color: #333333;
@@ -6165,13 +6186,18 @@ a.label:hover, a.badge:hover {
   width: auto;
   font-size: 13px;
 }
-/* line 121, ../../app/styles/_map.scss */
+/* line 140, ../../app/styles/_map.scss */
 .leaflet-popup-content-wrapper .leaflet-popup-content .popup-main-container ul li {
   padding: 2px 0px;
 }
-/* line 125, ../../app/styles/_map.scss */
+/* line 144, ../../app/styles/_map.scss */
 .leaflet-popup-content-wrapper .leaflet-popup-content .popup-main-container ul span {
   font-weight: bold;
+}
+
+/* line 153, ../../app/styles/_map.scss */
+.leaflet-control-zoom a {
+  text-decoration: none;
 }
 
 /* line 1, ../../app/styles/_details.scss */

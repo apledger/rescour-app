@@ -91,6 +91,7 @@
         @include buttonBackground($btnDangerBackground, $btnDangerBackgroundHighlight);
         @include border-top-right-radius(5px);
         @include border-top-left-radius(5px);
+        cursor: pointer;
       }
     }
 
@@ -99,17 +100,47 @@
       padding: 15px;
       background: $light-gray;
 
-      img {
+      .preview {
         position: relative;
         float: left;
-        border: 5px solid white;
-        @include border-radius(2px);
-        @include box-shadow(rgba(0, 0, 0, 0.1) 0 0 2px 0px);
+        display: inline-block;
+
+        .zoom-mask {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          display: none;
+          background: url('../../../img/zoom-icon.png') no-repeat center rgba(0, 0, 0, 0.2);
+        }
+
+        img {
+          border: 5px solid white;
+          @include border-radius(2px);
+          @include box-shadow(rgba(0, 0, 0, 0.1) 0 0 2px 0px);
+          width: 100px;
+          height: 100px;
+        }
       }
 
-      p {
+
+      ul {
         position: relative;
-        padding: 10px;
+        color: $grayDark;
+        padding: 5px 15px;
+        margin: 0;
+        display: inline-block;
+        width: auto;
+        font-size: 13px;
+
+        li {
+          padding: 2px 0px;
+        }
+
+        span {
+          font-weight: bold;
+        }
       }
     }
   }

@@ -6,7 +6,7 @@ angular.module('rescour.app')
 
             $httpProvider.defaults.useXDomain = true;
             $httpProvider.defaults.withCredentials = true;
-            $locationProvider.html5Mode(false);
+            $locationProvider.html5Mode(true);
 
             $routeProvider.when('/', {
                 templateUrl: "/views/market/market.html",

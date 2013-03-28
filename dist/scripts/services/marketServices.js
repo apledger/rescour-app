@@ -641,7 +641,27 @@ angular.module('nebuMarket')
             };
 
             return Comment;
-        }]);
+        }])
+    .factory('detailPanes', function () {
+        var panes = [
+            {heading: "Details", active: true},
+            {heading: "Pictures", active: false},
+            {heading: "Contact", active: false},
+            {heading: "Notes", active: false}
+        ];
+        return {
+            panes: panes,
+            selectPane: function (paneHeading) {
+                angular.forEach(panes, function (pane) {
+                    if (pane.heading === paneHeading) {
+                        pane.active = true;
+                    } else {
+                        pane.active = false;
+                    }
+                });
+            }
+        };
+    });
 
 
 

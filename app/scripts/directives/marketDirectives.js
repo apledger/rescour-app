@@ -153,8 +153,8 @@ angular.module('nebuMarket')
             });
         };
     })
-    .directive("map", ['Filter', 'Items', '$compile',
-        function (Filter, Items, $compile) {
+    .directive("map", ['Filter', 'Items', '$compile', 'detailPanes',
+        function (Filter, Items, $compile, detailPanes) {
             return {
                 restrict: "A",
                 transclude: true,
@@ -185,6 +185,46 @@ angular.module('nebuMarket')
 
                     // Listen for when a filter event is fired
 
+                    function popupTemplate(item) {
+                        scope.item = item;
+
+                        var popupTempl = "<div><div class=\"btn popup-striped-container popup-header\">" +
+                            "<h4 ng-click=\"showDetails(item)\">" + item.title + "</h4>" +
+                            "</div>" +
+                            "<div class=\"popup-main-container clearfix\">" +
+                            "<div class=\"preview\" ng-click=\"showPictures(item)\"><div class=\"zoom-mask\"></div>" +
+                            "<img src=\"img/" + item.thumbnail + "\" alt=\"\"/></div>" +
+                            "<ul>" +
+                            "<li><span>" + item.getAttribute('Number of Units') + "</span> Units</li>" +
+                            "<li>Built in <span>" + item.getAttribute('Year Built') + "</span></li>" +
+                            "<li><span>" + item.getAttribute('Broker') + "</span></li>" +
+                            "<li><span>" + item.getAttribute('State') + "</span></li>" +
+                            "</ul>" +
+                            "</div>" +
+                            "<div class=\"popup-striped-container popup-footer\">\n    <p>" +
+                            item.address.street1 + "</p>\n</div></div>";
+
+                        var popupElement = $compile(popupTempl)(scope);
+
+                        return popupElement[0];
+                    }
+
+                    scope.showDetails = function (item) {
+                        if (!item.hasOwnProperty('details')) {
+                            item.getDetails();
+                        }
+                        scope.selected = item;
+                        detailPanes.selectPane("Details");
+                    };
+
+                    scope.showPictures = function (item) {
+                        if (!item.hasOwnProperty('details')) {
+                            item.getDetails();
+                        }
+                        scope.selected = item;
+                        detailPanes.selectPane("Pictures");
+                    };
+
                     scope.$on("RenderMap", function () {
                         // Markers plugin says better performance to clear all markers and recreate
                         markers.clearLayers();
@@ -193,21 +233,6 @@ angular.module('nebuMarket')
 
                         // Loop through each item
                         _.each(Items.items, function (item) {
-                            var popupTemplate =
-                                "<div class=\"popup-striped-container popup-header\">" +
-                                    "<h4 ng-click=\"doSomething()\">" + item.title + "</h4>" +
-                                "</div>" +
-                                "<div class=\"popup-main-container clearfix\">" +
-                                    "<img src=\"img/" + item.thumbnail + "\" alt=\"\"/>" +
-                                        "<ul>" +
-                                            "<li><span>" + item.getAttribute('Number of Units') + "</span> Units</li>" +
-                                            "<li>Built in <span>" + item.getAttribute('Year Built') + "</span></li>" +
-                                            "<li><span>" + item.getAttribute('Broker') + "</span></li>" +
-                                            "<li><span>" + item.getAttribute('State') + "</span></li>" +
-                                        "</ul>" +
-                                    "</div>" +
-                                    "<div class=\"popup-striped-container popup-footer\">\n    <p>" +
-                                    item.address.street1 + "</p>\n</div>";
                             // Check visibility
                             if (item.isVisible) {
                                 // Initialize new marker at location
@@ -221,7 +246,8 @@ angular.module('nebuMarket')
 
                                 // Bind mouseover popup
                                 item.marker.on("mouseover", function (e) {
-                                    item.marker.bindPopup(popupTemplate, {closeButton: false, minWidth: 325}).openPopup();
+                                    item.marker.bindPopup(popupTemplate(item), {closeButton: false, minWidth: 325}).openPopup();
+//                                    item.marker.bindPopup(popupTemplate(item)[0] + popupTemplate(item)[1] +  popupTemplate(item)[2]).openPopup();
                                 });
                                 // Add marker to marker group
                                 markers.addLayer(item.marker);
@@ -231,20 +257,16 @@ angular.module('nebuMarket')
                         map.addLayer(markers);
                     });
 
-                    scope.doSomething = function () {
-                        console.log("hello");
-                    };
-
                     scope.$watch("center", function (item) {
                         if (item) {
                             markers.zoomToShowLayer(item.marker, function () {
                                 map.panTo(item.location);
-                                item.marker.bindPopup(templates.hover(item), {closeButton: false}).openPopup();
+                                item.marker.bindPopup(popupTemplate(item), {closeButton: false, minWidth: 325}).openPopup();
                             });
                         }
                     });
 
-                    // Let the controller know to initialize
+                    // Let the controller know to initialize otherwise markers don't get constructed
                     scope.$emit("MapReady");
                 }
             };

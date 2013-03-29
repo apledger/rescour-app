@@ -1,0 +1,21 @@
+$filterWidth: 245px;
+$blue: #0088cc;
+$dark-blue: #005580;
+$light-blue: #99ccff;
+$dark-gray: #333333;
+$gray: #5F5F5F;
+$light-gray: #EEEEEE;
+$green: #468847;
+$burgundy: #a03123;
+$light-green: #82BF44;
+$marketWidth: 402px;
+$headerHeight: 50px;
+
+
+@mixin header_text($font_size: 12px){
+  font-size: $font_size;
+  color: $gray;
+  span {
+    font-weight: bold;
+  }
+}

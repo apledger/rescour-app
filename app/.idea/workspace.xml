@@ -13,7 +13,7 @@
     <file path="/app.js" changelist="aa82f298-00d2-4341-8135-05564d90a0a5" time="1363115297609" ignored="false" />
     <file path="/run.js" changelist="aa82f298-00d2-4341-8135-05564d90a0a5" time="1363115475827" ignored="false" />
     <file path="/routes.js" changelist="aa82f298-00d2-4341-8135-05564d90a0a5" time="1364497989491" ignored="false" />
-    <file path="/_market_filter.scss" changelist="aa82f298-00d2-4341-8135-05564d90a0a5" time="1363116358994" ignored="false" />
+    <file path="/_market_filter.scss" changelist="aa82f298-00d2-4341-8135-05564d90a0a5" time="1364587430982" ignored="false" />
     <file path="$USER_HOME$/rescour_scraper/v1.1/front/app/scripts/controllers.js" changelist="aa82f298-00d2-4341-8135-05564d90a0a5" time="1363184079503" ignored="false" />
     <file path="/APIServices.js" changelist="aa82f298-00d2-4341-8135-05564d90a0a5" time="1364492756530" ignored="false" />
     <file path="/list.html" changelist="aa82f298-00d2-4341-8135-05564d90a0a5" time="1363286307527" ignored="false" />
@@ -38,7 +38,7 @@
     <file path="/forgot_password.html" changelist="aa82f298-00d2-4341-8135-05564d90a0a5" time="1364488816992" ignored="false" />
     <file path="/resetPassword.html" changelist="aa82f298-00d2-4341-8135-05564d90a0a5" time="1364490068048" ignored="false" />
     <file path="/_styles.scss" changelist="aa82f298-00d2-4341-8135-05564d90a0a5" time="1364489711217" ignored="false" />
-    <file path="/market.html" changelist="aa82f298-00d2-4341-8135-05564d90a0a5" time="1364575118182" ignored="false" />
+    <file path="/market.html" changelist="aa82f298-00d2-4341-8135-05564d90a0a5" time="1364587410529" ignored="false" />
     <file path="/newSearch.html" changelist="aa82f298-00d2-4341-8135-05564d90a0a5" time="1364577317454" ignored="false" />
     <file path="/saveSearchDialog.html" changelist="aa82f298-00d2-4341-8135-05564d90a0a5" time="1364578249236" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -74,16 +74,16 @@
           <file leaf-file-name="marketDetails.html" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/views/market/partials/marketDetails.html">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0">
+                <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="marketControllers.js" pinned="false" current="true" current-in-tab="true">
+          <file leaf-file-name="marketControllers.js" pinned="false" current="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/scripts/controllers/marketControllers.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="137" column="17" selection-start="5665" selection-end="5665" vertical-scroll-proportion="0.6641001">
+                <state line="264" column="17" selection-start="10583" selection-end="10583" vertical-scroll-proportion="3.3926852">
                   <folding />
                 </state>
               </provider>
@@ -92,7 +92,7 @@
           <file leaf-file-name="_ngform.scss" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/styles/_ngform.scss">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="29" column="79" selection-start="757" selection-end="757" vertical-scroll-proportion="-17.4">
+                <state line="29" column="79" selection-start="757" selection-end="757" vertical-scroll-proportion="0.0">
                   <folding />
                 </state>
               </provider>
@@ -101,7 +101,7 @@
           <file leaf-file-name="marketServices.js" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/scripts/services/marketServices.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="551" column="70" selection-start="23089" selection-end="23089" vertical-scroll-proportion="-15.32">
+                <state line="551" column="70" selection-start="23089" selection-end="23089" vertical-scroll-proportion="0.0">
                   <folding />
                 </state>
               </provider>
@@ -110,7 +110,7 @@
           <file leaf-file-name="account.html" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/views/account/account.html">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="17" column="9" selection-start="399" selection-end="399" vertical-scroll-proportion="-10.625">
+                <state line="17" column="9" selection-start="399" selection-end="399" vertical-scroll-proportion="0.0">
                   <folding />
                 </state>
               </provider>
@@ -147,15 +147,6 @@
       </split-first>
       <split-second>
         <leaf>
-          <file leaf-file-name="forgotPassword.html" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/views/login/forgotPassword.html">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="9" column="32" selection-start="211" selection-end="211" vertical-scroll-proportion="-0.625">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
           <file leaf-file-name="resetPassword.html" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/views/login/resetPassword.html">
               <provider selected="true" editor-type-id="text-editor">
@@ -168,7 +159,7 @@
           <file leaf-file-name="marketDirectives.js" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/scripts/directives/marketDirectives.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="45" column="45" selection-start="1811" selection-end="1811" vertical-scroll-proportion="0.0">
+                <state line="48" column="0" selection-start="1895" selection-end="1895" vertical-scroll-proportion="0.0">
                   <folding>
                     <marker date="1364575093000" expanded="true" signature="8635:8903" placeholder="{...}" />
                   </folding>
@@ -194,19 +185,10 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="index.template" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/index.template">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="57" column="23" selection-start="2460" selection-end="2460" vertical-scroll-proportion="-2.2916667">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
           <file leaf-file-name="_market_list.scss" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/styles/_market_list.scss">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="54" column="16" selection-start="1012" selection-end="1012" vertical-scroll-proportion="-0.6">
+                <state line="54" column="16" selection-start="1012" selection-end="1012" vertical-scroll-proportion="0.0">
                   <folding />
                 </state>
               </provider>
@@ -215,22 +197,34 @@
           <file leaf-file-name="market.html" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/views/market/market.html">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="127" column="22" selection-start="5711" selection-end="5711" vertical-scroll-proportion="-7.2916665">
-                  <folding>
-                    <element signature="n#style#0;n#ul#0;n#div#0;n#header#0;n#!!top" expanded="true" />
-                    <element signature="n#style#0;n#ul#0;n#div#1;n#header#0;n#!!top" expanded="true" />
-                    <element signature="n#style#0;n#div#0;n#li#0;n#ul#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-                    <element signature="n#style#0;n#i#0;n#li#0;n#ul#1;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-                    <element signature="n#style#0;n#span#0;n#a#0;n#li#1;n#ul#1;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-                  </folding>
+                <state line="49" column="58" selection-start="2031" selection-end="2046" vertical-scroll-proportion="-18.125">
+                  <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="saveSearchDialog.html" pinned="false" current="false" current-in-tab="true">
+          <file leaf-file-name="_market_filter.scss" pinned="false" current="true" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/styles/_market_filter.scss">
+              <provider selected="true" editor-type-id="text-editor">
+                <state line="17" column="17" selection-start="271" selection-end="271" vertical-scroll-proportion="0.23369037">
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="ui-bootstrap-0.2.0.js" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/scripts/lib/angular-bootstrap/ui-bootstrap-0.2.0.js">
+              <provider selected="true" editor-type-id="text-editor">
+                <state line="619" column="5" selection-start="20439" selection-end="20439" vertical-scroll-proportion="105.88">
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="saveSearchDialog.html" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/views/market/partials/saveSearchDialog.html">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="19" column="77" selection-start="1012" selection-end="1012" vertical-scroll-proportion="0.27723736">
+                <state line="26" column="71" selection-start="1224" selection-end="1224" vertical-scroll-proportion="-16.25">
                   <folding />
                 </state>
               </provider>
@@ -239,7 +233,7 @@
           <file leaf-file-name="dev.js" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/scripts/dev.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="354" column="21" selection-start="14983" selection-end="14983" vertical-scroll-proportion="-7.56">
+                <state line="354" column="21" selection-start="14983" selection-end="14983" vertical-scroll-proportion="0.0">
                   <folding />
                 </state>
               </provider>
@@ -257,7 +251,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/views/login/resetPassword.html" />
         <option value="$PROJECT_DIR$/scripts/services/api/APIServices.js" />
         <option value="$PROJECT_DIR$/scripts/controllers/rescourControllers.js" />
         <option value="$PROJECT_DIR$/index.template" />
@@ -270,9 +263,10 @@
         <option value="$PROJECT_DIR$/scripts/routes.js" />
         <option value="$PROJECT_DIR$/template/newSearch.html" />
         <option value="$PROJECT_DIR$/scripts/services/marketServices.js" />
-        <option value="$PROJECT_DIR$/views/market/market.html" />
         <option value="$PROJECT_DIR$/views/market/partials/saveSearchDialog.html" />
         <option value="$PROJECT_DIR$/scripts/controllers/marketControllers.js" />
+        <option value="$PROJECT_DIR$/views/market/market.html" />
+        <option value="$PROJECT_DIR$/styles/_market_filter.scss" />
       </list>
     </option>
   </component>
@@ -348,7 +342,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -487,16 +480,17 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="options.lastSelected" value="preferences.keymap" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/.." />
-    <property name="GoToClass.includeJavaFiles" value="false" />
-    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../scraper" />
     <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="GoToClass.includeJavaFiles" value="false" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -557,7 +551,7 @@
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.082762256" sideWeight="0.83952856" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.0722193" sideWeight="0.83952856" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.082762256" sideWeight="0.15412511" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="true" content_ui="tabs" />
@@ -636,93 +630,39 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/scripts/main.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="17" selection-start="387" selection-end="387" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/directives/marketDirectives.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="28" selection-start="43" selection-end="43" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/styles/_market_list.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="54" column="16" selection-start="1012" selection-end="1012" vertical-scroll-proportion="-0.6">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/account/account.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="9" selection-start="399" selection-end="399" vertical-scroll-proportion="-10.625">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/routes.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="72" column="49" selection-start="2946" selection-end="2946" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/scripts/controllers/rescourControllers.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="52" selection-start="1235" selection-end="1235" vertical-scroll-proportion="0.0">
+        <state line="3" column="60" selection-start="105" selection-end="105" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/scripts/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="22" selection-start="145" selection-end="145" vertical-scroll-proportion="0.07129277">
-          <folding />
-        </state>
+        <state line="5" column="22" selection-start="145" selection-end="145" vertical-scroll-proportion="0.07129277" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/scripts/dev.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="299" column="18" selection-start="13076" selection-end="13076" vertical-scroll-proportion="0.0">
+        <state line="354" column="21" selection-start="14983" selection-end="14983" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/scripts/demomain.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="36" selection-start="808" selection-end="808" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="26" column="36" selection-start="808" selection-end="808" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/scripts/directives/rescourDirectives.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="46" column="52" selection-start="1804" selection-end="1804" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="46" column="52" selection-start="1804" selection-end="1804" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/scripts/services/marketServices.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="551" column="70" selection-start="23089" selection-end="23089" vertical-scroll-proportion="-15.32">
+        <state line="551" column="70" selection-start="23089" selection-end="23089" vertical-scroll-proportion="0.0">
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/market/market.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="127" column="22" selection-start="5711" selection-end="5711" vertical-scroll-proportion="-7.2916665">
-          <folding>
-            <element signature="n#style#0;n#ul#0;n#div#0;n#header#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#ul#0;n#div#1;n#header#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#li#0;n#ul#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#i#0;n#li#0;n#ul#1;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#0;n#a#0;n#li#1;n#ul#1;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -735,21 +675,65 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/styles/_ngform.scss">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="79" selection-start="757" selection-end="757" vertical-scroll-proportion="-17.4">
+        <state line="29" column="79" selection-start="757" selection-end="757" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/views/market/partials/saveSearchDialog.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="77" selection-start="1012" selection-end="1012" vertical-scroll-proportion="0.27723736">
+        <state line="26" column="71" selection-start="1224" selection-end="1224" vertical-scroll-proportion="-16.25">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/login/forgotPassword.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="32" selection-start="211" selection-end="211" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/lib/angular-bootstrap/ui-bootstrap-0.2.0.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="619" column="5" selection-start="20439" selection-end="20439" vertical-scroll-proportion="105.88">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/scripts/controllers/marketControllers.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="137" column="17" selection-start="5665" selection-end="5665" vertical-scroll-proportion="0.6641001">
+        <state line="264" column="17" selection-start="10583" selection-end="10583" vertical-scroll-proportion="3.3926852">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/directives/marketDirectives.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="48" column="0" selection-start="1895" selection-end="1895" vertical-scroll-proportion="0.0">
+          <folding>
+            <marker date="1364575093000" expanded="true" signature="8635:8903" placeholder="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/market/market.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="49" column="58" selection-start="2031" selection-end="2046" vertical-scroll-proportion="-18.125">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.template">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="57" column="23" selection-start="2460" selection-end="2460" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/styles/_market_filter.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="17" selection-start="271" selection-end="271" vertical-scroll-proportion="0.23369037">
           <folding />
         </state>
       </provider>

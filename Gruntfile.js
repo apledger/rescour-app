@@ -190,9 +190,9 @@ module.exports = function (grunt) {
         },
         clean: {
             dist: ['./tmp', './dist'],
-            demo: ['./tmp', './demo'],
-            prod: ['./tmp', './prod'],
-            dev: ['./tmp', './dev'],
+            buildDemo: ['./tmp', 'demo', './build/demo'],
+            buildProd: ['./tmp', 'prod', './build/prod'],
+            buildDev: ['./tmp', 'dev', './build/dev'],
             temp: './tmp',
             images: './dist/img'
         },
@@ -316,12 +316,12 @@ module.exports = function (grunt) {
              Copies select files from the temp directory to the dev directory.
              Dev is deployed to subtree dev for remote testing
              */
-            deploydev: {
+            buildDev: {
                 files: [
-                    {expand: true, cwd: './tmp/', src: ['**'], dest: './dev/'}
+                    {expand: true, cwd: './tmp/', src: ['**'], dest: './build/dev/'}
                 ]
             },
-            deploydemo: {
+            buildDemo: {
                 files: [
                     {expand: true, cwd: './tmp/', src: ['img/**', 'scripts/scripts.min.js', 'styles/main.css', 'styles/fonts/**', 'styles/lib/**', '**/*.html',
                         // Map specific libraries
@@ -332,7 +332,7 @@ module.exports = function (grunt) {
                         'scripts/lib/leaflet.markercluster-src.js',
                         'scripts/lib/leaflet-google.js',
                         'scripts/lib/angular/angular-mocks.js'
-                    ], dest: './demo/'}
+                    ], dest: './build/demo/'}
                 ]
             },
             /*
@@ -340,7 +340,7 @@ module.exports = function (grunt) {
              In 'prod' minified files are used along with img and libs.
              The dist artifacts contain only the files necessary to run the application.
              */
-            deployprod: {
+            buildProd: {
                 files: [
                     {expand: true, cwd: './tmp/', src: ['img/**', 'scripts/scripts.min.js', 'styles/**', '**/*.html',
                         // Map specific libraries
@@ -349,7 +349,7 @@ module.exports = function (grunt) {
                         'scripts/lib/leaflet.js',
                         'scripts/lib/leaflet.markercluster-src.js',
                         'scripts/lib/leaflet-google.js'
-                    ], dest: './prod/'}
+                    ], dest: './build/prod'}
                 ]
             },
             // Task is run when a watched script is modified.
@@ -403,7 +403,7 @@ module.exports = function (grunt) {
          The main file is used only to establish the proper loading sequence.
          */
         requirejs: {
-            scripts: {
+            prod: {
                 options: {
                     baseUrl: './app/scripts/',
                     findNestedDependencies: true,
@@ -546,12 +546,12 @@ module.exports = function (grunt) {
      Enter the following command at the command line to execute this build task:
      grunt dev
      */
-    grunt.registerTask('deploydev', [
-        'clean:dev',
+    grunt.registerTask('buildDev', [
+        'clean:buildDev',
         'compass:dev', // Compile compass: app -> tmp
         'copy:prep', // Copy all html/css/js: app -> tmp
         'template:dev', // Compile templates: app -> tmp
-        'copy:deploydev', // Copy all from: tmp -> dev
+        'copy:buildDev', // Copy all from: tmp -> dev
         'clean:temp'
     ]);
 
@@ -561,13 +561,13 @@ module.exports = function (grunt) {
      Enter the following command at the command line to execute this build task:
      grunt local
      */
-    grunt.registerTask('deploydemo', [
-        'clean',
+    grunt.registerTask('buildDemo', [
+        'clean:buildDemo',
         'compass:dist', // Compile compass: app -> tmp
         'requirejs:demo', // Create minified scripts from shim: app -> tmp
         'copy:prep', // Copy all html/css/js: app -> tmp
         'template:demo', // Compile templates: app -> tmp
-        'copy:deploydemo', // Copy all from: tmp -> demo
+        'copy:buildDemo', // Copy all from: tmp -> demo
         'clean:temp'
     ]);
 
@@ -577,14 +577,14 @@ module.exports = function (grunt) {
      Enter the following command at the command line to execute this build task:
      grunt prod
      */
-    grunt.registerTask('deployprod', [
-        'clean:prod',
+    grunt.registerTask('buildProd', [
+        'clean:buildProd',
         'compass:dist', // Compass compile and minify: app -> tmp
-        'requirejs:scripts', // Create minified scripts from shim: app -> tmp
+        'requirejs:prod', // Create minified scripts from shim: app -> tmp
         'copy:prep', // Copy img + lib + html: app/img/* + app -> tmp
         'template:prod', // Apply html templates: app -> tmp
         'htmlmin', // Minify html: tmp -> tmp
-        'copy:deployprod', // Copy: tmp -> prod
+        'copy:buildProd', // Copy: tmp -> prod
         'clean:temp' // Delete tmp
     ]);
 

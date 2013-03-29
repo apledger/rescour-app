@@ -1,3 +1,4 @@
 .idea/
 app/.idea/
 .sass-cache/
+dist/

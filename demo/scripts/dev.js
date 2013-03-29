@@ -97,7 +97,7 @@ angular.module('rescour.app.dev', ['rescour.app', 'ngMockE2E'])
                 title: "1990's"
             }
         ];
-        var items = {};
+
         var regionMap = [
             {
                 city: 'Atlanta',
@@ -259,57 +259,8 @@ angular.module('rescour.app.dev', ['rescour.app', 'ngMockE2E'])
             return details[parseInt((Math.random() * details.length), 10)];
         };
 
-        var details = {
-            notes: {
-                comments: [],
-                financials: {}
-            },
-            images: [
-                {
-                    link: 'img/apartment-details-1.jpg',
-                    caption: 'This is the first picture'
-                },
-                {
-                    link: 'img/apartment-details-2.jpg',
-                    caption: 'This is the second picture'
-                }
-            ],
-            unitmix: [
-                {
-                    type: '1 BR/1BA',
-                    units: '48',
-                    sqft: '605',
-                    rent: '729',
-                    rentpsf: '1.20'
-                },
-                {
-                    type: '2 BR/1BA',
-                    units: '23',
-                    sqft: '924',
-                    rent: '950',
-                    rentpsf: '1.10'
-                },
-                {
-                    type: '2 BR/2BA',
-                    units: '220',
-                    sqft: '1310',
-                    rent: '1280',
-                    rentpsf: '0.90'
-                }
-            ],
-            contacts: [
-                {
-                    name: "Jim Moore",
-                    email: "jmoore@aaarealty.com",
-                    phone: "(678)-553-9311"
-                },
-                {
-                    name: "Sean Jones",
-                    email: "sjones@aaarealty.com",
-                    phone: "(678)-132-1532"
-                }
-            ]
-        };
+        var items = {},
+            itemDetails = {};
 
         for (var k = 0; k < NUM_ITEMS; k++) {
             var randomCity = regionMap[parseInt((Math.random() * regionMap.length), 10)],
@@ -352,19 +303,79 @@ angular.module('rescour.app.dev', ['rescour.app', 'ngMockE2E'])
                     Math.random() * 0.23 + randomCity.location[1] - 0.115
                 ]
             };
-        }
-        var notes = {
-            comments: []
-        };
-        $httpBackend.whenGET(/\/properties\/[0-9](?!\/notes|\/favorites|\/hidden)/).respond(details);
 
-        $httpBackend.whenGET(/\/properties\/[0-9]+\/notes\/comments\//).respond({notes: notes});
+            itemDetails[k] = {
+                notes: {
+                    comments: [],
+                    financials: {}
+                },
+                images: [
+                    {
+                        link: 'img/apartment-details-1.jpg',
+                        caption: 'This is the first picture'
+                    },
+                    {
+                        link: 'img/apartment-details-2.jpg',
+                        caption: 'This is the second picture'
+                    }
+                ],
+                unitmix: [
+                    {
+                        type: '1 BR/1BA',
+                        units: '48',
+                        sqft: '605',
+                        rent: '729',
+                        rentpsf: '1.20'
+                    },
+                    {
+                        type: '2 BR/1BA',
+                        units: '23',
+                        sqft: '924',
+                        rent: '950',
+                        rentpsf: '1.10'
+                    },
+                    {
+                        type: '2 BR/2BA',
+                        units: '220',
+                        sqft: '1310',
+                        rent: '1280',
+                        rentpsf: '0.90'
+                    }
+                ],
+                contacts: [
+                    {
+                        name: "Jim Moore",
+                        email: "jmoore@aaarealty.com",
+                        phone: "(678)-553-9311"
+                    },
+                    {
+                        name: "Sean Jones",
+                        email: "sjones@aaarealty.com",
+                        phone: "(678)-132-1532"
+                    }
+                ]
+            };
+        }
+
+        $httpBackend.whenGET(/\/properties\/[0-9](?!\/notes|\/favorites|\/hidden)/).respond(function (method, url, data, headers) {
+            var item_id = url.split("/")[2];
+
+            return [200, itemDetails[item_id], {}];
+        });
+
+        $httpBackend.whenGET(/\/properties\/[0-9]+\/notes\/comments\//).respond(function (method, url, data, headers) {
+            var item_id = url.split("/")[2];
+
+            return [200, {notes: itemDetails[item_id].notes}, {}];
+        });
 
         $httpBackend.whenPOST(/\/properties\/[0-9]+\/notes\/comments\//).respond(
             function (method, url, data, headers) {
-                var _comment = angular.fromJson(data);
-                _comment.comment_id = notes.comments.length + 1;
-                notes.comments.push(_comment);
+                var _comment = angular.fromJson(data),
+                    item_id = url.split("/")[2];
+                
+                _comment.comment_id = itemDetails[item_id].notes.comments.length + 1;
+                itemDetails[item_id].notes.comments.push(_comment);
                 return [200, { id: _comment.id }, {}];
             });
 
@@ -377,6 +388,7 @@ angular.module('rescour.app.dev', ['rescour.app', 'ngMockE2E'])
         $httpBackend.whenGET('/properties/').respond({resources: items});
 
         $httpBackend.whenGET('/auth/check').respond({user: "Alan"});
+        $httpBackend.whenGET('/auth/users/user/').respond({user: "Alan"});
 
         $httpBackend.whenGET('/search/').respond({resources: saved });
         // adds a new phone to the phones array

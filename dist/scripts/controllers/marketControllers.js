@@ -1,16 +1,15 @@
 'use strict';
 
 angular.module('nebuMarket')
-    .controller("MarketController", ['$scope', 'Items', 'Filter', 'Attributes', '$timeout', '$location', '$routeParams',
+    .controller('MarketController', ['$scope', 'Items', 'Filter', 'Attributes', '$timeout', '$location', '$routeParams',
         function ($scope, Items, Filter, Attributes, $timeout, $location, $routeParams) {
             $scope.items = Items.getItems();
             $scope.attributes = Attributes.active;
             $scope.view = null;
             $scope.toggle = null;
-            $scope.selectedSearch = null;
             $scope.selectedItem = null;
-
-//            $routeParams.search()
+            $scope.center = null;
+            $scope.modal = {};
 
             $scope.clear = function () {
                 $scope.modal = $scope.selectedItem = $scope.center = null;
@@ -23,9 +22,18 @@ angular.module('nebuMarket')
                 $scope.selectedItem = item;
             };
 
+            $scope.centerMap = function (item) {
+                $scope.selectedItem = null;
+                $scope.center = item;
+            };
+
             $scope.refreshItems = function () {
                 $scope.toggle = "all";
                 $scope.render(Filter.filter(Attributes.active));
+            };
+
+            $scope.openModal = function (template) {
+                $scope.modal = template;
             };
 
             $scope.filter = function () {
@@ -72,19 +80,19 @@ angular.module('nebuMarket')
                 $scope.$broadcast('RenderMap');
             };
 
-            $scope.showFavorites = function () {
+            $scope.listFavorites = function () {
                 $scope.toggle = "favorites";
                 Items.showFavorites();
                 $scope.$broadcast('RenderMap');
             };
 
-            $scope.showHidden = function () {
+            $scope.listHidden = function () {
                 $scope.toggle = "hidden";
                 Items.showHidden();
                 $scope.$broadcast('RenderMap');
             };
 
-            $scope.showNotes = function () {
+            $scope.listNotes = function () {
                 $scope.toggle = "notes";
                 Items.showNotes();
                 $scope.$broadcast('RenderMap');
@@ -95,20 +103,39 @@ angular.module('nebuMarket')
                 $scope.attributes.modified = false;
             });
         }])
-    .controller("FilterController", ['$scope', 'Items', 'Attributes', 'Templates', 'SavedSearch',
-        function ($scope, Items, Attributes, Templates, SavedSearch) {
+    .controller("FilterController", ['$scope', 'Items', 'Attributes', 'Templates', 'SavedSearch', '$dialog',
+        function ($scope, Items, Attributes, Templates, SavedSearch, $dialog) {
+            $scope.selectedSearch = null;
             $scope.savedSearches = SavedSearch.query();
 
             $scope.openSaveDialog = function () {
                 // If its a new search open the dialog
                 if (!$scope.selectedSearch) {
-                    $scope.modal = Templates.newSearch;
+//                    $scope.openModal(Templates.newSearch);
+                    $dialog.dialog({
+                        backdrop: true,
+                        keyboard: true,
+                        backdropClick: true,
+                        dialogFade: true,
+                        templateUrl: Templates.saveSearchDialog,
+                        controller: "SaveSearchDialogController"
+                    }).open()
+                        .then(function (result) {
+                            if (result) {
+                                if (result.action === 'save') {
+                                    $scope.saveSearch(result.settings);
+                                }
+                            }
+                        });
                 } else {
                     $scope.saveSearch();
                 }
             };
 
-            $scope.saveSearch = function () {
+            $scope.saveSearch = function (settings) {
+                if (typeof settings !== 'undefined') {
+                    angular.extend($scope.attributes, settings);
+                }
                 // Create a new resource object with existing attributes
                 $scope.selectedSearch = new SavedSearch($scope.attributes);
                 $scope.selectedSearch.$save().then(function (response) {
@@ -152,12 +179,24 @@ angular.module('nebuMarket')
                 item.isFavorite = !item.isFavorite;
             };
         }])
+    .controller('SaveSearchDialogController', ['$scope', 'dialog',
+        function ($scope, dialog) {
+            $scope.searchSettings = {};
+            $scope.close = function () {
+                dialog.close();
+            };
+
+            $scope.save = function (settings) {
+                dialog.close({
+                    action: 'save',
+                    settings: settings
+                });
+            };
+        }])
     .controller("ListController", ['$scope', 'detailPanes',
         function ($scope, detailPanes) {
             $scope.panTo = function (item) {
-                $scope.selectedItem = null;
-                $scope.center = null;
-                $scope.center = item;
+                $scope.centerMap(item);
             };
 
             $scope.toggleFavorites = function (item) {

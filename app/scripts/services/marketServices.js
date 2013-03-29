@@ -549,7 +549,7 @@ angular.module('nebuMarket')
     .factory('Templates',
     function () {
         return {
-            newSearch: '/template/newSearch.html'
+            saveSearchDialog: '/views/market/partials/saveSearchDialog.html'
         };
     })
     .factory('SavedSearch', ['$_api', '$http', '$q',

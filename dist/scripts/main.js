@@ -8,9 +8,7 @@ require(
                     'lib/angular/angular',
                     'lib/angular/angular-resource',
                     'lib/underscore-min',
-                    'angular_components/carousel',
-                    'angular_components/tabs',
-                    'angular_components/transition',
+                    'lib/angular-bootstrap/ui-bootstrap-0.2.0',
                     'lib/jquery-ui.min',
                     'lib/jquery.min'
                 ]

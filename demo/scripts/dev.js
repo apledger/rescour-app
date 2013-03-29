@@ -330,6 +330,13 @@ angular.module('rescour.app.dev', ['rescour.app', 'ngMockE2E'])
                 title: randomDetails.title,
                 description: randomDetails.description,
                 price: "TBD by market",
+                address: {
+                    street1: "152 Dummy St.",
+                    street2: "",
+                    zip: "30142",
+                    state: "GA",
+                    city: "Atlanta"
+                },
                 attributes: {
                     discreet: {
                         "Broker": randomBroker,
@@ -399,7 +406,8 @@ angular.module('rescour.app.dev', ['rescour.app', 'ngMockE2E'])
         });
 
         $httpBackend.whenGET(/^\/views\//).passThrough();
-        $httpBackend.whenGET(/^\/view\//).passThrough();
+        $httpBackend.whenGET(/^\/template\//).passThrough();
+        $httpBackend.whenGET(/^template\//).passThrough();
     }]);
 
 angular.bootstrap(document, ['rescour.app.dev']);

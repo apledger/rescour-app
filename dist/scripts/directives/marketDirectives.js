@@ -1,20 +1,6 @@
 'use strict';
 
 angular.module('nebuMarket')
-    .directive('filters', function () {
-        return {
-            restrict: "A",
-            replace: true,
-            templateUrl: '/views/market/partials/marketFilter.html'
-        };
-    })
-    .directive('market', function () {
-        return {
-            restrict: "A",
-            replace: true,
-            templateUrl: '/views/market/partials/marketList.html'
-        };
-    })
     .directive('dropdownToggle',
         ['$document', '$location', '$window', function ($document, $location, $window) {
             var openElement = null, close;

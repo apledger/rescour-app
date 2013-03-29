@@ -44,12 +44,13 @@ angular.module('rescour.app')
 
                 }
             });
+
             $routeProvider.when('/login/reset-password', {
                 templateUrl: "/views/login/resetPassword.html",
                 controller: 'ResetPasswordController',
                 resolve: {
                     checkToken: function ($location) {
-                        if (!$location.search('token').target) {
+                        if (!$location.search().token) {
                             $location.path('/login/forgot-password');
                         }
                     }
@@ -70,11 +71,9 @@ angular.module('rescour.app')
 
                         $http.get(path, config).then(
                             function (response) {
-                                console.log("Success: ", response);
                                 defer.resolve(response.data);
                             },
                             function (response) {
-                                console.log("Error: ", response);
                                 defer.reject();
                             }
                         );

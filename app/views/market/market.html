@@ -7,13 +7,13 @@
                 <a ng-click="refreshItems()" href="javascript:"><i class="icon-list"></i></a>
             </li>
             <li ng-class="{'active': toggle == 'favorites'}">
-                <a ng-click="showFavorites()" href="javascript:"><i class="icon-star"></i></a>
+                <a ng-click="listFavorites()" href="javascript:"><i class="icon-star"></i></a>
             </li>
             <li ng-class="{'active': toggle == 'hidden'}">
-                <a ng-click="showHidden()" href="javascript:"><i class="icon-ban-circle"></i></a>
+                <a ng-click="listHidden()" href="javascript:"><i class="icon-ban-circle"></i></a>
             </li>
             <li ng-class="{'active': toggle == 'notes'}">
-                <a ng-click="showNotes()" href="javascript:"><i class="icon-pencil"></i></a>
+                <a ng-click="listNotes()" href="javascript:"><i class="icon-pencil"></i></a>
             </li>
             <li>
                 <form class="navbar-search">
@@ -33,8 +33,135 @@
 </header>
 
 <div class="main-container">
-    <div filters></div>
-    <div market></div>
+    <!--FILTERS BEGIN-->
+    <div id="Filter" ng-controller="FilterController">
+        <div class="filter-container">
+            <div class="saved-search">
+                <!--Saved search dropdown-->
+                <!--Save search button-->
+
+                <div class="dropdown saved-dropdown">
+
+                    <div class="btn-group">
+                        <button class="btn saved-dropdown" click-spin ng-click="refreshSearch()">
+                            <!--<i class="icon-refresh"></i>-->
+                            {{attributes.title || "New Search"}}
+                        </button>
+                        <button class="btn"
+                                ng-class="{'disabled': !attributes.modified, 'btn-success': attributes.modified}"
+                                ng-disabled="!attributes.modified"
+                                ng-click="openSaveDialog()">
+                            <i class="icon-save"></i>
+                        </button>
+                        <a class="btn dropdown-toggle"><i class="icon-caret-down"></i></a>
+                    </div>
+
+
+                    <ul class="dropdown-menu">
+                        <li><a ng-click="loadSearch()">New Search</a></li>
+                        <li class="divider"></li>
+                        <li ng-repeat="saved in savedSearches">
+                            <a href="javascript:" ng-click="loadSearch(saved)">{{saved.title}}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!--Range sliders-->
+            <ul class="nav nav-list" ng-repeat="range in attributes.range" slider>
+                <li class="nav-header" ng-click="sortBy(range)">
+                    {{range.title}} &nbsp;
+                    <sort-arrow></sort-arrow>
+                    <div style="float:right;">{{range.lowSelected}} - {{range.highSelected}}</div>
+                </li>
+                <div class="slider"></div>
+            </ul>
+
+            <!--Discreet Filters-->
+            <ul class="nav nav-list" ng-repeat="discreet in attributes.discreet">
+                <li class="nav-header" ng-click="discreet.collapse = !discreet.collapse">
+                    {{discreet.title}} &nbsp;
+                    <i ng-class="{'icon-chevron-up': !discreet.collapse, 'icon-chevron-down': discreet.collapse}"
+                       style="float:right;"></i>
+                </li>
+
+                <li ng-class="{'active': value.isSelected }" ng-repeat="value in discreet.values">
+                    <a ng-click="filterByDiscreet(discreet, value)" href="javascript:" collapse="discreet.collapse">
+                        {{value.title}}
+                        <span ng-show="value" class="badge {{value.badge}}" style="float:right;">{{value.predict}}</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!--FILTERS END-->
+
+    <!--LIST BEGIN-->
+    <div id="MarketList" ng-controller="ListController">
+        <!--Toggle favorites button-->
+        <!--Item boxes display-->
+        <div class="market-wrap">
+            <div id="item-{{item.id}}" class="item-well" ng-repeat="item in items | filter: searchText | limitVisible: 50"
+                 ng-show="item.isVisible">
+                <!--Thumbnail preview button-->
+
+
+                <!--Top bar of item box-->
+                <div class="dimensions clearfix">
+                    <!--Location Button-->
+                    <a href="javascript:" class="btn location" ng-click="panTo(item)">
+                        <i class="icon-map-marker"></i>
+                    </a>
+
+                    <div class="header-container">
+                        <div class="title"><a href="javascript:" ng-click="showDetails(item)">{{item.title}}</a></div>
+                        <div class="ranges">
+                            <span>{{item.attributes.range["Number of Units"]}}&nbsp;</span>Units.&nbsp;
+                            Built in<span>&nbsp;{{item.attributes.range["Year Built"]}}</span>.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="preview" ng-click="showPictures(item)">
+                    <div class="zoom-mask"></div>
+                    <img ng-src="img/{{item.thumbnail}}" alt="">
+                </div>
+
+                <div class="description">
+                    <div class="text-container">
+                        <p>{{item.description}}</p>
+                    </div>
+                </div>
+
+                <div class="footer">
+                    <div class="user-options">
+                        <!--Toggle favorite button-->
+                        <div class="footer-button" ng-click="toggleFavorites(item)">
+                            <i class="icon-star" ng-class="{'yellow': item.favorites}"></i>
+                        </div>
+
+                        <!--Toggle hidden button-->
+                        <div class="footer-button" ng-click="toggleHidden(item)">
+                            <i class="icon-ban-circle" ng-class="{'red': item.hidden}"></i>
+                        </div>
+
+                        <div class="footer-button" ng-click="showNotes(item)">
+                            <i class="icon-pencil"></i>
+                        </div>
+
+                        <!--Contact broker button-->
+                        <div class="footer-button" ng-click="showContact(item)">
+                            <i class="icon-envelope-alt"></i>
+
+                            <span>{{item.getAttribute("Broker")}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--LIST END-->
+
     <!--Main Content-->
     <div id="Loading-Details">
         <div class="loading-container">
@@ -42,12 +169,12 @@
             <i class="loading-icon icon-spinner icon-spin icon-4x"></i>
         </div>
     </div>
+
+    <!--Map-->
     <div map center="center" selected="selectedItem" view="view"></div>
+
     <!--Detail view over map-->
     <div fade-in="current" class="property-details" current="selectedItem"></div>
-    <!--Modal dialog-->
-    <div ng-show="modal" ng-include="modal"></div>
-    <div class="modal-backdrop hide" ng-click="clear()" fade="modal"></div>
 </div>
 
 <section id="Footer">

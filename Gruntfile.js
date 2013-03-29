@@ -373,7 +373,7 @@ module.exports = function (grunt) {
             // Task is run when a watched view is modified.
             views: {
                 files: [
-                    {expand: true, cwd: './app/', src: ['views/**/*.html'], dest: './dist/'}
+                    {expand: true, cwd: './app/', src: ['views/**'], dest: './dist/'}
                 ]
             },
             // Task is run when an image is modified.

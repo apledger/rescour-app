@@ -328,7 +328,7 @@ module.exports = function (grunt) {
                         'scripts/dev.js',
                         'scripts/lib/es5-shim/es5-shim.min.js',
                         'scripts/lib/json3/json3.min.js',
-                        'scripts/lib/leaflet.js',
+                        'scripts/lib/leaflet/**',
                         'scripts/lib/leaflet.markercluster-src.js',
                         'scripts/lib/leaflet-google.js',
                         'scripts/lib/angular/angular-mocks.js'
@@ -346,7 +346,7 @@ module.exports = function (grunt) {
                         // Map specific libraries
                         'scripts/lib/es5-shim/es5-shim.min.js',
                         'scripts/lib/json3/json3.min.js',
-                        'scripts/lib/leaflet.js',
+                        'scripts/lib/leaflet/**',
                         'scripts/lib/leaflet.markercluster-src.js',
                         'scripts/lib/leaflet-google.js'
                     ], dest: './build/prod'}

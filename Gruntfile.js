@@ -190,9 +190,9 @@ module.exports = function (grunt) {
         },
         clean: {
             dist: ['./tmp', './dist'],
-            buildDemo: ['./tmp', 'demo', './build/demo'],
-            buildProd: ['./tmp', 'prod', './build/prod'],
-            buildDev: ['./tmp', 'dev', './build/dev'],
+            buildDemo: ['./tmp', './build/demo'],
+            buildProd: ['./tmp', './build/prod'],
+            buildDev: ['./tmp', './build/dev'],
             temp: './tmp',
             images: './dist/img'
         },

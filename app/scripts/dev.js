@@ -164,6 +164,7 @@ angular.module('rescour.app.dev', ['rescour.app', 'ngMockE2E'])
             'Capstone',
             'Brown Realty'
         ];
+        var statusMap = ['For Sale', 'Under Contract', 'Sold'];
         var generateDetails = function (options) {
             var details = [
                 {
@@ -266,7 +267,8 @@ angular.module('rescour.app.dev', ['rescour.app', 'ngMockE2E'])
             var randomCity = regionMap[parseInt((Math.random() * regionMap.length), 10)],
                 randomBroker = brokerMap[parseInt((Math.random() * brokerMap.length), 10)],
                 randomYear = parseInt(((Math.random() * 60) + 1950), 10),
-                randomUnits = parseInt(((Math.random() * 400) + 100), 10);
+                randomUnits = parseInt(((Math.random() * 400) + 100), 10),
+                randomStatus = statusMap[parseInt((Math.random() * statusMap.length), 10)];
 
             var randomDetails = generateDetails({
                 city: randomCity,
@@ -291,7 +293,8 @@ angular.module('rescour.app.dev', ['rescour.app', 'ngMockE2E'])
                 attributes: {
                     discreet: {
                         "Broker": randomBroker,
-                        "State": randomCity.region
+                        "State": randomCity.region,
+                        "property_status": randomStatus
                     },
                     range: {
                         "Year Built": randomYear,

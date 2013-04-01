@@ -12,7 +12,8 @@ angular.module('rescour.api', [])
                 attributes: {
                     discreet: {
                         "Broker": "Broker",
-                        "State": "State"
+                        "State": "State",
+                        "property_status": "Property Status"
                     },
                     range: {
                         "Number of Units": "Number of Units",

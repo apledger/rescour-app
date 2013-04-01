@@ -1,4 +1,4 @@
-.idea/
-app/.idea/
+.idea
+app/.idea
 .sass-cache/
 dist/

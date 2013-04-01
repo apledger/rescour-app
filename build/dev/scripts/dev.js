@@ -388,7 +388,11 @@ angular.module('rescour.app.dev', ['rescour.app', 'ngMockE2E'])
         $httpBackend.whenGET('/properties/').respond({resources: items});
 
         $httpBackend.whenGET('/auth/check').respond({user: "Alan"});
-        $httpBackend.whenGET('/auth/users/user/').respond({user: "Alan"});
+        $httpBackend.whenGET('/auth/users/user/').respond(
+            {
+                user: "Alan"
+            }
+        );
 
         $httpBackend.whenGET('/search/').respond({resources: saved });
         // adds a new phone to the phones array

@@ -5,14 +5,14 @@ angular.module('rescour.api', [])
         var url = {
             local: "http://10.0.1.92:8080/rescour",
             dev: "http://dev.maasive.net/rescour",
-            prod: "http://api.maasive.net/rescour"
+            prod: "/api"
         };
 
-        var path = url.dev;
+        var path = url.prod;
         var config = {
             headers: {'Content-Type': 'application/json'},
             withCredentials: true
-        }
+        };
 
         return {
             map: {

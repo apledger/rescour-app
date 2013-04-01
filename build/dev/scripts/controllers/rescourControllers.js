@@ -75,4 +75,6 @@ angular.module('rescour.app')
     .controller('AccountController', ['$scope', 'loadUser',
         function ($scope, loadUser) {
             $scope.user = loadUser;
+
+
         }]);

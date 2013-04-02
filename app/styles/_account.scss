@@ -1,0 +1,30 @@
+.account-container{
+  padding-top: 25px;
+  width: 920px;
+  box-sizing: border-box;
+  display: block;
+  margin: 0 auto;
+}
+
+.account-navbar{
+  position:relative;
+  width: 225px;
+  float: left;
+
+  background: #f5f5f5;
+}
+
+.account-content{
+
+  width: 600px;
+  position:relative;
+  float:right;
+  padding: 12px;
+  background: #f5f5f5;
+
+}
+
+.profile-field{
+  margin: 3px;
+  box-sizing: border-box;
+}

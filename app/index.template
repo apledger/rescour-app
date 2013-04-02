@@ -53,10 +53,7 @@
 <script src="scripts/lib/json3/json3.min.js"></script>
 <![endif]-->
 
-<!-- Add your site or application content here -->
-<div id="Wrapper clearfix">
-    <div ng-view></div>
-</div>
+<div ng-view></div>
 
 <script src="https://maps.google.com/maps/api/js?v=3.2&sensor=false"></script>
 <script type="text/javascript" src="/scripts/lib/leaflet/leaflet.js"></script>

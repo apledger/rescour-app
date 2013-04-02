@@ -72,9 +72,41 @@ angular.module('rescour.app')
             };
 
         }])
-    .controller('AccountController', ['$scope', 'loadUser',
-        function ($scope, loadUser) {
+    .controller('AccountController', ['$scope', 'loadUser', '$_api', '$http',
+        function ($scope, loadUser, $_api, $http) {
             $scope.user = loadUser;
 
+
+            $scope.accountViews = [
+                {name: 'Profile', selected: true, partial: '/views/account/partials/profile.html'},
+                {name: 'Account Settings', selected: false, partial: '/views/account/partials/accountSettings.html'},
+                {name: 'Billing', selected: false, partial: '/views/account/partials/billing.html'},
+                {name: 'Notifications', selected: false, partial: '/views/account/partials/notifications.html'}
+            ];
+
+            $scope.currentView = $scope.accountViews[0].partial;
+            
+            $scope.changeAccountView = function(view){
+                angular.forEach($scope.accountViews, function(value, key){
+                    value.selected = false;
+                });
+
+                view.selected = true;
+                $scope.currentView = view.partial;
+            }
+            
+            $scope.saveUserField = function(field){
+                var path = $_api.path + '/auth/users/user/',
+                    config = angular.extend({
+                        transformRequest: $_api.loading.none
+                    }, $_api.config),
+                    body = JSON.stringify($scope.user);
+
+                $http.put(path, body, config).then(function (response) {
+                    console.log(response);
+                }, function (response) {
+
+                });
+            }
 
         }]);

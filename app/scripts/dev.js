@@ -393,7 +393,14 @@ angular.module('rescour.app.dev', ['rescour.app', 'ngMockE2E'])
         $httpBackend.whenGET('/auth/check').respond({user: "Alan"});
         $httpBackend.whenGET('/auth/users/user/').respond(
             {
-                user: "Alan"
+                company: "Fake Company",
+                email: "bob@fakecompany.com",
+                first_name: "Robert",
+                groups: "ListField",
+                last_name: "Frost",
+                password: "myPassword123",
+                phone: "123-456-6754",
+                username: "bob@fakecompany.com"
             }
         );
 

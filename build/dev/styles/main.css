@@ -1686,8 +1686,8 @@ select:focus:required:invalid:focus {
 /* line 448, ../../app/styles/compass_twitter_bootstrap/_forms.scss */
 .input-append .active,
 .input-prepend .active {
-  background-color: #9bcc9c;
-  border-color: #468847;
+  background-color: #bedfc4;
+  border-color: #57ad68;
 }
 
 /* line 455, ../../app/styles/compass_twitter_bootstrap/_forms.scss */
@@ -2731,87 +2731,87 @@ button.close {
 .btn-warning {
   color: white;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-  background-color: #f78a5d;
-  background-image: -moz-linear-gradient(top, #f99e79, #f66930);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f99e79), to(#f66930));
-  background-image: -webkit-linear-gradient(top, #f99e79, #f66930);
-  background-image: -o-linear-gradient(top, #f99e79, #f66930);
-  background-image: linear-gradient(to bottom, #f99e79, #f66930);
+  background-color: #f66d36;
+  background-image: -moz-linear-gradient(top, #f77b48, #f55718);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f77b48), to(#f55718));
+  background-image: -webkit-linear-gradient(top, #f77b48, #f55718);
+  background-image: -o-linear-gradient(top, #f77b48, #f55718);
+  background-image: linear-gradient(to bottom, #f77b48, #f55718);
   background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f99b74', endColorstr='#f6652b', GradientType=0);
-  border-color: #f66930 #f66930 #d04209;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f77744', endColorstr='#f55413', GradientType=0);
+  border-color: #f55718 #f55718 #b83b08;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  *background-color: #f66930;
+  *background-color: #f55718;
   /* Darken IE7 buttons by default so they stand out more given they won't have borders */
   filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
 }
 /* line 489, ../../app/styles/compass_twitter_bootstrap/_mixins.scss */
 .btn-warning:hover, .btn-warning:active, .btn-warning.active, .btn-warning.disabled, .btn-warning[disabled] {
   color: white;
-  background-color: #f66930;
-  *background-color: #f55718;
+  background-color: #f55718;
+  *background-color: #e94a0a;
 }
 /* line 497, ../../app/styles/compass_twitter_bootstrap/_mixins.scss */
 .btn-warning:active, .btn-warning.active {
-  background-color: #e94a0a \9;
+  background-color: #d04209 \9;
 }
 
 /* line 143, ../../app/styles/compass_twitter_bootstrap/_buttons.scss */
 .btn-danger {
   color: white;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-  background-color: #be3f2f;
-  background-image: -moz-linear-gradient(top, #d34937, #9c3022);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#d34937), to(#9c3022));
-  background-image: -webkit-linear-gradient(top, #d34937, #9c3022);
-  background-image: -o-linear-gradient(top, #d34937, #9c3022);
-  background-image: linear-gradient(to bottom, #d34937, #9c3022);
+  background-color: #a13123;
+  background-image: -moz-linear-gradient(top, #b13627, #872a1d);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#b13627), to(#872a1d));
+  background-image: -webkit-linear-gradient(top, #b13627, #872a1d);
+  background-image: -o-linear-gradient(top, #b13627, #872a1d);
+  background-image: linear-gradient(to bottom, #b13627, #872a1d);
   background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#d34533', endColorstr='#982f21', GradientType=0);
-  border-color: #9c3022 #9c3022 #5d1d14;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ad3526', endColorstr='#83281d', GradientType=0);
+  border-color: #872a1d #872a1d #481610;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  *background-color: #9c3022;
+  *background-color: #872a1d;
   /* Darken IE7 buttons by default so they stand out more given they won't have borders */
   filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
 }
 /* line 489, ../../app/styles/compass_twitter_bootstrap/_mixins.scss */
 .btn-danger:hover, .btn-danger:active, .btn-danger.active, .btn-danger.disabled, .btn-danger[disabled] {
   color: white;
-  background-color: #9c3022;
-  *background-color: #872a1d;
+  background-color: #872a1d;
+  *background-color: #722319;
 }
 /* line 497, ../../app/styles/compass_twitter_bootstrap/_mixins.scss */
 .btn-danger:active, .btn-danger.active {
-  background-color: #722319 \9;
+  background-color: #5d1d14 \9;
 }
 
 /* line 147, ../../app/styles/compass_twitter_bootstrap/_buttons.scss */
 .btn-success {
   color: white;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-  background-color: #5ba25c;
-  background-image: -moz-linear-gradient(top, #69b26a, #468847);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#69b26a), to(#468847));
-  background-image: -webkit-linear-gradient(top, #69b26a, #468847);
-  background-image: -o-linear-gradient(top, #69b26a, #468847);
-  background-image: linear-gradient(to bottom, #69b26a, #468847);
+  background-color: #5dac6d;
+  background-image: -moz-linear-gradient(top, #68b577, #4d9e5d);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#68b577), to(#4d9e5d));
+  background-image: -webkit-linear-gradient(top, #68b577, #4d9e5d);
+  background-image: -o-linear-gradient(top, #68b577, #4d9e5d);
+  background-image: linear-gradient(to bottom, #68b577, #4d9e5d);
   background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#65b067', endColorstr='#448545', GradientType=0);
-  border-color: #468847 #468847 #2c552d;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#65b474', endColorstr='#4b9a5b', GradientType=0);
+  border-color: #4d9e5d #4d9e5d #346a3f;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  *background-color: #468847;
+  *background-color: #4d9e5d;
   /* Darken IE7 buttons by default so they stand out more given they won't have borders */
   filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
 }
 /* line 489, ../../app/styles/compass_twitter_bootstrap/_mixins.scss */
 .btn-success:hover, .btn-success:active, .btn-success.active, .btn-success.disabled, .btn-success[disabled] {
   color: white;
-  background-color: #468847;
-  *background-color: #3d773e;
+  background-color: #4d9e5d;
+  *background-color: #458c53;
 }
 /* line 497, ../../app/styles/compass_twitter_bootstrap/_mixins.scss */
 .btn-success:active, .btn-success.active {
-  background-color: #356635 \9;
+  background-color: #3c7b49 \9;
 }
 
 /* line 151, ../../app/styles/compass_twitter_bootstrap/_buttons.scss */
@@ -2847,29 +2847,29 @@ button.close {
 .btn-inverse {
   color: white;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-  background-color: #373737;
-  background-image: -moz-linear-gradient(top, #444444, #222222);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#444444), to(#222222));
-  background-image: -webkit-linear-gradient(top, #444444, #222222);
-  background-image: -o-linear-gradient(top, #444444, #222222);
-  background-image: linear-gradient(to bottom, #444444, #222222);
+  background-color: #363636;
+  background-image: -moz-linear-gradient(top, #404040, #262626);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#404040), to(#262626));
+  background-image: -webkit-linear-gradient(top, #404040, #262626);
+  background-image: -o-linear-gradient(top, #404040, #262626);
+  background-image: linear-gradient(to bottom, #404040, #262626);
   background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#414141', endColorstr='#1f1f1f', GradientType=0);
-  border-color: #222222 #222222 black;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3d3d3d', endColorstr='#242424', GradientType=0);
+  border-color: #262626 #262626 black;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  *background-color: #222222;
+  *background-color: #262626;
   /* Darken IE7 buttons by default so they stand out more given they won't have borders */
   filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
 }
 /* line 489, ../../app/styles/compass_twitter_bootstrap/_mixins.scss */
 .btn-inverse:hover, .btn-inverse:active, .btn-inverse.active, .btn-inverse.disabled, .btn-inverse[disabled] {
   color: white;
-  background-color: #222222;
-  *background-color: #151515;
+  background-color: #262626;
+  *background-color: #1a1a1a;
 }
 /* line 497, ../../app/styles/compass_twitter_bootstrap/_mixins.scss */
 .btn-inverse:active, .btn-inverse.active {
-  background-color: #090909 \9;
+  background-color: #0d0d0d \9;
 }
 
 /* line 164, ../../app/styles/compass_twitter_bootstrap/_buttons.scss */
@@ -3104,15 +3104,15 @@ input[type="submit"].btn.btn-mini {
 }
 /* line 155, ../../app/styles/compass_twitter_bootstrap/_button-groups.scss */
 .btn-group.open .btn-warning.dropdown-toggle {
-  background-color: #f66930;
+  background-color: #f55718;
 }
 /* line 158, ../../app/styles/compass_twitter_bootstrap/_button-groups.scss */
 .btn-group.open .btn-danger.dropdown-toggle {
-  background-color: #9c3022;
+  background-color: #872a1d;
 }
 /* line 161, ../../app/styles/compass_twitter_bootstrap/_button-groups.scss */
 .btn-group.open .btn-success.dropdown-toggle {
-  background-color: #468847;
+  background-color: #4d9e5d;
 }
 /* line 164, ../../app/styles/compass_twitter_bootstrap/_button-groups.scss */
 .btn-group.open .btn-info.dropdown-toggle {
@@ -3120,7 +3120,7 @@ input[type="submit"].btn.btn-mini {
 }
 /* line 167, ../../app/styles/compass_twitter_bootstrap/_button-groups.scss */
 .btn-group.open .btn-inverse.dropdown-toggle {
-  background-color: #222222;
+  background-color: #262626;
 }
 
 /* line 174, ../../app/styles/compass_twitter_bootstrap/_button-groups.scss */
@@ -5847,29 +5847,29 @@ a.label:hover, a.badge:hover {
   cursor: pointer;
   color: white;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-  background-color: #5ba25c;
-  background-image: -moz-linear-gradient(top, #69b26a, #468847);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#69b26a), to(#468847));
-  background-image: -webkit-linear-gradient(top, #69b26a, #468847);
-  background-image: -o-linear-gradient(top, #69b26a, #468847);
-  background-image: linear-gradient(to bottom, #69b26a, #468847);
+  background-color: #5dac6d;
+  background-image: -moz-linear-gradient(top, #68b577, #4d9e5d);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#68b577), to(#4d9e5d));
+  background-image: -webkit-linear-gradient(top, #68b577, #4d9e5d);
+  background-image: -o-linear-gradient(top, #68b577, #4d9e5d);
+  background-image: linear-gradient(to bottom, #68b577, #4d9e5d);
   background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#65b067', endColorstr='#448545', GradientType=0);
-  border-color: #468847 #468847 #2c552d;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#65b474', endColorstr='#4b9a5b', GradientType=0);
+  border-color: #4d9e5d #4d9e5d #346a3f;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  *background-color: #468847;
+  *background-color: #4d9e5d;
   /* Darken IE7 buttons by default so they stand out more given they won't have borders */
   filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
 }
 /* line 489, ../../app/styles/compass_twitter_bootstrap/_mixins.scss */
 .item-well .dimensions .location:hover, .item-well .dimensions .location:active, .item-well .dimensions .location.active, .item-well .dimensions .location.disabled, .item-well .dimensions .location[disabled] {
   color: white;
-  background-color: #468847;
-  *background-color: #3d773e;
+  background-color: #4d9e5d;
+  *background-color: #458c53;
 }
 /* line 497, ../../app/styles/compass_twitter_bootstrap/_mixins.scss */
 .item-well .dimensions .location:active, .item-well .dimensions .location.active {
-  background-color: #356635 \9;
+  background-color: #3c7b49 \9;
 }
 /* line 115, ../../app/styles/_market_list.scss */
 .item-well .description {
@@ -5951,29 +5951,29 @@ a.label:hover, a.badge:hover {
 .marker-cluster-small div {
   color: white;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-  background-color: #5ba25c;
-  background-image: -moz-linear-gradient(top, #69b26a, #468847);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#69b26a), to(#468847));
-  background-image: -webkit-linear-gradient(top, #69b26a, #468847);
-  background-image: -o-linear-gradient(top, #69b26a, #468847);
-  background-image: linear-gradient(to bottom, #69b26a, #468847);
+  background-color: #5dac6d;
+  background-image: -moz-linear-gradient(top, #68b577, #4d9e5d);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#68b577), to(#4d9e5d));
+  background-image: -webkit-linear-gradient(top, #68b577, #4d9e5d);
+  background-image: -o-linear-gradient(top, #68b577, #4d9e5d);
+  background-image: linear-gradient(to bottom, #68b577, #4d9e5d);
   background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#65b067', endColorstr='#448545', GradientType=0);
-  border-color: #468847 #468847 #2c552d;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#65b474', endColorstr='#4b9a5b', GradientType=0);
+  border-color: #4d9e5d #4d9e5d #346a3f;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  *background-color: #468847;
+  *background-color: #4d9e5d;
   /* Darken IE7 buttons by default so they stand out more given they won't have borders */
   filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
 }
 /* line 489, ../../app/styles/compass_twitter_bootstrap/_mixins.scss */
 .marker-cluster-small div:hover, .marker-cluster-small div:active, .marker-cluster-small div.active, .marker-cluster-small div.disabled, .marker-cluster-small div[disabled] {
   color: white;
-  background-color: #468847;
-  *background-color: #3d773e;
+  background-color: #4d9e5d;
+  *background-color: #458c53;
 }
 /* line 497, ../../app/styles/compass_twitter_bootstrap/_mixins.scss */
 .marker-cluster-small div:active, .marker-cluster-small div.active {
-  background-color: #356635 \9;
+  background-color: #3c7b49 \9;
 }
 
 /* line 24, ../../app/styles/_map.scss */
@@ -6108,17 +6108,17 @@ a.label:hover, a.badge:hover {
   border-bottom: 1px solid #eeeeee;
   color: white;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-  background-color: #be3f2f;
-  background-image: -moz-linear-gradient(top, #d34937, #9c3022);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#d34937), to(#9c3022));
-  background-image: -webkit-linear-gradient(top, #d34937, #9c3022);
-  background-image: -o-linear-gradient(top, #d34937, #9c3022);
-  background-image: linear-gradient(to bottom, #d34937, #9c3022);
+  background-color: #a13123;
+  background-image: -moz-linear-gradient(top, #b13627, #872a1d);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#b13627), to(#872a1d));
+  background-image: -webkit-linear-gradient(top, #b13627, #872a1d);
+  background-image: -o-linear-gradient(top, #b13627, #872a1d);
+  background-image: linear-gradient(to bottom, #b13627, #872a1d);
   background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#d34533', endColorstr='#982f21', GradientType=0);
-  border-color: #9c3022 #9c3022 #5d1d14;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ad3526', endColorstr='#83281d', GradientType=0);
+  border-color: #872a1d #872a1d #481610;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  *background-color: #9c3022;
+  *background-color: #872a1d;
   /* Darken IE7 buttons by default so they stand out more given they won't have borders */
   filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
   -webkit-border-top-right-radius: 5px;
@@ -6138,12 +6138,12 @@ a.label:hover, a.badge:hover {
 /* line 489, ../../app/styles/compass_twitter_bootstrap/_mixins.scss */
 .leaflet-popup-content-wrapper .leaflet-popup-content .popup-striped-container.popup-header:hover, .leaflet-popup-content-wrapper .leaflet-popup-content .popup-striped-container.popup-header:active, .leaflet-popup-content-wrapper .leaflet-popup-content .popup-striped-container.popup-header.active, .leaflet-popup-content-wrapper .leaflet-popup-content .popup-striped-container.popup-header.disabled, .leaflet-popup-content-wrapper .leaflet-popup-content .popup-striped-container.popup-header[disabled] {
   color: white;
-  background-color: #9c3022;
-  *background-color: #872a1d;
+  background-color: #872a1d;
+  *background-color: #722319;
 }
 /* line 497, ../../app/styles/compass_twitter_bootstrap/_mixins.scss */
 .leaflet-popup-content-wrapper .leaflet-popup-content .popup-striped-container.popup-header:active, .leaflet-popup-content-wrapper .leaflet-popup-content .popup-striped-container.popup-header.active {
-  background-color: #722319 \9;
+  background-color: #5d1d14 \9;
 }
 /* line 100, ../../app/styles/_map.scss */
 .leaflet-popup-content-wrapper .leaflet-popup-content .popup-main-container {
@@ -6387,7 +6387,87 @@ input:focus {
   display: inline;
 }
 
-/* line 11, ../../app/styles/_styles.scss */
+/* line 1, ../../app/styles/_login.scss */
+.login-wrap {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background: #f6f6f8;
+  z-index: 2;
+}
+
+/* line 11, ../../app/styles/_login.scss */
+.origami-left {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: url(/img/origami_left.png) top left no-repeat;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+/* line 21, ../../app/styles/_login.scss */
+.origami-right {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: url(/img/origami_right.png) top right no-repeat;
+  width: 817px;
+  height: 547px;
+  z-index: -1;
+}
+
+/* line 31, ../../app/styles/_login.scss */
+.login {
+  padding-top: 40px;
+  padding-bottom: 40px;
+  z-index: 2;
+}
+/* line 36, ../../app/styles/_login.scss */
+.login .login-logo {
+  margin: 0 auto;
+  margin-bottom: 30px;
+  z-index: 2;
+  position: relative;
+  width: 200px;
+}
+/* line 44, ../../app/styles/_login.scss */
+.login .form-signin {
+  max-width: 550px;
+  padding: 20px 30px 10px;
+  margin: 0 auto 20px;
+  background-clip: padding-box;
+  border: 10px solid rgba(0, 0, 0, 0.1);
+  -webkit-border-radius: 25px;
+  -moz-border-radius: 25px;
+  border-radius: 25px;
+  background: rgba(255, 255, 255, 0.5);
+}
+/* line 53, ../../app/styles/_login.scss */
+.login .form-signin .control-label {
+  padding-top: 10px;
+}
+/* line 57, ../../app/styles/_login.scss */
+.login .form-signin .form-actions {
+  margin-bottom: 0;
+  background: none;
+}
+/* line 63, ../../app/styles/_login.scss */
+.login .form-signin-heading {
+  margin: 10px 10px 20px;
+  font-size: 24px;
+}
+/* line 69, ../../app/styles/_login.scss */
+.login .form-signin input[type="text"],
+.login .form-signin input[type="password"] {
+  height: auto;
+  padding: 10px 9px;
+}
+
+/* line 12, ../../app/styles/_styles.scss */
 #Loading-Details {
   position: absolute;
   left: 647px;
@@ -6399,7 +6479,7 @@ input:focus {
   display: none;
 }
 
-/* line 21, ../../app/styles/_styles.scss */
+/* line 22, ../../app/styles/_styles.scss */
 #Loading {
   position: absolute;
   left: 0px;
@@ -6411,13 +6491,13 @@ input:focus {
   display: none;
 }
 
-/* line 25, ../../app/styles/_styles.scss */
+/* line 26, ../../app/styles/_styles.scss */
 .loading-container {
   position: absolute;
   top: 50%;
   left: 50%;
 }
-/* line 30, ../../app/styles/_styles.scss */
+/* line 31, ../../app/styles/_styles.scss */
 .loading-container p {
   margin-left: -4em;
   margin-bottom: 1em;
@@ -6426,24 +6506,24 @@ input:focus {
   color: #5f5f5f;
 }
 
-/* line 39, ../../app/styles/_styles.scss */
+/* line 40, ../../app/styles/_styles.scss */
 .loading-icon {
   text-shadow: #666666 0 -1px 0;
   margin-left: -1em;
   color: #5f5f5f;
 }
 
-/* line 45, ../../app/styles/_styles.scss */
+/* line 46, ../../app/styles/_styles.scss */
 [ng\:cloak], [ng-cloak], .ng-cloak {
   display: none;
 }
 
-/* line 49, ../../app/styles/_styles.scss */
+/* line 50, ../../app/styles/_styles.scss */
 header, section, footer {
   display: block;
 }
 
-/* line 53, ../../app/styles/_styles.scss */
+/* line 54, ../../app/styles/_styles.scss */
 body {
   height: 100%;
   margin: 0;
@@ -6453,7 +6533,7 @@ body {
   background-color: white;
 }
 
-/* line 62, ../../app/styles/_styles.scss */
+/* line 63, ../../app/styles/_styles.scss */
 #Wrapper {
   position: relative;
   width: 100%;
@@ -6461,7 +6541,7 @@ body {
   background-color: #eeeeee;
 }
 
-/* line 69, ../../app/styles/_styles.scss */
+/* line 70, ../../app/styles/_styles.scss */
 .main-container {
   position: absolute;
   top: 55px;
@@ -6470,7 +6550,7 @@ body {
   bottom: 21px;
 }
 
-/* line 77, ../../app/styles/_styles.scss */
+/* line 78, ../../app/styles/_styles.scss */
 #Footer {
   position: fixed;
   width: 100%;
@@ -6482,34 +6562,34 @@ body {
   z-index: 3000;
 }
 
-/* line 88, ../../app/styles/_styles.scss */
+/* line 89, ../../app/styles/_styles.scss */
 #Footer p {
   text-align: center;
 }
 
-/* line 92, ../../app/styles/_styles.scss */
+/* line 93, ../../app/styles/_styles.scss */
 #Footer p a {
   font-size: 10px;
   margin-right: 10px;
 }
 
-/* line 97, ../../app/styles/_styles.scss */
+/* line 98, ../../app/styles/_styles.scss */
 .tooltip-inner {
   opacity: 0.8;
 }
 
-/* line 101, ../../app/styles/_styles.scss */
+/* line 102, ../../app/styles/_styles.scss */
 .yellow {
   color: #ffc40d;
 }
 
-/* line 105, ../../app/styles/_styles.scss */
+/* line 106, ../../app/styles/_styles.scss */
 .red {
   color: #9c3022;
 }
 
 /* Scroll Bar */
-/* line 110, ../../app/styles/_styles.scss */
+/* line 111, ../../app/styles/_styles.scss */
 ::-webkit-scrollbar, ::-webkit-scrollbar {
   width: 7px;
   height: 7px;
@@ -6518,7 +6598,7 @@ body {
   border-radius: 5px;
 }
 
-/* line 116, ../../app/styles/_styles.scss */
+/* line 117, ../../app/styles/_styles.scss */
 ::-webkit-scrollbar-thumb, ::-webkit-scrollbar-thumb {
   background-color: #bbbbbb;
   -webkit-border-radius: 5px;
@@ -6529,17 +6609,17 @@ body {
   box-shadow: rgba(0, 0, 0, 0.05) -1px 0 7px inset;
 }
 
-/* line 122, ../../app/styles/_styles.scss */
+/* line 123, ../../app/styles/_styles.scss */
 ::-webkit-scrollbar-track-piece, ::-webkit-scrollbar-track-piece {
   background-color: transparent;
 }
 
-/* line 126, ../../app/styles/_styles.scss */
+/* line 127, ../../app/styles/_styles.scss */
 ::-webkit-scrollbar-corner, ::-webkit-scrollbar-corner {
   display: none;
 }
 
-/* line 131, ../../app/styles/_styles.scss */
+/* line 132, ../../app/styles/_styles.scss */
 .modal-backdrop {
   position: fixed;
   top: 0;
@@ -6550,12 +6630,12 @@ body {
   background-color: rgba(0, 0, 0, 0.7);
 }
 
-/* line 141, ../../app/styles/_styles.scss */
+/* line 142, ../../app/styles/_styles.scss */
 .hide {
   display: none;
 }
 
-/* line 145, ../../app/styles/_styles.scss */
+/* line 146, ../../app/styles/_styles.scss */
 .toggle {
   position: relative;
   float: left;

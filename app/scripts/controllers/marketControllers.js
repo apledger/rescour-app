@@ -117,6 +117,7 @@ angular.module('nebuMarket')
                         keyboard: true,
                         backdropClick: true,
                         dialogFade: true,
+                        backdropFade: true,
                         templateUrl: Templates.saveSearchDialog,
                         controller: "SaveSearchDialogController"
                     }).open()

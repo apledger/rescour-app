@@ -368,7 +368,55 @@ angular.module('rescour.app.dev', ['rescour.app', 'ngMockE2E'])
         last_name:"Frost",
         password:"myPassword123",
         phone:"123-456-6754",
-        username:"bob@fakecompany.com"
+        username:"bob@fakecompany.com",
+    }
+
+    var fakeCustomer = {
+        "id": "ch_1a3rxiEot611Pd",
+        "object": "charge",
+        "created": 1365006494,
+        "livemode": false,
+        "paid": true,
+        "amount": 500,
+        "currency": "usd",
+        "refunded": false,
+        "fee": 45,
+        "fee_details": [
+            {
+                "amount": 45,
+                "currency": "usd",
+                "type": "stripe_fee",
+                "description": "Stripe processing fees",
+                "application": null,
+                "amount_refunded": 0
+            }
+        ],
+        "card": {
+            "object": "card",
+            "last4": "4242",
+            "type": "Visa",
+            "exp_month": 1,
+            "exp_year": 2050,
+            "fingerprint": "qhjxpr7DiCdFYTlH",
+            "country": "US",
+            "name": null,
+            "address_line1": "792 Techwood DR NW",
+            "address_line2": null,
+            "address_city": "Atlanta",
+            "address_state": "GA",
+            "address_zip": "30313",
+            "address_country": null,
+            "cvc_check": "pass",
+            "address_line1_check": null,
+            "address_zip_check": null
+        },
+        "captured": true,
+        "failure_message": null,
+        "amount_refunded": 0,
+        "customer": null,
+        "invoice": null,
+        "description": null,
+        "dispute": null
     }
 
     $httpBackend.whenGET(/\/properties\/[0-9](?!\/notes|\/favorites|\/hidden)/).respond(function (method, url, data, headers) {
@@ -402,9 +450,9 @@ angular.module('rescour.app.dev', ['rescour.app', 'ngMockE2E'])
     $httpBackend.whenGET('/properties/').respond({resources:items});
 
     $httpBackend.whenGET('/auth/check').respond({user:"Alan"});
-    $httpBackend.whenGET('/auth/users/user/').respond(
-        fakeUser
-    );
+    $httpBackend.whenGET('/auth/users/user/').respond(fakeUser);
+
+    $httpBackend.whenGET('/auth/users/billing/').respond(fakeCustomer);
 
     $httpBackend.whenPUT('/auth/users/user/').respond(function (method, url, data, headers) {
         var _saved = angular.fromJson(data);

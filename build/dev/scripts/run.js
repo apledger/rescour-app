@@ -43,6 +43,33 @@ angular.module('rescour.app')
                 $location.path('/');
             });
 
+            $rootScope.$on('auth#paymentRequired', function () {
+                var token = function (res) {
+                    var path = $_api.path + '/auth/users/user/payment/',
+                        config = angular.extend({
+                            transformRequest: $_api.loading.none
+                        }, $_api.config),
+                        body = JSON.stringify({token: res.id});
+
+                    $http.post(path, body, config).then(function (response) {
+                        console.log("Success payment", response, $rootScope);
+                        return $rootScope.ping();
+                    }, function (response) {
+                        $rootScope.$broadcast('auth#paymentRequired');
+                    });
+
+                };
+
+                StripeCheckout.open({
+                    key: 'pk_test_wSAqQNQKI7QqPmBpDcQLgGM7',
+                    address: true,
+                    name: 'Rescour',
+                    description: 'Activate your trial!',
+                    panelLabel: 'Checkout',
+                    token: token
+                });
+            })
+
             /**
              * On 'event:loginRequest' send credentials to the server.
              */

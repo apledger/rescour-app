@@ -111,6 +111,7 @@ angular.module('nebuMarket')
                 $http.get($_api.path + '/properties/' + this.id, config).then(function (response) {
                     self.details = {};
                     angular.copy(response.data, self.details);
+                    console.log(self.details);
                     defer.resolve(response);
                 }, function (response) {
                     defer.reject(response);

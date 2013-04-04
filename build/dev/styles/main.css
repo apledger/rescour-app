@@ -6467,7 +6467,39 @@ input:focus {
   padding: 10px 9px;
 }
 
-/* line 12, ../../app/styles/_styles.scss */
+/* line 1, ../../app/styles/_account.scss */
+.account-container {
+  padding-top: 25px;
+  width: 920px;
+  box-sizing: border-box;
+  display: block;
+  margin: 0 auto;
+}
+
+/* line 9, ../../app/styles/_account.scss */
+.account-navbar {
+  position: relative;
+  width: 225px;
+  float: left;
+  background: #f5f5f5;
+}
+
+/* line 17, ../../app/styles/_account.scss */
+.account-content {
+  width: 600px;
+  position: relative;
+  float: right;
+  padding: 12px;
+  background: #f5f5f5;
+}
+
+/* line 27, ../../app/styles/_account.scss */
+.profile-field {
+  margin: 3px;
+  box-sizing: border-box;
+}
+
+/* line 13, ../../app/styles/_styles.scss */
 #Loading-Details {
   position: absolute;
   left: 647px;
@@ -6479,7 +6511,7 @@ input:focus {
   display: none;
 }
 
-/* line 22, ../../app/styles/_styles.scss */
+/* line 23, ../../app/styles/_styles.scss */
 #Loading {
   position: absolute;
   left: 0px;
@@ -6491,13 +6523,13 @@ input:focus {
   display: none;
 }
 
-/* line 26, ../../app/styles/_styles.scss */
+/* line 27, ../../app/styles/_styles.scss */
 .loading-container {
   position: absolute;
   top: 50%;
   left: 50%;
 }
-/* line 31, ../../app/styles/_styles.scss */
+/* line 32, ../../app/styles/_styles.scss */
 .loading-container p {
   margin-left: -4em;
   margin-bottom: 1em;
@@ -6506,24 +6538,24 @@ input:focus {
   color: #5f5f5f;
 }
 
-/* line 40, ../../app/styles/_styles.scss */
+/* line 41, ../../app/styles/_styles.scss */
 .loading-icon {
   text-shadow: #666666 0 -1px 0;
   margin-left: -1em;
   color: #5f5f5f;
 }
 
-/* line 46, ../../app/styles/_styles.scss */
+/* line 47, ../../app/styles/_styles.scss */
 [ng\:cloak], [ng-cloak], .ng-cloak {
   display: none;
 }
 
-/* line 50, ../../app/styles/_styles.scss */
+/* line 51, ../../app/styles/_styles.scss */
 header, section, footer {
   display: block;
 }
 
-/* line 54, ../../app/styles/_styles.scss */
+/* line 55, ../../app/styles/_styles.scss */
 body {
   height: 100%;
   margin: 0;
@@ -6533,7 +6565,7 @@ body {
   background-color: white;
 }
 
-/* line 63, ../../app/styles/_styles.scss */
+/* line 64, ../../app/styles/_styles.scss */
 #Wrapper {
   position: relative;
   width: 100%;
@@ -6541,7 +6573,7 @@ body {
   background-color: #eeeeee;
 }
 
-/* line 70, ../../app/styles/_styles.scss */
+/* line 71, ../../app/styles/_styles.scss */
 .main-container {
   position: absolute;
   top: 55px;
@@ -6550,7 +6582,7 @@ body {
   bottom: 21px;
 }
 
-/* line 78, ../../app/styles/_styles.scss */
+/* line 79, ../../app/styles/_styles.scss */
 #Footer {
   position: fixed;
   width: 100%;
@@ -6562,34 +6594,34 @@ body {
   z-index: 3000;
 }
 
-/* line 89, ../../app/styles/_styles.scss */
+/* line 90, ../../app/styles/_styles.scss */
 #Footer p {
   text-align: center;
 }
 
-/* line 93, ../../app/styles/_styles.scss */
+/* line 94, ../../app/styles/_styles.scss */
 #Footer p a {
   font-size: 10px;
   margin-right: 10px;
 }
 
-/* line 98, ../../app/styles/_styles.scss */
+/* line 99, ../../app/styles/_styles.scss */
 .tooltip-inner {
   opacity: 0.8;
 }
 
-/* line 102, ../../app/styles/_styles.scss */
+/* line 103, ../../app/styles/_styles.scss */
 .yellow {
   color: #ffc40d;
 }
 
-/* line 106, ../../app/styles/_styles.scss */
+/* line 107, ../../app/styles/_styles.scss */
 .red {
   color: #9c3022;
 }
 
 /* Scroll Bar */
-/* line 111, ../../app/styles/_styles.scss */
+/* line 112, ../../app/styles/_styles.scss */
 ::-webkit-scrollbar, ::-webkit-scrollbar {
   width: 7px;
   height: 7px;
@@ -6598,7 +6630,7 @@ body {
   border-radius: 5px;
 }
 
-/* line 117, ../../app/styles/_styles.scss */
+/* line 118, ../../app/styles/_styles.scss */
 ::-webkit-scrollbar-thumb, ::-webkit-scrollbar-thumb {
   background-color: #bbbbbb;
   -webkit-border-radius: 5px;
@@ -6609,17 +6641,17 @@ body {
   box-shadow: rgba(0, 0, 0, 0.05) -1px 0 7px inset;
 }
 
-/* line 123, ../../app/styles/_styles.scss */
+/* line 124, ../../app/styles/_styles.scss */
 ::-webkit-scrollbar-track-piece, ::-webkit-scrollbar-track-piece {
   background-color: transparent;
 }
 
-/* line 127, ../../app/styles/_styles.scss */
+/* line 128, ../../app/styles/_styles.scss */
 ::-webkit-scrollbar-corner, ::-webkit-scrollbar-corner {
   display: none;
 }
 
-/* line 132, ../../app/styles/_styles.scss */
+/* line 133, ../../app/styles/_styles.scss */
 .modal-backdrop {
   position: fixed;
   top: 0;
@@ -6630,12 +6662,12 @@ body {
   background-color: rgba(0, 0, 0, 0.7);
 }
 
-/* line 142, ../../app/styles/_styles.scss */
+/* line 143, ../../app/styles/_styles.scss */
 .hide {
   display: none;
 }
 
-/* line 146, ../../app/styles/_styles.scss */
+/* line 147, ../../app/styles/_styles.scss */
 .toggle {
   position: relative;
   float: left;

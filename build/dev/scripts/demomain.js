@@ -7,8 +7,12 @@ require({
                 'lib/underscore-min',
                 'lib/angular-bootstrap/ui-bootstrap-0.2.0',
                 'lib/jquery-ui.min',
-                'lib/jquery.min'
+                'lib/jquery.min',
+                'lib/angular/angular-ui'
             ]
+        },
+        'lib/angular/angular-ui': {
+            deps: ['lib/angular/angular']
         },
         'lib/jquery-ui.min': {
             deps: ['lib/jquery.min']

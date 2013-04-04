@@ -1,0 +1,18 @@
+<div>
+    <h2>Please Don't Go!</h2>
+    <h4>But if you must, tell us why</h4>
+    <form class="form-horizontal">
+        <div class="control-group">
+            <div>
+                <textarea rows="10" placeholder="Why are you leaving?" ng-model="cancelFields.reason"></textarea>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button class="btn btn-danger" ng-click="continue(cancelFields)">Confirm Cancel</button>
+            <button class="btn btn-success" ng-click="close()">Nevermind!</button>
+        </div>
+    </form>
+
+
+</div>

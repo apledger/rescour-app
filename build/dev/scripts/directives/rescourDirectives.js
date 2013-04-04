@@ -130,13 +130,31 @@ rescourApp
                 });
             }
         };
-    }).directive('ngBlur', ['$parse', function($parse) {
-    return function(scope, element, attr) {
-        var fn = $parse(attr['ngBlur']);
-        element.bind('blur', function(event) {
-            scope.$apply(function() {
-                fn(scope, {$event:event});
+    })
+    .directive('ngBlur', ['$parse', function ($parse) {
+        return function (scope, element, attr) {
+            var fn = $parse(attr['ngBlur']);
+            element.bind('blur', function (event) {
+                scope.$apply(function () {
+                    fn(scope, {$event: event});
+                });
             });
-        });
-    };
-}]);
+        };
+    }])
+    .directive('emailValidate', function () {
+        return{
+            require: ngModel,
+            link: function (scope, elm, attrs, ctrl) {
+
+            }
+        }
+    })
+    .directive('ellipsis', function ($parse) {
+        return {
+            link: function (scope, element, attrs) {
+                var innerText = $parse(attrs.ellipsis);
+                console.log(innerText(scope));
+            }
+        };
+    });
+;

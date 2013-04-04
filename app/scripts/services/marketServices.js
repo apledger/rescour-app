@@ -602,13 +602,11 @@ angular.module('nebuMarket')
                 var config = angular.extend({
                         transformRequest: $_api.loading.none
                     }, $_api.config),
-                    _comments = [],
                     defer = $q.defer();
 
                 if (typeof itemID !== 'undefined') {
                     $http.get($_api.path + '/properties/' + itemID + '/notes/comments/', config).then(function (response) {
-                        angular.copy(response.data.notes.comments, _comments);
-                        defer.resolve(response.data.notes.comments);
+                        defer.resolve(response.data.items);
                     }, function (response) {
                         defer.reject(response);
                         //throw new Error("HTTP Error: " + response);

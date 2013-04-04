@@ -105,23 +105,29 @@ angular.module('rescour.app')
                 }, reject = function (response) {
                     var status = response.status;
                     console.log(response);
-                    if (status === 401) {
-                        var defer = $q.defer(),
-                            req = {
-                                config: response.config,
-                                deferred: defer
-                            };
 
-                        $rootScope.requests401.push(req);
-                        $rootScope.$broadcast('auth#loginRequired');
+                    switch (status) {
+                        case 401:
+                            var defer = $q.defer(),
+                                req = {
+                                    config: response.config,
+                                    deferred: defer
+                                };
 
-                        return defer.promise;
-                    } else if (status === 201) {
-                        $rootScope.$broadcast('auth#loginRequired');
+                            $rootScope.requests401.push(req);
+                            $rootScope.$broadcast('auth#loginRequired');
+                            return defer.promise;
+                        case 201:
+                            $rootScope.$broadcast('auth#loginRequired');
+                            break;
+                        case 402:
+                            $rootScope.$broadcast('auth#paymentRequired');
+                            break;
+                        default:
+                            $('#Loading').hide();
+                            $('#Loading-Details').hide();
                     }
 
-                    $('#Loading').hide();
-                    $('#Loading-Details').hide();
                     return $q.reject(response);
                 };
 

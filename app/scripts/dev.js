@@ -479,6 +479,10 @@ angular.module('rescour.app.dev', ['rescour.app', 'ngMockE2E'])
         return [200, {}, {}];
     });
 
+    $httpBackend.whenPUT(/\/properties\/\d+\/notes/).respond(function (method, url, data, headers) {
+        return [200, {}, {}];
+    });
+
     $httpBackend.whenPOST(/\/properties\/[0-9]+\/favorites\//).respond(function (method, url, data, headers) {
         return [200, { status:"success" }, {}];
     });

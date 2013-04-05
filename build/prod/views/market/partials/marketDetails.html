@@ -36,7 +36,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr ng-repeat="mix in current.details.unitmix">
+                            <tr ng-repeat="mix in current.details.unitMix">
                                 <td>
                                     {{mix.type}}
                                 </td>
@@ -77,12 +77,6 @@
                 <div pane="" heading="{{panes[2].heading}}" active="panes[2].active">
                     <div class="alert alert-success" ng-show="newEmail.sent"><i class="icon-email"></i>&nbsp;&nbsp;Message Sent!</div>
                     <form>
-                        <div class="control-group">
-                            <div class="control-label">From:</div>
-                            <div class="controls">
-                                <span class="input-xlarge uneditable-input">Jake Edens</span>
-                            </div>
-                        </div>
                         <div class="control-group">
                             <div class="control-label">To:</div>
                             <label class="checkbox inline" ng-repeat="contact in current.details.contacts">

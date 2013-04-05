@@ -15,9 +15,9 @@
     <div id="Loading">
         <div class="spinner"></div>
     </div>
-    <div class="row-fluid">
+    <div class="row-fluid account-container">
 
-        <div class="span2 account-sidebar">
+        <div class="account-navbar">
             <ul class="nav nav-pills nav-stacked">
                 <li ng-repeat="view in accountViews" ng-class="{active: view.selected}" ng-click="changeAccountView(view)">
                     <a href="javascript:">{{view.name}}</a>
@@ -26,6 +26,7 @@
             
             
             </div>
-        <div class="span10" ng-include="currentView"></div>
+        <div class="account-content" ng-include="currentView"></div>
     </div>
+    <div></div>
 </div>

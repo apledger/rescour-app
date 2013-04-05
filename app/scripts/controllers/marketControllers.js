@@ -265,4 +265,16 @@ angular.module('nebuMarket')
                     });
                 }
             };
+
+            $scope.saveNote = function() {
+                $scope.current.saveNote()
+                .then(
+                    function() {
+                        $scope.$broadcast('autoSaveSuccess');
+                    },
+                    function(err) {
+                        console.log('error saving note', err);
+                    }
+                );
+            }
         }]);

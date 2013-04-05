@@ -124,6 +124,7 @@
                                     <span class="add-on">$</span>
                                     <input type="text"
                                            class="input-medium"
+                                           auto-save="saveNote()"
                                            placeholder="Valuation"
                                            ng-model="current.notes.financials.valuation">
                                 </div>
@@ -131,20 +132,20 @@
                             <td>
                                 <div class="input-prepend">
                                     <span class="add-on">$</span>
-                                    <input type="text" class="input-medium" placeholder="Price / Unit"
+                                    <input type="text" class="input-medium" auto-save="saveNote()" placeholder="Price / Unit"
                                            ng-model="current.notes.financials.ppu">
                                 </div>
                             </td>
                             <td>
                                 <div class="input-append">
-                                    <input type="text" class="input-medium" placeholder="IRR"
+                                    <input type="text" class="input-medium" auto-save="saveNote()" placeholder="IRR"
                                            ng-model="current.notes.financials.irr">
                                     <span class="add-on">%</span>
                                 </div>
                             </td>
                             <td>
                                 <div class="input-append">
-                                    <input type="text" class="input-medium" placeholder="Cap Rate"
+                                    <input type="text" class="input-medium" auto-save="saveNote()" placeholder="Cap Rate"
                                            ng-model="current.notes.financials.cap">
                                     <span class="add-on">%</span>
                                 </div>

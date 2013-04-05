@@ -134,6 +134,19 @@ angular.module('nebuMarket')
                 return defer.promise;
             };
 
+            Item.prototype.saveNote = function () {
+                var deferred = $q.defer();
+                $http.put($_api.path + '/properties/' + this.id + '/notes', this.details.notes)
+                .success(function(response) {
+                    deferred.resolve(response);   
+                })
+                .error(function(error) {
+                    deferred.reject(error);        
+                });
+
+                return deferred.promise;
+            }
+
             Item.prototype.toggleFavorites = function () {
                 var defer = $q.defer(),
                     self = this,

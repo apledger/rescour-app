@@ -1,3 +1,5 @@
+@import "compass/css3/transition";
+
 .help {
   position: relative;
 
@@ -96,3 +98,4 @@ input:focus {
 .help li.valid > .icon-ok-sign {
   display: inline;
 }
+

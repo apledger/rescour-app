@@ -1,13 +1,14 @@
 <div ng-controller="AccountProfileController">
     <div class="page-header"><h3>General Profile</h3></div>
 
-    <form novalidate="" name="formProfile" class="form-horizontal control-group">
+    <form novalidate name="formProfile" class="form-horizontal control-group">
 
         <div class="control-group">
             <label class="control-label">First Name</label>
 
             <div class="controls">
-                <input name="firstName" ng-blur="saveUserField()" type="text" class="input-xlarge" ng-model="user.first_name" required="">
+                <input name='firstName' ng-blur="saveUserField()" type="text" class="input-xlarge"
+                       ng-model="user.first_name" required>
             <span class="help help-inline">
                 <span class="help-error"><i class="icon-exclamation-sign"></i></span>
             </span>
@@ -17,7 +18,9 @@
             <label class="control-label">Last Name</label>
 
             <div class="controls">
-                <input name="lastName" ng-blur="saveUserField()" type="text" class="input-xlarge" ng-model="user.last_name" required="">
+                <input name='lastName' ng-blur="saveUserField()" type="text" class="input-xlarge"
+                       ng-model="user.last_name"
+                       required>
             <span class="help help-inline">
                 <span class="help-error"><i class="icon-exclamation-sign"></i></span>
             </span>
@@ -27,7 +30,8 @@
             <label class="control-label">Email</label>
 
             <div class="controls">
-                <input name="username" ng-blur="saveUserField()" type="email" class="input-xlarge" ng-model="user.email" required="">
+                <input name='username' ng-blur="saveUserField()" type="email" class="input-xlarge" ng-model="user.email"
+                       required>
             <span class="help help-inline">
                 <span class="help-success"><i class="icon-ok-sign"></i></span>
                 <span class="help-error"><i class="icon-exclamation-sign"></i></span>
@@ -38,7 +42,9 @@
             <label class="control-label">Company</label>
 
             <div class="controls">
-                <input name="lastName" ng-blur="saveUserField()" type="text" class="input-xlarge" ng-model="user.company" required="">
+                <input name='lastName' ng-blur="saveUserField()" type="text" class="input-xlarge"
+                       ng-model="user.company"
+                       required>
             <span class="help help-inline">
                 <span class="help-error"><i class="icon-exclamation-sign"></i></span>
             </span>
@@ -48,7 +54,8 @@
             <label class="control-label">Phone</label>
 
             <div class="controls">
-                <input name="lastName" ng-blur="saveUserField()" type="text" class="input-xlarge" ng-model="user.phone" required="">
+                <input name='lastName' ng-blur="saveUserField()" type="text" class="input-xlarge" ng-model="user.phone"
+                       required>
             <span class="help help-inline">
                 <span class="help-error"><i class="icon-exclamation-sign"></i></span>
             </span>

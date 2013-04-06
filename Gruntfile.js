@@ -583,7 +583,6 @@ module.exports = function (grunt) {
         'requirejs:prod', // Create minified scripts from shim: app -> tmp
         'copy:prep', // Copy img + lib + html: app/img/* + app -> tmp
         'template:prod', // Apply html templates: app -> tmp
-        'htmlmin', // Minify html: tmp -> tmp
         'copy:buildProd', // Copy: tmp -> prod
         'clean:temp' // Delete tmp
     ]);

@@ -5,8 +5,8 @@
     <h1>{{current.title}}</h1>
 </div>
 <div class="span11">
-<div tabs="">
-<div pane="" heading="{{panes[0].heading}}" active="panes[0].active">
+<div tabs>
+<div pane heading="{{panes[0].heading}}" active="panes[0].active">
     <div class="well clearfix">
         <p class="lead">Details</p>
         <dl class="dl-horizontal">
@@ -58,17 +58,17 @@
     </div>
 </div>
 
-<div pane="" heading="{{panes[1].heading}}" active="panes[1].active">
+<div pane heading="{{panes[1].heading}}" active="panes[1].active">
     <div class="picture-container" ng-show="current.details.images">
-        <div carousel="" no-transition="true">
-            <div slide="" ng-repeat="slide in current.details.images" active="slide.active">
-                <img ng-src="{{slide.link}}" style="margin:auto">
+        <div carousel no-transition="true">
+            <div slide ng-repeat="slide in current.details.images" active="slide.active">
+                <img ng-src="{{slide.link}}" style="margin:auto;">
             </div>
         </div>
     </div>
 </div>
 
-<div pane="" heading="{{panes[2].heading}}" active="panes[2].active">
+<div pane heading="{{panes[2].heading}}" active="panes[2].active">
     <div class="alert alert-success" ng-show="newEmail.sent"><i class="icon-email"></i>&nbsp;&nbsp;Message
         Sent!
     </div>
@@ -76,7 +76,8 @@
         <div class="control-group">
             <div class="control-label">To:</div>
             <div class="controls">
-                <label class="checkbox" ng-class="{'contact-selected': contact.selected}" ng-repeat="contact in current.details.contacts">
+                <label class="checkbox" ng-class="{'contact-selected': contact.selected}"
+                       ng-repeat="contact in current.details.contacts">
                     <input type="checkbox" ng-model="contact.selected">
                     <strong>{{contact.name}}</strong> - {{contact.phone}} - <em>{{contact.email}}</em>
                 </label>
@@ -95,7 +96,7 @@
     </div>
 </div>
 
-<div pane="" heading="{{panes[3].heading}}" active="panes[3].active">
+<div pane heading="{{panes[3].heading}}" active="panes[3].active">
     <div ng-repeat="comment in current.details.notes.comments">
         <div class="alert alert-info">
             <strong>{{comment.timestamp | date:'MM/dd/yyyy @ h:mma'}}:</strong> {{comment.message}}
@@ -103,58 +104,58 @@
 
     </div>
     <form>
-        
-            
-            
-                
-                    
-                    
-                           
-                           
-                           
-                           
-                
-            
-        
-        
-            
-            
-                
-                    
-                    
-                           
-                           
-                           
-                           
-                
-            
-        
-        
-            
-            
-                
-                    
-                           
-                           
-                           
-                           
-                    
-                
-            
-        
-        
-            
-            
-                
-                    
-                           
-                           
-                           
-                           
-                    
-                
-            
-        
+        <!--<div class="control-group">-->
+            <!--<div class="control-label">Valuation</div>-->
+            <!--<div class="controls">-->
+                <!--<div class="input-prepend">-->
+                    <!--<span class="add-on">$</span>-->
+                    <!--<input type="text"-->
+                           <!--class="input-medium"-->
+                           <!--auto-save="saveNote(current)"-->
+                           <!--placeholder="Valuation"-->
+                           <!--ng-model="current.notes.valuation">-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="control-group">-->
+            <!--<div class="control-label">Price / Unit</div>-->
+            <!--<div class="controls">-->
+                <!--<div class="input-prepend">-->
+                    <!--<span class="add-on">$</span>-->
+                    <!--<input type="text"-->
+                           <!--class="input-medium"-->
+                           <!--auto-save="saveNote(current)"-->
+                           <!--placeholder="Price / Unit"-->
+                           <!--ng-model="current.notes.ppu">-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="control-group">-->
+            <!--<div class="control-label">IRR</div>-->
+            <!--<div class="controls">-->
+                <!--<div class="input-append">-->
+                    <!--<input type="text"-->
+                           <!--class="input-medium"-->
+                           <!--auto-save="saveNote(current)"-->
+                           <!--placeholder="IRR"-->
+                           <!--ng-model="current.notes.financials.irr">-->
+                    <!--<span class="add-on">%</span>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="control-group">-->
+            <!--<div class="control-label">Cap Rate</div>-->
+            <!--<div class="controls">-->
+                <!--<div class="input-append">-->
+                    <!--<input type="text"-->
+                           <!--class="input-medium"-->
+                           <!--auto-save="saveNote(current)"-->
+                           <!--placeholder="Cap Rate"-->
+                           <!--ng-model="current.notes.financials.cap">-->
+                    <!--<span class="add-on">%</span>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
         <div class="control-group">
             <div class="control-label">Comment:</div>
             <div class="controls">

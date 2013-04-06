@@ -2,7 +2,7 @@
     <a class="logo" href="/"></a>
 
     <div class="navbar market-controls">
-        <ul class="nav" style="margin-left:15px">
+        <ul class="nav" style="margin-left:15px;">
             <li ng-class="{'active': toggle == 'all'}">
                 <a ng-click="refreshItems()" href="javascript:"><i class="icon-list"></i></a>
             </li>
@@ -17,7 +17,8 @@
             </li>
             <li>
                 <form class="navbar-search">
-                    <input type="text" class="search-query input-medium" ng-model="searchText.title" placeholder="Search">
+                    <input type="text" class="search-query input-medium" ng-model="searchText.title"
+                           placeholder="Search">
                 </form>
             </li>
         </ul>
@@ -26,28 +27,31 @@
     <div class="navbar">
         <ul class="nav pull-right" style="padding-top:4px">
             <li><a href="/account">My Account</a></li>
-            
+            <!--<li><a href="javascript:" ng-click="resetPermission()">Reset Permission</a></li>-->
             <li><a href="javascript:" ng-click="logout()">Logout</a></li>
         </ul>
     </div>
 </header>
 
-<div class="main-container" ng-cloak="">
-    
+<div class="main-container" ng-cloak>
+    <!--FILTERS BEGIN-->
     <div id="Filter" ng-controller="FilterController">
         <div class="filter-container">
             <div class="saved-search">
-                
-                
+                <!--Saved search dropdown-->
+                <!--Save search button-->
 
                 <div class="dropdown saved-dropdown">
 
                     <div class="btn-group">
-                        <button class="btn saved-dropdown" click-spin="" ng-click="refreshSearch()">
-                            
+                        <button class="btn saved-dropdown" click-spin ng-click="refreshSearch()">
+                            <!--<i class="icon-refresh"></i>-->
                             {{attributes.title || "New Search"}}
                         </button>
-                        <button class="btn btn-search-save" ng-class="{'disabled': !attributes.modified, 'btn-success': attributes.modified}" ng-disabled="!attributes.modified" ng-click="openSaveDialog()">
+                        <button class="btn btn-search-save"
+                                ng-class="{'disabled': !attributes.modified, 'btn-success': attributes.modified}"
+                                ng-disabled="!attributes.modified"
+                                ng-click="openSaveDialog()">
                             <i class="icon-save"></i>
                         </button>
                         <a class="btn dropdown-toggle"><i class="icon-caret-down"></i></a>
@@ -64,46 +68,48 @@
                 </div>
             </div>
 
-            
-            <ul class="nav nav-list" ng-repeat="range in attributes.range" slider="">
+            <!--Range sliders-->
+            <ul class="nav nav-list" ng-repeat="range in attributes.range" slider>
                 <li class="nav-header" ng-click="sortBy(range)">
                     {{range.title}} &nbsp;
-                    <sort -arrow=""></sort>
-                    <div style="float:right">{{range.lowSelected}} - {{range.highSelected}}</div>
+                    <sort-arrow></sort-arrow>
+                    <div style="float:right;">{{range.lowSelected}} - {{range.highSelected}}</div>
                 </li>
                 <div class="slider"></div>
             </ul>
 
-            
+            <!--Discreet Filters-->
             <ul class="nav nav-list" ng-repeat="discreet in attributes.discreet">
                 <li class="nav-header" ng-click="discreet.collapse = !discreet.collapse">
                     {{discreet.title}} &nbsp;
-                    <i ng-class="{'icon-chevron-up': !discreet.collapse, 'icon-chevron-down': discreet.collapse}" style="float:right"></i>
+                    <i ng-class="{'icon-chevron-up': !discreet.collapse, 'icon-chevron-down': discreet.collapse}"
+                       style="float:right;"></i>
                 </li>
 
                 <li ng-class="{'active': value.isSelected }" ng-repeat="value in discreet.values">
                     <a ng-click="filterByDiscreet(discreet, value)" href="javascript:" collapse="discreet.collapse">
                         {{value.title}}
-                        <span ng-show="value" class="badge {{value.badge}}" style="float:right">{{value.predict}}</span>
+                        <span ng-show="value" class="badge {{value.badge}}" style="float:right;">{{value.predict}}</span>
                     </a>
                 </li>
             </ul>
         </div>
     </div>
-    
+    <!--FILTERS END-->
 
-    
+    <!--LIST BEGIN-->
     <div id="MarketList" ng-controller="ListController">
-        
-        
+        <!--Toggle favorites button-->
+        <!--Item boxes display-->
         <div class="market-wrap">
-            <div id="item-{{item.id}}" class="item-well" ng-repeat="item in items | filter: searchText | limitVisible: 50" ng-show="item.isVisible">
-                
+            <div id="item-{{item.id}}" class="item-well" ng-repeat="item in items | filter: searchText | limitVisible: 50"
+                 ng-show="item.isVisible">
+                <!--Thumbnail preview button-->
 
 
-                
+                <!--Top bar of item box-->
                 <div class="dimensions clearfix">
-                    
+                    <!--Location Button-->
                     <a href="javascript:" class="btn location" ng-click="panTo(item)">
                         <i class="icon-map-marker"></i>
                     </a>
@@ -130,12 +136,12 @@
 
                 <div class="footer">
                     <div class="user-options">
-                        
+                        <!--Toggle favorite button-->
                         <div class="footer-button" ng-click="toggleFavorites(item)">
                             <i class="icon-star" ng-class="{'yellow': item.favorites}"></i>
                         </div>
 
-                        
+                        <!--Toggle hidden button-->
                         <div class="footer-button" ng-click="toggleHidden(item)">
                             <i class="icon-ban-circle" ng-class="{'red': item.hidden}"></i>
                         </div>
@@ -144,7 +150,7 @@
                             <i class="icon-pencil"></i>
                         </div>
 
-                        
+                        <!--Contact broker button-->
                         <div class="footer-button" ng-click="showContact(item)">
                             <i class="icon-envelope-alt"></i>
 
@@ -155,9 +161,9 @@
             </div>
         </div>
     </div>
-    
+    <!--LIST END-->
 
-    
+    <!--Main Content-->
     <div id="Loading-Details">
         <div class="loading-container">
             <p>Loading</p>
@@ -165,10 +171,10 @@
         </div>
     </div>
 
-    
-    <div map="" center="center" selected="selectedItem" view="view"></div>
+    <!--Map-->
+    <div map center="center" selected="selectedItem" view="view"></div>
 
-    
+    <!--Detail view over map-->
     <div fade-in="current" class="property-details" current="selectedItem"></div>
 </div>
 

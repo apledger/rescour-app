@@ -11,7 +11,7 @@
     </div>
 </header>
 
-<div class="main-container" ng-cloak="">
+<div class="main-container" ng-cloak>
     <div id="Loading">
         <div class="spinner"></div>
     </div>
@@ -19,14 +19,16 @@
 
         <div class="account-navbar">
             <ul class="nav nav-pills nav-stacked">
-                <li ng-repeat="view in accountViews" ng-class="{active: view.selected}" ng-click="changeAccountView(view)">
+                <li ng-repeat="view in accountViews" ng-class="{active: view.selected}"
+                    ng-click="changeAccountView(view)">
                     <a href="javascript:">{{view.name}}</a>
                 </li>
             </ul>
-            
-            
-            </div>
+            <!--<form id="Checkout" action="/users/payment/" method="post" class="form-horizontal">-->
+            <!--<button checkout class="btn btn-large">Pay Now</button>-->
+            <!--</form>--></div>
         <div class="account-content" ng-include="currentView"></div>
     </div>
     <div></div>
 </div>
+

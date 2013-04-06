@@ -21,7 +21,8 @@
   display:none;
 }
 #Loading {
-  position: absolute; left: 0px; top: 0px; bottom:0px; right: 0px; background: $light-gray; z-index: 5;display:none;
+  position: absolute; left: 0px; top: 0px; bottom:0px; right: 0px; background: $light-gray; z-index: 5;
+  //display:none;
 }
 
 .loading-container {
@@ -44,7 +45,7 @@
   color: $gray;
 }
 
-[ng\:cloak], [ng-cloak], .ng-cloak {
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
   display: none;
 }
 

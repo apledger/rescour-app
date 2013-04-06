@@ -125,9 +125,12 @@ angular.module('nebuMarket')
                     defer = $q.defer(),
                     self = this;
 
+                self.details.notes.comments.push(_comment);
+
                 _comment.$save(this.id).then(function (response) {
                     defer.resolve(response);
                 }, function (response) {
+                    self.refreshComments();
                     defer.reject(response);
                 });
 

@@ -27,12 +27,13 @@
     <div class="navbar">
         <ul class="nav pull-right" style="padding-top:4px">
             <li><a href="/account">My Account</a></li>
+            <li><a href="javascript:" ng-click="resetPermission()">Reset Permission</a></li>
             <li><a href="javascript:" ng-click="logout()">Logout</a></li>
         </ul>
     </div>
 </header>
 
-<div class="main-container">
+<div class="main-container" ng-cloak>
     <!--FILTERS BEGIN-->
     <div id="Filter" ng-controller="FilterController">
         <div class="filter-container">

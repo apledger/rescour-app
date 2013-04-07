@@ -132,13 +132,6 @@ angular.module('nebuMarket')
             }
         };
     }])
-    .directive('collapse', function () {
-        return function (scope, element, attr) {
-            scope.$watch(attr.collapse, function (value) {
-                !!value ? element.hide() : element.fadeIn(300);
-            });
-        };
-    })
     .directive("map", ['Filter', 'Items', '$compile', 'detailPanes',
         function (Filter, Items, $compile, detailPanes) {
             return {

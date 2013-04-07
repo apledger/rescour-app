@@ -164,7 +164,7 @@ angular.module('rescour.app.dev', ['rescour.app', 'ngMockE2E'])
             'Capstone',
             'Brown Realty'
         ];
-        var statusMap = ['For Sale', 'Under Contract', 'Sold'];
+        var statusMap = ['Marketing', 'Under Contract', 'Under LOI', 'Expired'];
         var generateDetails = function (options) {
             var details = [
                 {

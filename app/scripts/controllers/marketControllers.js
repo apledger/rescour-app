@@ -200,6 +200,19 @@ angular.module('nebuMarket')
                 $scope.centerMap(item);
             };
 
+            $scope.getStatusClass = function (status) {
+                switch (status) {
+                    case 'Marketing':
+                        return 'caption-green';
+                    case 'Under Contract':
+                        return 'caption-orange';
+                    case 'Under LOI':
+                        return 'caption-orange';
+                    case 'Expired':
+                        return 'caption-red';
+                }
+            };
+
             $scope.toggleFavorites = function (item) {
                 item.toggleFavorites();
             };

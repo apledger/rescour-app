@@ -16,7 +16,10 @@
 
   .slider {
     width: 206px;
+  }
 
+  .ui-widget-header {
+    background-color: $red !important;
   }
 
   .filter-container {

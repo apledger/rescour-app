@@ -34,7 +34,7 @@ angular.module('nebuMarket')
                             this.attributes.discreet[$_api.map.attributes.discreet[discrID]] = data.attributes.discreet[discrID];
                         } else {
                             // Otherwise set to Not Listed
-                            this.attributes.discreet[$_api.map.attributes.discreet[discrID]] = "Not Listed";
+                            this.attributes.discreet[$_api.map.attributes.discreet[discrID]] = "Unknown";
                         }
                     }
 
@@ -60,7 +60,7 @@ angular.module('nebuMarket')
                 }
 
                 this.title = data.title || "Title not listed";
-                this.description = data.description || "No description provided.";
+                this.description = data.description || "No description provided";
                 this.address = data.address || {
                     street1: "No address listed"
                 };

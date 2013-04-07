@@ -27,12 +27,13 @@
     <div class="navbar">
         <ul class="nav pull-right" style="padding-top:4px">
             <li><a href="/account">My Account</a></li>
+            <!--<li><a href="javascript:" ng-click="resetPermission()">Reset Permission</a></li>-->
             <li><a href="javascript:" ng-click="logout()">Logout</a></li>
         </ul>
     </div>
 </header>
 
-<div class="main-container">
+<div class="main-container" ng-cloak>
     <!--FILTERS BEGIN-->
     <div id="Filter" ng-controller="FilterController">
         <div class="filter-container">
@@ -78,20 +79,23 @@
             </ul>
 
             <!--Discreet Filters-->
-            <ul class="nav nav-list" ng-repeat="discreet in attributes.discreet">
-                <li class="nav-header" ng-click="discreet.collapse = !discreet.collapse">
+            <div ng-repeat="discreet in attributes.discreet">
+                <div class="nav-header" ng-click="discreet.collapse = !discreet.collapse">
                     {{discreet.title}} &nbsp;
                     <i ng-class="{'icon-chevron-up': !discreet.collapse, 'icon-chevron-down': discreet.collapse}"
                        style="float:right;"></i>
-                </li>
+                </div>
 
-                <li ng-class="{'active': value.isSelected }" ng-repeat="value in discreet.values">
-                    <a ng-click="filterByDiscreet(discreet, value)" href="javascript:" collapse="discreet.collapse">
-                        {{value.title}}
-                        <span ng-show="value" class="badge {{value.badge}}" style="float:right;">{{value.predict}}</span>
-                    </a>
-                </li>
-            </ul>
+                <ul class="nav nav-list" collapse="discreet.collapse">
+                    <li ng-class="{'active': value.isSelected }" ng-repeat="value in discreet.values">
+                        <a ng-click="filterByDiscreet(discreet, value)" href="javascript:">
+                            {{value.title}}
+                        <span ng-show="value" class="badge {{value.badge}}"
+                              style="float:right;">{{value.predict}}</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
     <!--FILTERS END-->
@@ -101,7 +105,8 @@
         <!--Toggle favorites button-->
         <!--Item boxes display-->
         <div class="market-wrap">
-            <div id="item-{{item.id}}" class="item-well" ng-repeat="item in items | filter: searchText | limitVisible: 50"
+            <div id="item-{{item.id}}" class="item-well"
+                 ng-repeat="item in items | filter: searchText | limitVisible: 50"
                  ng-show="item.isVisible">
                 <!--Thumbnail preview button-->
 
@@ -123,13 +128,19 @@
                 </div>
 
                 <div class="preview" ng-click="showPictures(item)">
-                    <div class="zoom-mask"></div>
+                    <div class="preview-mask"><i class="icon-search"></i></div>
                     <img ng-src="img/{{item.thumbnail}}" alt="">
+
+                    <div class="preview-caption" ng-class="getStatusClass(item.getAttribute('Property Status'))">
+                        <h2>{{item.getAttribute("Property Status") || "Not Available"}}</h2>
+
+                        <p>View Photos</p>
+                    </div>
                 </div>
 
                 <div class="description">
                     <div class="text-container">
-                        <p>{{item.description}}</p>
+                        <p>{{item.description | ellipsis:100}} </p>
                     </div>
                 </div>
 

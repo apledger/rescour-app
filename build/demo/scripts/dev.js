@@ -164,6 +164,7 @@ angular.module('rescour.app.dev', ['rescour.app', 'ngMockE2E'])
             'Capstone',
             'Brown Realty'
         ];
+        var statusMap = ['Marketing', 'Under Contract', 'Under LOI', 'Expired'];
         var generateDetails = function (options) {
             var details = [
                 {
@@ -266,7 +267,8 @@ angular.module('rescour.app.dev', ['rescour.app', 'ngMockE2E'])
             var randomCity = regionMap[parseInt((Math.random() * regionMap.length), 10)],
                 randomBroker = brokerMap[parseInt((Math.random() * brokerMap.length), 10)],
                 randomYear = parseInt(((Math.random() * 60) + 1950), 10),
-                randomUnits = parseInt(((Math.random() * 400) + 100), 10);
+                randomUnits = parseInt(((Math.random() * 400) + 100), 10),
+                randomStatus = statusMap[parseInt((Math.random() * statusMap.length), 10)];
 
             var randomDetails = generateDetails({
                 city: randomCity,
@@ -291,7 +293,8 @@ angular.module('rescour.app.dev', ['rescour.app', 'ngMockE2E'])
                 attributes: {
                     discreet: {
                         "Broker": randomBroker,
-                        "State": randomCity.region
+                        "State": randomCity.region,
+                        "property_status": randomStatus
                     },
                     range: {
                         "Year Built": randomYear,
@@ -357,6 +360,65 @@ angular.module('rescour.app.dev', ['rescour.app', 'ngMockE2E'])
             };
         }
 
+        var fakeUser = {
+            company: "Fake Company",
+            email: "bob@fakecompany.com",
+            first_name: "Robert",
+            groups: "ListField",
+            last_name: "Frost",
+            password: "myPassword123",
+            phone: "123-456-6754",
+            username: "bob@fakecompany.com",
+        }
+
+        var fakeCustomer = {
+            "id": "ch_1a3rxiEot611Pd",
+            "object": "charge",
+            "created": 1365006494,
+            "livemode": false,
+            "paid": true,
+            "amount": 500,
+            "currency": "usd",
+            "refunded": false,
+            "fee": 45,
+            "fee_details": [
+                {
+                    "amount": 45,
+                    "currency": "usd",
+                    "type": "stripe_fee",
+                    "description": "Stripe processing fees",
+                    "application": null,
+                    "amount_refunded": 0
+                }
+            ],
+            "card": {
+                "object": "card",
+                "last4": "4242",
+                "type": "Visa",
+                "exp_month": 1,
+                "exp_year": 2050,
+                "fingerprint": "qhjxpr7DiCdFYTlH",
+                "country": "US",
+                "name": null,
+                "address_line1": "792 Techwood DR NW",
+                "address_line2": null,
+                "address_city": "Atlanta",
+                "address_state": "GA",
+                "address_zip": "30313",
+                "address_country": null,
+                "cvc_check": "pass",
+                "address_line1_check": null,
+                "address_zip_check": null
+            },
+            "captured": true,
+            "failure_message": null,
+            "amount_refunded": 0,
+            "customer": null,
+            "invoice": null,
+            "description": null,
+            "dispute": null
+        }
+
         $httpBackend.whenGET(/\/properties\/[0-9](?!\/notes|\/favorites|\/hidden)/).respond(function (method, url, data, headers) {
             var item_id = url.split("/")[2];
 
@@ -366,14 +428,14 @@ angular.module('rescour.app.dev', ['rescour.app', 'ngMockE2E'])
         $httpBackend.whenGET(/\/properties\/[0-9]+\/notes\/comments\//).respond(function (method, url, data, headers) {
             var item_id = url.split("/")[2];
 
-            return [200, {notes: itemDetails[item_id].notes}, {}];
+            return [200, {items: itemDetails[item_id].notes.comments}, {}];
         });
 
         $httpBackend.whenPOST(/\/properties\/[0-9]+\/notes\/comments\//).respond(
             function (method, url, data, headers) {
                 var _comment = angular.fromJson(data),
                     item_id = url.split("/")[2];
-                
+
                 _comment.comment_id = itemDetails[item_id].notes.comments.length + 1;
                 itemDetails[item_id].notes.comments.push(_comment);
                 return [200, { id: _comment.id }, {}];
@@ -388,7 +450,15 @@ angular.module('rescour.app.dev', ['rescour.app', 'ngMockE2E'])
         $httpBackend.whenGET('/properties/').respond({resources: items});
 
         $httpBackend.whenGET('/auth/check').respond({user: "Alan"});
-        $httpBackend.whenGET('/auth/users/user/').respond({user: "Alan"});
+        $httpBackend.whenGET('/auth/users/user/').respond(fakeUser);
+
+        $httpBackend.whenGET('/auth/users/billing/').respond(fakeCustomer);
+
+        $httpBackend.whenPUT('/auth/users/user/').respond(function (method, url, data, headers) {
+            var _saved = angular.fromJson(data);
+            fakeUser = data;
+            return [200, {}, {}];
+        });
 
         $httpBackend.whenGET('/search/').respond({resources: saved });
         // adds a new phone to the phones array
@@ -406,6 +476,10 @@ angular.module('rescour.app.dev', ['rescour.app', 'ngMockE2E'])
                     saved[i] = _saved;
                 }
             }
+            return [200, {}, {}];
+        });
+
+        $httpBackend.whenPUT(/\/properties\/\d+\/notes/).respond(function (method, url, data, headers) {
             return [200, {}, {}];
         });
 

@@ -428,7 +428,7 @@ angular.module('rescour.app.dev', ['rescour.app', 'ngMockE2E'])
         $httpBackend.whenGET(/\/properties\/[0-9]+\/notes\/comments\//).respond(function (method, url, data, headers) {
             var item_id = url.split("/")[2];
 
-            return [200, {notes: itemDetails[item_id].notes}, {}];
+            return [200, {items: itemDetails[item_id].notes.comments}, {}];
         });
 
         $httpBackend.whenPOST(/\/properties\/[0-9]+\/notes\/comments\//).respond(

@@ -53,6 +53,13 @@
         @include transition(all .5s ease);
         display: block;
         background: rgba(0, 0, 0, 0.5);
+
+        i {
+          @include transition(all .5s ease);
+          line-height: 75px;
+          height: 75px;
+          color: white;
+        }
       }
       .preview-caption {
         position: absolute;
@@ -116,6 +123,15 @@
       left: 0;
       width: 108px;
       height: 130px;
+      text-align: center;
+
+      i {
+        @include transition(all .5s ease);
+        font-size: 40px;
+        height: 30px;
+        line-height: 30px;
+        color: transparent;
+      }
     }
 
     img {

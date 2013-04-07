@@ -328,21 +328,21 @@ angular.module('rescour.app.dev', ['rescour.app', 'ngMockE2E'])
                         units: '48',
                         sqft: '605',
                         rent: '729',
-                        rentpsf: '1.20'
+                        rentpsqft: '1.20'
                     },
                     {
                         type: '2 BR/1BA',
                         units: '23',
                         sqft: '924',
                         rent: '950',
-                        rentpsf: '1.10'
+                        rentpsqft: '1.10'
                     },
                     {
                         type: '2 BR/2BA',
                         units: '220',
                         sqft: '1310',
                         rent: '1280',
-                        rentpsf: '0.90'
+                        rentpsqft: '0.90'
                     }
                 ],
                 contacts: [

@@ -322,7 +322,7 @@ angular.module('rescour.app.dev', ['rescour.app', 'ngMockE2E'])
                         caption: 'This is the second picture'
                     }
                 ],
-                unitmix: [
+                unitMix: [
                     {
                         type: '1 BR/1BA',
                         units: '48',

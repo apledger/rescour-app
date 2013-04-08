@@ -6,17 +6,15 @@
         <ul class="nav pull-right" style="padding-top:4px">
             <li class="active"><a href="/account">My Account</a></li>
             <li><a href="/logout">Logout</a></li>
-
         </ul>
     </div>
 </header>
 
 <div class="main-container" ng-cloak>
-    <div id="Loading">
-        <div class="spinner"></div>
-    </div>
     <div class="row-fluid account-container">
-
+        <div alert ng-repeat="alert in accountAlerts" type="alert.type">
+            {{alert.msg}} <a ng-show="alert.action" ng-click="continueToApp()">{{alert.action}}</a>
+        </div>
         <div class="account-navbar">
             <ul class="nav nav-pills nav-stacked">
                 <li ng-repeat="view in accountViews" ng-class="{active: view.selected}"

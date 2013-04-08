@@ -121,10 +121,10 @@ angular.module('rescour.app')
                 },
                 successAlert = {
                     type: 'success',
-                    msg: 'Authorization Successful!',
+                    msg: 'Authorization Successful!  ',
                     action: 'Continue to Application'
                 };
-            $scope.accountAlerts = [authorizingAlert];
+
             if ($routeParams.status === 'authorizing') {
                 $scope.accountAlerts = [authorizingAlert];
 
@@ -162,7 +162,7 @@ angular.module('rescour.app')
                 $scope.currentView = view.partial;
             };
 
-            $scope.continueToApplication = function () {
+            $scope.continueToApp = function () {
                 $location.path('/');
             };
         }])

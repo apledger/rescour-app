@@ -55,37 +55,7 @@ angular.module('rescour.app')
             });
 
             $rootScope.$on('auth#paymentRequired', function () {
-
-                var TEST_KEY = 'pk_test_wSAqQNQKI7QqPmBpDcQLgGM7',
-                    LIVE_KEY = 'pk_live_4TLhgO3Pp1gOdWWmvLVK1PG3';
-
-                $location.path('/account');
-                var token = function (res) {
-                    var path = $_api.path + '/auth/users/user/payment/',
-                        config = angular.extend({
-                            transformRequest: $_api.loading.main
-                        }, $_api.config),
-                        body = JSON.stringify({token: res.id});
-
-                    $http.post(path, body, config).then(function (response) {
-                        console.log("Success payment", response, $rootScope);
-                        $rootScope.$broadcast('auth#resendRequests');
-
-                    }, function (response) {
-                        $rootScope.$broadcast('auth#paymentRequired');
-                    });
-
-                };
-
-                StripeCheckout.open({
-                    key: LIVE_KEY,
-                    address: true,
-                    name: 'Rescour',
-                    currency: 'usd',
-                    description: 'Activate your trial!',
-                    panelLabel: 'Checkout',
-                    token: token
-                });
+                $location.path('/account/activate/');
             });
 
             $rootScope.$on('auth#paymentAuthorizing', function () {

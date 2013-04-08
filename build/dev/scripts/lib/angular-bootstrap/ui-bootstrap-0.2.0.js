@@ -145,7 +145,7 @@ angular.module('ui.bootstrap.accordion', ['ui.bootstrap.collapse'])
 angular.module("ui.bootstrap.alert", []).directive('alert', function () {
   return {
     restrict:'EA',
-    templateUrl:'template/alert/alert.html',
+    templateUrl:'/template/alert/alert.html',
     transclude:true,
     replace:true,
     scope:{
@@ -394,7 +394,7 @@ angular.module('ui.bootstrap.carousel', ['ui.bootstrap.transition'])
     replace: true,
     controller: 'CarouselController',
     require: 'carousel',
-    templateUrl: 'template/carousel/carousel.html',
+    templateUrl: '/template/carousel/carousel.html',
     scope: {
       interval: '=',
       noTransition: '='
@@ -407,7 +407,7 @@ angular.module('ui.bootstrap.carousel', ['ui.bootstrap.transition'])
     restrict: 'EA',
     transclude: true,
     replace: true,
-    templateUrl: 'template/carousel/slide.html',
+    templateUrl: '/template/carousel/slide.html',
     scope: {
       active: '='
     },
@@ -792,7 +792,7 @@ dialogModule.provider("$dialog", function(){
       // * `label`: the label of the button
       // * `cssClass`: additional css class(es) to apply to the button for styling
       messageBox: function(title, message, buttons){
-        return new Dialog({templateUrl: 'template/dialog/message.html', controller: 'MessageBoxController', resolve:
+        return new Dialog({templateUrl: '/template/dialog/message.html', controller: 'MessageBoxController', resolve:
           {model: function() {
             return {
               title: title,
@@ -936,7 +936,7 @@ angular.module('ui.bootstrap.pagination', [])
       maxSize: '=',
       onSelectPage: '&'
     },
-    templateUrl: 'template/pagination/pagination.html',
+    templateUrl: '/template/pagination/pagination.html',
     replace: true,
     link: function(scope, element, attrs) {
 
@@ -1032,7 +1032,7 @@ angular.module( 'ui.bootstrap.popover', [] )
     restrict: 'EA',
     replace: true,
     scope: { popoverTitle: '@', popoverContent: '@', placement: '@', animation: '&', isOpen: '&' },
-    templateUrl: 'template/popover/popover.html'
+    templateUrl: '/template/popover/popover.html'
   };
 })
 .directive( 'popover', [ '$compile', '$timeout', '$parse', '$window', function ( $compile, $timeout, $parse, $window ) {
@@ -1209,7 +1209,7 @@ angular.module('ui.bootstrap.tabs', [])
     transclude: true,
     scope: {},
     controller: 'TabsController',
-    templateUrl: 'template/tabs/tabs.html',
+    templateUrl: '/template/tabs/tabs.html',
     replace: true
   };
 })
@@ -1247,7 +1247,7 @@ angular.module('ui.bootstrap.tabs', [])
         tabsCtrl.removePane(scope);
       });
     },
-    templateUrl: 'template/tabs/pane.html',
+    templateUrl: '/template/tabs/pane.html',
     replace: true
   };
 }]);
@@ -1263,7 +1263,7 @@ angular.module( 'ui.bootstrap.tooltip', [] )
     restrict: 'EA',
     replace: true,
     scope: { tooltipTitle: '@', placement: '@', animation: '&', isOpen: '&' },
-    templateUrl: 'template/tooltip/tooltip-popup.html'
+    templateUrl: '/template/tooltip/tooltip-popup.html'
   };
 })
 .directive( 'tooltip', [ '$compile', '$timeout', '$parse', '$window', function ( $compile, $timeout, $parse, $window) {
@@ -1666,7 +1666,7 @@ angular.module('ui.bootstrap.typeahead', [])
         select:'&'
       },
       replace:true,
-      templateUrl:'template/typeahead/typeahead.html',
+      templateUrl:'/template/typeahead/typeahead.html',
       link:function (scope, element, attrs) {
 
         scope.isOpen = function () {

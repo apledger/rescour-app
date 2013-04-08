@@ -42,6 +42,17 @@ angular.module('rescour.app')
                 }
             });
 
+            $routeProvider.when('/logout', {
+                resolve: {
+                    checkUser: function ($rootScope, $location) {
+                        $rootScope.$broadcast('auth#logoutRequest');
+                        $rootScope.ping().then(function (response) {
+                            $location.path('/');
+                        });
+                    }
+                }
+            });
+
             $routeProvider.when('/login/forgot-password', {
                 templateUrl: "/views/login/forgotPassword.html",
                 controller: 'ForgotPasswordController',

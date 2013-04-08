@@ -28,23 +28,20 @@ angular.module('rescour.app')
     .service('Billing', ['$http', '$q', '$_api', function ($http, $q, $_api) {
         this.billingInfo = {};
 
-        this.getBillingInfo = function () {
-            var defer = $q.defer(),
-                self = this,
-                path = $_api.path + '/auth/users/billing/', /*THIS LINE NEEDS TO BE MODIFIED TO WORK WITH STRIPE*/
+        this.get = function () {
+            var self = this,
+                path = $_api.path + '/auth/users/user/payment/',
                 config = angular.extend({
-                    transformRequest: $_api.loading.none
                 }, $_api.config);
 
-            $http.get(path, config).then(
-                function (response) {
-                    angular.copy(response.data, self.billingInfo);
-                    defer.resolve();
-                },
-                function (response) {
-                    defer.reject();
-                }
-            );
+            if (!this.billingInfo) {
+                $http.get(path, config).then(
+                    function (response) {
+                        angular.copy(response.data, self.billingInfo);
+                        console.log(response);
+                    }
+                );
+            }
 
             return this.billingInfo;
         }

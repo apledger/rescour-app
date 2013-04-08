@@ -10,26 +10,10 @@ angular.module('rescour.api', [])
 
         var path = url.prod;
         var config = {
-            headers: {'Content-Type': 'application/json'},
-            withCredentials: true
-        };
-
-        return {
-            map: {
-                attributes: {
-                    discreet: {
-                        "broker": "Broker",
-                        "state": "State"
-                    },
-                    range: {
-                        "num_units": "Number of Units",
-                        "year_built": "Year Built"
-                    }
-                }
+                headers: {'Content-Type': 'application/json'},
+                withCredentials: true
             },
-            config: config,
-            path: path,
-            loading: {
+            loading = {
                 details: function (data) {
                     $('#Loading-Details').show();
                     return data;
@@ -41,18 +25,25 @@ angular.module('rescour.api', [])
                 none: function (data) {
                     return data;
                 }
-            },
-            auth: {
-                check: function (successcb, failurecb) {
-                    $http.get(path + '/auth/check/', config).then(successcb, failurecb);
-                },
-                login: function (creds, successcb, failurecb) {
-                    $http.post(path + '/auth/login/', JSON.stringify(creds), config).then(successcb, failurecb);
-                },
-                logout: function (successcb, failurecb) {
-                    $http.post(path + '/auth/logout/', {}, config).then(successcb, failurecb);
+            };
+
+        return {
+            map: {
+                attributes: {
+                    discreet: {
+                        "broker": "Broker",
+                        "state": "State",
+                        "property_status": "Property Status"
+                    },
+                    range: {
+                        "num_units": "Number of Units",
+                        "year_built": "Year Built"
+                    }
                 }
-            }
+            },
+            config: config,
+            path: path,
+            loading: loading
         };
     }]);
 

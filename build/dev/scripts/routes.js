@@ -14,18 +14,16 @@ angular.module('rescour.app')
                 resolve: {
                     loadItems: function ($q, $_api, Items, $rootScope, Item) {
                         var defer = $q.defer();
-                        $rootScope.ping().then(
-                            function (response) {
-                                Item.query().then(function (result) {
-                                    if (angular.equals(result, [])) {
-                                        defer.reject("Failed to contact server");
-                                    } else {
-                                        Items.createItems(result.data.resources);
-                                        defer.resolve();
-                                    }
-                                });
+                        Item.query().then(function (result) {
+                            if (angular.equals(result, [])) {
+                                defer.reject("Failed to contact server");
+                            } else {
+                                Items.createItems(result.data.resources);
+                                defer.resolve();
                             }
-                        );
+                        }, function (response) {
+                            defer.reject(response);
+                        });
 
                         return defer.promise;
                     }
@@ -66,7 +64,7 @@ angular.module('rescour.app')
                             self = this,
                             path = $_api.path + '/auth/users/user/',
                             config = angular.extend({
-                                transformRequest: $_api.loading.none
+                                transformRequest: $_api.loading.main
                             }, $_api.config);
 
                         $http.get(path, config).then(
@@ -93,18 +91,9 @@ angular.module('rescour.app')
                         $rootScope.$broadcast('loaded#details');
                     }
 
-                    $('#Loading').hide();
                     $('#Loading-Details').hide();
-
-                    // Local simulate loading
-                    $timeout(function () {
-                        $('#Loading').hide();
-                        $('#Loading-Details').hide();
-                    }, 250);
-
                 }, reject = function (response) {
                     var status = response.status;
-                    console.log(response);
 
                     switch (status) {
                         case 401:
@@ -121,8 +110,15 @@ angular.module('rescour.app')
                             $rootScope.$broadcast('auth#loginRequired');
                             break;
                         case 402:
+                            var defer = $q.defer(),
+                                req = {
+                                    config: response.config,
+                                    deferred: defer
+                                };
+
+                            $rootScope.requests401.push(req);
                             $rootScope.$broadcast('auth#paymentRequired');
-                            break;
+                            return defer.promise;
                         default:
                             $('#Loading').hide();
                             $('#Loading-Details').hide();

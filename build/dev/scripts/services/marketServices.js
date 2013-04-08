@@ -34,7 +34,7 @@ angular.module('nebuMarket')
                             this.attributes.discreet[$_api.map.attributes.discreet[discrID]] = data.attributes.discreet[discrID];
                         } else {
                             // Otherwise set to Not Listed
-                            this.attributes.discreet[$_api.map.attributes.discreet[discrID]] = "Not Listed";
+                            this.attributes.discreet[$_api.map.attributes.discreet[discrID]] = "Unknown";
                         }
                     }
 
@@ -60,7 +60,7 @@ angular.module('nebuMarket')
                 }
 
                 this.title = data.title || "Title not listed";
-                this.description = data.description || "No description provided.";
+                this.description = data.description || "No description provided";
                 this.address = data.address || {
                     street1: "No address listed"
                 };
@@ -111,7 +111,6 @@ angular.module('nebuMarket')
                 $http.get($_api.path + '/properties/' + this.id, config).then(function (response) {
                     self.details = {};
                     angular.copy(response.data, self.details);
-                    console.log(self.details);
                     defer.resolve(response);
                 }, function (response) {
                     defer.reject(response);
@@ -125,14 +124,30 @@ angular.module('nebuMarket')
                     defer = $q.defer(),
                     self = this;
 
+                self.details.notes.comments.push(_comment);
+
                 _comment.$save(this.id).then(function (response) {
                     defer.resolve(response);
                 }, function (response) {
+                    self.refreshComments();
                     defer.reject(response);
                 });
 
                 return defer.promise;
             };
+
+            Item.prototype.saveNote = function () {
+                var deferred = $q.defer();
+                $http.put($_api.path + '/properties/' + this.id + '/notes', this.details.notes)
+                .success(function(response) {
+                    deferred.resolve(response);   
+                })
+                .error(function(error) {
+                    deferred.reject(error);        
+                });
+
+                return deferred.promise;
+            }
 
             Item.prototype.toggleFavorites = function () {
                 var defer = $q.defer(),
@@ -602,13 +617,11 @@ angular.module('nebuMarket')
                 var config = angular.extend({
                         transformRequest: $_api.loading.none
                     }, $_api.config),
-                    _comments = [],
                     defer = $q.defer();
 
                 if (typeof itemID !== 'undefined') {
                     $http.get($_api.path + '/properties/' + itemID + '/notes/comments/', config).then(function (response) {
-                        angular.copy(response.data.notes.comments, _comments);
-                        defer.resolve(response.data.notes.comments);
+                        defer.resolve(response.data.items);
                     }, function (response) {
                         defer.reject(response);
                         //throw new Error("HTTP Error: " + response);

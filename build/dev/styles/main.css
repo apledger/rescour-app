@@ -5611,31 +5611,36 @@ a.label:hover, a.badge:hover {
 #Filter .slider {
   width: 206px;
 }
-/* line 22, ../../app/styles/_market_filter.scss */
+/* line 21, ../../app/styles/_market_filter.scss */
+#Filter .ui-widget-header {
+  background: none !important;
+  background-color: #9c3022 !important;
+}
+/* line 26, ../../app/styles/_market_filter.scss */
 #Filter .filter-container {
   display: block;
   overflow: hidden;
   height: 100%;
 }
-/* line 27, ../../app/styles/_market_filter.scss */
+/* line 31, ../../app/styles/_market_filter.scss */
 #Filter .filter-container:hover {
   overflow-y: scroll;
 }
-/* line 32, ../../app/styles/_market_filter.scss */
+/* line 36, ../../app/styles/_market_filter.scss */
 #Filter .nav {
   margin-left: 0;
   margin-bottom: 20px;
   list-style: none;
 }
-/* line 37, ../../app/styles/_market_filter.scss */
+/* line 41, ../../app/styles/_market_filter.scss */
 #Filter .nav > li > a {
   display: block;
 }
-/* line 40, ../../app/styles/_market_filter.scss */
+/* line 44, ../../app/styles/_market_filter.scss */
 #Filter .nav > li > a:hover {
   text-decoration: none;
 }
-/* line 43, ../../app/styles/_market_filter.scss */
+/* line 47, ../../app/styles/_market_filter.scss */
 #Filter .nav-header {
   display: block;
   padding: 5px 15px 10px 15px;
@@ -5651,40 +5656,40 @@ a.label:hover, a.badge:hover {
 #Filter .nav-header span {
   font-weight: bold;
 }
-/* line 52, ../../app/styles/_market_filter.scss */
+/* line 56, ../../app/styles/_market_filter.scss */
 #Filter .nav-header:hover, #Filter .nav-header:active {
   color: #9f9f9f;
 }
-/* line 56, ../../app/styles/_market_filter.scss */
+/* line 60, ../../app/styles/_market_filter.scss */
 #Filter .nav-list {
   padding-left: 15px;
   padding-right: 15px;
   margin-bottom: 10px;
   clear: both;
 }
-/* line 63, ../../app/styles/_market_filter.scss */
+/* line 67, ../../app/styles/_market_filter.scss */
 #Filter .nav-list > li > a,
 #Filter .nav-list .nav-header {
   margin-left: -15px;
   margin-right: -15px;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 }
-/* line 68, ../../app/styles/_market_filter.scss */
+/* line 72, ../../app/styles/_market_filter.scss */
 #Filter .nav-list > li > a {
   padding: 3px 15px;
 }
-/* line 72, ../../app/styles/_market_filter.scss */
+/* line 76, ../../app/styles/_market_filter.scss */
 #Filter .nav-list > .active > a,
 #Filter .nav-list > .active > a:hover {
   color: white;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
   background-color: #0088cc;
 }
-/* line 77, ../../app/styles/_market_filter.scss */
+/* line 81, ../../app/styles/_market_filter.scss */
 #Filter .nav-list [class^="icon-"] {
   margin-right: 2px;
 }
-/* line 81, ../../app/styles/_market_filter.scss */
+/* line 85, ../../app/styles/_market_filter.scss */
 #Filter .label,
 #Filter .badge {
   font-size: 12px;
@@ -5696,39 +5701,39 @@ a.label:hover, a.badge:hover {
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
   background-color: #333333;
 }
-/* line 91, ../../app/styles/_market_filter.scss */
+/* line 95, ../../app/styles/_market_filter.scss */
 #Filter .label {
   padding: 1px 4px 2px;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
 }
-/* line 95, ../../app/styles/_market_filter.scss */
+/* line 99, ../../app/styles/_market_filter.scss */
 #Filter .badge {
   padding: 1px 9px 2px;
   -webkit-border-radius: 9px;
   -moz-border-radius: 9px;
   border-radius: 9px;
 }
-/* line 100, ../../app/styles/_market_filter.scss */
+/* line 104, ../../app/styles/_market_filter.scss */
 #Filter a.label:hover,
 #Filter a.badge:hover {
   color: white;
   text-decoration: none;
   cursor: pointer;
 }
-/* line 106, ../../app/styles/_market_filter.scss */
+/* line 110, ../../app/styles/_market_filter.scss */
 #Filter .label-success,
 #Filter .badge-success {
   background-color: #468847;
 }
-/* line 111, ../../app/styles/_market_filter.scss */
+/* line 115, ../../app/styles/_market_filter.scss */
 #Filter .label-info,
 #Filter .badge-info {
   background-color: #0088cc;
 }
 
-/* line 1, ../../app/styles/_market_list.scss */
+/* line 3, ../../app/styles/_market_list.scss */
 #MarketList {
   position: absolute;
   left: 245px;
@@ -5744,18 +5749,18 @@ a.label:hover, a.badge:hover {
   box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.55);
 }
 
-/* line 14, ../../app/styles/_market_list.scss */
+/* line 16, ../../app/styles/_market_list.scss */
 .market-wrap {
   display: block;
   height: 100%;
   overflow: hidden;
 }
-/* line 19, ../../app/styles/_market_list.scss */
+/* line 21, ../../app/styles/_market_list.scss */
 .market-wrap:hover {
   overflow-y: scroll;
 }
 
-/* line 24, ../../app/styles/_market_list.scss */
+/* line 26, ../../app/styles/_market_list.scss */
 .item-well {
   width: 380px;
   margin: 10px;
@@ -5770,16 +5775,125 @@ a.label:hover, a.badge:hover {
   border: 1px solid #d4d4d4;
   min-height: 150px;
 }
-/* line 36, ../../app/styles/_market_list.scss */
+/* line 38, ../../app/styles/_market_list.scss */
 .item-well .preview {
   cursor: pointer;
   position: absolute;
   top: 5px;
   right: 5px;
+  height: 130px;
+  width: 108px;
   line-height: 0;
   background: white;
+  overflow: hidden;
+  z-index: 5;
 }
-/* line 46, ../../app/styles/_market_list.scss */
+/* line 52, ../../app/styles/_market_list.scss */
+.item-well .preview:hover .preview-mask {
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+  display: block;
+  background: rgba(0, 0, 0, 0.5);
+}
+/* line 57, ../../app/styles/_market_list.scss */
+.item-well .preview:hover .preview-mask i {
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+  line-height: 75px;
+  height: 75px;
+  color: white;
+}
+/* line 64, ../../app/styles/_market_list.scss */
+.item-well .preview:hover .preview-caption {
+  position: absolute;
+  bottom: 0;
+}
+/* line 68, ../../app/styles/_market_list.scss */
+.item-well .preview:hover .preview-caption.caption-green h2 {
+  color: #9bcc9c;
+}
+/* line 71, ../../app/styles/_market_list.scss */
+.item-well .preview:hover .preview-caption.caption-orange h2 {
+  color: #fcd3c3;
+}
+/* line 74, ../../app/styles/_market_list.scss */
+.item-well .preview:hover .preview-caption.caption-red h2 {
+  color: #e18276;
+}
+/* line 80, ../../app/styles/_market_list.scss */
+.item-well .preview .preview-caption {
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+  position: absolute;
+  width: 100%;
+  bottom: -22px;
+  background: black;
+  color: white;
+  text-align: center;
+  z-index: 6;
+}
+/* line 90, ../../app/styles/_market_list.scss */
+.item-well .preview .preview-caption h2 {
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+  color: white;
+  font-size: 11px;
+  line-height: 12px;
+  font-weight: normal;
+}
+/* line 98, ../../app/styles/_market_list.scss */
+.item-well .preview .preview-caption p {
+  color: white;
+  margin: 15px 0;
+  font-size: 10px;
+}
+/* line 104, ../../app/styles/_market_list.scss */
+.item-well .preview .preview-caption.caption-green {
+  background: #468847;
+}
+/* line 108, ../../app/styles/_market_list.scss */
+.item-well .preview .preview-caption.caption-orange {
+  background: #f66930;
+}
+/* line 112, ../../app/styles/_market_list.scss */
+.item-well .preview .preview-caption.caption-red {
+  background: #9c3022;
+}
+/* line 117, ../../app/styles/_market_list.scss */
+.item-well .preview .preview-mask {
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+  z-index: 5;
+  background: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 108px;
+  height: 130px;
+  text-align: center;
+}
+/* line 128, ../../app/styles/_market_list.scss */
+.item-well .preview .preview-mask i {
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+  font-size: 40px;
+  height: 30px;
+  line-height: 30px;
+  color: transparent;
+}
+/* line 137, ../../app/styles/_market_list.scss */
 .item-well .preview img {
   height: 100px;
   width: 100px;
@@ -5792,30 +5906,20 @@ a.label:hover, a.badge:hover {
   -moz-border-radius: 2px;
   border-radius: 2px;
 }
-/* line 55, ../../app/styles/_market_list.scss */
-.item-well .preview .zoom-mask {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: none;
-  background: url("../../../img/zoom-icon.png") no-repeat center rgba(0, 0, 0, 0.2);
-}
-/* line 68, ../../app/styles/_market_list.scss */
+/* line 147, ../../app/styles/_market_list.scss */
 .item-well .dimensions {
   position: relative;
   background-color: #eeeeee;
   padding: 10px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
-/* line 74, ../../app/styles/_market_list.scss */
+/* line 153, ../../app/styles/_market_list.scss */
 .item-well .dimensions .header-container {
   position: relative;
   display: inline-block;
   float: left;
 }
-/* line 79, ../../app/styles/_market_list.scss */
+/* line 158, ../../app/styles/_market_list.scss */
 .item-well .dimensions .header-container .title {
   display: block;
   font-size: 14px;
@@ -5823,7 +5927,7 @@ a.label:hover, a.badge:hover {
   color: #0088cc;
   cursor: pointer;
 }
-/* line 87, ../../app/styles/_market_list.scss */
+/* line 166, ../../app/styles/_market_list.scss */
 .item-well .dimensions .header-container .ranges {
   position: relative;
   display: block;
@@ -5834,7 +5938,7 @@ a.label:hover, a.badge:hover {
 .item-well .dimensions .header-container .ranges span {
   font-weight: bold;
 }
-/* line 96, ../../app/styles/_market_list.scss */
+/* line 173, ../../app/styles/_market_list.scss */
 .item-well .dimensions .location {
   font-size: 28px;
   position: relative;
@@ -5871,7 +5975,7 @@ a.label:hover, a.badge:hover {
 .item-well .dimensions .location:active, .item-well .dimensions .location.active {
   background-color: #3c7b49 \9;
 }
-/* line 115, ../../app/styles/_market_list.scss */
+/* line 192, ../../app/styles/_market_list.scss */
 .item-well .description {
   position: relative;
   height: auto;
@@ -5879,22 +5983,22 @@ a.label:hover, a.badge:hover {
   font-weight: normal;
   min-height: 60px;
 }
-/* line 122, ../../app/styles/_market_list.scss */
+/* line 199, ../../app/styles/_market_list.scss */
 .item-well .description .text-container {
   width: 235px;
   padding: 15px;
   max-height: 100px;
   overflow: hidden;
 }
-/* line 128, ../../app/styles/_market_list.scss */
+/* line 205, ../../app/styles/_market_list.scss */
 .item-well .description .text-container:hover {
   overflow-y: scroll;
 }
-/* line 133, ../../app/styles/_market_list.scss */
+/* line 210, ../../app/styles/_market_list.scss */
 .item-well .description p {
   font-size: 13px;
 }
-/* line 138, ../../app/styles/_market_list.scss */
+/* line 215, ../../app/styles/_market_list.scss */
 .item-well .footer {
   position: relative;
   width: 100%;
@@ -5902,14 +6006,14 @@ a.label:hover, a.badge:hover {
   height: 30px;
   border-top: 1px solid rgba(0, 0, 0, 0.05);
 }
-/* line 145, ../../app/styles/_market_list.scss */
+/* line 222, ../../app/styles/_market_list.scss */
 .item-well .footer .user-options {
   position: relative;
   float: left;
   font-size: 16px;
   padding: 2px 10px;
 }
-/* line 151, ../../app/styles/_market_list.scss */
+/* line 228, ../../app/styles/_market_list.scss */
 .item-well .footer .user-options .footer-button {
   position: relative;
   float: left;
@@ -5919,11 +6023,11 @@ a.label:hover, a.badge:hover {
   font-weight: normal;
   margin-right: 15px;
 }
-/* line 160, ../../app/styles/_market_list.scss */
+/* line 237, ../../app/styles/_market_list.scss */
 .item-well .footer .user-options .footer-button:hover {
   color: #5f5f5f;
 }
-/* line 164, ../../app/styles/_market_list.scss */
+/* line 241, ../../app/styles/_market_list.scss */
 .item-well .footer .user-options .footer-button span {
   font-size: 12px;
 }
@@ -6222,21 +6326,30 @@ a.label:hover, a.badge:hover {
 }
 
 /* line 15, ../../app/styles/_details.scss */
-.contact-selected {
-  background: #b5d990 !important;
+.contact-selected strong {
+  color: #0088cc;
 }
 
-/* line 19, ../../app/styles/_details.scss */
+/* line 20, ../../app/styles/_details.scss */
 .well.contact {
   cursor: pointer;
 }
 
-/* line 22, ../../app/styles/_details.scss */
+/* line 23, ../../app/styles/_details.scss */
 h1 {
   float: left;
   font-weight: bold;
   font-size: 2em;
   padding: 10px;
+}
+
+/* line 31, ../../app/styles/_details.scss */
+.contact-form .controls {
+  margin: 0 0 30px;
+}
+/* line 34, ../../app/styles/_details.scss */
+.contact-form .checkbox {
+  cursor: pointer;
 }
 
 /* line 1, ../../app/styles/_header.scss */
@@ -6275,30 +6388,30 @@ header .market-controls {
   height: 46px;
 }
 
-/* line 1, ../../app/styles/_ngform.scss */
+/* line 3, ../../app/styles/_ngform.scss */
 .help {
   position: relative;
 }
-/* line 4, ../../app/styles/_ngform.scss */
+/* line 6, ../../app/styles/_ngform.scss */
 .help i {
   padding-right: 5px;
 }
-/* line 8, ../../app/styles/_ngform.scss */
+/* line 10, ../../app/styles/_ngform.scss */
 .help .help-error > i {
   color: #9c3022;
 }
-/* line 12, ../../app/styles/_ngform.scss */
+/* line 14, ../../app/styles/_ngform.scss */
 .help .help-success > i {
   color: #468847;
 }
 
 /* Always hide the input help when it's pristine */
-/* line 18, ../../app/styles/_ngform.scss */
+/* line 20, ../../app/styles/_ngform.scss */
 input.ng-pristine + .help {
   display: none;
 }
 
-/* line 26, ../../app/styles/_ngform.scss */
+/* line 28, ../../app/styles/_ngform.scss */
 form.ng-dirty > input.ng-pristine
 input:focus {
   color: black !important;
@@ -6309,42 +6422,42 @@ input:focus {
 }
 
 /* Help success should be shown when input is valid */
-/* line 35, ../../app/styles/_ngform.scss */
+/* line 37, ../../app/styles/_ngform.scss */
 .ng-valid + .help > .help-success {
   display: inline-block;
   border-color: #3a7d34;
 }
 
 /* Help error should be hidden when input is valid */
-/* line 41, ../../app/styles/_ngform.scss */
+/* line 43, ../../app/styles/_ngform.scss */
 .ng-valid + .help > .help-error {
   display: none;
 }
 
-/* line 45, ../../app/styles/_ngform.scss */
+/* line 47, ../../app/styles/_ngform.scss */
 .ng-valid + .help::before {
   color: #3a7d34;
 }
 
 /* Help should show and be red when invalid */
-/* line 50, ../../app/styles/_ngform.scss */
+/* line 52, ../../app/styles/_ngform.scss */
 .ng-invalid + .help {
   display: inline-block;
   border-color: #ec3f41;
 }
 
 /* Success message should be hidden when invalid */
-/* line 56, ../../app/styles/_ngform.scss */
+/* line 58, ../../app/styles/_ngform.scss */
 .ng-invalid + .help > .help-success {
   display: none;
 }
 
-/* line 60, ../../app/styles/_ngform.scss */
+/* line 62, ../../app/styles/_ngform.scss */
 .ng-invalid + .help::before {
   color: #ec3f41;
 }
 
-/* line 64, ../../app/styles/_ngform.scss */
+/* line 66, ../../app/styles/_ngform.scss */
 .help ul {
   position: absolute;
   width: 300px;
@@ -6355,34 +6468,34 @@ input:focus {
 }
 
 /* Default each bullet to be invalid with a red cross and text */
-/* line 74, ../../app/styles/_ngform.scss */
+/* line 76, ../../app/styles/_ngform.scss */
 .help li {
   line-height: 24px;
   color: #9c3022;
 }
 
-/* line 79, ../../app/styles/_ngform.scss */
+/* line 81, ../../app/styles/_ngform.scss */
 .help li > .icon-exclamation-sign {
   display: inline;
 }
 
-/* line 83, ../../app/styles/_ngform.scss */
+/* line 85, ../../app/styles/_ngform.scss */
 .help li > .icon-ok-sign {
   display: none;
 }
 
 /* Set to green check and text when valid */
-/* line 88, ../../app/styles/_ngform.scss */
+/* line 90, ../../app/styles/_ngform.scss */
 .help li.valid {
   color: #468847;
 }
 
-/* line 92, ../../app/styles/_ngform.scss */
+/* line 94, ../../app/styles/_ngform.scss */
 .help li.valid > .icon-exclamation-sign {
   display: none;
 }
 
-/* line 96, ../../app/styles/_ngform.scss */
+/* line 98, ../../app/styles/_ngform.scss */
 .help li.valid > .icon-ok-sign {
   display: inline;
 }
@@ -6399,34 +6512,12 @@ input:focus {
 }
 
 /* line 11, ../../app/styles/_login.scss */
-.origami-left {
-  position: absolute;
-  top: 0;
-  left: 0;
-  background: url(/img/origami_left.png) top left no-repeat;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-}
-
-/* line 21, ../../app/styles/_login.scss */
-.origami-right {
-  position: absolute;
-  top: 0;
-  right: 0;
-  background: url(/img/origami_right.png) top right no-repeat;
-  width: 817px;
-  height: 547px;
-  z-index: -1;
-}
-
-/* line 31, ../../app/styles/_login.scss */
 .login {
   padding-top: 40px;
   padding-bottom: 40px;
   z-index: 2;
 }
-/* line 36, ../../app/styles/_login.scss */
+/* line 16, ../../app/styles/_login.scss */
 .login .login-logo {
   margin: 0 auto;
   margin-bottom: 30px;
@@ -6434,7 +6525,7 @@ input:focus {
   position: relative;
   width: 200px;
 }
-/* line 44, ../../app/styles/_login.scss */
+/* line 24, ../../app/styles/_login.scss */
 .login .form-signin {
   max-width: 550px;
   padding: 20px 30px 10px;
@@ -6446,21 +6537,21 @@ input:focus {
   border-radius: 25px;
   background: rgba(255, 255, 255, 0.5);
 }
-/* line 53, ../../app/styles/_login.scss */
+/* line 33, ../../app/styles/_login.scss */
 .login .form-signin .control-label {
   padding-top: 10px;
 }
-/* line 57, ../../app/styles/_login.scss */
+/* line 37, ../../app/styles/_login.scss */
 .login .form-signin .form-actions {
   margin-bottom: 0;
   background: none;
 }
-/* line 63, ../../app/styles/_login.scss */
+/* line 43, ../../app/styles/_login.scss */
 .login .form-signin-heading {
   margin: 10px 10px 20px;
   font-size: 24px;
 }
-/* line 69, ../../app/styles/_login.scss */
+/* line 49, ../../app/styles/_login.scss */
 .login .form-signin input[type="text"],
 .login .form-signin input[type="password"] {
   height: auto;
@@ -6520,16 +6611,37 @@ input:focus {
   right: 0px;
   background: #eeeeee;
   z-index: 5;
-  display: none;
 }
 
-/* line 27, ../../app/styles/_styles.scss */
+/* line 28, ../../app/styles/_styles.scss */
+.origami-left {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: url(/img/origami_left.png) top left no-repeat;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+/* line 38, ../../app/styles/_styles.scss */
+.origami-right {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: url(/img/origami_right.png) top right no-repeat;
+  width: 817px;
+  height: 547px;
+  z-index: -1;
+}
+
+/* line 48, ../../app/styles/_styles.scss */
 .loading-container {
   position: absolute;
   top: 50%;
   left: 50%;
 }
-/* line 32, ../../app/styles/_styles.scss */
+/* line 53, ../../app/styles/_styles.scss */
 .loading-container p {
   margin-left: -4em;
   margin-bottom: 1em;
@@ -6538,24 +6650,24 @@ input:focus {
   color: #5f5f5f;
 }
 
-/* line 41, ../../app/styles/_styles.scss */
+/* line 62, ../../app/styles/_styles.scss */
 .loading-icon {
   text-shadow: #666666 0 -1px 0;
   margin-left: -1em;
   color: #5f5f5f;
 }
 
-/* line 47, ../../app/styles/_styles.scss */
-[ng\:cloak], [ng-cloak], .ng-cloak {
+/* line 68, ../../app/styles/_styles.scss */
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
   display: none;
 }
 
-/* line 51, ../../app/styles/_styles.scss */
+/* line 72, ../../app/styles/_styles.scss */
 header, section, footer {
   display: block;
 }
 
-/* line 55, ../../app/styles/_styles.scss */
+/* line 76, ../../app/styles/_styles.scss */
 body {
   height: 100%;
   margin: 0;
@@ -6565,7 +6677,7 @@ body {
   background-color: white;
 }
 
-/* line 64, ../../app/styles/_styles.scss */
+/* line 85, ../../app/styles/_styles.scss */
 #Wrapper {
   position: relative;
   width: 100%;
@@ -6573,7 +6685,7 @@ body {
   background-color: #eeeeee;
 }
 
-/* line 71, ../../app/styles/_styles.scss */
+/* line 92, ../../app/styles/_styles.scss */
 .main-container {
   position: absolute;
   top: 55px;
@@ -6582,7 +6694,7 @@ body {
   bottom: 21px;
 }
 
-/* line 79, ../../app/styles/_styles.scss */
+/* line 100, ../../app/styles/_styles.scss */
 #Footer {
   position: fixed;
   width: 100%;
@@ -6594,34 +6706,34 @@ body {
   z-index: 3000;
 }
 
-/* line 90, ../../app/styles/_styles.scss */
+/* line 111, ../../app/styles/_styles.scss */
 #Footer p {
   text-align: center;
 }
 
-/* line 94, ../../app/styles/_styles.scss */
+/* line 115, ../../app/styles/_styles.scss */
 #Footer p a {
   font-size: 10px;
   margin-right: 10px;
 }
 
-/* line 99, ../../app/styles/_styles.scss */
+/* line 120, ../../app/styles/_styles.scss */
 .tooltip-inner {
   opacity: 0.8;
 }
 
-/* line 103, ../../app/styles/_styles.scss */
+/* line 124, ../../app/styles/_styles.scss */
 .yellow {
   color: #ffc40d;
 }
 
-/* line 107, ../../app/styles/_styles.scss */
+/* line 128, ../../app/styles/_styles.scss */
 .red {
   color: #9c3022;
 }
 
 /* Scroll Bar */
-/* line 112, ../../app/styles/_styles.scss */
+/* line 133, ../../app/styles/_styles.scss */
 ::-webkit-scrollbar, ::-webkit-scrollbar {
   width: 7px;
   height: 7px;
@@ -6630,7 +6742,7 @@ body {
   border-radius: 5px;
 }
 
-/* line 118, ../../app/styles/_styles.scss */
+/* line 139, ../../app/styles/_styles.scss */
 ::-webkit-scrollbar-thumb, ::-webkit-scrollbar-thumb {
   background-color: #bbbbbb;
   -webkit-border-radius: 5px;
@@ -6641,17 +6753,17 @@ body {
   box-shadow: rgba(0, 0, 0, 0.05) -1px 0 7px inset;
 }
 
-/* line 124, ../../app/styles/_styles.scss */
+/* line 145, ../../app/styles/_styles.scss */
 ::-webkit-scrollbar-track-piece, ::-webkit-scrollbar-track-piece {
   background-color: transparent;
 }
 
-/* line 128, ../../app/styles/_styles.scss */
+/* line 149, ../../app/styles/_styles.scss */
 ::-webkit-scrollbar-corner, ::-webkit-scrollbar-corner {
   display: none;
 }
 
-/* line 133, ../../app/styles/_styles.scss */
+/* line 154, ../../app/styles/_styles.scss */
 .modal-backdrop {
   position: fixed;
   top: 0;
@@ -6662,12 +6774,12 @@ body {
   background-color: rgba(0, 0, 0, 0.7);
 }
 
-/* line 143, ../../app/styles/_styles.scss */
+/* line 164, ../../app/styles/_styles.scss */
 .hide {
   display: none;
 }
 
-/* line 147, ../../app/styles/_styles.scss */
+/* line 168, ../../app/styles/_styles.scss */
 .toggle {
   position: relative;
   float: left;

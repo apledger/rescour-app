@@ -1,4 +1,5 @@
 <div class="container-fluid" ng-controller="DetailsController">
+    <div class="origami-right"></div>
     <div class="row-fluid">
         <div class="page-header clearfix">
             <button class="btn pull-right" ng-click="close()"><i class="icon-arrow-left"></i>&nbsp;Back to map</button>
@@ -23,7 +24,7 @@
                         </dl>
                     </div>
 
-                    <div class="well">
+                    <div class="well" ng-show="current.details.unitMix">
                         <p class="lead">Property Unit Mix</p>
                         <table class="table table-condensed">
                             <thead>
@@ -50,7 +51,7 @@
                                     {{mix.rent}}
                                 </td>
                                 <td>
-                                    {{mix.rentpsf}}
+                                    {{mix.rentpsqft}}
                                 </td>
                             </tr>
                             </tbody>
@@ -63,32 +64,24 @@
                         <div carousel no-transition="true">
                             <div slide ng-repeat="slide in current.details.images" active="slide.active">
                                 <img ng-src="{{slide.link}}" style="margin:auto;">
-
-                                <div class="carousel-caption">
-                                    <h4>Slide {{$index}}</h4>
-
-                                    <p>{{slide.caption}}</p>
-                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div pane heading="{{panes[2].heading}}" active="panes[2].active">
-                    <div class="alert alert-success" ng-show="newEmail.sent"><i class="icon-email"></i>&nbsp;&nbsp;Message Sent!</div>
-                    <form>
+                    <div class="alert alert-success" ng-show="newEmail.sent"><i class="icon-email"></i>&nbsp;&nbsp;Message
+                        Sent!
+                    </div>
+                    <form class="contact-form" ng-show="current.details.contacts">
                         <div class="control-group">
                             <div class="control-label">To:</div>
-                            <label class="checkbox inline" ng-repeat="contact in current.details.contacts">
-                                <input type="checkbox" id="inlineCheckbox1" ng-model="contact.selected">
-                                <div class="well contact" ng-class="{'contact-selected': contact.selected}">
-                                    <dd><strong>{{contact.name}}</strong></dd>
-                                    <dd>{{contact.phone}}</dd>
-                                    <dd>{{contact.email}}</dd>
-                                 </div>
-                            </label>
                             <div class="controls">
-
+                                <label class="checkbox" ng-class="{'contact-selected': contact.selected}"
+                                       ng-repeat="contact in current.details.contacts">
+                                    <input type="checkbox" ng-model="contact.selected">
+                                    <strong>{{contact.name}}</strong> - {{contact.phone}} - <em>{{contact.email}}</em>
+                                </label>
                             </div>
                         </div>
                         <div class="control-group">
@@ -99,6 +92,9 @@
                         </div>
                         <button class="btn btn-info" ng-click="sendEmail()">Send</button>
                     </form>
+                    <div class="alert alert-info" ng-show="!current.details.contacts"><strong>Sorry!</strong> We don't
+                        have any contacts for this listing.
+                    </div>
                 </div>
 
                 <div pane heading="{{panes[3].heading}}" active="panes[3].active">
@@ -106,54 +102,60 @@
                         <div class="alert alert-info">
                             <strong>{{comment.timestamp | date:'MM/dd/yyyy @ h:mma'}}:</strong> {{comment.message}}
                         </div>
-
                     </div>
-                    <table class="table table-condensed">
-                        <thead>
-                        <tr>
-                            <th>Valuation</th>
-                            <th>Price / Unit</th>
-                            <th>IRR</th>
-                            <th>Cap Rate</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>
-                                <div class="input-prepend">
-                                    <span class="add-on">$</span>
-                                    <input type="text"
-                                           class="input-medium"
-                                           placeholder="Valuation"
-                                           ng-model="current.notes.financials.valuation">
-                                </div>
-                            </td>
-                            <td>
-                                <div class="input-prepend">
-                                    <span class="add-on">$</span>
-                                    <input type="text" class="input-medium" placeholder="Price / Unit"
-                                           ng-model="current.notes.financials.ppu">
-                                </div>
-                            </td>
-                            <td>
-                                <div class="input-append">
-                                    <input type="text" class="input-medium" placeholder="IRR"
-                                           ng-model="current.notes.financials.irr">
-                                    <span class="add-on">%</span>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="input-append">
-                                    <input type="text" class="input-medium" placeholder="Cap Rate"
-                                           ng-model="current.notes.financials.cap">
-                                    <span class="add-on">%</span>
-                                </div>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-
                     <form>
+                        <!--<div class="control-group">-->
+                        <!--<div class="control-label">Valuation</div>-->
+                        <!--<div class="controls">-->
+                        <!--<div class="input-prepend">-->
+                        <!--<span class="add-on">$</span>-->
+                        <!--<input type="text"-->
+                        <!--class="input-medium"-->
+                        <!--auto-save="saveNote(current)"-->
+                        <!--placeholder="Valuation"-->
+                        <!--ng-model="current.notes.valuation">-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="control-group">-->
+                        <!--<div class="control-label">Price / Unit</div>-->
+                        <!--<div class="controls">-->
+                        <!--<div class="input-prepend">-->
+                        <!--<span class="add-on">$</span>-->
+                        <!--<input type="text"-->
+                        <!--class="input-medium"-->
+                        <!--auto-save="saveNote(current)"-->
+                        <!--placeholder="Price / Unit"-->
+                        <!--ng-model="current.notes.ppu">-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="control-group">-->
+                        <!--<div class="control-label">IRR</div>-->
+                        <!--<div class="controls">-->
+                        <!--<div class="input-append">-->
+                        <!--<input type="text"-->
+                        <!--class="input-medium"-->
+                        <!--auto-save="saveNote(current)"-->
+                        <!--placeholder="IRR"-->
+                        <!--ng-model="current.notes.financials.irr">-->
+                        <!--<span class="add-on">%</span>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="control-group">-->
+                        <!--<div class="control-label">Cap Rate</div>-->
+                        <!--<div class="controls">-->
+                        <!--<div class="input-append">-->
+                        <!--<input type="text"-->
+                        <!--class="input-medium"-->
+                        <!--auto-save="saveNote(current)"-->
+                        <!--placeholder="Cap Rate"-->
+                        <!--ng-model="current.notes.financials.cap">-->
+                        <!--<span class="add-on">%</span>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--</div>-->
                         <div class="control-group">
                             <div class="control-label">Comment:</div>
                             <div class="controls">
@@ -161,12 +163,12 @@
                             </div>
                         </div>
 
-
                         <div class="form-actions">
-                            <button type="submit" class="btn btn-success" ng-click="addComment(newComment.message)">Add Note</button>
+                            <button type="submit" class="btn btn-success" ng-click="addComment(newComment.message)">
+                                Add Comment
+                            </button>
                             <button type="button" class="btn" ng-click="close()">Cancel</button>
                         </div>
-
                     </form>
                 </div>
             </div>

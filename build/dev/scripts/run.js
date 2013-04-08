@@ -11,15 +11,28 @@ angular.module('rescour.app')
             $http.defaults.useXDomain = true;
 
             $rootScope.ping = function () {
-                var defer = $q.defer();
-                $_api.auth.check(function (response) {
-                    if (!response.data.user) {
-                        $rootScope.$broadcast('auth#loginRequired');
-                        defer.reject();
-                    } else {
-                        defer.resolve();
+                var defer = $q.defer(),
+                    self = this,
+                    path = $_api.path + '/auth/check/',
+                    config = angular.extend({
+                        transformRequest: function (data) {
+                            return data;
+                        }
+                    }, $_api.config);
+
+                $http.get(path, config).then(
+                    function (response) {
+                        if (!response.data.user) {
+                            $rootScope.$broadcast('auth#loginRequired');
+                            defer.reject(response);
+                        } else {
+                            defer.resolve(response);
+                        }
+                    },
+                    function (response) {
+                        defer.reject(response);
                     }
-                });
+                );
 
                 return defer.promise;
             };
@@ -27,7 +40,7 @@ angular.module('rescour.app')
             /**
              * On 'event:loginConfirmed', resend all the 401 requests.
              */
-            $rootScope.$on('auth#loginConfirmed', function () {
+            $rootScope.$on('auth#resendRequests', function () {
                 function retry(req) {
                     $http(req.config).then(function (response) {
                         req.deferred.resolve(response);
@@ -39,21 +52,21 @@ angular.module('rescour.app')
                     retry(requests[i]);
                 }
                 $rootScope.requests401 = [];
-
-                $location.path('/');
             });
 
             $rootScope.$on('auth#paymentRequired', function () {
+                $location.path('/account');
                 var token = function (res) {
                     var path = $_api.path + '/auth/users/user/payment/',
                         config = angular.extend({
-                            transformRequest: $_api.loading.none
+                            transformRequest: $_api.loading.main
                         }, $_api.config),
                         body = JSON.stringify({token: res.id});
 
                     $http.post(path, body, config).then(function (response) {
                         console.log("Success payment", response, $rootScope);
-                        return $rootScope.ping();
+                        $rootScope.$broadcast('auth#resendRequests');
+                        $location.path('/');
                     }, function (response) {
                         $rootScope.$broadcast('auth#paymentRequired');
                     });
@@ -75,11 +88,10 @@ angular.module('rescour.app')
              */
             $rootScope.$on('auth#loginRequest', function (event, creds) {
                 $_api.auth.login(creds, function (response) {
-                    if (response.data.status === "success") {
-                        $rootScope.$broadcast('auth#loginConfirmed');
-                    } else {
-                        $rootScope.$broadcast('auth#loginRequired');
-                    }
+                    $rootScope.$broadcast('auth#loginConfirmed');
+                    $location.path('/');
+                }, function (response) {
+                    $rootScope.$broadcast('auth#loginRequired');
                 });
             });
 
@@ -90,9 +102,17 @@ angular.module('rescour.app')
              * On 'logoutRequest' invoke logout on the server and broadcast 'event:loginRequired'.
              */
             $rootScope.$on('auth#logoutRequest', function () {
-                $_api.auth.logout(function () {
+                var path = $_api.path + '/auth/logout/',
+                    config = angular.extend({
+                        transformRequest: function (data) {
+                            return data;
+                        }
+                    }, $_api.config),
+                    body = JSON.stringify({});
+
+                $http.post(path, body, config).then(function (response) {
                     $rootScope.ping();
-                }, function () {
+                }, function (response) {
                     $rootScope.ping();
                 });
             });

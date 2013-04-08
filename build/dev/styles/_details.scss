@@ -12,8 +12,9 @@
   width: 600px;
 }
 
-.contact-selected {
-  background: lighten($light-green, 20%) !important;
+.contact-selected strong {
+  //background: lighten($light-green, 20%) !important;
+  color: $blue;
 }
 
 .well.contact {
@@ -24,4 +25,13 @@ h1 {
   font-weight: bold;
   font-size: 2em;
   padding: 10px;
+}
+
+.contact-form {
+  .controls {
+    margin: 0 0 30px;
+  }
+  .checkbox {
+    cursor: pointer;
+  }
 }

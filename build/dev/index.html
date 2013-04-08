@@ -39,7 +39,7 @@
     <!-- ClickJacking Defense end -->
 </head>
 <body ng-controller="AppController">
-<div id="Loading">
+<div id="Loading" ng-show="loading" ng-cloak>
     <div class="loading-container">
         <p>Loading</p>
         <i class="loading-icon icon-spinner icon-spin icon-4x"></i>

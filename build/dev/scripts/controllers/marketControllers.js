@@ -200,6 +200,19 @@ angular.module('nebuMarket')
                 $scope.centerMap(item);
             };
 
+            $scope.getStatusClass = function (status) {
+                switch (status) {
+                    case 'Marketing':
+                        return 'caption-green';
+                    case 'Under Contract':
+                        return 'caption-orange';
+                    case 'Under LOI':
+                        return 'caption-orange';
+                    case 'Expired':
+                        return 'caption-red';
+                }
+            };
+
             $scope.toggleFavorites = function (item) {
                 item.toggleFavorites();
             };
@@ -237,7 +250,6 @@ angular.module('nebuMarket')
             $scope.addComment = function (message) {
                 if (message) {
                     $scope.current.addComment(message).then(function (response) {
-                        $scope.current.refreshComments();
                         $scope.newComment.message = "";
                     });
                 }
@@ -265,4 +277,15 @@ angular.module('nebuMarket')
                     });
                 }
             };
+
+            $scope.saveNote = function (property) {
+                property.saveNote().then(
+                    function () {
+                        $scope.$broadcast('autoSaveSuccess');
+                    },
+                    function (err) {
+                        console.log('error saving note', err);
+                    }
+                );
+            }
         }]);

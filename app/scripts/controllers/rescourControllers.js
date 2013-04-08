@@ -112,7 +112,7 @@ angular.module('rescour.app')
         }])
     .controller('AccountController', ['$scope', 'loadUser', '$_api', '$http', 'User', '$routeParams', '$rootScope', '$location',
         function ($scope, loadUser, $_api, $http, User, $routeParams, $rootScope, $location) {
-            $scope.accountAlerts = [];
+
             $scope.user = User.getUser();
 
             var authorizingAlert = {
@@ -124,7 +124,7 @@ angular.module('rescour.app')
                     msg: 'Authorization Successful!',
                     action: 'Continue to Application'
                 };
-
+            $scope.accountAlerts = [authorizingAlert];
             if ($routeParams.status === 'authorizing') {
                 $scope.accountAlerts = [authorizingAlert];
 

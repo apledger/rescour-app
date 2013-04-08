@@ -71,7 +71,6 @@ angular.module('rescour.app')
                             self = this,
                             path = $_api.path + '/auth/users/user/',
                             config = angular.extend({
-                                transformRequest: $_api.loading.main
                             }, $_api.config);
 
                         $http.get(path, config).then(

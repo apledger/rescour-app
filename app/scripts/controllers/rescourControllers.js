@@ -110,9 +110,40 @@ angular.module('rescour.app')
             };
 
         }])
-    .controller('AccountController', ['$scope', 'loadUser', '$_api', '$http', 'User',
-        function ($scope, loadUser, $_api, $http, User) {
+    .controller('AccountController', ['$scope', 'loadUser', '$_api', '$http', 'User', '$routeParams', '$rootScope', '$location',
+        function ($scope, loadUser, $_api, $http, User, $routeParams, $rootScope, $location) {
+            $scope.accountAlerts = [];
             $scope.user = User.getUser();
+
+            var authorizingAlert = {
+                    type: 'info',
+                    msg: 'Authorizing...'
+                },
+                successAlert = {
+                    type: 'success',
+                    msg: 'Authorization Successful!',
+                    action: 'Continue to Application'
+                };
+
+            if ($routeParams.status === 'authorizing') {
+                $scope.accountAlerts = [authorizingAlert];
+
+                var path = $_api.path + '/users/user/authorizing/',
+                    config = angular.extend({
+                        transformRequest: function (data) {
+                            return data;
+                        }
+                    }, $_api.config);
+
+                $http.get(path, config).then(
+                    function (response) {
+                        $scope.accountAlerts = [successAlert];
+                    },
+                    function (response) {
+                        $rootScope.$broadcast('auth#paymentRequired');
+                    }
+                );
+            }
 
             $scope.accountViews = [
                 {name: 'Profile', selected: true, partial: '/views/account/partials/profile.html'},
@@ -129,7 +160,11 @@ angular.module('rescour.app')
 
                 view.selected = true;
                 $scope.currentView = view.partial;
-            }
+            };
+
+            $scope.continueToApplication = function () {
+                $location.path('/');
+            };
         }])
     .controller('AccountProfileController', ['$scope', '$_api', '$http', '$q',
         function ($scope, $_api, $http, $q) {
@@ -150,7 +185,7 @@ angular.module('rescour.app')
 
                     });
                 } else {
-                    defer.reject()
+                    defer.reject();
                 }
             }
 
@@ -226,7 +261,7 @@ angular.module('rescour.app')
                 dialog.close();
             };
 
-            $scope.continue = function (cancelFields) {
+            $scope.cancelAccount = function (cancelFields) {
                 dialog.close({
                     action: 'save',
                     reason: cancelFields.reason
@@ -236,5 +271,4 @@ angular.module('rescour.app')
     .controller('AccountBillingController', ['$scope', '$_api', '$http', '$q', 'Billing',
         function ($scope, $_api, $http, $q, Billing) {
             $scope.billingInfo = Billing.getBillingInfo();
-
         }]);

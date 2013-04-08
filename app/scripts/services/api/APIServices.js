@@ -8,7 +8,7 @@ angular.module('rescour.api', [])
             prod: "/api"
         };
 
-        var path = url.prod;
+        var path = url.local;
         var config = {
                 headers: {'Content-Type': 'application/json'},
                 withCredentials: true

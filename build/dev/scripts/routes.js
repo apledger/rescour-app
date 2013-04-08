@@ -32,7 +32,14 @@ angular.module('rescour.app')
 
             $routeProvider.when('/login', {
                 templateUrl: "/views/login/login.html",
-                controller: 'LoginController'
+                controller: 'LoginController',
+                resolve: {
+                    checkUser: function ($rootScope, $location) {
+                        $rootScope.ping().then(function (response) {
+                            $location.path('/');
+                        });
+                    }
+                }
             });
 
             $routeProvider.when('/login/forgot-password', {
@@ -55,7 +62,7 @@ angular.module('rescour.app')
                 }
             });
 
-            $routeProvider.when('/account', {              //THIS LINE SHOULD BE /account
+            $routeProvider.when('/account/:status', {              //THIS LINE SHOULD BE /account
                 templateUrl: "/views/account/account.html",
                 controller: 'AccountController',
                 resolve: {
@@ -93,7 +100,9 @@ angular.module('rescour.app')
 
                     $('#Loading-Details').hide();
                 }, reject = function (response) {
-                    var status = response.status;
+                    var status = response.status,
+                        message = response.data.status_message;
+                    console.log(response);
 
                     switch (status) {
                         case 401:
@@ -115,9 +124,14 @@ angular.module('rescour.app')
                                     config: response.config,
                                     deferred: defer
                                 };
-
                             $rootScope.requests401.push(req);
-                            $rootScope.$broadcast('auth#paymentRequired');
+
+                            if (message === 'payment required') {
+                                $rootScope.$broadcast('auth#paymentRequired');
+                            } else if (message === 'payment authorizing') {
+                                $rootScope.$broadcast('auth#paymentAuthorizing');
+                            }
+
                             return defer.promise;
                         default:
                             $('#Loading').hide();

@@ -150,10 +150,14 @@ angular.module('rescour.app')
 
                     $http.post(path, body, config).then(function (response) {
                         console.log("Success payment", response, $rootScope);
-                        $rootScope.$broadcast('auth#resendRequests');
-
+                        $rootScope.$broadcast('auth#paymentAuthorizing');
                     }, function (response) {
-                        $rootScope.$broadcast('auth#paymentRequired');
+                        if (response.status === 400) {
+                            $scope.accountAlerts = [{
+                                type: 'error',
+                                msg: response.status_message
+                            }];
+                        }
                     });
 
                 };

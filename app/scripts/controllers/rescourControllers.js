@@ -119,7 +119,7 @@ angular.module('rescour.app')
                 successAlert = {
                     type: 'success',
                     msg: 'Authorization Successful!  ',
-                    action: 'Continue to Application'
+                    action: 'Continue'
                 };
 
             if ($routeParams.status === 'authorizing') {
@@ -155,7 +155,7 @@ angular.module('rescour.app')
                         if (response.status === 400) {
                             $scope.accountAlerts = [{
                                 type: 'error',
-                                msg: response.status_message
+                                msg: response.data.status_message
                             }];
                         }
                     });

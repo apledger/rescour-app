@@ -60,6 +60,7 @@ angular.module('nebuMarket')
                 }
 
                 this.title = data.title || "Title not listed";
+                this.flyer = data.flyer || "";
                 this.description = data.description || "No description provided";
                 this.address = data.address || {
                     street1: "No address listed"

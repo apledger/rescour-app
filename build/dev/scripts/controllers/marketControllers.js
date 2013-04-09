@@ -4,6 +4,7 @@ angular.module('nebuMarket')
     .controller('MarketController', ['$scope', 'Items', 'Filter', 'Attributes', '$timeout', '$location', '$routeParams',
         function ($scope, Items, Filter, Attributes, $timeout, $location, $routeParams) {
             $scope.items = Items.getItems();
+            console.log($scope.items);
             $scope.attributes = Attributes.active;
             $scope.view = null;
             $scope.toggle = null;

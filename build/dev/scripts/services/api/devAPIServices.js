@@ -46,6 +46,7 @@ angular.module('rescour.api', [])
             config: config,
             path: url.prod,
             loading: loading,
-            stripeToken: stripeTokens.prod
+            stripeToken: stripeTokens.test
         };
     });
+

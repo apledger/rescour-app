@@ -280,6 +280,7 @@ angular.module('rescour.app.dev', ['rescour.app', 'ngMockE2E'])
             items[k] = {
                 id: k,
                 thumbnail: "apt" + parseInt((Math.random() * 10), 10) + ".jpg",
+                flyer: "http://www.realtyjuggler.com/FlyersSummary",
                 title: randomDetails.title,
                 description: randomDetails.description,
                 price: "TBD by market",

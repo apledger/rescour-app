@@ -21,6 +21,12 @@
                             <dd>{{current.getAttribute("Number of Units")}}</dd>
                             <dt>Description:</dt>
                             <dd>{{current.description}}</dd>
+                            <dt>Address:</dt>
+                            <dd>{{current.address.street1}}</dd>
+                            <dt></dt>
+                            <dd>{{current.address.city}}, {{current.address.state}} {{current.address.zip}}</dd>
+                            <dt></dt>
+                            <dd><a target="_blank" ng-href="{{current.flyer}}">Property Flyer</a></dd>
                         </dl>
                     </div>
 

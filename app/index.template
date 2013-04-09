@@ -85,7 +85,7 @@
 <script src="/scripts/scripts.min.js?v=<%= hash('./tmp/scripts/scripts.min.js') %>"></script>
 <% } else if (environment === 'dev') { %>
 <!-- Begin dev API and bootstrap !-->
-<script type="text/javascript" src="/scripts/services/api/APIServices.js"></script>
+<script type="text/javascript" src="/scripts/services/api/devAPIServices.js"></script>
 <script type="text/javascript" src="/scripts/bootstrap.js"></script>
 <!-- End dev API and bootstrap !-->
 <% } else if (environment === 'local') {%>

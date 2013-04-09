@@ -141,9 +141,6 @@ angular.module('rescour.app')
                     }
                 );
             } else if ($routeParams.status === 'activate') {
-                var TEST_KEY = 'pk_test_wSAqQNQKI7QqPmBpDcQLgGM7',
-                    LIVE_KEY = 'pk_live_4TLhgO3Pp1gOdWWmvLVK1PG3';
-
                 var token = function (res) {
                     var path = $_api.path + '/auth/users/user/payment/',
                         config = angular.extend({
@@ -162,7 +159,7 @@ angular.module('rescour.app')
                 };
 
                 StripeCheckout.open({
-                    key: TEST_KEY,
+                    key: $_api.stripeToken,
                     address: true,
                     name: 'Rescour',
                     currency: 'usd',

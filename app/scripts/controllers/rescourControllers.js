@@ -139,7 +139,7 @@ angular.module('rescour.app')
 
                         $timeout(function () {
                             $location.path('/login');
-                        }, 2000);
+                        }, 500);
 
                         $scope.creds = {};
                     }, function (response) {

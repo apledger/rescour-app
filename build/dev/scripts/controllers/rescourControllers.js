@@ -110,7 +110,7 @@ angular.module('rescour.app')
 
             $scope.resetPassword = function () {
                 if ($scope.formResetPassword.$valid) {
-                    var path = $_api.path + '/auth/users/user/',
+                    var path = $_api.path + '/auth/reset/',
                         config = angular.extend({
                             transformRequest: function (data) {
                                 $scope.resetPasswordAlerts = [
@@ -129,7 +129,7 @@ angular.module('rescour.app')
                             verify_password: $scope.creds.verifyPassword
                         });
 
-                    $http.put(path, body, config).then(function (response) {
+                    $http.post(path, body, config).then(function (response) {
                         $scope.resetPasswordAlerts = [
                             {
                                 type: 'success',

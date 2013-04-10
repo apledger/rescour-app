@@ -71,11 +71,18 @@ angular.module('rescour.app')
             $scope.emailInstructions = function () {
                 var path = $_api.path + '/auth/reset/',
                     config = angular.extend({
-                        transformRequest: $_api.loading.none
+                        transformRequest: function (data) {
+                            $scope.forgotPasswordAlerts = [
+                                {
+                                    type: 'info',
+                                    msg: 'Sending email...'
+                                }
+                            ];
+
+                            return data;
+                        }
                     }, $_api.config),
                     body = JSON.stringify($scope.creds);
-
-                console.log(body);
 
                 $http.post(path, body, config).then(function (response) {
                     $scope.creds = {};
@@ -103,9 +110,18 @@ angular.module('rescour.app')
 
             $scope.resetPassword = function () {
                 if ($scope.formResetPassword.$valid) {
-                    var path = $_api.path + '/auth/reset/',
+                    var path = $_api.path + '/auth/users/user/',
                         config = angular.extend({
-                            transformRequest: $_api.loading.none
+                            transformRequest: function (data) {
+                                $scope.resetPasswordAlerts = [
+                                    {
+                                        type: 'info',
+                                        msg: 'Resetting password...'
+                                    }
+                                ];
+
+                                return data;
+                            }
                         }, $_api.config),
                         body = JSON.stringify({
                             old_password: $location.search().token,
@@ -113,7 +129,7 @@ angular.module('rescour.app')
                             verify_password: $scope.creds.verifyPassword
                         });
 
-                    $http.post(path, body, config).then(function (response) {
+                    $http.put(path, body, config).then(function (response) {
                         $scope.resetPasswordAlerts = [
                             {
                                 type: 'success',

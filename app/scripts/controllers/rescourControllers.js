@@ -62,7 +62,6 @@ angular.module('rescour.app')
             $scope.forgotPassword = function () {
                 $location.path('/login/forgot-password');
             };
-
         }])
     .controller('ForgotPasswordController', ['$scope', '$location', '$http', '$_api',
         function ($scope, $location, $http, $_api) {
@@ -103,38 +102,41 @@ angular.module('rescour.app')
             $scope.resetPasswordAlerts = [];
 
             $scope.resetPassword = function () {
-                var path = $_api.path + '/auth/reset/',
-                    config = angular.extend({
-                        transformRequest: $_api.loading.none
-                    }, $_api.config),
-                    body = JSON.stringify({
-                        token: $location.search().token,
-                        password: $scope.creds.password
+                if ($scope.formResetPassword.$valid) {
+                    var path = $_api.path + '/auth/reset/',
+                        config = angular.extend({
+                            transformRequest: $_api.loading.none
+                        }, $_api.config),
+                        body = JSON.stringify({
+                            old_password: $location.search().token,
+                            new_password: $scope.creds.newPassword,
+                            verify_password: $scope.creds.verifyPassword
+                        });
+
+                    $http.post(path, body, config).then(function (response) {
+                        $scope.resetPasswordAlerts = [
+                            {
+                                type: 'success',
+                                msg: 'Please login'
+                            }
+                        ];
+
+                        $timeout(function () {
+                            $location.path('/login');
+                        }, 1000);
+
+                        $scope.creds = {};
+                    }, function (response) {
+                        $scope.resetPasswordAlerts = [
+                            {
+                                type: 'error',
+                                msg: response.data.status_message
+                            }
+                        ];
+
+                        $scope.creds = {};
                     });
-
-                $http.post(path, body, config).then(function (response) {
-                    $scope.resetPasswordAlerts = [
-                        {
-                            type: 'success',
-                            msg: 'Please login'
-                        }
-                    ];
-
-                    $timeout(function () {
-                        $location.path('/login');
-                    }, 1000);
-
-                    $scope.creds = {};
-                }, function (response) {
-                    $scope.resetPasswordAlerts = [
-                        {
-                            type: 'error',
-                            msg: response.data.status_message
-                        }
-                    ];
-
-                    $scope.creds = {};
-                });
+                }
             };
 
         }])

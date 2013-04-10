@@ -8,7 +8,7 @@ angular.module('rescour.app')
             $httpProvider.defaults.withCredentials = true;
             $locationProvider.html5Mode(true);
 
-            $routeProvider.when('/', {           //THIS LINE SHOULD BE '/'
+            $routeProvider.when('/', {
                 templateUrl: "/views/market/market.html",
                 controller: 'MarketController',
                 resolve: {
@@ -73,7 +73,7 @@ angular.module('rescour.app')
                 }
             });
 
-            $routeProvider.when('/account/:status', {              //THIS LINE SHOULD BE /account
+            $routeProvider.when('/account/:status', {
                 templateUrl: "/views/account/account.html",
                 controller: 'AccountController',
                 resolve: {

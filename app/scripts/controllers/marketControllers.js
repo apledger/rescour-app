@@ -241,11 +241,15 @@ angular.module('nebuMarket')
                 detailPanes.selectPane("Contact");
             };
         }])
-    .controller("DetailsController", ['$scope', '$http', '$_api', '$timeout', 'detailPanes',
-        function ($scope, $http, $_api, $timeout, detailPanes) {
+    .controller("DetailsController", ['$scope', '$http', '$_api', '$timeout', 'detailPanes', 'DataFields',
+        function ($scope, $http, $_api, $timeout, detailPanes, DataFields) {
             $scope.newComment = {};
             $scope.newEmail = {};
+            $scope.dataList = {};
             $scope.panes = detailPanes.panes;
+            $scope.dataFields = DataFields;
+
+            $scope.formats = ['$', '%', '0.0']
 
             $scope.addComment = function (message) {
                 if (message) {
@@ -287,5 +291,22 @@ angular.module('nebuMarket')
                         console.log('error saving note', err);
                     }
                 );
+            };
+            
+            $scope.addData = function(){
+                $scope.current.addDataModel();
+            };
+
+            $scope.saveDataModel = function(item){
+                $scope.current.saveDataModel(item);
+                if(!_.find($scope.dataFields.fields, function(value){return value == item.title})){
+                    $scope.dataFields.fields = DataFields.addField(item.title);
+                }
             }
+
+            $scope.deleteDataModel = function(item){
+                $scope.current.deleteDataModel(item);
+            }
+
         }]);
+

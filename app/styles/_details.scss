@@ -1,3 +1,5 @@
+$detailsHeaderColor: $light-gray;
+
 .property-details {
   position: absolute;
   left: $filterWidth + $marketWidth;
@@ -5,9 +7,59 @@
   right: 0;
   bottom: 0;
   z-index: 1;
-  background: white;
+  background: $light-gray;
   overflow-y: scroll;
+
+  .tabbable {
+    @include box-shadows(0px 0px 1px 1px rgba(80, 84, 92, 0.0980392), 0px 1px 2px 0px rgba(80, 84, 92, 0.498039));
+    @include border-radius(5px);
+    background-clip: border-box;
+    background: white;
+    min-height: 450px;
+    margin-bottom: 25px;
+
+    .nav-tabs {
+      @include buttonBackground(lighten($detailsHeaderColor, 5%), darken($detailsHeaderColor, 5%));
+      border-bottom: 1px solid darken($detailsHeaderColor, 20%);
+      @include border-top-left-radius(5px);
+      @include border-top-right-radius(5px);
+
+      & > li {
+        background: none;
+        & > a {
+          margin: 0;
+          padding: 15px 20px;
+          color: $black;
+          text-shadow: rgb(255, 255, 255) 2px 1px 0px;
+          @include transition(all 0.2s);
+        }
+      }
+
+      & > .active > a, & > .active > a:hover {
+        margin: 5px 0 0 0;
+        padding: 15px 20px 10px;
+        color: $black;
+
+        @include transition(all 0.2s);
+
+      }
+
+      & > li.active {
+        border-left: 1px solid darken($detailsHeaderColor, 20%);
+        border-right: 1px solid darken($detailsHeaderColor, 20%);
+        &:first-child {
+          border-left: none;
+        }
+        background-color: $red;
+      }
+    }
+  }
+
+  .tab-content {
+    margin-top: 5px;
+  }
 }
+
 .picture-container {
   width: 600px;
 }
@@ -20,8 +72,9 @@
 .well.contact {
   cursor: pointer;
 }
+
 h1 {
-  float:left;
+  float: left;
   font-weight: bold;
   font-size: 2em;
   padding: 10px;

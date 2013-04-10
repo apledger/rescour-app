@@ -1,5 +1,4 @@
 <div class="container-fluid" ng-controller="DetailsController">
-    <div class="origami-right"></div>
     <div class="row-fluid">
         <div class="page-header clearfix">
             <button class="btn pull-right" ng-click="close()"><i class="icon-arrow-left"></i>&nbsp;Back to map</button>
@@ -8,7 +7,7 @@
         <div class="span11">
             <div tabs>
                 <div pane heading="{{panes[0].heading}}" active="panes[0].active">
-                    <div class="well clearfix">
+                    <div class="clearfix">
                         <p class="lead">Details</p>
                         <dl class="dl-horizontal">
                             <dt>Broker:</dt>
@@ -30,7 +29,7 @@
                         </dl>
                     </div>
 
-                    <div class="well" ng-show="current.details.unitMix">
+                    <div ng-show="current.details.unitMix">
                         <p class="lead">Property Unit Mix</p>
                         <table class="table table-condensed">
                             <thead>

@@ -124,9 +124,9 @@ angular.module('rescour.app')
                             }
                         }, $_api.config),
                         body = JSON.stringify({
-                            old_password: $location.search().token,
+                            token: $location.search().token,
                             new_password: $scope.creds.newPassword,
-                            verify_password: $scope.creds.verifyPassword
+                            verify_password: $scope.creds.newPassword
                         });
 
                     $http.post(path, body, config).then(function (response) {
@@ -139,7 +139,7 @@ angular.module('rescour.app')
 
                         $timeout(function () {
                             $location.path('/login');
-                        }, 1000);
+                        }, 2000);
 
                         $scope.creds = {};
                     }, function (response) {

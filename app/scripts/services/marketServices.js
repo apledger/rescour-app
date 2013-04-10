@@ -714,7 +714,7 @@ angular.module('nebuMarket')
             {heading:"Details", active:true},
             {heading:"Pictures", active:false},
             {heading:"Contact", active:false},
-            {heading:"Notes", active:false},
+            {heading:"Comments", active:false},
             {heading:"Data", active:false}
         ];
         return {

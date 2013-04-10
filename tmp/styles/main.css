@@ -5999,18 +5999,18 @@ a.label:hover, a.badge:hover {
 .item-well .footer {
   position: relative;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.08);
+  background-color: #eeeeee;
   height: 30px;
   border-top: 1px solid rgba(0, 0, 0, 0.05);
 }
-/* line 222, ../../app/styles/_market_list.scss */
+/* line 223, ../../app/styles/_market_list.scss */
 .item-well .footer .user-options {
   position: relative;
   float: left;
   font-size: 16px;
   padding: 2px 10px;
 }
-/* line 228, ../../app/styles/_market_list.scss */
+/* line 229, ../../app/styles/_market_list.scss */
 .item-well .footer .user-options .footer-button {
   position: relative;
   float: left;
@@ -6020,11 +6020,11 @@ a.label:hover, a.badge:hover {
   font-weight: normal;
   margin-right: 15px;
 }
-/* line 237, ../../app/styles/_market_list.scss */
+/* line 238, ../../app/styles/_market_list.scss */
 .item-well .footer .user-options .footer-button:hover {
   color: #5f5f5f;
 }
-/* line 241, ../../app/styles/_market_list.scss */
+/* line 242, ../../app/styles/_market_list.scss */
 .item-well .footer .user-options .footer-button span {
   font-size: 12px;
 }
@@ -6328,8 +6328,9 @@ a.label:hover, a.badge:hover {
   background: white;
   min-height: 450px;
   margin-bottom: 25px;
+  margin-right: 35px;
 }
-/* line 21, ../../app/styles/_details.scss */
+/* line 22, ../../app/styles/_details.scss */
 .property-details .tabbable .nav-tabs {
   color: white;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
@@ -6364,62 +6365,66 @@ a.label:hover, a.badge:hover {
 .property-details .tabbable .nav-tabs:active, .property-details .tabbable .nav-tabs.active {
   background-color: #c8c8c8 \9;
 }
-/* line 27, ../../app/styles/_details.scss */
+/* line 28, ../../app/styles/_details.scss */
 .property-details .tabbable .nav-tabs > li {
   background: none;
+  border-right: 1px solid #bbbbbb;
 }
-/* line 29, ../../app/styles/_details.scss */
+/* line 31, ../../app/styles/_details.scss */
 .property-details .tabbable .nav-tabs > li > a {
   margin: 0;
   padding: 15px 20px;
   color: black;
   text-shadow: white 2px 1px 0px;
-  -webkit-transition: all 0.2s;
-  -moz-transition: all 0.2s;
-  -o-transition: all 0.2s;
-  transition: all 0.2s;
+  border: none;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
 }
-/* line 38, ../../app/styles/_details.scss */
+/* line 41, ../../app/styles/_details.scss */
 .property-details .tabbable .nav-tabs > .active > a, .property-details .tabbable .nav-tabs > .active > a:hover {
   margin: 5px 0 0 0;
   padding: 15px 20px 10px;
   color: black;
-  -webkit-transition: all 0.2s;
-  -moz-transition: all 0.2s;
-  -o-transition: all 0.2s;
-  transition: all 0.2s;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
 }
-/* line 47, ../../app/styles/_details.scss */
+/* line 50, ../../app/styles/_details.scss */
 .property-details .tabbable .nav-tabs > li.active {
-  border-left: 1px solid #bbbbbb;
   border-right: 1px solid #bbbbbb;
   background-color: #9c3022;
 }
-/* line 50, ../../app/styles/_details.scss */
+/* line 54, ../../app/styles/_details.scss */
 .property-details .tabbable .nav-tabs > li.active:first-child {
+  -webkit-border-top-left-radius: 5px;
+  -moz-border-radius-topleft: 5px;
+  border-top-left-radius: 5px;
   border-left: none;
 }
-/* line 58, ../../app/styles/_details.scss */
+/* line 63, ../../app/styles/_details.scss */
 .property-details .tab-content {
   margin-top: 5px;
 }
 
-/* line 63, ../../app/styles/_details.scss */
+/* line 68, ../../app/styles/_details.scss */
 .picture-container {
   width: 600px;
 }
 
-/* line 67, ../../app/styles/_details.scss */
+/* line 72, ../../app/styles/_details.scss */
 .contact-selected strong {
   color: #0088cc;
 }
 
-/* line 72, ../../app/styles/_details.scss */
+/* line 77, ../../app/styles/_details.scss */
 .well.contact {
   cursor: pointer;
 }
 
-/* line 76, ../../app/styles/_details.scss */
+/* line 81, ../../app/styles/_details.scss */
 h1 {
   float: left;
   font-weight: bold;
@@ -6427,11 +6432,11 @@ h1 {
   padding: 10px;
 }
 
-/* line 84, ../../app/styles/_details.scss */
+/* line 89, ../../app/styles/_details.scss */
 .contact-form .controls {
   margin: 0 0 30px;
 }
-/* line 87, ../../app/styles/_details.scss */
+/* line 92, ../../app/styles/_details.scss */
 .contact-form .checkbox {
   cursor: pointer;
 }

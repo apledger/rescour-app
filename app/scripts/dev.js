@@ -453,7 +453,7 @@ angular.module('rescour.app.dev', ['rescour.app', 'ngMockE2E'])
         $httpBackend.whenGET('/auth/check').respond({user: "Alan"});
         $httpBackend.whenGET('/auth/users/user/').respond(fakeUser);
 
-        $httpBackend.whenGET('/auth/users/billing/').respond(fakeCustomer);
+        $httpBackend.whenGET('/auth/users/user/payment/').respond(fakeCustomer);
 
         $httpBackend.whenPUT('/auth/users/user/').respond(function (method, url, data, headers) {
             var _saved = angular.fromJson(data);

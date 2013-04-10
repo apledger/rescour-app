@@ -159,10 +159,9 @@ angular.module('rescour.app')
     .controller('AccountController', ['$scope', 'loadUser', '$_api', '$http', 'User', '$routeParams', '$rootScope', '$location', 'loadBilling',
         function ($scope, loadUser, $_api, $http, User, $routeParams, $rootScope, $location, loadBilling) {
 
-            $scope.user = User;
-            console.log($scope.user);
-            console.log(loadBilling);
-            $scope.billing = loadBilling;
+           $scope.user = User;
+           console.log($scope.user);
+
 
             $scope.selectSubview = function (subview) {
                 if (_.isObject(subview)) {

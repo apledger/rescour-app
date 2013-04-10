@@ -1,6 +1,6 @@
 <div ng-controller="AccountSettingsController" ng-cloak>
     <div class="page-header"><h3>Account Settings</h3></div>
-
+    <div alert ng-repeat="alert in accountAlerts" type="alert.type">{{alert.msg}} <a ng-show="action" href="javascript:" ng-click="goToApp()">Continue to Application</a></div>
     <form name="formChangePassword" class="form-signin form-horizontal">
         <h4 class="form-signin-heading">CHANGE PASSWORD</h4>
 
@@ -53,8 +53,4 @@
 
         <div class=""><button ng-click="changePassword()" class="btn controls btn-info">Change Password</button></div>
     </form>
-
-    <form class="form-horizontal form-actions"><h4>CANCEL ACCOUNT</h4>
-    <button class="btn btn-danger" ng-click="openCancelDialog()">Cancel Account</button>
-</form>
 </div>

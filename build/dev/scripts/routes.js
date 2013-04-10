@@ -77,22 +77,23 @@ angular.module('rescour.app')
                 templateUrl: "/views/account/account.html",
                 controller: 'AccountController',
                 resolve: {
-                    loadUser: function ($q, $_api, $http) {
-                        var defer = $q.defer(),
-                            self = this,
-                            path = $_api.path + '/auth/users/user/',
-                            config = angular.extend({
-                            }, $_api.config);
-
-                        $http.get(path, config).then(
-                            function (response) {
-                                defer.resolve(response.data);
-                            },
-                            function (response) {
-                                defer.reject();
-                            }
-                        );
-
+                    loadUser: function (User, $q) {
+                        var defer = $q.defer();
+                        User.getProfile().then(function (response) {
+                            defer.resolve(response);
+                        }, function (response) {
+                            console.log(response);
+                            defer.reject(response);
+                        });
+                        return defer.promise;
+                    },
+                    loadBilling: function (User, $q) {
+                        var defer = $q.defer();
+                        User.getBilling().then(function (response) {
+                            defer.resolve(response);
+                        }, function (response) {
+                            defer.reject(response);
+                        });
                         return defer.promise;
                     }
                 }
@@ -112,7 +113,6 @@ angular.module('rescour.app')
                 }, reject = function (response) {
                     var status = response.status,
                         message = response.data.status_message;
-                    console.log(response);
 
                     switch (status) {
                         case 401:

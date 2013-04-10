@@ -58,8 +58,8 @@ angular.module('rescour.app')
                 $location.path('/account/activate/');
             });
 
-            $rootScope.$on('auth#paymentAuthorizing', function () {
-                $location.path('/account/authorizing');
+            $rootScope.$on('auth#paymentConfirmed', function () {
+                $location.path('/account/welcome');
             });
 
             /**

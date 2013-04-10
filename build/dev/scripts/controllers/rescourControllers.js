@@ -80,15 +80,19 @@ angular.module('rescour.app')
 
                 $http.post(path, body, config).then(function (response) {
                     $scope.creds = {};
-                    $scope.forgotPasswordAlerts = [{
-                        type: 'success',
-                        msg: 'Please check your email!'
-                    }];
+                    $scope.forgotPasswordAlerts = [
+                        {
+                            type: 'success',
+                            msg: 'Please check your email!'
+                        }
+                    ];
                 }, function (response) {
-                    $scope.forgotPasswordAlerts = [{
-                        type: 'error',
-                        msg: 'Invalid email, please try again'
-                    }];
+                    $scope.forgotPasswordAlerts = [
+                        {
+                            type: 'error',
+                            msg: 'Invalid email, please try again'
+                        }
+                    ];
                 });
             };
 
@@ -109,10 +113,12 @@ angular.module('rescour.app')
                     });
 
                 $http.post(path, body, config).then(function (response) {
-                    $scope.resetPasswordAlerts = [{
-                        type: 'success',
-                        msg: 'Please login'
-                    }];
+                    $scope.resetPasswordAlerts = [
+                        {
+                            type: 'success',
+                            msg: 'Please login'
+                        }
+                    ];
 
                     $timeout(function () {
                         $location.path('/login');
@@ -120,100 +126,93 @@ angular.module('rescour.app')
 
                     $scope.creds = {};
                 }, function (response) {
-                    $scope.resetPasswordAlerts = [{
-                        type: 'error',
-                        msg: response.data.status_message
-                    }];
+                    $scope.resetPasswordAlerts = [
+                        {
+                            type: 'error',
+                            msg: response.data.status_message
+                        }
+                    ];
 
                     $scope.creds = {};
                 });
             };
 
         }])
-    .controller('AccountController', ['$scope', 'loadUser', '$_api', '$http', 'User', '$routeParams', '$rootScope', '$location',
-        function ($scope, loadUser, $_api, $http, User, $routeParams, $rootScope, $location) {
+    .controller('AccountController', ['$scope', 'loadUser', '$_api', '$http', 'User', '$routeParams', '$rootScope', '$location', 'loadBilling',
+        function ($scope, loadUser, $_api, $http, User, $routeParams, $rootScope, $location, loadBilling) {
 
-            $scope.user = User.getUser();
+            $scope.user = User;
+            console.log($scope.user);
+            console.log(loadBilling);
+            $scope.billing = loadBilling;
 
-            var authorizingAlert = {
-                    type: 'info',
-                    msg: 'Authorizing...'
-                },
-                successAlert = {
-                    type: 'success',
-                    msg: 'Authorization Successful!  ',
-                    action: 'Continue'
-                };
-
-            if ($routeParams.status === 'authorizing') {
-                $scope.accountAlerts = [authorizingAlert];
-
-                var path = $_api.path + '/users/user/authorizing/',
-                    config = angular.extend({
-                        transformRequest: function (data) {
-                            return data;
-                        }
-                    }, $_api.config);
-
-                $http.get(path, config).then(
-                    function (response) {
-                        $scope.accountAlerts = [successAlert];
-                    },
-                    function (response) {
-                        $rootScope.$broadcast('auth#paymentRequired');
-                    }
-                );
-            } else if ($routeParams.status === 'activate') {
-                var token = function (res) {
-                    var path = $_api.path + '/auth/users/user/payment/',
-                        config = angular.extend({
-                            transformRequest: $_api.loading.main
-                        }, $_api.config),
-                        body = JSON.stringify({token: res.id});
-
-                    $http.post(path, body, config).then(function (response) {
-                        console.log("Success payment", response, $rootScope);
-                        $rootScope.$broadcast('auth#paymentAuthorizing');
-                    }, function (response) {
-                        if (response.status === 400) {
-                            $scope.accountAlerts = [{
-                                type: 'error',
-                                msg: response.data.status_message
-                            }];
+            $scope.selectSubview = function (subview) {
+                if (_.isObject(subview)) {
+                    angular.forEach($scope.accountSubviews, function (value, key) {
+                        if (value.title === subview.title) {
+                            value.selected = true;
+                            $scope.activeSubview = key;
+                        } else {
+                            value.selected = false;
                         }
                     });
-
-                };
-
-                StripeCheckout.open({
-                    key: $_api.stripeToken,
-                    address: true,
-                    name: 'Rescour',
-                    currency: 'usd',
-                    description: 'Activate your trial!',
-                    panelLabel: 'Checkout',
-                    token: token
-                });
-            }
-
-            $scope.accountViews = [
-                {name: 'Profile', selected: true, partial: '/views/account/partials/profile.html'},
-                {name: 'Account Settings', selected: false, partial: '/views/account/partials/accountSettings.html'},
-                {name: 'Billing', selected: false, partial: '/views/account/partials/billing.html'}
-            ];
-
-            $scope.currentView = $scope.accountViews[0].partial;
-
-            $scope.changeAccountView = function (view) {
-                angular.forEach($scope.accountViews, function (value, key) {
-                    value.selected = false;
-                });
-
-                view.selected = true;
-                $scope.currentView = view.partial;
+                } else if ($scope.accountSubviews.hasOwnProperty(subview)) {
+                    angular.forEach($scope.accountSubviews, function (value, key) {
+                        value.selected = false;
+                    });
+                    $scope.accountSubviews[subview].selected = true;
+                    $scope.activeSubview = subview;
+                } else {
+                    throw new Error("Unknown subview " + subview);
+                }
             };
 
-            $scope.continueToApp = function () {
+            $scope.accountSubviews = {
+                profile: {
+                    templateUrl: '/views/account/partials/profile.html',
+                    title: 'Profile'
+                },
+                accountSettings: {
+                    templateUrl: '/views/account/partials/accountSettings.html',
+                    title: 'Account Settings',
+                    selected: true
+                },
+                subscription: {
+                    templateUrl: '/views/account/partials/subscription.html',
+                    title: 'Subscription',
+                    disabled: true
+                },
+                billing: {
+                    templateUrl: '/views/account/partials/billing.html',
+                    title: 'Billing'
+                }
+            };
+
+            if ($routeParams.status === 'activate' && !_.contains($scope.user.profile.roles, 'good standing')) {
+                $scope.accountAlerts = [
+                    {
+                        type: 'info',
+                        msg: 'Welcome! Please pick a subscription trial plan to continue to the application.'
+                    }
+                ];
+                $scope.selectSubview('subscription');
+            } else if ($routeParams.status === 'welcome') {
+                $scope.activePlan = $scope.user.billing.subscription.plan.name;
+                $scope.accountAlerts = [
+                    {
+                        type: 'success',
+                        msg: 'Authorization Successful!',
+                        action: true
+                    }
+                ];
+                $scope.selectSubview('subscription');
+
+            } else {
+                $scope.activePlan = $scope.user.billing.subscription.plan.name;
+                $scope.selectSubview('accountSettings');
+            }
+
+            $scope.goToApp = function () {
                 $location.path('/');
             };
         }])
@@ -262,6 +261,73 @@ angular.module('rescour.app')
                 }
             }
 
+        }])
+    .controller('CancelAccountDialogController', ['$scope', 'dialog',
+        function ($scope, dialog) {
+            $scope.cancelFields = {};
+            $scope.close = function () {
+                dialog.close();
+            };
+
+            $scope.cancelSubscription = function (cancelFields) {
+                if ($scope.formCancelSubscriptionDialog.$valid) {
+                    console.log("sup");
+                    dialog.close({
+                        action: 'save',
+                        reason: cancelFields.reason
+                    });
+                }
+
+            };
+        }])
+    .controller('AccountBillingController', ['$scope', '$_api', '$http', '$q',
+        function ($scope, $_api, $http, $q, Billing) {
+        }])
+    .controller('AccountSubscriptionController', ['$scope', '$_api', '$http', '$q', '$location', '$dialog',
+        function ($scope, $_api, $http, $q, $location, $dialog) {
+
+            $scope.addSubscription = function (type) {
+                var token = function (res) {
+                    var path = $_api.path + '/auth/users/user/payment/',
+                        config = angular.extend({
+                            transformRequest: function (data) {
+                                $scope.accountAlerts = [
+                                    {
+                                        type: 'info',
+                                        msg: 'Authorizing...'
+                                    }
+                                ];
+                                return data;
+                            }
+                        }, $_api.config),
+                        body = JSON.stringify({token: res.id});
+
+                    $http.post(path, body, config).then(function (response) {
+                        $location.path('/');
+                    }, function (response) {
+                        if (response.status === 400) {
+                            $scope.accountAlerts = [
+                                {
+                                    type: 'error',
+                                    msg: response.data.status_message
+                                }
+                            ];
+                        }
+                    });
+                };
+
+                StripeCheckout.open({
+                    key: $_api.stripeToken,
+                    address: true,
+                    name: 'Rescour',
+                    currency: 'usd',
+                    image: '/img/stripe-icon.png',
+                    description: 'Activate your trial!',
+                    panelLabel: 'Checkout',
+                    token: token
+                });
+            };
+
             $scope.openCancelDialog = function () {
                 $dialog.dialog({
                     backdrop: true,
@@ -273,52 +339,43 @@ angular.module('rescour.app')
                     controller: "CancelAccountDialogController"
                 }).open()
                     .then(function (result) {
+                        var defer = $q.defer();
                         if (result) {
                             if (result.action === 'save') {
-                                $scope.cancelAccount(result.reason);
+                                return $scope.user.cancelSubscription(result.reason, function (data) {
+                                    $scope.accountAlerts = [
+                                        {
+                                            type: 'info',
+                                            msg: 'Sending...'
+                                        }
+                                    ];
+
+                                    return data;
+                                });
+                            } else {
+                                defer.reject();
                             }
                         }
+                        return defer.promise;
+                    })
+                    .then(function (response) {
+                        $scope.accountAlerts = [
+                            {
+                                type: 'success',
+                                msg: 'Cancellation request received.  Your request will be processed shortly.'
+                            }
+                        ];
+                    }, function (response) {
+                        $scope.accountAlerts = [
+                            {
+                                type: 'error',
+                                msg: 'Something went wrong, please try again.'
+                            }
+                        ];
                     });
-            }
-
-            $scope.cancelAccount = function (reason) {
-                var path = $_api.path + '/mail/',
-                    config = angular.extend({
-                        transformRequest: function (data) {
-                            return data;
-                        }
-                    }, $_api.config),
-                    body = JSON.stringify({
-                        message: reason,
-                        from_user: $scope.user.email
-                    });
-
-                $http.post(path, body, config).then(
-                    function (response) {
-
-                    },
-                    function (response) {
-
-                    }
-                );
-            }
-
-        }])
-    .controller('CancelAccountDialogController', ['$scope', 'dialog',
-        function ($scope, dialog) {
-            $scope.cancelFields = {};
-            $scope.close = function () {
-                dialog.close();
             };
 
-            $scope.cancelAccount = function (cancelFields) {
-                dialog.close({
-                    action: 'save',
-                    reason: cancelFields.reason
-                });
+            $scope.cancelSubscription = function (reason) {
+
             };
-        }])
-    .controller('AccountBillingController', ['$scope', '$_api', '$http', '$q', 'Billing',
-        function ($scope, $_api, $http, $q, Billing) {
-            $scope.billingInfo = Billing.get();
         }]);

@@ -1,10 +1,6 @@
 'use strict';
 
 rescourApp
-    .directive('autoselect', function () {
-        return function (scope, element, attrs) {
-        };
-    })
     .directive('editable', function () {
 //        Editable is awesome
         return {
@@ -53,8 +49,9 @@ rescourApp
                                 transformRequest: $_api.loading.none
                             }, $_api.config),
                             body = JSON.stringify({token: res.id});
-                        console.log(body); 
-                        $http.post(path, body, config).then(function (response) { if (response.data.status === "success") {
+                        console.log(body);
+                        $http.post(path, body, config).then(function (response) {
+                            if (response.data.status === "success") {
                                 console.log(response);
                             } else {
 
@@ -139,29 +136,29 @@ rescourApp
             });
         };
     }])
-    .directive('autoSave', ['$parse', '$timeout', function($parse, $timeout) {
+    .directive('autoSave', ['$parse', '$timeout', function ($parse, $timeout) {
         return {
             restrict: 'A',
             scope: true,
-            link: function(scope, element, attr) {
+            link: function (scope, element, attr) {
                 var fn = $parse(attr['autoSave']);
                 element.bind('blur', function (event) {
                     scope.$apply(function () {
                         fn(scope, {$event: event});
                     });
                 });
-                scope.$on('autoSaveSuccess', function() {
+                scope.$on('autoSaveSuccess', function () {
                     element.addClass('auto-save-success');
                     $timeout(
-                        function() {
+                        function () {
                             element.removeClass('auto-save-success');
                         },
                         400
                     );
                 });
                 element.addClass('auto-save');
-           }
-        }
+            }
+        };
     }])
     .directive('emailValidate', function () {
         return{
@@ -169,14 +166,5 @@ rescourApp
             link: function (scope, elm, attrs, ctrl) {
 
             }
-        }
-    })
-    .directive('ellipsis', function ($parse) {
-        return {
-            link: function (scope, element, attrs) {
-                var innerText = $parse(attrs.ellipsis);
-                console.log(innerText(scope));
-            }
         };
     });
-;

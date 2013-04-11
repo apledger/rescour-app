@@ -3,8 +3,7 @@
 <div class="page-header clearfix">
     <button class="btn pull-right" ng-click="close()"><i class="icon-arrow-left"></i>&nbsp;Back to map</button>
     <h2>{{current.title}}</h2>
-    <h4>{{current.address.street1}},
-        <strong>{{current.address.city}}, {{current.address.state}}</strong> {{current.address.zip}}</h4>
+    <h4>{{current.address.street1}}<span ng-show="current.address.street1">,</span> <strong>{{current.address.city}}, {{current.address.state}}</strong> {{current.address.zip}}</h4>
 </div>
 <div class="span12">
 <div tabs>
@@ -73,7 +72,7 @@
     </div>
 
     <div class="row-fluid">
-        <div class="span8">
+        <div class="span8" ng-show="current.details.unitMix">
             <p class="lead">Property Unit Mix</p>
             <table class="table table-condensed table-striped">
                 <thead>
@@ -106,7 +105,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="span4" ng-show="current.details.unitMix">
+        <div class="span4" ng-show="current.details.tourDates">
             <p class="lead">Tour Dates</p>
             <table class="table table-condensed table-striped">
                 <thead>

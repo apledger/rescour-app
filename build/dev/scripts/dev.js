@@ -309,10 +309,7 @@ angular.module('rescour.app.dev', ['rescour.app', 'ngMockE2E'])
         };
 
         itemDetails[k] = {
-            notes:{
-                comments:[],
-                financials:{}
-            },
+            comments: [],
             data: {},
             callForOffers: "2013-04-12T04:00:00.000Z",
             tourDates:[{date:'2013-03-19T04:00:00.000Z'}, {date:'2013-03-26T04:00:00.000Z'}, {date:'2013-04-02T04:00:00.000Z'}],
@@ -429,19 +426,19 @@ angular.module('rescour.app.dev', ['rescour.app', 'ngMockE2E'])
         return [200, itemDetails[item_id], {}];
     });
 
-    $httpBackend.whenGET(/\/properties\/[0-9]+\/notes\/comments\//).respond(function (method, url, data, headers) {
+    $httpBackend.whenGET(/\/properties\/[0-9]+\/comments\//).respond(function (method, url, data, headers) {
         var item_id = url.split("/")[2];
 
-        return [200, {items:itemDetails[item_id].notes.comments}, {}];
+        return [200, {items:itemDetails[item_id].comments}, {}];
     });
 
-    $httpBackend.whenPOST(/\/properties\/[0-9]+\/notes\/comments\//).respond(
+    $httpBackend.whenPOST(/\/properties\/[0-9]+\/comments\//).respond(
         function (method, url, data, headers) {
             var _comment = angular.fromJson(data),
                 item_id = url.split("/")[2];
 
-            _comment.comment_id = itemDetails[item_id].notes.comments.length + 1;
-            itemDetails[item_id].notes.comments.push(_comment);
+            _comment.comment_id = itemDetails[item_id].comments.length + 1;
+            itemDetails[item_id].comments.push(_comment);
             return [200, { id:_comment.id }, {}];
         });
 

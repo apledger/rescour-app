@@ -4,30 +4,26 @@
 
     <div class="navbar">
         <ul class="nav pull-right" style="padding-top:4px">
-            <li class="active"><a href="/account">My Account</a></li>
+            <li class="active"><a href="/account/">My Account</a></li>
             <li><a href="/logout">Logout</a></li>
-
         </ul>
     </div>
 </header>
 
-<div class="main-container" ng-cloak>
-    <div id="Loading">
-        <div class="spinner"></div>
-    </div>
-    <div class="row-fluid account-container">
+<div class="container-fluid" ng-cloak>
+    <div class="row-fluid">
+        <div class="span3 account-navbar">
+            <ul class="nav nav-tabs nav-stacked">
+                <li ng-repeat="view in accountSubviews" ng-class="{active: view.selected}"
+                    ng-click="selectSubview(view)">
+                    <a href="javascript:">{{view.title}}<i class="icon-chevron-right"></i></a>
 
-        <div class="account-navbar">
-            <ul class="nav nav-pills nav-stacked">
-                <li ng-repeat="view in accountViews" ng-class="{active: view.selected}"
-                    ng-click="changeAccountView(view)">
-                    <a href="javascript:">{{view.name}}</a>
                 </li>
             </ul>
-            <!--<form id="Checkout" action="/users/payment/" method="post" class="form-horizontal">-->
-            <!--<button checkout class="btn btn-large">Pay Now</button>-->
-            <!--</form>--></div>
-        <div class="account-content" ng-include="currentView"></div>
+        </div>
+
+        <div class="span9 account-content" ng-include="accountSubviews[activeSubview].templateUrl">
+        </div>
     </div>
     <div></div>
 </div>

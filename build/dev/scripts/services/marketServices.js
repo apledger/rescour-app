@@ -127,6 +127,7 @@ angular.module('nebuMarket')
                     self = this;
 
                 self.details.comments.push(_comment);
+                self.hasComments = true;
 
                 _comment.$save(this.id).then(function (response) {
                     defer.resolve(response);

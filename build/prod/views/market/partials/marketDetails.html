@@ -1,183 +1,230 @@
 <div class="container-fluid" ng-controller="DetailsController">
-    <div class="origami-right"></div>
+<div class="row-fluid">
+<div class="page-header clearfix">
+    <button class="btn pull-right" ng-click="close()"><i class="icon-arrow-left"></i>&nbsp;Back to map</button>
+    <h2>{{current.title}}</h2>
+    <h4>{{current.address.street1}}<span ng-show="current.address.street1">,</span> <strong>{{current.address.city}}, {{current.address.state}}</strong> {{current.address.zip}}</h4>
+</div>
+<div class="span12">
+<div tabs>
+<div pane class="container-fluid" heading="{{panes[0].heading}}" active="panes[0].active">
     <div class="row-fluid">
-        <div class="page-header clearfix">
-            <button class="btn pull-right" ng-click="close()"><i class="icon-arrow-left"></i>&nbsp;Back to map</button>
-            <h1>{{current.title}}</h1>
+        <div class="span6">
+
+            <table class="table table-bordered">
+                <tbody>
+                <tr>
+                    <td>
+                        <strong>Property Status</strong>
+                    </td>
+                    <td>
+                        {{current.getAttribute("Property Status")}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <strong>Broker</strong>
+                    </td>
+                    <td>
+                        {{current.getAttribute("Broker")}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <strong>Year Built</strong>
+                    </td>
+                    <td>
+                        {{current.getAttribute("Year Built")}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <strong>Number of Units</strong>
+                    </td>
+                    <td>
+                        {{current.getAttribute("Number of Units")}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <strong>Call for Offers</strong>
+                    </td>
+                    <td>
+                        {{current.details.callForOffers | date}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <strong>Flyer</strong>
+                    </td>
+                    <td>
+                        <a target="_blank" ng-href="{{current.flyer}}">View</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </div>
-        <div class="span11">
-            <div tabs>
-                <div pane heading="{{panes[0].heading}}" active="panes[0].active">
-                    <div class="well clearfix">
-                        <p class="lead">Details</p>
-                        <dl class="dl-horizontal">
-                            <dt>Broker:</dt>
-                            <dd>{{current.getAttribute("Broker")}}</dd>
-                            <dt>State:</dt>
-                            <dd>{{current.getAttribute("State")}}</dd>
-                            <dt>Year Built:</dt>
-                            <dd>{{current.getAttribute("Year Built")}}</dd>
-                            <dt>Number of Units:</dt>
-                            <dd>{{current.getAttribute("Number of Units")}}</dd>
-                            <dt>Description:</dt>
-                            <dd>{{current.description}}</dd>
-                            <dt>Address:</dt>
-                            <dd>{{current.address.street1}}</dd>
-                            <dt></dt>
-                            <dd>{{current.address.city}}, {{current.address.state}} {{current.address.zip}}</dd>
-                            <dt></dt>
-                            <dd><a target="_blank" ng-href="{{current.flyer}}">Property Flyer</a></dd>
-                        </dl>
-                    </div>
+        <div class="span6">
+            <p class="lead">Description</p>
 
-                    <div class="well" ng-show="current.details.unitMix">
-                        <p class="lead">Property Unit Mix</p>
-                        <table class="table table-condensed">
-                            <thead>
-                            <tr>
-                                <th>Type</th>
-                                <th>Units</th>
-                                <th>Sq Ft</th>
-                                <th>Rent</th>
-                                <th>Rent PSF</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr ng-repeat="mix in current.details.unitMix">
-                                <td>
-                                    {{mix.type}}
-                                </td>
-                                <td>
-                                    {{mix.units}}
-                                </td>
-                                <td>
-                                    {{mix.sqft}}
-                                </td>
-                                <td>
-                                    {{mix.rent}}
-                                </td>
-                                <td>
-                                    {{mix.rentpsqft}}
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+            <p>{{current.description}}</p>
+        </div>
+    </div>
 
-                <div pane heading="{{panes[1].heading}}" active="panes[1].active">
-                    <div class="picture-container" ng-show="current.details.images">
-                        <div carousel no-transition="true">
-                            <div slide ng-repeat="slide in current.details.images" active="slide.active">
-                                <img ng-src="{{slide.link}}" style="margin:auto;">
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <div class="row-fluid">
+        <div class="span8" ng-show="current.details.unitMix">
+            <p class="lead">Property Unit Mix</p>
+            <table class="table table-condensed table-striped">
+                <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Units</th>
+                    <th>Sq Ft</th>
+                    <th>Rent</th>
+                    <th>Rent / Sq Ft</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="mix in current.details.unitMix">
+                    <td>
+                        {{mix.type}}
+                    </td>
+                    <td>
+                        {{mix.units}}
+                    </td>
+                    <td>
+                        {{mix.sqft}}
+                    </td>
+                    <td>
+                        {{mix.rent}}
+                    </td>
+                    <td>
+                        {{mix.rentpsqft}}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="span4" ng-show="current.details.tourDates">
+            <p class="lead">Tour Dates</p>
+            <table class="table table-condensed table-striped">
+                <thead>
+                <tr>
+                    <th>Date</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="tourDate in current.details.tourDates">
+                    <td>
+                        {{tourDate.date | date}}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-                <div pane heading="{{panes[2].heading}}" active="panes[2].active">
-                    <div class="alert alert-success" ng-show="newEmail.sent"><i class="icon-email"></i>&nbsp;&nbsp;Message
-                        Sent!
-                    </div>
-                    <form class="contact-form" ng-show="current.details.contacts">
-                        <div class="control-group">
-                            <div class="control-label">To:</div>
-                            <div class="controls">
-                                <label class="checkbox" ng-class="{'contact-selected': contact.selected}"
-                                       ng-repeat="contact in current.details.contacts">
-                                    <input type="checkbox" ng-model="contact.selected">
-                                    <strong>{{contact.name}}</strong> - {{contact.phone}} - <em>{{contact.email}}</em>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="control-group">
-                            <div class="control-label">Message:</div>
-                            <div class="controls">
-                                <textarea rows="6" class="span10" ng-model="newEmail.message"></textarea>
-                            </div>
-                        </div>
-                        <button class="btn btn-info" ng-click="sendEmail()">Send</button>
-                    </form>
-                    <div class="alert alert-info" ng-show="!current.details.contacts"><strong>Sorry!</strong> We don't
-                        have any contacts for this listing.
-                    </div>
-                </div>
+    <div class="row-fluid">
 
-                <div pane heading="{{panes[3].heading}}" active="panes[3].active">
-                    <div ng-repeat="comment in current.details.notes.comments">
-                        <div class="alert alert-info">
-                            <strong>{{comment.timestamp | date:'MM/dd/yyyy @ h:mma'}}:</strong> {{comment.message}}
-                        </div>
-                    </div>
-                    <form>
-                        <!--<div class="control-group">-->
-                        <!--<div class="control-label">Valuation</div>-->
-                        <!--<div class="controls">-->
-                        <!--<div class="input-prepend">-->
-                        <!--<span class="add-on">$</span>-->
-                        <!--<input type="text"-->
-                        <!--class="input-medium"-->
-                        <!--auto-save="saveNote(current)"-->
-                        <!--placeholder="Valuation"-->
-                        <!--ng-model="current.notes.valuation">-->
-                        <!--</div>-->
-                        <!--</div>-->
-                        <!--</div>-->
-                        <!--<div class="control-group">-->
-                        <!--<div class="control-label">Price / Unit</div>-->
-                        <!--<div class="controls">-->
-                        <!--<div class="input-prepend">-->
-                        <!--<span class="add-on">$</span>-->
-                        <!--<input type="text"-->
-                        <!--class="input-medium"-->
-                        <!--auto-save="saveNote(current)"-->
-                        <!--placeholder="Price / Unit"-->
-                        <!--ng-model="current.notes.ppu">-->
-                        <!--</div>-->
-                        <!--</div>-->
-                        <!--</div>-->
-                        <!--<div class="control-group">-->
-                        <!--<div class="control-label">IRR</div>-->
-                        <!--<div class="controls">-->
-                        <!--<div class="input-append">-->
-                        <!--<input type="text"-->
-                        <!--class="input-medium"-->
-                        <!--auto-save="saveNote(current)"-->
-                        <!--placeholder="IRR"-->
-                        <!--ng-model="current.notes.financials.irr">-->
-                        <!--<span class="add-on">%</span>-->
-                        <!--</div>-->
-                        <!--</div>-->
-                        <!--</div>-->
-                        <!--<div class="control-group">-->
-                        <!--<div class="control-label">Cap Rate</div>-->
-                        <!--<div class="controls">-->
-                        <!--<div class="input-append">-->
-                        <!--<input type="text"-->
-                        <!--class="input-medium"-->
-                        <!--auto-save="saveNote(current)"-->
-                        <!--placeholder="Cap Rate"-->
-                        <!--ng-model="current.notes.financials.cap">-->
-                        <!--<span class="add-on">%</span>-->
-                        <!--</div>-->
-                        <!--</div>-->
-                        <!--</div>-->
-                        <div class="control-group">
-                            <div class="control-label">Comment:</div>
-                            <div class="controls">
-                                <textarea rows="6" class="span10" ng-model="newComment.message"></textarea>
-                            </div>
-                        </div>
+    </div>
+</div>
 
-                        <div class="form-actions">
-                            <button type="submit" class="btn btn-success" ng-click="addComment(newComment.message)">
-                                Add Comment
-                            </button>
-                            <button type="button" class="btn" ng-click="close()">Cancel</button>
-                        </div>
-                    </form>
+<div pane class="container-fluid" heading="{{panes[1].heading}}" active="panes[1].active">
+    <div class="row-fluid">
+        <div class="span8 offset2" ng-show="current.details.images">
+            <div carousel no-transition="true">
+                <div slide ng-repeat="slide in current.details.images" active="slide.active">
+                    <img ng-src="{{slide.link}}" style="margin:auto;">
                 </div>
             </div>
         </div>
     </div>
+</div>
+
+<div pane class="container-fluid" heading="{{panes[2].heading}}" active="panes[2].active">
+    <div class="alert alert-success" ng-show="newEmail.sent"><i class="icon-email"></i>&nbsp;&nbsp;Message
+        Sent!
+    </div>
+    <form class="contact-form" ng-show="current.details.contacts">
+        <div class="control-group">
+            <div class="control-label">To:</div>
+            <div class="controls">
+                <label class="checkbox" ng-class="{'contact-selected': contact.selected}"
+                       ng-repeat="contact in current.details.contacts">
+                    <input type="checkbox" ng-model="contact.selected">
+                    <strong>{{contact.name}}</strong> - {{contact.phone}} - <em>{{contact.email}}</em>
+                </label>
+            </div>
+        </div>
+        <div class="control-group">
+            <div class="control-label">Message:</div>
+            <div class="controls">
+                <textarea rows="6" class="span10" ng-model="newEmail.message"></textarea>
+            </div>
+        </div>
+        <button class="btn btn-info" ng-click="sendEmail()">Send</button>
+    </form>
+    <div class="alert alert-info" ng-show="!current.details.contacts"><strong>Sorry!</strong> We don't
+        have any contacts for this listing.
+    </div>
+</div>
+
+<div pane class="container-fluid" heading="{{panes[3].heading}}" active="panes[3].active">
+    <div ng-repeat="comment in current.details.comments">
+        <div class="alert alert-info comment-alert">
+            <h5>{{comment.user_email}} <span>{{comment.timestamp | date}}</span></h5> <p>{{comment.text}}</p>
+        </div>
+    </div>
+    <form>
+        <div class="control-group">
+            <div class="control-label">Comment:</div>
+            <div class="controls">
+                <textarea rows="6" class="span12" ng-model="newComment.text"></textarea>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-success" ng-click="addComment(newComment)">
+                Add Comment
+            </button>
+            <button type="button" class="btn" ng-click="close()">Cancel</button>
+        </div>
+    </form>
+</div>
+
+
+<!--<div pane class="container-fluid" heading="{{panes[4].heading}}" active="panes[4].active">-->
+    <!--<form class="form-horizontal">-->
+
+        <!--<div class="control-list">-->
+            <!--<ul>-->
+                <!--<li ng-repeat="item in current.details.data" class="dropdown">-->
+                    <!--<button class="btn btn-danger" ng-click="deleteDataModel(item)"><i-->
+                            <!--class="icon-remove-sign"></i>-->
+                    <!--</button>-->
+                    <!--<div><input ng-blur="saveDataModel(item)" type="text" ng-model="item.title"-->
+                                <!--class="input-medium"-->
+                                <!--typeahead="field for field in dataFields.fields | filter:$viewValue">-->
+                    <!--</div>-->
+                    <!--<input ng-blur="saveDataModel(item)" type="text" ng-model="item.value"-->
+                           <!--class="input-small">-->
+
+                    <!--<select ng-model="item.class" ng-change="saveDataModel(item)">-->
+                        <!--<option ng-repeat="format in formats">{{format}}</option>-->
+                    <!--</select>-->
+                <!--</li>-->
+            <!--</ul>-->
+        <!--</div>-->
+
+        <!--<div class="control-group">-->
+            <!--<button class="btn btn-success" ng-click="addData()"><i class="icon icon-plus-sign"></i>-->
+            <!--</button>-->
+            <!--Add New Field-->
+        <!--</div>-->
+
+    <!--</form>-->
+<!--</div>-->
+</div>
+</div>
+</div>
 </div>

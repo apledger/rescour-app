@@ -1,3 +1,5 @@
+$detailsHeaderColor: $light-gray;
+
 .property-details {
   position: absolute;
   left: $filterWidth + $marketWidth;
@@ -5,9 +7,80 @@
   right: 0;
   bottom: 0;
   z-index: 1;
-  background: white;
+  background: $light-gray;
   overflow-y: scroll;
+
+  .page-header {
+    h4 {
+      font-weight: normal;
+    }
+  }
+
+  .comment-alert {
+    span {
+      float: right;
+      font-size: 13px;
+    }
+    p {
+      overflow-wrap: break-word;
+    }
+  }
+
+
+  .tabbable {
+    @include box-shadows(0px 0px 1px 1px rgba(80, 84, 92, 0.0980392), 0px 1px 2px 0px rgba(80, 84, 92, 0.498039));
+    @include border-radius(5px);
+    background-clip: border-box;
+    background: white;
+    min-height: 400px;
+    margin-bottom: 25px;
+    margin-right: 35px;
+
+    .nav-tabs {
+      @include buttonBackground(lighten($detailsHeaderColor, 5%), darken($detailsHeaderColor, 5%));
+      border-bottom: 1px solid darken($detailsHeaderColor, 20%);
+      @include border-top-left-radius(5px);
+      @include border-top-right-radius(5px);
+
+      & > li {
+        background: none;
+        border-right: 1px solid darken($detailsHeaderColor, 20%);
+        @include transition(all 0.3s);
+        & > a {
+          margin: 0;
+          box-sizing: border-box;
+          padding: 15px 20px;
+          color: $black;
+          text-shadow: rgb(255, 255, 255) 2px 1px 0px;
+          border: none;
+          @include transition(all 0.3s);
+        }
+      }
+
+      & > .active > a, & > .active > a:hover {
+        padding: 15px 20px 10px;
+        background: white;
+        border-top: 5px solid $red;
+        @include transition(all 0.3s);
+
+      }
+
+      & > li.active {
+        border-right: 1px solid darken($detailsHeaderColor, 20%);
+        &:first-child {
+          @include border-top-left-radius(5px);
+          border-left: none;
+        }
+
+      }
+    }
+  }
+
+  .tab-content {
+    margin-top: 5px;
+  }
 }
+
 .picture-container {
   width: 600px;
 }
@@ -20,12 +93,8 @@
 .well.contact {
   cursor: pointer;
 }
-h1 {
-  float:left;
-  font-weight: bold;
-  font-size: 2em;
-  padding: 10px;
-}
+
+
 
 .contact-form {
   .controls {

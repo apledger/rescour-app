@@ -26,9 +26,8 @@
 
     <div class="navbar">
         <ul class="nav pull-right" style="padding-top:4px">
-            <li><a href="/account">My Account</a></li>
-            <!--<li><a href="javascript:" ng-click="resetPermission()">Reset Permission</a></li>-->
-            <li><a href="javascript:" ng-click="logout()">Logout</a></li>
+            <li><a href="/account/">My Account</a></li>
+            <li><a href="/logout">Logout</a></li>
         </ul>
     </div>
 </header>
@@ -119,7 +118,7 @@
                     </a>
 
                     <div class="header-container">
-                        <div class="title"><a href="javascript:" ng-click="showDetails(item)">{{item.title}}</a></div>
+                        <div class="title"><a href="javascript:" ng-click="showDetails(item)">{{item.title | ellipsis:20}}</a></div>
                         <div class="ranges">
                             <span>{{item.attributes.range["Number of Units"]}}&nbsp;</span>Units.&nbsp;
                             Built in<span>&nbsp;{{item.attributes.range["Year Built"]}}</span>.

@@ -1,47 +1,47 @@
 <div ng-controller="AccountBillingController">
     <div class="page-header"><h3>Billing Information</h3></div>
-
+    <div alert ng-repeat="alert in accountAlerts" type="alert.type">{{alert.msg}} <a ng-show="action" href="javascript:" ng-click="goToApp()">Continue to Application</a></div>
     <form class="form-horizontal">
 
         <div class="control-group"><label class="control-label">Credit Card</label>
 
             <div class="controls"><input type="text" class="input-xlarge" disabled="true"
-                                         placeholder="xxxx-xxxx-xxxx-{{billingInfo.card.last4}}">
+                                         placeholder="xxxx-xxxx-xxxx-{{user.billing.active_card.last4}}">
             </div>
         </div>
 
         <div class="control-group"><label class="control-label">Address Line 1</label>
 
             <div class="controls"><input type="text" class="input-xlarge" disabled="true"
-                                         placeholder="{{billingInfo.card.address_line1}}">
+                                         placeholder="{{user.billing.active_card.address_line1}}">
             </div>
         </div>
 
         <div class="control-group"><label class="control-label">Address Line 2</label>
 
             <div class="controls"><input type="text" class="input-xlarge" disabled="true"
-                                         placeholder="{{billingInfo.card.address_line2}}">
+                                         placeholder="{{user.billing.active_card.address_line2}}">
             </div>
         </div>
 
         <div class="control-group"><label class="control-label">City</label>
 
             <div class="controls"><input type="text" class="input-xlarge" disabled="true"
-                                         placeholder="{{billingInfo.card.address_city}}">
+                                         placeholder="{{user.billing.active_card.address_city}}">
             </div>
         </div>
 
         <div class="control-group"><label class="control-label">State</label>
 
             <div class="controls"><input type="text" class="input-xlarge" disabled="true"
-                                         placeholder="{{billingInfo.card.address_state}}">
+                                         placeholder="{{user.billing.active_card.address_state}}">
             </div>
         </div>
 
         <div class="control-group"><label class="control-label">ZIP</label>
 
             <div class="controls"><input type="text" class="input-xlarge" disabled="true"
-                                         placeholder="{{billingInfo.card.address_zip}}">
+                                         placeholder="{{user.billing.active_card.address_zip}}">
             </div>
         </div>
         <button class="btn controls btn-info">Edit Account</button>

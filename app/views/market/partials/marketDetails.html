@@ -170,21 +170,21 @@
 </div>
 
 <div pane class="container-fluid" heading="{{panes[3].heading}}" active="panes[3].active">
-    <div ng-repeat="comment in current.details.notes.comments">
+    <div ng-repeat="comment in current.details.comments">
         <div class="alert alert-info">
-            <strong>{{comment.timestamp | date:'MM/dd/yyyy @ h:mma'}}:</strong> {{comment.message}}
+            <strong>{{comment.timestamp | date:'MM/dd/yyyy @ h:mma'}}:</strong> {{comment.text}}
         </div>
     </div>
     <form>
         <div class="control-group">
             <div class="control-label">Comment:</div>
             <div class="controls">
-                <textarea rows="6" class="span10" ng-model="newComment.message"></textarea>
+                <textarea rows="6" class="span10" ng-model="newComment.text"></textarea>
             </div>
         </div>
 
         <div class="form-actions">
-            <button type="submit" class="btn btn-success" ng-click="addComment(newComment.message)">
+            <button type="submit" class="btn btn-success" ng-click="addComment(newComment.text)">
                 Add Comment
             </button>
             <button type="button" class="btn" ng-click="close()">Cancel</button>

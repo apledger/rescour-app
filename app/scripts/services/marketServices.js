@@ -65,7 +65,7 @@ angular.module('nebuMarket')
                 this.address = data.address || {
                     street1: "No address listed"
                 };
-                this.thumbnail = (data.thumbnails ? data.thumbnails[0].link : undefined) || "apt0.jpg";
+                this.thumbnail = (data.thumbnails ? (data.thumbnails[0] ? data.thumbnails[0].link : undefined) : undefined) || "apt0.jpg";
                 this.favorites = data.favorites || false;
                 this.hidden = data.hidden || false;
                 this.isVisible = true;
@@ -125,9 +125,10 @@ angular.module('nebuMarket')
                     defer = $q.defer(),
                     self = this;
 
-                self.details.notes.comments.push(_comment);
+                self.details.comments.push(_comment);
 
                 _comment.$save(this.id).then(function (response) {
+                    console.log("hello");
                     defer.resolve(response);
                 }, function (response) {
                     self.refreshComments();
@@ -179,14 +180,6 @@ angular.module('nebuMarket')
                         transformRequest: $_api.loading.none
                     }, $_api.config);
                 delete this.details.data[data.data_id];
-//
-//            $http.delete($_api.path + '/properties/' + this.id + '/data/' + data.data_id, body, config)
-//                .success(function (response) {
-//                    defer.resolve(response);
-//                })
-//                .error(function (error) {
-//                    defer.reject(error);
-//                });
             };
 
             Item.prototype.saveNote = function () {
@@ -662,7 +655,7 @@ angular.module('nebuMarket')
         function ($_api, $q, $http) {
 
             var Comment = function (data) {
-                this.message = data || "";
+                this.text = data || "";
                 this.timestamp = new Date().getTime();
             };
 

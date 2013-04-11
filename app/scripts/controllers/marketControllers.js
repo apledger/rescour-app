@@ -249,12 +249,12 @@ angular.module('nebuMarket')
             $scope.panes = detailPanes.panes;
             $scope.dataFields = DataFields;
 
-            $scope.formats = ['$', '%', '0.0']
+            $scope.formats = ['$', '%', '0.0'];
 
-            $scope.addComment = function (message) {
-                if (message) {
-                    $scope.current.addComment(message).then(function (response) {
-                        $scope.newComment.message = "";
+            $scope.addComment = function (text) {
+                if (text) {
+                    $scope.current.addComment(text).then(function (response) {
+                        $scope.newComment.text = "";
                     });
                 }
             };
@@ -302,11 +302,11 @@ angular.module('nebuMarket')
                 if(!_.find($scope.dataFields.fields, function(value){return value == item.title})){
                     $scope.dataFields.fields = DataFields.addField(item.title);
                 }
-            }
+            };
 
             $scope.deleteDataModel = function(item){
                 $scope.current.deleteDataModel(item);
-            }
+            };
 
         }]);
 

@@ -228,7 +228,7 @@ angular.module('nebuMarket')
 
             $scope.showNotes = function (item) {
                 $scope.selectItem(item);
-                detailPanes.selectPane("Notes");
+                detailPanes.selectPane("Comments");
             };
 
             $scope.showDetails = function (item) {
@@ -251,9 +251,9 @@ angular.module('nebuMarket')
 
             $scope.formats = ['$', '%', '0.0'];
 
-            $scope.addComment = function (text) {
-                if (text) {
-                    $scope.current.addComment(text).then(function (response) {
+            $scope.addComment = function (comment) {
+                if (comment.text) {
+                    $scope.current.addComment(comment).then(function (response) {
                         $scope.newComment.text = "";
                     });
                 }

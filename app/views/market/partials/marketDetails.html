@@ -171,8 +171,8 @@
 
 <div pane class="container-fluid" heading="{{panes[3].heading}}" active="panes[3].active">
     <div ng-repeat="comment in current.details.comments">
-        <div class="alert alert-info">
-            <strong>{{comment.timestamp | date:'MM/dd/yyyy @ h:mma'}}:</strong> {{comment.text}}
+        <div class="alert alert-info comment-alert">
+            <h5>{{comment.user_email}} <span>{{comment.timestamp | date}}</span></h5> <p>{{comment.text}}</p>
         </div>
     </div>
     <form>
@@ -184,7 +184,7 @@
         </div>
 
         <div class="form-actions">
-            <button type="submit" class="btn btn-success" ng-click="addComment(newComment.text)">
+            <button type="submit" class="btn btn-success" ng-click="addComment(newComment)">
                 Add Comment
             </button>
             <button type="button" class="btn" ng-click="close()">Cancel</button>

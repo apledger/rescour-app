@@ -26,7 +26,16 @@ angular.module('rescour.app')
                         });
 
                         return defer.promise;
-                    }
+                    },
+                    loadUser: function (User, $q) {
+                        var defer = $q.defer();
+                        User.getProfile().then(function (response) {
+                            defer.resolve(response);
+                        }, function (response) {
+                            defer.reject(response);
+                        });
+                        return defer.promise;
+                    },
                 }
             });
 
@@ -82,7 +91,6 @@ angular.module('rescour.app')
                         User.getProfile().then(function (response) {
                             defer.resolve(response);
                         }, function (response) {
-                            console.log(response);
                             defer.reject(response);
                         });
                         return defer.promise;

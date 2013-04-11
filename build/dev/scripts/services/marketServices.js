@@ -68,6 +68,7 @@ angular.module('nebuMarket')
                 this.thumbnail = (data.thumbnails ? (data.thumbnails[0] ? data.thumbnails[0].link : undefined) : undefined) || "apt0.jpg";
                 this.favorites = data.favorites || false;
                 this.hidden = data.hidden || false;
+                this.hasComments = data.hasComments || false;
                 this.isVisible = true;
 
                 // Populate Attributes id stacks during construction of each item object
@@ -120,15 +121,14 @@ angular.module('nebuMarket')
                 return defer.promise;
             };
 
-            Item.prototype.addComment = function (commentText) {
-                var _comment = new Comment(commentText),
+            Item.prototype.addComment = function (comment) {
+                var _comment = new Comment(comment),
                     defer = $q.defer(),
                     self = this;
 
                 self.details.comments.push(_comment);
 
                 _comment.$save(this.id).then(function (response) {
-                    console.log("hello");
                     defer.resolve(response);
                 }, function (response) {
                     self.refreshComments();
@@ -413,7 +413,7 @@ angular.module('nebuMarket')
             this.showNotes = function () {
                 for (var id in this.items) {
                     if (this.items.hasOwnProperty(id)) {
-                        this.items[id].isVisible = this.items[id].details ? (this.items[id].details.notes.comments.length > 0) : false;
+                        this.items[id].isVisible = this.items[id].hasComments;
                     }
                 }
             };
@@ -651,12 +651,13 @@ angular.module('nebuMarket')
 
             return SavedSearch;
         }])
-    .factory('Comment', ['$_api', '$q', '$http',
-        function ($_api, $q, $http) {
+    .factory('Comment', ['$_api', '$q', '$http', 'User',
+        function ($_api, $q, $http, User) {
 
             var Comment = function (data) {
-                this.text = data || "";
+                this.text = data.text || "";
                 this.timestamp = new Date().getTime();
+                this.user_email = data.user_email || (User.profile ? User.profile.email : "You");
             };
 
             Comment.query = function (itemID) {

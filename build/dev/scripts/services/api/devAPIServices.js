@@ -35,11 +35,11 @@ angular.module('rescour.api', [])
                     discreet: {
                         "broker": "Broker",
                         "state": "State",
-                        "property_status": "Property Status"
+                        "propertyStatus": "Property Status"
                     },
                     range: {
-                        "num_units": "Number of Units",
-                        "year_built": "Year Built"
+                        "numUnits": "Number of Units",
+                        "yearBuilt": "Year Built"
                     }
                 }
             },

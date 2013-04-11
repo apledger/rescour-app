@@ -16,7 +16,7 @@ angular.module('nebuMarket')
     })
     .filter('ellipsis', function () {
         return function (input, limit, exceptions) {
-            if (input !== 'No description provided') {
+            if (input !== 'No description provided' && input.length > limit) {
                 return input.substr(0, limit) + "...";
             } else {
                 return input;

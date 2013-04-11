@@ -191,13 +191,11 @@ angular.module('rescour.app')
                 },
                 accountSettings: {
                     templateUrl: '/views/account/partials/accountSettings.html',
-                    title: 'Account Settings',
-                    selected: true
+                    title: 'Account Settings'
                 },
                 subscription: {
                     templateUrl: '/views/account/partials/subscription.html',
-                    title: 'Subscription',
-                    disabled: true
+                    title: 'Subscription'
                 },
                 billing: {
                     templateUrl: '/views/account/partials/billing.html',
@@ -205,7 +203,21 @@ angular.module('rescour.app')
                 }
             };
 
-            if ($routeParams.status === 'activate' && !_.contains($scope.user.profile.roles, 'good standing')) {
+            if (_.contains($scope.user.profile.roles, 'staff')) {
+                $scope.accountSubviews = {
+                    profile: {
+                        templateUrl: '/views/account/partials/profile.html',
+                        title: 'Profile'
+                    },
+                    accountSettings: {
+                        templateUrl: '/views/account/partials/accountSettings.html',
+                        title: 'Account Settings',
+                        selected: true
+                    }
+                };
+                $scope.selectSubview('accountSettings');
+            }
+            else if ($routeParams.status === 'activate' && !_.contains($scope.user.profile.roles, 'good standing')) {
                 $scope.accountAlerts = [
                     {
                         type: 'info',
@@ -260,24 +272,14 @@ angular.module('rescour.app')
         function ($scope, $_api, $http, $q, $dialog) {
             $scope.creds = {};
             $scope.changePassword = function () {
-                var defer = $q.defer();
-                if ($scope.formChangePassword.$valid && $scope.formPassword.oldPassword.$dirty) {
-                    var path = $_api.path + '/auth/users/user/',
-                        config = angular.extend({
-                            transformRequest: $_api.loading.none
-                        }, $_api.config),
-                        body = JSON.stringify($scope.creds);
-
-                    $http.put(path, body, config).then(function (response) {
-
-                    }, function (response) {
-
+                if ($scope.formChangePassword.$valid) {
+                    console.log($scope.newPassword, $scope.verifyPassword);
+                    $scope.user.updateProfile($scope.creds).then(function (response) {
+                        console.log(response);
+                        $scope.creds = {};
                     });
-                } else {
-                    defer.reject();
                 }
-            }
-
+            };
         }])
     .controller('CancelAccountDialogController', ['$scope', 'dialog',
         function ($scope, dialog) {
@@ -302,6 +304,7 @@ angular.module('rescour.app')
         }])
     .controller('AccountSubscriptionController', ['$scope', '$_api', '$http', '$q', '$location', '$dialog',
         function ($scope, $_api, $http, $q, $location, $dialog) {
+            $scope.creds = {};
 
             $scope.addSubscription = function (type) {
                 var token = function (res) {

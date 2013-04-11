@@ -81,25 +81,22 @@ rescourApp
     .directive("passwordVerify", function () {
         return {
             require: "ngModel",
-            scope: {
-                passwordVerify: '='
-            },
             link: function (scope, element, attrs, ctrl) {
 
-                scope.$watch('passwordVerify', function (value) {
-                    ctrl.$viewValue = "";
-                    ctrl.$render();
-                    ctrl.$setValidity("passwordMatch", false);
-                });
+//                scope.$watch('passwordVerify', function (value) {
+//                    ctrl.$viewValue = "";
+//                    ctrl.$render();
+//                    ctrl.$setValidity("passwordMatch", false);
+//                });
 
                 ctrl.$parsers.unshift(function (viewValue) {
-                    var origin = scope.passwordVerify;
-                    if (origin !== viewValue) {
-                        ctrl.$setValidity("passwordMatch", false);
-                        return undefined;
-                    } else {
-                        ctrl.$setValidity("passwordMatch", true);
+                    scope[attrs.passwordVerify];
+                    if (viewValue === scope[attrs.passwordVerify]) {
+                        ctrl.$setValidity('passwordMatch', true);
                         return viewValue;
+                    } else {
+                        ctrl.$setValidity('passwordMatch', false);
+                        return undefined;
                     }
                 });
             }
@@ -159,12 +156,4 @@ rescourApp
                 element.addClass('auto-save');
             }
         };
-    }])
-    .directive('emailValidate', function () {
-        return{
-            require: ngModel,
-            link: function (scope, elm, attrs, ctrl) {
-
-            }
-        };
-    });
+    }]);

@@ -25,6 +25,32 @@ angular.module('rescour.app')
             return defer.promise;
         };
 
+        this.updateProfile = function (data) {
+            var defer = $q.defer(),
+                self = this,
+                path = $_api.path + '/auth/users/user',
+                config = angular.extend({
+                    transformRequest: function (data) {
+                        return data;
+                    }
+                }, $_api.config),
+                body = JSON.stringify(data);
+            console.log(data);
+            $http.put(path, body, config).then(
+                function (response) {
+                    self.getProfile();
+                    defer.resolve(response);
+                },
+                function (response) {
+                    self.getProfile();
+                    throw new Error("Error updating profile");
+                    defer.reject(response);
+                }
+            );
+
+            return defer.promise;
+        };
+
         this.getBilling = function () {
             var defer = $q.defer(),
                 self = this,

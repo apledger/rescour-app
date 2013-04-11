@@ -74,12 +74,12 @@ header, section, footer {
 }
 
 body {
-  height: 100%;
+  min-height: 100%;
   margin: 0;
   font-size: 14px;
   line-height: 20px;
   color: $dark-gray;
-  background-color: white;
+  background-color: $grayLighter;
 }
 
 #Wrapper {

@@ -146,7 +146,7 @@
 
   .dimensions {
     position: relative;
-    background-color: $light-gray;
+    background-color: $grayLighter;
     padding: 10px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 
@@ -215,7 +215,8 @@
   .footer {
     position: relative;
     width: 100%;
-    background-color: rgba(0, 0, 0, 0.08);
+    //background-color: rgba(0, 0, 0, 0.08);
+    background-color: $grayLighter;
     height: 30px;
     border-top: 1px solid rgba(0, 0, 0, 0.05);
 

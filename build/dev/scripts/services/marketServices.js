@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('nebuMarket')
-    .factory('Item', ['$_api', '$q', '$http', 'Attributes', 'Comment',
-        function ($_api, $q, $http, Attributes, Comment) {
+    .factory('Item', ['$_api', '$q', '$http', 'Attributes', 'Comment', 'DataModel',
+        function ($_api, $q, $http, Attributes, Comment, DataModel) {
 
             // Item constructor
             var Item = function (data) {
@@ -65,7 +65,7 @@ angular.module('nebuMarket')
                 this.address = data.address || {
                     street1: "No address listed"
                 };
-                this.thumbnail = data.thumbnail || "apt0.jpg";
+                this.thumbnail = (data.thumbnails ? data.thumbnails[0].link : undefined) || "apt0.jpg";
                 this.favorites = data.favorites || false;
                 this.hidden = data.hidden || false;
                 this.isVisible = true;
@@ -137,18 +137,70 @@ angular.module('nebuMarket')
                 return defer.promise;
             };
 
+            Item.prototype.addDataModel = function () {
+                var _dataModel = new DataModel(),
+                    defer = $q.defer(),
+                    self = this;
+
+                _dataModel.$save(this.id).then(function (response) {
+                    defer.resolve(response);
+                    self.getDetails();
+
+                }, function (response) {
+                    defer.reject(response);
+                });
+
+                return defer.promise;
+            };
+
+            Item.prototype.saveDataModel = function (data) {
+                var defer = $q.defer(),
+                    self = this,
+                    body = JSON.stringify(data),
+                    config = angular.extend({
+                        transformRequest: $_api.loading.none
+                    }, $_api.config);
+                $http.put($_api.path + '/properties/' + this.id + '/data/' + data.data_id, body, config)
+                    .success(function (response) {
+                        defer.resolve(response);
+                    })
+                    .error(function (error) {
+                        defer.reject(error);
+                    });
+
+                return defer.promise;
+
+            };
+
+            Item.prototype.deleteDataModel = function (data) {
+                var defer = $q.defer(),
+                    body = {},
+                    config = angular.extend({
+                        transformRequest: $_api.loading.none
+                    }, $_api.config);
+                delete this.details.data[data.data_id];
+//
+//            $http.delete($_api.path + '/properties/' + this.id + '/data/' + data.data_id, body, config)
+//                .success(function (response) {
+//                    defer.resolve(response);
+//                })
+//                .error(function (error) {
+//                    defer.reject(error);
+//                });
+            };
+
             Item.prototype.saveNote = function () {
                 var deferred = $q.defer();
                 $http.put($_api.path + '/properties/' + this.id + '/notes', this.details.notes)
-                .success(function(response) {
-                    deferred.resolve(response);   
-                })
-                .error(function(error) {
-                    deferred.reject(error);        
-                });
+                    .success(function (response) {
+                        deferred.resolve(response);
+                    })
+                    .error(function (error) {
+                        deferred.reject(error);
+                    });
 
                 return deferred.promise;
-            }
+            };
 
             Item.prototype.toggleFavorites = function () {
                 var defer = $q.defer(),
@@ -621,7 +673,7 @@ angular.module('nebuMarket')
                     defer = $q.defer();
 
                 if (typeof itemID !== 'undefined') {
-                    $http.get($_api.path + '/properties/' + itemID + '/notes/comments/', config).then(function (response) {
+                    $http.get($_api.path + '/properties/' + itemID + '/comments/', config).then(function (response) {
                         defer.resolve(response.data.items);
                     }, function (response) {
                         defer.reject(response);
@@ -642,7 +694,7 @@ angular.module('nebuMarket')
                     }, $_api.config);
 
                 if (typeof itemID !== 'undefined') {
-                    $http.post($_api.path + '/properties/' + itemID + '/notes/comments/', JSON.stringify(self), config)
+                    $http.post($_api.path + '/properties/' + itemID + '/comments/', JSON.stringify(self), config)
                         .then(function (response) {
                             defer.resolve(response);
                         }, function (response) {
@@ -662,7 +714,8 @@ angular.module('nebuMarket')
             {heading: "Details", active: true},
             {heading: "Pictures", active: false},
             {heading: "Contact", active: false},
-            {heading: "Notes", active: false}
+            {heading: "Comments", active: false},
+            {heading: "Data", active: false}
         ];
         return {
             panes: panes,
@@ -674,6 +727,81 @@ angular.module('nebuMarket')
                         pane.active = false;
                     }
                 });
+            }
+        };
+    })
+    .factory('DataModel', ['$_api', '$q', '$http',
+        function ($_api, $q, $http) {
+
+            var DataModel = function (data) {
+                if (data !== undefined) {
+                    this.title = data.title || "";
+                    this.value = data.value || "";
+                } else {
+                    this.title = "";
+                    this.value = "";
+                }
+            };
+
+            DataModel.query = function (itemID) {
+                var config = angular.extend({
+                        transformRequest: $_api.loading.none
+                    }, $_api.config),
+                    defer = $q.defer();
+
+                if (typeof itemID !== 'undefined') {
+                    $http.get($_api.path + '/properties/' + itemID + '/data/', config).then(function (response) {
+                        defer.resolve(response.data.items);
+                    }, function (response) {
+                        defer.reject(response);
+                        //throw new Error("HTTP Error: " + response);
+                    });
+                } else {
+                    throw new Error("data.query received undefined itemID");
+                }
+
+                return defer.promise;
+            };
+
+            DataModel.prototype.$save = function (itemID) {
+                var defer = $q.defer(),
+                    self = this,
+                    config = angular.extend({
+                        transformRequest: $_api.loading.none
+                    }, $_api.config);
+
+                if (typeof itemID !== 'undefined') {
+                    $http.post($_api.path + '/properties/' + itemID + '/data/', JSON.stringify(self), config)
+                        .then(function (response) {
+                            defer.resolve(response);
+                        }, function (response) {
+                            defer.reject(response);
+                        });
+                } else {
+                    throw new Error("data.$save received undefined itemID");
+                }
+
+                return defer.promise;
+            };
+
+            return DataModel;
+        }])
+    .service('DataFields', function () {
+        var fields = [
+            "Valuation",
+            "IRR",
+            "Growth",
+            "Depreciation",
+            "Growth Rate",
+            "Risk Free Rate",
+            "Interest Rate",
+            "NPV"
+        ];
+        return {
+            fields: fields,
+            addField: function (field) {
+                fields.push(field);
+                return fields;
             }
         };
     });

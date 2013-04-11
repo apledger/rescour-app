@@ -279,7 +279,7 @@ angular.module('rescour.app.dev', ['rescour.app', 'ngMockE2E'])
 
         items[k] = {
             id:k,
-            thumbnail:"apt" + parseInt((Math.random() * 10), 10) + ".jpg",
+            thumbnails: [{link: "apt" + parseInt((Math.random() * 10), 10) + ".jpg"}],
             flyer:"http://www.realtyjuggler.com/FlyersSummary",
             title:randomDetails.title,
             description:randomDetails.description,
@@ -314,6 +314,8 @@ angular.module('rescour.app.dev', ['rescour.app', 'ngMockE2E'])
                 financials:{}
             },
             data: {},
+            callForOffers: "2013-04-12T04:00:00.000Z",
+            tourDates:[{date:'2013-03-19T04:00:00.000Z'}, {date:'2013-03-26T04:00:00.000Z'}, {date:'2013-04-02T04:00:00.000Z'}],
             images:[
                 {
                     link:'img/apartment-details-1.jpg',

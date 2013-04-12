@@ -23,20 +23,16 @@
     position: relative;
     vertical-align: top;
     background-color: white;
-    opacity: 1;
+    @include opacity(100);
     @include border-radius(5px);
     border: 1px solid darken($light-gray, 10%);
     height: auto;
 
     &.item-hidden {
       @include transition(opacity 0.35s ease);
-      opacity: 0.5;
+      @include opacity(50);
       .preview {
         height: 0;
-      }
-
-      .footer-button {
-        opacity: 1 !important;
       }
     }
 

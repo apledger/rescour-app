@@ -1,6 +1,5 @@
 <header>
     <a class="logo" href="/"></a>
-
     <div class="navbar market-controls">
         <ul class="nav" style="margin-left:15px;">
             <li ng-class="{'active': toggle == 'all'}" tooltip="Display All" tooltip-placement="bottom">
@@ -43,13 +42,13 @@
                 <div class="dropdown saved-dropdown">
 
                     <div class="btn-group">
-                        <button class="btn saved-dropdown" click-spin ng-click="refreshSearch()">
+                        <button class="btn saved-dropdown" tooltip="Reset" tooltip-placement="bottom" ng-click="refreshSearch()">
                             <!--<i class="icon-refresh"></i>-->
                             {{attributes.title || "New Search"}}
                         </button>
                         <button class="btn btn-search-save"
                                 ng-class="{'disabled': !attributes.modified, 'btn-success': attributes.modified}"
-                                ng-disabled="!attributes.modified"
+                                tooltip="Save" tooltip-placement="bottom"
                                 ng-click="openSaveDialog()">
                             <i class="icon-save"></i>
                         </button>

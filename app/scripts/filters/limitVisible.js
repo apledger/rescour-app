@@ -22,4 +22,10 @@ angular.module('nebuMarket')
                 return input;
             }
         };
+    })
+    .filter('percentage', function(){
+        return function (input, limit, exceptions) {
+            var num = input;
+            return num.toFixed(3) + " %";
+        }
     });

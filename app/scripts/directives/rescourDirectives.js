@@ -83,11 +83,11 @@ rescourApp
             require: "ngModel",
             link: function (scope, element, attrs, ctrl) {
 
-//                scope.$watch('passwordVerify', function (value) {
-//                    ctrl.$viewValue = "";
-//                    ctrl.$render();
-//                    ctrl.$setValidity("passwordMatch", false);
-//                });
+                scope.$watch('passwordVerify', function (value) {
+                    ctrl.$viewValue = "";
+                    ctrl.$render();
+                    ctrl.$setValidity("passwordMatch", false);
+                });
 
                 ctrl.$parsers.unshift(function (viewValue) {
                     scope[attrs.passwordVerify];

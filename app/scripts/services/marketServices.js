@@ -401,8 +401,8 @@ angular.module('nebuMarket')
                 }
             };
         }])
-    .service('Items', ['Attributes', 'Item',
-        function (Attributes, Item) {
+    .service('Items', ['Attributes', 'Item', 'Filter',
+        function (Attributes, Item, Filter) {
             // Private items data
             this.items = {};
 
@@ -413,25 +413,28 @@ angular.module('nebuMarket')
             };
 
             this.showHidden = function () {
-                for (var id in this.items) {
-                    if (this.items.hasOwnProperty(id)) {
-                        this.items[id].isVisible = this.items[id].hidden;
+                var visibleIds = Filter.getVisibleIds();
+                for (var i = 0, len = visibleIds.length; i < len; i++) {
+                    if (this.items.hasOwnProperty(visibleIds[i])) {
+                        this.items[visibleIds[i]].isVisible = this.items[visibleIds[i]].hidden;
                     }
                 }
             };
 
             this.showFavorites = function () {
-                for (var id in this.items) {
-                    if (this.items.hasOwnProperty(id)) {
-                        this.items[id].isVisible = this.items[id].favorites;
+                var visibleIds = Filter.getVisibleIds();
+                for (var i = 0, len = visibleIds.length; i < len; i++) {
+                    if (this.items.hasOwnProperty(visibleIds[i])) {
+                        this.items[visibleIds[i]].isVisible = this.items[visibleIds[i]].favorites;
                     }
                 }
             };
 
             this.showNotes = function () {
-                for (var id in this.items) {
-                    if (this.items.hasOwnProperty(id)) {
-                        this.items[id].isVisible = this.items[id].hasComments;
+                var visibleIds = Filter.getVisibleIds();
+                for (var i = 0, len = visibleIds.length; i < len; i++) {
+                    if (this.items.hasOwnProperty(visibleIds[i])) {
+                        this.items[visibleIds[i]].isVisible = this.items[visibleIds[i]].hasComments;
                     }
                 }
             };

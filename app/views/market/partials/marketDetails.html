@@ -192,44 +192,44 @@
     </form>
 </div>
 
-<div pane class="container-fluid financials-container" heading="{{panes[4].heading}}" active="panes[4].active">
-    <form class="form-horizontal">
+<!--<div pane class="container-fluid financials-container" heading="{{panes[4].heading}}" active="panes[4].active">-->
+    <!--<form class="form-horizontal">-->
 
-        <div class="control-list">
-            <ul>
-                <li ng-repeat="item in current.details.data" class="dropdown">
-                    <button class="btn btn-danger financials-delete" ng-click="deleteDataModel(item)"><i
-                            class="icon-remove-sign"></i>
-                    </button>
+        <!--<div class="control-list">-->
+            <!--<ul>-->
+                <!--<li ng-repeat="item in current.details.data" class="dropdown">-->
+                    <!--<button class="btn btn-danger financials-delete" ng-click="deleteDataModel(item)"><i-->
+                            <!--class="icon-remove-sign"></i>-->
+                    <!--</button>-->
 
-                    <form novalidate class="form-inline" name="formDataModel">
-                        <div class="financials-title">
-                            <input name="title" ng-blur="saveDataModel(item)" type="text" ng-model="item.title"
-                                   class="input-medium"
-                                   typeahead="field for field in dataFields.fields | filter:$viewValue">
-                        </div>
+                    <!--<form novalidate class="form-inline" name="formDataModel">-->
+                        <!--<div class="financials-title">-->
+                            <!--<input name="title" ng-blur="saveDataModel(item)" type="text" ng-model="item.title"-->
+                                   <!--class="input-medium"-->
+                                   <!--typeahead="field for field in dataFields.fields | filter:$viewValue">-->
+                        <!--</div>-->
 
-                        <div class="financials-value">
-                            <input name="value" ng-blur="saveDataModel(item)" type="text" ng-model="item.value"
-                                   class="input-small">
-                        </div>
+                        <!--<div class="financials-value">-->
+                            <!--<input name="value" ng-blur="saveDataModel(item)" type="text" ng-model="item.value"-->
+                                   <!--class="input-small">-->
+                        <!--</div>-->
 
-                        <select class="financials-class" ng-model="item.class" ng-change="saveDataModel(item)">
-                            <option ng-repeat="format in formats">{{format}}</option>
-                        </select>
-                    </form>
-                </li>
-            </ul>
-        </div>
+                        <!--<select class="financials-class" ng-model="item.class" ng-change="saveDataModel(item)">-->
+                            <!--<option ng-repeat="format in formats">{{format}}</option>-->
+                        <!--</select>-->
+                    <!--</form>-->
+                <!--</li>-->
+            <!--</ul>-->
+        <!--</div>-->
 
-        <div class="control-group">
-            <button class="btn btn-success" ng-click="addData()"><i class="icon icon-plus-sign"></i>
-            </button>
-            Add New Field
-        </div>
+        <!--<div class="control-group">-->
+            <!--<button class="btn btn-success" ng-click="addData()"><i class="icon icon-plus-sign"></i>-->
+            <!--</button>-->
+            <!--Add New Field-->
+        <!--</div>-->
 
-    </form>
-</div>
+    <!--</form>-->
+<!--</div>-->
 </div>
 </div>
 </div>

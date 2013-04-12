@@ -18,7 +18,7 @@ angular.module('rescour.api', [])
             loading = {
                 details: function (data) {
                     $('#Loading-Details').show();
-                    return data;
+                    return data;delete
                 },
                 main: function (data) {
                     $('#Loading').show();

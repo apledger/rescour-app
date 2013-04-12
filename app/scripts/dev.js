@@ -310,7 +310,7 @@ angular.module('rescour.app.dev', ['rescour.app', 'ngMockE2E'])
 
         itemDetails[k] = {
             comments: [],
-            data: {},
+            data: [],
             callForOffers: "2013-04-12T04:00:00.000Z",
             tourDates:[{date:'2013-03-19T04:00:00.000Z'}, {date:'2013-03-26T04:00:00.000Z'}, {date:'2013-04-02T04:00:00.000Z'}],
             images:[
@@ -452,7 +452,7 @@ angular.module('rescour.app.dev', ['rescour.app', 'ngMockE2E'])
             return [200, { id:_dataModel.id }, {}];
         });
 
-    $httpBackend.whenPUT(/\/properties\/[0-9]+\/data\/[0-9]+/).respond(
+    $httpBackend.whenPUT(/\/properties\/[0-9]+\/data\//).respond(
         function (method, url, data, headers) {
             var _dataModel = angular.fromJson(data),
                 item_id = url.split("/")[2],

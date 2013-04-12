@@ -54,3 +54,23 @@ $detailsHeaderColor: $light-gray;
     cursor: pointer;
   }
 }
+
+.financials-container {
+    .financials-delete {
+        float: left;
+        display: inline-block;
+    }
+    .financials-title {
+        float: left;
+        display: inline-block;
+    }
+    .financials-value {
+        float: left;
+        display: inline-block;
+    }
+    .financials-class {
+        width: 60px;
+        /* float: left; */
+        display: inline-block;
+    }
+}

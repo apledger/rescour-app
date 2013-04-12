@@ -144,9 +144,15 @@ angular.module('nebuMarket')
                     defer = $q.defer(),
                     self = this;
 
+                if (this.details.data) {
+                    this.details.data.push(_dataModel);
+                } else {
+                    this.details.data = [_dataModel];
+                }
+
                 _dataModel.$save(this.id).then(function (response) {
                     defer.resolve(response);
-                    self.getDetails();
+                    //self.getDetails();
 
                 }, function (response) {
                     defer.reject(response);
@@ -179,8 +185,19 @@ angular.module('nebuMarket')
                     body = {},
                     config = angular.extend({
                         transformRequest: $_api.loading.none
-                    }, $_api.config);
-                delete this.details.data[data.data_id];
+                    }, $_api.config),
+                    self = this;
+                this.details.data = _.reject(this.details.data, function (value) {
+                    return value.data_id === data.data_id;
+                })
+
+                data.$delete(this.id)
+                    .then(function (response) {
+                        defer.resolve(response);
+                    }, function (response) {
+                        self.getDetails();
+                        defer.reject(response);
+                    });
             };
 
             Item.prototype.saveNote = function () {
@@ -732,9 +749,11 @@ angular.module('nebuMarket')
                 if (data !== undefined) {
                     this.title = data.title || "";
                     this.value = data.value || "";
+                    this.data_id = data.data_id || Date.now()*Math.random();
                 } else {
                     this.title = "";
                     this.value = "";
+                    this.data_id = Date.now()*Math.random();
                 }
             };
 
@@ -774,6 +793,32 @@ angular.module('nebuMarket')
                         });
                 } else {
                     throw new Error("data.$save received undefined itemID");
+                }
+
+                return defer.promise;
+            };
+
+            DataModel.prototype.$delete = function (itemID) {
+                var defer = $q.defer(),
+                    self = this,
+                    config = angular.extend({
+                        transformRequest: $_api.loading.none
+                    }, $_api.config);
+
+                if (typeof itemID !== 'undefined') {
+                    $http({
+                        method: 'DELETE',
+                        url: $_api.path + '/properties/' + itemID + '/data/',
+                        headers: {'Content-Type': 'application/json'},
+                        withCredentials: true
+                    })
+                        .then(function (response) {
+                            defer.resolve(response);
+                        }, function (response) {
+                            defer.reject(response);
+                        });
+                } else {
+                    throw new Error("data.$delete received undefined itemID");
                 }
 
                 return defer.promise;

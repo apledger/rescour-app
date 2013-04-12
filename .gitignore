@@ -2,3 +2,4 @@
 app/.idea
 .sass-cache/
 dist/
+tmp/

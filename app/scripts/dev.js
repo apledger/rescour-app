@@ -310,7 +310,7 @@ angular.module('rescour.app.dev', ['rescour.app', 'ngMockE2E'])
 
         itemDetails[k] = {
             comments: [],
-            data: [],
+            financials: [],
             callForOffers: "2013-04-12T04:00:00.000Z",
             tourDates:[{date:'2013-03-19T04:00:00.000Z'}, {date:'2013-03-26T04:00:00.000Z'}, {date:'2013-04-02T04:00:00.000Z'}],
             images:[
@@ -442,22 +442,22 @@ angular.module('rescour.app.dev', ['rescour.app', 'ngMockE2E'])
             return [200, { id:_comment.id }, {}];
         });
 
-    $httpBackend.whenPOST(/\/properties\/[0-9]+\/data\//).respond(
+    $httpBackend.whenPOST(/\/properties\/[0-9]+\/financials\//).respond(
         function (method, url, data, headers) {
-            var _dataModel = angular.fromJson(data),
+            var _financial = angular.fromJson(data),
                 item_id = url.split("/")[2];
 
-            _dataModel.data_id = Date.now();
-            itemDetails[item_id].data[_dataModel.data_id] = _dataModel;
-            return [200, { id:_dataModel.id }, {}];
+            _financial._id = Date.now();
+            itemDetails[item_id].financials[_financial._id] = _financial;
+            return [200, { id:_financial._id }, {}];
         });
 
-    $httpBackend.whenPUT(/\/properties\/[0-9]+\/data\//).respond(
+    $httpBackend.whenPUT(/\/properties\/[0-9]+\/financials\/[0-9]+/).respond(
         function (method, url, data, headers) {
-            var _dataModel = angular.fromJson(data),
+            var _financial = angular.fromJson(data),
                 item_id = url.split("/")[2],
-                data_id = url.split("/")[4];
-            itemDetails[item_id].data[data_id] = _dataModel;
+                financial_id = url.split("/")[4];
+            itemDetails[item_id].financials[financial_id] = _financial;
             return [200, { }, {}];
         });
 

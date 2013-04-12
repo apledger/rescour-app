@@ -250,6 +250,47 @@ angular.module('nebuMarket')
                 }
             };
         }])
+    .directive("formatInput", ['$filter', '$timeout', '$parse', function ($filter, $timeout, $parse) {
+        return {
+            require: 'ngModel',
+            link: function(scope, elm, attrs, ctrl) {
+               // view -> model
+                elm.bind('blur', function() {
+                    scope.$apply(function() {
+                        applyFilter(attrs.formatInput);
+                    });
+                });
+
+                function applyFilter(formatInput) {
+                    formatInput = formatInput || attrs.formatInput;
+                    if (ctrl.$modelValue !== "") {
+                        ctrl.$viewValue = $filter(formatInput)(ctrl.$modelValue);
+                        ctrl.$render();
+                    } else {
+                        ctrl.$viewValue = undefined;
+                        ctrl.$render();
+                    }
+                }
+
+                elm.bind('focus', function() {
+                    scope.$apply(function() {
+                        ctrl.$viewValue = ctrl.$modelValue;
+                        ctrl.$render();
+                    });
+                });
+
+                attrs.$observe('formatInput', function (val) {
+                    ctrl.$viewValue = $filter(val)(ctrl.$modelValue);
+                    ctrl.$render();
+                })
+
+                // load init value from DOM
+                $timeout(function () {
+                    applyFilter(attrs.formatInput);
+                }, 0);
+            }
+        };
+    }])
     .directive('propertyDetails', function () {
         return {
             restrict: "C",

@@ -197,33 +197,32 @@
 
         <div class="control-list">
             <ul>
-                <li ng-repeat="item in current.details.data" class="dropdown">
-                    <button class="btn btn-danger financials-delete" ng-click="deleteDataModel(item)"><i
+                <li ng-repeat="financial in current.details.financials" class="dropdown">
+                    <button class="btn btn-danger financials-delete" ng-click="deleteFinancialModel(financial)"><i
                             class="icon-remove-sign"></i>
                     </button>
 
                     <form novalidate class="form-inline" name="formDataModel">
                         <div class="financials-title">
-                            <input name="title" ng-blur="saveDataModel(item)" type="text" ng-model="item.title"
+                            <input placeholder="Financial Metric" name="title" ng-blur="saveFinancialModel(financial)" type="text" ng-model="financial.title"
                                    class="input-medium"
-                                   typeahead="field for field in dataFields.fields | filter:$viewValue">
+                                   typeahead="field for field in financialFields.fields | filter:$viewValue">
                         </div>
 
                         <div class="financials-value">
-                            <input name="value" ng-blur="saveDataModel(item)" type="text" ng-model="item.value"
+                            <input placeholder="Value"  type="text" format-input="{{financial.class}}" name="value" ng-blur="saveDataModel(financial)" ng-model="financial.value"
                                    class="input-small">
                         </div>
 
-                        <select class="financials-class" ng-model="item.class" ng-change="saveDataModel(item)">
-                            <option ng-repeat="format in formats">{{format}}</option>
-                        </select>
+                        <select ng-options="format.class as format.icon for format in formats" class="financials-class"
+                                ng-model="financial.class" ng-change="saveFinancialModel(financial)"></select>
                     </form>
                 </li>
             </ul>
         </div>
 
         <div class="control-group">
-            <button class="btn btn-success" ng-click="addData()"><i class="icon icon-plus-sign"></i>
+            <button class="btn btn-success" ng-click="addFinancial()"><i class="icon icon-plus-sign"></i>
             </button>
             Add New Field
         </div>

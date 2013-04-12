@@ -241,15 +241,18 @@ angular.module('nebuMarket')
                 detailPanes.selectPane("Contact");
             };
         }])
-    .controller("DetailsController", ['$scope', '$http', '$_api', '$timeout', 'detailPanes', 'DataFields',
-        function ($scope, $http, $_api, $timeout, detailPanes, DataFields) {
+    .controller("DetailsController", ['$scope', '$http', '$_api', '$timeout', 'detailPanes', 'FinancialFields',
+        function ($scope, $http, $_api, $timeout, detailPanes, FinancialFields) {
             $scope.newComment = {};
             $scope.newEmail = {};
-            $scope.dataList = {};
             $scope.panes = detailPanes.panes;
-            $scope.dataFields = DataFields;
+            $scope.financialFields = FinancialFields;
 
-            $scope.formats = ['$', '%', '0.0'];
+            $scope.formats = [
+                {icon: '$', class: 'currency', selected: true},
+                {icon: '%', class: 'percentage', selected: false},
+                {icon: '0.0', class: 'number', selected: false}
+            ];
 
             $scope.addComment = function (comment) {
                 if (comment.text) {
@@ -293,19 +296,19 @@ angular.module('nebuMarket')
                 );
             };
             
-            $scope.addData = function(){
-                $scope.current.addDataModel();
+            $scope.addFinancial = function(){
+                $scope.current.addFinancial();
             };
 
-            $scope.saveDataModel = function(item){
-                $scope.current.saveDataModel(item);
-                if(!_.find($scope.dataFields.fields, function(value){return value == item.title})){
-                    $scope.dataFields.fields = DataFields.addField(item.title);
+            $scope.saveFinancialModel = function(item){
+                $scope.current.saveFinancial(item);
+                if(!_.find($scope.financialFields.fields, function(value){return value == item.title})){
+                    $scope.financialFields.fields = FinancialFields.addField(item.title);
                 }
             };
 
-            $scope.deleteDataModel = function(item){
-                $scope.current.deleteDataModel(item);
+            $scope.deleteFinancialModel = function(item){
+                $scope.current.deleteFinancial(item);
             };
 
         }]);

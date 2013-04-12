@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('nebuMarket')
-    .factory('Item', ['$_api', '$q', '$http', 'Attributes', 'Comment', 'DataModel',
-        function ($_api, $q, $http, Attributes, Comment, DataModel) {
+    .factory('Item', ['$_api', '$q', '$http', 'Attributes', 'Comment', 'Financial',
+        function ($_api, $q, $http, Attributes, Comment, Financial) {
 
             // Item constructor
             var Item = function (data) {
@@ -139,18 +139,18 @@ angular.module('nebuMarket')
                 return defer.promise;
             };
 
-            Item.prototype.addDataModel = function () {
-                var _dataModel = new DataModel(),
+            Item.prototype.addFinancial = function () {
+                var _financial = new Financial(),
                     defer = $q.defer(),
                     self = this;
 
-                if (this.details.data) {
-                    this.details.data.push(_dataModel);
+                if (this.details.financials) {
+                    this.details.financials.push(_financial);
                 } else {
-                    this.details.data = [_dataModel];
+                    this.details.financials = [_financial];
                 }
 
-                _dataModel.$save(this.id).then(function (response) {
+                _financial.$save(this.id).then(function (response) {
                     defer.resolve(response);
                     //self.getDetails();
 
@@ -161,14 +161,14 @@ angular.module('nebuMarket')
                 return defer.promise;
             };
 
-            Item.prototype.saveDataModel = function (data) {
+            Item.prototype.saveFinancial = function (financial) {
                 var defer = $q.defer(),
                     self = this,
-                    body = JSON.stringify(data),
+                    body = JSON.stringify(financial),
                     config = angular.extend({
                         transformRequest: $_api.loading.none
                     }, $_api.config);
-                $http.put($_api.path + '/properties/' + this.id + '/data/' + data.data_id, body, config)
+                $http.put($_api.path + '/properties/' + this.id + '/financials/' + financial._id, body, config)
                     .success(function (response) {
                         defer.resolve(response);
                     })
@@ -180,18 +180,18 @@ angular.module('nebuMarket')
 
             };
 
-            Item.prototype.deleteDataModel = function (data) {
+            Item.prototype.deleteFinancial = function (financial) {
                 var defer = $q.defer(),
                     body = {},
                     config = angular.extend({
                         transformRequest: $_api.loading.none
                     }, $_api.config),
                     self = this;
-                this.details.data = _.reject(this.details.data, function (value) {
-                    return value.data_id === data.data_id;
+                this.details.financials = _.reject(this.details.financials, function (value) {
+                    return value._id === financial._id;
                 })
 
-                data.$delete(this.id)
+                financial.$delete(this.id)
                     .then(function (response) {
                         defer.resolve(response);
                     }, function (response) {
@@ -727,7 +727,7 @@ angular.module('nebuMarket')
             {heading: "Pictures", active: false},
             {heading: "Contact", active: false},
             {heading: "Comments", active: false},
-            {heading: "Data", active: false}
+            {heading: "Financials", active: false}
         ];
         return {
             panes: panes,
@@ -742,42 +742,44 @@ angular.module('nebuMarket')
             }
         };
     })
-    .factory('DataModel', ['$_api', '$q', '$http',
+    .factory('Financial', ['$_api', '$q', '$http',
         function ($_api, $q, $http) {
 
-            var DataModel = function (data) {
-                if (data !== undefined) {
-                    this.title = data.title || "";
-                    this.value = data.value || "";
-                    this.data_id = data.data_id || Date.now()*Math.random();
+            var Financial = function (financial) {
+                if (financial !== undefined) {
+                    this.title = financial.title || "";
+                    this.value = financial.value || "";
+                    this.class = financial.class || "currency";
+                    this._id = financial._id || Date.now()*Math.random();
                 } else {
                     this.title = "";
                     this.value = "";
-                    this.data_id = Date.now()*Math.random();
+                    this.class = "currency";
+                    this._id = Date.now()*Math.random();
                 }
             };
 
-            DataModel.query = function (itemID) {
+            Financial.query = function (itemID) {
                 var config = angular.extend({
                         transformRequest: $_api.loading.none
                     }, $_api.config),
                     defer = $q.defer();
 
                 if (typeof itemID !== 'undefined') {
-                    $http.get($_api.path + '/properties/' + itemID + '/data/', config).then(function (response) {
+                    $http.get($_api.path + '/properties/' + itemID + '/financials/', config).then(function (response) {
                         defer.resolve(response.data.items);
                     }, function (response) {
                         defer.reject(response);
                         //throw new Error("HTTP Error: " + response);
                     });
                 } else {
-                    throw new Error("data.query received undefined itemID");
+                    throw new Error("financial.query received undefined itemID");
                 }
 
                 return defer.promise;
             };
 
-            DataModel.prototype.$save = function (itemID) {
+            Financial.prototype.$save = function (itemID) {
                 var defer = $q.defer(),
                     self = this,
                     config = angular.extend({
@@ -785,20 +787,20 @@ angular.module('nebuMarket')
                     }, $_api.config);
 
                 if (typeof itemID !== 'undefined') {
-                    $http.post($_api.path + '/properties/' + itemID + '/data/', JSON.stringify(self), config)
+                    $http.post($_api.path + '/properties/' + itemID + '/financials/', JSON.stringify(self), config)
                         .then(function (response) {
                             defer.resolve(response);
                         }, function (response) {
                             defer.reject(response);
                         });
                 } else {
-                    throw new Error("data.$save received undefined itemID");
+                    throw new Error("financial.$save received undefined itemID");
                 }
 
                 return defer.promise;
             };
 
-            DataModel.prototype.$delete = function (itemID) {
+            Financial.prototype.$delete = function (itemID) {
                 var defer = $q.defer(),
                     self = this,
                     config = angular.extend({
@@ -808,7 +810,7 @@ angular.module('nebuMarket')
                 if (typeof itemID !== 'undefined') {
                     $http({
                         method: 'DELETE',
-                        url: $_api.path + '/properties/' + itemID + '/data/',
+                        url: $_api.path + '/properties/' + itemID + '/financials/',
                         headers: {'Content-Type': 'application/json'},
                         withCredentials: true
                     })
@@ -818,15 +820,15 @@ angular.module('nebuMarket')
                             defer.reject(response);
                         });
                 } else {
-                    throw new Error("data.$delete received undefined itemID");
+                    throw new Error("financial.$delete received undefined itemID");
                 }
 
                 return defer.promise;
             };
 
-            return DataModel;
+            return Financial;
         }])
-    .service('DataFields', function () {
+    .service('FinancialFields', function () {
         var fields = [
             "Valuation",
             "IRR",

@@ -199,10 +199,6 @@
         padding: 15px;
         max-height: 100px;
         overflow: hidden;
-
-        &:hover {
-          overflow-y: scroll;
-        }
       }
 
       p {
@@ -253,7 +249,7 @@
   overflow: hidden;
 
   &:hover {
-    overflow-y: scroll;
+    overflow-y: auto;
   }
 }
 

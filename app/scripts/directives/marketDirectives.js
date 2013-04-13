@@ -253,10 +253,10 @@ angular.module('nebuMarket')
     .directive("formatInput", ['$filter', '$timeout', '$parse', function ($filter, $timeout, $parse) {
         return {
             require: 'ngModel',
-            link: function(scope, elm, attrs, ctrl) {
-               // view -> model
-                elm.bind('blur', function() {
-                    scope.$apply(function() {
+            link: function (scope, elm, attrs, ctrl) {
+                // view -> model
+                elm.bind('blur', function () {
+                    scope.$apply(function () {
                         applyFilter(attrs.formatInput);
                     });
                 });
@@ -272,8 +272,8 @@ angular.module('nebuMarket')
                     }
                 }
 
-                elm.bind('focus', function() {
-                    scope.$apply(function() {
+                elm.bind('focus', function () {
+                    scope.$apply(function () {
                         ctrl.$viewValue = ctrl.$modelValue;
                         ctrl.$render();
                     });

@@ -105,7 +105,7 @@
         <div class="market-wrap">
             <div id="item-{{item.id}}" class="item-well"
                  ng-class="{'item-hidden': item.hidden}"
-                 ng-repeat="item in items | filter: searchText | limitVisible: 50"
+                 ng-repeat="item in items | filter: searchText | limitVisible: 10"
                  ng-show="item.isVisible">
                 <!--Thumbnail preview button-->
 
@@ -145,7 +145,7 @@
                 <div class="footer">
                     <div class="user-options">
                         <!--Toggle favorite button-->
-                        <div class="footer-button" tooltip="Add to favorites" ng-click="toggleFavorites(item)">
+                        <div class="footer-button" tooltip="Add to Favorites" ng-click="toggleFavorites(item)">
                             <i class="icon-star" ng-class="{'yellow': item.favorites}"></i>
                         </div>
 
@@ -154,12 +154,12 @@
                             <i class="icon-ban-circle" ng-class="{'red': item.hidden}"></i>
                         </div>
 
-                        <div class="footer-button" tooltip="Take notes" ng-click="showNotes(item)">
+                        <div class="footer-button" tooltip="Take Notes" ng-click="showNotes(item)">
                             <i class="icon-pencil" ></i>
                         </div>
 
                         <!--Contact broker button-->
-                        <div class="footer-button" ng-click="showContact(item)" tooltip="Contact broker">
+                        <div class="footer-button" ng-click="showContact(item)" tooltip="Contact Broker">
                             <i class="icon-envelope-alt" ></i>
 
                             <span>{{item.getAttribute("Broker")}}</span>

@@ -137,8 +137,8 @@
 
 <div pane class="container-fluid" heading="{{panes[1].heading}}" active="panes[1].active">
     <div class="row-fluid">
-        <div class="span8 alert alert-info" ng-show="current.details.images.length == 0">Sorry!  It seems we do not have any images for this property.</div>
-        <div class="span8 offset2" ng-show="current.details.images.length > 0">
+        <div class="span8 alert alert-info" ng-show="!current.details.images">Sorry!  It seems we do not have any images for this property.</div>
+        <div class="span8 offset2" ng-show="current.details.images">
             <div carousel no-transition="true">
                 <div slide ng-repeat="slide in current.details.images" active="slide.active">
                     <img ng-src="{{slide.link}}" style="margin:auto;">

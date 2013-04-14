@@ -213,7 +213,7 @@ angular.module('nebuMarket')
                         // Loop through each item
                         _.each(Items.items, function (item) {
                             // Check visibility
-                            if (item.isVisible) {
+                            if (item.isVisible && item.location) {
                                 // Initialize new marker at location
                                 item.marker = new L.Marker(new L.LatLng(item.location[0], item.location[1]), { title: item.title });
                                 // Open modal popup

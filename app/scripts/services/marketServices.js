@@ -53,10 +53,15 @@ angular.module('nebuMarket')
                     throw new Error("Cannot find attributes in Item {id: " + data.id + "}");
                 }
 
-                if (data.hasOwnProperty('location')) {
-                    this.location = data.location;
+                if (data.hasOwnProperty('geo')) {
+                    this.location = [];
+                    if (data.geo.lat && data.geo.lng) {
+                        this.location = [data.geo.lat, data.geo.lng];
+                    } else {
+                        this.location = undefined;
+                    }
                 } else {
-                    throw new Error("Cannot find location in " + "Item {id: " + data.id + "}");
+                    this.location = undefined;
                 }
 
                 this.title = data.title || "Title not listed";
@@ -453,7 +458,6 @@ angular.module('nebuMarket')
                 }
                 Attributes.active.setSelectedBounds();
                 Attributes.active.sort();
-                console.log(Attributes.active);
                 return _.map(this.items, function (item, id) {
                     return item;
                 });

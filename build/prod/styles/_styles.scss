@@ -24,7 +24,6 @@
   position: absolute; left: 0px; top: 0px; bottom:0px; right: 0px; background: $light-gray; z-index: 5;
   //display:none;
 }
-
 .origami-left {
   position: absolute;
   top: 0;
@@ -74,12 +73,12 @@ header, section, footer {
 }
 
 body {
-  height: 100%;
+  min-height: 100%;
   margin: 0;
   font-size: 14px;
   line-height: 20px;
   color: $dark-gray;
-  background-color: white;
+  background-color: $grayLighter;
 }
 
 #Wrapper {
@@ -117,10 +116,6 @@ body {
   margin-right: 10px;
 }
 
-.tooltip-inner {
-  opacity: 0.8;
-}
-
 .yellow {
   color: $yellow;
 }
@@ -137,7 +132,7 @@ body {
 }
 
 ::-webkit-scrollbar-thumb, ::-webkit-scrollbar-thumb {
-  background-color: darken($light-gray, 20%);
+  background-color: darken($grayLight, 20%);
   @include border-radius(5px);
   @include box-shadow(rgba(0, 0, 0, 0.05) -1px 0 7px inset);
 }

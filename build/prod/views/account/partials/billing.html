@@ -1,6 +1,8 @@
-<div ng-controller="AccountBillingController">
+<div class="container-fluid" ng-controller="AccountBillingController">
     <div class="page-header"><h3>Billing Information</h3></div>
-    <div alert ng-repeat="alert in accountAlerts" type="alert.type">{{alert.msg}} <a ng-show="action" href="javascript:" ng-click="goToApp()">Continue to Application</a></div>
+    <div alert ng-repeat="alert in accountAlerts" type="alert.type">{{alert.msg}} <a ng-show="action" href="javascript:"
+                                                                                     ng-click="goToApp()">Continue to
+        Application</a></div>
     <form class="form-horizontal">
 
         <div class="control-group"><label class="control-label">Credit Card</label>
@@ -44,6 +46,5 @@
                                          placeholder="{{user.billing.active_card.address_zip}}">
             </div>
         </div>
-        <button class="btn controls btn-info">Edit Account</button>
-        </form>
+    </form>
 </div>

@@ -77,25 +77,25 @@ angular.module('nebuMarket')
 
             $scope.render = function (ids) {
                 Items.updateVisible(ids);
-                $scope.$broadcast('RenderMap');
+                $scope.$broadcast('Render');
             };
 
             $scope.listFavorites = function () {
                 $scope.toggle = "favorites";
                 Items.showFavorites();
-                $scope.$broadcast('RenderMap');
+                $scope.$broadcast('Render');
             };
 
             $scope.listHidden = function () {
                 $scope.toggle = "hidden";
                 Items.showHidden();
-                $scope.$broadcast('RenderMap');
+                $scope.$broadcast('Render');
             };
 
             $scope.listNotes = function () {
                 $scope.toggle = "notes";
                 Items.showNotes();
-                $scope.$broadcast('RenderMap');
+                $scope.$broadcast('Render');
             };
 
             $scope.$on("MapReady", function () {

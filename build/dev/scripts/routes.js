@@ -35,7 +35,7 @@ angular.module('rescour.app')
                             defer.reject(response);
                         });
                         return defer.promise;
-                    },
+                    }
                 }
             });
 

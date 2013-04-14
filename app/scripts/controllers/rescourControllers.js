@@ -159,9 +159,7 @@ angular.module('rescour.app')
     .controller('AccountController', ['$scope', 'loadUser', '$_api', '$http', 'User', '$routeParams', '$rootScope', '$location', 'loadBilling',
         function ($scope, loadUser, $_api, $http, User, $routeParams, $rootScope, $location, loadBilling) {
 
-           $scope.user = User;
-           console.log($scope.user);
-
+            $scope.user = User;
 
             $scope.selectSubview = function (subview) {
                 if (_.isObject(subview)) {
@@ -244,6 +242,12 @@ angular.module('rescour.app')
             $scope.goToApp = function () {
                 $location.path('/');
             };
+
+            $scope.saveProfile = function () {
+                $scope.user.saveProfile().then(function (response) {
+                    console.log(response);
+                });
+            };
         }])
     .controller('AccountProfileController', ['$scope', '$_api', '$http', '$q',
         function ($scope, $_api, $http, $q) {
@@ -280,6 +284,7 @@ angular.module('rescour.app')
                     });
                 }
             };
+
         }])
     .controller('CancelAccountDialogController', ['$scope', 'dialog',
         function ($scope, dialog) {

@@ -11,7 +11,7 @@ angular.module('nebuMarket')
                     visibleItems.push(item);
                 }
             });
-            return visibleItems.slice(0, limit);
+            return visibleItems;
         };
     }])
     .filter('ellipsis', function () {

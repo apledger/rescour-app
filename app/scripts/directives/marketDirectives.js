@@ -204,7 +204,7 @@ angular.module('nebuMarket')
                         detailPanes.selectPane("Pictures");
                     };
 
-                    scope.$on("RenderMap", function () {
+                    scope.$on("Render", function () {
                         // Markers plugin says better performance to clear all markers and recreate
                         markers.clearLayers();
                         // Zoom out
@@ -305,4 +305,38 @@ angular.module('nebuMarket')
                 };
             }
         };
-    });
+    })
+    .directive('chunk', ['$filter', '$parse', function ($filter, $parse) {
+        return {
+            link: function (scope, element, attrs) {
+                var raw = element[0],
+                    currentSlice,
+                    chunkSize = parseInt(attrs.chunkSize, 10) || 10;
+
+                function initChunk() {
+                    scope.visibleItems = scope.$eval(attrs.chunk);
+                    // If a filter is provided, apply filter to set and return
+                    currentSlice = chunkSize;
+                    scope.chunk = scope.visibleItems.slice(0, chunkSize);
+                }
+
+                element.bind('scroll', function () {
+                    // Check if within bottom of scrollable div
+                    if ((raw.scrollTop + raw.offsetHeight) * 1.2 > raw.scrollHeight) {
+                        // increase chunkSize and re-filter
+                        scope.$apply(function () {
+                            // take next limit
+                            scope.chunk = scope.chunk.concat(scope.visibleItems.slice(currentSlice, currentSlice += chunkSize));
+                        });
+                    }
+                });
+
+                scope.$watch(function (newScope) {
+                    if (!angular.equals(scope.$eval(attrs.chunk), newScope.visibleItems)) {
+                        raw.scrollTop = 0;
+                        initChunk();
+                    }
+                });
+            }
+        };
+    }]);

@@ -3,13 +3,14 @@
 <div class="page-header clearfix">
     <button class="btn pull-right" ng-click="close()"><i class="icon-arrow-left"></i>&nbsp;Back to map</button>
     <h2>{{current.title}}</h2>
-    <h4>{{current.address.street1}}<span ng-show="current.address.street1">,</span> <strong>{{current.address.city}}, {{current.address.state}}</strong> {{current.address.zip}}</h4>
+    <h4>{{current.address.street1}}<span ng-show="current.address.street1">,</span> <strong>{{current.address.city}},
+        {{current.address.state}}</strong> {{current.address.zip}}</h4>
 </div>
 <div class="span12">
 <div tabs>
 <div pane class="container-fluid" heading="{{panes[0].heading}}" active="panes[0].active">
     <div class="row-fluid">
-        <div class="span6">
+        <div class="span12">
 
             <table class="table table-bordered">
                 <tbody>
@@ -64,24 +65,28 @@
                 </tbody>
             </table>
         </div>
-        <div class="span6">
-            <p class="lead">Description</p>
-
+    </div>
+    <div class="row-fluid">
+        <div class="span12">
+            <div class="page-header">
+            </div>
+                <p class="lead">Description</p>
             <p>{{current.description}}</p>
         </div>
     </div>
 
     <div class="row-fluid">
-        <div class="span8" ng-show="current.details.unitMix">
-            <p class="lead">Property Unit Mix</p>
+        <div class="span12" ng-show="current.details.unitMix">
+            <div class="page-header"></div>
+                <p class="lead">Property Unit Mix</p>
             <table class="table table-condensed table-striped">
                 <thead>
                 <tr>
                     <th>Type</th>
                     <th>Units</th>
-                    <th>Sq Ft</th>
+                    <th>SF</th>
                     <th>Rent</th>
-                    <th>Rent / Sq Ft</th>
+                    <th>Rent / SF</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -105,8 +110,13 @@
                 </tbody>
             </table>
         </div>
+    </div>
+
+    <div class="row-fluid">
         <div class="span4" ng-show="current.details.tourDates">
-            <p class="lead">Tour Dates</p>
+            <div class="page-header">
+            </div>
+                <p class="lead">Tour Dates</p>
             <table class="table table-condensed table-striped">
                 <thead>
                 <tr>
@@ -122,10 +132,6 @@
                 </tbody>
             </table>
         </div>
-    </div>
-
-    <div class="row-fluid">
-
     </div>
 </div>
 
@@ -172,7 +178,9 @@
 <div pane class="container-fluid" heading="{{panes[3].heading}}" active="panes[3].active">
     <div ng-repeat="comment in current.details.comments">
         <div class="alert alert-info comment-alert">
-            <h5>{{comment.user_email}} <span>{{comment.timestamp | date}}</span></h5> <p>{{comment.text}}</p>
+            <h5>{{comment.user_email}} <span>{{comment.timestamp | date}}</span></h5>
+
+            <p>{{comment.text}}</p>
         </div>
     </div>
     <form>
@@ -192,38 +200,45 @@
     </form>
 </div>
 
+<div pane class="container-fluid financials-container" heading="{{panes[4].heading}}" active="panes[4].active">
+    <form class="form-horizontal">
 
-<!--<div pane class="container-fluid" heading="{{panes[4].heading}}" active="panes[4].active">-->
-    <!--<form class="form-horizontal">-->
+        <div class="control-list">
+            <ul>
+                <li ng-repeat="financial in current.details.financials" class="dropdown">
+                    <button class="btn btn-danger financials-delete" ng-click="deleteFinancialModel(financial)"><i
+                            class="icon-remove-sign"></i>
+                    </button>
 
-        <!--<div class="control-list">-->
-            <!--<ul>-->
-                <!--<li ng-repeat="item in current.details.data" class="dropdown">-->
-                    <!--<button class="btn btn-danger" ng-click="deleteDataModel(item)"><i-->
-                            <!--class="icon-remove-sign"></i>-->
-                    <!--</button>-->
-                    <!--<div><input ng-blur="saveDataModel(item)" type="text" ng-model="item.title"-->
-                                <!--class="input-medium"-->
-                                <!--typeahead="field for field in dataFields.fields | filter:$viewValue">-->
-                    <!--</div>-->
-                    <!--<input ng-blur="saveDataModel(item)" type="text" ng-model="item.value"-->
-                           <!--class="input-small">-->
+                    <form novalidate class="form-inline" name="formDataModel">
+                        <div class="financials-title">
+                            <input placeholder="Financial Metric" name="title" ng-blur="saveFinancialModel(financial)"
+                                   type="text" ng-model="financial.title"
+                                   class="input-medium"
+                                   typeahead="field for field in financialFields.fields | filter:$viewValue">
+                        </div>
 
-                    <!--<select ng-model="item.class" ng-change="saveDataModel(item)">-->
-                        <!--<option ng-repeat="format in formats">{{format}}</option>-->
-                    <!--</select>-->
-                <!--</li>-->
-            <!--</ul>-->
-        <!--</div>-->
+                        <div class="financials-value">
+                            <input placeholder="Value" type="text" format-input="{{financial.class}}" name="value"
+                                   ng-blur="saveDataModel(financial)" ng-model="financial.value"
+                                   class="input-small">
+                        </div>
 
-        <!--<div class="control-group">-->
-            <!--<button class="btn btn-success" ng-click="addData()"><i class="icon icon-plus-sign"></i>-->
-            <!--</button>-->
-            <!--Add New Field-->
-        <!--</div>-->
+                        <select ng-options="format.class as format.icon for format in formats" class="financials-class"
+                                ng-model="financial.class" ng-change="saveFinancialModel(financial)"></select>
+                    </form>
+                </li>
+            </ul>
+        </div>
 
-    <!--</form>-->
-<!--</div>-->
+        <div class="control-group">
+            <button class="btn btn-success" ng-click="addFinancial()"><i class="icon icon-plus-sign"></i>
+            </button>
+            Add New Field
+        </div>
+
+    </form>
+</div>
 </div>
 </div>
 </div>

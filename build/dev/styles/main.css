@@ -4614,14 +4614,14 @@ input[type="submit"].btn.btn-mini {
   display: block;
   visibility: visible;
   padding: 5px;
-  font-size: 11px;
+  font-size: 12px;
   opacity: 0;
   filter: alpha(opacity=0);
 }
 /* line 15, ../../app/styles/compass_twitter_bootstrap/_tooltip.scss */
 .tooltip.in {
-  opacity: 0.8;
-  filter: alpha(opacity=80);
+  opacity: 0.98;
+  filter: alpha(opacity=98);
 }
 /* line 16, ../../app/styles/compass_twitter_bootstrap/_tooltip.scss */
 .tooltip.top {
@@ -4642,57 +4642,62 @@ input[type="submit"].btn.btn-mini {
 
 /* line 23, ../../app/styles/compass_twitter_bootstrap/_tooltip.scss */
 .tooltip-inner {
+  border: 1px solid #666666;
   max-width: 200px;
-  padding: 3px 8px;
+  padding: 6px 16px;
   color: white;
   text-align: center;
   text-decoration: none;
-  background-color: black;
+  background-color: #333333;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
+  -webkit-box-shadow: 0px 0px 1px 1px rgba(80, 84, 92, 0.09804), 0px 1px 2px 0px rgba(80, 84, 92, 0.49804);
+  -moz-box-shadow: 0px 0px 1px 1px rgba(80, 84, 92, 0.09804), 0px 1px 2px 0px rgba(80, 84, 92, 0.49804);
+  box-shadow: 0px 0px 1px 1px rgba(80, 84, 92, 0.09804), 0px 1px 2px 0px rgba(80, 84, 92, 0.49804);
 }
 
-/* line 34, ../../app/styles/compass_twitter_bootstrap/_tooltip.scss */
+/* line 36, ../../app/styles/compass_twitter_bootstrap/_tooltip.scss */
 .tooltip-arrow {
   position: absolute;
   width: 0;
   height: 0;
   border-color: transparent;
   border-style: solid;
+  z-index: 1029;
 }
 
-/* line 42, ../../app/styles/compass_twitter_bootstrap/_tooltip.scss */
+/* line 46, ../../app/styles/compass_twitter_bootstrap/_tooltip.scss */
 .tooltip.top .tooltip-arrow {
-  bottom: 0;
+  bottom: 1px;
   left: 50%;
   margin-left: -5px;
   border-width: 5px 5px 0;
-  border-top-color: black;
+  border-top-color: #333333;
 }
-/* line 49, ../../app/styles/compass_twitter_bootstrap/_tooltip.scss */
+/* line 53, ../../app/styles/compass_twitter_bootstrap/_tooltip.scss */
 .tooltip.right .tooltip-arrow {
   top: 50%;
-  left: 0;
+  left: 1px;
   margin-top: -5px;
   border-width: 5px 5px 5px 0;
-  border-right-color: black;
+  border-right-color: #333333;
 }
-/* line 56, ../../app/styles/compass_twitter_bootstrap/_tooltip.scss */
+/* line 60, ../../app/styles/compass_twitter_bootstrap/_tooltip.scss */
 .tooltip.left .tooltip-arrow {
   top: 50%;
-  right: 0;
+  right: 1px;
   margin-top: -5px;
   border-width: 5px 0 5px 5px;
-  border-left-color: black;
+  border-left-color: #333333;
 }
-/* line 63, ../../app/styles/compass_twitter_bootstrap/_tooltip.scss */
+/* line 67, ../../app/styles/compass_twitter_bootstrap/_tooltip.scss */
 .tooltip.bottom .tooltip-arrow {
-  top: 0;
+  top: 1px;
   left: 50%;
   margin-left: -5px;
   border-width: 0 5px 5px;
-  border-bottom-color: black;
+  border-bottom-color: #333333;
 }
 
 /* line 6, ../../app/styles/compass_twitter_bootstrap/_popovers.scss */
@@ -4901,7 +4906,7 @@ a.thumbnail:hover {
 /* line 49, ../../app/styles/compass_twitter_bootstrap/_thumbnails.scss */
 .thumbnail .caption {
   padding: 9px;
-  color: #555555;
+  color: #5f5f5f;
 }
 
 /* line 8, ../../app/styles/compass_twitter_bootstrap/_labels-badges.scss */
@@ -5621,7 +5626,7 @@ a.label:hover, a.badge:hover {
 }
 /* line 31, ../../app/styles/_market_filter.scss */
 #Filter .filter-container:hover {
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 /* line 36, ../../app/styles/_market_filter.scss */
 #Filter .nav {
@@ -5745,35 +5750,49 @@ a.label:hover, a.badge:hover {
   -moz-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.55);
   box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.55);
 }
-
-/* line 16, ../../app/styles/_market_list.scss */
-.market-wrap {
-  display: block;
-  height: 100%;
-  overflow: hidden;
+/* line 15, ../../app/styles/_market_list.scss */
+#MarketList ul {
+  margin: 0;
 }
-/* line 21, ../../app/styles/_market_list.scss */
-.market-wrap:hover {
-  overflow-y: scroll;
-}
-
-/* line 26, ../../app/styles/_market_list.scss */
-.item-well {
+/* line 18, ../../app/styles/_market_list.scss */
+#MarketList .item-well {
+  -webkit-transition: opacity 0.35s ease;
+  -moz-transition: opacity 0.35s ease;
+  -o-transition: opacity 0.35s ease;
+  transition: opacity 0.35s ease;
   width: 380px;
   margin: 10px;
   display: block;
   position: relative;
   vertical-align: top;
   background-color: white;
-  overflow: visible;
+  opacity: 1;
+  filter: alpha(opacity=100);
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
   border: 1px solid #d4d4d4;
-  min-height: 150px;
+  height: auto;
 }
-/* line 38, ../../app/styles/_market_list.scss */
-.item-well .preview {
+/* line 31, ../../app/styles/_market_list.scss */
+#MarketList .item-well.item-hidden {
+  -webkit-transition: opacity 0.35s ease;
+  -moz-transition: opacity 0.35s ease;
+  -o-transition: opacity 0.35s ease;
+  transition: opacity 0.35s ease;
+  opacity: 0.5;
+  filter: alpha(opacity=50);
+}
+/* line 34, ../../app/styles/_market_list.scss */
+#MarketList .item-well.item-hidden .preview {
+  height: 0;
+}
+/* line 39, ../../app/styles/_market_list.scss */
+#MarketList .item-well .preview {
+  -webkit-transition: height 0.35s ease;
+  -moz-transition: height 0.35s ease;
+  -o-transition: height 0.35s ease;
+  transition: height 0.35s ease;
   cursor: pointer;
   position: absolute;
   top: 5px;
@@ -5785,8 +5804,8 @@ a.label:hover, a.badge:hover {
   overflow: hidden;
   z-index: 5;
 }
-/* line 52, ../../app/styles/_market_list.scss */
-.item-well .preview:hover .preview-mask {
+/* line 54, ../../app/styles/_market_list.scss */
+#MarketList .item-well .preview:hover .preview-mask {
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
   -o-transition: all 0.5s ease;
@@ -5794,8 +5813,8 @@ a.label:hover, a.badge:hover {
   display: block;
   background: rgba(0, 0, 0, 0.5);
 }
-/* line 57, ../../app/styles/_market_list.scss */
-.item-well .preview:hover .preview-mask i {
+/* line 59, ../../app/styles/_market_list.scss */
+#MarketList .item-well .preview:hover .preview-mask i {
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
   -o-transition: all 0.5s ease;
@@ -5804,25 +5823,25 @@ a.label:hover, a.badge:hover {
   height: 75px;
   color: white;
 }
-/* line 64, ../../app/styles/_market_list.scss */
-.item-well .preview:hover .preview-caption {
+/* line 66, ../../app/styles/_market_list.scss */
+#MarketList .item-well .preview:hover .preview-caption {
   position: absolute;
   bottom: 0;
 }
-/* line 68, ../../app/styles/_market_list.scss */
-.item-well .preview:hover .preview-caption.caption-green h2 {
+/* line 70, ../../app/styles/_market_list.scss */
+#MarketList .item-well .preview:hover .preview-caption.caption-green h2 {
   color: #9bcc9c;
 }
-/* line 71, ../../app/styles/_market_list.scss */
-.item-well .preview:hover .preview-caption.caption-orange h2 {
+/* line 73, ../../app/styles/_market_list.scss */
+#MarketList .item-well .preview:hover .preview-caption.caption-orange h2 {
   color: #fcd3c3;
 }
-/* line 74, ../../app/styles/_market_list.scss */
-.item-well .preview:hover .preview-caption.caption-red h2 {
+/* line 76, ../../app/styles/_market_list.scss */
+#MarketList .item-well .preview:hover .preview-caption.caption-red h2 {
   color: #e18276;
 }
-/* line 80, ../../app/styles/_market_list.scss */
-.item-well .preview .preview-caption {
+/* line 82, ../../app/styles/_market_list.scss */
+#MarketList .item-well .preview .preview-caption {
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
   -o-transition: all 0.5s ease;
@@ -5835,8 +5854,8 @@ a.label:hover, a.badge:hover {
   text-align: center;
   z-index: 6;
 }
-/* line 90, ../../app/styles/_market_list.scss */
-.item-well .preview .preview-caption h2 {
+/* line 92, ../../app/styles/_market_list.scss */
+#MarketList .item-well .preview .preview-caption h2 {
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
   -o-transition: all 0.5s ease;
@@ -5846,26 +5865,26 @@ a.label:hover, a.badge:hover {
   line-height: 12px;
   font-weight: normal;
 }
-/* line 98, ../../app/styles/_market_list.scss */
-.item-well .preview .preview-caption p {
+/* line 100, ../../app/styles/_market_list.scss */
+#MarketList .item-well .preview .preview-caption p {
   color: white;
   margin: 15px 0;
   font-size: 10px;
 }
-/* line 104, ../../app/styles/_market_list.scss */
-.item-well .preview .preview-caption.caption-green {
+/* line 106, ../../app/styles/_market_list.scss */
+#MarketList .item-well .preview .preview-caption.caption-green {
   background: #468847;
 }
-/* line 108, ../../app/styles/_market_list.scss */
-.item-well .preview .preview-caption.caption-orange {
+/* line 110, ../../app/styles/_market_list.scss */
+#MarketList .item-well .preview .preview-caption.caption-orange {
   background: #f66930;
 }
-/* line 112, ../../app/styles/_market_list.scss */
-.item-well .preview .preview-caption.caption-red {
+/* line 114, ../../app/styles/_market_list.scss */
+#MarketList .item-well .preview .preview-caption.caption-red {
   background: #9c3022;
 }
-/* line 117, ../../app/styles/_market_list.scss */
-.item-well .preview .preview-mask {
+/* line 119, ../../app/styles/_market_list.scss */
+#MarketList .item-well .preview .preview-mask {
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
   -o-transition: all 0.5s ease;
@@ -5875,12 +5894,12 @@ a.label:hover, a.badge:hover {
   position: absolute;
   top: 0;
   left: 0;
-  width: 108px;
-  height: 130px;
+  bottom: 0;
+  right: 0;
   text-align: center;
 }
-/* line 128, ../../app/styles/_market_list.scss */
-.item-well .preview .preview-mask i {
+/* line 132, ../../app/styles/_market_list.scss */
+#MarketList .item-well .preview .preview-mask i {
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
   -o-transition: all 0.5s ease;
@@ -5890,8 +5909,8 @@ a.label:hover, a.badge:hover {
   line-height: 30px;
   color: transparent;
 }
-/* line 137, ../../app/styles/_market_list.scss */
-.item-well .preview img {
+/* line 141, ../../app/styles/_market_list.scss */
+#MarketList .item-well .preview img {
   height: 100px;
   width: 100px;
   border: 1px solid #eeeeee;
@@ -5903,40 +5922,40 @@ a.label:hover, a.badge:hover {
   -moz-border-radius: 2px;
   border-radius: 2px;
 }
-/* line 147, ../../app/styles/_market_list.scss */
-.item-well .dimensions {
+/* line 151, ../../app/styles/_market_list.scss */
+#MarketList .item-well .dimensions {
   position: relative;
   background-color: #eeeeee;
   padding: 10px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
-/* line 153, ../../app/styles/_market_list.scss */
-.item-well .dimensions .header-container {
+/* line 157, ../../app/styles/_market_list.scss */
+#MarketList .item-well .dimensions .header-container {
   position: relative;
   display: inline-block;
   float: left;
 }
-/* line 158, ../../app/styles/_market_list.scss */
-.item-well .dimensions .header-container .title {
+/* line 162, ../../app/styles/_market_list.scss */
+#MarketList .item-well .dimensions .header-container .title {
   display: block;
   font-size: 14px;
   font-weight: bold;
   color: #0088cc;
   cursor: pointer;
 }
-/* line 166, ../../app/styles/_market_list.scss */
-.item-well .dimensions .header-container .ranges {
+/* line 170, ../../app/styles/_market_list.scss */
+#MarketList .item-well .dimensions .header-container .ranges {
   position: relative;
   display: block;
   font-size: 13px;
   color: #5f5f5f;
 }
 /* line 18, ../../app/styles/_rescour_variables.scss */
-.item-well .dimensions .header-container .ranges span {
+#MarketList .item-well .dimensions .header-container .ranges span {
   font-weight: bold;
 }
-/* line 173, ../../app/styles/_market_list.scss */
-.item-well .dimensions .location {
+/* line 177, ../../app/styles/_market_list.scss */
+#MarketList .item-well .dimensions .location {
   font-size: 28px;
   position: relative;
   float: left;
@@ -5963,55 +5982,50 @@ a.label:hover, a.badge:hover {
   filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
 }
 /* line 496, ../../app/styles/compass_twitter_bootstrap/_mixins.scss */
-.item-well .dimensions .location:hover, .item-well .dimensions .location:active, .item-well .dimensions .location.active, .item-well .dimensions .location.disabled, .item-well .dimensions .location[disabled] {
+#MarketList .item-well .dimensions .location:hover, #MarketList .item-well .dimensions .location:active, #MarketList .item-well .dimensions .location.active, #MarketList .item-well .dimensions .location.disabled, #MarketList .item-well .dimensions .location[disabled] {
   color: white;
   background-color: #4d9e5d;
   *background-color: #458c53;
 }
 /* line 504, ../../app/styles/compass_twitter_bootstrap/_mixins.scss */
-.item-well .dimensions .location:active, .item-well .dimensions .location.active {
+#MarketList .item-well .dimensions .location:active, #MarketList .item-well .dimensions .location.active {
   background-color: #3c7b49 \9;
 }
-/* line 192, ../../app/styles/_market_list.scss */
-.item-well .description {
+/* line 191, ../../app/styles/_market_list.scss */
+#MarketList .item-well .description {
   position: relative;
   height: auto;
   font-size: 14px;
   font-weight: normal;
-  min-height: 60px;
 }
-/* line 199, ../../app/styles/_market_list.scss */
-.item-well .description .text-container {
+/* line 197, ../../app/styles/_market_list.scss */
+#MarketList .item-well .description .text-container {
   width: 235px;
   padding: 15px;
   max-height: 100px;
   overflow: hidden;
 }
-/* line 205, ../../app/styles/_market_list.scss */
-.item-well .description .text-container:hover {
-  overflow-y: scroll;
-}
-/* line 210, ../../app/styles/_market_list.scss */
-.item-well .description p {
+/* line 204, ../../app/styles/_market_list.scss */
+#MarketList .item-well .description p {
   font-size: 13px;
 }
-/* line 215, ../../app/styles/_market_list.scss */
-.item-well .footer {
+/* line 209, ../../app/styles/_market_list.scss */
+#MarketList .item-well .footer {
   position: relative;
   width: 100%;
   background-color: #eeeeee;
   height: 30px;
   border-top: 1px solid rgba(0, 0, 0, 0.05);
 }
-/* line 223, ../../app/styles/_market_list.scss */
-.item-well .footer .user-options {
+/* line 217, ../../app/styles/_market_list.scss */
+#MarketList .item-well .footer .user-options {
   position: relative;
   float: left;
   font-size: 16px;
   padding: 2px 10px;
 }
-/* line 229, ../../app/styles/_market_list.scss */
-.item-well .footer .user-options .footer-button {
+/* line 223, ../../app/styles/_market_list.scss */
+#MarketList .item-well .footer .user-options .footer-button {
   position: relative;
   float: left;
   color: #929292;
@@ -6020,13 +6034,21 @@ a.label:hover, a.badge:hover {
   font-weight: normal;
   margin-right: 15px;
 }
-/* line 238, ../../app/styles/_market_list.scss */
-.item-well .footer .user-options .footer-button:hover {
+/* line 232, ../../app/styles/_market_list.scss */
+#MarketList .item-well .footer .user-options .footer-button:hover {
   color: #5f5f5f;
 }
-/* line 242, ../../app/styles/_market_list.scss */
-.item-well .footer .user-options .footer-button span {
+/* line 236, ../../app/styles/_market_list.scss */
+#MarketList .item-well .footer .user-options .footer-button span {
   font-size: 12px;
+}
+
+/* line 246, ../../app/styles/_market_list.scss */
+.market-wrap {
+  display: block;
+  height: 100%;
+  overflow: hidden;
+  overflow-y: auto;
 }
 
 /* line 2, ../../app/styles/_map.scss */
@@ -6183,6 +6205,8 @@ a.label:hover, a.badge:hover {
 /* line 66, ../../app/styles/_map.scss */
 .leaflet-popup-content-wrapper .leaflet-popup-content .popup-striped-container {
   position: relative;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
   box-sizing: border-box;
   text-align: center;
   vertical-align: middle;
@@ -6315,35 +6339,36 @@ a.label:hover, a.badge:hover {
   z-index: 1;
   background: #eeeeee;
   overflow-y: scroll;
+  overflow-x: hidden;
 }
-/* line 14, ../../app/styles/_details.scss */
+/* line 15, ../../app/styles/_details.scss */
 .property-details .page-header h4 {
   font-weight: normal;
 }
-/* line 20, ../../app/styles/_details.scss */
+/* line 21, ../../app/styles/_details.scss */
 .property-details .comment-alert span {
   float: right;
   font-size: 13px;
 }
-/* line 24, ../../app/styles/_details.scss */
+/* line 25, ../../app/styles/_details.scss */
 .property-details .comment-alert p {
   overflow-wrap: break-word;
 }
-/* line 30, ../../app/styles/_details.scss */
+/* line 24, ../../app/styles/_rescour_variables.scss */
 .property-details .tabbable {
   -webkit-box-shadow: 0px 0px 1px 1px rgba(80, 84, 92, 0.09804), 0px 1px 2px 0px rgba(80, 84, 92, 0.49804);
   -moz-box-shadow: 0px 0px 1px 1px rgba(80, 84, 92, 0.09804), 0px 1px 2px 0px rgba(80, 84, 92, 0.49804);
   box-shadow: 0px 0px 1px 1px rgba(80, 84, 92, 0.09804), 0px 1px 2px 0px rgba(80, 84, 92, 0.49804);
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
   background-clip: border-box;
-  background: white;
   min-height: 400px;
   margin-bottom: 25px;
   margin-right: 35px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  background: white;
 }
-/* line 39, ../../app/styles/_details.scss */
+/* line 33, ../../app/styles/_rescour_variables.scss */
 .property-details .tabbable .nav-tabs {
   color: white;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
@@ -6378,7 +6403,7 @@ a.label:hover, a.badge:hover {
 .property-details .tabbable .nav-tabs:active, .property-details .tabbable .nav-tabs.active {
   background-color: #c8c8c8 \9;
 }
-/* line 45, ../../app/styles/_details.scss */
+/* line 39, ../../app/styles/_rescour_variables.scss */
 .property-details .tabbable .nav-tabs > li {
   background: none;
   border-right: 1px solid #bbbbbb;
@@ -6387,7 +6412,7 @@ a.label:hover, a.badge:hover {
   -o-transition: all 0.3s;
   transition: all 0.3s;
 }
-/* line 49, ../../app/styles/_details.scss */
+/* line 43, ../../app/styles/_rescour_variables.scss */
 .property-details .tabbable .nav-tabs > li > a {
   margin: 0;
   box-sizing: border-box;
@@ -6400,7 +6425,7 @@ a.label:hover, a.badge:hover {
   -o-transition: all 0.3s;
   transition: all 0.3s;
 }
-/* line 60, ../../app/styles/_details.scss */
+/* line 54, ../../app/styles/_rescour_variables.scss */
 .property-details .tabbable .nav-tabs > .active > a, .property-details .tabbable .nav-tabs > .active > a:hover {
   padding: 15px 20px 10px;
   background: white;
@@ -6410,44 +6435,66 @@ a.label:hover, a.badge:hover {
   -o-transition: all 0.3s;
   transition: all 0.3s;
 }
-/* line 68, ../../app/styles/_details.scss */
+/* line 62, ../../app/styles/_rescour_variables.scss */
 .property-details .tabbable .nav-tabs > li.active {
   border-right: 1px solid #bbbbbb;
 }
-/* line 70, ../../app/styles/_details.scss */
+/* line 64, ../../app/styles/_rescour_variables.scss */
 .property-details .tabbable .nav-tabs > li.active:first-child {
   -webkit-border-top-left-radius: 5px;
   -moz-border-radius-topleft: 5px;
   border-top-left-radius: 5px;
   border-left: none;
 }
-/* line 79, ../../app/styles/_details.scss */
+/* line 73, ../../app/styles/_rescour_variables.scss */
 .property-details .tab-content {
   margin-top: 5px;
 }
 
-/* line 84, ../../app/styles/_details.scss */
+/* line 34, ../../app/styles/_details.scss */
 .picture-container {
   width: 600px;
 }
 
-/* line 88, ../../app/styles/_details.scss */
+/* line 38, ../../app/styles/_details.scss */
 .contact-selected strong {
   color: #0088cc;
 }
 
-/* line 93, ../../app/styles/_details.scss */
+/* line 43, ../../app/styles/_details.scss */
 .well.contact {
   cursor: pointer;
 }
 
-/* line 100, ../../app/styles/_details.scss */
+/* line 50, ../../app/styles/_details.scss */
 .contact-form .controls {
   margin: 0 0 30px;
 }
-/* line 103, ../../app/styles/_details.scss */
+/* line 53, ../../app/styles/_details.scss */
 .contact-form .checkbox {
   cursor: pointer;
+}
+
+/* line 59, ../../app/styles/_details.scss */
+.financials-container .financials-delete {
+  float: left;
+  display: inline-block;
+}
+/* line 63, ../../app/styles/_details.scss */
+.financials-container .financials-title {
+  float: left;
+  display: inline-block;
+}
+/* line 67, ../../app/styles/_details.scss */
+.financials-container .financials-value {
+  float: left;
+  display: inline-block;
+}
+/* line 71, ../../app/styles/_details.scss */
+.financials-container .financials-class {
+  width: 60px;
+  /* float: left; */
+  display: inline-block;
 }
 
 /* line 1, ../../app/styles/_header.scss */
@@ -6657,16 +6704,37 @@ input:focus, textarea:focus {
   padding: 10px 9px;
 }
 
-/* line 85, ../../app/styles/_account.scss */
+/* line 2, ../../app/styles/_account.scss */
+.account-container {
+  background: #eeeeee;
+}
+/* line 5, ../../app/styles/_account.scss */
+.account-container .control-label {
+  padding-top: 10px;
+}
+/* line 9, ../../app/styles/_account.scss */
+.account-container .form-actions {
+  margin-bottom: 0;
+  background: none;
+}
+/* line 16, ../../app/styles/_account.scss */
+.account-container input[type="text"],
+.account-container input[type="password"],
+.account-container input[type="email"] {
+  height: auto;
+  padding: 10px 9px;
+}
+
+/* line 22, ../../app/styles/_account.scss */
 .account-navbar {
   padding: 15px;
-  margin-top: 50px;
+  margin-top: 20px;
 }
-/* line 90, ../../app/styles/_account.scss */
+/* line 27, ../../app/styles/_account.scss */
 .account-navbar .nav-tabs li {
   background-color: #9c3022;
 }
-/* line 93, ../../app/styles/_account.scss */
+/* line 29, ../../app/styles/_account.scss */
 .account-navbar .nav-tabs li a {
   background-color: white !important;
   -webkit-border-radius: 0px !important;
@@ -6677,24 +6745,29 @@ input:focus, textarea:focus {
   -o-transition: all 0.2s;
   transition: all 0.2s;
 }
-/* line 97, ../../app/styles/_account.scss */
+/* line 34, ../../app/styles/_account.scss */
 .account-navbar .nav-tabs li a i {
   font-size: 16px;
   float: right;
   padding-top: 5px;
 }
-/* line 105, ../../app/styles/_account.scss */
+/* line 42, ../../app/styles/_account.scss */
 .account-navbar .nav-tabs li.active a {
   margin-left: 10px;
   font-weight: bold;
 }
 
-/* line 114, ../../app/styles/_account.scss */
+/* line 51, ../../app/styles/_account.scss */
 .account-content {
+  -webkit-box-shadow: 0px 0px 1px 1px rgba(80, 84, 92, 0.09804), 0px 1px 2px 0px rgba(80, 84, 92, 0.49804);
+  -moz-box-shadow: 0px 0px 1px 1px rgba(80, 84, 92, 0.09804), 0px 1px 2px 0px rgba(80, 84, 92, 0.49804);
+  box-shadow: 0px 0px 1px 1px rgba(80, 84, 92, 0.09804), 0px 1px 2px 0px rgba(80, 84, 92, 0.49804);
+  background: white;
+  margin-top: 35px;
   padding: 15px;
 }
 
-/* line 119, ../../app/styles/_account.scss */
+/* line 58, ../../app/styles/_account.scss */
 .plan-basic {
   background-color: #58a959;
   -webkit-border-radius: 2px;
@@ -6708,13 +6781,13 @@ input:focus, textarea:focus {
   transition: all 1s ease;
   margin-top: 30px;
 }
-/* line 10, ../../app/styles/_account.scss */
+/* line 91, ../../app/styles/_rescour_variables.scss */
 .plan-basic h2 {
   text-align: center;
   font-size: 32px;
   margin: 20px;
 }
-/* line 16, ../../app/styles/_account.scss */
+/* line 97, ../../app/styles/_rescour_variables.scss */
 .plan-basic .price {
   position: relative;
   width: 100px;
@@ -6725,47 +6798,47 @@ input:focus, textarea:focus {
   background-color: #3d773e;
   margin: 0 auto;
 }
-/* line 24, ../../app/styles/_account.scss */
+/* line 105, ../../app/styles/_rescour_variables.scss */
 .plan-basic .price .amount {
   position: relative;
   line-height: 90px;
   text-align: center;
 }
-/* line 29, ../../app/styles/_account.scss */
+/* line 110, ../../app/styles/_rescour_variables.scss */
 .plan-basic .price .amount .currency {
   position: absolute;
   top: -3px;
   left: 14px;
   font-size: 16px;
 }
-/* line 36, ../../app/styles/_account.scss */
+/* line 117, ../../app/styles/_rescour_variables.scss */
 .plan-basic .price .amount .currency-amount {
   text-align: center;
   display: inline-block;
   font-size: 28px;
   font-weight: bold;
 }
-/* line 43, ../../app/styles/_account.scss */
+/* line 124, ../../app/styles/_rescour_variables.scss */
 .plan-basic .price .amount .period {
   font-size: 14px;
   position: absolute;
   top: 23px;
   left: 30px;
 }
-/* line 52, ../../app/styles/_account.scss */
+/* line 133, ../../app/styles/_rescour_variables.scss */
 .plan-basic ul {
   margin: 15px 0 0 0 !important;
   text-align: center;
 }
-/* line 56, ../../app/styles/_account.scss */
+/* line 137, ../../app/styles/_rescour_variables.scss */
 .plan-basic ul li {
   padding: 3px;
 }
-/* line 59, ../../app/styles/_account.scss */
+/* line 140, ../../app/styles/_rescour_variables.scss */
 .plan-basic ul li.plan-action {
   margin: 30px 0;
 }
-/* line 65, ../../app/styles/_account.scss */
+/* line 146, ../../app/styles/_rescour_variables.scss */
 .plan-basic:hover {
   background-color: #7aba7b;
   border: 10px #58a959 solid;
@@ -6774,7 +6847,7 @@ input:focus, textarea:focus {
   -o-transition: all 1s ease;
   transition: all 1s ease;
 }
-/* line 70, ../../app/styles/_account.scss */
+/* line 151, ../../app/styles/_rescour_variables.scss */
 .plan-basic .plan-submit {
   color: white;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
@@ -6804,7 +6877,7 @@ input:focus, textarea:focus {
 .plan-basic .plan-submit:active, .plan-basic .plan-submit.active {
   background-color: #122312 \9;
 }
-/* line 75, ../../app/styles/_account.scss */
+/* line 156, ../../app/styles/_rescour_variables.scss */
 .plan-basic .plan-submit.plan-cancel {
   color: white;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
@@ -6833,7 +6906,7 @@ input:focus, textarea:focus {
   background-color: #1e0907 \9;
 }
 
-/* line 123, ../../app/styles/_account.scss */
+/* line 62, ../../app/styles/_account.scss */
 .plan-group {
   background-color: #797979;
   -webkit-border-radius: 2px;
@@ -6847,13 +6920,13 @@ input:focus, textarea:focus {
   transition: all 1s ease;
   margin-top: 30px;
 }
-/* line 10, ../../app/styles/_account.scss */
+/* line 91, ../../app/styles/_rescour_variables.scss */
 .plan-group h2 {
   text-align: center;
   font-size: 32px;
   margin: 20px;
 }
-/* line 16, ../../app/styles/_account.scss */
+/* line 97, ../../app/styles/_rescour_variables.scss */
 .plan-group .price {
   position: relative;
   width: 100px;
@@ -6864,47 +6937,47 @@ input:focus, textarea:focus {
   background-color: #525252;
   margin: 0 auto;
 }
-/* line 24, ../../app/styles/_account.scss */
+/* line 105, ../../app/styles/_rescour_variables.scss */
 .plan-group .price .amount {
   position: relative;
   line-height: 90px;
   text-align: center;
 }
-/* line 29, ../../app/styles/_account.scss */
+/* line 110, ../../app/styles/_rescour_variables.scss */
 .plan-group .price .amount .currency {
   position: absolute;
   top: -3px;
   left: 14px;
   font-size: 16px;
 }
-/* line 36, ../../app/styles/_account.scss */
+/* line 117, ../../app/styles/_rescour_variables.scss */
 .plan-group .price .amount .currency-amount {
   text-align: center;
   display: inline-block;
   font-size: 28px;
   font-weight: bold;
 }
-/* line 43, ../../app/styles/_account.scss */
+/* line 124, ../../app/styles/_rescour_variables.scss */
 .plan-group .price .amount .period {
   font-size: 14px;
   position: absolute;
   top: 23px;
   left: 30px;
 }
-/* line 52, ../../app/styles/_account.scss */
+/* line 133, ../../app/styles/_rescour_variables.scss */
 .plan-group ul {
   margin: 15px 0 0 0 !important;
   text-align: center;
 }
-/* line 56, ../../app/styles/_account.scss */
+/* line 137, ../../app/styles/_rescour_variables.scss */
 .plan-group ul li {
   padding: 3px;
 }
-/* line 59, ../../app/styles/_account.scss */
+/* line 140, ../../app/styles/_rescour_variables.scss */
 .plan-group ul li.plan-action {
   margin: 30px 0;
 }
-/* line 65, ../../app/styles/_account.scss */
+/* line 146, ../../app/styles/_rescour_variables.scss */
 .plan-group:hover {
   background-color: #929292;
   border: 10px #797979 solid;
@@ -6913,7 +6986,7 @@ input:focus, textarea:focus {
   -o-transition: all 1s ease;
   transition: all 1s ease;
 }
-/* line 70, ../../app/styles/_account.scss */
+/* line 151, ../../app/styles/_rescour_variables.scss */
 .plan-group .plan-submit {
   color: white;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
@@ -6943,7 +7016,7 @@ input:focus, textarea:focus {
 .plan-group .plan-submit:active, .plan-group .plan-submit.active {
   background-color: #131313 \9;
 }
-/* line 75, ../../app/styles/_account.scss */
+/* line 156, ../../app/styles/_rescour_variables.scss */
 .plan-group .plan-submit.plan-cancel {
   color: white;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
@@ -6972,7 +7045,7 @@ input:focus, textarea:focus {
   background-color: #1e0907 \9;
 }
 
-/* line 127, ../../app/styles/_account.scss */
+/* line 66, ../../app/styles/_account.scss */
 .plan-enterprise {
   background-color: #797979;
   -webkit-border-radius: 2px;
@@ -6986,13 +7059,13 @@ input:focus, textarea:focus {
   transition: all 1s ease;
   margin-top: 30px;
 }
-/* line 10, ../../app/styles/_account.scss */
+/* line 91, ../../app/styles/_rescour_variables.scss */
 .plan-enterprise h2 {
   text-align: center;
   font-size: 32px;
   margin: 20px;
 }
-/* line 16, ../../app/styles/_account.scss */
+/* line 97, ../../app/styles/_rescour_variables.scss */
 .plan-enterprise .price {
   position: relative;
   width: 100px;
@@ -7003,47 +7076,47 @@ input:focus, textarea:focus {
   background-color: #525252;
   margin: 0 auto;
 }
-/* line 24, ../../app/styles/_account.scss */
+/* line 105, ../../app/styles/_rescour_variables.scss */
 .plan-enterprise .price .amount {
   position: relative;
   line-height: 90px;
   text-align: center;
 }
-/* line 29, ../../app/styles/_account.scss */
+/* line 110, ../../app/styles/_rescour_variables.scss */
 .plan-enterprise .price .amount .currency {
   position: absolute;
   top: -3px;
   left: 14px;
   font-size: 16px;
 }
-/* line 36, ../../app/styles/_account.scss */
+/* line 117, ../../app/styles/_rescour_variables.scss */
 .plan-enterprise .price .amount .currency-amount {
   text-align: center;
   display: inline-block;
   font-size: 28px;
   font-weight: bold;
 }
-/* line 43, ../../app/styles/_account.scss */
+/* line 124, ../../app/styles/_rescour_variables.scss */
 .plan-enterprise .price .amount .period {
   font-size: 14px;
   position: absolute;
   top: 23px;
   left: 30px;
 }
-/* line 52, ../../app/styles/_account.scss */
+/* line 133, ../../app/styles/_rescour_variables.scss */
 .plan-enterprise ul {
   margin: 15px 0 0 0 !important;
   text-align: center;
 }
-/* line 56, ../../app/styles/_account.scss */
+/* line 137, ../../app/styles/_rescour_variables.scss */
 .plan-enterprise ul li {
   padding: 3px;
 }
-/* line 59, ../../app/styles/_account.scss */
+/* line 140, ../../app/styles/_rescour_variables.scss */
 .plan-enterprise ul li.plan-action {
   margin: 30px 0;
 }
-/* line 65, ../../app/styles/_account.scss */
+/* line 146, ../../app/styles/_rescour_variables.scss */
 .plan-enterprise:hover {
   background-color: #929292;
   border: 10px #797979 solid;
@@ -7052,7 +7125,7 @@ input:focus, textarea:focus {
   -o-transition: all 1s ease;
   transition: all 1s ease;
 }
-/* line 70, ../../app/styles/_account.scss */
+/* line 151, ../../app/styles/_rescour_variables.scss */
 .plan-enterprise .plan-submit {
   color: white;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
@@ -7082,7 +7155,7 @@ input:focus, textarea:focus {
 .plan-enterprise .plan-submit:active, .plan-enterprise .plan-submit.active {
   background-color: #131313 \9;
 }
-/* line 75, ../../app/styles/_account.scss */
+/* line 156, ../../app/styles/_rescour_variables.scss */
 .plan-enterprise .plan-submit.plan-cancel {
   color: white;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
@@ -7111,7 +7184,7 @@ input:focus, textarea:focus {
   background-color: #1e0907 \9;
 }
 
-/* line 131, ../../app/styles/_account.scss */
+/* line 70, ../../app/styles/_account.scss */
 .plan-unlimited {
   background-color: #797979;
   -webkit-border-radius: 2px;
@@ -7125,13 +7198,13 @@ input:focus, textarea:focus {
   transition: all 1s ease;
   margin-top: 30px;
 }
-/* line 10, ../../app/styles/_account.scss */
+/* line 91, ../../app/styles/_rescour_variables.scss */
 .plan-unlimited h2 {
   text-align: center;
   font-size: 32px;
   margin: 20px;
 }
-/* line 16, ../../app/styles/_account.scss */
+/* line 97, ../../app/styles/_rescour_variables.scss */
 .plan-unlimited .price {
   position: relative;
   width: 100px;
@@ -7142,47 +7215,47 @@ input:focus, textarea:focus {
   background-color: #525252;
   margin: 0 auto;
 }
-/* line 24, ../../app/styles/_account.scss */
+/* line 105, ../../app/styles/_rescour_variables.scss */
 .plan-unlimited .price .amount {
   position: relative;
   line-height: 90px;
   text-align: center;
 }
-/* line 29, ../../app/styles/_account.scss */
+/* line 110, ../../app/styles/_rescour_variables.scss */
 .plan-unlimited .price .amount .currency {
   position: absolute;
   top: -3px;
   left: 14px;
   font-size: 16px;
 }
-/* line 36, ../../app/styles/_account.scss */
+/* line 117, ../../app/styles/_rescour_variables.scss */
 .plan-unlimited .price .amount .currency-amount {
   text-align: center;
   display: inline-block;
   font-size: 28px;
   font-weight: bold;
 }
-/* line 43, ../../app/styles/_account.scss */
+/* line 124, ../../app/styles/_rescour_variables.scss */
 .plan-unlimited .price .amount .period {
   font-size: 14px;
   position: absolute;
   top: 23px;
   left: 30px;
 }
-/* line 52, ../../app/styles/_account.scss */
+/* line 133, ../../app/styles/_rescour_variables.scss */
 .plan-unlimited ul {
   margin: 15px 0 0 0 !important;
   text-align: center;
 }
-/* line 56, ../../app/styles/_account.scss */
+/* line 137, ../../app/styles/_rescour_variables.scss */
 .plan-unlimited ul li {
   padding: 3px;
 }
-/* line 59, ../../app/styles/_account.scss */
+/* line 140, ../../app/styles/_rescour_variables.scss */
 .plan-unlimited ul li.plan-action {
   margin: 30px 0;
 }
-/* line 65, ../../app/styles/_account.scss */
+/* line 146, ../../app/styles/_rescour_variables.scss */
 .plan-unlimited:hover {
   background-color: #929292;
   border: 10px #797979 solid;
@@ -7191,7 +7264,7 @@ input:focus, textarea:focus {
   -o-transition: all 1s ease;
   transition: all 1s ease;
 }
-/* line 70, ../../app/styles/_account.scss */
+/* line 151, ../../app/styles/_rescour_variables.scss */
 .plan-unlimited .plan-submit {
   color: white;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
@@ -7221,7 +7294,7 @@ input:focus, textarea:focus {
 .plan-unlimited .plan-submit:active, .plan-unlimited .plan-submit.active {
   background-color: #131313 \9;
 }
-/* line 75, ../../app/styles/_account.scss */
+/* line 156, ../../app/styles/_rescour_variables.scss */
 .plan-unlimited .plan-submit.plan-cancel {
   color: white;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
@@ -7273,7 +7346,7 @@ input:focus, textarea:focus {
   z-index: 5;
 }
 
-/* line 28, ../../app/styles/_styles.scss */
+/* line 27, ../../app/styles/_styles.scss */
 .origami-left {
   position: absolute;
   top: 0;
@@ -7284,7 +7357,7 @@ input:focus, textarea:focus {
   z-index: -1;
 }
 
-/* line 38, ../../app/styles/_styles.scss */
+/* line 37, ../../app/styles/_styles.scss */
 .origami-right {
   position: absolute;
   top: 0;
@@ -7295,13 +7368,13 @@ input:focus, textarea:focus {
   z-index: -1;
 }
 
-/* line 48, ../../app/styles/_styles.scss */
+/* line 47, ../../app/styles/_styles.scss */
 .loading-container {
   position: absolute;
   top: 50%;
   left: 50%;
 }
-/* line 53, ../../app/styles/_styles.scss */
+/* line 52, ../../app/styles/_styles.scss */
 .loading-container p {
   margin-left: -4em;
   margin-bottom: 1em;
@@ -7310,34 +7383,34 @@ input:focus, textarea:focus {
   color: #5f5f5f;
 }
 
-/* line 62, ../../app/styles/_styles.scss */
+/* line 61, ../../app/styles/_styles.scss */
 .loading-icon {
   text-shadow: #666666 0 -1px 0;
   margin-left: -1em;
   color: #5f5f5f;
 }
 
-/* line 68, ../../app/styles/_styles.scss */
+/* line 67, ../../app/styles/_styles.scss */
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
   display: none;
 }
 
-/* line 72, ../../app/styles/_styles.scss */
+/* line 71, ../../app/styles/_styles.scss */
 header, section, footer {
   display: block;
 }
 
-/* line 76, ../../app/styles/_styles.scss */
+/* line 75, ../../app/styles/_styles.scss */
 body {
-  height: 100%;
+  min-height: 100%;
   margin: 0;
   font-size: 14px;
   line-height: 20px;
   color: #333333;
-  background-color: white;
+  background-color: #eeeeee;
 }
 
-/* line 85, ../../app/styles/_styles.scss */
+/* line 84, ../../app/styles/_styles.scss */
 #Wrapper {
   position: relative;
   width: 100%;
@@ -7345,7 +7418,7 @@ body {
   background-color: #eeeeee;
 }
 
-/* line 92, ../../app/styles/_styles.scss */
+/* line 91, ../../app/styles/_styles.scss */
 .main-container {
   position: absolute;
   top: 55px;
@@ -7354,7 +7427,7 @@ body {
   bottom: 21px;
 }
 
-/* line 100, ../../app/styles/_styles.scss */
+/* line 99, ../../app/styles/_styles.scss */
 #Footer {
   position: fixed;
   width: 100%;
@@ -7366,34 +7439,29 @@ body {
   z-index: 3000;
 }
 
-/* line 111, ../../app/styles/_styles.scss */
+/* line 110, ../../app/styles/_styles.scss */
 #Footer p {
   text-align: center;
 }
 
-/* line 115, ../../app/styles/_styles.scss */
+/* line 114, ../../app/styles/_styles.scss */
 #Footer p a {
   font-size: 10px;
   margin-right: 10px;
 }
 
-/* line 120, ../../app/styles/_styles.scss */
-.tooltip-inner {
-  opacity: 0.8;
-}
-
-/* line 124, ../../app/styles/_styles.scss */
+/* line 119, ../../app/styles/_styles.scss */
 .yellow {
   color: #ffc40d;
 }
 
-/* line 128, ../../app/styles/_styles.scss */
+/* line 123, ../../app/styles/_styles.scss */
 .red {
   color: #9c3022;
 }
 
 /* Scroll Bar */
-/* line 133, ../../app/styles/_styles.scss */
+/* line 128, ../../app/styles/_styles.scss */
 ::-webkit-scrollbar, ::-webkit-scrollbar {
   width: 7px;
   height: 7px;
@@ -7402,9 +7470,9 @@ body {
   border-radius: 5px;
 }
 
-/* line 139, ../../app/styles/_styles.scss */
+/* line 134, ../../app/styles/_styles.scss */
 ::-webkit-scrollbar-thumb, ::-webkit-scrollbar-thumb {
-  background-color: #bbbbbb;
+  background-color: #666666;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
@@ -7413,17 +7481,17 @@ body {
   box-shadow: rgba(0, 0, 0, 0.05) -1px 0 7px inset;
 }
 
-/* line 145, ../../app/styles/_styles.scss */
+/* line 140, ../../app/styles/_styles.scss */
 ::-webkit-scrollbar-track-piece, ::-webkit-scrollbar-track-piece {
   background-color: transparent;
 }
 
-/* line 149, ../../app/styles/_styles.scss */
+/* line 144, ../../app/styles/_styles.scss */
 ::-webkit-scrollbar-corner, ::-webkit-scrollbar-corner {
   display: none;
 }
 
-/* line 154, ../../app/styles/_styles.scss */
+/* line 149, ../../app/styles/_styles.scss */
 .modal-backdrop {
   position: fixed;
   top: 0;
@@ -7434,12 +7502,12 @@ body {
   background-color: rgba(0, 0, 0, 0.7);
 }
 
-/* line 164, ../../app/styles/_styles.scss */
+/* line 159, ../../app/styles/_styles.scss */
 .hide {
   display: none;
 }
 
-/* line 168, ../../app/styles/_styles.scss */
+/* line 163, ../../app/styles/_styles.scss */
 .toggle {
   position: relative;
   float: left;

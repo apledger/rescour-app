@@ -1,65 +1,72 @@
-<div ng-controller="AccountProfileController">
+<div class="container-fluid" ng-controller="AccountProfileController">
     <div class="page-header"><h3>General Profile</h3></div>
-    <div alert ng-repeat="alert in accountAlerts" type="alert.type">{{alert.msg}} <a ng-show="action" href="javascript:" ng-click="goToApp()">Continue to Application</a></div>
-    <form novalidate name="formProfile" class="form-horizontal control-group">
+    <div alert ng-repeat="alert in accountAlerts" type="alert.type">{{alert.msg}}
+        <a ng-show="action" href="javascript:" ng-click="goToApp()">Continue to Application</a></div>
+    <div class="row-fluid">
+        <form novalidate name="formProfile" class="form-horizontal span6">
 
-        <div class="control-group">
-            <label class="control-label">First Name</label>
+            <div class="control-group">
+                <label class="control-label">First Name</label>
 
-            <div class="controls">
-                <input name='firstName' ng-blur="saveUserField()" type="text" class="input-xlarge"
-                       ng-model="user.profile.first_name">
+                <div class="controls">
+                    <input name="firstName" type="text" class="input-xlarge"
+                           ng-model="user.profile.first_name">
             <span class="help help-inline">
                 <span class="help-error"><i class="icon-exclamation-sign"></i></span>
             </span>
+                </div>
             </div>
-        </div>
-        <div class="control-group">
-            <label class="control-label">Last Name</label>
+            <div class="control-group">
+                <label class="control-label">Last Name</label>
 
-            <div class="controls">
-                <input name='lastName' ng-blur="saveUserField()" type="text" class="input-xlarge"
-                       ng-model="user.profile.last_name">
-            <span class="help help-inline">
-                <span class="help-error"><i class="icon-exclamation-sign"></i></span>
-            </span>
+                <div class="controls">
+                    <input name="lastName" type="text" class="input-xlarge"
+                           ng-model="user.profile.last_name">
+                <span class="help help-inline">
+                    <span class="help-error"><i class="icon-exclamation-sign"></i></span>
+                </span>
+                </div>
             </div>
-        </div>
-        <div class="control-group">
-            <label class="control-label">Email</label>
+            <div class="control-group">
+                <label class="control-label">Email</label>
 
-            <div class="controls">
-                <input name='username' ng-blur="saveUserField()" type="email" class="input-xlarge" ng-model="user.profile.email"
-                       required>
+                <div class="controls">
+                    <input name="username" type="email" class="input-xlarge"
+                           ng-model="user.profile.email"
+                           required>
             <span class="help help-inline">
                 <span class="help-success"><i class="icon-ok-sign"></i></span>
                 <span class="help-error"><i class="icon-exclamation-sign"></i></span>
             </span>
+                </div>
             </div>
-        </div>
-        <div class="control-group">
-            <label class="control-label">Company</label>
+            <div class="control-group">
+                <label class="control-label">Company</label>
 
-            <div class="controls">
-                <input name='lastName' ng-blur="saveUserField()" type="text" class="input-xlarge"
-                       ng-model="user.profile.company"
-                       required>
+                <div class="controls">
+                    <input name="lastName" type="text" class="input-xlarge"
+                           ng-model="user.profile.company"
+                           required>
             <span class="help help-inline">
                 <span class="help-error"><i class="icon-exclamation-sign"></i></span>
             </span>
+                </div>
             </div>
-        </div>
-        <div class="control-group">
-            <label class="control-label">Phone</label>
+            <div class="control-group">
+                <label class="control-label">Phone</label>
 
-            <div class="controls">
-                <input name='lastName' ng-blur="saveUserField()" type="text" class="input-xlarge" ng-model="user.profile.phone"
-                       required>
+                <div class="controls">
+                    <input name="phone" ng-blur="" type="text" class="input-xlarge"
+                           ng-model="user.profile.phone"
+                           required>
             <span class="help help-inline">
                 <span class="help-error"><i class="icon-exclamation-sign"></i></span>
             </span>
+                </div>
             </div>
-        </div>
-
-    </form>
+            <div class="form-actions">
+                <a href="javascript:" class="btn btn-success" ng-click="saveProfile()">Save</a>
+            </div>
+        </form>
+    </div>
 </div>

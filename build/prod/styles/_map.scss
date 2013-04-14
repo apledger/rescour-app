@@ -65,7 +65,7 @@
 
     .popup-striped-container {
       position: relative;
-      box-sizing: border-box;
+      @include box-sizing(border-box);
       text-align: center;
       vertical-align: middle;
       width: 100%;

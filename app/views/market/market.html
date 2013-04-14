@@ -102,11 +102,10 @@
     <div id="MarketList" ng-controller="ListController">
         <!--Toggle favorites button-->
         <!--Item boxes display-->
-        <div class="market-wrap">
+        <div class="market-wrap" chunk="items | filter: searchText | limitVisible">
             <div id="item-{{item.id}}" class="item-well"
                  ng-class="{'item-hidden': item.hidden}"
-                 ng-repeat="item in items | filter: searchText | limitVisible: 10"
-                 ng-show="item.isVisible">
+                 ng-repeat="item in chunk">
                 <!--Thumbnail preview button-->
 
                 <!--Top bar of item box-->

@@ -65,7 +65,8 @@ angular.module('nebuMarket')
                 this.address = data.address || {
                     street1: "No address listed"
                 };
-                this.thumbnail = (data.thumbnails ? (data.thumbnails[0] ? data.thumbnails[0].link : undefined) : undefined) || "apt0.jpg";
+//                this.thumbnail = (data.thumbnails ? (data.thumbnails[0] ? data.thumbnails[0].link : undefined) : undefined) || "apt0.jpg";
+                this.thumbnail = data.thumbnail || "apt0.jpg";
                 this.favorites = data.favorites || false;
                 this.hidden = data.hidden || false;
                 this.hasComments = data.hasComments || false;
@@ -452,6 +453,7 @@ angular.module('nebuMarket')
                 }
                 Attributes.active.setSelectedBounds();
                 Attributes.active.sort();
+                console.log(Attributes.active);
                 return _.map(this.items, function (item, id) {
                     return item;
                 });

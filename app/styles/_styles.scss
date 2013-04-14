@@ -132,7 +132,7 @@ body {
 }
 
 ::-webkit-scrollbar-thumb, ::-webkit-scrollbar-thumb {
-  background-color: darken($light-gray, 20%);
+  background-color: darken($grayLight, 20%);
   @include border-radius(5px);
   @include box-shadow(rgba(0, 0, 0, 0.05) -1px 0 7px inset);
 }

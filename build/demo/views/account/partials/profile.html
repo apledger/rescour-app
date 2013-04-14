@@ -9,7 +9,7 @@
                 <label class="control-label">First Name</label>
 
                 <div class="controls">
-                    <input name='firstName' ng-blur="saveUserField()" type="text" class="input-xlarge"
+                    <input name="firstName" type="text" class="input-xlarge"
                            ng-model="user.profile.first_name">
             <span class="help help-inline">
                 <span class="help-error"><i class="icon-exclamation-sign"></i></span>
@@ -20,18 +20,18 @@
                 <label class="control-label">Last Name</label>
 
                 <div class="controls">
-                    <input name='lastName' ng-blur="saveUserField()" type="text" class="input-xlarge"
+                    <input name="lastName" type="text" class="input-xlarge"
                            ng-model="user.profile.last_name">
-            <span class="help help-inline">
-                <span class="help-error"><i class="icon-exclamation-sign"></i></span>
-            </span>
+                <span class="help help-inline">
+                    <span class="help-error"><i class="icon-exclamation-sign"></i></span>
+                </span>
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label">Email</label>
 
                 <div class="controls">
-                    <input name='username' ng-blur="saveUserField()" type="email" class="input-xlarge"
+                    <input name="username" type="email" class="input-xlarge"
                            ng-model="user.profile.email"
                            required>
             <span class="help help-inline">
@@ -44,7 +44,7 @@
                 <label class="control-label">Company</label>
 
                 <div class="controls">
-                    <input name='lastName' ng-blur="saveUserField()" type="text" class="input-xlarge"
+                    <input name="lastName" type="text" class="input-xlarge"
                            ng-model="user.profile.company"
                            required>
             <span class="help help-inline">
@@ -56,7 +56,7 @@
                 <label class="control-label">Phone</label>
 
                 <div class="controls">
-                    <input name='lastName' ng-blur="saveUserField()" type="text" class="input-xlarge"
+                    <input name="phone" ng-blur="" type="text" class="input-xlarge"
                            ng-model="user.profile.phone"
                            required>
             <span class="help help-inline">
@@ -64,7 +64,9 @@
             </span>
                 </div>
             </div>
-
+            <div class="form-actions">
+                <a href="javascript:" class="btn btn-success" ng-click="saveProfile()">Save</a>
+            </div>
         </form>
     </div>
 </div>

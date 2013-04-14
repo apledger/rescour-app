@@ -1,99 +1,36 @@
-@mixin plan($planColor) {
-//height: 350px;
-  background-color: lighten($planColor, 10%);
-  @include border-radius(2px);
-  border: 10px lighten($planColor, 20%) solid;
-  color: white !important;
-  @include transition(all 1s ease);
-  margin-top: 30px;
-
-  h2 {
-    text-align: center;
-    font-size: 32px;
-    margin: 20px;
-  }
-
-  .price {
-    position: relative;
-    width: 100px;
-    height: 100px;
-    @include border-radius(50%);
-    background-color: darken($planColor, 5%);
-    margin: 0 auto;
-
-    .amount {
-      position: relative;
-      line-height: 90px;
-      text-align: center;
-
-      .currency {
-        position: absolute;
-        top: -3px;
-        left: 14px;
-        font-size: 16px;
-      }
-
-      .currency-amount {
-        text-align: center;
-        display: inline-block;
-        font-size: 28px;
-        font-weight: bold;
-      }
-
-      .period {
-        font-size: 14px;
-        position: absolute;
-        top: 23px;
-        left: 30px;
-      }
-    }
-  }
-
-  ul {
-    margin: 15px 0 0 0 !important;
-    text-align: center;
-
-    li {
-      padding: 3px;
-
-      &.plan-action {
-        margin: 30px 0;
-      }
-    }
-  }
-
-  &:hover {
-    background-color: lighten($planColor, 20%);
-    border: 10px lighten($planColor, 10%) solid;
-    @include transition(all 1s ease);
-  }
-  .plan-submit {
-    @include buttonBackground(darken($planColor, 15%), darken($planColor, 20%));
-    font-size: 13px;
-    width: 50%;
-
-    &.plan-cancel {
-      @include buttonBackground(darken($red, 15%), darken($red, 20%));
-    }
-  }
-}
 
 .account-container {
+  background: $grayLighter;
 
+  .control-label {
+    padding-top: 10px;
+  }
+
+  .form-actions {
+    margin-bottom: 0;
+    background: none;
+  }
+
+  input[type="text"],
+  input[type="password"],
+  input[type="email"] {
+    height: auto;
+    padding: 10px 9px;
+  }
 }
 
 .account-navbar {
   padding: 15px;
-  margin-top: 50px;
+  margin-top: 20px;
 
   .nav-tabs {
     li {
       background-color: $red;
-
       a {
         background-color: $white !important;
         @include border-radius(0px !important);
         @include transition(all 0.2s);
+
         i {
           font-size: 16px;
           float: right;
@@ -112,8 +49,10 @@
 }
 
 .account-content {
+  @include rescourBoxShadow;
+  background: white;
+  margin-top: 35px;
   padding: 15px;
-
 }
 
 .plan-basic {

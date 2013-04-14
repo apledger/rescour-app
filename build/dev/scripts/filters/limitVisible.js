@@ -3,7 +3,7 @@
 /* Filters */
 
 angular.module('nebuMarket')
-    .filter('limitVisible', function () {
+    .filter('limitVisible', ['$document', function ($document) {
         return function (input, limit, exceptions) {
             var visibleItems = [];
             _.each(input, function (item) {
@@ -11,9 +11,9 @@ angular.module('nebuMarket')
                     visibleItems.push(item);
                 }
             });
-            return visibleItems.slice(0, limit);
+            return visibleItems;
         };
-    })
+    }])
     .filter('ellipsis', function () {
         return function (input, limit, exceptions) {
             if (input !== 'No description provided' && input.length > limit) {
@@ -21,5 +21,11 @@ angular.module('nebuMarket')
             } else {
                 return input;
             }
+        };
+    })
+    .filter('percentage', function(){
+        return function (input, limit, exceptions) {
+            var num = parseFloat(input);
+            return num.toFixed(3) + " %";
         };
     });

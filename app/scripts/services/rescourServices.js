@@ -25,23 +25,22 @@ angular.module('rescour.app')
             return defer.promise;
         };
 
-        this.updateProfile = function (data) {
+        this.saveProfile = function () {
             var defer = $q.defer(),
                 self = this,
-                path = $_api.path + '/auth/users/user',
+                path = $_api.path + '/auth/users/user/',
                 config = angular.extend({
                     transformRequest: function (data) {
                         return data;
                     }
                 }, $_api.config),
-                body = JSON.stringify(data);
-            console.log(data);
+                body = JSON.stringify(this.profile);
             $http.put(path, body, config).then(
                 function (response) {
-                    self.getProfile();
                     defer.resolve(response);
                 },
                 function (response) {
+                    console.log(response);
                     self.getProfile();
                     throw new Error("Error updating profile");
                     defer.reject(response);

@@ -204,7 +204,7 @@ angular.module('nebuMarket')
                         detailPanes.selectPane("Pictures");
                     };
 
-                    scope.$on("RenderMap", function () {
+                    scope.$on("Render", function () {
                         // Markers plugin says better performance to clear all markers and recreate
                         markers.clearLayers();
                         // Zoom out
@@ -250,6 +250,47 @@ angular.module('nebuMarket')
                 }
             };
         }])
+    .directive("formatInput", ['$filter', '$timeout', '$parse', function ($filter, $timeout, $parse) {
+        return {
+            require: 'ngModel',
+            link: function (scope, elm, attrs, ctrl) {
+                // view -> model
+                elm.bind('blur', function () {
+                    scope.$apply(function () {
+                        applyFilter(attrs.formatInput);
+                    });
+                });
+
+                function applyFilter(formatInput) {
+                    formatInput = formatInput || attrs.formatInput;
+                    if (ctrl.$modelValue !== "") {
+                        ctrl.$viewValue = $filter(formatInput)(ctrl.$modelValue);
+                        ctrl.$render();
+                    } else {
+                        ctrl.$viewValue = undefined;
+                        ctrl.$render();
+                    }
+                }
+
+                elm.bind('focus', function () {
+                    scope.$apply(function () {
+                        ctrl.$viewValue = ctrl.$modelValue;
+                        ctrl.$render();
+                    });
+                });
+
+                attrs.$observe('formatInput', function (val) {
+                    ctrl.$viewValue = $filter(val)(ctrl.$modelValue);
+                    ctrl.$render();
+                })
+
+                // load init value from DOM
+                $timeout(function () {
+                    applyFilter(attrs.formatInput);
+                }, 0);
+            }
+        };
+    }])
     .directive('propertyDetails', function () {
         return {
             restrict: "C",
@@ -264,4 +305,38 @@ angular.module('nebuMarket')
                 };
             }
         };
-    });
+    })
+    .directive('chunk', ['$filter', '$parse', function ($filter, $parse) {
+        return {
+            link: function (scope, element, attrs) {
+                var raw = element[0],
+                    currentSlice,
+                    chunkSize = parseInt(attrs.chunkSize, 10) || 10;
+
+                function initChunk() {
+                    scope.visibleItems = scope.$eval(attrs.chunk);
+                    // If a filter is provided, apply filter to set and return
+                    currentSlice = chunkSize;
+                    scope.chunk = scope.visibleItems.slice(0, chunkSize);
+                }
+
+                element.bind('scroll', function () {
+                    // Check if within bottom of scrollable div
+                    if ((raw.scrollTop + raw.offsetHeight) * 1.2 > raw.scrollHeight) {
+                        // increase chunkSize and re-filter
+                        scope.$apply(function () {
+                            // take next limit
+                            scope.chunk = scope.chunk.concat(scope.visibleItems.slice(currentSlice, currentSlice += chunkSize));
+                        });
+                    }
+                });
+
+                scope.$watch(function (newScope) {
+                    if (!angular.equals(scope.$eval(attrs.chunk), newScope.visibleItems)) {
+                        raw.scrollTop = 0;
+                        initChunk();
+                    }
+                });
+            }
+        };
+    }]);

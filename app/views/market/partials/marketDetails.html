@@ -219,7 +219,7 @@
                             <input placeholder="Financial Metric" name="title" ng-blur="saveFinancialModel(financial)"
                                    type="text" ng-model="financial.title"
                                    class="input-medium"
-                                   typeahead="field for field in financeFields | filter:$viewValue">
+                                   typeahead-select="field for field in financeFields | filter:$viewValue">
                         </div>
 
                         <div class="financials-value">
@@ -239,7 +239,7 @@
                             <input placeholder="Financial Metric" name="title" ng-blur="saveFinancialModel(financial)"
                                    type="text" ng-model="newFinancial.title"
                                    class="input-medium"
-                                   typeahead="field for field in financeFields | filter:$viewValue">
+                                   typeahead-select="field for field in financeFields | filter:$viewValue">
                         </div>
 
                         <div class="financials-value">

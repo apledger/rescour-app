@@ -137,12 +137,14 @@
 
 <div pane class="container-fluid" heading="{{panes[1].heading}}" active="panes[1].active">
     <div class="row-fluid">
+        <div class="span8 alert alert-info" ng-show="!current.details.images">Sorry!  It seems we do not have any images for this property.</div>
         <div class="span8 offset2" ng-show="current.details.images">
             <div carousel no-transition="true">
                 <div slide ng-repeat="slide in current.details.images" active="slide.active">
                     <img ng-src="{{slide.link}}" style="margin:auto;">
                 </div>
             </div>
+
         </div>
     </div>
 </div>
@@ -151,7 +153,7 @@
     <div class="alert alert-success" ng-show="newEmail.sent"><i class="icon-email"></i>&nbsp;&nbsp;Message
         Sent!
     </div>
-    <form class="contact-form" ng-show="current.details.contacts">
+    <form class="contact-form" ng-show="current.details.contacts.length > 0">
         <div class="control-group">
             <div class="control-label">To:</div>
             <div class="controls">
@@ -170,7 +172,7 @@
         </div>
         <button class="btn btn-info" ng-click="sendEmail()">Send</button>
     </form>
-    <div class="alert alert-info" ng-show="!current.details.contacts"><strong>Sorry!</strong> We don't
+    <div class="alert alert-info" ng-show="current.details.contacts.length == 0"><strong>Sorry!</strong> We don't
         have any contacts for this listing.
     </div>
 </div>
@@ -200,45 +202,45 @@
     </form>
 </div>
 
-<div pane class="container-fluid financials-container" heading="{{panes[4].heading}}" active="panes[4].active">
-    <form class="form-horizontal">
+<!--<div pane class="container-fluid financials-container" heading="{{panes[4].heading}}" active="panes[4].active">-->
+    <!--<form class="form-horizontal">-->
 
-        <div class="control-list">
-            <ul>
-                <li ng-repeat="financial in current.details.financials" class="dropdown">
-                    <button class="btn btn-danger financials-delete" ng-click="deleteFinancialModel(financial)"><i
-                            class="icon-remove-sign"></i>
-                    </button>
+        <!--<div class="control-list">-->
+            <!--<ul>-->
+                <!--<li ng-repeat="financial in current.details.financials" class="dropdown">-->
+                    <!--<button class="btn btn-danger financials-delete" ng-click="deleteFinancialModel(financial)"><i-->
+                            <!--class="icon-remove-sign"></i>-->
+                    <!--</button>-->
 
-                    <form novalidate class="form-inline" name="formDataModel">
-                        <div class="financials-title">
-                            <input placeholder="Financial Metric" name="title" ng-blur="saveFinancialModel(financial)"
-                                   type="text" ng-model="financial.title"
-                                   class="input-medium"
-                                   typeahead="field for field in financialFields.fields | filter:$viewValue">
-                        </div>
+                    <!--<form novalidate class="form-inline" name="formDataModel">-->
+                        <!--<div class="financials-title">-->
+                            <!--<input placeholder="Financial Metric" name="title" ng-blur="saveFinancialModel(financial)"-->
+                                   <!--type="text" ng-model="financial.title"-->
+                                   <!--class="input-medium"-->
+                                   <!--typeahead="field for field in financialFields.fields | filter:$viewValue">-->
+                        <!--</div>-->
 
-                        <div class="financials-value">
-                            <input placeholder="Value" type="text" format-input="{{financial.class}}" name="value"
-                                   ng-blur="saveDataModel(financial)" ng-model="financial.value"
-                                   class="input-small">
-                        </div>
+                        <!--<div class="financials-value">-->
+                            <!--<input placeholder="Value" type="text" format-input="{{financial.class}}" name="value"-->
+                                   <!--ng-blur="saveDataModel(financial)" ng-model="financial.value"-->
+                                   <!--class="input-small">-->
+                        <!--</div>-->
 
-                        <select ng-options="format.class as format.icon for format in formats" class="financials-class"
-                                ng-model="financial.class" ng-change="saveFinancialModel(financial)"></select>
-                    </form>
-                </li>
-            </ul>
-        </div>
+                        <!--<select ng-options="format.class as format.icon for format in formats" class="financials-class"-->
+                                <!--ng-model="financial.class" ng-change="saveFinancialModel(financial)"></select>-->
+                    <!--</form>-->
+                <!--</li>-->
+            <!--</ul>-->
+        <!--</div>-->
 
-        <div class="control-group">
-            <button class="btn btn-success" ng-click="addFinancial()"><i class="icon icon-plus-sign"></i>
-            </button>
-            Add New Field
-        </div>
+        <!--<div class="control-group">-->
+            <!--<button class="btn btn-success" ng-click="addFinancial()"><i class="icon icon-plus-sign"></i>-->
+            <!--</button>-->
+            <!--Add New Field-->
+        <!--</div>-->
 
-    </form>
-</div>
+    <!--</form>-->
+<!--</div>-->
 </div>
 </div>
 </div>

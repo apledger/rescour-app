@@ -307,7 +307,11 @@ angular.module('rescour.app.dev', ['rescour.app', 'ngMockE2E'])
                 location: [
                     Math.random() * 0.151 + randomCity.location[0] - 0.075,
                     Math.random() * 0.23 + randomCity.location[1] - 0.115
-                ]
+                ],
+                geo: {
+                    lat: Math.random() * 0.151 + randomCity.location[0] - 0.075,
+                    lng: Math.random() * 0.23 + randomCity.location[1] - 0.115
+                }
             };
 
             itemDetails[k] = {

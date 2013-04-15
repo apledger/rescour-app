@@ -172,7 +172,7 @@ angular.module('nebuMarket')
                             "</div>" +
                             "<div class=\"popup-main-container clearfix\">" +
                             "<div class=\"preview\" ng-click=\"showPictures(item)\"><div class=\"zoom-mask\"></div>" +
-                            "<img src=\"img/" + item.thumbnail + "\" alt=\"\"/></div>" +
+                            "<img src=\"" + item.thumbnail + "\" alt=\"\"/></div>" +
                             "<ul>" +
                             "<li><span>" + item.getAttribute('Number of Units') + "</span> Units</li>" +
                             "<li>Built in <span>" + item.getAttribute('Year Built') + "</span></li>" +
@@ -213,7 +213,7 @@ angular.module('nebuMarket')
                         // Loop through each item
                         _.each(Items.items, function (item) {
                             // Check visibility
-                            if (item.isVisible) {
+                            if (item.isVisible && item.location) {
                                 // Initialize new marker at location
                                 item.marker = new L.Marker(new L.LatLng(item.location[0], item.location[1]), { title: item.title });
                                 // Open modal popup

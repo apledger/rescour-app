@@ -578,12 +578,69 @@ angular.module('nebuMarket')
         };
 
         Attributes.prototype.reset = function () {
-            for (var discreetID in this.discreet) {
-                this.discreet[discreetID].selected = 0;
-                // If "Region" or whatever discreet ID exists, copy selected
-                for (var attrID in this.discreet[discreetID].values) {
-                    this.discreet[discreetID].values[attrID].isSelected = false;
-                    // If the saved search attribute exists
+            this.title = "";
+            this.id = undefined;
+            this.discreet = {};
+            this.range = {};
+//            for (var discreetID in this.discreet) {
+//                // If "Region" or whatever discreet ID exists, copy selected
+//                if (this.discreet.hasOwnProperty(discreetID)) {
+//                    this.discreet[discreetID].selected = 0;
+//                    for (var attrID in this.discreet[discreetID].values) {
+//                        if (this.discreet[discreetID].values.hasOwnProperty(attrID)) {
+//                            this.discreet[discreetID].values[attrID].isSelected = false;
+//                            this.discreet[discreetID].values[attrID].ids = [];
+//                        }
+//                        // If the saved search attribute exists
+//                    }
+//                }
+//            }
+//
+//            for (var rangeID in this.range) {
+//                // If "Region" or whatever discreet ID exists, copy selected
+//                if (this.range.hasOwnProperty(rangeID)) {
+//                    this.range[rangeID] = {
+//                        ids: [],
+//                        na: [],
+//                        highSelected: undefined,
+//                        lowSelected: undefined,
+//                        high: undefined,
+//                        low: undefined
+//                    };
+//                }
+//            }
+        };
+
+        Attributes.prototype.load = function (search) {
+            var self = this;
+            if (search) {
+                this.id = search.id || undefined;
+                this.title = search.title || undefined;
+                // error handling here
+                for (var rangeID in search.range) {
+                    // Check if range attribute exists
+                    if (_.has(self.range, rangeID)) {
+                        // Then check if the selected on the save is still within bounds
+                        if (search.range[rangeID].lowSelected >= self.range[rangeID].low && search.range[rangeID].highSelected <= self.range[rangeID].high) {
+                            self.range[rangeID].lowSelected = search.range[rangeID].lowSelected;
+                            self.range[rangeID].highSelected = search.range[rangeID].highSelected;
+                        }
+                    }
+                }
+
+                for (var discreetID in search.discreet) {
+                    // If "Region" or whatever discreet ID exists, copy selected
+                    if (_.has(self.discreet, discreetID)) {
+                        for (var attrID in search.discreet[discreetID].values) {
+                            // If the saved search attribute exists
+                            if (_.has(self.discreet[discreetID].values, attrID)) {
+                                if (search.discreet[discreetID].values[attrID].isSelected === true || search.discreet[discreetID].values[attrID].isSelected === "True") {
+                                    self.discreet[discreetID].values[attrID].isSelected = true;
+                                    self.discreet[discreetID].selected++;
+                                }
+                            }
+                        }
+                    }
                 }
             }
         };
@@ -592,47 +649,6 @@ angular.module('nebuMarket')
 
         this.initialize = function () {
             angular.copy(new Attributes(), this.active);
-        };
-
-        this.load = function (attr) {
-            if (!attr) {
-                this.initialize();
-            } else {
-                // reset the saved
-                var self = this;
-                this.active.reset();
-                this.active.id = attr.id;
-                this.active.title = attr.title;
-                // error handling here
-                for (var rangeID in attr.range) {
-                    // Check if range attribute exists
-                    if (_.has(self.active.range, rangeID)) {
-                        self.active.range[rangeID].ids = [];
-                        self.active.range[rangeID].na = [];
-                        // Then check if the selected on the save is still within bounds
-                        if (attr.range[rangeID].lowSelected >= self.active.range[rangeID].low && attr.range[rangeID].highSelected <= self.active.range[rangeID].high) {
-                            self.active.range[rangeID].lowSelected = attr.range[rangeID].lowSelected;
-                            self.active.range[rangeID].highSelected = attr.range[rangeID].highSelected;
-                        }
-                    }
-                }
-
-                for (var discreetID in attr.discreet) {
-                    // If "Region" or whatever discreet ID exists, copy selected
-                    if (_.has(self.active.discreet, discreetID)) {
-                        for (var attrID in attr.discreet[discreetID].values) {
-                            // If the saved search attribute exists
-                            if (_.has(self.active.discreet[discreetID].values, attrID)) {
-                                attr.discreet[discreetID].values[attrID].ids = [];
-                                if (attr.discreet[discreetID].values[attrID].isSelected === true || attr.discreet[discreetID].values[attrID].isSelected === "True") {
-                                    self.active.discreet[discreetID].values[attrID].isSelected = true;
-                                    self.active.discreet[discreetID].selected++;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
         };
     })
     .factory('Templates',
@@ -644,13 +660,55 @@ angular.module('nebuMarket')
     .factory('SavedSearch', ['$_api', '$http', '$q',
         function ($_api, $http, $q) {
             var SavedSearch = function (data) {
-                angular.extend(this, data);
+                var self = this;
+                this.title = data.title || undefined;
+                this.id = data.id || undefined;
+                this.discreet = {};
+                this.range = {};
+
+                data.discreet = data.discreet || {};
+                data.range = data.range || {};
+
+                for (var discreetID in data.discreet) {
+                    if (data.discreet.hasOwnProperty(discreetID)) {
+                        self.discreet[discreetID] = {
+                            values: {}
+                        };
+
+                        for (var valueID in data.discreet[discreetID].values) {
+                            if (data.discreet[discreetID].values.hasOwnProperty(valueID)) {
+                                self.discreet[discreetID].values[valueID] = {
+                                    isSelected: data.discreet[discreetID].values[valueID].isSelected
+                                };
+                            }
+                        }
+                    }
+                }
+
+                for (var rangeID in data.range) {
+                    if (data.range.hasOwnProperty(rangeID)) {
+                        if (data.range.hasOwnProperty(rangeID)) {
+                            self.range[rangeID] = {
+                                highSelected: data.range[rangeID].highSelected,
+                                lowSelected: data.range[rangeID].lowSelected
+                            };
+                        }
+                    }
+                }
             };
 
             SavedSearch.query = function () {
                 var searches = [];
                 $http.get($_api.path + '/search/', $_api.config).then(function (response) {
-                    angular.copy(response.data.resources, searches);
+                    angular.forEach(response.data.resources, function(value, key){
+                        try {
+                            searches.push(new SavedSearch(angular.fromJson(value)));
+                            console.log(searches);
+                        } catch (e) {
+                            console.log(e.message);
+                        }
+                    });
+//                    angular.copy(response.data.resources, searches);
                 });
                 return searches;
             };
@@ -759,12 +817,12 @@ angular.module('nebuMarket')
                     this.title = financial.title || "";
                     this.value = financial.value || "";
                     this.class = financial.class || "currency";
-                    this._id = financial._id || Date.now()*Math.random();
+                    this._id = financial._id || Date.now() * Math.random();
                 } else {
                     this.title = "";
                     this.value = "";
                     this.class = "currency";
-                    this._id = Date.now()*Math.random();
+                    this._id = Date.now() * Math.random();
                 }
             };
 

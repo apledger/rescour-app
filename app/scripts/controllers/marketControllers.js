@@ -139,6 +139,7 @@ angular.module('nebuMarket')
                 }
                 // Create a new resource object with existing attributes
                 $scope.selectedSearch = new SavedSearch($scope.attributes);
+                console.log($scope.savedSearches);
                 $scope.selectedSearch.$save().then(function (response) {
                     $scope.savedSearches = SavedSearch.query();
                     $scope.attributes.modified = false;
@@ -162,13 +163,11 @@ angular.module('nebuMarket')
             };
 
             $scope.loadSearch = function (search) {
-                // If search is null, load will create new object
-                Attributes.load(search);
+                $scope.attributes.reset();
                 Items.loadItems();
-                $scope.selectedSearch = search;
-                $scope.$broadcast("rangesDefined");
-                $scope.attributes = Attributes.active;
+                $scope.attributes.load(search);
                 $scope.filter();
+                $scope.selectedSearch = search;
                 $scope.attributes.modified = false;
             };
 
@@ -295,19 +294,21 @@ angular.module('nebuMarket')
                     }
                 );
             };
-            
-            $scope.addFinancial = function(){
+
+            $scope.addFinancial = function () {
                 $scope.current.addFinancial();
             };
 
-            $scope.saveFinancialModel = function(item){
+            $scope.saveFinancialModel = function (item) {
                 $scope.current.saveFinancial(item);
-                if(!_.find($scope.financialFields.fields, function(value){return value == item.title})){
+                if (!_.find($scope.financialFields.fields, function (value) {
+                    return value == item.title
+                })) {
                     $scope.financialFields.fields = FinancialFields.addField(item.title);
                 }
             };
 
-            $scope.deleteFinancialModel = function(item){
+            $scope.deleteFinancialModel = function (item) {
                 $scope.current.deleteFinancial(item);
             };
 

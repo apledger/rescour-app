@@ -172,7 +172,7 @@ angular.module('nebuMarket')
                             "</div>" +
                             "<div class=\"popup-main-container clearfix\">" +
                             "<div class=\"preview\" ng-click=\"showPictures(item)\"><div class=\"zoom-mask\"></div>" +
-                            "<img src=\"img/" + item.thumbnail + "\" alt=\"\"/></div>" +
+                            "<img src=\"" + item.thumbnail + "\" alt=\"\"/></div>" +
                             "<ul>" +
                             "<li><span>" + item.getAttribute('Number of Units') + "</span> Units</li>" +
                             "<li>Built in <span>" + item.getAttribute('Year Built') + "</span></li>" +

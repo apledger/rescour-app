@@ -126,7 +126,7 @@
 
                 <div class="preview" ng-show="!item.hidden" ng-click="showPictures(item)">
                     <div class="preview-mask"><i class="icon-search"></i></div>
-                    <img ng-src="img/{{item.thumbnail}}" alt="">
+                    <img ng-src="{{item.thumbnail}}" alt="">
 
                     <div class="preview-caption" ng-class="getStatusClass(item.getAttribute('Property Status'))">
                         <h2>{{item.getAttribute("Property Status") || "Not Available"}}</h2>

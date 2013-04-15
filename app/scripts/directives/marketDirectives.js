@@ -132,8 +132,8 @@ angular.module('nebuMarket')
             }
         };
     }])
-    .directive("map", ['Filter', 'Items', '$compile', 'detailPanes',
-        function (Filter, Items, $compile, detailPanes) {
+    .directive("map", ['Filter', 'Items', '$compile', 'PropertyDetails',
+        function (Filter, Items, $compile, PropertyDetails) {
             return {
                 restrict: "A",
                 transclude: true,
@@ -193,7 +193,7 @@ angular.module('nebuMarket')
                             item.getDetails();
                         }
                         scope.selected = item;
-                        detailPanes.selectPane("Details");
+                        PropertyDetails.panes.selectPane("Details");
                     };
 
                     scope.showPictures = function (item) {
@@ -201,7 +201,7 @@ angular.module('nebuMarket')
                             item.getDetails();
                         }
                         scope.selected = item;
-                        detailPanes.selectPane("Pictures");
+                        PropertyDetails.panes.selectPane("Pictures");
                     };
 
                     scope.$on("Render", function () {
@@ -263,7 +263,7 @@ angular.module('nebuMarket')
 
                 function applyFilter(formatInput) {
                     formatInput = formatInput || attrs.formatInput;
-                    if (ctrl.$modelValue !== "") {
+                    if (ctrl.$modelValue) {
                         ctrl.$viewValue = $filter(formatInput)(ctrl.$modelValue);
                         ctrl.$render();
                     } else {
@@ -280,9 +280,11 @@ angular.module('nebuMarket')
                 });
 
                 attrs.$observe('formatInput', function (val) {
-                    ctrl.$viewValue = $filter(val)(ctrl.$modelValue);
-                    ctrl.$render();
-                })
+                    if (val) {
+                        ctrl.$viewValue = $filter(val)(ctrl.$modelValue);
+                        ctrl.$render();
+                    }
+                });
 
                 // load init value from DOM
                 $timeout(function () {

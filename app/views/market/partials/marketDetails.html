@@ -183,7 +183,7 @@
 <div pane class="container-fluid" heading="{{panes[3].heading}}" active="panes[3].active">
     <div ng-repeat="comment in current.details.comments">
         <div class="alert alert-info comment-alert">
-            <h5>{{comment.user_email}} <span>{{comment.timestamp | date}}</span></h5>
+            <h5>{{comment.userEmail}} <span>{{comment.timestamp | date}}</span></h5>
 
             <p>{{comment.text}}</p>
         </div>
@@ -209,50 +209,30 @@
     <div class="row-fluid">
         <div class="span12">
             <ul>
-                <li ng-repeat="financial in current.details.financials" class="dropdown">
-                    <button class="btn btn-danger financials-delete" ng-click="deleteFinancialModel(financial)"><i
+                <li ng-repeat="finance in current.details.finances" class="dropdown">
+                    <button class="btn btn-danger financials-delete" ng-click="deleteFinance(finance)"><i
                             class="icon-remove-sign"></i>
                     </button>
 
-                    <form novalidate class="form-inline" name="formFinancial">
-                        <div class="financials-title">
-                            <input placeholder="Financial Metric" name="title" ng-blur="saveFinancialModel(financial)"
-                                   type="text" ng-model="financial.title"
-                                   class="input-medium"
-                                   typeahead="field for field in financeFields | filter:$viewValue">
-                        </div>
+                    <div class="financials-title">
+                        <input placeholder="Financial Metric" name="title"
+                               type="text" ng-model="finance.title"
+                               class="input-medium"
+                               typeahead="field for field in financeFields | filter:$viewValue">
+                    </div>
 
-                        <div class="financials-value">
-                            <input placeholder="Value" type="text" format-input="{{financial.valueFormat}}" name="value"
-                                   ng-blur="saveDataModel(financial)" ng-model="financial.value"
-                                   class="input-small">
-                        </div>
+                    <div class="financials-value">
+                        <input placeholder="Value" type="text" format-input="{{finance.valueFormat}}" name="value"
+                               ng-blur="saveFinance(finance)" ng-model="finance.value"
+                               class="input-small">
+                    </div>
 
-                        <select ng-options="format.valueFormat as format.icon for format in financeFormats"
-                                class="financials-class"
-                                ng-model="financial.valueFormat" ng-change="saveFinancialModel(financial)"></select>
-                    </form>
+                    <select ng-options="format.valueFormat as format.icon for format in valueFormats"
+                            class="financials-class"
+                            ng-model="finance.valueFormat" ng-change="saveFinance(finance)"></select>
                 </li>
                 <li>
-                    <form novalidate class="form-inline" name="formNewFinancial">
-                        <div class="financials-title">
-                            <input placeholder="Financial Metric" name="title" ng-blur="saveFinancialModel(financial)"
-                                   type="text" ng-model="newFinancial.title"
-                                   class="input-medium"
-                                   typeahead="field for field in financeFields | filter:$viewValue">
-                        </div>
-
-                        <div class="financials-value">
-                            <input placeholder="Value" type="text" format-input="{{financial.valueFormat}}" name="value"
-                                   ng-blur="saveDataModel(financial)" ng-model="newFinancial.value"
-                                   class="input-small">
-                        </div>
-
-                        <select ng-options="format.valueFormat as format.icon for format in financeFormats"
-                                class="financials-class"
-                                ng-model="financial.valueFormat" ng-change="saveFinancialModel(newFinancial)"></select>
-
-                    </form>
+                    <a href="javascript:" class="btn btn-success" ng-click="newFinance()">Add Finance Note</a>
                 </li>
             </ul>
         </div>

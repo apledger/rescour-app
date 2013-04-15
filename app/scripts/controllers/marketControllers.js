@@ -248,16 +248,15 @@ angular.module('nebuMarket')
             $scope.newComment = {};
             $scope.newEmail = {};
             $scope.panes = PropertyDetails.panes.panes;
-            $scope.newFinance = new Finance();
-            $scope.financeFormats = Finance.formats;
+            $scope.valueFormats = Finance.valueFormats;
             $scope.financeFields = Finance.fields;
 
 
-            $scope.addComment = function (newComment) {
-                var comment = new Comment(newComment);
+            $scope.addComment = function (comment) {
+                var newComment = new Comment(comment);
                 if ($scope.formComment.$valid) {
-                    $scope.current.addComment(comment).then(function (response) {
-                        newComment.text = "";
+                    $scope.current.addComment(newComment).then(function (response) {
+                        comment.text = "";
                     });
                 }
             };
@@ -285,11 +284,17 @@ angular.module('nebuMarket')
                 }
             };
 
-            $scope.saveFinance = function (newFinance) {
-                var finance = new Finance(newFinance);
-
-
+            $scope.saveFinance = function (finance) {
+                finance.$save();
             };
 
+            $scope.newFinance = function () {
+                $scope.newFinance = new Finance();
+                $scope.current.addFinance($scope.newFinance);
+            };
+
+            $scope.deleteFinance = function (finance) {
+                finance.$delete();
+            };
         }]);
 

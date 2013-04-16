@@ -6451,50 +6451,113 @@ a.label:hover, a.badge:hover {
   margin-top: 5px;
 }
 
-/* line 34, ../../app/styles/_details.scss */
+/* line 33, ../../app/styles/_details.scss */
 .picture-container {
   width: 600px;
 }
+/* line 36, ../../app/styles/_details.scss */
+.picture-container .counter {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  padding: 5px 10px;
+  width: auto;
+  color: white;
+  text-align: center;
+  font-size: 13px;
+  font-weight: bold;
+  background: #222222;
+  border: 3px solid white;
+  -webkit-border-radius: 23px;
+  -moz-border-radius: 23px;
+  border-radius: 23px;
+  opacity: 0.7;
+}
+/* line 51, ../../app/styles/_details.scss */
+.picture-container .counter:hover {
+  opacity: 0.8;
+  cursor: default;
+}
+/* line 57, ../../app/styles/_details.scss */
+.picture-container .carousel-inner {
+  min-height: 40px;
+}
+/* line 61, ../../app/styles/_details.scss */
+.picture-container .carousel-control {
+  top: 50%;
+}
+/* line 65, ../../app/styles/_details.scss */
+.picture-container .left {
+  left: -55px;
+}
+/* line 69, ../../app/styles/_details.scss */
+.picture-container .right {
+  right: -55px;
+}
 
-/* line 38, ../../app/styles/_details.scss */
+/* line 74, ../../app/styles/_details.scss */
 .contact-selected strong {
   color: #0088cc;
 }
 
-/* line 43, ../../app/styles/_details.scss */
+/* line 79, ../../app/styles/_details.scss */
 .well.contact {
   cursor: pointer;
 }
 
-/* line 50, ../../app/styles/_details.scss */
+/* line 84, ../../app/styles/_details.scss */
 .contact-form .controls {
   margin: 0 0 30px;
 }
-/* line 53, ../../app/styles/_details.scss */
+/* line 87, ../../app/styles/_details.scss */
 .contact-form .checkbox {
   cursor: pointer;
 }
 
-/* line 59, ../../app/styles/_details.scss */
-.financials-container .financials-delete {
-  float: left;
-  display: inline-block;
+/* line 94, ../../app/styles/_details.scss */
+.finance-container li {
+  position: relative;
+  display: block;
+  height: auto;
+  overflow: visible;
 }
-/* line 63, ../../app/styles/_details.scss */
-.financials-container .financials-title {
-  float: left;
-  display: inline-block;
+/* line 100, ../../app/styles/_details.scss */
+.finance-container li .finance-delete {
+  font-size: 20px;
+  line-height: 20px;
+  cursor: pointer;
+  color: transparent;
+  position: absolute;
+  top: 15px;
+  left: -20px;
+  text-decoration: none;
 }
-/* line 67, ../../app/styles/_details.scss */
-.financials-container .financials-value {
-  float: left;
-  display: inline-block;
+/* line 110, ../../app/styles/_details.scss */
+.finance-container li .finance-delete:hover {
+  color: #481610;
 }
-/* line 71, ../../app/styles/_details.scss */
-.financials-container .financials-class {
+/* line 115, ../../app/styles/_details.scss */
+.finance-container li:hover .finance-delete {
+  color: #9c3022;
+  -webkit-transition: all 0.2s ease-in;
+  -moz-transition: all 0.2s ease-in;
+  -o-transition: all 0.2s ease-in;
+  transition: all 0.2s ease-in;
+}
+/* line 120, ../../app/styles/_details.scss */
+.finance-container li .finance-box {
+  display: inline-block;
+  overflow-y: visible;
+  margin: 10px;
+}
+/* line 124, ../../app/styles/_details.scss */
+.finance-container li .finance-box input[type="text"]:first-child:after {
+  content: ":";
+  padding: 10px;
+}
+/* line 130, ../../app/styles/_details.scss */
+.finance-container li select {
   width: 60px;
-  /* float: left; */
-  display: inline-block;
 }
 
 /* line 1, ../../app/styles/_header.scss */

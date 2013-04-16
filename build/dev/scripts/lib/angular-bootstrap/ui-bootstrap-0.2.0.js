@@ -157,7 +157,8 @@ angular.module("ui.bootstrap.alert", []).directive('alert', function () {
         replace: true,
         scope: {
             type: '=',
-            close: '&'
+            close: '&',
+            fadeAfter: '&'
         }
     };
 });

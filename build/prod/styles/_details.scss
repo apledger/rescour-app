@@ -27,12 +27,48 @@ $detailsHeaderColor: $light-gray;
     }
   }
 
-
   @include rescourTabs;
 }
 
 .picture-container {
   width: 600px;
+
+  .counter {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 5px 10px;
+    width: auto;
+    color: white;
+    text-align: center;
+    font-size: 13px;
+    font-weight: bold;
+    background: #222222;
+    border: 3px solid white;
+    @include border-radius(23px);
+    opacity: 0.7;
+
+    &:hover {
+      opacity: 0.8;
+      cursor: default;
+    }
+  }
+
+  .carousel-inner {
+    min-height: 40px;
+  }
+
+  .carousel-control {
+    top: 50%;
+  }
+
+  .left, {
+    left: -55px;
+  }
+
+  .right {
+    right: -55px;
+  }
 }
 
 .contact-selected strong {
@@ -44,8 +80,6 @@ $detailsHeaderColor: $light-gray;
   cursor: pointer;
 }
 
-
-
 .contact-form {
   .controls {
     margin: 0 0 30px;
@@ -55,22 +89,46 @@ $detailsHeaderColor: $light-gray;
   }
 }
 
-.financials-container {
-    .financials-delete {
-        float: left;
-        display: inline-block;
+.finance-container {
+
+  li {
+    position: relative;
+    display: block;
+    height: auto;
+    overflow: visible;
+
+    .finance-delete {
+      font-size: 20px;
+      line-height: 20px;
+      cursor: pointer;
+      color: transparent;
+      position: absolute;
+      top: 15px;
+      left: -20px;
+      text-decoration: none;
+
+      &:hover {
+        color: darken($red, 20%);
+      }
     }
-    .financials-title {
-        float: left;
-        display: inline-block;
+
+    &:hover .finance-delete {
+      color: $red;
+      @include transition(all .2s ease-in);
     }
-    .financials-value {
-        float: left;
-        display: inline-block;
+
+    .finance-box {
+      display: inline-block;
+      overflow-y: visible;
+      margin: 10px;
+      input[type="text"]:first-child:after {
+        content: ":";
+        padding: 10px;
+      }
     }
-    .financials-class {
-        width: 60px;
-        /* float: left; */
-        display: inline-block;
+
+    select {
+      width: 60px;
     }
+  }
 }

@@ -1,13 +1,11 @@
 'use strict';
 
 angular.module('nebuMarket')
-    .factory('Item', ['$_api', '$q', '$http', 'Attributes', 'Comment', 'Financial',
-        function ($_api, $q, $http, Attributes, Comment, Financial) {
+    .factory('Item', ['$_api', '$q', '$http', 'Attributes', 'Comment', 'Finance',
+        function ($_api, $q, $http, Attributes, Comment, Finance) {
 
             // Item constructor
             var Item = function (data) {
-
-                //angular.extend(this, data);
                 if (data.hasOwnProperty('id')) {
                     this.id = data.id;
                 } else {
@@ -70,7 +68,6 @@ angular.module('nebuMarket')
                 this.address = data.address || {
                     street1: "No address listed"
                 };
-//                this.thumbnail = (data.thumbnails ? (data.thumbnails[0] ? data.thumbnails[0].link : undefined) : undefined) || "apt0.jpg";
                 this.thumbnail = data.thumbnail || "/img/apt0.jpg";
                 this.favorites = data.favorites || false;
                 this.hidden = data.hidden || false;
@@ -114,11 +111,34 @@ angular.module('nebuMarket')
                     defer = $q.defer(),
                     config = angular.extend({
                         transformRequest: $_api.loading.details
-                    }, $_api.config);
+                    }, $_api.config),
+                    locals = {};
 
                 $http.get($_api.path + '/properties/' + this.id, config).then(function (response) {
                     self.details = {};
                     angular.copy(response.data, self.details);
+                    try {
+                        if (angular.isArray(self.details.comments)) {
+                            locals.comments = self.details.comments;
+                            self.details.comments = [];
+                            for (var i = 0, len = locals.comments.length; i < len; i++) {
+                                self.addComment(locals.comments[i]);
+                            }
+
+                        } else {
+                            throw new Error("Comments are not an array");
+                        }
+
+                        if (angular.isArray(self.details.finances)) {
+                            for (var i = 0, len = self.details.finances.length; i < len; i++) {
+                                self.details.finances[i] = new Finance(self.details.finances[i]);
+                            }
+                        } else {
+                            throw new Error("Finances are not an array");
+                        }
+                    } catch (e) {
+                        console.log(e.message);
+                    }
                     defer.resolve(response);
                 }, function (response) {
                     defer.reject(response);
@@ -128,95 +148,41 @@ angular.module('nebuMarket')
             };
 
             Item.prototype.addComment = function (comment) {
-                var _comment = new Comment(comment),
-                    defer = $q.defer(),
-                    self = this;
+                var newComment = new Comment(comment);
 
-                self.details.comments.push(_comment);
-                self.hasComments = true;
+                newComment.propertyId = newComment.propertyId || this.id;
 
-                _comment.$save(this.id).then(function (response) {
-                    defer.resolve(response);
-                }, function (response) {
-                    self.refreshComments();
-                    defer.reject(response);
-                });
-
-                return defer.promise;
-            };
-
-            Item.prototype.addFinancial = function () {
-                var _financial = new Financial(),
-                    defer = $q.defer(),
-                    self = this;
-
-                if (this.details.financials) {
-                    this.details.financials.push(_financial);
+                if (angular.isArray(this.details.comments)) {
+                    this.details.comments.push(newComment);
+                    this.hasComments = true;
                 } else {
-                    this.details.financials = [_financial];
+                    this.details.comments = [newComment];
                 }
 
-                _financial.$save(this.id).then(function (response) {
-                    defer.resolve(response);
-                    //self.getDetails();
+                return newComment;
+            };
 
-                }, function (response) {
-                    defer.reject(response);
+            Item.prototype.addFinance = function (finance) {
+                var newFinance = new Finance(finance);
+
+                newFinance.propertyId = newFinance.propertyId || this.id;
+
+                if (angular.isArray(this.details.finances)) {
+                    this.details.finances.push(newFinance);
+                } else {
+                    this.details.finances = [newFinance];
+                }
+
+                return newFinance;
+            };
+
+            Item.prototype.deleteFinance = function (finance) {
+
+                this.details.finances = _.reject(this.details.finances, function (value) {
+                    return angular.equals(value, finance);
                 });
 
-                return defer.promise;
-            };
-
-            Item.prototype.saveFinancial = function (financial) {
-                var defer = $q.defer(),
-                    self = this,
-                    body = JSON.stringify(financial),
-                    config = angular.extend({
-                        transformRequest: $_api.loading.none
-                    }, $_api.config);
-                $http.put($_api.path + '/properties/' + this.id + '/financials/' + financial._id, body, config)
-                    .success(function (response) {
-                        defer.resolve(response);
-                    })
-                    .error(function (error) {
-                        defer.reject(error);
-                    });
-
-                return defer.promise;
-
-            };
-
-            Item.prototype.deleteFinancial = function (financial) {
-                var defer = $q.defer(),
-                    body = {},
-                    config = angular.extend({
-                        transformRequest: $_api.loading.none
-                    }, $_api.config),
-                    self = this;
-                this.details.financials = _.reject(this.details.financials, function (value) {
-                    return value._id === financial._id;
-                })
-
-                financial.$delete(this.id)
-                    .then(function (response) {
-                        defer.resolve(response);
-                    }, function (response) {
-                        self.getDetails();
-                        defer.reject(response);
-                    });
-            };
-
-            Item.prototype.saveNote = function () {
-                var deferred = $q.defer();
-                $http.put($_api.path + '/properties/' + this.id + '/notes', this.details.notes)
-                    .success(function (response) {
-                        deferred.resolve(response);
-                    })
-                    .error(function (error) {
-                        deferred.reject(error);
-                    });
-
-                return deferred.promise;
+                return finance;
             };
 
             Item.prototype.toggleFavorites = function () {
@@ -295,6 +261,30 @@ angular.module('nebuMarket')
                 } else {
                     return "Not Found";
                 }
+            };
+
+            Item.prototype.getAddress = function() {
+                var addressStr = '';
+
+                if (this.address.street1) {
+                    addressStr += this.address.street1;
+                }
+                if (this.address.state) {
+                    addressStr += ', ';
+                    addressStr += this.address.city ? this.address.city + ', ' + this.address.state : this.address.state;
+                }
+                if (this.address.zip) {
+                    addressStr += ' ';
+                    addressStr += this.address.zip;
+                }
+
+                return addressStr;
+            };
+
+            Item.prototype.getImages = function () {
+                return this.details ? _.map(this.details.images, function (value) {
+                    return value;
+                }) : undefined;
             };
 
             return Item;
@@ -411,6 +401,8 @@ angular.module('nebuMarket')
         function (Attributes, Item, Filter) {
             // Private items data
             this.items = {};
+
+            this.active = null;
 
             this.getItems = function () {
                 return _.map(this.items, function (item, id) {
@@ -582,33 +574,6 @@ angular.module('nebuMarket')
             this.id = undefined;
             this.discreet = {};
             this.range = {};
-//            for (var discreetID in this.discreet) {
-//                // If "Region" or whatever discreet ID exists, copy selected
-//                if (this.discreet.hasOwnProperty(discreetID)) {
-//                    this.discreet[discreetID].selected = 0;
-//                    for (var attrID in this.discreet[discreetID].values) {
-//                        if (this.discreet[discreetID].values.hasOwnProperty(attrID)) {
-//                            this.discreet[discreetID].values[attrID].isSelected = false;
-//                            this.discreet[discreetID].values[attrID].ids = [];
-//                        }
-//                        // If the saved search attribute exists
-//                    }
-//                }
-//            }
-//
-//            for (var rangeID in this.range) {
-//                // If "Region" or whatever discreet ID exists, copy selected
-//                if (this.range.hasOwnProperty(rangeID)) {
-//                    this.range[rangeID] = {
-//                        ids: [],
-//                        na: [],
-//                        highSelected: undefined,
-//                        lowSelected: undefined,
-//                        high: undefined,
-//                        low: undefined
-//                    };
-//                }
-//            }
         };
 
         Attributes.prototype.load = function (search) {
@@ -618,28 +583,46 @@ angular.module('nebuMarket')
                 this.title = search.title || undefined;
                 // error handling here
                 for (var rangeID in search.range) {
-                    // Check if range attribute exists
-                    if (_.has(self.range, rangeID)) {
-                        // Then check if the selected on the save is still within bounds
-                        if (search.range[rangeID].lowSelected >= self.range[rangeID].low && search.range[rangeID].highSelected <= self.range[rangeID].high) {
-                            self.range[rangeID].lowSelected = search.range[rangeID].lowSelected;
-                            self.range[rangeID].highSelected = search.range[rangeID].highSelected;
+                    try {
+                        // Check if range attribute exists
+                        if (_.has(self.range, rangeID)) {
+                            // Then check if the selected on the save is still within bounds
+                            if (search.range[rangeID].lowSelected >= self.range[rangeID].low && search.range[rangeID].highSelected <= self.range[rangeID].high) {
+                                self.range[rangeID].lowSelected = search.range[rangeID].lowSelected;
+                                self.range[rangeID].highSelected = search.range[rangeID].highSelected;
+                            } else {
+                                throw new Error(search.range[rangeID].lowSelected + " - " + search.range[rangeID].highSelected + " is not within active bounds");
+                            }
+                        } else {
+                            throw new Error(rangeID + " not found in range");
                         }
+                    } catch (e) {
+                        console.log(e.message);
                     }
+
                 }
 
                 for (var discreetID in search.discreet) {
-                    // If "Region" or whatever discreet ID exists, copy selected
-                    if (_.has(self.discreet, discreetID)) {
-                        for (var attrID in search.discreet[discreetID].values) {
-                            // If the saved search attribute exists
-                            if (_.has(self.discreet[discreetID].values, attrID)) {
-                                if (search.discreet[discreetID].values[attrID].isSelected === true || search.discreet[discreetID].values[attrID].isSelected === "True") {
-                                    self.discreet[discreetID].values[attrID].isSelected = true;
-                                    self.discreet[discreetID].selected++;
+                    try {
+                        // Check if discreet attribute exists on current attributes
+                        if (_.has(self.discreet, discreetID)) {
+                            for (var attrID in search.discreet[discreetID].values) {
+                                // If the saved search attribute exists
+                                if (_.has(self.discreet[discreetID].values, attrID)) {
+                                    // Check to see if marked as true
+                                    if (search.discreet[discreetID].values[attrID].isSelected === true || search.discreet[discreetID].values[attrID].isSelected === "True") {
+                                        self.discreet[discreetID].values[attrID].isSelected = true;
+                                        self.discreet[discreetID].selected++;
+                                    }
+                                } else {
+                                    throw new Error(attrID + " not found in " + discreetID);
                                 }
                             }
+                        } else {
+                            throw new Error(discreetID + " not found in discreet");
                         }
+                    } catch (e) {
+                        console.log(e.message);
                     }
                 }
             }
@@ -651,47 +634,42 @@ angular.module('nebuMarket')
             angular.copy(new Attributes(), this.active);
         };
     })
-    .factory('Templates',
-    function () {
-        return {
-            saveSearchDialog: '/views/market/partials/saveSearchDialog.html'
-        };
-    })
     .factory('SavedSearch', ['$_api', '$http', '$q',
         function ($_api, $http, $q) {
-            var SavedSearch = function (data) {
+            var SavedSearch = function (data, id) {
                 var self = this;
                 this.title = data.title || undefined;
-                this.id = data.id || undefined;
+                this.id = id || undefined;
                 this.discreet = {};
                 this.range = {};
 
-                data.discreet = data.discreet || {};
-                data.range = data.range || {};
+                if (data.discreet) {
+                    for (var discreetID in data.discreet) {
+                        if (data.discreet.hasOwnProperty(discreetID)) {
+                            self.discreet[discreetID] = {
+                                values: {}
+                            };
 
-                for (var discreetID in data.discreet) {
-                    if (data.discreet.hasOwnProperty(discreetID)) {
-                        self.discreet[discreetID] = {
-                            values: {}
-                        };
-
-                        for (var valueID in data.discreet[discreetID].values) {
-                            if (data.discreet[discreetID].values.hasOwnProperty(valueID)) {
-                                self.discreet[discreetID].values[valueID] = {
-                                    isSelected: data.discreet[discreetID].values[valueID].isSelected
-                                };
+                            for (var valueID in data.discreet[discreetID].values) {
+                                if (data.discreet[discreetID].values.hasOwnProperty(valueID)) {
+                                    self.discreet[discreetID].values[valueID] = {
+                                        isSelected: data.discreet[discreetID].values[valueID].isSelected
+                                    };
+                                }
                             }
                         }
                     }
                 }
 
-                for (var rangeID in data.range) {
-                    if (data.range.hasOwnProperty(rangeID)) {
+                if (data.range) {
+                    for (var rangeID in data.range) {
                         if (data.range.hasOwnProperty(rangeID)) {
-                            self.range[rangeID] = {
-                                highSelected: data.range[rangeID].highSelected,
-                                lowSelected: data.range[rangeID].lowSelected
-                            };
+                            if (data.range.hasOwnProperty(rangeID)) {
+                                self.range[rangeID] = {
+                                    highSelected: data.range[rangeID].highSelected,
+                                    lowSelected: data.range[rangeID].lowSelected
+                                };
+                            }
                         }
                     }
                 }
@@ -700,15 +678,13 @@ angular.module('nebuMarket')
             SavedSearch.query = function () {
                 var searches = [];
                 $http.get($_api.path + '/search/', $_api.config).then(function (response) {
-                    angular.forEach(response.data.resources, function(value, key){
+                    angular.forEach(response.data.resources, function (value, key) {
                         try {
-                            searches.push(new SavedSearch(angular.fromJson(value)));
-                            console.log(searches);
+                            searches.push(new SavedSearch(angular.fromJson(value.savedSearch), value.id));
                         } catch (e) {
                             console.log(e.message);
                         }
                     });
-//                    angular.copy(response.data.resources, searches);
                 });
                 return searches;
             };
@@ -716,15 +692,14 @@ angular.module('nebuMarket')
             SavedSearch.prototype.$save = function () {
                 var defer = $q.defer(),
                     self = this;
-
                 if (self.id) {
-                    $http.put($_api.path + '/search/' + self.id, JSON.stringify({saved_search: self}), $_api.config).then(function (response) {
+                    $http.put($_api.path + '/search/' + self.id, JSON.stringify({savedSearch: JSON.stringify(self)}), $_api.config).then(function (response) {
                         defer.resolve(response.data);
                     }, function (response) {
                         defer.reject(response.data);
                     });
                 } else {
-                    $http.post($_api.path + '/search/', JSON.stringify({saved_search: self}), $_api.config).then(function (response) {
+                    $http.post($_api.path + '/search/', JSON.stringify({savedSearch: JSON.stringify(self)}), $_api.config).then(function (response) {
                         defer.resolve(response.data);
                     }, function (response) {
                         defer.reject(response.data);
@@ -740,14 +715,17 @@ angular.module('nebuMarket')
         function ($_api, $q, $http, User) {
 
             var Comment = function (data) {
+                data = data || {};
                 this.text = data.text || "";
-                this.timestamp = new Date().getTime();
-                this.user_email = data.user_email || (User.profile ? User.profile.email : "You");
+                this.id = data.id || undefined;
+                this.propertyId = data.propertyId || undefined;
+                this.timestamp = data.timestamp || new Date().getTime();
+                this.userEmail = data.userEmail || (User.profile ? User.profile.email : "You");
             };
 
             Comment.query = function (itemID) {
                 var config = angular.extend({
-                        transformRequest: $_api.loading.none
+                        transformRequest: angular.isFunction(transformFn) ? transformFn : $_api.loading.none
                     }, $_api.config),
                     defer = $q.defer();
 
@@ -765,14 +743,15 @@ angular.module('nebuMarket')
                 return defer.promise;
             };
 
-            Comment.prototype.$save = function (itemID) {
+            Comment.prototype.$save = function (transformFn) {
                 var defer = $q.defer(),
                     self = this,
                     config = angular.extend({
                         transformRequest: $_api.loading.none
-                    }, $_api.config);
+                    }, $_api.config),
+                    propertyId = self.propertyId;
 
-                if (typeof itemID !== 'undefined') {
+                if (typeof propertyId !== 'undefined') {
                     $http.post($_api.path + '/properties/' + itemID + '/comments/', JSON.stringify(self), config)
                         .then(function (response) {
                             defer.resolve(response);
@@ -780,7 +759,7 @@ angular.module('nebuMarket')
                             defer.reject(response);
                         });
                 } else {
-                    throw new Error("comment.$save received undefined itemID");
+                    throw new Error("Comment does not have propertyId");
                 }
 
                 return defer.promise;
@@ -788,131 +767,165 @@ angular.module('nebuMarket')
 
             return Comment;
         }])
-    .factory('detailPanes', function () {
-        var panes = [
-            {heading: "Details", active: true},
-            {heading: "Pictures", active: false},
-            {heading: "Contact", active: false},
-            {heading: "Comments", active: false},
-            {heading: "Financials", active: false}
-        ];
-        return {
-            panes: panes,
-            selectPane: function (paneHeading) {
-                angular.forEach(panes, function (pane) {
-                    if (pane.heading === paneHeading) {
-                        pane.active = true;
-                    } else {
-                        pane.active = false;
-                    }
-                });
-            }
-        };
-    })
-    .factory('Financial', ['$_api', '$q', '$http',
+    .factory('Finance', ['$_api', '$q', '$http',
         function ($_api, $q, $http) {
 
-            var Financial = function (financial) {
-                if (financial !== undefined) {
-                    this.title = financial.title || "";
-                    this.value = financial.value || "";
-                    this.class = financial.class || "currency";
-                    this._id = financial._id || Date.now() * Math.random();
+            var Finance = function (data) {
+                data = data || {};
+                console.log(data);
+                this.id = data.id || undefined;
+                this.propertyId = data.propertyId || undefined;
+                this.name = data.name || '';
+                this.valueFormat = data.valueFormat || 'currency';
+                if (angular.isDefined(data.value) && angular.isNumber(parseFloat(data.value))) {
+                    this.value = data.value;
                 } else {
-                    this.title = "";
-                    this.value = "";
-                    this.class = "currency";
-                    this._id = Date.now() * Math.random();
+                    this.value = undefined;
                 }
             };
 
-            Financial.query = function (itemID) {
+            Finance.valueFormats = [
+                {icon: '$', valueFormat: 'currency', selected: true},
+                {icon: '%', valueFormat: 'percentage', selected: false},
+                {icon: '0.0', valueFormat: 'number', selected: false}
+            ];
+
+            Finance.fields = [
+                "Valuation",
+                "IRR",
+                "Cap Rate",
+                "Price / Unit"
+            ];
+
+            Finance.query = function () {
                 var config = angular.extend({
                         transformRequest: $_api.loading.none
                     }, $_api.config),
-                    defer = $q.defer();
+                    defer = $q.defer(),
+                    propertyId = self.propertyId;
 
-                if (typeof itemID !== 'undefined') {
-                    $http.get($_api.path + '/properties/' + itemID + '/financials/', config).then(function (response) {
+                if (typeof propertyId !== 'undefined') {
+                    $http.get($_api.path + '/properties/' + propertyId + '/finances/', config).then(function (response) {
                         defer.resolve(response.data.items);
                     }, function (response) {
                         defer.reject(response);
                         //throw new Error("HTTP Error: " + response);
                     });
                 } else {
-                    throw new Error("financial.query received undefined itemID");
+                    throw new Error("Finance.query received undefined itemID");
                 }
 
                 return defer.promise;
             };
 
-            Financial.prototype.$save = function (itemID) {
+            Finance.prototype.$save = function (transformFn) {
                 var defer = $q.defer(),
                     self = this,
                     config = angular.extend({
-                        transformRequest: $_api.loading.none
-                    }, $_api.config);
+                        transformRequest: angular.isFunction(transformFn) ? transformFn : $_api.loading.none
+                    }, $_api.config),
+                    body = JSON.stringify(self),
+                    propertyId = self.propertyId;
 
-                if (typeof itemID !== 'undefined') {
-                    $http.post($_api.path + '/properties/' + itemID + '/financials/', JSON.stringify(self), config)
-                        .then(function (response) {
-                            defer.resolve(response);
-                        }, function (response) {
-                            defer.reject(response);
-                        });
+                console.log("Saving:", self);
+                if (typeof propertyId !== 'undefined') {
+                    if (self.id) {
+                        $http.put($_api.path + '/properties/' + propertyId + '/finances/' + self.id, body, config)
+                            .then(function (response) {
+                                console.log(response);
+                                defer.resolve(response);
+                            }, function (response) {
+                                defer.reject(response);
+                            });
+                    } else {
+                        console.log("POSTING:",body);
+                        $http.post($_api.path + '/properties/' + propertyId + '/finances/', body, config)
+                            .then(function (response) {
+                                console.log(response);
+                                self.id = response.data.id;
+                                defer.resolve(response);
+                            }, function (response) {
+                                defer.reject(response);
+                            });
+
+                    }
                 } else {
-                    throw new Error("financial.$save received undefined itemID");
+                    throw new Error("Finance.$save received undefined itemID");
                 }
 
                 return defer.promise;
             };
 
-            Financial.prototype.$delete = function (itemID) {
+            Finance.prototype.$delete = function () {
                 var defer = $q.defer(),
                     self = this,
-                    config = angular.extend({
-                        transformRequest: $_api.loading.none
-                    }, $_api.config);
+                    propertyId = self.propertyId;
 
-                if (typeof itemID !== 'undefined') {
+                if (typeof propertyId !== 'undefined') {
                     $http({
                         method: 'DELETE',
-                        url: $_api.path + '/properties/' + itemID + '/financials/',
+                        url: $_api.path + '/properties/' + propertyId + '/finances/' + self.id,
                         headers: {'Content-Type': 'application/json'},
                         withCredentials: true
-                    })
-                        .then(function (response) {
+                    }).then(function (response) {
+                            console.log("delete success", response);
+
                             defer.resolve(response);
                         }, function (response) {
                             defer.reject(response);
                         });
                 } else {
-                    throw new Error("financial.$delete received undefined itemID");
+                    throw new Error("Finance.$delete has no propertyId");
                 }
 
                 return defer.promise;
             };
 
-            return Financial;
+            return Finance;
         }])
-    .service('FinancialFields', function () {
-        var fields = [
-            "Valuation",
-            "IRR",
-            "Growth",
-            "Depreciation",
-            "Growth Rate",
-            "Risk Free Rate",
-            "Interest Rate",
-            "NPV"
-        ];
-        return {
-            fields: fields,
-            addField: function (field) {
-                fields.push(field);
-                return fields;
-            }
+    .factory('PropertyDetails', ['Finance', 'Comment', 'Panes',
+        function (Finance, Comment, Panes) {
+            var panes = [
+                {heading: "Details", active: true},
+                {heading: "Pictures", active: false},
+                {heading: "Contact", active: false},
+                {heading: "Comments", active: false},
+                {heading: "Finances", active: false}
+            ];
+
+            return {
+                Finance: Finance,
+                Comment: Comment,
+                panes: new Panes(panes)
+            };
+        }])
+    .factory('Panes', function () {
+        var Panes = function (data) {
+            var self = this;
+            data = data || {};
+            this.panes = [];
+
+            angular.forEach(data, function (value, key) {
+                if (value.heading) {
+                    self.panes.push({
+                        heading: value.heading,
+                        active: value.active || false
+                    });
+                }
+            });
         };
+
+        Panes.prototype.selectPane = function (paneHeading) {
+            angular.forEach(this.panes, function (pane) {
+                if (pane.heading === paneHeading) {
+                    pane.active = true;
+                } else {
+                    pane.active = false;
+                }
+            });
+        };
+
+        return Panes;
     });
 
 

@@ -19,7 +19,7 @@ angular.module('nebuMarket')
                 if (!item.hasOwnProperty('details')) {
                     item.getDetails();
                 }
-                $scope.selectedItem = item;
+                Items.active = $scope.selectedItem = item;
             };
 
             $scope.centerMap = function (item) {
@@ -103,8 +103,8 @@ angular.module('nebuMarket')
                 $scope.attributes.modified = false;
             });
         }])
-    .controller("FilterController", ['$scope', 'Items', 'Attributes', 'Templates', 'SavedSearch', '$dialog',
-        function ($scope, Items, Attributes, Templates, SavedSearch, $dialog) {
+    .controller("FilterController", ['$scope', 'Items', 'Attributes', 'SavedSearch', '$dialog',
+        function ($scope, Items, Attributes, SavedSearch, $dialog) {
             $scope.selectedSearch = null;
             $scope.savedSearches = SavedSearch.query();
 
@@ -118,7 +118,7 @@ angular.module('nebuMarket')
                         backdropClick: true,
                         dialogFade: true,
                         backdropFade: true,
-                        templateUrl: Templates.saveSearchDialog,
+                        templateUrl: '/views/market/partials/saveSearchDialog.html',
                         controller: "SaveSearchDialogController"
                     }).open()
                         .then(function (result) {
@@ -139,7 +139,6 @@ angular.module('nebuMarket')
                 }
                 // Create a new resource object with existing attributes
                 $scope.selectedSearch = new SavedSearch($scope.attributes);
-                console.log($scope.savedSearches);
                 $scope.selectedSearch.$save().then(function (response) {
                     $scope.savedSearches = SavedSearch.query();
                     $scope.attributes.modified = false;
@@ -193,8 +192,8 @@ angular.module('nebuMarket')
                 });
             };
         }])
-    .controller("ListController", ['$scope', 'detailPanes',
-        function ($scope, detailPanes) {
+    .controller("ListController", ['$scope', 'PropertyDetails',
+        function ($scope, PropertyDetails) {
             $scope.panTo = function (item) {
                 $scope.centerMap(item);
             };
@@ -222,95 +221,96 @@ angular.module('nebuMarket')
 
             $scope.showPictures = function (item) {
                 $scope.selectItem(item);
-                detailPanes.selectPane("Pictures");
+                PropertyDetails.panes.selectPane("Pictures");
             };
 
             $scope.showNotes = function (item) {
                 $scope.selectItem(item);
-                detailPanes.selectPane("Comments");
+                PropertyDetails.panes.selectPane("Comments");
             };
 
             $scope.showDetails = function (item) {
                 $scope.selectItem(item);
-                detailPanes.selectPane("Details");
+                PropertyDetails.panes.selectPane("Details");
             };
 
             $scope.showContact = function (item) {
                 $scope.selectItem(item);
-                detailPanes.selectPane("Contact");
+                PropertyDetails.panes.selectPane("Contact");
             };
         }])
-    .controller("DetailsController", ['$scope', '$http', '$_api', '$timeout', 'detailPanes', 'FinancialFields',
-        function ($scope, $http, $_api, $timeout, detailPanes, FinancialFields) {
+    .controller("DetailsController", ['$scope', '$http', '$_api', '$timeout', 'PropertyDetails',
+        function ($scope, $http, $_api, $timeout, PropertyDetails) {
+            var Finance = PropertyDetails.Finance,
+                Comment = PropertyDetails.Comment;
             $scope.newComment = {};
             $scope.newEmail = {};
-            $scope.panes = detailPanes.panes;
-            $scope.financialFields = FinancialFields;
-
-            $scope.formats = [
-                {icon: '$', class: 'currency', selected: true},
-                {icon: '%', class: 'percentage', selected: false},
-                {icon: '0.0', class: 'number', selected: false}
-            ];
+            $scope.panes = PropertyDetails.panes.panes;
+            $scope.valueFormats = Finance.valueFormats;
+            $scope.financeFields = Finance.fields;
+            $scope.contactAlerts = [];
 
             $scope.addComment = function (comment) {
-                if (comment.text) {
-                    $scope.current.addComment(comment).then(function (response) {
-                        $scope.newComment.text = "";
-                    });
+                if ($scope.formNewComment.$valid) {
+                    $scope.current.addComment(comment).$save();
                 }
             };
 
-            $scope.sendEmail = function () {
-                $scope.newEmail.recipients = [];
+            $scope.sendEmail = function (email) {
+                email.recipients = [];
 
                 angular.forEach($scope.current.details.contacts, function (value, key) {
                     if (value.selected) {
-                        $scope.newEmail.recipients.push(value.email);
+                        email.recipients.push(value.email);
                     }
                 });
 
-                if ($scope.newEmail.recipients.length > 0 && $scope.newEmail.message) {
-                    $http.post($_api.path + '/mail/', JSON.stringify($scope.newEmail), $_api.config).then(function (response) {
-                        // Need to check for successful email
-                        $scope.newEmail.sent = true;
-                        $timeout(function () {
-                            $scope.newEmail.sent = false;
-                        }, 1500);
-                        $scope.newEmail.message = "";
-                    }, function (response) {
-                        throw new Error("Could not send email: " + response.error);
-                    });
+                if (email.recipients.length > 0 && email.message) {
+                    var path = $_api.path + '/properties/' + $scope.current.id + '/contact/',
+                        config = angular.extend({
+                            transformRequest: function (data) {
+                                $scope.contactAlerts = [{
+                                    type: 'info',
+                                    msg: 'Sending..'
+                                }];
+                                return data;
+                            }
+                        }, $_api.config),
+                        body = JSON.stringify(email);
+
+                    $http.post(path, body, config).then(
+                        function (response) {
+                            email.message = "";
+                            $scope.contactAlerts = [{
+                                type: 'success',
+                                msg: 'Message sent!'
+                            }];
+                        },
+                        function (response) {
+                            $scope.contactAlerts = [{
+                                type: 'error',
+                                msg: 'Message failed to send'
+                            }];
+                        }
+                    );
+                } else {
+                    $scope.contactAlerts = [{
+                        type: 'error',
+                        msg: 'Please select recipients and provide a message!'
+                    }];
                 }
             };
 
-            $scope.saveNote = function (property) {
-                property.saveNote().then(
-                    function () {
-                        $scope.$broadcast('autoSaveSuccess');
-                    },
-                    function (err) {
-                        console.log('error saving note', err);
-                    }
-                );
+            $scope.saveFinance = function (finance) {
+                finance.$save();
             };
 
-            $scope.addFinancial = function () {
-                $scope.current.addFinancial();
+            $scope.addFinance = function () {
+                $scope.current.addFinance({});
             };
 
-            $scope.saveFinancialModel = function (item) {
-                $scope.current.saveFinancial(item);
-                if (!_.find($scope.financialFields.fields, function (value) {
-                    return value == item.title
-                })) {
-                    $scope.financialFields.fields = FinancialFields.addField(item.title);
-                }
+            $scope.deleteFinance = function (finance) {
+                $scope.current.deleteFinance(finance).$delete();
             };
-
-            $scope.deleteFinancialModel = function (item) {
-                $scope.current.deleteFinancial(item);
-            };
-
         }]);
 

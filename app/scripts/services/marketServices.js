@@ -263,7 +263,7 @@ angular.module('nebuMarket')
                 }
             };
 
-            Item.prototype.getAddressStr = function() {
+            Item.prototype.getAddress = function() {
                 var addressStr = '';
 
                 if (this.address.street1) {
@@ -279,7 +279,13 @@ angular.module('nebuMarket')
                 }
 
                 return addressStr;
-            }
+            };
+
+            Item.prototype.getImages = function () {
+                return this.details ? _.map(this.details.images, function (value) {
+                    return value;
+                }) : undefined;
+            };
 
             return Item;
         }])

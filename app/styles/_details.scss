@@ -55,6 +55,10 @@ $detailsHeaderColor: $light-gray;
     }
   }
 
+  .carousel-inner {
+    min-height: 40px;
+  }
+
   .carousel-control {
     top: 50%;
   }

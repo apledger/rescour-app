@@ -243,13 +243,12 @@ angular.module('nebuMarket')
         function ($scope, $http, $_api, $timeout, PropertyDetails) {
             var Finance = PropertyDetails.Finance,
                 Comment = PropertyDetails.Comment;
-
             $scope.newComment = {};
             $scope.newEmail = {};
             $scope.panes = PropertyDetails.panes.panes;
             $scope.valueFormats = Finance.valueFormats;
             $scope.financeFields = Finance.fields;
-
+            $scope.contactAlerts = [];
 
             $scope.addComment = function (comment) {
                 if ($scope.formNewComment.$valid) {
@@ -266,17 +265,39 @@ angular.module('nebuMarket')
                     }
                 });
 
-                if (email.length > 0 && email.message) {
-                    $http.post($_api.path + '/mail/', JSON.stringify(email), $_api.config).then(function (response) {
-                        // Need to check for successful email
-                        email.sent = true;
-                        $timeout(function () {
-                            email.sent = false;
-                        }, 1500);
-                        email.message = "";
-                    }, function (response) {
-                        throw new Error("Could not send email: " + response.error);
-                    });
+                if (email.recipients.length > 0 && email.message) {
+                    var path = $_api.path + '/properties/' + $scope.current.id + '/contact/',
+                        config = angular.extend({
+                            transformRequest: function (data) {
+                                $scope.contactAlerts = [{
+                                    type: 'info',
+                                    msg: 'Sending..'
+                                }];
+                                return data;
+                            }
+                        }, $_api.config),
+                        body = JSON.stringify(email);
+
+                    $http.post(path, body, config).then(
+                        function (response) {
+                            email.message = "";
+                            $scope.contactAlerts = [{
+                                type: 'success',
+                                msg: 'Message sent!'
+                            }];
+                        },
+                        function (response) {
+                            $scope.contactAlerts = [{
+                                type: 'error',
+                                msg: 'Message failed to send'
+                            }];
+                        }
+                    );
+                } else {
+                    $scope.contactAlerts = [{
+                        type: 'error',
+                        msg: 'Please select recipients and provide a message!'
+                    }];
                 }
             };
 

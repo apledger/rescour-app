@@ -3,7 +3,7 @@
 <div class="page-header clearfix">
     <button class="btn pull-right" ng-click="close()"><i class="icon-arrow-left"></i>&nbsp;Back to map</button>
     <h2>{{current.title}}</h2>
-    <h4>{{current.getAddressStr()}}</h4>
+    <h4>{{current.getAddress()}}</h4>
 </div>
 <div class="span12">
 <div tabs>
@@ -145,24 +145,22 @@
 
 <div pane class="container-fluid picture-container" heading="{{panes[1].heading}}" active="panes[1].active">
     <div class="row-fluid">
-        <div class="span8 offset2" ng-show="current.details.images.length > 0">
+        <div class="span8 offset2" ng-show="current.getImages().length > 0">
             <div carousel no-transition="true">
-                <div slide ng-repeat="slide in current.details.images" active="slide.active">
+                <div slide ng-repeat="slide in current.getImages()" active="slide.active">
                     <img ng-src="{{slide.link}}" style="margin:auto;">
-                    <div class="counter">{{$index + 1}} of {{current.details.images.length}}</div>
+                    <div class="counter">{{$index + 1}} of {{current.getImages().length}}</div>
                 </div>
             </div>
         </div>
-        <div class="span8 alert alert-info" ng-show="current.details.images.length == 0">
+        <div class="span8 alert alert-info" ng-show="current.getImages().length == 0">
             <strong>Sorry!</strong> We don't have any images for this listing.
         </div>
     </div>
 </div>
 
 <div pane class="container-fluid" heading="{{panes[2].heading}}" active="panes[2].active">
-    <div class="alert alert-success" ng-show="newEmail.sent"><i class="icon-email"></i>&nbsp;&nbsp;Message
-        Sent!
-    </div>
+    <div alert type="alert.type" fade-after="2000" ng-repeat="alert in contactAlerts">{{alert.msg}}</div>
     <form class="contact-form" ng-show="current.details.contacts.length > 0">
         <div class="control-group">
             <div class="control-label">To:</div>

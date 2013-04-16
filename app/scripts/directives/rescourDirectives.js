@@ -156,4 +156,15 @@ rescourApp
                 element.addClass('auto-save');
             }
         };
+    }])
+    .directive('fadeAfter', ['$timeout', function ($timeout) {
+        return {
+            link: function (scope, element, attrs) {
+                if (parseInt(attrs.fadeAfter, 10)) {
+                    $timeout(function () {
+                        element.fadeOut(700);
+                    }, attrs.fadeAfter);
+                }
+            }
+        };
     }]);

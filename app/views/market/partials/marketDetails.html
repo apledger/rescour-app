@@ -3,8 +3,7 @@
 <div class="page-header clearfix">
     <button class="btn pull-right" ng-click="close()"><i class="icon-arrow-left"></i>&nbsp;Back to map</button>
     <h2>{{current.title}}</h2>
-    <h4>{{current.address.street1}}<span ng-show="current.address.street1">,</span> <strong>{{current.address.city}},
-        {{current.address.state}}</strong> {{current.address.zip}}</h4>
+    <h4>{{current.getAddressStr()}}</h4>
 </div>
 <div class="span12">
 <div tabs>

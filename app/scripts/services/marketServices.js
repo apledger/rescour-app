@@ -271,12 +271,14 @@ angular.module('nebuMarket')
                     addressStr += this.address.street1 + ' ';
                 }
                 if (this.address.state) {
-                    addressStr += address.city ? address.city + ', ' + address.state : address.state;
+                    addressStr += this.address.city ? this.address.city + ', ' + this.address.state : this.address.state;
                     addressStr += ' ';
                 }
                 if (this.address.zip) {
-                    address += this.address.zip;
+                    addressStr += this.address.zip;
                 }
+
+                return addressStr;
             }
 
             return Item;

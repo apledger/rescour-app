@@ -189,7 +189,7 @@ angular.module('nebuMarket')
                 return defer.promise;
             };
 
-            Item.prototype.deleteFinance = function (Finance) {
+            Item.prototype.deleteFinance = function (finance) {
                 var defer = $q.defer(),
                     body = {},
                     config = angular.extend({
@@ -197,11 +197,11 @@ angular.module('nebuMarket')
                     }, $_api.config),
                     self = this;
 
-                this.details.Finances = _.reject(this.details.Finances, function (value) {
+                this.details.finances = _.reject(this.details.finances, function (value) {
                     return value.id === Finance.id;
                 });
 
-                Finance.$delete(this.id)
+                finance.$delete(this.id)
                     .then(function (response) {
                         defer.resolve(response);
                     }, function (response) {

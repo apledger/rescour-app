@@ -276,6 +276,21 @@ angular.module('nebuMarket')
                 }
             };
 
+            Item.prototype.getAddressStr = function() {
+                var addressStr = '';
+
+                if (this.address.street1) {
+                    addressStr += this.address.street1 + ' ';
+                }
+                if (this.address.state) {
+                    addressStr += address.city ? address.city + ', ' + address.state : address.state;
+                    addressStr += ' ';
+                }
+                if (this.address.zip) {
+                    address += this.address.zip;
+                }
+            }
+
             return Item;
         }])
     .factory('Filter', ['Attributes',

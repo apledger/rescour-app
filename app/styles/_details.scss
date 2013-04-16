@@ -34,19 +34,20 @@ $detailsHeaderColor: $light-gray;
 .picture-container {
   width: 600px;
 
-  h4 {
+  .counter {
     position: absolute;
-    top: 0px;
+    top: 10px;
     left: 10px;
-    padding: 0 12px 0 12px;
-    height: 32px;
+    padding: 5px 10px; 
+    width: auto;
     color: white;
     text-align: center;
-    line-height: 32px;
+    font-size: 13px;
+    font-weight: bold;
     background: #222222;
     border: 3px solid white;
     @include border-radius(23px);
-    opacity: 0.5;
+    opacity: 0.7;
 
     &:hover {
       opacity: 0.8;

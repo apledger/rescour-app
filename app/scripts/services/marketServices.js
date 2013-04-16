@@ -270,6 +270,7 @@ angular.module('nebuMarket')
                     addressStr += this.address.street1 + ' ';
                 }
                 if (this.address.state) {
+                    addressStr += ', ';
                     addressStr += this.address.city ? this.address.city + ', ' + this.address.state : this.address.state;
                     addressStr += ' ';
                 }

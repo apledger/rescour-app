@@ -143,13 +143,13 @@
     </div>
 </div>
 
-<div pane class="container-fluid" heading="{{panes[1].heading}}" active="panes[1].active">
+<div pane class="container-fluid picture-container" heading="{{panes[1].heading}}" active="panes[1].active">
     <div class="row-fluid">
         <div class="span8 offset2" ng-show="current.details.images.length > 0">
             <div carousel no-transition="true">
                 <div slide ng-repeat="slide in current.details.images" active="slide.active">
                     <img ng-src="{{slide.link}}" style="margin:auto;">
-                    <div>Picture {{$index + 1}} of {{current.details.images.length}} 
+                    <h4>{{$index + 1}} of {{current.details.images.length}}</h4>
                 </div>
             </div>
         </div>

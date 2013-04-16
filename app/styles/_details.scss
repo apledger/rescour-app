@@ -33,6 +33,38 @@ $detailsHeaderColor: $light-gray;
 
 .picture-container {
   width: 600px;
+
+  h4 {
+    position: absolute;
+    top: 0px;
+    left: 10px;
+    padding: 0 12px 0 12px;
+    height: 32px;
+    color: white;
+    text-align: center;
+    line-height: 32px;
+    background: #222222;
+    border: 3px solid white;
+    @include border-radius(23px);
+    opacity: 0.5;
+
+    &:hover {
+      opacity: 0.8;
+      cursor: default;
+    }
+  }
+
+  .carousel-control {
+    top: 50%;
+  }
+
+  .left, {
+    left: -55px;
+  }
+
+  .right {
+    right: -55px;
+  }
 }
 
 .contact-selected strong {

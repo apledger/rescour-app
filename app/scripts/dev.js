@@ -81,14 +81,10 @@ angular.module('rescour.app.dev', ['rescour.app', 'ngMockE2E'])
                 },
                 range: {
                     "Year Built": {
-                        title: "Year Created",
-                        ids: [],
                         highSelected: 2000,
                         lowSelected: 1990
                     },
                     "Number of Units": {
-                        title: "Number of Units",
-                        ids: [],
                         highSelected: 400,
                         lowSelected: 140
                     }
@@ -316,7 +312,7 @@ angular.module('rescour.app.dev', ['rescour.app', 'ngMockE2E'])
 
             itemDetails[k] = {
                 comments: [],
-                financials: [],
+                finances: [],
                 callForOffers: "2013-04-12T04:00:00.000Z",
                 tourDates: [
                     {date: '2013-03-19T04:00:00.000Z'},
@@ -452,22 +448,22 @@ angular.module('rescour.app.dev', ['rescour.app', 'ngMockE2E'])
                 return [200, { id: _comment.id }, {}];
             });
 
-        $httpBackend.whenPOST(/\/properties\/[0-9]+\/financials\//).respond(
+        $httpBackend.whenPOST(/\/properties\/[0-9]+\/finances\//).respond(
             function (method, url, data, headers) {
-                var _financial = angular.fromJson(data),
+                var _finance = angular.fromJson(data),
                     item_id = url.split("/")[2];
 
-                _financial._id = Date.now();
-                itemDetails[item_id].financials[_financial._id] = _financial;
-                return [200, { id: _financial._id }, {}];
+                _finance._id = Date.now();
+                itemDetails[item_id].finances[_finance._id] = _finance;
+                return [200, { id: _finance._id }, {}];
             });
 
-        $httpBackend.whenPUT(/\/properties\/[0-9]+\/financials\/[0-9]+/).respond(
+        $httpBackend.whenPUT(/\/properties\/[0-9]+\/finances\/[0-9]+/).respond(
             function (method, url, data, headers) {
-                var _financial = angular.fromJson(data),
+                var _finance = angular.fromJson(data),
                     item_id = url.split("/")[2],
-                    financial_id = url.split("/")[4];
-                itemDetails[item_id].financials[financial_id] = _financial;
+                    finance_id = url.split("/")[4];
+                itemDetails[item_id].finances[finance_id] = _finance;
                 return [200, { }, {}];
             });
 
@@ -493,14 +489,14 @@ angular.module('rescour.app.dev', ['rescour.app', 'ngMockE2E'])
         $httpBackend.whenGET('/search/').respond({resources: saved });
         // adds a new phone to the phones array
         $httpBackend.whenPOST('/search/').respond(function (method, url, data, headers) {
-            var _saved = angular.fromJson(data).saved_search;
+            var _saved = angular.fromJson(data).savedSearch;
             _saved.id = saved.length + 1;
             saved.push(_saved);
             return [200, { id: _saved.id }, {}];
         });
 
         $httpBackend.whenPUT(/\/search\/[0-9]+/).respond(function (method, url, data, headers) {
-            var _saved = angular.fromJson(data).saved_search;
+            var _saved = angular.fromJson(data).savedSearch;
             for (var i = 0; i < saved.length; i++) {
                 if (saved[i].id == _saved.id) {
                     saved[i] = _saved;

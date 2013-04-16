@@ -112,15 +112,18 @@ angular.module('nebuMarket')
                     defer = $q.defer(),
                     config = angular.extend({
                         transformRequest: $_api.loading.details
-                    }, $_api.config);
+                    }, $_api.config),
+                    locals = {};
 
                 $http.get($_api.path + '/properties/' + this.id, config).then(function (response) {
                     self.details = {};
                     angular.copy(response.data, self.details);
                     try {
                         if (angular.isArray(self.details.comments)) {
-                            for (var i = 0, len = self.details.comments.length; i < len; i++) {
-                                self.details.comments[i] = new Comment(self.details.comments[i]);
+                            locals.comments = self.details.comments;
+                            self.details.comments = [];
+                            for (var i = 0, len = locals.comments.length; i < len; i++) {
+                                self.addComment(locals.comments[i]);
                             }
 
                         } else {
@@ -130,7 +133,6 @@ angular.module('nebuMarket')
                         if (angular.isArray(self.details.finances)) {
                             for (var i = 0, len = self.details.finances.length; i < len; i++) {
                                 self.details.finances[i] = new Finance(self.details.finances[i]);
-                                console.log(self.details.finances[i]);
                             }
                         } else {
                             throw new Error("Finances are not an array");
@@ -147,46 +149,32 @@ angular.module('nebuMarket')
             };
 
             Item.prototype.addComment = function (comment) {
-                var defer = $q.defer(),
-                    self = this;
+                var newComment = new Comment(comment);
 
-                if (angular.isArray(this.details.comments)){
-                    self.details.comments.push(comment);
-                    self.hasComments = true;
+                newComment.propertyId = newComment.propertyId || this.id;
+
+                if (angular.isArray(this.details.comments)) {
+                    this.details.comments.push(newComment);
+                    this.hasComments = true;
                 } else {
-                    self.details.comments = [comment];
+                    this.details.comments = [newComment];
                 }
 
-                comment.$save(this.id).then(function (response) {
-                    defer.resolve(response);
-                }, function (response) {
-                    self.refreshComments();
-                    defer.reject(response);
-                });
-
-                return defer.promise;
+                return newComment;
             };
 
             Item.prototype.addFinance = function (finance) {
-                var defer = $q.defer(),
-                    self = this;
-                console.log(finance);
-                finance.propertyId = finance.propertyId || self.id;
+                var newFinance = new Finance(finance);
+
+                newFinance.propertyId = newFinance.propertyId || this.id;
 
                 if (angular.isArray(this.details.finances)) {
-                    this.details.finances.push(finance);
+                    this.details.finances.push(newFinance);
                 } else {
-                    this.details.finances = [finance];
+                    this.details.finances = [newFinance];
                 }
 
-                finance.$save(this.id).then(function (response) {
-                    defer.resolve(response);
-                }, function (response) {
-                    self.getDetails();
-                    defer.reject(response);
-                });
-
-                return defer.promise;
+                return newFinance;
             };
 
             Item.prototype.deleteFinance = function (finance) {
@@ -718,13 +706,15 @@ angular.module('nebuMarket')
             var Comment = function (data) {
                 data = data || {};
                 this.text = data.text || "";
+                this.id = data.id || undefined;
+                this.propertyId = data.propertyId || undefined;
                 this.timestamp = data.timestamp || new Date().getTime();
                 this.userEmail = data.userEmail || (User.profile ? User.profile.email : "You");
             };
 
             Comment.query = function (itemID) {
                 var config = angular.extend({
-                        transformRequest: $_api.loading.none
+                        transformRequest: angular.isFunction(transformFn) ? transformFn : $_api.loading.none
                     }, $_api.config),
                     defer = $q.defer();
 
@@ -742,15 +732,15 @@ angular.module('nebuMarket')
                 return defer.promise;
             };
 
-            Comment.prototype.$save = function (itemID) {
+            Comment.prototype.$save = function (transformFn) {
                 var defer = $q.defer(),
                     self = this,
                     config = angular.extend({
                         transformRequest: $_api.loading.none
-                    }, $_api.config);
+                    }, $_api.config),
+                    propertyId = self.propertyId;
 
-                console.log(self);
-                if (typeof itemID !== 'undefined') {
+                if (typeof propertyId !== 'undefined') {
                     $http.post($_api.path + '/properties/' + itemID + '/comments/', JSON.stringify(self), config)
                         .then(function (response) {
                             defer.resolve(response);
@@ -758,7 +748,7 @@ angular.module('nebuMarket')
                             defer.reject(response);
                         });
                 } else {
-                    throw new Error("comment.$save received undefined itemID");
+                    throw new Error("Comment does not have propertyId");
                 }
 
                 return defer.promise;
@@ -769,8 +759,9 @@ angular.module('nebuMarket')
     .factory('Finance', ['$_api', '$q', '$http',
         function ($_api, $q, $http) {
 
-            var Finance = function (data, propertyId) {
+            var Finance = function (data) {
                 data = data || {};
+                console.log(data);
                 this.id = data.id || undefined;
                 this.propertyId = data.propertyId || undefined;
                 this.title = data.title || '';
@@ -795,12 +786,12 @@ angular.module('nebuMarket')
                 "Price / Unit"
             ];
 
-            Finance.query = function (itemID) {
+            Finance.query = function () {
                 var config = angular.extend({
                         transformRequest: $_api.loading.none
                     }, $_api.config),
                     defer = $q.defer(),
-                    propertyId = self.propertyId || itemID;
+                    propertyId = self.propertyId;
 
                 if (typeof propertyId !== 'undefined') {
                     $http.get($_api.path + '/properties/' + propertyId + '/finances/', config).then(function (response) {
@@ -825,18 +816,21 @@ angular.module('nebuMarket')
                     body = JSON.stringify(self),
                     propertyId = self.propertyId;
 
+                console.log("Saving:", self);
                 if (typeof propertyId !== 'undefined') {
                     if (self.id) {
                         $http.put($_api.path + '/properties/' + propertyId + '/finances/' + self.id + '/', body, config)
                             .then(function (response) {
+                                console.log(response);
                                 defer.resolve(response);
                             }, function (response) {
                                 defer.reject(response);
                             });
                     } else {
-                        console.log(body);
+                        console.log("POSTING:",body);
                         $http.post($_api.path + '/properties/' + propertyId + '/finances/', body, config)
                             .then(function (response) {
+                                console.log(response);
                                 self.id = response.data.id;
                                 defer.resolve(response);
                             }, function (response) {
@@ -909,8 +903,6 @@ angular.module('nebuMarket')
                     });
                 }
             });
-
-            console.log(this);
         };
 
         Panes.prototype.selectPane = function (paneHeading) {

@@ -196,11 +196,11 @@
             <p>{{comment.text}}</p>
         </div>
     </div>
-    <form name="formComment" novalidate>
+    <form name="formNewComment" novalidate>
         <div class="control-group">
             <div class="control-label">Comment:</div>
             <div class="controls">
-                <textarea rows="6" class="span12" ng-model="newComment.text"></textarea>
+                <textarea rows="6" class="span12" required ng-model="newComment.text"></textarea>
             </div>
         </div>
 
@@ -239,7 +239,7 @@
                             ng-model="finance.valueFormat" ng-change="saveFinance(finance)"></select>
                 </li>
                 <li>
-                    <a href="javascript:" class="btn btn-success" ng-click="newFinance()">Add Finance Note</a>
+                    <a href="javascript:" class="btn btn-success" ng-click="addFinance()">Add Finance Note</a>
                 </li>
             </ul>
         </div>

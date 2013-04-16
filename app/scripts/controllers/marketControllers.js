@@ -139,7 +139,6 @@ angular.module('nebuMarket')
                 }
                 // Create a new resource object with existing attributes
                 $scope.selectedSearch = new SavedSearch($scope.attributes);
-                console.log($scope.savedSearches);
                 $scope.selectedSearch.$save().then(function (response) {
                     $scope.savedSearches = SavedSearch.query();
                     $scope.attributes.modified = false;
@@ -253,11 +252,8 @@ angular.module('nebuMarket')
 
 
             $scope.addComment = function (comment) {
-                var newComment = new Comment(comment);
-                if ($scope.formComment.$valid) {
-                    $scope.current.addComment(newComment).then(function (response) {
-                        comment.text = "";
-                    });
+                if ($scope.formNewComment.$valid) {
+                    $scope.current.addComment(comment).$save();
                 }
             };
 
@@ -288,9 +284,8 @@ angular.module('nebuMarket')
                 finance.$save();
             };
 
-            $scope.newFinance = function () {
-                $scope.newFinance = new Finance();
-                $scope.current.addFinance($scope.newFinance);
+            $scope.addFinance = function () {
+                $scope.current.addFinance({});
             };
 
             $scope.deleteFinance = function (finance) {

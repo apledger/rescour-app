@@ -149,6 +149,7 @@
             <div carousel no-transition="true">
                 <div slide ng-repeat="slide in current.getImages()" active="slide.active">
                     <img ng-src="{{slide.link}}" style="margin:auto;">
+
                     <div class="counter">{{$index + 1}} of {{current.getImages().length}}</div>
                 </div>
             </div>
@@ -210,30 +211,33 @@
     </form>
 </div>
 
-<div pane class="container-fluid financials-container" heading="{{panes[4].heading}}" active="panes[4].active">
+<div pane class="container-fluid finance-container" heading="{{panes[4].heading}}" active="panes[4].active">
     <div class="row-fluid">
         <div class="span12">
             <ul>
-                <li ng-repeat="finance in current.details.finances" class="dropdown">
-                    <button class="btn btn-danger financials-delete" ng-click="deleteFinance(finance)"><i
-                            class="icon-remove-sign"></i>
-                    </button>
-                    <div class="financials-title">
+                <li ng-repeat="finance in current.details.finances">
+                    <a href="javascript:" class="finance-delete"   ng-click="deleteFinance(finance)">
+                        <i class="icon-remove-sign"></i>
+                    </a>
+
+                    <div class="finance-box">
                         <input placeholder="Financial Metric" name="name"
                                type="text" ng-model="finance.name"
                                class="input-medium"
                                typeahead-select="field for field in financeFields | filter:$viewValue">
                     </div>
 
-                    <div class="financials-value">
+
+                    <div class="finance-box">
                         <input placeholder="Value" type="text" format-input="{{finance.valueFormat}}" name="value"
                                ng-blur="saveFinance(finance)" ng-model="finance.value"
                                class="input-small">
+                        <select ng-options="format.valueFormat as format.icon for format in valueFormats"
+                                class="finance-class"
+                                ng-model="finance.valueFormat" ng-change="saveFinance(finance)"></select>
                     </div>
 
-                    <select ng-options="format.valueFormat as format.icon for format in valueFormats"
-                            class="financials-class"
-                            ng-model="finance.valueFormat" ng-change="saveFinance(finance)"></select>
+                    <div class="finance-box"></div>
                 </li>
                 <li>
                     <a href="javascript:" class="btn btn-success" ng-click="addFinance()">Add Finance Note</a>

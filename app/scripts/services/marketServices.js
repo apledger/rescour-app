@@ -178,24 +178,12 @@ angular.module('nebuMarket')
             };
 
             Item.prototype.deleteFinance = function (finance) {
-                var defer = $q.defer(),
-                    body = {},
-                    config = angular.extend({
-                        transformRequest: $_api.loading.none
-                    }, $_api.config),
-                    self = this;
 
                 this.details.finances = _.reject(this.details.finances, function (value) {
-                    return value.id === Finance.id;
+                    return angular.equals(value, finance);
                 });
 
-                finance.$delete(this.id)
-                    .then(function (response) {
-                        defer.resolve(response);
-                    }, function (response) {
-                        self.getDetails();
-                        defer.reject(response);
-                    });
+                return finance;
             };
 
             Item.prototype.toggleFavorites = function () {
@@ -764,9 +752,9 @@ angular.module('nebuMarket')
                 console.log(data);
                 this.id = data.id || undefined;
                 this.propertyId = data.propertyId || undefined;
-                this.title = data.title || '';
+                this.name = data.name || '';
                 this.valueFormat = data.valueFormat || 'currency';
-                if (angular.isDefined(data.value) && angular.isNumber(data.value)) {
+                if (angular.isDefined(data.value) && angular.isNumber(parseFloat(data.value))) {
                     this.value = data.value;
                 } else {
                     this.value = undefined;
@@ -819,7 +807,7 @@ angular.module('nebuMarket')
                 console.log("Saving:", self);
                 if (typeof propertyId !== 'undefined') {
                     if (self.id) {
-                        $http.put($_api.path + '/properties/' + propertyId + '/finances/' + self.id + '/', body, config)
+                        $http.put($_api.path + '/properties/' + propertyId + '/finances/' + self.id, body, config)
                             .then(function (response) {
                                 console.log(response);
                                 defer.resolve(response);
@@ -845,27 +833,26 @@ angular.module('nebuMarket')
                 return defer.promise;
             };
 
-            Finance.prototype.$delete = function (itemID) {
+            Finance.prototype.$delete = function () {
                 var defer = $q.defer(),
                     self = this,
-                    config = angular.extend({
-                        transformRequest: $_api.loading.none
-                    }, $_api.config);
+                    propertyId = self.propertyId;
 
-                if (typeof itemID !== 'undefined') {
+                if (typeof propertyId !== 'undefined') {
                     $http({
                         method: 'DELETE',
-                        url: $_api.path + '/properties/' + itemID + '/finances/',
+                        url: $_api.path + '/properties/' + propertyId + '/finances/' + self.id,
                         headers: {'Content-Type': 'application/json'},
                         withCredentials: true
-                    })
-                        .then(function (response) {
+                    }).then(function (response) {
+                            console.log("delete success", response);
+
                             defer.resolve(response);
                         }, function (response) {
                             defer.reject(response);
                         });
                 } else {
-                    throw new Error("Finance.$delete received undefined itemID");
+                    throw new Error("Finance.$delete has no propertyId");
                 }
 
                 return defer.promise;

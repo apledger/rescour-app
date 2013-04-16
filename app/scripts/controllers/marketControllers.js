@@ -289,7 +289,7 @@ angular.module('nebuMarket')
             };
 
             $scope.deleteFinance = function (finance) {
-                finance.$delete();
+                $scope.current.deleteFinance(finance).$delete();
             };
         }]);
 

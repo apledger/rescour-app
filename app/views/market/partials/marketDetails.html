@@ -149,6 +149,7 @@
             <div carousel no-transition="true">
                 <div slide ng-repeat="slide in current.details.images" active="slide.active">
                     <img ng-src="{{slide.link}}" style="margin:auto;">
+                    <div>Picture {{$index + 1}} of {{current.details.images.length}} 
                 </div>
             </div>
         </div>

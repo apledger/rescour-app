@@ -3,8 +3,7 @@
 <div class="page-header clearfix">
     <button class="btn pull-right" ng-click="close()"><i class="icon-arrow-left"></i>&nbsp;Back to map</button>
     <h2>{{current.title}}</h2>
-    <h4>{{current.address.street1}}<span ng-show="current.address.street1">,</span> <strong>{{current.address.city}},
-        {{current.address.state}}</strong> {{current.address.zip}}</h4>
+    <h4>{{current.getAddressStr()}}</h4>
 </div>
 <div class="span12">
 <div tabs>
@@ -59,7 +58,15 @@
                         <strong>Flyer</strong>
                     </td>
                     <td>
-                        <a target="_blank" ng-href="{{current.flyer}}">View</a>
+                        <a ng-show="current.details.flyer" target="_blank" ng-href="{{current.details.flyer}}">View</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <strong>Site</strong>
+                    </td>
+                    <td>
+                        <a ng-show="current.details.flyer" target="_blank" ng-href="{{current.details.flyer}}">View</a>
                     </td>
                 </tr>
                 </tbody>
@@ -70,7 +77,8 @@
         <div class="span12">
             <div class="page-header">
             </div>
-                <p class="lead">Description</p>
+            <p class="lead">Description</p>
+
             <p>{{current.description}}</p>
         </div>
     </div>
@@ -78,7 +86,7 @@
     <div class="row-fluid">
         <div class="span12" ng-show="current.details.unitMix">
             <div class="page-header"></div>
-                <p class="lead">Property Unit Mix</p>
+            <p class="lead">Property Unit Mix</p>
             <table class="table table-condensed table-striped">
                 <thead>
                 <tr>
@@ -116,7 +124,7 @@
         <div class="span4" ng-show="current.details.tourDates">
             <div class="page-header">
             </div>
-                <p class="lead">Tour Dates</p>
+            <p class="lead">Tour Dates</p>
             <table class="table table-condensed table-striped">
                 <thead>
                 <tr>
@@ -137,7 +145,9 @@
 
 <div pane class="container-fluid" heading="{{panes[1].heading}}" active="panes[1].active">
     <div class="row-fluid">
-        <div class="span8 alert alert-info" ng-show="!current.details.images">Sorry!  It seems we do not have any images for this property.</div>
+        <div class="span8 alert alert-info" ng-show="!current.details.images">Sorry! It seems we do not have any images
+            for this property.
+        </div>
         <div class="span8 offset2" ng-show="current.details.images">
             <div carousel no-transition="true">
                 <div slide ng-repeat="slide in current.details.images" active="slide.active">
@@ -170,7 +180,7 @@
                 <textarea rows="6" class="span10" ng-model="newEmail.message"></textarea>
             </div>
         </div>
-        <button class="btn btn-info" ng-click="sendEmail()">Send</button>
+        <button class="btn btn-info" ng-click="sendEmail(newEmail)">Send</button>
     </form>
     <div class="alert alert-info" ng-show="current.details.contacts.length == 0"><strong>Sorry!</strong> We don't
         have any contacts for this listing.
@@ -180,16 +190,16 @@
 <div pane class="container-fluid" heading="{{panes[3].heading}}" active="panes[3].active">
     <div ng-repeat="comment in current.details.comments">
         <div class="alert alert-info comment-alert">
-            <h5>{{comment.user_email}} <span>{{comment.timestamp | date}}</span></h5>
+            <h5>{{comment.userEmail}} <span>{{comment.timestamp | date}}</span></h5>
 
             <p>{{comment.text}}</p>
         </div>
     </div>
-    <form>
+    <form name="formNewComment" novalidate>
         <div class="control-group">
             <div class="control-label">Comment:</div>
             <div class="controls">
-                <textarea rows="6" class="span12" ng-model="newComment.text"></textarea>
+                <textarea rows="6" class="span12" required ng-model="newComment.text"></textarea>
             </div>
         </div>
 
@@ -202,45 +212,38 @@
     </form>
 </div>
 
-<!--<div pane class="container-fluid financials-container" heading="{{panes[4].heading}}" active="panes[4].active">-->
-    <!--<form class="form-horizontal">-->
+<div pane class="container-fluid financials-container" heading="{{panes[4].heading}}" active="panes[4].active">
+    <div class="row-fluid">
+        <div class="span12">
+            <ul>
+                <li ng-repeat="finance in current.details.finances" class="dropdown">
+                    <button class="btn btn-danger financials-delete" ng-click="deleteFinance(finance)"><i
+                            class="icon-remove-sign"></i>
+                    </button>
+                    <div class="financials-title">
+                        <input placeholder="Financial Metric" name="name"
+                               type="text" ng-model="finance.name"
+                               class="input-medium"
+                               typeahead-select="field for field in financeFields | filter:$viewValue">
+                    </div>
 
-        <!--<div class="control-list">-->
-            <!--<ul>-->
-                <!--<li ng-repeat="financial in current.details.financials" class="dropdown">-->
-                    <!--<button class="btn btn-danger financials-delete" ng-click="deleteFinancialModel(financial)"><i-->
-                            <!--class="icon-remove-sign"></i>-->
-                    <!--</button>-->
+                    <div class="financials-value">
+                        <input placeholder="Value" type="text" format-input="{{finance.valueFormat}}" name="value"
+                               ng-blur="saveFinance(finance)" ng-model="finance.value"
+                               class="input-small">
+                    </div>
 
-                    <!--<form novalidate class="form-inline" name="formDataModel">-->
-                        <!--<div class="financials-title">-->
-                            <!--<input placeholder="Financial Metric" name="title" ng-blur="saveFinancialModel(financial)"-->
-                                   <!--type="text" ng-model="financial.title"-->
-                                   <!--class="input-medium"-->
-                                   <!--typeahead="field for field in financialFields.fields | filter:$viewValue">-->
-                        <!--</div>-->
-
-                        <!--<div class="financials-value">-->
-                            <!--<input placeholder="Value" type="text" format-input="{{financial.class}}" name="value"-->
-                                   <!--ng-blur="saveDataModel(financial)" ng-model="financial.value"-->
-                                   <!--class="input-small">-->
-                        <!--</div>-->
-
-                        <!--<select ng-options="format.class as format.icon for format in formats" class="financials-class"-->
-                                <!--ng-model="financial.class" ng-change="saveFinancialModel(financial)"></select>-->
-                    <!--</form>-->
-                <!--</li>-->
-            <!--</ul>-->
-        <!--</div>-->
-
-        <!--<div class="control-group">-->
-            <!--<button class="btn btn-success" ng-click="addFinancial()"><i class="icon icon-plus-sign"></i>-->
-            <!--</button>-->
-            <!--Add New Field-->
-        <!--</div>-->
-
-    <!--</form>-->
-<!--</div>-->
+                    <select ng-options="format.valueFormat as format.icon for format in valueFormats"
+                            class="financials-class"
+                            ng-model="finance.valueFormat" ng-change="saveFinance(finance)"></select>
+                </li>
+                <li>
+                    <a href="javascript:" class="btn btn-success" ng-click="addFinance()">Add Finance Note</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
 </div>
 </div>
 </div>

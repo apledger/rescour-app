@@ -1,5 +1,6 @@
 <header>
     <a class="logo" href="/"></a>
+
     <div class="navbar market-controls">
         <ul class="nav" style="margin-left:15px;">
             <li ng-class="{'active': toggle == 'all'}" tooltip="Display All" tooltip-placement="bottom">
@@ -9,10 +10,12 @@
                 <a ng-click="listFavorites()" href="javascript:"><i class="icon-star"></i></a>
             </li>
             <li ng-class="{'active': toggle == 'hidden'}">
-                <a ng-click="listHidden()" href="javascript:" tooltip="My Hidden" tooltip-placement="bottom"><i class="icon-ban-circle"></i></a>
+                <a ng-click="listHidden()" href="javascript:" tooltip="My Hidden" tooltip-placement="bottom"><i
+                        class="icon-ban-circle"></i></a>
             </li>
             <li ng-class="{'active': toggle == 'notes'}">
-                <a ng-click="listNotes()" href="javascript:" tooltip="My Notes" tooltip-placement="bottom"><i class="icon-pencil"></i></a>
+                <a ng-click="listNotes()" href="javascript:" tooltip="My Notes" tooltip-placement="bottom"><i
+                        class="icon-pencil"></i></a>
             </li>
             <li>
                 <form class="navbar-search">
@@ -42,7 +45,8 @@
                 <div class="dropdown saved-dropdown">
 
                     <div class="btn-group">
-                        <button class="btn saved-dropdown" tooltip="Reset" tooltip-placement="bottom" ng-click="refreshSearch()">
+                        <button class="btn saved-dropdown" tooltip="Reset" tooltip-placement="bottom"
+                                ng-click="refreshSearch()">
                             <!--<i class="icon-refresh"></i>-->
                             {{attributes.title || "New Search"}}
                         </button>
@@ -100,68 +104,72 @@
 
     <!--LIST BEGIN-->
     <div id="MarketList" ng-controller="ListController">
-        <!--Toggle favorites button-->
-        <!--Item boxes display-->
-        <div class="market-wrap" chunk="items | filter: searchText | limitVisible | orderBy: sortByRange('Year Built')">
-            <div id="item-{{item.id}}" class="item-well"
-                 ng-class="{'item-hidden': item.hidden}"
-                 ng-repeat="item in chunk">
-                <!--Thumbnail preview button-->
+        <div class="market-scroll" chunk="items | filter: searchText | limitVisible | orderBy: sortByRange('Year Built')">
+            <!--Toggle favorites button-->
+            <!--Item boxes display-->
+            <div class="market-vscroll"></div>
+            <div class="market-wrap">
+                <div id="item-{{item.id}}" class="item-well"
+                     ng-class="{'item-hidden': item.hidden}"
+                     ng-repeat="item in chunk">
+                    <!--Thumbnail preview button-->
 
-                <!--Top bar of item box-->
-                <div class="dimensions clearfix">
-                    <!--Location Button-->
-                    <a href="javascript:" class="btn location" ng-click="panTo(item)" tooltip="Show on Map">
-                        <i class="icon-map-marker"></i>
-                    </a>
+                    <!--Top bar of item box-->
+                    <div class="dimensions clearfix">
+                        <!--Location Button-->
+                        <a href="javascript:" class="btn location" ng-click="panTo(item)" tooltip="Show on Map">
+                            <i class="icon-map-marker"></i>
+                        </a>
 
-                    <div class="header-container">
-                        <div class="title"><a href="javascript:" ng-click="showDetails(item)">{{item.title | ellipsis:25}}</a></div>
-                        <div class="ranges">
-                            <span>{{item.attributes.range["Number of Units"]}}&nbsp;</span>Units.&nbsp;
-                            Built in<span>&nbsp;{{item.attributes.range["Year Built"]}}</span>.
+                        <div class="header-container">
+                            <div class="title"><a href="javascript:" ng-click="showDetails(item)">{{item.title |
+                                ellipsis:25}}</a></div>
+                            <div class="ranges">
+                                <span>{{item.attributes.range["Number of Units"]}}&nbsp;</span>Units.&nbsp;
+                                Built in<span>&nbsp;{{item.attributes.range["Year Built"]}}</span>.
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="preview" ng-show="!item.hidden" ng-click="showPictures(item)">
-                    <div class="preview-mask"><i class="icon-search"></i></div>
-                    <img ng-src="{{item.thumbnail}}" alt="">
+                    <div class="preview" ng-show="!item.hidden" ng-click="showPictures(item)">
+                        <div class="preview-mask"><i class="icon-search"></i></div>
+                        <img ng-src="{{item.thumbnail}}" alt="">
 
-                    <div class="preview-caption" ng-class="getStatusClass(item.getAttribute('Property Status'))">
-                        <h2>{{item.getAttribute("Property Status") || "Not Available"}}</h2>
+                        <div class="preview-caption" ng-class="getStatusClass(item.getAttribute('Property Status'))">
+                            <h2>{{item.getAttribute("Property Status") || "Not Available"}}</h2>
 
-                        <p>View Photos</p>
+                            <p>View Photos</p>
+                        </div>
                     </div>
-                </div>
 
-                <div class="description" collapse="item.hidden">
-                    <div class="text-container">
-                        <p>{{item.description | ellipsis:100}} </p>
+                    <div class="description" collapse="item.hidden">
+                        <div class="text-container">
+                            <p>{{item.description | ellipsis:100}} </p>
+                        </div>
                     </div>
-                </div>
 
-                <div class="footer">
-                    <div class="user-options">
-                        <!--Toggle favorite button-->
-                        <div class="footer-button" tooltip="Add to Favorites" ng-click="toggleFavorites(item)">
-                            <i class="icon-star" ng-class="{'yellow': item.favorites}"></i>
-                        </div>
+                    <div class="footer">
+                        <div class="user-options">
+                            <!--Toggle favorite button-->
+                            <div class="footer-button" tooltip="Add to Favorites" ng-click="toggleFavorites(item)">
+                                <i class="icon-star" ng-class="{'yellow': item.favorites}"></i>
+                            </div>
 
-                        <!--Toggle hidden button-->
-                        <div class="footer-button" tooltip="Hide" ng-click="toggleHidden(item)">
-                            <i class="icon-ban-circle" ng-class="{'red': item.hidden}"></i>
-                        </div>
+                            <!--Toggle hidden button-->
+                            <div class="footer-button" tooltip="Hide" ng-click="toggleHidden(item)">
+                                <i class="icon-ban-circle" ng-class="{'red': item.hidden}"></i>
+                            </div>
 
-                        <div class="footer-button" tooltip="Take Notes" ng-click="showNotes(item)">
-                            <i class="icon-pencil" ></i>
-                        </div>
+                            <div class="footer-button" tooltip="Take Notes" ng-click="showNotes(item)">
+                                <i class="icon-pencil"></i>
+                            </div>
 
-                        <!--Contact broker button-->
-                        <div class="footer-button" ng-click="showContact(item)" tooltip="Contact Broker">
-                            <i class="icon-envelope-alt" ></i>
+                            <!--Contact broker button-->
+                            <div class="footer-button" ng-click="showContact(item)" tooltip="Contact Broker">
+                                <i class="icon-envelope-alt"></i>
 
-                            <span>{{item.getAttribute("Broker")}}</span>
+                                <span>{{item.getAttribute("Broker")}}</span>
+                            </div>
                         </div>
                     </div>
                 </div>

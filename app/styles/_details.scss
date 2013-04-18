@@ -28,6 +28,10 @@ $detailsHeaderColor: $light-gray;
   }
 
   @include rescourTabs;
+
+  .form-actions {
+    background: none;
+  }
 }
 
 .picture-container {
@@ -96,7 +100,6 @@ $detailsHeaderColor: $light-gray;
 }
 
 .finance-container {
-  min-height: 400px;
   .control-group {
     .finance-delete {
       font-size: 16px;

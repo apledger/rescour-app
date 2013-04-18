@@ -3,6 +3,6 @@
         <li ng-repeat="slide in slides()" ng-class="{active: isActive(slide)}" ng-click="select(slide)"></li>
     </ol>
     <div class="carousel-inner" ng-transclude></div>
-    <a ng-show="slides().length > 1" ng-click="prev()" class="carousel-control left">&lsaquo;</a>
-    <a ng-show="slides().length > 1" ng-click="next()" class="carousel-control right">&rsaquo;</a>
+    <a ng-show="slides().length > 1" ng-click="prev()" class="carousel-control left"><i class="icon-chevron-left"></i></a>
+    <a ng-show="slides().length > 1" ng-click="next()" class="carousel-control right"><i class="icon-chevron-right"></i></a>
 </div>

@@ -28,10 +28,13 @@ $detailsHeaderColor: $light-gray;
   }
 
   @include rescourTabs;
+
+  .form-actions {
+    background: none;
+  }
 }
 
 .picture-container {
-  width: 600px;
 
   .counter {
     position: absolute;
@@ -54,7 +57,14 @@ $detailsHeaderColor: $light-gray;
     }
   }
 
+  .carousel .item > img {
+    margin:0px auto;
+    display: block;
+    line-height: 1;
+  }
+
   .carousel-inner {
+    text-align: center;
     min-height: 40px;
   }
 
@@ -90,22 +100,17 @@ $detailsHeaderColor: $light-gray;
 }
 
 .finance-container {
-  min-height: 400px;
-  li {
-    position: relative;
-    display: block;
-    height: auto;
-    overflow: visible;
-
+  .control-group {
     .finance-delete {
-      font-size: 20px;
-      line-height: 20px;
+      font-size: 16px;
+      line-height: 30px;
       cursor: pointer;
       color: transparent;
-      position: absolute;
-      top: 15px;
-      left: -20px;
+      position: relative;
+      float: left;
       text-decoration: none;
+      height: 30px;
+      margin-right: 10px;
 
       &:hover {
         color: darken($red, 20%);
@@ -114,21 +119,58 @@ $detailsHeaderColor: $light-gray;
 
     &:hover .finance-delete {
       color: $red;
-      @include transition(all .2s ease-in);
+      @include transition(all .4s ease-in);
+    }
+  }
+
+  .control-label {
+    position: relative;
+    text-align: left;
+    padding-top: 0;
+    width: auto;
+  }
+
+  .edit-label {
+
+    @include box-shadow(none);
+    border: none;
+    font-weight: bold;
+    width: 150px;
+    margin-right: 10px;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.1);
     }
 
-    .finance-box {
-      display: inline-block;
-      overflow-y: visible;
-      margin: 10px;
-      input[type="text"]:first-child:after {
-        content: ":";
-        padding: 10px;
-      }
+    &:focus {
+      font-weight: normal;
+      background-color: $inputBackground !important;
+      border: 1px solid $inputBorder;
+      @include box-shadow(inset 0 1px 1px rgba(0, 0, 0, .075));
+      @include transition(#{border linear .2s, box-shadow linear .2s});
     }
 
-    select {
-      width: 60px;
+    & ~ i {
+      position: absolute;
+      top: 5px;
+      right: 15px;
+      color: transparent;
     }
+
+    &:hover ~ i {
+      color: rgba(0,0,0,0.55);
+    }
+
+    &:focus ~ i {
+      color: transparent;
+    }
+  }
+
+  select {
+    width: 60px;
+  }
+
+  .form-actions {
+    padding-left: 20px;
   }
 }

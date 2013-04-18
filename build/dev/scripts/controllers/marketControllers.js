@@ -13,7 +13,7 @@ angular.module('nebuMarket')
 
             $scope.sortByRange = function (rangeVal) {
                 return function (object) {
-                    return object.attributes.range[rangeVal];
+                    return object.attributes.range[rangeVal] === 'NA' ? 0 : -object.attributes.range[rangeVal];
                 };
             };
 

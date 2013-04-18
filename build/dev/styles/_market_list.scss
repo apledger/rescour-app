@@ -2,9 +2,10 @@
 
 #MarketList {
   position: absolute;
-  left: 245px;
+  left: $filterWidth;
   top: 0;
   bottom: 0;
+  //width: auto;
   width: $marketWidth;
   box-sizing: border-box;
   z-index: 2;
@@ -18,8 +19,8 @@
   .item-well {
     @include transition(opacity 0.35s ease);
     width: 380px;
-    margin: 10px;
     display: block;
+    margin-bottom: 10px;
     position: relative;
     vertical-align: top;
     background-color: white;
@@ -125,8 +126,6 @@
         left: 0;
         bottom: 0;
         right: 0;
-        //width: 108px;
-        //height: 130px;
         text-align: center;
 
         i {
@@ -243,14 +242,26 @@
   }
 }
 
-.market-wrap {
+.market-scroll {
   display: block;
   height: 100%;
-  overflow: hidden;
-  overflow-y: auto;
-
+  overflow: auto;
+  position:relative;
 }
 
+.market-wrap {
+  overflow-y: auto;
+  //padding: 10px 20px 10px 10px;
+  padding: 10px 10px 10px 10px;
+}
+
+.market-vscroll {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 5px;
+}
 
 
 

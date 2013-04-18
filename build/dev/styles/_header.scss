@@ -19,8 +19,8 @@ header {
   .market-controls {
     position: absolute;
     padding-top:4px;
-    left: 245px;
-    width: 400px;
+    left: $filterWidth;
+    width: $marketWidth - 2px;
     border-left: 1px solid #AAAAAA;
     border-right: 1px solid #AAAAAA;
     height: 46px;

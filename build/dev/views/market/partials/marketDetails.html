@@ -127,11 +127,6 @@
             </div>
             <p class="lead">Tour Dates</p>
             <table class="table table-condensed table-striped">
-                <thead>
-                <tr>
-                    <th>Date</th>
-                </tr>
-                </thead>
                 <tbody>
                 <tr ng-repeat="tourDate in current.details.tourDates">
                     <td>
@@ -177,7 +172,7 @@
         <div class="control-group">
             <div class="control-label">Message:</div>
             <div class="controls">
-                <textarea rows="6" class="span10" ng-model="newEmail.message"></textarea>
+                <textarea rows="6" class="span12" ng-model="newEmail.message"></textarea>
             </div>
         </div>
         <button class="btn btn-info" ng-click="sendEmail(newEmail)">Send</button>
@@ -233,7 +228,7 @@
                     <div class="controls">
                         <input placeholder="Value" type="text" format-input="{{finance.valueFormat}}" name="value"
                                ng-blur="saveFinance(finance)" ng-model="finance.value"
-                               class="input-small">
+                               class="input-large">
                         <select ng-options="format.valueFormat as format.icon for format in valueFormats"
                                 class="finance-class"
                                 ng-model="finance.valueFormat" ng-change="saveFinance(finance)"></select>

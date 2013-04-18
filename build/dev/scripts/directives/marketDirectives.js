@@ -536,7 +536,7 @@ angular.module('nebuMarket')
                 select: '&'
             },
             replace: true,
-            templateUrl: 'template/typeahead/typeaheadSelect.html',
+            templateUrl: '/template/typeahead/typeaheadSelect.html',
             link: function (scope, element, attrs) {
 
                 scope.isOpen = function () {

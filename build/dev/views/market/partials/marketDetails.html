@@ -182,7 +182,7 @@
         </div>
         <button class="btn btn-info" ng-click="sendEmail(newEmail)">Send</button>
     </form>
-    <div class="alert alert-info" ng-show="current.details.contacts.length == 0"><strong>Sorry!</strong> We don't
+    <div class="alert" ng-show="!current.details.contacts || current.details.contacts.length == 0"><strong>Sorry!</strong> We don't
         have any contacts for this listing.
     </div>
 </div>
@@ -215,21 +215,22 @@
 <div pane class="container-fluid finance-container" heading="{{panes[4].heading}}" active="panes[4].active">
     <div class="row-fluid">
         <div class="span12">
-            <ul>
-                <li ng-repeat="finance in current.details.finances">
+            <form novalidate class="form-horizontal">
+                <legend></legend>
+                <div class="control-group" ng-repeat="finance in current.details.finances">
                     <a href="javascript:" class="finance-delete" ng-click="deleteFinance(finance)">
                         <i class="icon-remove-sign"></i>
                     </a>
-
-                    <div class="finance-box">
-                        <input placeholder="Financial Metric" name="name"
+                    <div class="control-label">
+                        <input placeholder="Click to edit" name="name"
+                               class="edit-label"
                                type="text" ng-model="finance.name"
-                               class="input-medium"
                                typeahead-select="field for field in financeFields | filter:$viewValue">
-                    </div>
-                    :
+                        <i class="icon-pencil"></i>
 
-                    <div class="finance-box">
+                    </div>
+
+                    <div class="controls">
                         <input placeholder="Value" type="text" format-input="{{finance.valueFormat}}" name="value"
                                ng-blur="saveFinance(finance)" ng-model="finance.value"
                                class="input-small">
@@ -237,13 +238,11 @@
                                 class="finance-class"
                                 ng-model="finance.valueFormat" ng-change="saveFinance(finance)"></select>
                     </div>
-
-                    <div class="finance-box"></div>
-                </li>
-                <li>
+                </div>
+                <div class="form-actions">
                     <a href="javascript:" class="btn btn-success" ng-click="addFinance()">Add Finance Note</a>
-                </li>
-            </ul>
+                </div>
+            </form>
         </div>
     </div>
 </div>

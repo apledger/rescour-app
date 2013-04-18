@@ -11,6 +11,12 @@ angular.module('nebuMarket')
             $scope.center = null;
             $scope.modal = {};
 
+            $scope.sortByRange = function (rangeVal) {
+                return function (object) {
+                    return object.attributes.range[rangeVal];
+                };
+            };
+
             $scope.clear = function () {
                 $scope.modal = $scope.selectedItem = $scope.center = null;
             };
@@ -241,18 +247,18 @@ angular.module('nebuMarket')
         }])
     .controller("DetailsController", ['$scope', '$http', '$_api', '$timeout', 'PropertyDetails',
         function ($scope, $http, $_api, $timeout, PropertyDetails) {
-            var Finance = PropertyDetails.Finance,
-                Comment = PropertyDetails.Comment;
             $scope.newComment = {};
             $scope.newEmail = {};
             $scope.panes = PropertyDetails.panes.panes;
-            $scope.valueFormats = Finance.valueFormats;
-            $scope.financeFields = Finance.fields;
+            $scope.valueFormats = PropertyDetails.Finance.valueFormats;
+            $scope.financeFields = PropertyDetails.Finance.fields;
             $scope.contactAlerts = [];
 
             $scope.addComment = function (comment) {
-                if ($scope.formNewComment.$valid) {
-                    $scope.current.addComment(comment).$save();
+                if ($scope.newComment.text) {
+                    $scope.current.addComment(comment).$save().then(function (response) {
+                        $scope.newComment.text = '';
+                    });
                 }
             };
 

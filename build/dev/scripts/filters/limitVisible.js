@@ -23,7 +23,7 @@ angular.module('nebuMarket')
             }
         };
     })
-    .filter('percentage', function(){
+    .filter('percentage', function () {
         return function (input, limit, exceptions) {
             var num = parseFloat(input);
             return num.toFixed(3) + " %";

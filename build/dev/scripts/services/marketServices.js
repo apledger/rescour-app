@@ -721,6 +721,8 @@ angular.module('nebuMarket')
                 this.propertyId = data.propertyId || undefined;
                 this.timestamp = data.timestamp || new Date().getTime();
                 this.userEmail = data.userEmail || (User.profile ? User.profile.email : "You");
+                console.log(User);
+                console.log(this);
             };
 
             Comment.query = function (itemID) {
@@ -752,7 +754,7 @@ angular.module('nebuMarket')
                     propertyId = self.propertyId;
 
                 if (typeof propertyId !== 'undefined') {
-                    $http.post($_api.path + '/properties/' + itemID + '/comments/', JSON.stringify(self), config)
+                    $http.post($_api.path + '/properties/' + propertyId + '/comments/', JSON.stringify(self), config)
                         .then(function (response) {
                             defer.resolve(response);
                         }, function (response) {

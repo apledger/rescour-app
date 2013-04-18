@@ -15,10 +15,10 @@ angular.module('rescour.app')
             $http.get(path, config).then(
                 function (response) {
                     angular.copy(response.data, self.profile);
-                    defer.resolve();
+                    defer.resolve(response);
                 },
                 function (response) {
-                    defer.reject();
+                    defer.reject(response);
                 }
             );
 

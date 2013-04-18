@@ -112,7 +112,25 @@ angular.module('nebuMarket')
                     config = angular.extend({
                         transformRequest: $_api.loading.details
                     }, $_api.config),
-                    locals = {};
+                    locals = {
+                        defaultFinances: [
+                            {
+                                name: 'Valuation',
+                                valueFormat: 'currency'
+                            },
+                            {
+                                name: 'Cap Rate',
+                                valueFormat: 'percentage'},
+                            {
+                                name: 'IRR',
+                                valueFormat: 'percentage'
+                            },
+                            {
+                                name: 'Price / Unit',
+                                valueFormat: 'currency'
+                            }
+                        ]
+                    };
 
                 $http.get($_api.path + '/properties/' + this.id, config).then(function (response) {
                     self.details = {};
@@ -130,8 +148,27 @@ angular.module('nebuMarket')
                         }
 
                         if (angular.isArray(self.details.finances)) {
-                            for (var i = 0, len = self.details.finances.length; i < len; i++) {
-                                self.details.finances[i] = new Finance(self.details.finances[i]);
+                            locals.finances = self.details.finances;
+                            self.details.finances = [];
+                            for (var i = 0, len = locals.defaultFinances.length; i < len; i++) {
+                                var _finance = _.find(locals.finances, function (val) {
+                                    return val.name === locals.defaultFinances[i].name;
+                                });
+                                // If can't find default value in current finances, create it
+                                if (!_finance) {
+                                    self.addFinance(locals.defaultFinances[i]);
+                                } else { // Otherwise it's found, just add it
+                                    self.addFinance(_finance);
+                                    // Remove it from locals after adding
+                                    locals.finances = _.reject(locals.finances, function (val) {
+                                        return angular.equals(val, _finance);
+                                    });
+                                }
+                            }
+
+                            // Loop through remaining and add them
+                            for (var i = 0, len = locals.finances.length; i < len; i++) {
+                                self.addFinance(locals.finances[i]);
                             }
                         } else {
                             throw new Error("Finances are not an array");
@@ -263,7 +300,7 @@ angular.module('nebuMarket')
                 }
             };
 
-            Item.prototype.getAddress = function() {
+            Item.prototype.getAddress = function () {
                 var addressStr = '';
 
                 if (this.address.street1) {
@@ -721,8 +758,6 @@ angular.module('nebuMarket')
                 this.propertyId = data.propertyId || undefined;
                 this.timestamp = data.timestamp || new Date().getTime();
                 this.userEmail = data.userEmail || (User.profile ? User.profile.email : "You");
-                console.log(User);
-                console.log(this);
             };
 
             Comment.query = function (itemID) {
@@ -774,7 +809,6 @@ angular.module('nebuMarket')
 
             var Finance = function (data) {
                 data = data || {};
-                console.log(data);
                 this.id = data.id || undefined;
                 this.propertyId = data.propertyId || undefined;
                 this.name = data.name || '';
@@ -840,7 +874,7 @@ angular.module('nebuMarket')
                                 defer.reject(response);
                             });
                     } else {
-                        console.log("POSTING:",body);
+                        console.log("POSTING:", body);
                         $http.post($_api.path + '/properties/' + propertyId + '/finances/', body, config)
                             .then(function (response) {
                                 console.log(response);

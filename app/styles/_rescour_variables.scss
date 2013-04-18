@@ -31,6 +31,10 @@ $headerHeight: 50px;
     @include border-radius(5px);
     background: white;
 
+    .tab-content {
+      overflow: visible;
+    }
+
     .nav-tabs {
       @include buttonBackground(lighten($detailsHeaderColor, 5%), darken($detailsHeaderColor, 5%));
       border-bottom: 1px solid darken($detailsHeaderColor, 20%);

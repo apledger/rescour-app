@@ -30,7 +30,6 @@ angular.module('rescour.app')
                     loadUser: function (User, $q) {
                         var defer = $q.defer();
                         User.getProfile().then(function (response) {
-                            console.log(response);
                             defer.resolve(response);
                         }, function (response) {
                             defer.reject(response);

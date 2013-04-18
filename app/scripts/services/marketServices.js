@@ -51,23 +51,13 @@ angular.module('nebuMarket')
                     throw new Error("Cannot find attributes in Item {id: " + data.id + "}");
                 }
 
-                if (data.hasOwnProperty('geo')) {
-                    this.location = [];
-                    if (data.geo.lat && data.geo.lng) {
-                        this.location = [data.geo.lat, data.geo.lng];
-                    } else {
-                        this.location = undefined;
-                    }
-                } else {
-                    this.location = undefined;
-                }
-
                 this.title = data.title || "Title not listed";
                 this.flyer = data.flyer || "";
                 this.description = data.description || "No description provided";
                 this.address = data.address || {
                     street1: "No address listed"
                 };
+                this.location = (data.address.latitude && data.address.longitude) ? [data.address.latitude, data.address.longitude] : undefined;
                 this.thumbnail = data.thumbnail || "/img/apt0.jpg";
                 this.favorites = data.favorites || false;
                 this.hidden = data.hidden || false;

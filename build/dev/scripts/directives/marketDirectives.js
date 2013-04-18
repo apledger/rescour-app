@@ -149,8 +149,8 @@ angular.module('nebuMarket')
                         otileUrl = 'http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png',
                         stamenUrl = 'http://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.jpg',
                         cloudmade = new L.TileLayer(openstreetUrl, { maxZoom: 17, styleId: 22677 }),
-                        defaultLatLng = new L.LatLng(32.3667, -86.3000),
-                        defaultZoom = 6,
+                        defaultLatLng = new L.LatLng(32.0667, -90.3000),
+                        defaultZoom = 5,
                         $el = element.find(".map")[0],
                         map = new L.Map($el, { center: defaultLatLng, zoom: defaultZoom, zoomControl: false, attributionControl: false}),
                         markers = new L.MarkerClusterGroup({disableClusteringAtZoom: 13});
@@ -181,7 +181,7 @@ angular.module('nebuMarket')
                             "</ul>" +
                             "</div>" +
                             "<div class=\"popup-striped-container popup-footer\">\n    <p>" +
-                            item.address.street1 + "</p>\n</div></div>";
+                            item.address.city + ", " + item.address.state + "</p>\n</div></div>";
 
                         var popupElement = $compile(popupTempl)(scope);
 

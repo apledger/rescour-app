@@ -130,6 +130,13 @@ $detailsHeaderColor: $light-gray;
     width: auto;
   }
 
+  .control-spinner {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin-left: 20px;
+  }
+
   .edit-label {
 
     @include box-shadow(none);

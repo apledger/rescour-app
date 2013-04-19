@@ -6590,6 +6590,13 @@ a.label:hover, a.badge:hover {
   width: auto;
 }
 /* line 133, ../../app/styles/_details.scss */
+.finance-container .control-spinner {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-left: 20px;
+}
+/* line 140, ../../app/styles/_details.scss */
 .finance-container .edit-label {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
@@ -6599,11 +6606,11 @@ a.label:hover, a.badge:hover {
   width: 150px;
   margin-right: 10px;
 }
-/* line 141, ../../app/styles/_details.scss */
+/* line 148, ../../app/styles/_details.scss */
 .finance-container .edit-label:hover {
   background: rgba(0, 0, 0, 0.1);
 }
-/* line 145, ../../app/styles/_details.scss */
+/* line 152, ../../app/styles/_details.scss */
 .finance-container .edit-label:focus {
   font-weight: normal;
   background-color: white !important;
@@ -6616,26 +6623,26 @@ a.label:hover, a.badge:hover {
   -o-transition: border linear 0.2s, box-shadow linear 0.2s;
   transition: border linear 0.2s, box-shadow linear 0.2s;
 }
-/* line 153, ../../app/styles/_details.scss */
+/* line 160, ../../app/styles/_details.scss */
 .finance-container .edit-label ~ i {
   position: absolute;
   top: 5px;
   right: 15px;
   color: transparent;
 }
-/* line 160, ../../app/styles/_details.scss */
+/* line 167, ../../app/styles/_details.scss */
 .finance-container .edit-label:hover ~ i {
   color: rgba(0, 0, 0, 0.55);
 }
-/* line 164, ../../app/styles/_details.scss */
+/* line 171, ../../app/styles/_details.scss */
 .finance-container .edit-label:focus ~ i {
   color: transparent;
 }
-/* line 169, ../../app/styles/_details.scss */
+/* line 176, ../../app/styles/_details.scss */
 .finance-container select {
   width: 60px;
 }
-/* line 173, ../../app/styles/_details.scss */
+/* line 180, ../../app/styles/_details.scss */
 .finance-container .form-actions {
   padding-left: 20px;
 }

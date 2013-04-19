@@ -173,6 +173,7 @@ angular.module('nebuMarket')
                 $scope.attributes.load(search);
                 $scope.filter();
                 $scope.selectedSearch = search;
+                console.log($scope.selectedSearch);
                 $scope.attributes.modified = false;
             };
 

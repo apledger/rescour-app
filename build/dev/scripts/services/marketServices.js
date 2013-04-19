@@ -678,7 +678,7 @@ angular.module('nebuMarket')
             var SavedSearch = function (data, id) {
                 var self = this;
                 this.title = data.title || undefined;
-                this.id = id || undefined;
+                this.id = id || data.id;
                 this.discreet = {};
                 this.range = {};
 
@@ -719,11 +719,13 @@ angular.module('nebuMarket')
                 $http.get($_api.path + '/search/', $_api.config).then(function (response) {
                     angular.forEach(response.data.resources, function (value, key) {
                         try {
+                            console.log(value);
                             searches.push(new SavedSearch(angular.fromJson(value.savedSearch), value.id));
                         } catch (e) {
                             console.log(e.message);
                         }
                     });
+                    console.log(searches);
                 });
                 return searches;
             };
@@ -731,6 +733,7 @@ angular.module('nebuMarket')
             SavedSearch.prototype.$save = function () {
                 var defer = $q.defer(),
                     self = this;
+                console.log("Before save", self);
                 if (self.id) {
                     $http.put($_api.path + '/search/' + self.id, JSON.stringify({savedSearch: JSON.stringify(self)}), $_api.config).then(function (response) {
                         defer.resolve(response.data);
@@ -739,6 +742,7 @@ angular.module('nebuMarket')
                     });
                 } else {
                     $http.post($_api.path + '/search/', JSON.stringify({savedSearch: JSON.stringify(self)}), $_api.config).then(function (response) {
+                        self.id = response.data.id;
                         defer.resolve(response.data);
                     }, function (response) {
                         defer.reject(response.data);

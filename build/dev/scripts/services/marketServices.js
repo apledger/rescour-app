@@ -815,11 +815,7 @@ angular.module('nebuMarket')
                 this.propertyId = data.propertyId || undefined;
                 this.name = data.name || '';
                 this.valueFormat = data.valueFormat || 'currency';
-                if (angular.isDefined(data.value) && angular.isNumber(parseFloat(data.value))) {
-                    this.value = data.value;
-                } else {
-                    this.value = undefined;
-                }
+                this.value = data.value ? parseFloat(data.value) : undefined;
             };
 
             Finance.valueFormats = [

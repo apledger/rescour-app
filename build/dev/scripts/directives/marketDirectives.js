@@ -272,6 +272,10 @@ angular.module('nebuMarket')
                     }
                 }
 
+                ctrl.$parsers.push(function (viewVal) {
+                    return viewVal.replace(/\,/g, '');
+                });
+
                 elm.bind('focus', function () {
                     scope.$apply(function () {
                         ctrl.$viewValue = ctrl.$modelValue;

@@ -259,6 +259,8 @@ angular.module('nebuMarket')
                 if ($scope.newComment.text) {
                     $scope.current.addComment(comment).$save().then(function (response) {
                         $scope.newComment.text = '';
+                    }, function (newComment) {
+                        $scope.current.deleteComment(newComment);
                     });
                 }
             };
@@ -276,10 +278,12 @@ angular.module('nebuMarket')
                     var path = $_api.path + '/properties/' + $scope.current.id + '/contact/',
                         config = angular.extend({
                             transformRequest: function (data) {
-                                $scope.contactAlerts = [{
-                                    type: 'info',
-                                    msg: 'Sending..'
-                                }];
+                                $scope.contactAlerts = [
+                                    {
+                                        type: 'info',
+                                        msg: 'Sending..'
+                                    }
+                                ];
                                 return data;
                             }
                         }, $_api.config),
@@ -288,24 +292,30 @@ angular.module('nebuMarket')
                     $http.post(path, body, config).then(
                         function (response) {
                             email.message = "";
-                            $scope.contactAlerts = [{
-                                type: 'success',
-                                msg: 'Message sent!'
-                            }];
+                            $scope.contactAlerts = [
+                                {
+                                    type: 'success',
+                                    msg: 'Message sent!'
+                                }
+                            ];
 
                         },
                         function (response) {
-                            $scope.contactAlerts = [{
-                                type: 'error',
-                                msg: 'Message failed to send'
-                            }];
+                            $scope.contactAlerts = [
+                                {
+                                    type: 'error',
+                                    msg: 'Message failed to send'
+                                }
+                            ];
                         }
                     );
                 } else {
-                    $scope.contactAlerts = [{
-                        type: 'error',
-                        msg: 'Please select recipients and provide a message!'
-                    }];
+                    $scope.contactAlerts = [
+                        {
+                            type: 'error',
+                            msg: 'Please select recipients and provide a message!'
+                        }
+                    ];
                 }
             };
 

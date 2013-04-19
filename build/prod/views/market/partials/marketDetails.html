@@ -184,7 +184,7 @@
 
 <div pane class="container-fluid" heading="{{panes[3].heading}}" active="panes[3].active">
     <div ng-repeat="comment in current.details.comments">
-        <div class="alert alert-info comment-alert">
+        <div class="alert alert-info comment-alert" spinner="comment.saving">
             <h5>{{comment.userEmail}} <span>{{comment.timestamp | date}}</span></h5>
 
             <p>{{comment.text}}</p>

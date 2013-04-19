@@ -7467,18 +7467,6 @@ input:focus, textarea:focus {
 }
 
 /* line 13, ../../app/styles/_styles.scss */
-#Loading-Details {
-  position: absolute;
-  left: 647px;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  background: #eeeeee;
-  z-index: 5;
-  display: none;
-}
-
-/* line 24, ../../app/styles/_styles.scss */
 .loading-background {
   position: absolute;
   left: 0px;
@@ -7489,7 +7477,7 @@ input:focus, textarea:focus {
   z-index: 5;
 }
 
-/* line 28, ../../app/styles/_styles.scss */
+/* line 17, ../../app/styles/_styles.scss */
 .loading-container {
   position: absolute;
   top: 50%;
@@ -7500,32 +7488,32 @@ input:focus, textarea:focus {
   margin-top: -100px;
   text-align: center;
 }
-/* line 38, ../../app/styles/_styles.scss */
+/* line 27, ../../app/styles/_styles.scss */
 .loading-container h4 {
   text-transform: uppercase;
   font-weight: normal;
-  font-size: 18px;
+  font-size: 24px;
   color: #5f5f5f;
 }
-/* line 45, ../../app/styles/_styles.scss */
+/* line 34, ../../app/styles/_styles.scss */
 .loading-container p {
   margin-top: 10px;
   font-size: 14px;
   color: #797979;
 }
-/* line 51, ../../app/styles/_styles.scss */
+/* line 40, ../../app/styles/_styles.scss */
 .loading-container .loading-icon {
   text-shadow: #666666 0 -1px 0;
   color: #5f5f5f;
 }
-/* line 56, ../../app/styles/_styles.scss */
+/* line 45, ../../app/styles/_styles.scss */
 .loading-container .failure-icon {
   text-shadow: #33100b 0 -1px 0;
   color: #9c3022;
   margin-bottom: 1em;
 }
 
-/* line 64, ../../app/styles/_styles.scss */
+/* line 52, ../../app/styles/_styles.scss */
 .origami-left {
   position: absolute;
   top: 0;
@@ -7536,7 +7524,7 @@ input:focus, textarea:focus {
   z-index: -1;
 }
 
-/* line 74, ../../app/styles/_styles.scss */
+/* line 62, ../../app/styles/_styles.scss */
 .origami-right {
   position: absolute;
   top: 0;
@@ -7547,17 +7535,17 @@ input:focus, textarea:focus {
   z-index: -1;
 }
 
-/* line 85, ../../app/styles/_styles.scss */
+/* line 73, ../../app/styles/_styles.scss */
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
   display: none;
 }
 
-/* line 89, ../../app/styles/_styles.scss */
+/* line 77, ../../app/styles/_styles.scss */
 header, section, footer {
   display: block;
 }
 
-/* line 93, ../../app/styles/_styles.scss */
+/* line 81, ../../app/styles/_styles.scss */
 body {
   min-height: 100%;
   margin: 0;
@@ -7567,7 +7555,7 @@ body {
   background-color: #eeeeee;
 }
 
-/* line 102, ../../app/styles/_styles.scss */
+/* line 90, ../../app/styles/_styles.scss */
 #Wrapper {
   position: relative;
   width: 100%;
@@ -7575,7 +7563,7 @@ body {
   background-color: #eeeeee;
 }
 
-/* line 109, ../../app/styles/_styles.scss */
+/* line 97, ../../app/styles/_styles.scss */
 .main-container {
   position: absolute;
   top: 55px;
@@ -7584,7 +7572,7 @@ body {
   bottom: 21px;
 }
 
-/* line 117, ../../app/styles/_styles.scss */
+/* line 105, ../../app/styles/_styles.scss */
 #Footer {
   position: fixed;
   width: 100%;
@@ -7596,29 +7584,29 @@ body {
   z-index: 3000;
 }
 
-/* line 128, ../../app/styles/_styles.scss */
+/* line 116, ../../app/styles/_styles.scss */
 #Footer p {
   text-align: center;
 }
 
-/* line 132, ../../app/styles/_styles.scss */
+/* line 120, ../../app/styles/_styles.scss */
 #Footer p a {
   font-size: 10px;
   margin-right: 10px;
 }
 
-/* line 137, ../../app/styles/_styles.scss */
+/* line 125, ../../app/styles/_styles.scss */
 .yellow {
   color: #ffc40d;
 }
 
-/* line 141, ../../app/styles/_styles.scss */
+/* line 129, ../../app/styles/_styles.scss */
 .red {
   color: #9c3022;
 }
 
 /* Scroll Bar */
-/* line 146, ../../app/styles/_styles.scss */
+/* line 134, ../../app/styles/_styles.scss */
 ::-webkit-scrollbar, ::-webkit-scrollbar {
   width: 7px;
   height: 7px;
@@ -7627,7 +7615,7 @@ body {
   border-radius: 5px;
 }
 
-/* line 152, ../../app/styles/_styles.scss */
+/* line 140, ../../app/styles/_styles.scss */
 ::-webkit-scrollbar-thumb, ::-webkit-scrollbar-thumb {
   background-color: #666666;
   -webkit-border-radius: 5px;
@@ -7638,17 +7626,17 @@ body {
   box-shadow: rgba(0, 0, 0, 0.05) -1px 0 7px inset;
 }
 
-/* line 158, ../../app/styles/_styles.scss */
+/* line 146, ../../app/styles/_styles.scss */
 ::-webkit-scrollbar-track-piece, ::-webkit-scrollbar-track-piece {
   background-color: transparent;
 }
 
-/* line 162, ../../app/styles/_styles.scss */
+/* line 150, ../../app/styles/_styles.scss */
 ::-webkit-scrollbar-corner, ::-webkit-scrollbar-corner {
   display: none;
 }
 
-/* line 167, ../../app/styles/_styles.scss */
+/* line 155, ../../app/styles/_styles.scss */
 .modal-backdrop {
   position: fixed;
   top: 0;
@@ -7659,12 +7647,12 @@ body {
   background-color: rgba(0, 0, 0, 0.7);
 }
 
-/* line 177, ../../app/styles/_styles.scss */
+/* line 165, ../../app/styles/_styles.scss */
 .hide {
   display: none;
 }
 
-/* line 181, ../../app/styles/_styles.scss */
+/* line 169, ../../app/styles/_styles.scss */
 .toggle {
   position: relative;
   float: left;

@@ -43,9 +43,8 @@
 </head>
 <body ng-controller="AppController">
 <div class="loading-background" ng-show="loading || failure" ng-cloak>
-    <div ng-show="loading" class="loading-container">
+    <div ng-show="loading" class="loading-container" spinner-size="large" spinner="loading">
         <h4>LOADING</h4>
-        <i class="loading-icon icon-spinner icon-spin icon-4x"></i>
     </div>
     <div ng-show="failure" class="loading-container">
         <h4>OOPS!</h4>
@@ -73,6 +72,7 @@
 <script type="text/javascript" src="/scripts/lib/angular/angular-resource.js"></script>
 <script type="text/javascript" src="/scripts/lib/angular/angular-mocks.js"></script>
 <script type="text/javascript" src="/scripts/lib/underscore.js"></script>
+<script type="text/javascript" src="/scripts/lib/spin.js"></script>
 <script type="text/javascript" src="/scripts/app.js"></script>
 <script type="text/javascript" src="/scripts/controllers/marketControllers.js"></script>
 <script type="text/javascript" src="/scripts/controllers/rescourControllers.js"></script>

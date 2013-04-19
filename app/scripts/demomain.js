@@ -8,7 +8,8 @@ require({
                 'lib/angular-bootstrap/ui-bootstrap-0.2.0',
                 'lib/jquery-ui.min',
                 'lib/jquery.min',
-                'lib/angular/angular-ui'
+                'lib/angular/angular-ui',
+                'lib/spin'
             ]
         },
         'lib/angular/angular-ui': {

@@ -292,14 +292,12 @@ angular.module('nebuMarket')
                                 msg: 'Message sent!'
                             }];
 
-                            console.log($scope.contactAlerts);
                         },
                         function (response) {
                             $scope.contactAlerts = [{
                                 type: 'error',
                                 msg: 'Message failed to send'
                             }];
-                            console.log($scope.contactAlerts);
                         }
                     );
                 } else {
@@ -307,12 +305,13 @@ angular.module('nebuMarket')
                         type: 'error',
                         msg: 'Please select recipients and provide a message!'
                     }];
-                    console.log($scope.contactAlerts);
                 }
             };
 
             $scope.saveFinance = function (finance) {
-                finance.$save();
+                if (finance.value) {
+                    finance.$save();
+                }
             };
 
             $scope.addFinance = function () {
@@ -320,7 +319,7 @@ angular.module('nebuMarket')
             };
 
             $scope.deleteFinance = function (finance) {
-                $scope.current.deleteFinance(finance).$delete();
+                $scope.current.deleteFinance(finance);
             };
         }]);
 

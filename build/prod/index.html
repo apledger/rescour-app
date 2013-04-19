@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="/scripts/lib/leaflet/leaflet.css" />
     <link type="text/css" href="/styles/lib/ui-lightness/jquery-ui-1.8.23.custom.css" rel="Stylesheet"/>
     
-    <link rel="stylesheet" href="/styles/main.css?v=59c64ce352"/>
+    <link rel="stylesheet" href="/styles/main.css?v=481dbd4eef"/>
     
     <link rel="stylesheet" href="/styles/lib/font-awesome/css/font-awesome.min.css">
     <link rel="icon" type="image/png" href="/img/favicon.png">
@@ -41,9 +41,8 @@
 </head>
 <body ng-controller="AppController">
 <div class="loading-background" ng-show="loading || failure" ng-cloak>
-    <div ng-show="loading" class="loading-container">
+    <div ng-show="loading" class="loading-container" spinner-size="large" spinner="loading">
         <h4>LOADING</h4>
-        <i class="loading-icon icon-spinner icon-spin icon-4x"></i>
     </div>
     <div ng-show="failure" class="loading-container">
         <h4>OOPS!</h4>
@@ -66,7 +65,7 @@
 <script src="https://checkout.stripe.com/v2/checkout.js"></script>
 
 
-<script src="/scripts/scripts.min.js?v=22bf9f1d65"></script>
+<script src="/scripts/scripts.min.js?v=7e9e7e4263"></script>
 
 
 <script>

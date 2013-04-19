@@ -16,14 +16,6 @@ angular.module('rescour.api', [])
                 withCredentials: true
             },
             loading = {
-                details: function (data) {
-                    $('#Loading-Details').show();
-                    return data;
-                },
-                main: function (data) {
-                    $('#Loading').show();
-                    return data;
-                },
                 none: function (data) {
                     return data;
                 }
@@ -45,7 +37,7 @@ angular.module('rescour.api', [])
                 }
             },
             config: config,
-            path: url.dev,
+            path: url.prod,
             loading: loading,
             stripeToken: stripeTokens.test
         };

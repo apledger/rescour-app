@@ -113,11 +113,6 @@ angular.module('rescour.app')
         function ($q, $rootScope, $timeout) {
             return function (promise) {
                 var resolve = function (response) {
-                    if (response.config.url === "/details") {
-                        $rootScope.$broadcast('loaded#details');
-                    }
-
-                    $('#Loading-Details').hide();
                 }, reject = function (response) {
                     var status = response.status,
                         message = response.data.status_message;
@@ -152,8 +147,6 @@ angular.module('rescour.app')
 
                             return defer.promise;
                         default:
-                            $('#Loading').hide();
-                            $('#Loading-Details').hide();
                     }
 
                     return $q.reject(response);

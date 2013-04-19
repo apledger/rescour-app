@@ -10,17 +10,6 @@
 @import "login";
 @import "account";
 
-#Loading-Details {
-  position: absolute;
-  left: $filterWidth + $marketWidth;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  background: $light-gray;
-  z-index: 5;
-  display:none;
-}
-
 .loading-background {
   position: absolute; left: 0px; top: 0px; bottom:0px; right: 0px; background: $light-gray; z-index: 5;
 }
@@ -38,7 +27,7 @@
   h4 {
     text-transform: uppercase;
     font-weight: normal;
-    font-size: 18px;
+    font-size: 24px;
     color: $gray;
   }
 
@@ -59,7 +48,6 @@
     margin-bottom: 1em;
   }
 }
-
 
 .origami-left {
   position: absolute;

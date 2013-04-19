@@ -1,42 +1,6 @@
 'use strict';
 
 rescourApp
-    .directive('editable', function () {
-//        Editable is awesome
-        return {
-            restrict: "A",
-            scope: true,
-            compile: function (tElement, tAttrs, transclude) {
-//                if (tElement.text().slice(0, 2) != '{{' || tElement.text().slice(tElement.text().length - 2) != '}}') {
-//                    throw new Error('input must be surrounded in angular binding brackets');
-//                }
-                var displayTemp = '<span ng-hide="editMode" ng-dblclick="toggleEditMode()">{{' + tElement[0].innerText + '}}</span>';
-
-                var editTemp = '<input ng-show="editMode" ng-dblclick="toggleEditMode()" ng-model="' + tElement[0].innerText + '" />';
-
-                tElement.html(displayTemp);
-                tElement.append(editTemp);
-
-                return function (scope, element, attrs) {
-                    scope.editMode = false;
-
-                    scope.toggleEditMode = function () {
-                        scope.editMode = !scope.editMode;
-                    };
-                };
-            }
-        };
-    })
-    .directive('clickSpin', ['$timeout', function ($timeout) {
-        return function (scope, element, attrs) {
-            element.bind('click', function () {
-                element.find("i").addClass("icon-spin");
-                $timeout(function () {
-                    element.find("i").removeClass("icon-spin");
-                }, 1000);
-            });
-        };
-    }])
     .directive('checkout', ['$http', '$_api', function ($http, $_api) {
         return {
             link: function (scope, element, attrs) {
@@ -77,7 +41,6 @@ rescourApp
             }
         };
     }])
-
     .directive("passwordVerify", function () {
         return {
             require: "ngModel",
@@ -128,7 +91,7 @@ rescourApp
             var fn = $parse(attr['ngBlur']);
             element.bind('blur', function (event) {
                 scope.$apply(function () {
-                    fn(scope, {$event: event});
+                    fn(scope, {$event: event, $element: element});
                 });
             });
         };
@@ -167,4 +130,69 @@ rescourApp
                 }
             }
         };
-    }]);
+    }])
+    .directive('spinner', function () {
+        return {
+            restrict: 'AC',
+            link: function (scope, element, attrs) {
+                var opts = {
+                        small: {
+                            lines: 9, // The number of lines to draw
+                            length: 0, // The length of each line
+                            width: 4, // The line thickness
+                            radius: 8, // The radius of the inner circle
+                            corners: 1, // Corner roundness (0..1)
+                            rotate: 37, // The rotation offset
+                            direction: 1, // 1: clockwise, -1: counterclockwise
+                            color: '#555', // #rgb or #rrggbb
+                            speed: 1.0, // Rounds per second
+                            trail: 85, // Afterglow percentage
+                            shadow: false, // Whether to render a shadow
+                            hwaccel: true, // Whether to use hardware acceleration
+                            className: 'spinner', // The CSS class to assign to the spinner
+                            zIndex: 2e9, // The z-index (defaults to 2000000000)
+                            top: 'auto', // Top position relative to parent in px
+                            left: 'auto' // Left position relative to parent in px
+                        },
+                        large: {
+                            lines: 9, // The number of lines to draw
+                            length: 0, // The length of each line
+                            width: 12, // The line thickness
+                            radius: 24, // The radius of the inner circle
+                            corners: 1, // Corner roundness (0..1)
+                            rotate: 37, // The rotation offset
+                            direction: 1, // 1: clockwise, -1: counterclockwise
+                            color: '#555', // #rgb or #rrggbb
+                            speed: 1.0, // Rounds per second
+                            trail: 85, // Afterglow percentage
+                            shadow: false, // Whether to render a shadow
+                            hwaccel: true, // Whether to use hardware acceleration
+                            className: 'spinner', // The CSS class to assign to the spinner
+                            zIndex: 2e9, // The z-index (defaults to 2000000000)
+                            top: 'auto', // Top position relative to parent in px
+                            left: 'auto' // Left position relative to parent in px
+                        }
+                    },
+                    ele = element[0],
+                    spinner = new Spinner(opts[attrs.spinnerSize || 'small']);
+
+                function getPosition() {
+                    var boundingClientRect = element[0].getBoundingClientRect();
+                    return {
+                        width: element.prop('offsetWidth'),
+                        height: element.prop('offsetHeight'),
+                        top: boundingClientRect.top + $window.pageYOffset,
+                        left: boundingClientRect.left + $window.pageXOffset
+                    };
+                }
+
+                scope.$watch(function () {
+                    if (scope.$eval(attrs.spinner)) {
+                        spinner.spin(ele);
+                    } else {
+                        spinner.stop();
+                    }
+                });
+            }
+        };
+    });

@@ -6,7 +6,7 @@
     <h4>{{current.getAddress()}}</h4>
 </div>
 <div class="span12">
-<div tabs>
+<div tabs ng-cloak>
 <div pane class="container-fluid" heading="{{panes[0].heading}}" active="panes[0].active">
     <div class="row-fluid">
         <div class="span12">
@@ -225,7 +225,7 @@
 
                     </div>
 
-                    <div class="controls">
+                    <div class="controls" spinner="finance.saving">
                         <input placeholder="Value" type="text" format-input="{{finance.valueFormat}}" name="value"
                                ng-blur="saveFinance(finance)" ng-model="finance.value"
                                class="input-large">

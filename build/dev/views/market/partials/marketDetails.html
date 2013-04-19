@@ -165,7 +165,7 @@
                 <label class="checkbox" ng-class="{'contact-selected': contact.selected}"
                        ng-repeat="contact in current.details.contacts">
                     <input type="checkbox" ng-model="contact.selected">
-                    <strong>{{contact.name}}</strong> - {{contact.phone}} - <em>{{contact.email}}</em>
+                    <strong>{{contact.name}}</strong> - <em>{{contact.phone}}</em> - {{contact.email}}
                 </label>
             </div>
         </div>

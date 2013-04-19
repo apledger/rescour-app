@@ -5347,7 +5347,7 @@ a.label:hover, a.badge:hover {
   width: 40px;
   height: 40px;
   margin-top: -20px;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 100;
   line-height: 42px;
   color: white;
@@ -7478,8 +7478,8 @@ input:focus, textarea:focus {
   display: none;
 }
 
-/* line 23, ../../app/styles/_styles.scss */
-#Loading {
+/* line 24, ../../app/styles/_styles.scss */
+.loading-background {
   position: absolute;
   left: 0px;
   top: 0px;
@@ -7489,7 +7489,43 @@ input:focus, textarea:focus {
   z-index: 5;
 }
 
-/* line 27, ../../app/styles/_styles.scss */
+/* line 28, ../../app/styles/_styles.scss */
+.loading-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 400px;
+  height: 200px;
+  margin-left: -200px;
+  margin-top: -100px;
+  text-align: center;
+}
+/* line 38, ../../app/styles/_styles.scss */
+.loading-container h4 {
+  text-transform: uppercase;
+  font-weight: normal;
+  font-size: 18px;
+  color: #5f5f5f;
+}
+/* line 45, ../../app/styles/_styles.scss */
+.loading-container p {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #797979;
+}
+/* line 51, ../../app/styles/_styles.scss */
+.loading-container .loading-icon {
+  text-shadow: #666666 0 -1px 0;
+  color: #5f5f5f;
+}
+/* line 56, ../../app/styles/_styles.scss */
+.loading-container .failure-icon {
+  text-shadow: #33100b 0 -1px 0;
+  color: #9c3022;
+  margin-bottom: 1em;
+}
+
+/* line 64, ../../app/styles/_styles.scss */
 .origami-left {
   position: absolute;
   top: 0;
@@ -7500,7 +7536,7 @@ input:focus, textarea:focus {
   z-index: -1;
 }
 
-/* line 37, ../../app/styles/_styles.scss */
+/* line 74, ../../app/styles/_styles.scss */
 .origami-right {
   position: absolute;
   top: 0;
@@ -7511,39 +7547,17 @@ input:focus, textarea:focus {
   z-index: -1;
 }
 
-/* line 47, ../../app/styles/_styles.scss */
-.loading-container {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-}
-/* line 52, ../../app/styles/_styles.scss */
-.loading-container p {
-  margin-left: -4em;
-  margin-bottom: 1em;
-  text-transform: uppercase;
-  font-size: 18px;
-  color: #5f5f5f;
-}
-
-/* line 61, ../../app/styles/_styles.scss */
-.loading-icon {
-  text-shadow: #666666 0 -1px 0;
-  margin-left: -1em;
-  color: #5f5f5f;
-}
-
-/* line 67, ../../app/styles/_styles.scss */
+/* line 85, ../../app/styles/_styles.scss */
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
   display: none;
 }
 
-/* line 71, ../../app/styles/_styles.scss */
+/* line 89, ../../app/styles/_styles.scss */
 header, section, footer {
   display: block;
 }
 
-/* line 75, ../../app/styles/_styles.scss */
+/* line 93, ../../app/styles/_styles.scss */
 body {
   min-height: 100%;
   margin: 0;
@@ -7553,7 +7567,7 @@ body {
   background-color: #eeeeee;
 }
 
-/* line 84, ../../app/styles/_styles.scss */
+/* line 102, ../../app/styles/_styles.scss */
 #Wrapper {
   position: relative;
   width: 100%;
@@ -7561,7 +7575,7 @@ body {
   background-color: #eeeeee;
 }
 
-/* line 91, ../../app/styles/_styles.scss */
+/* line 109, ../../app/styles/_styles.scss */
 .main-container {
   position: absolute;
   top: 55px;
@@ -7570,7 +7584,7 @@ body {
   bottom: 21px;
 }
 
-/* line 99, ../../app/styles/_styles.scss */
+/* line 117, ../../app/styles/_styles.scss */
 #Footer {
   position: fixed;
   width: 100%;
@@ -7582,29 +7596,29 @@ body {
   z-index: 3000;
 }
 
-/* line 110, ../../app/styles/_styles.scss */
+/* line 128, ../../app/styles/_styles.scss */
 #Footer p {
   text-align: center;
 }
 
-/* line 114, ../../app/styles/_styles.scss */
+/* line 132, ../../app/styles/_styles.scss */
 #Footer p a {
   font-size: 10px;
   margin-right: 10px;
 }
 
-/* line 119, ../../app/styles/_styles.scss */
+/* line 137, ../../app/styles/_styles.scss */
 .yellow {
   color: #ffc40d;
 }
 
-/* line 123, ../../app/styles/_styles.scss */
+/* line 141, ../../app/styles/_styles.scss */
 .red {
   color: #9c3022;
 }
 
 /* Scroll Bar */
-/* line 128, ../../app/styles/_styles.scss */
+/* line 146, ../../app/styles/_styles.scss */
 ::-webkit-scrollbar, ::-webkit-scrollbar {
   width: 7px;
   height: 7px;
@@ -7613,7 +7627,7 @@ body {
   border-radius: 5px;
 }
 
-/* line 134, ../../app/styles/_styles.scss */
+/* line 152, ../../app/styles/_styles.scss */
 ::-webkit-scrollbar-thumb, ::-webkit-scrollbar-thumb {
   background-color: #666666;
   -webkit-border-radius: 5px;
@@ -7624,17 +7638,17 @@ body {
   box-shadow: rgba(0, 0, 0, 0.05) -1px 0 7px inset;
 }
 
-/* line 140, ../../app/styles/_styles.scss */
+/* line 158, ../../app/styles/_styles.scss */
 ::-webkit-scrollbar-track-piece, ::-webkit-scrollbar-track-piece {
   background-color: transparent;
 }
 
-/* line 144, ../../app/styles/_styles.scss */
+/* line 162, ../../app/styles/_styles.scss */
 ::-webkit-scrollbar-corner, ::-webkit-scrollbar-corner {
   display: none;
 }
 
-/* line 149, ../../app/styles/_styles.scss */
+/* line 167, ../../app/styles/_styles.scss */
 .modal-backdrop {
   position: fixed;
   top: 0;
@@ -7645,12 +7659,12 @@ body {
   background-color: rgba(0, 0, 0, 0.7);
 }
 
-/* line 159, ../../app/styles/_styles.scss */
+/* line 177, ../../app/styles/_styles.scss */
 .hide {
   display: none;
 }
 
-/* line 163, ../../app/styles/_styles.scss */
+/* line 181, ../../app/styles/_styles.scss */
 .toggle {
   position: relative;
   float: left;

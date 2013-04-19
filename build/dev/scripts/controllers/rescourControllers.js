@@ -5,12 +5,15 @@ angular.module('rescour.app')
         function ($scope, $rootScope, $location, $_api, $http) {
             $rootScope.$on("$routeChangeStart", function (event, next, current) {
                 $scope.loading = true;
+                $scope.failure = false;
             });
             $rootScope.$on("$routeChangeSuccess", function (event, current, previous) {
                 $scope.loading = false;
+                $scope.failure = false;
             });
             $rootScope.$on("$routeChangeError", function (event, current, previous, rejection) {
                 $scope.loading = false;
+                $scope.failure = true;
             });
 
             $scope.resetPermission = function () {
@@ -24,9 +27,9 @@ angular.module('rescour.app')
                         body = JSON.stringify(["verified"]);
 
                     $http.put(path, body, config).then(function (response) {
-                        console.log("Successful reset", response);
+
                     }, function (response) {
-                        console.log("Error reset", response);
+
                     });
                 });
             }
@@ -245,7 +248,13 @@ angular.module('rescour.app')
 
             $scope.saveProfile = function () {
                 $scope.user.saveProfile().then(function (response) {
-                    console.log(response);
+                    $scope.accountAlerts = [
+                        {
+                            type: 'success',
+                            msg: 'Profile saved!',
+                            action: true
+                        }
+                    ];
                 });
             };
         }])
@@ -279,7 +288,6 @@ angular.module('rescour.app')
                 if ($scope.formChangePassword.$valid) {
                     console.log($scope.newPassword, $scope.verifyPassword);
                     $scope.user.updateProfile($scope.creds).then(function (response) {
-                        console.log(response);
                         $scope.creds = {};
                     });
                 }
@@ -295,7 +303,6 @@ angular.module('rescour.app')
 
             $scope.cancelSubscription = function (cancelFields) {
                 if ($scope.formCancelSubscriptionDialog.$valid) {
-                    console.log("sup");
                     dialog.close({
                         action: 'save',
                         reason: cancelFields.reason
@@ -398,9 +405,5 @@ angular.module('rescour.app')
                             }
                         ];
                     });
-            };
-
-            $scope.cancelSubscription = function (reason) {
-
             };
         }]);

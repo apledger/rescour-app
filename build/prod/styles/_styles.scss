@@ -20,10 +20,47 @@
   z-index: 5;
   display:none;
 }
-#Loading {
+
+.loading-background {
   position: absolute; left: 0px; top: 0px; bottom:0px; right: 0px; background: $light-gray; z-index: 5;
-  //display:none;
 }
+
+.loading-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 400px;
+  height: 200px;
+  margin-left: -200px;
+  margin-top: -100px;
+  text-align: center;
+
+  h4 {
+    text-transform: uppercase;
+    font-weight: normal;
+    font-size: 18px;
+    color: $gray;
+  }
+
+  p {
+    margin-top: 10px;
+    font-size: 14px;
+    color: lighten($gray, 10%);
+  }
+
+  .loading-icon {
+    text-shadow: #666 0 -1px 0;
+    color: $gray;
+  }
+
+  .failure-icon {
+    text-shadow: darken($red, 25%) 0 -1px 0;
+    color: $red;
+    margin-bottom: 1em;
+  }
+}
+
+
 .origami-left {
   position: absolute;
   top: 0;
@@ -44,25 +81,6 @@
   z-index: -1;
 }
 
-.loading-container {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-
-  p {
-    margin-left: -4em;
-    margin-bottom: 1em;
-    text-transform: uppercase;
-    font-size: 18px;
-    color: $gray;
-  }
-}
-
-.loading-icon {
-  text-shadow: #666 0 -1px 0;
-  margin-left: -1em;
-  color: $gray;
-}
 
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
   display: none;

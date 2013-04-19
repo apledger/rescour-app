@@ -73,12 +73,11 @@ angular.module('rescour.app')
             return defer.promise;
         };
 
-        this.cancelSubscription = function (reason, transform) {
+        this.cancelSubscription = function (reason, transformFn) {
             var defer = $q.defer(),
-                self = this,
                 path = $_api.path + '/auth/users/user/cancel/',
                 config = angular.extend({
-                    transformRequest: transform
+                    transformRequest: transformFn
                 }, $_api.config),
                 body = JSON.stringify({
                     text: reason

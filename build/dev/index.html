@@ -40,10 +40,15 @@
     <!-- ClickJacking Defense end -->
 </head>
 <body ng-controller="AppController">
-<div id="Loading" ng-show="loading" ng-cloak>
-    <div class="loading-container">
-        <p>Loading</p>
+<div class="loading-background" ng-show="loading || failure" ng-cloak>
+    <div ng-show="loading" class="loading-container">
+        <h4>LOADING</h4>
         <i class="loading-icon icon-spinner icon-spin icon-4x"></i>
+    </div>
+    <div ng-show="failure" class="loading-container">
+        <h4>OOPS!</h4>
+        <i class="failure-icon icon-exclamation-sign icon-4x"></i>
+        <p>Well, this is embarassing.  It seems the content you have requested cannot be loaded.  Our team has been notified and we encourage you to try again later.</p>
     </div>
 </div>
 

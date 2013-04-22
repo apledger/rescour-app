@@ -133,16 +133,16 @@ angular.module('rescour.app')
                         });
 
                     $http.post(path, body, config).then(function (response) {
-                        $scope.loginAlerts = [
+                        $scope.resetPasswordAlerts = [
                             {
                                 type: 'success',
-                                msg: 'Please login'
+                                msg: 'Password changed!  Redirecting to login..'
                             }
                         ];
 
                         $timeout(function () {
                             $location.path('/login');
-                        }, 500);
+                        }, 1000);
                     }, function (response) {
                         $scope.resetPasswordAlerts = [
                             {

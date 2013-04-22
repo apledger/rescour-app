@@ -22,7 +22,7 @@ angular.module('nebuMarket')
             };
 
             $scope.selectItem = function (item) {
-                if (!item.hasOwnProperty('details')) {
+                if (!item.hasOwnProperty('details') || _.isEmpty(item.details)) {
                     item.getDetails();
                 }
                 Items.active = $scope.selectedItem = item;

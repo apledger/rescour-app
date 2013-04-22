@@ -102,7 +102,7 @@ angular.module('nebuMarket')
                     defer = $q.defer(),
                     config = angular.extend({
                         transformRequest: function (data) {
-                            self.loading = true;
+                            self.details.$spinner = true;
                             return data;
                         }
                     }, $_api.config),
@@ -126,10 +126,11 @@ angular.module('nebuMarket')
                         ]
                     };
 
+                self.details = self.details || {};
+
                 $http.get($_api.path + '/properties/' + this.id, config).then(function (response) {
-                    self.details = {};
                     angular.copy(response.data, self.details);
-                    self.loading = false;
+                    self.details.$spinner = false;
                     try {
                         if (angular.isArray(self.details.comments)) {
                             locals.comments = self.details.comments;
@@ -137,7 +138,6 @@ angular.module('nebuMarket')
                             for (var i = 0, len = locals.comments.length; i < len; i++) {
                                 self.addComment(locals.comments[i]);
                             }
-
                         } else {
                             throw new Error("Comments are not an array");
                         }
@@ -173,7 +173,7 @@ angular.module('nebuMarket')
                     }
                     defer.resolve(response);
                 }, function (response) {
-                    self.loading = false;
+                    self.details.$spinner = false;
                     defer.reject(response);
                 });
 
@@ -236,20 +236,21 @@ angular.module('nebuMarket')
                 var defer = $q.defer(),
                     self = this,
                     config = angular.extend({
-                        transformRequest: $_api.loading.none
+                        transformRequest: function (data) {
+                            self.$spinner = true;
+                            return data;
+                        }
                     }, $_api.config),
                     body = JSON.stringify({value: (!self.favorites).toString()});
 
                 $http.post($_api.path + '/properties/' + this.id + '/favorites/', body, config).then(
                     function (response) {
-                        if (response.data.status === "success") {
-                            self.favorites = !self.favorites;
-                            defer.resolve(response);
-                        } else {
-                            defer.reject(response);
-                        }
+                        self.$spinner = false;
+                        self.favorites = !self.favorites;
+                        defer.resolve(response);
                     },
                     function (response) {
+                        self.$spinner = false;
                         defer.reject(response);
                     }
                 );
@@ -259,20 +260,21 @@ angular.module('nebuMarket')
                 var defer = $q.defer(),
                     self = this,
                     config = angular.extend({
-                        transformRequest: $_api.loading.none
+                        transformRequest: function (data) {
+                            self.$spinner = true;
+                            return data;
+                        }
                     }, $_api.config),
                     body = JSON.stringify({value: (!self.hidden).toString()});
 
                 $http.post($_api.path + '/properties/' + this.id + '/hidden/', body, config).then(
                     function (response) {
-                        if (response.data.status === "success") {
-                            self.hidden = !self.hidden;
-                            defer.resolve(response);
-                        } else {
-                            defer.reject(response);
-                        }
+                        self.$spinner = false;
+                        self.hidden = !self.hidden;
+                        defer.resolve(response);
                     },
                     function (response) {
+                        self.$spinner = false;
                         defer.reject(response);
                     }
                 );
@@ -796,7 +798,7 @@ angular.module('nebuMarket')
                     self = this,
                     config = angular.extend({
                         transformRequest: function (data) {
-                            self.saving = true;
+                            self.$spinner = true;
                             return data;
                         }
                     }, $_api.config),
@@ -808,15 +810,15 @@ angular.module('nebuMarket')
                 if (typeof propertyId !== 'undefined') {
                     $http.post($_api.path + '/properties/' + propertyId + '/comments/', body, config)
                         .then(function (response) {
-                            if(self.property) {
+                            if (self.property) {
                                 self.property.hasComments = true;
                             } else {
                                 throw new Error('Comment property has not been defined');
                             }
-                            self.saving = false;
+                            self.$spinner = false;
                             defer.resolve(response);
                         }, function (response) {
-                            self.saving = false;
+                            self.$spinner = false;
                             defer.reject(self);
                         });
                 } else {
@@ -880,7 +882,7 @@ angular.module('nebuMarket')
                     self = this,
                     config = angular.extend({
                         transformRequest: function (data) {
-                            self.saving = true;
+                            self.$spinner = true;
                             return data;
                         }
                     }, $_api.config),
@@ -895,33 +897,32 @@ angular.module('nebuMarket')
                     if (self.id) {
                         $http.put($_api.path + '/properties/' + propertyId + '/finances/' + self.id, body, config)
                             .then(function (response) {
-                                if(self.property) {
+                                if (self.property) {
                                     self.property.hasFinances = true;
                                 } else {
                                     throw new Error('Finance property has not been defined');
                                 }
-                                self.saving = false;
+                                self.$spinner = false;
                                 defer.resolve(response);
                             }, function (response) {
-                                self.saving = false;
+                                self.$spinner = false;
                                 defer.reject(response);
                             });
                     } else {
                         $http.post($_api.path + '/properties/' + propertyId + '/finances/', body, config)
                             .then(function (response) {
-                                if(self.property) {
+                                if (self.property) {
                                     self.property.hasFinances = true;
                                 } else {
                                     throw new Error('Finance property has not been defined');
                                 }
-                                self.saving = false;
+                                self.$spinner = false;
                                 self.id = response.data.id;
                                 defer.resolve(response);
                             }, function (response) {
-                                self.saving = false;
+                                self.$spinner = false;
                                 defer.reject(response);
                             });
-
                     }
                 } else {
                     throw new Error("Finance.$save received undefined itemID");

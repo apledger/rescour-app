@@ -50,12 +50,10 @@ rescourApp
                 scope.$watch(function () {
                     return scope.$eval(attrs.passwordVerify);
                 }, function (newVal) {
-
                     ctrl.$viewValue = "";
                     ctrl.$modelValue = "";
                     ctrl.$render();
                     ctrl.$setValidity("passwordMatch", false);
-                    console.log(newVal);
                 });
 
                 ctrl.$parsers.unshift(function (viewValue) {

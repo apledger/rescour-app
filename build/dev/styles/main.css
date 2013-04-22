@@ -6649,9 +6649,7 @@ a.label:hover, a.badge:hover {
 
 /* line 1, ../../app/styles/_header.scss */
 header {
-  position: absolute;
-  top: 0;
-  left: 0;
+  position: relative;
   border-top: 4px solid #993333;
   -webkit-box-shadow: 3px 1px 5px #333333;
   -moz-box-shadow: 3px 1px 5px #333333;
@@ -6668,7 +6666,7 @@ header {
   height: 50px;
   z-index: 1000;
 }
-/* line 12, ../../app/styles/_header.scss */
+/* line 10, ../../app/styles/_header.scss */
 header .logo {
   margin: 10px 0px 5px 45px;
   background: url("../../../img/logo.png") no-repeat center;
@@ -6677,7 +6675,7 @@ header .logo {
   position: relative;
   float: left;
 }
-/* line 21, ../../app/styles/_header.scss */
+/* line 19, ../../app/styles/_header.scss */
 header .market-controls {
   position: absolute;
   padding-top: 4px;

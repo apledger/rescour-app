@@ -26,9 +26,9 @@
     padding: 20px 30px 10px;
     margin: 0 auto 20px;
     background-clip: padding-box;
-    border: 10px solid rgba(0,0,0,0.1);
+    border: 10px solid rgba(0, 0, 0, 0.1);
     @include border-radius(25px);
-    background: rgba(255,255,255,0.5);
+    background: rgba(255, 255, 255, 0.5);
 
     .control-label {
       padding-top: 10px;
@@ -49,6 +49,11 @@
   .form-signin input[type="password"] {
     height: auto;
     padding: 10px 9px;
+  }
+
+  .sign-up-text {
+    float: right;
+    margin-top: 30px;
   }
 }
 

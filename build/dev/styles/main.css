@@ -6649,7 +6649,9 @@ a.label:hover, a.badge:hover {
 
 /* line 1, ../../app/styles/_header.scss */
 header {
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
   border-top: 4px solid #993333;
   -webkit-box-shadow: 3px 1px 5px #333333;
   -moz-box-shadow: 3px 1px 5px #333333;
@@ -6664,9 +6666,9 @@ header {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fcfcfc', endColorstr='#d2d2d2', GradientType=0);
   width: 100%;
   height: 50px;
-  z-index: 5;
+  z-index: 1000;
 }
-/* line 10, ../../app/styles/_header.scss */
+/* line 12, ../../app/styles/_header.scss */
 header .logo {
   margin: 10px 0px 5px 45px;
   background: url("../../../img/logo.png") no-repeat center;
@@ -6675,7 +6677,7 @@ header .logo {
   position: relative;
   float: left;
 }
-/* line 19, ../../app/styles/_header.scss */
+/* line 21, ../../app/styles/_header.scss */
 header .market-controls {
   position: absolute;
   padding-top: 4px;

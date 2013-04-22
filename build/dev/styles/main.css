@@ -6856,6 +6856,11 @@ input:focus, textarea:focus {
   height: auto;
   padding: 10px 9px;
 }
+/* line 54, ../../app/styles/_login.scss */
+.login .sign-up-text {
+  float: right;
+  margin-top: 30px;
+}
 
 /* line 2, ../../app/styles/_account.scss */
 .account-container {

@@ -187,7 +187,7 @@
 
 <div pane class="container-fluid" heading="{{panes[3].heading}}" active="panes[3].active">
     <div ng-repeat="comment in current.details.comments">
-        <div class="alert alert-info comment-alert" spinner="comment.saving">
+        <div class="alert alert-info comment-alert" spinner="comment.$spinner">
             <h5>{{comment.userEmail}} <span>{{comment.timestamp | date}}</span></h5>
 
             <p>{{comment.text}}</p>
@@ -236,7 +236,7 @@
                                 class="finance-class"
                                 ng-model="finance.valueFormat" ng-change="saveFinance(finance)"></select>
 
-                        <div class="control-spinner" spinner="finance.saving"></div>
+                        <div class="control-spinner" spinner="finance.$spinner"></div>
                     </div>
                 </div>
                 <div class="form-actions">

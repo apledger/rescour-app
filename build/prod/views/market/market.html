@@ -104,14 +104,16 @@
 
     <!--LIST BEGIN-->
     <div id="MarketList" ng-controller="ListController">
-        <div class="market-scroll" chunk="items | filter: searchText | limitVisible | orderBy: sortByRange('Year Built')">
+        <div class="market-scroll"
+             chunk="items | filter: searchText | limitVisible | orderBy: sortByRange('Year Built')">
             <!--Toggle favorites button-->
             <!--Item boxes display-->
             <div class="market-vscroll"></div>
             <div class="market-wrap">
                 <div id="item-{{item.id}}" class="item-well"
                      ng-class="{'item-hidden': item.hidden}"
-                     ng-repeat="item in chunk">
+                     ng-repeat="item in chunk"
+                     spinner="item.$spinner">
                     <!--Thumbnail preview button-->
 
                     <!--Top bar of item box-->
@@ -182,7 +184,8 @@
     <div map center="center" selected="selectedItem" view="view"></div>
 
     <!--Detail view over map-->
-    <div fade-in="current" class="property-details" current="selectedItem" spinner-size="large" spinner="current.loading"></div>
+    <div fade-in="current" class="property-details" current="selectedItem" spinner-size="large"
+         spinner="current.details.$spinner"></div>
 </div>
 
 <div id="Footer">

@@ -133,7 +133,7 @@ angular.module('rescour.app')
                         });
 
                     $http.post(path, body, config).then(function (response) {
-                        $scope.resetPasswordAlerts = [
+                        $scope.loginAlerts = [
                             {
                                 type: 'success',
                                 msg: 'Please login'

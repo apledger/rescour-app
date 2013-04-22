@@ -61,7 +61,7 @@
 
 
                     <ul class="dropdown-menu">
-                        <li><a ng-click="loadSearch()">New Search</a></li>
+                        <li><a href="javascript:" ng-click="loadSearch()">New Search</a></li>
                         <li class="divider"></li>
                         <li ng-repeat="saved in savedSearches">
                             <a href="javascript:" ng-click="loadSearch(saved)">{{saved.title}}</a>

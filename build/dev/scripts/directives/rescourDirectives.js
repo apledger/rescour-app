@@ -46,15 +46,21 @@ rescourApp
             require: "ngModel",
             link: function (scope, element, attrs, ctrl) {
 
-                scope.$watch('passwordVerify', function (value) {
+
+                scope.$watch(function () {
+                    return scope.$eval(attrs.passwordVerify);
+                }, function (newVal) {
+
                     ctrl.$viewValue = "";
+                    ctrl.$modelValue = "";
                     ctrl.$render();
                     ctrl.$setValidity("passwordMatch", false);
+                    console.log(newVal);
                 });
 
                 ctrl.$parsers.unshift(function (viewValue) {
-                    scope[attrs.passwordVerify];
-                    if (viewValue === scope[attrs.passwordVerify]) {
+                    var origin = scope.$eval(attrs.passwordVerify);
+                    if (viewValue === origin) {
                         ctrl.$setValidity('passwordMatch', true);
                         return viewValue;
                     } else {
@@ -175,16 +181,16 @@ rescourApp
                     },
                     ele = element[0],
                     spinner = new Spinner(opts[attrs.spinnerSize || 'small']);
-
-                function getPosition() {
-                    var boundingClientRect = element[0].getBoundingClientRect();
-                    return {
-                        width: element.prop('offsetWidth'),
-                        height: element.prop('offsetHeight'),
-                        top: boundingClientRect.top + $window.pageYOffset,
-                        left: boundingClientRect.left + $window.pageXOffset
-                    };
-                }
+//
+//                function getPosition() {
+//                    var boundingClientRect = element[0].getBoundingClientRect();
+//                    return {
+//                        width: element.prop('offsetWidth'),
+//                        height: element.prop('offsetHeight'),
+//                        top: boundingClientRect.top + $window.pageYOffset,
+//                        left: boundingClientRect.left + $window.pageXOffset
+//                    };
+//                }
 
                 scope.$watch(function () {
                     if (scope.$eval(attrs.spinner)) {

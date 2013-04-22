@@ -40,7 +40,6 @@ angular.module('rescour.app')
                     defer.resolve(response);
                 },
                 function (response) {
-                    console.log(response);
                     self.getProfile();
                     throw new Error("Error updating profile");
                     defer.reject(response);

@@ -128,8 +128,8 @@ angular.module('rescour.app')
                         }, $_api.config),
                         body = JSON.stringify({
                             token: $location.search().token,
-                            new_password: $scope.creds.newPassword,
-                            verify_password: $scope.creds.newPassword
+                            newPassword: $scope.creds.newPassword,
+                            verifyPassword: $scope.creds.verifyPassword
                         });
 
                     $http.post(path, body, config).then(function (response) {
@@ -143,8 +143,6 @@ angular.module('rescour.app')
                         $timeout(function () {
                             $location.path('/login');
                         }, 500);
-
-                        $scope.creds = {};
                     }, function (response) {
                         $scope.resetPasswordAlerts = [
                             {
@@ -152,8 +150,6 @@ angular.module('rescour.app')
                                 msg: response.data.status_message
                             }
                         ];
-
-                        $scope.creds = {};
                     });
                 }
             };
@@ -264,7 +260,6 @@ angular.module('rescour.app')
             $scope.saveUserField = function () {
                 var defer = $q.defer();
                 if ($scope.formProfile.$valid && $scope.formProfile.$dirty) {
-                    console.log($scope.user);
                     var path = $_api.path + '/auth/users/user/',
                         config = angular.extend({
                             transformRequest: $_api.loading.none
@@ -286,10 +281,36 @@ angular.module('rescour.app')
             $scope.creds = {};
             $scope.changePassword = function () {
                 if ($scope.formChangePassword.$valid) {
-                    console.log($scope.newPassword, $scope.verifyPassword);
-                    $scope.user.updateProfile($scope.creds).then(function (response) {
-                        $scope.creds = {};
-                    });
+                    var path = $_api.path + '/auth/users/user/',
+                        config = angular.extend({
+                            transformRequest: function (data) {
+                                $scope.accountAlerts = [{
+                                    type: 'info',
+                                    msg: 'Saving...'
+                                }];
+                                return data;
+                            }
+                        }, $_api.config),
+                        body = JSON.stringify({
+                            oldPassword: $scope.creds.oldPassword,
+                            newPassword: $scope.creds.newPassword,
+                            verifyPassword: $scope.creds.verifyPassword
+                        });
+
+                    $http.put(path, body, config).then(
+                        function (response) {
+                            $scope.accountAlerts = [{
+                                type: 'success',
+                                msg: 'Password change successful!'
+                            }];
+                        },
+                        function (response) {
+                            $scope.accountAlerts = [{
+                                type: 'error',
+                                msg: 'Error changing password.'
+                            }];
+                        }
+                    );
                 }
             };
 

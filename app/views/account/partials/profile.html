@@ -1,6 +1,6 @@
 <div class="container-fluid" ng-controller="AccountProfileController">
     <div class="page-header"><h3>General Profile</h3></div>
-    <div alert ng-repeat="alert in accountAlerts" type="alert.type">{{alert.msg}}
+    <div alert ng-repeat="alert in accountAlerts" type="alert.type" fade-after="3000">{{alert.msg}}
         <a ng-show="action" href="javascript:" ng-click="goToApp()">Continue to Application</a></div>
     <div class="row-fluid">
         <form novalidate name="formProfile" class="form-horizontal span6">

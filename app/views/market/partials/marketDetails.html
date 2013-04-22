@@ -175,9 +175,12 @@
                 <textarea rows="6" class="span12" ng-model="newEmail.message"></textarea>
             </div>
         </div>
-        <button class="btn btn-info" ng-click="sendEmail(newEmail)">Send</button>
+        <div class="form-actions">
+            <button class="btn btn-info" type="submit" ng-click="sendEmail(newEmail)">Send</button>
+        </div>
     </form>
-    <div class="alert" ng-show="!current.details.contacts || current.details.contacts.length == 0"><strong>Sorry!</strong> We don't
+    <div class="alert" ng-show="!current.details.contacts || current.details.contacts.length == 0">
+        <strong>Sorry!</strong> We don't
         have any contacts for this listing.
     </div>
 </div>
@@ -202,7 +205,6 @@
             <button type="submit" class="btn btn-success" ng-click="addComment(newComment)">
                 Add Comment
             </button>
-            <button type="button" class="btn" ng-click="close()">Cancel</button>
         </div>
     </form>
 </div>
@@ -216,6 +218,7 @@
                     <a href="javascript:" class="finance-delete" ng-click="deleteFinance(finance)">
                         <i class="icon-remove-sign"></i>
                     </a>
+
                     <div class="control-label">
                         <input placeholder="Click to edit" name="name"
                                class="edit-label"
@@ -232,6 +235,7 @@
                         <select ng-options="format.valueFormat as format.icon for format in valueFormats"
                                 class="finance-class"
                                 ng-model="finance.valueFormat" ng-change="saveFinance(finance)"></select>
+
                         <div class="control-spinner" spinner="finance.saving"></div>
                     </div>
                 </div>

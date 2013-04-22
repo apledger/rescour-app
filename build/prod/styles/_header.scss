@@ -2,7 +2,7 @@ header {
   position: relative;
   border-top: 4px solid #993333;
   @include box-shadow(3px 1px 5px $dark-gray);
-  @include background(linear-gradient(bottom, #d5d5d5, #fff));
+  @include gradient-vertical(#ffffff, #d5d5d5);
   width: 100%;
   height: $headerHeight;
   z-index: 5;

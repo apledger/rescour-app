@@ -6387,8 +6387,6 @@ a.label:hover, a.badge:hover {
 }
 /* line 37, ../../app/styles/_rescour_variables.scss */
 .property-details .tabbable .nav-tabs {
-  color: white;
-  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
   background-color: #f1f1f1;
   background-image: -moz-linear-gradient(top, #fbfbfb, #e1e1e1);
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#fbfbfb), to(#e1e1e1));
@@ -6397,11 +6395,6 @@ a.label:hover, a.badge:hover {
   background-image: linear-gradient(to bottom, #fbfbfb, #e1e1e1);
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f8f8f8', endColorstr='#dfdfdf', GradientType=0);
-  border-color: #e1e1e1 #e1e1e1 #bbbbbb;
-  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  *background-color: #e1e1e1;
-  /* Darken IE7 buttons by default so they stand out more given they won't have borders */
-  filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
   border-bottom: 1px solid #bbbbbb;
   -webkit-border-top-left-radius: 5px;
   -moz-border-radius-topleft: 5px;
@@ -6409,16 +6402,6 @@ a.label:hover, a.badge:hover {
   -webkit-border-top-right-radius: 5px;
   -moz-border-radius-topright: 5px;
   border-top-right-radius: 5px;
-}
-/* line 496, ../../app/styles/compass_twitter_bootstrap/_mixins.scss */
-.property-details .tabbable .nav-tabs:hover, .property-details .tabbable .nav-tabs:active, .property-details .tabbable .nav-tabs.active, .property-details .tabbable .nav-tabs.disabled, .property-details .tabbable .nav-tabs[disabled] {
-  color: white;
-  background-color: #e1e1e1;
-  *background-color: #d4d4d4;
-}
-/* line 504, ../../app/styles/compass_twitter_bootstrap/_mixins.scss */
-.property-details .tabbable .nav-tabs:active, .property-details .tabbable .nav-tabs.active {
-  background-color: #c8c8c8 \9;
 }
 /* line 43, ../../app/styles/_rescour_variables.scss */
 .property-details .tabbable .nav-tabs > li {
@@ -6455,8 +6438,9 @@ a.label:hover, a.badge:hover {
 /* line 59, ../../app/styles/_rescour_variables.scss */
 .property-details .tabbable .nav-tabs > li > a:hover {
   background: #eeeeee;
+  background: #eeeeee \9;
 }
-/* line 64, ../../app/styles/_rescour_variables.scss */
+/* line 65, ../../app/styles/_rescour_variables.scss */
 .property-details .tabbable .nav-tabs > .active > a, .property-details .tabbable .nav-tabs > .active > a:hover {
   -webkit-transform: translate(0, 5px);
   -moz-transform: translate(0, 5px);
@@ -6465,23 +6449,24 @@ a.label:hover, a.badge:hover {
   transform: translate(0, 5px);
   border-bottom: 1px solid white;
   background: white;
+  background: white \9;
   -webkit-transition: all 0.3s ease;
   -moz-transition: all 0.3s ease;
   -o-transition: all 0.3s ease;
   transition: all 0.3s ease;
 }
-/* line 71, ../../app/styles/_rescour_variables.scss */
+/* line 73, ../../app/styles/_rescour_variables.scss */
 .property-details .tabbable .nav-tabs > li.active {
   border-right: 1px solid #bbbbbb;
 }
-/* line 73, ../../app/styles/_rescour_variables.scss */
+/* line 75, ../../app/styles/_rescour_variables.scss */
 .property-details .tabbable .nav-tabs > li.active:first-child {
   -webkit-border-top-left-radius: 5px;
   -moz-border-radius-topleft: 5px;
   border-top-left-radius: 5px;
   border-left: none;
 }
-/* line 82, ../../app/styles/_rescour_variables.scss */
+/* line 84, ../../app/styles/_rescour_variables.scss */
 .property-details .tab-content {
   margin-top: 5px;
 }
@@ -6937,13 +6922,13 @@ input:focus, textarea:focus {
   transition: all 1s ease;
   margin-top: 30px;
 }
-/* line 100, ../../app/styles/_rescour_variables.scss */
+/* line 102, ../../app/styles/_rescour_variables.scss */
 .plan-basic h2 {
   text-align: center;
   font-size: 32px;
   margin: 20px;
 }
-/* line 106, ../../app/styles/_rescour_variables.scss */
+/* line 108, ../../app/styles/_rescour_variables.scss */
 .plan-basic .price {
   position: relative;
   width: 100px;
@@ -6954,47 +6939,47 @@ input:focus, textarea:focus {
   background-color: #3d773e;
   margin: 0 auto;
 }
-/* line 114, ../../app/styles/_rescour_variables.scss */
+/* line 116, ../../app/styles/_rescour_variables.scss */
 .plan-basic .price .amount {
   position: relative;
   line-height: 90px;
   text-align: center;
 }
-/* line 119, ../../app/styles/_rescour_variables.scss */
+/* line 121, ../../app/styles/_rescour_variables.scss */
 .plan-basic .price .amount .currency {
   position: absolute;
   top: -3px;
   left: 14px;
   font-size: 16px;
 }
-/* line 126, ../../app/styles/_rescour_variables.scss */
+/* line 128, ../../app/styles/_rescour_variables.scss */
 .plan-basic .price .amount .currency-amount {
   text-align: center;
   display: inline-block;
   font-size: 28px;
   font-weight: bold;
 }
-/* line 133, ../../app/styles/_rescour_variables.scss */
+/* line 135, ../../app/styles/_rescour_variables.scss */
 .plan-basic .price .amount .period {
   font-size: 14px;
   position: absolute;
   top: 23px;
   left: 30px;
 }
-/* line 142, ../../app/styles/_rescour_variables.scss */
+/* line 144, ../../app/styles/_rescour_variables.scss */
 .plan-basic ul {
   margin: 15px 0 0 0 !important;
   text-align: center;
 }
-/* line 146, ../../app/styles/_rescour_variables.scss */
+/* line 148, ../../app/styles/_rescour_variables.scss */
 .plan-basic ul li {
   padding: 3px;
 }
-/* line 149, ../../app/styles/_rescour_variables.scss */
+/* line 151, ../../app/styles/_rescour_variables.scss */
 .plan-basic ul li.plan-action {
   margin: 30px 0;
 }
-/* line 155, ../../app/styles/_rescour_variables.scss */
+/* line 157, ../../app/styles/_rescour_variables.scss */
 .plan-basic:hover {
   background-color: #7aba7b;
   border: 10px #58a959 solid;
@@ -7003,7 +6988,7 @@ input:focus, textarea:focus {
   -o-transition: all 1s ease;
   transition: all 1s ease;
 }
-/* line 160, ../../app/styles/_rescour_variables.scss */
+/* line 162, ../../app/styles/_rescour_variables.scss */
 .plan-basic .plan-submit {
   color: white;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
@@ -7033,7 +7018,7 @@ input:focus, textarea:focus {
 .plan-basic .plan-submit:active, .plan-basic .plan-submit.active {
   background-color: #122312 \9;
 }
-/* line 165, ../../app/styles/_rescour_variables.scss */
+/* line 167, ../../app/styles/_rescour_variables.scss */
 .plan-basic .plan-submit.plan-cancel {
   color: white;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
@@ -7076,13 +7061,13 @@ input:focus, textarea:focus {
   transition: all 1s ease;
   margin-top: 30px;
 }
-/* line 100, ../../app/styles/_rescour_variables.scss */
+/* line 102, ../../app/styles/_rescour_variables.scss */
 .plan-group h2 {
   text-align: center;
   font-size: 32px;
   margin: 20px;
 }
-/* line 106, ../../app/styles/_rescour_variables.scss */
+/* line 108, ../../app/styles/_rescour_variables.scss */
 .plan-group .price {
   position: relative;
   width: 100px;
@@ -7093,47 +7078,47 @@ input:focus, textarea:focus {
   background-color: #525252;
   margin: 0 auto;
 }
-/* line 114, ../../app/styles/_rescour_variables.scss */
+/* line 116, ../../app/styles/_rescour_variables.scss */
 .plan-group .price .amount {
   position: relative;
   line-height: 90px;
   text-align: center;
 }
-/* line 119, ../../app/styles/_rescour_variables.scss */
+/* line 121, ../../app/styles/_rescour_variables.scss */
 .plan-group .price .amount .currency {
   position: absolute;
   top: -3px;
   left: 14px;
   font-size: 16px;
 }
-/* line 126, ../../app/styles/_rescour_variables.scss */
+/* line 128, ../../app/styles/_rescour_variables.scss */
 .plan-group .price .amount .currency-amount {
   text-align: center;
   display: inline-block;
   font-size: 28px;
   font-weight: bold;
 }
-/* line 133, ../../app/styles/_rescour_variables.scss */
+/* line 135, ../../app/styles/_rescour_variables.scss */
 .plan-group .price .amount .period {
   font-size: 14px;
   position: absolute;
   top: 23px;
   left: 30px;
 }
-/* line 142, ../../app/styles/_rescour_variables.scss */
+/* line 144, ../../app/styles/_rescour_variables.scss */
 .plan-group ul {
   margin: 15px 0 0 0 !important;
   text-align: center;
 }
-/* line 146, ../../app/styles/_rescour_variables.scss */
+/* line 148, ../../app/styles/_rescour_variables.scss */
 .plan-group ul li {
   padding: 3px;
 }
-/* line 149, ../../app/styles/_rescour_variables.scss */
+/* line 151, ../../app/styles/_rescour_variables.scss */
 .plan-group ul li.plan-action {
   margin: 30px 0;
 }
-/* line 155, ../../app/styles/_rescour_variables.scss */
+/* line 157, ../../app/styles/_rescour_variables.scss */
 .plan-group:hover {
   background-color: #929292;
   border: 10px #797979 solid;
@@ -7142,7 +7127,7 @@ input:focus, textarea:focus {
   -o-transition: all 1s ease;
   transition: all 1s ease;
 }
-/* line 160, ../../app/styles/_rescour_variables.scss */
+/* line 162, ../../app/styles/_rescour_variables.scss */
 .plan-group .plan-submit {
   color: white;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
@@ -7172,7 +7157,7 @@ input:focus, textarea:focus {
 .plan-group .plan-submit:active, .plan-group .plan-submit.active {
   background-color: #131313 \9;
 }
-/* line 165, ../../app/styles/_rescour_variables.scss */
+/* line 167, ../../app/styles/_rescour_variables.scss */
 .plan-group .plan-submit.plan-cancel {
   color: white;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
@@ -7215,13 +7200,13 @@ input:focus, textarea:focus {
   transition: all 1s ease;
   margin-top: 30px;
 }
-/* line 100, ../../app/styles/_rescour_variables.scss */
+/* line 102, ../../app/styles/_rescour_variables.scss */
 .plan-enterprise h2 {
   text-align: center;
   font-size: 32px;
   margin: 20px;
 }
-/* line 106, ../../app/styles/_rescour_variables.scss */
+/* line 108, ../../app/styles/_rescour_variables.scss */
 .plan-enterprise .price {
   position: relative;
   width: 100px;
@@ -7232,47 +7217,47 @@ input:focus, textarea:focus {
   background-color: #525252;
   margin: 0 auto;
 }
-/* line 114, ../../app/styles/_rescour_variables.scss */
+/* line 116, ../../app/styles/_rescour_variables.scss */
 .plan-enterprise .price .amount {
   position: relative;
   line-height: 90px;
   text-align: center;
 }
-/* line 119, ../../app/styles/_rescour_variables.scss */
+/* line 121, ../../app/styles/_rescour_variables.scss */
 .plan-enterprise .price .amount .currency {
   position: absolute;
   top: -3px;
   left: 14px;
   font-size: 16px;
 }
-/* line 126, ../../app/styles/_rescour_variables.scss */
+/* line 128, ../../app/styles/_rescour_variables.scss */
 .plan-enterprise .price .amount .currency-amount {
   text-align: center;
   display: inline-block;
   font-size: 28px;
   font-weight: bold;
 }
-/* line 133, ../../app/styles/_rescour_variables.scss */
+/* line 135, ../../app/styles/_rescour_variables.scss */
 .plan-enterprise .price .amount .period {
   font-size: 14px;
   position: absolute;
   top: 23px;
   left: 30px;
 }
-/* line 142, ../../app/styles/_rescour_variables.scss */
+/* line 144, ../../app/styles/_rescour_variables.scss */
 .plan-enterprise ul {
   margin: 15px 0 0 0 !important;
   text-align: center;
 }
-/* line 146, ../../app/styles/_rescour_variables.scss */
+/* line 148, ../../app/styles/_rescour_variables.scss */
 .plan-enterprise ul li {
   padding: 3px;
 }
-/* line 149, ../../app/styles/_rescour_variables.scss */
+/* line 151, ../../app/styles/_rescour_variables.scss */
 .plan-enterprise ul li.plan-action {
   margin: 30px 0;
 }
-/* line 155, ../../app/styles/_rescour_variables.scss */
+/* line 157, ../../app/styles/_rescour_variables.scss */
 .plan-enterprise:hover {
   background-color: #929292;
   border: 10px #797979 solid;
@@ -7281,7 +7266,7 @@ input:focus, textarea:focus {
   -o-transition: all 1s ease;
   transition: all 1s ease;
 }
-/* line 160, ../../app/styles/_rescour_variables.scss */
+/* line 162, ../../app/styles/_rescour_variables.scss */
 .plan-enterprise .plan-submit {
   color: white;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
@@ -7311,7 +7296,7 @@ input:focus, textarea:focus {
 .plan-enterprise .plan-submit:active, .plan-enterprise .plan-submit.active {
   background-color: #131313 \9;
 }
-/* line 165, ../../app/styles/_rescour_variables.scss */
+/* line 167, ../../app/styles/_rescour_variables.scss */
 .plan-enterprise .plan-submit.plan-cancel {
   color: white;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
@@ -7354,13 +7339,13 @@ input:focus, textarea:focus {
   transition: all 1s ease;
   margin-top: 30px;
 }
-/* line 100, ../../app/styles/_rescour_variables.scss */
+/* line 102, ../../app/styles/_rescour_variables.scss */
 .plan-unlimited h2 {
   text-align: center;
   font-size: 32px;
   margin: 20px;
 }
-/* line 106, ../../app/styles/_rescour_variables.scss */
+/* line 108, ../../app/styles/_rescour_variables.scss */
 .plan-unlimited .price {
   position: relative;
   width: 100px;
@@ -7371,47 +7356,47 @@ input:focus, textarea:focus {
   background-color: #525252;
   margin: 0 auto;
 }
-/* line 114, ../../app/styles/_rescour_variables.scss */
+/* line 116, ../../app/styles/_rescour_variables.scss */
 .plan-unlimited .price .amount {
   position: relative;
   line-height: 90px;
   text-align: center;
 }
-/* line 119, ../../app/styles/_rescour_variables.scss */
+/* line 121, ../../app/styles/_rescour_variables.scss */
 .plan-unlimited .price .amount .currency {
   position: absolute;
   top: -3px;
   left: 14px;
   font-size: 16px;
 }
-/* line 126, ../../app/styles/_rescour_variables.scss */
+/* line 128, ../../app/styles/_rescour_variables.scss */
 .plan-unlimited .price .amount .currency-amount {
   text-align: center;
   display: inline-block;
   font-size: 28px;
   font-weight: bold;
 }
-/* line 133, ../../app/styles/_rescour_variables.scss */
+/* line 135, ../../app/styles/_rescour_variables.scss */
 .plan-unlimited .price .amount .period {
   font-size: 14px;
   position: absolute;
   top: 23px;
   left: 30px;
 }
-/* line 142, ../../app/styles/_rescour_variables.scss */
+/* line 144, ../../app/styles/_rescour_variables.scss */
 .plan-unlimited ul {
   margin: 15px 0 0 0 !important;
   text-align: center;
 }
-/* line 146, ../../app/styles/_rescour_variables.scss */
+/* line 148, ../../app/styles/_rescour_variables.scss */
 .plan-unlimited ul li {
   padding: 3px;
 }
-/* line 149, ../../app/styles/_rescour_variables.scss */
+/* line 151, ../../app/styles/_rescour_variables.scss */
 .plan-unlimited ul li.plan-action {
   margin: 30px 0;
 }
-/* line 155, ../../app/styles/_rescour_variables.scss */
+/* line 157, ../../app/styles/_rescour_variables.scss */
 .plan-unlimited:hover {
   background-color: #929292;
   border: 10px #797979 solid;
@@ -7420,7 +7405,7 @@ input:focus, textarea:focus {
   -o-transition: all 1s ease;
   transition: all 1s ease;
 }
-/* line 160, ../../app/styles/_rescour_variables.scss */
+/* line 162, ../../app/styles/_rescour_variables.scss */
 .plan-unlimited .plan-submit {
   color: white;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
@@ -7450,7 +7435,7 @@ input:focus, textarea:focus {
 .plan-unlimited .plan-submit:active, .plan-unlimited .plan-submit.active {
   background-color: #131313 \9;
 }
-/* line 165, ../../app/styles/_rescour_variables.scss */
+/* line 167, ../../app/styles/_rescour_variables.scss */
 .plan-unlimited .plan-submit.plan-cancel {
   color: white;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);

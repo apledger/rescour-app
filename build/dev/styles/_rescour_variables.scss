@@ -65,8 +65,7 @@ $headerHeight: 50px;
       & > .active > a, & > .active > a:hover {
         @include translate(0, 5px);
         border-bottom: 1px solid white;
-        background: white !important;
-        background: #FFFFFF \9 !important;
+        @include gradient-vertical(#FFFFFF, #FFFFFF);
         @include transition(all 0.3s ease);
       }
 

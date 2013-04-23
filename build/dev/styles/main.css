@@ -7615,36 +7615,6 @@ body {
 }
 
 /* Scroll Bar */
-/* line 134, ../../app/styles/_styles.scss */
-::-webkit-scrollbar, ::-webkit-scrollbar {
-  width: 7px;
-  height: 7px;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-}
-
-/* line 140, ../../app/styles/_styles.scss */
-::-webkit-scrollbar-thumb, ::-webkit-scrollbar-thumb {
-  background-color: #666666;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-  -webkit-box-shadow: rgba(0, 0, 0, 0.05) -1px 0 7px inset;
-  -moz-box-shadow: rgba(0, 0, 0, 0.05) -1px 0 7px inset;
-  box-shadow: rgba(0, 0, 0, 0.05) -1px 0 7px inset;
-}
-
-/* line 146, ../../app/styles/_styles.scss */
-::-webkit-scrollbar-track-piece, ::-webkit-scrollbar-track-piece {
-  background-color: transparent;
-}
-
-/* line 150, ../../app/styles/_styles.scss */
-::-webkit-scrollbar-corner, ::-webkit-scrollbar-corner {
-  display: none;
-}
-
 /* line 155, ../../app/styles/_styles.scss */
 .modal-backdrop {
   position: fixed;

@@ -42,4 +42,3 @@ angular.module('rescour.api', [])
             stripeToken: stripeTokens.test
         };
     });
-

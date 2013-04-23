@@ -131,25 +131,25 @@ body {
 }
 
 /* Scroll Bar */
-::-webkit-scrollbar, ::-webkit-scrollbar {
-  width: 7px;
-  height: 7px;
-  @include border-radius(5px);
-}
-
-::-webkit-scrollbar-thumb, ::-webkit-scrollbar-thumb {
-  background-color: darken($grayLight, 20%);
-  @include border-radius(5px);
-  @include box-shadow(rgba(0, 0, 0, 0.05) -1px 0 7px inset);
-}
-
-::-webkit-scrollbar-track-piece, ::-webkit-scrollbar-track-piece {
-  background-color: transparent;
-}
-
-::-webkit-scrollbar-corner, ::-webkit-scrollbar-corner {
-  display: none;
-}
+//::-webkit-scrollbar, ::-webkit-scrollbar {
+//  width: 7px;
+//  height: 7px;
+//  @include border-radius(5px);
+//}
+//
+//::-webkit-scrollbar-thumb, ::-webkit-scrollbar-thumb {
+//  background-color: darken($grayLight, 20%);
+//  @include border-radius(5px);
+//  @include box-shadow(rgba(0, 0, 0, 0.05) -1px 0 7px inset);
+//}
+//
+//::-webkit-scrollbar-track-piece, ::-webkit-scrollbar-track-piece {
+//  background-color: transparent;
+//}
+//
+//::-webkit-scrollbar-corner, ::-webkit-scrollbar-corner {
+//  display: none;
+//}
 
 
 .modal-backdrop {

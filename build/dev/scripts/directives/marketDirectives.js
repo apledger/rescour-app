@@ -177,7 +177,7 @@ angular.module('nebuMarket')
                             "<li><span>" + item.getAttribute('Number of Units') + "</span> Units</li>" +
                             "<li>Built in <span>" + item.getAttribute('Year Built') + "</span></li>" +
                             "<li><span>" + item.getAttribute('Broker') + "</span></li>" +
-                            "<li><span>" + item.getAttribute('State') + "</span></li>" +
+                            "<li><span>" + item.address.city + ", " + item.address.state + "</span></li>" +
                             "</ul>" +
                             "</div>" +
                             "<div class=\"popup-striped-container popup-footer\">\n    <p>" +
@@ -328,7 +328,7 @@ angular.module('nebuMarket')
 
                 element.bind('scroll', function () {
                     // Check if within bottom of scrollable div
-                    if ((raw.scrollTop + raw.offsetHeight) * 1.2 > raw.scrollHeight) {
+                    if ((raw.scrollTop + raw.offsetHeight) >= raw.scrollHeight) {
                         // increase chunkSize and re-filter
                         scope.$apply(function () {
                             // take next limit

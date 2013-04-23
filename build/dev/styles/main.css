@@ -5620,27 +5620,24 @@ a.label:hover, a.badge:hover {
 #Filter .filter-container {
   display: block;
   overflow: hidden;
+  overflow-y: auto;
   height: 100%;
 }
-/* line 31, ../../app/styles/_market_filter.scss */
-#Filter .filter-container:hover {
-  overflow-y: auto;
-}
-/* line 36, ../../app/styles/_market_filter.scss */
+/* line 33, ../../app/styles/_market_filter.scss */
 #Filter .nav {
   margin-left: 0;
   margin-bottom: 20px;
   list-style: none;
 }
-/* line 41, ../../app/styles/_market_filter.scss */
+/* line 38, ../../app/styles/_market_filter.scss */
 #Filter .nav > li > a {
   display: block;
 }
-/* line 44, ../../app/styles/_market_filter.scss */
+/* line 41, ../../app/styles/_market_filter.scss */
 #Filter .nav > li > a:hover {
   text-decoration: none;
 }
-/* line 47, ../../app/styles/_market_filter.scss */
+/* line 44, ../../app/styles/_market_filter.scss */
 #Filter .nav-header {
   display: block;
   padding: 5px 15px 10px 15px;
@@ -5656,40 +5653,40 @@ a.label:hover, a.badge:hover {
 #Filter .nav-header span {
   font-weight: bold;
 }
-/* line 56, ../../app/styles/_market_filter.scss */
+/* line 53, ../../app/styles/_market_filter.scss */
 #Filter .nav-header:hover, #Filter .nav-header:active {
   color: #9f9f9f;
 }
-/* line 60, ../../app/styles/_market_filter.scss */
+/* line 57, ../../app/styles/_market_filter.scss */
 #Filter .nav-list {
   padding-left: 15px;
   padding-right: 15px;
   margin-bottom: 10px;
   clear: both;
 }
-/* line 67, ../../app/styles/_market_filter.scss */
+/* line 64, ../../app/styles/_market_filter.scss */
 #Filter .nav-list > li > a,
 #Filter .nav-list .nav-header {
   margin-left: -15px;
   margin-right: -15px;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 }
-/* line 72, ../../app/styles/_market_filter.scss */
+/* line 69, ../../app/styles/_market_filter.scss */
 #Filter .nav-list > li > a {
   padding: 3px 15px;
 }
-/* line 76, ../../app/styles/_market_filter.scss */
+/* line 73, ../../app/styles/_market_filter.scss */
 #Filter .nav-list > .active > a,
 #Filter .nav-list > .active > a:hover {
   color: white;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
   background-color: #0088cc;
 }
-/* line 81, ../../app/styles/_market_filter.scss */
+/* line 78, ../../app/styles/_market_filter.scss */
 #Filter .nav-list [class^="icon-"] {
   margin-right: 2px;
 }
-/* line 85, ../../app/styles/_market_filter.scss */
+/* line 82, ../../app/styles/_market_filter.scss */
 #Filter .label,
 #Filter .badge {
   font-size: 12px;
@@ -5701,33 +5698,33 @@ a.label:hover, a.badge:hover {
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
   background-color: #333333;
 }
-/* line 95, ../../app/styles/_market_filter.scss */
+/* line 92, ../../app/styles/_market_filter.scss */
 #Filter .label {
   padding: 1px 4px 2px;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
 }
-/* line 99, ../../app/styles/_market_filter.scss */
+/* line 96, ../../app/styles/_market_filter.scss */
 #Filter .badge {
   padding: 1px 9px 2px;
   -webkit-border-radius: 9px;
   -moz-border-radius: 9px;
   border-radius: 9px;
 }
-/* line 104, ../../app/styles/_market_filter.scss */
+/* line 101, ../../app/styles/_market_filter.scss */
 #Filter a.label:hover,
 #Filter a.badge:hover {
   color: white;
   text-decoration: none;
   cursor: pointer;
 }
-/* line 110, ../../app/styles/_market_filter.scss */
+/* line 107, ../../app/styles/_market_filter.scss */
 #Filter .label-success,
 #Filter .badge-success {
   background-color: #468847;
 }
-/* line 115, ../../app/styles/_market_filter.scss */
+/* line 112, ../../app/styles/_market_filter.scss */
 #Filter .label-info,
 #Filter .badge-info {
   background-color: #0088cc;

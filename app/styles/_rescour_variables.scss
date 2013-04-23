@@ -57,7 +57,7 @@ $headerHeight: 50px;
         }
 
         & > a:hover {
-          @include gradient-vertical(#FFFFFF, #FFFFFF);
+          @include gradient-vertical($detailsHeaderColor, $detailsHeaderColor);
         }
       }
 

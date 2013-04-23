@@ -6045,26 +6045,18 @@ a.label:hover, a.badge:hover {
   height: 100%;
   overflow: auto;
   position: relative;
+}
+
+/* line 253, ../../app/styles/_market_list.scss */
+.market-wrap {
+  overflow: hidden;
+  overflow-y: auto;
+  padding: 10px;
   -webkit-overflow-scrolling: touch;
 }
-/* line 253, ../../app/styles/_market_list.scss */
-.market-scroll * {
+/* line 259, ../../app/styles/_market_list.scss */
+.market-wrap * {
   -webkit-transform: translate3d(0, 0, 0);
-}
-
-/* line 258, ../../app/styles/_market_list.scss */
-.market-wrap {
-  overflow-y: auto;
-  padding: 10px 10px 10px 10px;
-}
-
-/* line 264, ../../app/styles/_market_list.scss */
-.market-vscroll {
-  position: absolute;
-  top: 0;
-  right: 0;
-  height: 100%;
-  width: 5px;
 }
 
 /* line 2, ../../app/styles/_map.scss */

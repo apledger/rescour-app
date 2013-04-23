@@ -247,26 +247,18 @@
   display: block;
   height: 100%;
   overflow: auto;
-  position:relative;
+  position: relative;
+}
+
+.market-wrap {
+  overflow: hidden;
+  overflow-y: auto;
+  padding: 10px;
   -webkit-overflow-scrolling: touch;
 
   * {
     -webkit-transform: translate3d(0,0,0);
   }
-}
-
-.market-wrap {
-  overflow-y: auto;
-  //padding: 10px 20px 10px 10px;
-  padding: 10px 10px 10px 10px;
-}
-
-.market-vscroll {
-  position: absolute;
-  top: 0;
-  right: 0;
-  height: 100%;
-  width: 5px;
 }
 
 

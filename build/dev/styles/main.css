@@ -6045,15 +6045,20 @@ a.label:hover, a.badge:hover {
   height: 100%;
   overflow: auto;
   position: relative;
+  -webkit-overflow-scrolling: touch;
+}
+/* line 253, ../../app/styles/_market_list.scss */
+.market-scroll * {
+  -webkit-transform: translate3d(0, 0, 0);
 }
 
-/* line 253, ../../app/styles/_market_list.scss */
+/* line 258, ../../app/styles/_market_list.scss */
 .market-wrap {
   overflow-y: auto;
   padding: 10px 10px 10px 10px;
 }
 
-/* line 259, ../../app/styles/_market_list.scss */
+/* line 264, ../../app/styles/_market_list.scss */
 .market-vscroll {
   position: absolute;
   top: 0;

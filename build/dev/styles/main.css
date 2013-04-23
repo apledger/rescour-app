@@ -6448,8 +6448,8 @@ a.label:hover, a.badge:hover {
   -o-transform: translate(0, 5px);
   transform: translate(0, 5px);
   border-bottom: 1px solid white;
-  background: white;
-  background: white \9;
+  background: white !important;
+  background: white \9  !important;
   -webkit-transition: all 0.3s ease;
   -moz-transition: all 0.3s ease;
   -o-transition: all 0.3s ease;

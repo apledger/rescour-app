@@ -5751,6 +5751,7 @@ a.label:hover, a.badge:hover {
 }
 /* line 19, ../../app/styles/_market_list.scss */
 #MarketList .item-well {
+  -webkit-transform: translate3d(0, 0, 0);
   -webkit-transition: opacity 0.35s ease;
   -moz-transition: opacity 0.35s ease;
   -o-transition: opacity 0.35s ease;
@@ -5769,7 +5770,7 @@ a.label:hover, a.badge:hover {
   border: 1px solid #d4d4d4;
   height: auto;
 }
-/* line 32, ../../app/styles/_market_list.scss */
+/* line 33, ../../app/styles/_market_list.scss */
 #MarketList .item-well.item-hidden {
   -webkit-transition: opacity 0.35s ease;
   -moz-transition: opacity 0.35s ease;
@@ -5778,11 +5779,11 @@ a.label:hover, a.badge:hover {
   opacity: 0.5;
   filter: alpha(opacity=50);
 }
-/* line 35, ../../app/styles/_market_list.scss */
+/* line 36, ../../app/styles/_market_list.scss */
 #MarketList .item-well.item-hidden .preview {
   height: 0;
 }
-/* line 40, ../../app/styles/_market_list.scss */
+/* line 41, ../../app/styles/_market_list.scss */
 #MarketList .item-well .preview {
   -webkit-transition: height 0.35s ease;
   -moz-transition: height 0.35s ease;
@@ -5799,7 +5800,7 @@ a.label:hover, a.badge:hover {
   overflow: hidden;
   z-index: 5;
 }
-/* line 55, ../../app/styles/_market_list.scss */
+/* line 56, ../../app/styles/_market_list.scss */
 #MarketList .item-well .preview:hover .preview-mask {
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
@@ -5808,7 +5809,7 @@ a.label:hover, a.badge:hover {
   display: block;
   background: rgba(0, 0, 0, 0.5);
 }
-/* line 60, ../../app/styles/_market_list.scss */
+/* line 61, ../../app/styles/_market_list.scss */
 #MarketList .item-well .preview:hover .preview-mask i {
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
@@ -5818,24 +5819,24 @@ a.label:hover, a.badge:hover {
   height: 75px;
   color: white;
 }
-/* line 67, ../../app/styles/_market_list.scss */
+/* line 68, ../../app/styles/_market_list.scss */
 #MarketList .item-well .preview:hover .preview-caption {
   position: absolute;
   bottom: 0;
 }
-/* line 71, ../../app/styles/_market_list.scss */
+/* line 72, ../../app/styles/_market_list.scss */
 #MarketList .item-well .preview:hover .preview-caption.caption-green h2 {
   color: #9bcc9c;
 }
-/* line 74, ../../app/styles/_market_list.scss */
+/* line 75, ../../app/styles/_market_list.scss */
 #MarketList .item-well .preview:hover .preview-caption.caption-orange h2 {
   color: #fcd3c3;
 }
-/* line 77, ../../app/styles/_market_list.scss */
+/* line 78, ../../app/styles/_market_list.scss */
 #MarketList .item-well .preview:hover .preview-caption.caption-red h2 {
   color: #e18276;
 }
-/* line 83, ../../app/styles/_market_list.scss */
+/* line 84, ../../app/styles/_market_list.scss */
 #MarketList .item-well .preview .preview-caption {
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
@@ -5849,7 +5850,7 @@ a.label:hover, a.badge:hover {
   text-align: center;
   z-index: 6;
 }
-/* line 93, ../../app/styles/_market_list.scss */
+/* line 94, ../../app/styles/_market_list.scss */
 #MarketList .item-well .preview .preview-caption h2 {
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
@@ -5860,25 +5861,25 @@ a.label:hover, a.badge:hover {
   line-height: 12px;
   font-weight: normal;
 }
-/* line 101, ../../app/styles/_market_list.scss */
+/* line 102, ../../app/styles/_market_list.scss */
 #MarketList .item-well .preview .preview-caption p {
   color: white;
   margin: 15px 0;
   font-size: 10px;
 }
-/* line 107, ../../app/styles/_market_list.scss */
+/* line 108, ../../app/styles/_market_list.scss */
 #MarketList .item-well .preview .preview-caption.caption-green {
   background: #468847;
 }
-/* line 111, ../../app/styles/_market_list.scss */
+/* line 112, ../../app/styles/_market_list.scss */
 #MarketList .item-well .preview .preview-caption.caption-orange {
   background: #f66930;
 }
-/* line 115, ../../app/styles/_market_list.scss */
+/* line 116, ../../app/styles/_market_list.scss */
 #MarketList .item-well .preview .preview-caption.caption-red {
   background: #9c3022;
 }
-/* line 120, ../../app/styles/_market_list.scss */
+/* line 121, ../../app/styles/_market_list.scss */
 #MarketList .item-well .preview .preview-mask {
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
@@ -5893,7 +5894,7 @@ a.label:hover, a.badge:hover {
   right: 0;
   text-align: center;
 }
-/* line 131, ../../app/styles/_market_list.scss */
+/* line 132, ../../app/styles/_market_list.scss */
 #MarketList .item-well .preview .preview-mask i {
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
@@ -5904,7 +5905,7 @@ a.label:hover, a.badge:hover {
   line-height: 30px;
   color: transparent;
 }
-/* line 140, ../../app/styles/_market_list.scss */
+/* line 141, ../../app/styles/_market_list.scss */
 #MarketList .item-well .preview img {
   height: 100px;
   width: 100px;
@@ -5917,20 +5918,20 @@ a.label:hover, a.badge:hover {
   -moz-border-radius: 2px;
   border-radius: 2px;
 }
-/* line 150, ../../app/styles/_market_list.scss */
+/* line 151, ../../app/styles/_market_list.scss */
 #MarketList .item-well .dimensions {
   position: relative;
   background-color: #eeeeee;
   padding: 10px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
-/* line 156, ../../app/styles/_market_list.scss */
+/* line 157, ../../app/styles/_market_list.scss */
 #MarketList .item-well .dimensions .header-container {
   position: relative;
   display: inline-block;
   float: left;
 }
-/* line 161, ../../app/styles/_market_list.scss */
+/* line 162, ../../app/styles/_market_list.scss */
 #MarketList .item-well .dimensions .header-container .title {
   display: block;
   font-size: 14px;
@@ -5938,7 +5939,7 @@ a.label:hover, a.badge:hover {
   color: #0088cc;
   cursor: pointer;
 }
-/* line 169, ../../app/styles/_market_list.scss */
+/* line 170, ../../app/styles/_market_list.scss */
 #MarketList .item-well .dimensions .header-container .ranges {
   position: relative;
   display: block;
@@ -5949,7 +5950,7 @@ a.label:hover, a.badge:hover {
 #MarketList .item-well .dimensions .header-container .ranges span {
   font-weight: bold;
 }
-/* line 176, ../../app/styles/_market_list.scss */
+/* line 177, ../../app/styles/_market_list.scss */
 #MarketList .item-well .dimensions .location {
   font-size: 28px;
   position: relative;
@@ -5986,25 +5987,25 @@ a.label:hover, a.badge:hover {
 #MarketList .item-well .dimensions .location:active, #MarketList .item-well .dimensions .location.active {
   background-color: #3c7b49 \9;
 }
-/* line 190, ../../app/styles/_market_list.scss */
+/* line 191, ../../app/styles/_market_list.scss */
 #MarketList .item-well .description {
   position: relative;
   height: auto;
   font-size: 14px;
   font-weight: normal;
 }
-/* line 196, ../../app/styles/_market_list.scss */
+/* line 197, ../../app/styles/_market_list.scss */
 #MarketList .item-well .description .text-container {
   width: 235px;
   padding: 15px;
   max-height: 100px;
   overflow: hidden;
 }
-/* line 203, ../../app/styles/_market_list.scss */
+/* line 204, ../../app/styles/_market_list.scss */
 #MarketList .item-well .description p {
   font-size: 13px;
 }
-/* line 208, ../../app/styles/_market_list.scss */
+/* line 209, ../../app/styles/_market_list.scss */
 #MarketList .item-well .footer {
   position: relative;
   width: 100%;
@@ -6012,14 +6013,14 @@ a.label:hover, a.badge:hover {
   height: 30px;
   border-top: 1px solid rgba(0, 0, 0, 0.05);
 }
-/* line 216, ../../app/styles/_market_list.scss */
+/* line 217, ../../app/styles/_market_list.scss */
 #MarketList .item-well .footer .user-options {
   position: relative;
   float: left;
   font-size: 16px;
   padding: 2px 10px;
 }
-/* line 222, ../../app/styles/_market_list.scss */
+/* line 223, ../../app/styles/_market_list.scss */
 #MarketList .item-well .footer .user-options .footer-button {
   position: relative;
   float: left;
@@ -6029,16 +6030,16 @@ a.label:hover, a.badge:hover {
   font-weight: normal;
   margin-right: 15px;
 }
-/* line 231, ../../app/styles/_market_list.scss */
+/* line 232, ../../app/styles/_market_list.scss */
 #MarketList .item-well .footer .user-options .footer-button:hover {
   color: #5f5f5f;
 }
-/* line 235, ../../app/styles/_market_list.scss */
+/* line 236, ../../app/styles/_market_list.scss */
 #MarketList .item-well .footer .user-options .footer-button span {
   font-size: 12px;
 }
 
-/* line 245, ../../app/styles/_market_list.scss */
+/* line 246, ../../app/styles/_market_list.scss */
 .market-scroll {
   display: block;
   height: 100%;
@@ -6046,13 +6047,13 @@ a.label:hover, a.badge:hover {
   position: relative;
 }
 
-/* line 252, ../../app/styles/_market_list.scss */
+/* line 253, ../../app/styles/_market_list.scss */
 .market-wrap {
   overflow-y: auto;
   padding: 10px 10px 10px 10px;
 }
 
-/* line 258, ../../app/styles/_market_list.scss */
+/* line 259, ../../app/styles/_market_list.scss */
 .market-vscroll {
   position: absolute;
   top: 0;
@@ -7473,12 +7474,7 @@ input:focus, textarea:focus {
   background-color: #1e0907 \9;
 }
 
-/* line 14, ../../app/styles/_styles.scss */
-*:not(html) {
-  -webkit-transform: translate3d(0, 0, 0);
-}
-
-/* line 18, ../../app/styles/_styles.scss */
+/* line 13, ../../app/styles/_styles.scss */
 .loading-background {
   position: absolute;
   left: 0px;
@@ -7489,7 +7485,7 @@ input:focus, textarea:focus {
   z-index: 5;
 }
 
-/* line 22, ../../app/styles/_styles.scss */
+/* line 17, ../../app/styles/_styles.scss */
 .loading-container {
   position: absolute;
   top: 50%;
@@ -7500,32 +7496,32 @@ input:focus, textarea:focus {
   margin-top: -100px;
   text-align: center;
 }
-/* line 32, ../../app/styles/_styles.scss */
+/* line 27, ../../app/styles/_styles.scss */
 .loading-container h4 {
   text-transform: uppercase;
   font-weight: normal;
   font-size: 24px;
   color: #5f5f5f;
 }
-/* line 39, ../../app/styles/_styles.scss */
+/* line 34, ../../app/styles/_styles.scss */
 .loading-container p {
   margin-top: 10px;
   font-size: 14px;
   color: #797979;
 }
-/* line 45, ../../app/styles/_styles.scss */
+/* line 40, ../../app/styles/_styles.scss */
 .loading-container .loading-icon {
   text-shadow: #666666 0 -1px 0;
   color: #5f5f5f;
 }
-/* line 50, ../../app/styles/_styles.scss */
+/* line 45, ../../app/styles/_styles.scss */
 .loading-container .failure-icon {
   text-shadow: #33100b 0 -1px 0;
   color: #9c3022;
   margin-bottom: 1em;
 }
 
-/* line 57, ../../app/styles/_styles.scss */
+/* line 52, ../../app/styles/_styles.scss */
 .origami-left {
   position: absolute;
   top: 0;
@@ -7536,7 +7532,7 @@ input:focus, textarea:focus {
   z-index: -1;
 }
 
-/* line 67, ../../app/styles/_styles.scss */
+/* line 62, ../../app/styles/_styles.scss */
 .origami-right {
   position: absolute;
   top: 0;
@@ -7547,17 +7543,17 @@ input:focus, textarea:focus {
   z-index: -1;
 }
 
-/* line 78, ../../app/styles/_styles.scss */
+/* line 73, ../../app/styles/_styles.scss */
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
   display: none;
 }
 
-/* line 82, ../../app/styles/_styles.scss */
+/* line 77, ../../app/styles/_styles.scss */
 header, section, footer {
   display: block;
 }
 
-/* line 86, ../../app/styles/_styles.scss */
+/* line 81, ../../app/styles/_styles.scss */
 body {
   min-height: 100%;
   margin: 0;
@@ -7567,7 +7563,7 @@ body {
   background-color: #eeeeee;
 }
 
-/* line 95, ../../app/styles/_styles.scss */
+/* line 90, ../../app/styles/_styles.scss */
 #Wrapper {
   position: relative;
   width: 100%;
@@ -7575,7 +7571,7 @@ body {
   background-color: #eeeeee;
 }
 
-/* line 102, ../../app/styles/_styles.scss */
+/* line 97, ../../app/styles/_styles.scss */
 .main-container {
   position: absolute;
   top: 55px;
@@ -7584,7 +7580,7 @@ body {
   bottom: 21px;
 }
 
-/* line 110, ../../app/styles/_styles.scss */
+/* line 105, ../../app/styles/_styles.scss */
 #Footer {
   position: fixed;
   width: 100%;
@@ -7596,29 +7592,29 @@ body {
   z-index: 3000;
 }
 
-/* line 121, ../../app/styles/_styles.scss */
+/* line 116, ../../app/styles/_styles.scss */
 #Footer p {
   text-align: center;
 }
 
-/* line 125, ../../app/styles/_styles.scss */
+/* line 120, ../../app/styles/_styles.scss */
 #Footer p a {
   font-size: 10px;
   margin-right: 10px;
 }
 
-/* line 130, ../../app/styles/_styles.scss */
+/* line 125, ../../app/styles/_styles.scss */
 .yellow {
   color: #ffc40d;
 }
 
-/* line 134, ../../app/styles/_styles.scss */
+/* line 129, ../../app/styles/_styles.scss */
 .red {
   color: #9c3022;
 }
 
 /* Scroll Bar */
-/* line 139, ../../app/styles/_styles.scss */
+/* line 134, ../../app/styles/_styles.scss */
 ::-webkit-scrollbar, ::-webkit-scrollbar {
   width: 7px;
   height: 7px;
@@ -7627,7 +7623,7 @@ body {
   border-radius: 5px;
 }
 
-/* line 145, ../../app/styles/_styles.scss */
+/* line 140, ../../app/styles/_styles.scss */
 ::-webkit-scrollbar-thumb, ::-webkit-scrollbar-thumb {
   background-color: #666666;
   -webkit-border-radius: 5px;
@@ -7638,17 +7634,17 @@ body {
   box-shadow: rgba(0, 0, 0, 0.05) -1px 0 7px inset;
 }
 
-/* line 151, ../../app/styles/_styles.scss */
+/* line 146, ../../app/styles/_styles.scss */
 ::-webkit-scrollbar-track-piece, ::-webkit-scrollbar-track-piece {
   background-color: transparent;
 }
 
-/* line 155, ../../app/styles/_styles.scss */
+/* line 150, ../../app/styles/_styles.scss */
 ::-webkit-scrollbar-corner, ::-webkit-scrollbar-corner {
   display: none;
 }
 
-/* line 160, ../../app/styles/_styles.scss */
+/* line 155, ../../app/styles/_styles.scss */
 .modal-backdrop {
   position: fixed;
   top: 0;
@@ -7659,12 +7655,12 @@ body {
   background-color: rgba(0, 0, 0, 0.7);
 }
 
-/* line 170, ../../app/styles/_styles.scss */
+/* line 165, ../../app/styles/_styles.scss */
 .hide {
   display: none;
 }
 
-/* line 174, ../../app/styles/_styles.scss */
+/* line 169, ../../app/styles/_styles.scss */
 .toggle {
   position: relative;
   float: left;

@@ -2502,7 +2502,6 @@ table .span24 {
   position: relative;
   height: 0;
   overflow: hidden;
-  overflow: visible \9;
   -webkit-transition: height 0.35s ease;
   -moz-transition: height 0.35s ease;
   -o-transition: height 0.35s ease;
@@ -5581,14 +5580,13 @@ a.label:hover, a.badge:hover {
 .saved-search {
   position: relative;
   display: block;
-  float: left;
   height: 25px;
   margin-top: 10px;
   margin-bottom: 10px;
   margin-left: 15px;
 }
 
-/* line 11, ../../app/styles/_savedsearch.scss */
+/* line 10, ../../app/styles/_savedsearch.scss */
 .saved-dropdown {
   width: 145px;
 }

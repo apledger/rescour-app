@@ -1,3 +1,11 @@
+/**
+ * Created with JetBrains WebStorm.
+ * User: apledger
+ * Date: 4/24/13
+ * Time: 2:03 PM
+ * File: Gruntfile.js
+ */
+
 'use strict';
 var lrSnippet = require('grunt-contrib-livereload/lib/utils').livereloadSnippet;
 
@@ -6,7 +14,7 @@ var mountFolder = function (connect, dir) {
 };
 
 var yeomanConfig = {
-    app: 'app',
+    app: 'src',
     dist: 'dist'
 };
 
@@ -147,14 +155,14 @@ module.exports = function (grunt) {
             compiled = grunt.template.process(contents, {
                 data: config.data
             });
-            destination = dest.replace('.template', '.html');
+            destination = dest.replace('.template', '');
             grunt.file.write(destination, compiled);
             _results.push(grunt.verbose.ok("" + src + " -> " + destination));
         }
         return _results;
     };
 
-    grunt.registerMultiTask('template', 'Compiles Templates', function () {
+    grunt.registerMultiTask('template', 'Compiles HTML Templates', function () {
         return gTemplate(this);
     });
 
@@ -243,64 +251,21 @@ module.exports = function (grunt) {
             }
         },
 
-        /*
-         Compile template files (.template) to HTML (.html).
 
-         .template files are essentially html; however, you can take advantage of features provided by grunt such as underscore templating.
-
-         The example below demonstrates the use of the environment configuration setting.
-         In 'prod' the concatenated and minified scripts are used along with a QueryString parameter of the hash of the file contents to address browser caching.
-         In environments other than 'prod' the individual files are used and loaded with RequireJS.
-
-         <% if (config.environment === 'prod') { %>
-         <script src="/scripts/scripts.min.js?v=<%= config.hash('./temp/scripts/scripts.min.js') %>"></script>
-         <% } else { %>
-         <script data-main="/scripts/main.js" src="/scripts/libs/require.js"></script>
-         <% } %>
-         */
-        template: {
-            dev: {
-                files: {
-                    './tmp/views/': './app/views/**/*.template',
-                    './tmp/index.html': './app/index.template'
-                },
-                environment: 'dev'
-            },
-            prod: {
-                files: {
-                    './tmp/views/': './app/views/**/*.template',
-                    './tmp/index.html': './app/index.template'
-                },
-                environment: 'prod'
-            },
-            local: {
-                files: {
-                    './tmp/views/': './app/views/**/*.template',
-                    './tmp/index.html': './app/index.template'
-                },
-                environment: 'local'
-            },
-            demo: {
-                files: {
-                    './tmp/views/': './app/views/**/*.template',
-                    './tmp/index.html': './app/index.template'
-                },
-                environment: 'demo'
-            }
-        },
 
         // Copies directories and files from one location to another.
         copy: {
             // Copies libs and img directories to temp.
             prep: {
                 files: [
-                    {expand: true, cwd: './app/', src: [
+                    {expand: true, cwd: './src/', src: [
                         'img/**',
+                        'app/**',
+                        'core/**',
                         'styles/**',
-                        'scripts/**',
-                        'views/**/*.html',
-                        'template/**/*.html',
-                        '*.html'], dest: './tmp/'}
+                        'components/**',
+                        '**/*.html'
+                    ], dest: './tmp/'}
                 ]
             },
             /*
@@ -318,44 +283,51 @@ module.exports = function (grunt) {
              */
             buildDev: {
                 files: [
-                    {expand: true, cwd: './tmp/', src: ['**'], dest: './build/dev/'}
+                    {expand: true, cwd: './tmp/', src: [
+                        'scripts/scripts.dev.js',
+                        'styles/main.css',
+                        'img/**',
+                        'components/**',
+                        '**/*.html'
+                    ], dest: './build/dev/'}
                 ]
             },
             buildDemo: {
                 files: [
-                    {expand: true, cwd: './tmp/', src: ['img/**', 'scripts/scripts.min.js', 'styles/main.css', 'styles/fonts/**', 'styles/lib/**', '**/*.html',
-                        // Map specific libraries
-                        'scripts/dev.js',
-                        'scripts/lib/es5-shim/es5-shim.min.js',
-                        'scripts/lib/json3/json3.min.js',
-                        'scripts/lib/leaflet/**',
-                        'scripts/lib/leaflet.markercluster-src.js',
-                        'scripts/lib/leaflet-google.js',
-                        'scripts/lib/angular/angular-mocks.js'
+                    {expand: true, cwd: './tmp/', src: [
+                        'scripts/scripts.demo.js',
+                        'styles/main.css',
+                        'img/**',
+                        'components/**',
+                        '**/*.html'
                     ], dest: './build/demo/'}
                 ]
             },
-            /*
-             Copies select files from the temp directory to the dist directory.
-             In 'prod' minified files are used along with img and libs.
-             The dist artifacts contain only the files necessary to run the application.
-             */
             buildProd: {
                 files: [
-                    {expand: true, cwd: './tmp/', src: ['img/**', 'scripts/scripts.min.js', 'styles/**', '**/*.html',
-                        // Map specific libraries
-                        'scripts/lib/es5-shim/es5-shim.min.js',
-                        'scripts/lib/json3/json3.min.js',
-                        'scripts/lib/leaflet/**',
-                        'scripts/lib/leaflet.markercluster-src.js',
-                        'scripts/lib/leaflet-google.js'
-                    ], dest: './build/prod'}
+                    {expand: true, cwd: './tmp/', src: [
+                        'scripts/scripts.min.js',
+                        'styles/main.css',
+                        'img/**',
+                        'components/**',
+                        '**/*.html'
+                    ], dest: './build/prod/'}
                 ]
             },
             // Task is run when a watched script is modified.
-            scripts: {
+            appjs: {
                 files: [
-                    {expand: true, cwd: './app/', src: ['scripts/**/*.js'], dest: './dist/'}
+                    {expand: true, cwd: './src/', src: ['app/**/*.js'], dest: './dist/'}
+                ]
+            },
+            apphtml: {
+                files: [
+                    {expand: true, cwd: './src/', src: ['app/**/*.html'], dest: './dist/'}
+                ]
+            },
+            core: {
+                files: [
+                    {expand: true, cwd: './src/', src: ['core/**'], dest: './dist/'}
                 ]
             },
             // Task is run when a watched style is modified.
@@ -364,33 +336,21 @@ module.exports = function (grunt) {
                     {expand: true, cwd: './tmp/', src: ['styles/main.css'], dest: './dist/'}
                 ]
             },
-            // Task is run when the watched index.template file is modified.
-            index: {
-                files: [
-                    {expand: true, cwd: './tmp/', src: ['index.html'], dest: './dist/'}
-                ]
-            },
-            // Task is run when a watched view is modified.
-            views: {
-                files: [
-                    {expand: true, cwd: './app/', src: ['views/**'], dest: './dist/'}
-                ]
-            },
             // Task is run when an image is modified.
             images: {
                 files: [
-                    {expand: true, cwd: './app/', src: ['img/**'], dest: './dist/'}
+                    {expand: true, cwd: './src/', src: ['img/**'], dest: './dist/'}
                 ]
             }
         },
-        uglify: {
-            options: {
-                mangle: true
-            },
-            scripts: {
-                files: {
-                    './tmp/scripts/scripts.concatmin.js': ['./tmp/scripts/scripts.concat.js']
-                }
+        concat: {
+            demo: {
+                src: [
+                    './tmp/scripts/scripts.min.js',
+                    './tmp/components/angular-mocks/angular-mocks.js',
+                    './tmp/app/mock.js'
+                ],
+                dest: './tmp/scripts/scripts.demo.js'
             }
         },
 
@@ -403,12 +363,36 @@ module.exports = function (grunt) {
          The main file is used only to establish the proper loading sequence.
          */
         requirejs: {
-            prod: {
+            dev: {
                 options: {
-                    baseUrl: './app/scripts/',
+                    baseUrl: './tmp/',
                     findNestedDependencies: true,
                     logLevel: 0,
-                    mainConfigFile: './app/scripts/main.js',
+                    mainConfigFile: './tmp/main.js',
+                    name: 'main',
+                    // Exclude main from the final output to avoid the dependency on RequireJS at runtime.
+                    onBuildWrite: function (moduleName, path, contents) {
+                        var modulesToExclude = ['main'],
+                            shouldExcludeModule = modulesToExclude.indexOf(moduleName) >= 0;
+
+                        if (shouldExcludeModule) {
+                            return '';
+                        }
+
+                        return contents;
+                    },
+                    optimize: 'none',
+                    out: './tmp/scripts/scripts.dev.js',
+                    preserveLicenseComments: false,
+                    skipModuleInsertion: true
+                }
+            },
+            prod: {
+                options: {
+                    baseUrl: './tmp/',
+                    findNestedDependencies: true,
+                    logLevel: 0,
+                    mainConfigFile: './tmp/main.js',
                     name: 'main',
                     // Exclude main from the final output to avoid the dependency on RequireJS at runtime.
                     onBuildWrite: function (moduleName, path, contents) {
@@ -430,63 +414,95 @@ module.exports = function (grunt) {
                         no_mangle: true
                     }
                 }
-            },
-            demo: {
-                options: {
-                    baseUrl: './app/scripts/',
-                    findNestedDependencies: true,
-                    logLevel: 0,
-                    mainConfigFile: './app/scripts/demomain.js',
-                    name: 'demomain',
-                    // Exclude main from the final output to avoid the dependency on RequireJS at runtime.
-                    onBuildWrite: function (moduleName, path, contents) {
-                        var modulesToExclude = ['demomain'],
-                            shouldExcludeModule = modulesToExclude.indexOf(moduleName) >= 0;
-
-                        if (shouldExcludeModule) {
-                            return '';
-                        }
-
-                        return contents;
-                    },
-                    optimize: 'uglify',
-                    out: './tmp/scripts/scripts.min.js',
-                    preserveLicenseComments: false,
-                    skipModuleInsertion: true,
-                    uglify: {
-                        // Let uglifier replace variables to further reduce file size.
-                        no_mangle: true
-                    }
-                }
             }
         },
 
         watch: {
-            compass: {
-                files: ['./app/styles/*.{scss,sass}', './app/styles/**/*.{scss,sass}'],
+            styles: {
+                files: ['./src/styles/*.{scss,sass}', './src/styles/**/*.{scss,sass}'],
                 tasks: ['compass:dev', 'copy:styles', 'livereload']
             },
-            index: {
-                files: './app/index.template',
-                tasks: ['template:dev', 'copy:index', 'livereload']
+            appjs: {
+                files: ['./src/app/**/*.js'],
+                tasks: ['copy:appjs' , 'livereload']
             },
-            views: {
-                files: ['./app/views/**'],
-                tasks: ['copy:views' , 'livereload']
+            apphtml: {
+                files: ['./src/app/**/*.html'],
+                tasks: ['copy:apphtml' , 'livereload']
             },
-            scripts: {
-                files: ['./app/scripts/**/*.js'],
-                tasks: ['copy:scripts', 'livereload']
+            core: {
+                files: ['./src/core/**'],
+                tasks: ['copy:core' , 'livereload']
             },
             images: {
-                files: ['./app/img/**'],
-                tasks: ['clean:images', 'copy:images', 'livereload']
+                files: ['./src/img/**'],
+                tasks: ['copy:images', 'livereload']
             }
         },
 
-        hash: {
-            dist: {
-                files: ['./dist/scripts/**/*.js']
+        /*
+         Compile template files (.template) to HTML (.html).
+
+         .template files are essentially html; however, you can take advantage of features provided by grunt such as underscore templating.
+
+         The example below demonstrates the use of the environment configuration setting.
+         In 'prod' the concatenated and minified scripts are used along with a QueryString parameter of the hash of the file contents to address browser caching.
+         In environments other than 'prod' the individual files are used and loaded with RequireJS.
+
+         <% if (config.environment === 'prod') { %>
+         <script src="/scripts/scripts.min.js?v=<%= config.hash('./temp/scripts/scripts.min.js') %>"></script>
+         <% } else { %>
+         <script data-main="/scripts/main.js" src="/scripts/libs/require.js"></script>
+         <% } %>
+         */
+        template: {
+            shimLocal: {
+                files: {
+                    './tmp/main.js': './src/main.js.template'
+                },
+                environment: 'local'
+            },
+            shimDemo: {
+                files: {
+                    './tmp/main.js': './src/main.js.template'
+                },
+                environment: 'demo'
+            },
+            shimProd: {
+                files: {
+                    './tmp/main.js': './src/main.js.template'
+                },
+                environment: 'prod'
+            },
+            indexLocal: {
+                files: {
+                    './tmp/index.html': './src/index.html.template'
+                },
+                environment: 'local'
+            },
+            indexLocalDev: {
+                files: {
+                    './tmp/index.html': './src/index.html.template'
+                },
+                environment: 'localDev'
+            },
+            indexDev: {
+                files: {
+                    './tmp/index.html': './src/index.html.template'
+                },
+                environment: 'dev'
+            },
+            indexProd: {
+                files: {
+                    './tmp/index.html': './src/index.html.template'
+                },
+                environment: 'prod'
+            },
+            indexDemo: {
+                files: {
+                    './tmp/index.html': './src/index.html.template'
+                },
+                environment: 'demo'
             }
         }
     });
@@ -503,11 +519,22 @@ module.exports = function (grunt) {
 
     grunt.renameTask('regarde', 'watch');
 
+    /*
+     Compiles the app with non-optimized build settings, places the build artifacts in the dist directory, and runs unit tests.
+     Enter the following command at the command line to execute this build task:
+     grunt test
+     */
+    grunt.registerTask('test', [
+        'default',
+        'unit-tests'
+    ]);
+
     grunt.registerTask('server', [
         'livereload-start',
         'connect:livereload',
         'watch'
     ]);
+
     /*
      Compiles the app with non-optimized build settings, places the build artifacts in the dist directory, and watches for file changes.
      Uses local api services and bootstraps with mock backend module
@@ -518,7 +545,7 @@ module.exports = function (grunt) {
         'clean:dist',
         'compass:dev', // Compile compass: app -> tmp
         'copy:prep', // Copy all html/css/js: app -> tmp
-        'template:local', // Compile templates: app -> tmp
+        'template:indexLocal', // Compile templates: app -> tmp
         'copy:dev', // Copy all from: tmp -> dist
         'clean:temp',
         'server'
@@ -530,29 +557,15 @@ module.exports = function (grunt) {
      Enter the following command at the command line to execute this build task:
      grunt dev
      */
+
     grunt.registerTask('dev', [
         'clean:dist',
         'compass:dev', // Compile compass: app -> tmp
         'copy:prep', // Copy all html/css/js: app -> tmp
-        'template:dev', // Compile templates: app -> tmp
+        'template:indexLocalDev', // Compile templates: app -> tmp
         'copy:dev', // Copy all from: tmp -> dist
         'clean:temp',
         'server'
-    ]);
-
-    /*
-     Compiles the app with non-optimized build settings, places the build artifacts in the dist directory, and watches for file changes.
-     Uses dev api services and bootstraps with main application
-     Enter the following command at the command line to execute this build task:
-     grunt dev
-     */
-    grunt.registerTask('buildDev', [
-        'clean:buildDev',
-        'compass:dev', // Compile compass: app -> tmp
-        'copy:prep', // Copy all html/css/js: app -> tmp
-        'template:dev', // Compile templates: app -> tmp
-        'copy:buildDev', // Copy all from: tmp -> dev
-        'clean:temp'
     ]);
 
     /*
@@ -564,37 +577,46 @@ module.exports = function (grunt) {
     grunt.registerTask('buildDemo', [
         'clean:buildDemo',
         'compass:dist', // Compile compass: app -> tmp
-        'requirejs:demo', // Create minified scripts from shim: app -> tmp
-        'copy:prep', // Copy all html/css/js: app -> tmp
-        'template:demo', // Compile templates: app -> tmp
+        'template:shimDemo', // Template requirejs shim -> tmp
+        'copy:prep', // Copy components, styles, app, core, assets, **.html: app -> tmp
+        'requirejs:prod', // Create minified scripts from shim: app -> tmp
+        'concat:demo', // Attach angular-mocks and mock.js to tmp/scripts/scripts.min.js -> tmp/scripts/scripts.demo.js
+        'template:indexDemo', // Compile templates: app -> tmp
         'copy:buildDemo', // Copy all from: tmp -> demo
         'clean:temp'
     ]);
 
     /*
-     Compiles the app with optimized build settings and places the build artifacts in the dist directory.
+     Compiles the app with non-optimized build settings, places the build artifacts in the dist directory, and watches for file changes.
+     Uses dev api services and bootstraps with main application
+     Enter the following command at the command line to execute this build task:
+     grunt dev
+     */
+    grunt.registerTask('buildDev', [
+        'clean:buildDev',
+        'compass:dev', // Compile compass: app -> tmp
+        'template:shimDev', // Template requirejs shim -> tmp
+        'copy:prep', // Copy styles, app, core, assets, **.html: app -> tmp
+        'requirejs:dev', // Builds all js from tmp/ -> tmp/scripts/scripts.dev.js
+        'template:indexDev', // Compile index.html.template: app -> tmp
+        'copy:buildDev', // Copy **.html, components, img, scripts/scripts.dev.js, styles/main.css -> build/dev
+        'clean:temp'
+    ]);
+
+    /*
+     Compiles the app with optimized build settings and places the build artifacts in build/prod directory.
      Uses production api services and bootstrap with main application
      Enter the following command at the command line to execute this build task:
-     grunt prod
+     grunt buildProd
      */
     grunt.registerTask('buildProd', [
         'clean:buildProd',
-        'compass:dist', // Compass compile and minify: app -> tmp
-        'requirejs:prod', // Create minified scripts from shim: app -> tmp
-        'copy:prep', // Copy img + lib + html: app/img/* + app -> tmp
-        'template:prod', // Apply html templates: app -> tmp
-        'copy:buildProd', // Copy: tmp -> prod
-        'clean:temp' // Delete tmp
-    ]);
-
-
-    /*
-     Compiles the app with non-optimized build settings, places the build artifacts in the dist directory, and runs unit tests.
-     Enter the following command at the command line to execute this build task:
-     grunt test
-     */
-    grunt.registerTask('test', [
-        'default',
-        'unit-tests'
+        'compass:dist', // Compile compass: app -> tmp
+        'template:shimProd', // Template requirejs shim -> tmp
+        'copy:prep', // Copy styles, app, core, assets, **.html: app -> tmp
+        'requirejs:prod', // Builds all js from tmp/ -> tmp/scripts/scripts.min.js
+        'template:indexProd', // Compile index.html.template: app -> tmp
+        'copy:buildProd', // Copy **.html, components, img, scripts/scripts.dev.js, styles/main.css -> build/dev
+        'clean:temp'
     ]);
 };

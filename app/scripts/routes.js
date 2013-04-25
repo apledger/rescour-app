@@ -63,7 +63,7 @@ angular.module('rescour.app')
             });
 
             $routeProvider.when('/login/forgot-password', {
-                templateUrl: "/views/login/forgotPassword.html",
+                templateUrl: "/views/login/forgot-password.html",
                 controller: 'ForgotPasswordController',
                 resolve: {
 
@@ -71,7 +71,7 @@ angular.module('rescour.app')
             });
 
             $routeProvider.when('/login/reset-password', {
-                templateUrl: "/views/login/resetPassword.html",
+                templateUrl: "/views/login/reset-password.html",
                 controller: 'ResetPasswordController',
                 resolve: {
                     checkToken: function ($location) {

@@ -1,0 +1,69 @@
+'use strict';
+require(
+    {
+        shim: {
+            'app/app': {
+                deps: [
+                    'components/angular/angular',
+                    'components/underscore/underscore',
+                    'components/angular-ui-bootstrap-bower/ui-bootstrap',
+                    'components/jquery-ui/jquery-ui',
+                    'components/jquery/jquery',
+                    'components/spin.js/dist/spin',
+                    'components/leaflet.markerclusterer/dist/leaflet.markercluster',
+                    'core/market/leaflet-google',
+                    'core/user/user',
+                    'core/utility/utility',
+                    'core/market/map',
+                    'core/market/market',
+                    'core/auth/auth',
+                <% if (environment === 'dev') { %>
+                    'core/config/dev'
+                <% } else if (environment === 'demo') { %>
+                    'core/config/local'
+                <% } else if (environment === 'prod') { %>
+                    'core/config/prod'
+                <% } %>
+                ]
+            },
+            'components/jquery-ui/jquery-ui': {
+                deps: ['components/jquery/jquery']
+            },
+            'components/angular-ui-bootstrap-bower/ui-bootstrap': {
+                deps: ['components/angular/angular']
+            },
+            'app/account/account': {
+                deps: ['app/app']
+            },
+            'app/home/home': {
+                deps: ['app/app']
+            },
+            'app/login/login': {
+                deps: ['app/app']
+            },
+            'core/market/map': {
+                deps: [
+                    'core/market/market',
+                    'core/market/leaflet-google',
+                    'components/leaflet.markerclusterer/dist/leaflet.markercluster'
+                ]
+            },
+            'app/bootstrap': {
+                deps: ['app/app']
+            }
+        }
+    },
+    [
+        'require',
+        'components/jquery-ui/jquery-ui',
+        'app/account/account',
+        'app/home/home',
+        'app/login/login',
+    ]
+    <% if (environment === 'dev' || environment === 'prod') { %>
+    , function (require) {
+        return require(['app/bootstrap']);
+    }
+    <% } %>
+);
+

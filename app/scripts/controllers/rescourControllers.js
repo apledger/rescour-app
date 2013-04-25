@@ -284,10 +284,12 @@ angular.module('rescour.app')
                     var path = $_api.path + '/auth/users/user/',
                         config = angular.extend({
                             transformRequest: function (data) {
-                                $scope.accountAlerts = [{
-                                    type: 'info',
-                                    msg: 'Saving...'
-                                }];
+                                $scope.accountAlerts = [
+                                    {
+                                        type: 'info',
+                                        msg: 'Saving...'
+                                    }
+                                ];
                                 return data;
                             }
                         }, $_api.config),
@@ -299,16 +301,20 @@ angular.module('rescour.app')
 
                     $http.put(path, body, config).then(
                         function (response) {
-                            $scope.accountAlerts = [{
-                                type: 'success',
-                                msg: 'Password change successful!'
-                            }];
+                            $scope.accountAlerts = [
+                                {
+                                    type: 'success',
+                                    msg: 'Password change successful!'
+                                }
+                            ];
                         },
                         function (response) {
-                            $scope.accountAlerts = [{
-                                type: 'error',
-                                msg: 'Error changing password.'
-                            }];
+                            $scope.accountAlerts = [
+                                {
+                                    type: 'error',
+                                    msg: 'Error changing password.'
+                                }
+                            ];
                         }
                     );
                 }

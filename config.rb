@@ -3,10 +3,8 @@
 # Set this to the root of your project when deployed:
 http_path = "/"
 css_dir = "tmp/styles"
-sass_dir = "app/styles"
-images_dir = "app/img"
-javascripts_dir = "app/scripts"
-fonts_dir = "app/styles/fonts"
+sass_dir = "src/styles"
+images_dir = "src/assets/img"
 
 # You can select your preferred output style here (can be overridden via the command line):
 # output_style = :compressed

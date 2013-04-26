@@ -204,38 +204,6 @@ module.exports = function (grunt) {
             temp: './tmp',
             images: './dist/img'
         },
-        imagemin: {
-            dist: {
-                options: {
-                    optimizationLevel: 7,
-                    progressive: true
-                },
-                files: [
-                    {
-                        expand: true,
-                        cwd: './dist/img',
-                        src: '**/*.{png,jpg,jpeg}',
-                        dest: './dist/img'
-                    }
-                ]
-            }
-        },
-        htmlmin: {
-            dist: {
-                options: {
-                    removeCommentsFromCDATA: true,
-                    removeComments: true
-                },
-                files: [
-                    {
-                        expand: true,
-                        cwd: './tmp/',
-                        src: ['*.html', '**/*.html'],
-                        dest: './tmp/'
-                    }
-                ]
-            }
-        },
         compass: {
             dist: {
                 options: {
@@ -419,7 +387,7 @@ module.exports = function (grunt) {
 
         watch: {
             styles: {
-                files: ['./src/styles/*.{scss,sass}', './src/styles/**/*.{scss,sass}'],
+                files: ['./src/styles/*.{scss,sass}', './src/styles/**/*.{scss,sass}', './src/app/**/*.{scss,sass}'],
                 tasks: ['compass:dev', 'copy:styles', 'livereload']
             },
             appjs: {

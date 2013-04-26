@@ -184,16 +184,6 @@ angular.module('rescour.utility', [])
                     },
                     ele = element[0],
                     spinner = new Spinner(opts[attrs.spinnerSize || 'small']);
-//
-//                function getPosition() {
-//                    var boundingClientRect = element[0].getBoundingClientRect();
-//                    return {
-//                        width: element.prop('offsetWidth'),
-//                        height: element.prop('offsetHeight'),
-//                        top: boundingClientRect.top + $window.pageYOffset,
-//                        left: boundingClientRect.left + $window.pageXOffset
-//                    };
-//                }
 
                 scope.$watch(function () {
                     if (scope.$eval(attrs.spinner)) {

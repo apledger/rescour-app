@@ -5,6 +5,7 @@ http_path = "/"
 css_dir = "tmp/styles"
 sass_dir = "src/styles"
 images_dir = "src/assets/img"
+additional_import_paths = ["src/app"]
 
 # You can select your preferred output style here (can be overridden via the command line):
 # output_style = :compressed

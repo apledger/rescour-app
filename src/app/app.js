@@ -22,41 +22,14 @@ angular.module('rescour.app',
         ])
     .config(['$routeProvider', '$locationProvider', '$httpProvider',
         function ($routeProvider, $locationProvider, $httpProvider) {
-
             $httpProvider.defaults.useXDomain = true;
             $httpProvider.defaults.withCredentials = true;
             $locationProvider.html5Mode(true);
 
-            $routeProvider.when('/', {
-                templateUrl: "/app/home/desktop/views/home.html",
-                controller: 'MarketController',
-                resolve: {
-                    loadItems: function ($q, $_api, Items, $rootScope, Item) {
-                        var defer = $q.defer();
-                        Item.query().then(function (result) {
-                            if (angular.equals(result, [])) {
-                                defer.reject("Failed to contact server");
-                            } else {
-                                Items.createItems(result.data.resources);
-                                defer.resolve();
-                            }
-                        }, function (response) {
-                            defer.reject(response);
-                        });
-
-                        return defer.promise;
-                    },
-                    loadUser: function (User, $q) {
-                        var defer = $q.defer();
-                        User.getProfile().then(function (response) {
-                            defer.resolve(response);
-                        }, function (response) {
-                            defer.reject(response);
-                        });
-                        return defer.promise;
-                    }
-                }
-            })
+            $routeProvider.when('/',
+                {
+                    redirectTo: '/market'
+                })
                 .otherwise({
                     redirectTo: '/'
                 });

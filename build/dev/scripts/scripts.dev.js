@@ -41009,7 +41009,7 @@ angular.module('rescour.app',
             $locationProvider.html5Mode(true);
 
             $routeProvider.when('/', {
-                templateUrl: "/app/home/desktop/views/home.html",
+                templateUrl: "/app/home/desktop/views/market.html",
                 controller: 'MarketController',
                 resolve: {
                     loadItems: function ($q, $_api, Items, $rootScope, Item) {

@@ -88,7 +88,7 @@ angular.module('rescour.app')
                         title: 'Profile'
                     },
                     accountSettings: {
-                        templateUrl: '/app/account/desktop/views/partials/accountSettings.html',
+                        templateUrl: '/app/account/desktop/views/partials/settings.html',
                         title: 'Account Settings',
                         selected: true
                     }

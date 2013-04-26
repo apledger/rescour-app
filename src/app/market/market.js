@@ -7,6 +7,39 @@
  */
 
 angular.module('rescour.app')
+    .config(['$routeProvider',
+        function ($routeProvider) {
+            $routeProvider.when('/market', {
+                templateUrl: "/app/market/desktop/views/market.html",
+                controller: 'MarketController',
+                resolve: {
+                    loadItems: function ($q, $_api, Items, $rootScope, Item) {
+                        var defer = $q.defer();
+                        Item.query().then(function (result) {
+                            if (angular.equals(result, [])) {
+                                defer.reject("Failed to contact server");
+                            } else {
+                                Items.createItems(result.data.resources);
+                                defer.resolve();
+                            }
+                        }, function (response) {
+                            defer.reject(response);
+                        });
+
+                        return defer.promise;
+                    },
+                    loadUser: function (User, $q) {
+                        var defer = $q.defer();
+                        User.getProfile().then(function (response) {
+                            defer.resolve(response);
+                        }, function (response) {
+                            defer.reject(response);
+                        });
+                        return defer.promise;
+                    }
+                }
+            });
+        }])
     .controller('MarketController', ['$scope', 'Items', 'Filter', 'Attributes', '$timeout', '$location', '$routeParams',
         function ($scope, Items, Filter, Attributes, $timeout, $location, $routeParams) {
             $scope.items = Items.getItems();
@@ -346,7 +379,7 @@ angular.module('rescour.app')
             scope: {
                 current: "="
             },
-            templateUrl: '/app/home/desktop/views/partials/market-details.html',
+            templateUrl: '/app/market/desktop/views/partials/market-details.html',
             controller: 'DetailsController',
             link: function (scope) {
                 scope.close = function () {

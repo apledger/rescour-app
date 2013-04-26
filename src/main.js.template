@@ -35,7 +35,7 @@ require(
             'app/account/account': {
                 deps: ['app/app']
             },
-            'app/home/home': {
+            'app/market/market': {
                 deps: ['app/app']
             },
             'app/login/login': {
@@ -57,7 +57,7 @@ require(
         'require',
         'components/jquery-ui/jquery-ui',
         'app/account/account',
-        'app/home/home',
+        'app/market/market',
         'app/login/login',
     ]
     <% if (environment === 'dev' || environment === 'prod') { %>

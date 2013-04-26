@@ -496,3 +496,67 @@ angular.module('rescour.utility', [])
             }
         };
     }])
+    .directive('preview', function () {
+        return {
+            restrict: 'C',
+            link: function (scope, element, attr) {
+                element.bind('hover', function () {
+                    element.find('.zoom-mask').fadeIn(300);
+                }, function () {
+                    element.find('.zoom-mask').fadeOut(300);
+                });
+            }
+        };
+    })
+    .directive('dropdownToggle',
+        ['$document', '$location', '$window', function ($document, $location, $window) {
+            var openElement = null, close;
+            return {
+                restrict: 'CA',
+                link: function (scope, element, attrs) {
+                    scope.$watch(function dropdownTogglePathWatch() {
+                        return $location.path();
+                    }, function dropdownTogglePathWatchAction() {
+                        if (close) {
+                            close();
+                        }
+                    });
+
+                    element.parent().bind('click', function (event) {
+                        if (close) {
+                            close();
+                        }
+                    });
+
+                    element.bind('click', function (event) {
+                        event.preventDefault();
+                        event.stopPropagation();
+
+                        var iWasOpen = false;
+
+                        if (openElement) {
+                            iWasOpen = openElement === element;
+                            close();
+                        }
+
+                        if (!iWasOpen) {
+                            element.parent().parent().addClass('open');
+                            openElement = element;
+
+                            close = function (event) {
+                                if (event) {
+                                    event.preventDefault();
+                                    event.stopPropagation();
+                                }
+                                $document.unbind('click', close);
+                                element.parent().parent().removeClass('open');
+                                close = null;
+                                openElement = null;
+                            };
+
+                            $document.bind('click', close);
+                        }
+                    });
+                }
+            };
+        }]);

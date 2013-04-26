@@ -1011,4 +1011,43 @@ angular.module('rescour.market', [])
         };
 
         return Panes;
+    })
+    .directive('slider', function () {
+        return {
+            restrict: 'A',
+            link: function (scope, element, attr) {
+                function setupSlider() {
+                    element.find('.slider').slider({
+                        range: true,
+                        min: 0,
+                        max: 100,
+                        // Calculate percentages based off what the low selected and high selected are
+                        values: [
+                            parseInt((((1.0 * (scope.range.lowSelected - scope.range.low)) / (scope.range.high - scope.range.low)) * 100), 10),
+                            parseInt((((1.0 * (scope.range.highSelected - scope.range.low)) / (scope.range.high - scope.range.low)) * 100), 10)
+                        ],
+                        step: 1,
+                        slide: function (event, ui) {
+                            scope.$apply(function () {
+                                scope.range.lowSelected = parseInt((((ui.values[0] / 100) * (scope.range.high - scope.range.low)) + scope.range.low), 10);
+                                scope.range.highSelected = parseInt((((ui.values[1] / 100) * (scope.range.high - scope.range.low)) + scope.range.low), 10);
+                            });
+                        },
+                        stop: function (event, ui) {
+                            scope.$apply(function () {
+                                scope.filter();
+                            });
+                        }
+                    });
+                }
+
+                // Watch when the slider low or high selected changes, update slider accordingly.
+
+                scope.$on('rangesDefined', function () {
+                    setupSlider();
+                });
+
+                setupSlider();
+            }
+        };
     });

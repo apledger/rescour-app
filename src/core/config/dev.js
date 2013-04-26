@@ -31,13 +31,14 @@ angular.module('rescour.config', [])
             map: {
                 attributes: {
                     discreet: {
-                        "Broker": "Broker",
-                        "State": "State",
-                        "property_status": "Property Status"
+                        "broker": "Broker",
+                        "state": "State",
+                        "propertyStatus": "Property Status",
+                        "propertyType": "Property Type"
                     },
                     range: {
-                        "Number of Units": "Number of Units",
-                        "Year Built": "Year Built"
+                        "numUnits": "Number of Units",
+                        "yearBuilt": "Year Built"
                     }
                 }
             },

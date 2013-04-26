@@ -8,6 +8,7 @@
 
 'use strict';
 var lrSnippet = require('grunt-contrib-livereload/lib/utils').livereloadSnippet;
+var path = require('path');
 
 var mountFolder = function (connect, dir) {
     return connect.static(require('path').resolve(dir));
@@ -173,6 +174,7 @@ module.exports = function (grunt) {
                 options: {
                     port: 9000,
                     middleware: function (connect) {
+
                         return [
                             lrSnippet,
                             mountFolder(connect, './dist')
@@ -218,9 +220,17 @@ module.exports = function (grunt) {
                 }
             }
         },
-
-
-
+        express: {
+            livereload: {
+                options: {
+                    port: 3005,
+                    bases: path.resolve('./dist'),
+                    debug: true,
+                    monitor: {},
+                    server: path.resolve('./server')
+                }
+            }
+        },
         // Copies directories and files from one location to another.
         copy: {
             // Copies libs and img directories to temp.
@@ -405,6 +415,10 @@ module.exports = function (grunt) {
             images: {
                 files: ['./src/img/**'],
                 tasks: ['copy:images', 'livereload']
+            },
+            server: {
+                files: ['server.js'],
+                tasks: 'express-restart:livereload'
             }
         },
 
@@ -424,11 +438,11 @@ module.exports = function (grunt) {
          <% } %>
          */
         template: {
-            shimLocal: {
+            shimDev: {
                 files: {
                     './tmp/main.js': './src/main.js.template'
                 },
-                environment: 'local'
+                environment: 'dev'
             },
             shimDemo: {
                 files: {
@@ -499,7 +513,7 @@ module.exports = function (grunt) {
 
     grunt.registerTask('server', [
         'livereload-start',
-        'connect:livereload',
+        'express',
         'watch'
     ]);
 

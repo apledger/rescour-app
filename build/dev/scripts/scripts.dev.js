@@ -38064,7 +38064,7 @@ angular.module( 'ui.bootstrap.tooltip', [] )
     templateUrl: 'template/tooltip/tooltip-popup.html'
   };
 })
-.directive( 'tooltip', [ '$compile', '$timeout', '$parse', '$window', function ( $compile, $timeout, $parse, $window) {
+.directive( 'tooltip', [ '$compile', '$timeout', '$parse', '$window', '$document', function ( $compile, $timeout, $parse, $window, $document) {
   
   var template = 
     '<tooltip-popup '+
@@ -38131,8 +38131,11 @@ angular.module( 'ui.bootstrap.tooltip', [] )
         
         // Now we add it to the DOM because need some info about it. But it's not 
         // visible yet anyway.
-        element.after( tooltip );
-        
+
+          /** Added by Alan, doesn't work otherwise **/
+//        element.after( tooltip );
+          $document.find('body').append(tooltip);
+
         // Get the position of the directive element.
         position = getPosition();
 
@@ -39291,16 +39294,6 @@ angular.module('rescour.utility', [])
                     },
                     ele = element[0],
                     spinner = new Spinner(opts[attrs.spinnerSize || 'small']);
-//
-//                function getPosition() {
-//                    var boundingClientRect = element[0].getBoundingClientRect();
-//                    return {
-//                        width: element.prop('offsetWidth'),
-//                        height: element.prop('offsetHeight'),
-//                        top: boundingClientRect.top + $window.pageYOffset,
-//                        left: boundingClientRect.left + $window.pageXOffset
-//                    };
-//                }
 
                 scope.$watch(function () {
                     if (scope.$eval(attrs.spinner)) {
@@ -41003,41 +40996,14 @@ angular.module('rescour.app',
         ])
     .config(['$routeProvider', '$locationProvider', '$httpProvider',
         function ($routeProvider, $locationProvider, $httpProvider) {
-
             $httpProvider.defaults.useXDomain = true;
             $httpProvider.defaults.withCredentials = true;
             $locationProvider.html5Mode(true);
 
-            $routeProvider.when('/', {
-                templateUrl: "/app/home/desktop/views/market.html",
-                controller: 'MarketController',
-                resolve: {
-                    loadItems: function ($q, $_api, Items, $rootScope, Item) {
-                        var defer = $q.defer();
-                        Item.query().then(function (result) {
-                            if (angular.equals(result, [])) {
-                                defer.reject("Failed to contact server");
-                            } else {
-                                Items.createItems(result.data.resources);
-                                defer.resolve();
-                            }
-                        }, function (response) {
-                            defer.reject(response);
-                        });
-
-                        return defer.promise;
-                    },
-                    loadUser: function (User, $q) {
-                        var defer = $q.defer();
-                        User.getProfile().then(function (response) {
-                            defer.resolve(response);
-                        }, function (response) {
-                            defer.reject(response);
-                        });
-                        return defer.promise;
-                    }
-                }
-            })
+            $routeProvider.when('/',
+                {
+                    redirectTo: '/market'
+                })
                 .otherwise({
                     redirectTo: '/'
                 });
@@ -41150,7 +41116,7 @@ angular.module('rescour.app')
                         title: 'Profile'
                     },
                     accountSettings: {
-                        templateUrl: '/app/account/desktop/views/partials/accountSettings.html',
+                        templateUrl: '/app/account/desktop/views/partials/settings.html',
                         title: 'Account Settings',
                         selected: true
                     }
@@ -41386,6 +41352,39 @@ angular.module('rescour.app')
  */
 
 angular.module('rescour.app')
+    .config(['$routeProvider',
+        function ($routeProvider) {
+            $routeProvider.when('/market', {
+                templateUrl: "/app/market/desktop/views/market.html",
+                controller: 'MarketController',
+                resolve: {
+                    loadItems: function ($q, $_api, Items, $rootScope, Item) {
+                        var defer = $q.defer();
+                        Item.query().then(function (result) {
+                            if (angular.equals(result, [])) {
+                                defer.reject("Failed to contact server");
+                            } else {
+                                Items.createItems(result.data.resources);
+                                defer.resolve();
+                            }
+                        }, function (response) {
+                            defer.reject(response);
+                        });
+
+                        return defer.promise;
+                    },
+                    loadUser: function (User, $q) {
+                        var defer = $q.defer();
+                        User.getProfile().then(function (response) {
+                            defer.resolve(response);
+                        }, function (response) {
+                            defer.reject(response);
+                        });
+                        return defer.promise;
+                    }
+                }
+            });
+        }])
     .controller('MarketController', ['$scope', 'Items', 'Filter', 'Attributes', '$timeout', '$location', '$routeParams',
         function ($scope, Items, Filter, Attributes, $timeout, $location, $routeParams) {
             $scope.items = Items.getItems();
@@ -41498,6 +41497,7 @@ angular.module('rescour.app')
         function ($scope, Items, Attributes, SavedSearch, $dialog) {
             $scope.selectedSearch = null;
             $scope.savedSearches = SavedSearch.query();
+            console.log(SavedSearch.query());
 
             $scope.openSaveDialog = function () {
                 // If its a new search open the dialog
@@ -41724,7 +41724,7 @@ angular.module('rescour.app')
             scope: {
                 current: "="
             },
-            templateUrl: '/app/home/desktop/views/partials/market-details.html',
+            templateUrl: '/app/market/desktop/views/partials/market-details.html',
             controller: 'DetailsController',
             link: function (scope) {
                 scope.close = function () {
@@ -41783,7 +41783,59 @@ angular.module('rescour.app')
                 });
             }
         };
-    });
+    })
+    .directive('dropdownToggle',
+        ['$document', '$location', '$window', function ($document, $location, $window) {
+            var openElement = null, close;
+            return {
+                restrict: 'CA',
+                link: function (scope, element, attrs) {
+                    scope.$watch(function dropdownTogglePathWatch() {
+                        return $location.path();
+                    }, function dropdownTogglePathWatchAction() {
+                        if (close) {
+                            close();
+                        }
+                    });
+
+                    element.parent().bind('click', function (event) {
+                        if (close) {
+                            close();
+                        }
+                    });
+
+                    element.bind('click', function (event) {
+                        event.preventDefault();
+                        event.stopPropagation();
+
+                        var iWasOpen = false;
+
+                        if (openElement) {
+                            iWasOpen = openElement === element;
+                            close();
+                        }
+
+                        if (!iWasOpen) {
+                            element.parent().parent().addClass('open');
+                            openElement = element;
+
+                            close = function (event) {
+                                if (event) {
+                                    event.preventDefault();
+                                    event.stopPropagation();
+                                }
+                                $document.unbind('click', close);
+                                element.parent().parent().removeClass('open');
+                                close = null;
+                                openElement = null;
+                            };
+
+                            $document.bind('click', close);
+                        }
+                    });
+                }
+            };
+        }]);
 
 /**
  * Created with JetBrains WebStorm.

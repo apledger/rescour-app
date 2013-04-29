@@ -13,9 +13,7 @@ angular.module('rescour.market.map', ['rescour.market'])
                 restrict: "A",
                 transclude: true,
                 scope: {
-                    view: "=",
-                    selected: "=",
-                    center: "="
+                    selected: "="
                 },
                 template: '<div class="map"></div>',
                 link: function (scope, element, attrs, ctrl) {
@@ -56,7 +54,7 @@ angular.module('rescour.market.map', ['rescour.market'])
                             "</ul>" +
                             "</div>" +
                             "<div class=\"popup-striped-container popup-footer\">\n    <p>" +
-                            item.address.city + ", " + item.address.state + "</p>\n</div></div>";
+                            item.address.street1 + "</p>\n</div></div>";
 
                         var popupElement = $compile(popupTempl)(scope);
 
@@ -67,7 +65,8 @@ angular.module('rescour.market.map', ['rescour.market'])
                         if (!item.hasOwnProperty('details')) {
                             item.getDetails();
                         }
-                        scope.selected = item;
+//                        scope.selected = item;
+                        Items.setActive(item);
                         PropertyDetails.panes.selectPane("Details");
                     };
 
@@ -111,10 +110,10 @@ angular.module('rescour.market.map', ['rescour.market'])
                         map.addLayer(markers);
                     });
 
-                    scope.$watch("center", function (item) {
+                    scope.$on('CenterMap', function (event, item) {
                         if (item) {
+                            map.panTo(item.location);
                             markers.zoomToShowLayer(item.marker, function () {
-                                map.panTo(item.location);
                                 item.marker.bindPopup(popupTemplate(item), {closeButton: false, minWidth: 325}).openPopup();
                             });
                         }

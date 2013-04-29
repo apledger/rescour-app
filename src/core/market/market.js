@@ -176,10 +176,12 @@ angular.module('rescour.market', [])
                         } else {
                             throw new Error("Finances are not an array");
                         }
+                        defer.resolve(self);
                     } catch (e) {
+                        defer.reject(response);
                         console.log(e.message);
                     }
-                    defer.resolve(response);
+
                 }, function (response) {
                     self.details.$spinner = false;
                     defer.reject(response);
@@ -457,9 +459,18 @@ angular.module('rescour.market', [])
     .service('Items', ['Attributes', 'Item', 'Filter',
         function (Attributes, Item, Filter) {
             // Private items data
-            this.items = {};
 
-            this.active = null;
+            this.items = {};
+            var active = null;
+
+            this.setActive = function (item) {
+                active = item;
+                return active;
+            };
+
+            this.getActive = function () {
+                return active;
+            };
 
             this.getItems = function () {
                 return _.map(this.items, function (item, id) {
@@ -1050,4 +1061,100 @@ angular.module('rescour.market', [])
                 setupSlider();
             }
         };
-    });
+    })
+    .factory('DetailView', ['$document', '$controller', '$templateCache', '$transition', '$injector', '$rootScope',
+        function ($document, $controller, $templateCache, $transition, $injector, $rootScope) {
+            var defaults = {
+                    viewClass: 'property-details',
+                    transitionClass: 'fade',
+                    triggerClass: 'in',
+                    resolve: {}
+                },
+                body = $document.find('body');
+
+            function createElement(clazz) {
+                var el = angular.element("<div>");
+                el.addClass(clazz);
+                return el;
+            }
+
+            function DetailView(opts) {
+                var self = this,
+                    options = this.options = angular.extend({}, defaults, opts);
+
+                this.viewEl = createElement(options.viewClass);
+                this.viewEl.addClass(options.transitionClass);
+                this.viewEl.addClass(options.triggerClass);
+            }
+
+            DetailView.$destroy = function () {
+
+            };
+
+            DetailView.prototype.isOpen = function () {
+                return this._open;
+            };
+
+            DetailView.prototype.open = function () {
+                var self = this;
+
+                self._loadResolves().then(function (locals) {
+                    var $scope = locals.$scope = self.$scope =  locals.$scope ? locals.$scope : $rootScope.$new();
+                    self.viewEl.html(locals.$template);
+
+                    if (self.options.controller) {
+                        var ctrl = $controller(self.options.controller, locals);
+                        self.modalEl.contents().data('ngControllerController', ctrl);
+                    }
+
+                    $compile(self.modalEl)($scope);
+                    self._addElementsToDom();
+                    body.addClass(self.options.dialogOpenClass);
+
+                    // trigger tranisitions
+                    setTimeout(function(){
+                        if(self.options.dialogFade){ self.modalEl.addClass(self.options.triggerClass); }
+                        if(self.options.backdropFade){ self.backdropEl.addClass(self.options.triggerClass); }
+                    });
+
+
+                });
+            };
+
+            DetailView.prototype._loadResolves = function () {
+                var values = [], keys = [], templatePromise, self = this;
+
+                if (this.options.template) {
+                    templatePromise = $q.when(this.options.template);
+                } else if (this.options.templateUrl) {
+                    templatePromise = $http.get(this.options.templateUrl, {cache: $templateCache})
+                        .then(function (response) {
+                            return response.data;
+                        });
+                }
+
+                angular.forEach(this.options.resolve || [], function (value, key) {
+                    keys.push(key);
+                    values.push(angular.isString(value) ? $injector.get(value) : $injector.invoke(value));
+                });
+
+                keys.push('$template');
+                values.push(templatePromise);
+
+                return $q.all(values).then(function (values) {
+                    var locals = {};
+                    angular.forEach(values, function (value, index) {
+                        locals[keys[index]] = value;
+                    });
+                    locals.detailView = self;
+                    return locals;
+                });
+            };
+
+            return {
+                open: function (options) {
+                    var detailView = new DetailView(options);
+                    return detailView.open();
+                }
+            }
+        }]);

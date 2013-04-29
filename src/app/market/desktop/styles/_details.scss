@@ -3,7 +3,7 @@ $detailsHeaderColor: $light-gray;
 .property-details {
   position: absolute;
   left: $filterWidth + $marketWidth;
-  top: 0;
+  top: $headerHeight;
   right: 0;
   bottom: 0;
   z-index: 1;

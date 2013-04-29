@@ -40,15 +40,41 @@ angular.module('rescour.app')
                 }
             });
         }])
-    .controller('MarketController', ['$scope', 'Items', 'Filter', 'Attributes', '$timeout', '$location', '$routeParams',
-        function ($scope, Items, Filter, Attributes, $timeout, $location, $routeParams) {
+    .controller('MarketController', ['$scope', 'Items', 'Filter', 'Attributes', '$timeout', '$dialog', '$routeParams', '$location',
+        function ($scope, Items, Filter, Attributes, $timeout, $dialog, $routeParams, $location) {
             $scope.items = Items.getItems();
             $scope.attributes = Attributes.active;
             $scope.view = null;
             $scope.toggle = null;
-            $scope.selectedItem = null;
             $scope.center = null;
             $scope.modal = {};
+            $scope.activeItem = Items.getActive;
+            $scope.detailView = $dialog.dialog({
+                backdrop: false,
+                keyboard: false,
+                backdropClick: true,
+                dialogClass: 'property-details',
+                dialogFade: true,
+                backdropFade: false,
+                templateUrl: '/app/market/desktop/views/partials/market-details.html',
+                controller: "DetailsController",
+                resolve: {
+                    activeItem: function (Items, $q) {
+                        var deferred = $q.defer();
+
+                        var item = Items.getActive() || {};
+                        if (!item.hasOwnProperty('details') || _.isEmpty(item.details)) {
+                            item.getDetails().then(function (_item) {
+                                deferred.resolve(_item);
+                            });
+                        } else {
+                            deferred.resolve(item);
+                        }
+
+                        return deferred.promise;
+                    }
+                }
+            });
 
             $scope.sortByRange = function (rangeVal) {
                 return function (object) {
@@ -56,29 +82,21 @@ angular.module('rescour.app')
                 };
             };
 
-            $scope.clear = function () {
-                $scope.modal = $scope.selectedItem = $scope.center = null;
-            };
-
             $scope.selectItem = function (item) {
-                if (!item.hasOwnProperty('details') || _.isEmpty(item.details)) {
-                    item.getDetails();
-                }
-                Items.active = $scope.selectedItem = item;
+                Items.setActive(item);
+                $scope.detailView.open().then(function (locals) {
+                    Items.setActive(null);
+                });
             };
 
             $scope.centerMap = function (item) {
-                $scope.selectedItem = null;
-                $scope.center = item;
+                Items.setActive(null);
+                $scope.$broadcast('CenterMap', item);
             };
 
             $scope.refreshItems = function () {
                 $scope.toggle = "all";
                 $scope.render(Filter.filter(Attributes.active));
-            };
-
-            $scope.openModal = function (template) {
-                $scope.modal = template;
             };
 
             $scope.filter = function () {
@@ -152,19 +170,17 @@ angular.module('rescour.app')
         function ($scope, Items, Attributes, SavedSearch, $dialog) {
             $scope.selectedSearch = null;
             $scope.savedSearches = SavedSearch.query();
-            console.log(SavedSearch.query());
 
             $scope.openSaveDialog = function () {
                 // If its a new search open the dialog
                 if (!$scope.selectedSearch) {
-//                    $scope.openModal(Templates.newSearch);
                     $dialog.dialog({
                         backdrop: true,
                         keyboard: true,
                         backdropClick: true,
                         dialogFade: true,
                         backdropFade: true,
-                        templateUrl: '/app/home/desktop/views/partials/saved-search-dialog.html',
+                        templateUrl: '/app/market/desktop/views/partials/saved-search-dialog.html',
                         controller: "SaveSearchDialogController"
                     }).open()
                         .then(function (result) {
@@ -213,7 +229,6 @@ angular.module('rescour.app')
                 $scope.attributes.load(search);
                 $scope.filter();
                 $scope.selectedSearch = search;
-                console.log($scope.selectedSearch);
                 $scope.attributes.modified = false;
             };
 
@@ -286,14 +301,19 @@ angular.module('rescour.app')
                 PropertyDetails.panes.selectPane("Contact");
             };
         }])
-    .controller("DetailsController", ['$scope', '$http', '$_api', '$timeout', 'PropertyDetails',
-        function ($scope, $http, $_api, $timeout, PropertyDetails) {
+    .controller("DetailsController", ['$scope', '$http', '$_api', '$timeout', 'PropertyDetails', 'Items', 'activeItem', 'dialog',
+        function ($scope, $http, $_api, $timeout, PropertyDetails, Items, activeItem, dialog) {
             $scope.newComment = {};
             $scope.newEmail = {};
             $scope.panes = PropertyDetails.panes.panes;
             $scope.valueFormats = PropertyDetails.Finance.valueFormats;
             $scope.financeFields = PropertyDetails.Finance.fields;
             $scope.contactAlerts = [];
+            $scope.current = activeItem;
+
+            $scope.close = function () {
+                dialog.close();
+            };
 
             $scope.addComment = function (comment) {
                 if ($scope.newComment.text) {
@@ -372,19 +392,4 @@ angular.module('rescour.app')
             $scope.deleteFinance = function (finance) {
                 $scope.current.deleteFinance(finance);
             };
-        }])
-    .directive('propertyDetails', function () {
-        return {
-            restrict: "C",
-            scope: {
-                current: "="
-            },
-            templateUrl: '/app/market/desktop/views/partials/market-details.html',
-            controller: 'DetailsController',
-            link: function (scope) {
-                scope.close = function () {
-                    scope.current = null;
-                };
-            }
-        };
-    });
+        }]);

@@ -9,77 +9,53 @@
 angular.module('rescour.app')
     .config(['$routeProvider',
         function ($routeProvider) {
-            $routeProvider.when('/market/:id', {
-                templateUrl: "/app/market/desktop/views/market.html",
-                controller: 'MarketController',
-                resolve: {
-                    loadItems: function ($q, $_api, Items, $rootScope, Item) {
-                        var defer = $q.defer();
-                        Item.query().then(function (result) {
-                            if (angular.equals(result, [])) {
-                                defer.reject("Failed to contact server");
-                            } else {
-                                Items.createItems(result.data.resources);
-                                defer.resolve();
-                            }
-                        }, function (response) {
-                            defer.reject(response);
-                        });
+            $routeProvider
+                .when('/market', {
+                    templateUrl: "/app/market/desktop/views/market.html",
+                    controller: 'MarketController',
+                    reloadOnSearch: false,
+                    resolve: {
+                        loadItems: function ($q, $_api, Items, $rootScope, Item) {
+                            var defer = $q.defer();
+                            Item.query().then(function (result) {
+                                if (angular.equals(result, [])) {
+                                    defer.reject("Failed to contact server");
+                                } else {
+                                    Items.createItems(result.data.resources);
+                                    defer.resolve();
+                                }
+                            }, function (response) {
+                                defer.reject(response);
+                            });
 
-                        return defer.promise;
-                    },
-                    loadUser: function (User, $q) {
-                        var defer = $q.defer();
-                        User.getProfile().then(function (response) {
-                            defer.resolve(response);
-                        }, function (response) {
-                            defer.reject(response);
-                        });
-                        return defer.promise;
+                            return defer.promise;
+                        },
+                        loadUser: function (User, $q) {
+                            var defer = $q.defer();
+                            User.getProfile().then(function (response) {
+                                defer.resolve(response);
+                            }, function (response) {
+                                defer.reject(response);
+                            });
+                            return defer.promise;
+                        }
                     }
-                }
-            });
+                });
         }])
-    .controller('MarketController', ['$scope', 'Items', 'Filter', 'Attributes', '$timeout', '$dialog', '$routeParams', '$location', '$route',
-        function ($scope, Items, Filter, Attributes, $timeout, $dialog, $routeParams, $location, $route) {
+    .controller('MarketController', ['$scope', 'Items', 'Filter', 'Attributes', '$timeout', '$routeParams', '$location', 'PropertyDetails',
+        function ($scope, Items, Filter, Attributes, $timeout, $routeParams, $location, PropertyDetails) {
             $scope.items = Items.getItems();
             $scope.attributes = Attributes.active;
             $scope.toggle = null;
             $scope.activeItem = Items.getActive;
-            console.log($routeParams);
-//            $scope.routeParams = $routeParams;
-            $scope.detailView = $dialog.dialog({
-                backdrop: false,
-                keyboard: false,
-                backdropClick: true,
-                dialogClass: 'property-details',
-                dialogFade: true,
-                backdropFade: false,
-                templateUrl: '/app/market/desktop/views/partials/market-details.html',
-                controller: "DetailsController",
-                resolve: {
-                    activeItem: function (Items, $q, $location) {
-                        var deferred = $q.defer();
 
-                        var item = Items.getActive() || {};
-                        if (!item.hasOwnProperty('details') || _.isEmpty(item.details)) {
-                            item.getDetails().then(function (_item) {
-                                deferred.resolve(_item);
-                            });
-                        } else {
-                            deferred.resolve(item);
-                        }
-
-//                        $location.url('/market/' + item.id);
-
-                        return deferred.promise;
-                    }
+            $scope.$on('$locationChangeSuccess', function (newVal, oldVal) {
+                if (angular.isObject(Items.items[$location.search().id])) {
+                    $scope.selectItem(Items.items[$location.search().id]);
+                } else {
+                    $scope.selectItem(null);
                 }
             });
-//
-//            $scope.$watch('routeParams', function (newVal, oldVal) {
-//                console.log(newVal);
-//            });
 
             $scope.sortByRange = function (rangeVal) {
                 return function (object) {
@@ -88,10 +64,16 @@ angular.module('rescour.app')
             };
 
             $scope.selectItem = function (item) {
-                Items.setActive(item);
-                $scope.detailView.open().then(function (locals) {
+                if (!item && !PropertyDetails.view.isOpen()) {
                     Items.setActive(null);
-                });
+                } else if (!item && PropertyDetails.view.isOpen()) {
+                    PropertyDetails.view.close();
+                } else {
+                    Items.setActive(item);
+                    PropertyDetails.view.open().then(function (locals) {
+                        Items.setActive(null);
+                    });
+                }
             };
 
             $scope.centerMap = function (item) {
@@ -305,13 +287,13 @@ angular.module('rescour.app')
                 PropertyDetails.panes.selectPane("Contact");
             };
         }])
-    .controller("DetailsController", ['$scope', '$http', '$_api', '$timeout', 'PropertyDetails', 'Items', 'activeItem', 'dialog',
-        function ($scope, $http, $_api, $timeout, PropertyDetails, Items, activeItem, dialog) {
+    .controller("DetailsController", ['$scope', '$http', '$_api', '$timeout', 'PropertyDetails', 'Items', 'activeItem', 'dialog', 'Finance',
+        function ($scope, $http, $_api, $timeout, PropertyDetails, Items, activeItem, dialog, Finance) {
             $scope.newComment = {};
             $scope.newEmail = {};
             $scope.panes = PropertyDetails.panes.panes;
-            $scope.valueFormats = PropertyDetails.Finance.valueFormats;
-            $scope.financeFields = PropertyDetails.Finance.fields;
+            $scope.valueFormats = Finance.valueFormats;
+            $scope.financeFields = Finance.fields;
             $scope.contactAlerts = [];
             $scope.current = activeItem;
 

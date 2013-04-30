@@ -11,30 +11,31 @@
 angular.module('rescour.app')
     .config(['$routeProvider',
         function ($routeProvider) {
-            $routeProvider.when('/account/:status', {
-                templateUrl: "/app/account/desktop/views/account.html",
-                controller: 'AccountController',
-                resolve: {
-                    loadUser: function (User, $q) {
-                        var defer = $q.defer();
-                        User.getProfile().then(function (response) {
-                            defer.resolve(response);
-                        }, function (response) {
-                            defer.reject(response);
-                        });
-                        return defer.promise;
-                    },
-                    loadBilling: function (User, $q) {
-                        var defer = $q.defer();
-                        User.getBilling().then(function (response) {
-                            defer.resolve(response);
-                        }, function (response) {
-                            defer.reject(response);
-                        });
-                        return defer.promise;
+            $routeProvider
+                .when('/account/:status', {
+                    templateUrl: "/app/account/desktop/views/account.html",
+                    controller: 'AccountController',
+                    resolve: {
+                        loadUser: function (User, $q) {
+                            var defer = $q.defer();
+                            User.getProfile().then(function (response) {
+                                defer.resolve(response);
+                            }, function (response) {
+                                defer.reject(response);
+                            });
+                            return defer.promise;
+                        },
+                        loadBilling: function (User, $q) {
+                            var defer = $q.defer();
+                            User.getBilling().then(function (response) {
+                                defer.resolve(response);
+                            }, function (response) {
+                                defer.reject(response);
+                            });
+                            return defer.promise;
+                        }
                     }
-                }
-            });
+                });
         }])
     .controller('AccountController', ['$scope', 'loadUser', '$_api', '$http', 'User', '$routeParams', '$rootScope', '$location', 'loadBilling',
         function ($scope, loadUser, $_api, $http, User, $routeParams, $rootScope, $location, loadBilling) {

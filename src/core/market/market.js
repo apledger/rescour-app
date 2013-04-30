@@ -979,19 +979,46 @@ angular.module('rescour.market', [])
 
             return Finance;
         }])
-    .factory('PropertyDetails', ['Finance', 'Comment', 'Panes',
-        function (Finance, Comment, Panes) {
+    .factory('PropertyDetails', ['Finance', 'Comment', 'Panes', '$dialog',
+        function (Finance, Comment, Panes, $dialog) {
             var panes = [
-                {heading: "Details", active: true},
-                {heading: "Pictures", active: false},
-                {heading: "Contact", active: false},
-                {heading: "Comments", active: false},
-                {heading: "Finances", active: false}
-            ];
+                    {heading: "Details", active: true},
+                    {heading: "Pictures", active: false},
+                    {heading: "Contact", active: false},
+                    {heading: "Comments", active: false},
+                    {heading: "Finances", active: false}
+                ],
+                view = $dialog.dialog({
+                    backdrop: false,
+                    keyboard: false,
+                    backdropClick: true,
+                    dialogClass: 'property-details',
+                    dialogFade: true,
+                    backdropFade: false,
+                    templateUrl: '/app/market/desktop/views/partials/market-details.html',
+                    controller: "DetailsController",
+                    resolve: {
+                        activeItem: function (Items, $q, $location) {
+                            var deferred = $q.defer();
+
+                            var item = Items.getActive() || {};
+                            if (!item.hasOwnProperty('details') || _.isEmpty(item.details)) {
+                                item.getDetails().then(function (_item) {
+                                    deferred.resolve(_item);
+                                });
+                            } else {
+                                deferred.resolve(item);
+                            }
+
+                            $location.search('id', item.id);
+
+                            return deferred.promise;
+                        }
+                    }
+                });
 
             return {
-                Finance: Finance,
-                Comment: Comment,
+                view: view,
                 panes: new Panes(panes)
             };
         }])

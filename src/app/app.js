@@ -28,7 +28,7 @@ angular.module('rescour.app',
 
             $routeProvider.when('/',
                 {
-                    redirectTo: '/market/123'
+                    redirectTo: '/market/'
                 })
                 .otherwise({
                     redirectTo: '/'

@@ -9,7 +9,7 @@
 angular.module('rescour.app')
     .config(['$routeProvider',
         function ($routeProvider) {
-            $routeProvider.when('/market', {
+            $routeProvider.when('/market/:id', {
                 templateUrl: "/app/market/desktop/views/market.html",
                 controller: 'MarketController',
                 resolve: {
@@ -40,15 +40,14 @@ angular.module('rescour.app')
                 }
             });
         }])
-    .controller('MarketController', ['$scope', 'Items', 'Filter', 'Attributes', '$timeout', '$dialog', '$routeParams', '$location',
-        function ($scope, Items, Filter, Attributes, $timeout, $dialog, $routeParams, $location) {
+    .controller('MarketController', ['$scope', 'Items', 'Filter', 'Attributes', '$timeout', '$dialog', '$routeParams', '$location', '$route',
+        function ($scope, Items, Filter, Attributes, $timeout, $dialog, $routeParams, $location, $route) {
             $scope.items = Items.getItems();
             $scope.attributes = Attributes.active;
-            $scope.view = null;
             $scope.toggle = null;
-            $scope.center = null;
-            $scope.modal = {};
             $scope.activeItem = Items.getActive;
+            console.log($routeParams);
+//            $scope.routeParams = $routeParams;
             $scope.detailView = $dialog.dialog({
                 backdrop: false,
                 keyboard: false,
@@ -59,7 +58,7 @@ angular.module('rescour.app')
                 templateUrl: '/app/market/desktop/views/partials/market-details.html',
                 controller: "DetailsController",
                 resolve: {
-                    activeItem: function (Items, $q) {
+                    activeItem: function (Items, $q, $location) {
                         var deferred = $q.defer();
 
                         var item = Items.getActive() || {};
@@ -71,10 +70,16 @@ angular.module('rescour.app')
                             deferred.resolve(item);
                         }
 
+//                        $location.url('/market/' + item.id);
+
                         return deferred.promise;
                     }
                 }
             });
+//
+//            $scope.$watch('routeParams', function (newVal, oldVal) {
+//                console.log(newVal);
+//            });
 
             $scope.sortByRange = function (rangeVal) {
                 return function (object) {
@@ -101,7 +106,6 @@ angular.module('rescour.app')
 
             $scope.filter = function () {
                 $scope.toggle = "all";
-                $scope.modal = $scope.center = null;
                 $scope.attributes.modified = true;
                 $scope.render(Filter.filter(Attributes.active));
                 // Predict Numbers

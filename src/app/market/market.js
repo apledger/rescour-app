@@ -38,22 +38,30 @@ angular.module('rescour.app')
                                 defer.reject(response);
                             });
                             return defer.promise;
+                        },
+                        detailsId: function ($location) {
+                            return $location.search().id;
                         }
                     }
                 });
         }])
-    .controller('MarketController', ['$scope', 'Items', 'Filter', 'Attributes', '$timeout', '$routeParams', '$location', 'PropertyDetails',
-        function ($scope, Items, Filter, Attributes, $timeout, $routeParams, $location, PropertyDetails) {
+    .controller('MarketController', ['$scope', 'Items', 'Filter', 'Attributes', '$timeout', '$routeParams', 'detailsId', 'PropertyDetails', '$location',
+        function ($scope, Items, Filter, Attributes, $timeout, $routeParams, detailsId, PropertyDetails, $location) {
             $scope.items = Items.getItems();
             $scope.attributes = Attributes.active;
             $scope.toggle = null;
-            $scope.activeItem = Items.getActive;
+            $scope.getActive = Items.getActive;
 
-            $scope.$on('$locationChangeSuccess', function (newVal, oldVal) {
-                if (angular.isObject(Items.items[$location.search().id])) {
-                    $scope.selectItem(Items.items[$location.search().id]);
-                } else {
-                    $scope.selectItem(null);
+            if (detailsId) {
+                PropertyDetails.open(Items.items[detailsId]);
+            }
+
+            $scope.$on('$locationChangeSuccess', function (e, newLocation, oldLocation) {
+                console.log(oldLocation);
+                if (angular.isObject(Items.items[$location.search().id]) && !PropertyDetails.isOpen()) {
+                    $scope.showItemDetails(Items.items[$location.search().id]);
+                } else if (!angular.isObject(Items.items[$location.search().id]) && PropertyDetails.isOpen()) {
+                    $scope.showItemDetails(null);
                 }
             });
 
@@ -63,17 +71,8 @@ angular.module('rescour.app')
                 };
             };
 
-            $scope.selectItem = function (item) {
-                if (!item && !PropertyDetails.view.isOpen()) {
-                    Items.setActive(null);
-                } else if (!item && PropertyDetails.view.isOpen()) {
-                    PropertyDetails.view.close();
-                } else {
-                    Items.setActive(item);
-                    PropertyDetails.view.open().then(function (locals) {
-                        Items.setActive(null);
-                    });
-                }
+            $scope.showItemDetails = function (item, pane) {
+                PropertyDetails.open(item).selectPane(pane);
             };
 
             $scope.centerMap = function (item) {
@@ -266,32 +265,12 @@ angular.module('rescour.app')
             $scope.toggleHidden = function (item) {
                 item.toggleHidden();
             };
-
-            $scope.showPictures = function (item) {
-                $scope.selectItem(item);
-                PropertyDetails.panes.selectPane("Pictures");
-            };
-
-            $scope.showNotes = function (item) {
-                $scope.selectItem(item);
-                PropertyDetails.panes.selectPane("Comments");
-            };
-
-            $scope.showDetails = function (item) {
-                $scope.selectItem(item);
-                PropertyDetails.panes.selectPane("Details");
-            };
-
-            $scope.showContact = function (item) {
-                $scope.selectItem(item);
-                PropertyDetails.panes.selectPane("Contact");
-            };
         }])
     .controller("DetailsController", ['$scope', '$http', '$_api', '$timeout', 'PropertyDetails', 'Items', 'activeItem', 'dialog', 'Finance',
         function ($scope, $http, $_api, $timeout, PropertyDetails, Items, activeItem, dialog, Finance) {
             $scope.newComment = {};
             $scope.newEmail = {};
-            $scope.panes = PropertyDetails.panes.panes;
+            $scope.panes = PropertyDetails.panes;
             $scope.valueFormats = Finance.valueFormats;
             $scope.financeFields = Finance.fields;
             $scope.contactAlerts = [];

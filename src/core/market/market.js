@@ -979,8 +979,8 @@ angular.module('rescour.market', [])
 
             return Finance;
         }])
-    .factory('PropertyDetails', ['Finance', 'Comment', 'Panes', '$dialog',
-        function (Finance, Comment, Panes, $dialog) {
+    .factory('PropertyDetails', ['$dialog', '$q', 'Items', '$location',
+        function ($dialog, $q, Items, $location) {
             var panes = [
                     {heading: "Details", active: true},
                     {heading: "Pictures", active: false},
@@ -1018,38 +1018,47 @@ angular.module('rescour.market', [])
                 });
 
             return {
-                view: view,
-                panes: new Panes(panes)
+                isOpen: function () {
+                    return view.isOpen();
+                },
+                open: function (item, resolveCb) {
+                    if (!item && !view.isOpen()) {
+                        Items.setActive(null);
+                    } else if (!item && view.isOpen()) {
+                        view.close();
+                    } else {
+                        Items.setActive(item);
+                        view
+                            .open()
+                            .then(function () {
+                                $location.search('id', null);
+                                Items.setActive(null);
+                            })
+                            .then(resolveCb);
+                    }
+
+                    return this;
+                },
+                close: function (result) {
+                    view.close();
+                    return this;
+                },
+                panes: panes,
+                selectPane: function (paneHeading) {
+                    paneHeading = (paneHeading && _.find(panes, function(val) { return val.heading === paneHeading })) ? paneHeading : panes[0].heading;
+
+
+                    angular.forEach(panes, function (pane) {
+                        if (pane.heading === paneHeading) {
+                            pane.active = true;
+                        } else {
+                            pane.active = false;
+                        }
+                    });
+                    return this;
+                }
             };
         }])
-    .factory('Panes', function () {
-        var Panes = function (data) {
-            var self = this;
-            data = data || {};
-            this.panes = [];
-
-            angular.forEach(data, function (value, key) {
-                if (value.heading) {
-                    self.panes.push({
-                        heading: value.heading,
-                        active: value.active || false
-                    });
-                }
-            });
-        };
-
-        Panes.prototype.selectPane = function (paneHeading) {
-            angular.forEach(this.panes, function (pane) {
-                if (pane.heading === paneHeading) {
-                    pane.active = true;
-                } else {
-                    pane.active = false;
-                }
-            });
-        };
-
-        return Panes;
-    })
     .directive('slider', function () {
         return {
             restrict: 'A',

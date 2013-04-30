@@ -12,9 +12,6 @@ angular.module('rescour.market.map', ['rescour.market'])
             return {
                 restrict: "A",
                 transclude: true,
-                scope: {
-                    selected: "="
-                },
                 template: '<div class="map"></div>',
                 link: function (scope, element, attrs, ctrl) {
                     var cloudmadeUrl = 'http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/37875/256/{z}/{x}/{y}.png',
@@ -62,20 +59,21 @@ angular.module('rescour.market.map', ['rescour.market'])
                     }
 
                     scope.showDetails = function (item) {
-                        if (!item.hasOwnProperty('details')) {
-                            item.getDetails();
-                        }
-//                        scope.selected = item;
                         Items.setActive(item);
-                        PropertyDetails.panes.selectPane("Details");
+                        PropertyDetails
+                            .open(function (locals) {
+                                Items.setActive(null);
+                            })
+                            .selectPane("Details");
                     };
 
                     scope.showPictures = function (item) {
-                        if (!item.hasOwnProperty('details')) {
-                            item.getDetails();
-                        }
-                        scope.selected = item;
-                        PropertyDetails.panes.selectPane("Pictures");
+                        Items.setActive(item);
+                        PropertyDetails
+                            .open(function (locals) {
+                                Items.setActive(null);
+                            })
+                            .selectPane("Pictures");
                     };
 
                     scope.$on("Render", function () {

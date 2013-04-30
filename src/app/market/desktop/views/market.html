@@ -34,7 +34,7 @@
     </div>
 </header>
 
-<div class="main-container">
+<div class="main-container" spinner="getActive().details.$spinner" spinner-size="large">
     <!--FILTERS BEGIN-->
     <div id="Filter" ng-controller="FilterController">
         <div class="filter-container">
@@ -123,7 +123,7 @@
                         </a>
 
                         <div class="header-container">
-                            <div class="title"><a href="javascript:" ng-click="showDetails(item)">{{item.title |
+                            <div class="title"><a href="javascript:" ng-click="showItemDetails(item, 'Details')">{{item.title |
                                 ellipsis:25}}</a></div>
                             <div class="ranges">
                                 <span>{{item.attributes.range["Number of Units"]}}&nbsp;</span>Units.&nbsp;
@@ -132,7 +132,7 @@
                         </div>
                     </div>
 
-                    <div class="preview" ng-show="!item.hidden" ng-click="showPictures(item)">
+                    <div class="preview" ng-show="!item.hidden" ng-click="showItemDetails(item, 'Pictures')">
                         <div class="preview-mask"><i class="icon-search"></i></div>
                         <img ng-src="{{item.thumbnail}}" alt="">
 
@@ -161,12 +161,12 @@
                                 <i class="icon-ban-circle" ng-class="{'red': item.hidden}"></i>
                             </div>
 
-                            <div class="footer-button" tooltip="Take Notes" ng-click="showNotes(item)">
+                            <div class="footer-button" tooltip="Take Notes" ng-click="showItemDetails(item, 'Comments')">
                                 <i class="icon-pencil"></i>
                             </div>
 
                             <!--Contact broker button-->
-                            <div class="footer-button" ng-click="showContact(item)" tooltip="Contact Broker">
+                            <div class="footer-button" ng-click="showItemDetails(item, 'Contact')" tooltip="Contact Broker">
                                 <i class="icon-envelope-alt"></i>
 
                                 <span>{{item.getAttribute("Broker")}}</span>
@@ -180,7 +180,7 @@
     <!--LIST END-->
 
     <!--Map-->
-    <div map selected="activeItem()" spinner-size="large" spinner="activeItem().details.$spinner"></div>
+    <div map></div>
 </div>
 
 <div id="Footer">

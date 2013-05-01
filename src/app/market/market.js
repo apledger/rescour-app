@@ -21,7 +21,7 @@ angular.module('rescour.app')
                                 if (angular.equals(result, [])) {
                                     defer.reject("Failed to contact server");
                                 } else {
-                                    Items.createItems(result.data.resources);
+                                    Items.initialize(result.data.resources);
                                     defer.resolve();
                                 }
                             }, function (response) {
@@ -45,10 +45,10 @@ angular.module('rescour.app')
                     }
                 });
         }])
-    .controller('MarketController', ['$scope', 'Items', 'Filter', 'Attributes', '$timeout', '$routeParams', 'detailsId', 'PropertyDetails', '$location',
-        function ($scope, Items, Filter, Attributes, $timeout, $routeParams, detailsId, PropertyDetails, $location) {
-            $scope.items = Items.getItems();
-            $scope.attributes = Attributes.active;
+    .controller('MarketController', ['$scope', 'Items', 'Attributes', '$timeout', '$routeParams', 'detailsId', 'PropertyDetails', '$location',
+        function ($scope, Items, Attributes, $timeout, $routeParams, detailsId, PropertyDetails, $location) {
+            $scope.items = Items.toArray();
+            $scope.attributes = Attributes;
             $scope.toggle = null;
             $scope.getActive = Items.getActive;
 
@@ -82,49 +82,20 @@ angular.module('rescour.app')
 
             $scope.refreshItems = function () {
                 $scope.toggle = "all";
-                $scope.render(Filter.filter(Attributes.active));
+                $scope.render();
             };
 
             $scope.filter = function () {
                 $scope.toggle = "all";
                 $scope.attributes.modified = true;
-                $scope.render(Filter.filter(Attributes.active));
-                // Predict Numbers
-                $timeout(function () {
-                    angular.forEach($scope.attributes.discreet, function (parent) {
-                        angular.forEach(parent.values, function (value) {
-                            $timeout(function () {
-                                var len;
-                                if (parent.selected > 0 && !value.isSelected) {
-                                    // Calculate length
-                                    len = Filter.addedLength(value);
-                                    if (len > 0) {
-                                        value.badge = "badge-success";
-                                        value.predict = "+" + len;
-                                    } else {
-                                        value.badge = ""; // Otherwise leave gray
-                                        value.predict = 0;
-                                    }
-                                } else { // Means that there is nothing selected in this attribute section,
-                                    // or this value is the one selected
-
-                                    // Calculate intersection of this value and what current visible is
-                                    len = _.intersection(value.ids, Filter.getVisibleIds()).length;
-
-                                    // Make the badge blue if greater than 0
-                                    value.badge = len ? "badge-info" : "";
-
-                                    // Return the value
-                                    value.predict = len;
-                                }
-                            }, 0);
-                        });
-                    });
-                }, 0);
+                Attributes.apply();
+                Items.render();
+                Attributes.predict();
+                $scope.$broadcast('Render');
             };
 
-            $scope.render = function (ids) {
-                Items.updateVisible(ids);
+            $scope.render = function () {
+                Items.render();
                 $scope.$broadcast('Render');
             };
 
@@ -190,7 +161,6 @@ angular.module('rescour.app')
                     $scope.savedSearches = SavedSearch.query();
                     $scope.attributes.modified = false;
                     $scope.attributes.id = response.id;
-                    $scope.clear();
                 }, function (response) {
                     throw new Error("Could not save search: " + response.error);
                 });
@@ -209,9 +179,8 @@ angular.module('rescour.app')
             };
 
             $scope.loadSearch = function (search) {
-                $scope.attributes.reset();
-                Items.loadItems();
-                $scope.attributes.load(search);
+                Attributes.load(search);
+                $scope.$broadcast('rangesDefined');
                 $scope.filter();
                 $scope.selectedSearch = search;
                 $scope.attributes.modified = false;

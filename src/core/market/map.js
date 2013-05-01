@@ -7,8 +7,8 @@
  */
 
 angular.module('rescour.market.map', ['rescour.market'])
-    .directive("map", ['Filter', 'Items', '$compile', 'PropertyDetails',
-        function (Filter, Items, $compile, PropertyDetails) {
+    .directive("map", ['Items', '$compile', 'PropertyDetails',
+        function (Items, $compile, PropertyDetails) {
             return {
                 restrict: "A",
                 transclude: true,

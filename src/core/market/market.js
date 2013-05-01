@@ -74,7 +74,7 @@ angular.module('rescour.market', [])
                 this.isVisible = true;
 
                 // Populate Attributes id stacks during construction of each item object
-                this.mapAttributes(Attributes.active);
+                this._mapAttributes(Attributes);
             };
 
             Item.query = function () {
@@ -92,15 +92,15 @@ angular.module('rescour.market', [])
                 return defer.promise;
             };
 
-            Item.prototype.mapAttributes = function (attributes) {
+            Item.prototype._mapAttributes = function (attributes) {
                 for (var attrID in this.attributes.discreet) {
                     if (this.attributes.discreet.hasOwnProperty(attrID)) {
-                        attributes.pushDiscreetID(attrID, this.id, this.attributes.discreet[attrID]);
+                        attributes._pushDiscreetID(attrID, this.id, this.attributes.discreet[attrID]);
                     }
                 }
                 for (var attrID in this.attributes.range) {
                     if (this.attributes.range.hasOwnProperty(attrID)) {
-                        attributes.pushRangeID(attrID, this.id, this.attributes.range[attrID]);
+                        attributes._pushRangeID(attrID, this.id, this.attributes.range[attrID]);
                     }
                 }
             };
@@ -348,60 +348,89 @@ angular.module('rescour.market', [])
 
             return Item;
         }])
-    .factory('Filter', ['Attributes',
-        function (Attributes) {
-            var visibleIds = [],
-                filters = {};
+    .service('Items', ['Attributes', 'Item',
+        function (Attributes, Item) {
+            // Private items data
+            var active = null;
+            this.items = {};
 
-            // Populates an id stack for each attribute criteria
-            function filterAttributes(attributes, badgeFlag) {
-                var intersectArray = [],
-                    unionArray = [];
+            this.setActive = function (item) {
+                active = item;
+                return active;
+            };
 
-                // Make sure not being computed for badge
-                if (!badgeFlag) {
-                    filters = {};
-                    // For each range attribute, determine the ids that fall within the highSelected and lowSelected
-                    for (var rangeID in attributes.range) {
-                        if (attributes.range.hasOwnProperty(rangeID)) {
-                            filters[rangeID] = getIdsWithinRange(attributes.range[rangeID]);
+            this.getActive = function () {
+                return active;
+            };
+
+            this.toArray = function () {
+                return _.map(this.items, function (item, id) {
+                    return item;
+                });
+            };
+
+            this.showHidden = function () {
+                var visibleIds = Attributes.visibleIds;
+                for (var i = 0, len = visibleIds.length; i < len; i++) {
+                    if (this.items.hasOwnProperty(visibleIds[i])) {
+                        this.items[visibleIds[i]].isVisible = this.items[visibleIds[i]].hidden;
+                    }
+                }
+            };
+
+            this.showFavorites = function () {
+                var visibleIds = Attributes.visibleIds;
+                for (var i = 0, len = visibleIds.length; i < len; i++) {
+                    if (this.items.hasOwnProperty(visibleIds[i])) {
+                        this.items[visibleIds[i]].isVisible = this.items[visibleIds[i]].favorites;
+                    }
+                }
+            };
+
+            this.showNotes = function () {
+                var visibleIds = Attributes.visibleIds;
+                for (var i = 0, len = visibleIds.length; i < len; i++) {
+                    if (this.items.hasOwnProperty(visibleIds[i])) {
+                        this.items[visibleIds[i]].isVisible = this.items[visibleIds[i]].hasComments || this.items[visibleIds[i]].hasFinances;
+                    }
+                }
+            };
+
+            this.initialize = function (products) {
+                this.items = {};
+                for (var id in products) {
+                    if (products.hasOwnProperty(id)) {
+                        try {
+                            this.items[id] = new Item(products[id]);
+                        } catch (e) {
+                            console.log(e.message);
                         }
                     }
                 }
+                Attributes._setSelectedBounds();
+                Attributes._sort();
+            };
 
-                // For each discreet attribute, concat together ids (assumes items can only contain 1 discreet attribute)
-                for (var discreetID in attributes.discreet) {
-                    if (attributes.discreet.hasOwnProperty(discreetID)) {
-                        unionArray = [];
-                        for (var attrID in attributes.discreet[discreetID].values) {
-                            if (attributes.discreet[discreetID].values.hasOwnProperty(attrID)) {
-                                var value = attributes.discreet[discreetID].values[attrID];
-                                if (value.isSelected || value.compare) {
-                                    unionArray = unionArray.concat(value.ids);
-                                }
-                            }
-                        }
-                        filters[discreetID] = unionArray;
+            this.reload = function () {
+                for (var id in this.items) {
+                    if (this.items.hasOwnProperty(id)) {
+                        this.items[id]._mapAttributes(Attributes);
                     }
                 }
+                Attributes._setSelectedBounds();
+                Attributes._sort();
+            };
 
-                // Loop through filters and intersect
-                for (var id in filters) {
-                    if (filters.hasOwnProperty(id)) {
-                        if (filters[id].length === 0) {
-                            continue;
-                        }
-                        if (intersectArray.length === 0) {
-                            intersectArray = filters[id];
-                        } else {
-                            intersectArray = _.intersection(intersectArray, filters[id]);
-                        }
+            this.render = function () {
+                for (var id in this.items) {
+                    if (this.items.hasOwnProperty(id)) {
+                        this.items[id].isVisible = (_.contains(Attributes.visibleIds, this.items[id].id) && !this.items[id].hidden);
                     }
                 }
-
-                return intersectArray;
-            }
-
+            };
+        }])
+    .factory('Attributes', ['$timeout',
+        function ($timeout) {
             // Gets the ids of the items on the edges of the high and low values for a single slider
             function getIdsWithinRange(range) {
 
@@ -435,273 +464,307 @@ angular.module('rescour.market', [])
                 );
             }
 
-            return {
-                getVisibleIds: function () {
-                    return visibleIds;
-                },
-                filter: function () {
-                    visibleIds = filterAttributes(Attributes.active);
-                    return visibleIds;
-                },
-                addedLength: function (value) {
-                    // Flag attribute for compare to see what amounts would be if value were selected
-                    value.compare = true;
-                    // Run filter
-                    var comp = filterAttributes(Attributes.active, "badge");
-                    // Turn off flag
-                    delete value.compare;
+            // Attributes Constructor
+            function Attributes() {
+                var defaults = {
+                    title: "",
+                    discreet: {},
+                    range: {},
+                    visibleIds: []
+                };
+                // The essentials
+                angular.extend(this, defaults);
+            }
 
-                    // Return difference
-                    return comp.length - visibleIds.length;
+            Attributes.prototype._pushDiscreetID = function (attrID, itemID, value) {
+                // If attribute doesn't exist, initialize attribute, then push
+                if (!_.has(this.discreet, attrID)) {
+                    // Initialize discreet category
+                    this.discreet[attrID] = {
+                        title: attrID,
+                        values: {},
+                        selected: 0
+                    };
+
+                    // This implies no items have come before, so add the first id
+                    this.discreet[attrID].values[value] = {
+                        ids: [itemID],
+                        title: value,
+                        isSelected: false
+                    };
+                    // If attribute has been loaded, but particular value doesn't exist yet, initialize
+                } else if (!_.has(this.discreet[attrID].values, value)) {
+                    // Add first ID
+                    this.discreet[attrID].values[value] = {
+                        ids: [itemID],
+                        title: value,
+                        isSelected: false
+                    };
+                    // If value is found then just push
+                } else {
+                    this.discreet[attrID].values[value].ids.push(itemID);
                 }
             };
-        }])
-    .service('Items', ['Attributes', 'Item', 'Filter',
-        function (Attributes, Item, Filter) {
-            // Private items data
 
-            this.items = {};
-            var active = null;
+            Attributes.prototype._pushRangeID = function (attrID, itemID, value) {
+                // Check to see if rangeID exists on itself
+                if (!this.range.hasOwnProperty(attrID)) {
+                    this.range[attrID] = {
+                        title: attrID,
+                        ids: [],
+                        na: [],
+                        high: null,
+                        low: null
+                    }
+                }
+                if (value === "NA") {
+                    this.range[attrID].na.push(itemID);
+                }
+                else if (_.isNaN(parseInt(value, 10))) {
+                    this.range[attrID].na.push(itemID);
+                    throw new Error("Cannot push {" + attrID + ": " + value + "} onto Item {id: " + itemID + "}");
+                } else {
+                    var intVal = parseInt(value, 10);
+                    this.range[attrID].ids.push({id: itemID, value: intVal});
 
-            this.setActive = function (item) {
-                active = item;
-                return active;
+                    // Check to see if current value is the low bound value
+                    if (this.range[attrID].low === null || intVal <= this.range[attrID].low) {
+                        this.range[attrID].low = intVal;
+                    }
+
+                    // Check to see if the current value is the high bound value
+                    if (this.range[attrID].high === null || intVal >= this.range[attrID].high) {
+                        this.range[attrID].high = intVal;
+                    }
+                }
             };
 
-            this.getActive = function () {
-                return active;
+            Attributes.prototype._setSelectedBounds = function () {
+                if (this.range !== {}) {
+                    _.each(this.range, function (r) {
+                        r.highSelected = r.highSelected || r.high;
+                        r.lowSelected = r.lowSelected || r.low;
+                    });
+                }
             };
 
-            this.getItems = function () {
-                return _.map(this.items, function (item, id) {
-                    return item;
+            Attributes.prototype._sort = function () {
+                var attrID;
+                for (attrID in this.range) {
+                    if (this.range.hasOwnProperty(attrID)) {
+                        this.range[attrID].ids = _.sortBy(this.range[attrID].ids, function (i) {
+                            return i.value;
+                        });
+                    }
+                }
+            };
+
+            Attributes.prototype._reset = function () {
+                this.title = "";
+                this.id = undefined;
+                this.discreet = {};
+                this.range = {};
+            };
+
+            Attributes.prototype._calcRangeVisible = function () {
+                var self = this;
+
+                for (var rangeID in self.range) {
+                    if (self.range.hasOwnProperty(rangeID)) {
+                        self.range[rangeID].visibleIds = getIdsWithinRange(self.range[rangeID]);
+                    }
+                }
+
+                return this;
+            };
+
+            Attributes.prototype._calcDiscreetVisible = function () {
+                var unionArray = [],
+                    self = this;
+
+                for (var discreetID in self.discreet) {
+                    if (self.discreet.hasOwnProperty(discreetID)) {
+                        unionArray = [];
+                        for (var attrID in self.discreet[discreetID].values) {
+                            if (self.discreet[discreetID].values.hasOwnProperty(attrID)) {
+                                var value = self.discreet[discreetID].values[attrID];
+                                if (value.isSelected || value.compare) {
+                                    unionArray = unionArray.concat(value.ids);
+                                }
+                            }
+                        }
+                        self.discreet[discreetID].visibleIds = unionArray;
+                    }
+                }
+
+                return this;
+            };
+
+            Attributes.prototype._intersectVisible = function () {
+                var self = this, _range, _discreet,
+                    intersectArray = [];
+
+                for (var rangeID in self.range) {
+                    if (self.range.hasOwnProperty(rangeID)) {
+                        _range = self.range[rangeID];
+                        if (_range.visibleIds.length === 0) {
+                            continue;
+                        }
+                        if (intersectArray.length === 0) {
+                            intersectArray = _range.visibleIds;
+                        } else {
+                            intersectArray = _.intersection(intersectArray, _range.visibleIds);
+                        }
+                    }
+                }
+
+                for (var rangeID in self.discreet) {
+                    if (self.discreet.hasOwnProperty(rangeID)) {
+                        _discreet = self.discreet[rangeID];
+                        if (_discreet.visibleIds.length === 0) {
+                            continue;
+                        }
+                        if (intersectArray.length === 0) {
+                            intersectArray = _discreet.visibleIds;
+                        } else {
+                            intersectArray = _.intersection(intersectArray, _discreet.visibleIds);
+                        }
+                    }
+                }
+
+                return intersectArray;
+            };
+
+            Attributes.prototype.apply = function () {
+                this.visibleIds = this._calcRangeVisible()._calcDiscreetVisible()._intersectVisible();
+                return this.visibleIds;
+            };
+
+            Attributes.prototype.predict = function () {
+                var self = this;
+                angular.forEach(self.discreet, function (parent) {
+                    angular.forEach(parent.values, function (value) {
+                        $timeout(function () {
+                            var len;
+                            if (parent.selected > 0 && !value.isSelected) {
+                                // Calculate length
+                                value.compare = true;
+                                len = (self._calcDiscreetVisible()._intersectVisible()).length - self.visibleIds.length;
+                                delete value.compare;
+
+                                if (len > 0) {
+                                    value.badge = "badge-success";
+                                    value.predict = "+" + len;
+                                } else {
+                                    value.badge = ""; // Otherwise leave gray
+                                    value.predict = 0;
+                                }
+                            } else { // Means that there is nothing selected in this attribute section,
+                                // or this value is the one selected
+
+                                // Calculate intersection of this value and what current visible is
+                                len = _.intersection(value.ids, self.visibleIds).length;
+
+                                // Make the badge blue if greater than 0
+                                value.badge = len ? "badge-info" : "";
+
+                                // Return the value
+                                value.predict = len;
+                            }
+                        }, 0);
+                    });
                 });
             };
 
-            this.showHidden = function () {
-                var visibleIds = Filter.getVisibleIds();
-                for (var i = 0, len = visibleIds.length; i < len; i++) {
-                    if (this.items.hasOwnProperty(visibleIds[i])) {
-                        this.items[visibleIds[i]].isVisible = this.items[visibleIds[i]].hidden;
-                    }
-                }
-            };
-
-            this.showFavorites = function () {
-                var visibleIds = Filter.getVisibleIds();
-                for (var i = 0, len = visibleIds.length; i < len; i++) {
-                    if (this.items.hasOwnProperty(visibleIds[i])) {
-                        this.items[visibleIds[i]].isVisible = this.items[visibleIds[i]].favorites;
-                    }
-                }
-            };
-
-            this.showNotes = function () {
-                var visibleIds = Filter.getVisibleIds();
-                for (var i = 0, len = visibleIds.length; i < len; i++) {
-                    if (this.items.hasOwnProperty(visibleIds[i])) {
-                        this.items[visibleIds[i]].isVisible = this.items[visibleIds[i]].hasComments || this.items[visibleIds[i]].hasFinances;
-                    }
-                }
-            };
-
-            this.createItems = function (products) {
-                this.items = {};
-                for (var id in products) {
-                    if (products.hasOwnProperty(id)) {
+            Attributes.prototype.load = function (search) {
+                var self = this;
+                if (search) {
+                    this.id = search.id || undefined;
+                    this.title = search.title || undefined;
+                    // error handling here
+                    for (var rangeID in search.range) {
                         try {
-                            this.items[id] = new Item(products[id]);
+                            // Check if range attribute exists
+                            if (_.has(self.range, rangeID)) {
+                                var withinLowBound = (search.range[rangeID].lowSelected >= self.range[rangeID].low),
+                                    withinHighBound = (search.range[rangeID].highSelected <= self.range[rangeID].high);
+                                // Then check if the selected on the save is still within bounds
+                                if (withinLowBound && withinHighBound) {
+                                    self.range[rangeID].lowSelected = search.range[rangeID].lowSelected;
+                                    self.range[rangeID].highSelected = search.range[rangeID].highSelected;
+                                } else if (!withinLowBound && withinHighBound) {
+                                    self.range[rangeID].lowSelected = self.range[rangeID].low;
+                                    self.range[rangeID].highSelected = search.range[rangeID].highSelected;
+                                } else if (withinLowBound && !withinHighBound) {
+                                    self.range[rangeID].lowSelected = search.range[rangeID].lowSelected;
+                                    self.range[rangeID].highSelected = self.range[rangeID].high;
+                                } else {
+                                    self.range[rangeID].lowSelected = self.range[rangeID].low;
+                                    self.range[rangeID].highSelected = self.range[rangeID].high;
+                                }
+                            } else {
+                                throw new Error(rangeID + " not found in range");
+                            }
                         } catch (e) {
                             console.log(e.message);
                         }
                     }
-                }
-                Attributes.active.setSelectedBounds();
-                Attributes.active.sort();
-                return _.map(this.items, function (item, id) {
-                    return item;
-                });
-            };
 
-            this.loadItems = function () {
-                for (var id in this.items) {
-                    if (this.items.hasOwnProperty(id)) {
-                        this.items[id].mapAttributes(Attributes.active);
-                    }
-                }
-                Attributes.active.setSelectedBounds();
-                Attributes.active.sort();
-            };
-
-            this.updateVisible = function (visibleIds) {
-                // Loop through each item
-                for (var id in this.items) {
-                    if (this.items.hasOwnProperty(id)) {
-                        this.items[id].isVisible = (_.contains(visibleIds, this.items[id].id) && !this.items[id].hidden);
-                    }
-                }
-            };
-        }])
-    .service('Attributes', function () {
-        // Attributes Constructor
-        function Attributes() {
-            var defaults = {
-                title: "",
-                discreet: {},
-                range: {}
-            };
-            // The essentials
-            angular.extend(this, defaults);
-        }
-
-        Attributes.prototype.pushDiscreetID = function (attrID, itemID, value) {
-            // If attribute doesn't exist, initialize attribute, then push
-            if (!_.has(this.discreet, attrID)) {
-                // Initialize discreet category
-                this.discreet[attrID] = {
-                    title: attrID,
-                    values: {},
-                    selected: 0
-                };
-
-                // This implies no items have come before, so add the first id
-                this.discreet[attrID].values[value] = {
-                    ids: [itemID],
-                    title: value,
-                    isSelected: false
-                };
-                // If attribute has been loaded, but particular value doesn't exist yet, initialize
-            } else if (!_.has(this.discreet[attrID].values, value)) {
-                // Add first ID
-                this.discreet[attrID].values[value] = {
-                    ids: [itemID],
-                    title: value,
-                    isSelected: false
-                };
-                // If value is found then just push
-            } else {
-                this.discreet[attrID].values[value].ids.push(itemID);
-            }
-        };
-
-        Attributes.prototype.pushRangeID = function (attrID, itemID, value) {
-            // Check to see if rangeID exists on itself
-            if (!this.range.hasOwnProperty(attrID)) {
-                this.range[attrID] = {
-                    title: attrID,
-                    ids: [],
-                    na: [],
-                    high: null,
-                    low: null
-                }
-            }
-            if (value === "NA") {
-                this.range[attrID].na.push(itemID);
-            }
-            else if (_.isNaN(parseInt(value, 10))) {
-                this.range[attrID].na.push(itemID);
-                throw new Error("Cannot push {" + attrID + ": " + value + "} onto Item {id: " + itemID + "}");
-            } else {
-                var intVal = parseInt(value, 10);
-                this.range[attrID].ids.push({id: itemID, value: intVal});
-
-                // Check to see if current value is the low bound value
-                if (this.range[attrID].low === null || intVal <= this.range[attrID].low) {
-                    this.range[attrID].low = intVal;
-                }
-
-                // Check to see if the current value is the high bound value
-                if (this.range[attrID].high === null || intVal >= this.range[attrID].high) {
-                    this.range[attrID].high = intVal;
-                }
-            }
-        };
-
-        Attributes.prototype.setSelectedBounds = function () {
-            if (this.range !== {}) {
-                _.each(this.range, function (r) {
-                    r.highSelected = r.highSelected || r.high;
-                    r.lowSelected = r.lowSelected || r.low;
-                });
-            }
-        };
-
-        Attributes.prototype.sort = function () {
-            var attrID;
-            for (attrID in this.range) {
-                if (this.range.hasOwnProperty(attrID)) {
-                    this.range[attrID].ids = _.sortBy(this.range[attrID].ids, function (i) {
-                        return i.value;
-                    });
-                }
-            }
-        };
-
-        Attributes.prototype.reset = function () {
-            this.title = "";
-            this.id = undefined;
-            this.discreet = {};
-            this.range = {};
-        };
-
-        Attributes.prototype.load = function (search) {
-            var self = this;
-            if (search) {
-                this.id = search.id || undefined;
-                this.title = search.title || undefined;
-                // error handling here
-                for (var rangeID in search.range) {
-                    try {
-                        // Check if range attribute exists
-                        if (_.has(self.range, rangeID)) {
-                            // Then check if the selected on the save is still within bounds
-                            if (search.range[rangeID].lowSelected >= self.range[rangeID].low && search.range[rangeID].highSelected <= self.range[rangeID].high) {
-                                self.range[rangeID].lowSelected = search.range[rangeID].lowSelected;
-                                self.range[rangeID].highSelected = search.range[rangeID].highSelected;
-                            } else {
-                                throw new Error(search.range[rangeID].lowSelected + " - " + search.range[rangeID].highSelected + " is not within active bounds");
-                            }
-                        } else {
-                            throw new Error(rangeID + " not found in range");
-                        }
-                    } catch (e) {
-                        console.log(e.message);
-                    }
-
-                }
-
-                for (var discreetID in search.discreet) {
-                    try {
-                        // Check if discreet attribute exists on current attributes
-                        if (_.has(self.discreet, discreetID)) {
-                            for (var attrID in search.discreet[discreetID].values) {
-                                // If the saved search attribute exists
-                                if (_.has(self.discreet[discreetID].values, attrID)) {
-                                    // Check to see if marked as true
-                                    if (search.discreet[discreetID].values[attrID].isSelected === true || search.discreet[discreetID].values[attrID].isSelected === "True") {
-                                        self.discreet[discreetID].values[attrID].isSelected = true;
-                                        self.discreet[discreetID].selected++;
+                    for (var discreetID in search.discreet) {
+                        try {
+                            // Check if discreet attribute exists on current attributes
+                            if (_.has(self.discreet, discreetID)) {
+                                for (var attrID in search.discreet[discreetID].values) {
+                                    // If the saved search attribute exists
+                                    if (_.has(self.discreet[discreetID].values, attrID)) {
+                                        // Check to see if marked as true
+                                        if (search.discreet[discreetID].values[attrID].isSelected && !self.discreet[discreetID].values[attrID].isSelected) {
+                                            self.discreet[discreetID].values[attrID].isSelected = true;
+                                            self.discreet[discreetID].selected++;
+                                        } else if (!search.discreet[discreetID].values[attrID].isSelected && self.discreet[discreetID].values[attrID].isSelected){
+                                            self.discreet[discreetID].values[attrID].isSelected = false;
+                                            self.discreet[discreetID].selected--;
+                                        }
                                     }
-                                } else {
-                                    throw new Error(attrID + " not found in " + discreetID);
+                                }
+                            } else {
+                                throw new Error(discreetID + " not found in discreet");
+                            }
+                        } catch (e) {
+                            console.log(e.message);
+                        }
+                    }
+                } else {
+                    this.id = undefined;
+                    this.title = undefined;
+                    // error handling here
+                    for (var rangeID in self.range) {
+                        if (self.range.hasOwnProperty(rangeID)) {
+                            self.range[rangeID].lowSelected = self.range[rangeID].low;
+                            self.range[rangeID].highSelected = self.range[rangeID].high;
+                        }
+                    }
+
+                    for (var discreetID in self.discreet) {
+                        if (self.discreet.hasOwnProperty(discreetID)) {
+                            for (var attrID in self.discreet[discreetID].values) {
+                                // If the saved search attribute exists
+                                if (self.discreet[discreetID].values.hasOwnProperty(attrID)) {
+                                    // Check to see if marked as true
+                                    if (self.discreet[discreetID].values[attrID].isSelected) {
+                                        self.discreet[discreetID].values[attrID].isSelected = false;
+                                        self.discreet[discreetID].selected--;
+                                    }
                                 }
                             }
-                        } else {
-                            throw new Error(discreetID + " not found in discreet");
                         }
-                    } catch (e) {
-                        console.log(e.message);
                     }
                 }
-            }
-        };
 
-        this.active = new Attributes();
+            };
 
-        this.initialize = function () {
-            angular.copy(new Attributes(), this.active);
-        };
-    })
+            return new Attributes();
+        }])
     .factory('SavedSearch', ['$_api', '$http', '$q',
         function ($_api, $http, $q) {
             var SavedSearch = function (data, id) {
@@ -1045,8 +1108,9 @@ angular.module('rescour.market', [])
                 },
                 panes: panes,
                 selectPane: function (paneHeading) {
-                    paneHeading = (paneHeading && _.find(panes, function(val) { return val.heading === paneHeading })) ? paneHeading : panes[0].heading;
-
+                    paneHeading = (paneHeading && _.find(panes, function (val) {
+                        return val.heading === paneHeading
+                    })) ? paneHeading : panes[0].heading;
 
                     angular.forEach(panes, function (pane) {
                         if (pane.heading === paneHeading) {

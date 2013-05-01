@@ -95,12 +95,12 @@ angular.module('rescour.market', [])
             Item.prototype._mapAttributes = function (attributes) {
                 for (var attrID in this.attributes.discreet) {
                     if (this.attributes.discreet.hasOwnProperty(attrID)) {
-                        attributes._pushDiscreetID(attrID, this.id, this.attributes.discreet[attrID]);
+                        attributes.pushDiscreetId(attrID, this.id, this.attributes.discreet[attrID]);
                     }
                 }
                 for (var attrID in this.attributes.range) {
                     if (this.attributes.range.hasOwnProperty(attrID)) {
-                        attributes._pushRangeID(attrID, this.id, this.attributes.range[attrID]);
+                        attributes.pushRangeId(attrID, this.id, this.attributes.range[attrID]);
                     }
                 }
             };
@@ -407,8 +407,7 @@ angular.module('rescour.market', [])
                         }
                     }
                 }
-                Attributes._setSelectedBounds();
-                Attributes._sort();
+                Attributes.initialize();
             };
 
             this.reload = function () {
@@ -417,8 +416,7 @@ angular.module('rescour.market', [])
                         this.items[id]._mapAttributes(Attributes);
                     }
                 }
-                Attributes._setSelectedBounds();
-                Attributes._sort();
+                Attributes.initialize();
             };
 
             this.render = function () {
@@ -477,7 +475,7 @@ angular.module('rescour.market', [])
                 angular.extend(this, defaults);
             }
 
-            Attributes.prototype._pushDiscreetID = function (attrID, itemID, value) {
+            Attributes.prototype.pushDiscreetId = function (attrID, itemID, value) {
                 // If attribute doesn't exist, initialize attribute, then push
                 if (!_.has(this.discreet, attrID)) {
                     // Initialize discreet category
@@ -507,7 +505,7 @@ angular.module('rescour.market', [])
                 }
             };
 
-            Attributes.prototype._pushRangeID = function (attrID, itemID, value) {
+            Attributes.prototype.pushRangeId = function (attrID, itemID, value) {
                 // Check to see if rangeID exists on itself
                 if (!this.range.hasOwnProperty(attrID)) {
                     this.range[attrID] = {
@@ -540,17 +538,17 @@ angular.module('rescour.market', [])
                 }
             };
 
-            Attributes.prototype._setSelectedBounds = function () {
+            Attributes.prototype.initialize = function () {
+                var attrID;
+                // Set selected to the bounds of high and low
                 if (this.range !== {}) {
                     _.each(this.range, function (r) {
                         r.highSelected = r.highSelected || r.high;
                         r.lowSelected = r.lowSelected || r.low;
                     });
                 }
-            };
 
-            Attributes.prototype._sort = function () {
-                var attrID;
+                // Sort
                 for (attrID in this.range) {
                     if (this.range.hasOwnProperty(attrID)) {
                         this.range[attrID].ids = _.sortBy(this.range[attrID].ids, function (i) {

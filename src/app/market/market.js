@@ -67,7 +67,11 @@ angular.module('rescour.app')
 
             $scope.sortByRange = function (rangeVal) {
                 return function (object) {
-                    return object.attributes.range[rangeVal] === 'NA' ? 0 : -object.attributes.range[rangeVal];
+                    if (object.attributes.range[rangeVal] === 'NA') {
+                        return 0
+                    } else {
+                        return -object.attributes.range[rangeVal]
+                    }
                 };
             };
 
@@ -129,25 +133,19 @@ angular.module('rescour.app')
 
             $scope.openSaveDialog = function () {
                 // If its a new search open the dialog
-                if (!$scope.selectedSearch) {
-                    $dialog.dialog({
-                        backdrop: true,
-                        keyboard: true,
-                        backdropClick: true,
-                        dialogFade: true,
-                        backdropFade: true,
-                        templateUrl: '/app/market/desktop/views/partials/saved-search-dialog.html',
-                        controller: "SaveSearchDialogController"
-                    }).open()
-                        .then(function (result) {
-                            if (result) {
-                                if (result.action === 'save') {
-                                    $scope.saveSearch(result.settings);
+                if ($scope.attributes.modified) {
+                    if (!$scope.selectedSearch) {
+                        SavedSearch.dialog.open()
+                            .then(function (result) {
+                                if (result) {
+                                    if (result.action === 'save') {
+                                        $scope.saveSearch(result.settings);
+                                    }
                                 }
-                            }
-                        });
-                } else {
-                    $scope.saveSearch();
+                            });
+                    } else {
+                        $scope.saveSearch();
+                    }
                 }
             };
 
@@ -166,9 +164,8 @@ angular.module('rescour.app')
                 });
             };
 
-            $scope.filterByDiscreet = function (parent, value) {
+            $scope.toggleDiscreet = function (value) {
                 value.isSelected = !value.isSelected;
-                parent.selected = value.isSelected ? (parent.selected + 1) : (parent.selected - 1);
                 $scope.filter();
             };
 
@@ -192,20 +189,6 @@ angular.module('rescour.app')
 
             $scope.favorite = function (item) {
                 item.isFavorite = !item.isFavorite;
-            };
-        }])
-    .controller('SaveSearchDialogController', ['$scope', 'dialog',
-        function ($scope, dialog) {
-            $scope.searchSettings = {};
-            $scope.close = function () {
-                dialog.close();
-            };
-
-            $scope.save = function (settings) {
-                dialog.close({
-                    action: 'save',
-                    settings: settings
-                });
             };
         }])
     .controller("ListController", ['$scope', 'PropertyDetails',

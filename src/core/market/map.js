@@ -23,16 +23,12 @@ angular.module('rescour.market.map', ['rescour.market'])
                         defaultZoom = 5,
                         $el = element.find(".map")[0],
                         map = new L.Map($el, { center: defaultLatLng, zoom: defaultZoom, zoomControl: false, attributionControl: false}),
-                        markers = new L.MarkerClusterGroup({disableClusteringAtZoom: 13});
+                        markers = new L.MarkerClusterGroup({disableClusteringAtZoom: 13, spiderfyOnMaxZoom: false, spiderfyDistanceMultiplier: 0.1});
                     // layers: [cloudmade],
 
                     var googleLayer = new L.Google('ROADMAP');
                     map.addLayer(googleLayer);
-
                     map.addControl(new L.Control.Zoom({ position: 'topright' }));
-                    //map.scrollWheelZoom.disable();
-
-                    // Listen for when a filter event is fired
 
                     function popupTemplate(item) {
                         scope.item = item;
@@ -41,7 +37,7 @@ angular.module('rescour.market.map', ['rescour.market'])
                             "<h4 ng-click=\"showDetails(item)\">" + item.title + "</h4>" +
                             "</div>" +
                             "<div class=\"popup-main-container clearfix\">" +
-                            "<div class=\"preview\" ng-click=\"showPictures(item)\"><div class=\"zoom-mask\"></div>" +
+                            "<div class=\"preview\" ng-click=\"showPictures(item)\"><div class=\"preview-mask\"><i class=\"icon-search\"></i></i></div>" +
                             "<img src=\"" + item.thumbnail + "\" alt=\"\"/></div>" +
                             "<ul>" +
                             "<li><span>" + item.getAttribute('Number of Units') + "</span> Units</li>" +
@@ -59,21 +55,11 @@ angular.module('rescour.market.map', ['rescour.market'])
                     }
 
                     scope.showDetails = function (item) {
-                        Items.setActive(item);
-                        PropertyDetails
-                            .open(function (locals) {
-                                Items.setActive(null);
-                            })
-                            .selectPane("Details");
+                        PropertyDetails.open(item).selectPane("Details");
                     };
 
                     scope.showPictures = function (item) {
-                        Items.setActive(item);
-                        PropertyDetails
-                            .open(function (locals) {
-                                Items.setActive(null);
-                            })
-                            .selectPane("Pictures");
+                        PropertyDetails.open(item).selectPane("Pictures");
                     };
 
                     scope.$on("Render", function () {
@@ -91,14 +77,13 @@ angular.module('rescour.market.map', ['rescour.market'])
                                 // Open modal popup
                                 item.marker.on("click", function (e) {
                                     scope.$apply(function () {
-                                        scope.$parent.selectItem(item);
+                                        scope.showDetails(item);
                                     });
                                 });
 
                                 // Bind mouseover popup
                                 item.marker.on("mouseover", function (e) {
                                     item.marker.bindPopup(popupTemplate(item), {closeButton: false, minWidth: 325}).openPopup();
-//                                    item.marker.bindPopup(popupTemplate(item)[0] + popupTemplate(item)[1] +  popupTemplate(item)[2]).openPopup();
                                 });
                                 // Add marker to marker group
                                 markers.addLayer(item.marker);
@@ -110,10 +95,11 @@ angular.module('rescour.market.map', ['rescour.market'])
 
                     scope.$on('CenterMap', function (event, item) {
                         if (item) {
-                            map.panTo(item.location);
                             markers.zoomToShowLayer(item.marker, function () {
                                 item.marker.bindPopup(popupTemplate(item), {closeButton: false, minWidth: 325}).openPopup();
                             });
+                            map.panTo(item.location);
+
                         }
                     });
 

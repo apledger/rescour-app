@@ -90,7 +90,7 @@
 
                 <ul class="nav nav-list" collapse="discreet.collapse">
                     <li ng-class="{'active': value.isSelected }" ng-repeat="value in discreet.values">
-                        <a ng-click="filterByDiscreet(discreet, value)" href="javascript:">
+                        <a ng-click="toggleDiscreet(value)" href="javascript:">
                             {{value.title | ellipsis:26}}
                         <span ng-show="value" class="badge {{value.badge}}"
                               style="float:right;">{{value.predict}}</span>

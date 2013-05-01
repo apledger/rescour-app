@@ -496,18 +496,6 @@ angular.module('rescour.utility', [])
             }
         };
     }])
-    .directive('preview', function () {
-        return {
-            restrict: 'C',
-            link: function (scope, element, attr) {
-                element.bind('hover', function () {
-                    element.find('.zoom-mask').fadeIn(300);
-                }, function () {
-                    element.find('.zoom-mask').fadeOut(300);
-                });
-            }
-        };
-    })
     .directive('dropdownToggle',
         ['$document', '$location', '$window', function ($document, $location, $window) {
             var openElement = null, close;

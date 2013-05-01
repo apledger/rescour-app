@@ -118,6 +118,41 @@
           background: url('../../../img/zoom-icon.png') no-repeat center rgba(0, 0, 0, 0.2);
         }
 
+        .preview-mask {
+          @include transition(all .5s ease);
+          z-index: 5;
+          background: none;
+          position: absolute;
+          top: 0;
+          left: 0;
+          bottom: 0;
+          right: 0;
+          text-align: center;
+
+          i {
+            @include transition(all .5s ease);
+            font-size: 40px;
+            height: 30px;
+            line-height: 30px;
+            color: transparent;
+          }
+        }
+
+        &:hover {
+          .preview-mask {
+            @include transition(all .5s ease);
+            display: block;
+            background: rgba(0, 0, 0, 0.5);
+
+            i {
+              @include transition(all .5s ease);
+              line-height: 100px;
+              height: 100px;
+              color: white;
+            }
+          }
+        }
+
         img {
           border: 5px solid white;
           @include border-radius(2px);

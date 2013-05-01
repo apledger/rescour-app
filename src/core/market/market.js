@@ -423,8 +423,9 @@ angular.module('rescour.market', [])
 
             this.render = function () {
                 for (var id in this.items) {
+                    var _item = this.items[id];
                     if (this.items.hasOwnProperty(id)) {
-                        this.items[id].isVisible = (_.contains(Attributes.visibleIds, this.items[id].id) && !this.items[id].hidden);
+                        _item.isVisible = (_.contains(Attributes.visibleIds, _item.id) && !_item.hidden);
                     }
                 }
             };
@@ -585,12 +586,15 @@ angular.module('rescour.market', [])
                 for (var discreetID in self.discreet) {
                     if (self.discreet.hasOwnProperty(discreetID)) {
                         unionArray = [];
-                        for (var attrID in self.discreet[discreetID].values) {
+                        var _discreet = self.discreet[discreetID];
+                        _discreet.selected = 0;
+                        for (var attrID in _discreet.values) {
                             if (self.discreet[discreetID].values.hasOwnProperty(attrID)) {
-                                var value = self.discreet[discreetID].values[attrID];
-                                if (value.isSelected || value.compare) {
-                                    unionArray = unionArray.concat(value.ids);
+                                var _value = self.discreet[discreetID].values[attrID];
+                                if (_value.isSelected || _value.compare) {
+                                    unionArray = unionArray.concat(_value.ids);
                                 }
+                                _value.isSelected ? _discreet.selected += 1 : null;
                             }
                         }
                         self.discreet[discreetID].visibleIds = unionArray;
@@ -765,8 +769,18 @@ angular.module('rescour.market', [])
 
             return new Attributes();
         }])
-    .factory('SavedSearch', ['$_api', '$http', '$q',
-        function ($_api, $http, $q) {
+    .factory('SavedSearch', ['$_api', '$http', '$q', '$dialog',
+        function ($_api, $http, $q, $dialog) {
+            var dialog = $dialog.dialog({
+                backdrop: true,
+                keyboard: true,
+                backdropClick: true,
+                dialogFade: true,
+                backdropFade: true,
+                templateUrl: '/app/market/desktop/views/partials/saved-search-dialog.html',
+                controller: "SaveSearchDialogController"
+            });
+
             var SavedSearch = function (data, id) {
                 var self = this;
                 this.title = data.title || undefined;
@@ -806,6 +820,8 @@ angular.module('rescour.market', [])
                 }
             };
 
+            SavedSearch.dialog = dialog;
+
             SavedSearch.query = function () {
                 var searches = [];
                 $http.get($_api.path + '/search/', $_api.config).then(function (response) {
@@ -842,6 +858,20 @@ angular.module('rescour.market', [])
             };
 
             return SavedSearch;
+        }])
+    .controller('SaveSearchDialogController', ['$scope', 'dialog',
+        function ($scope, dialog) {
+            $scope.searchSettings = {};
+            $scope.close = function () {
+                dialog.close();
+            };
+
+            $scope.save = function (settings) {
+                dialog.close({
+                    action: 'save',
+                    settings: settings
+                });
+            };
         }])
     .factory('Comment', ['$_api', '$q', '$http', 'User',
         function ($_api, $q, $http, User) {

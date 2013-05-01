@@ -62,7 +62,9 @@ angular.module('rescour.market.map', ['rescour.market'])
                         PropertyDetails.open(item).selectPane("Pictures");
                     };
 
-                    scope.$on("Render", function () {
+                    scope.$watch(function () {
+                        return Items.visibleIds;
+                    }, function () {
                         // Markers plugin says better performance to clear all markers and recreate
                         markers.clearLayers();
                         // Zoom out
@@ -99,12 +101,8 @@ angular.module('rescour.market.map', ['rescour.market'])
                                 item.marker.bindPopup(popupTemplate(item), {closeButton: false, minWidth: 325}).openPopup();
                             });
                             map.panTo(item.location);
-
                         }
                     });
-
-                    // Let the controller know to initialize otherwise markers don't get constructed
-                    scope.$emit("MapReady");
                 }
             };
         }]);

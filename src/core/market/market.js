@@ -353,6 +353,7 @@ angular.module('rescour.market', [])
             // Private items data
             var active = null;
             this.items = {};
+            this.visibleIds = [];
 
             this.setActive = function (item) {
                 active = item;
@@ -369,33 +370,6 @@ angular.module('rescour.market', [])
                 });
             };
 
-            this.showHidden = function () {
-                var visibleIds = Attributes.visibleIds;
-                for (var i = 0, len = visibleIds.length; i < len; i++) {
-                    if (this.items.hasOwnProperty(visibleIds[i])) {
-                        this.items[visibleIds[i]].isVisible = this.items[visibleIds[i]].hidden;
-                    }
-                }
-            };
-
-            this.showFavorites = function () {
-                var visibleIds = Attributes.visibleIds;
-                for (var i = 0, len = visibleIds.length; i < len; i++) {
-                    if (this.items.hasOwnProperty(visibleIds[i])) {
-                        this.items[visibleIds[i]].isVisible = this.items[visibleIds[i]].favorites;
-                    }
-                }
-            };
-
-            this.showNotes = function () {
-                var visibleIds = Attributes.visibleIds;
-                for (var i = 0, len = visibleIds.length; i < len; i++) {
-                    if (this.items.hasOwnProperty(visibleIds[i])) {
-                        this.items[visibleIds[i]].isVisible = this.items[visibleIds[i]].hasComments || this.items[visibleIds[i]].hasFinances;
-                    }
-                }
-            };
-
             this.initialize = function (products) {
                 this.items = {};
                 for (var id in products) {
@@ -407,7 +381,8 @@ angular.module('rescour.market', [])
                         }
                     }
                 }
-                Attributes.initialize();
+                Attributes.initialize().apply().predict();
+                this.render();
             };
 
             this.reload = function () {
@@ -419,11 +394,31 @@ angular.module('rescour.market', [])
                 Attributes.initialize();
             };
 
-            this.render = function () {
-                for (var id in this.items) {
-                    var _item = this.items[id];
-                    if (this.items.hasOwnProperty(id)) {
-                        _item.isVisible = (_.contains(Attributes.visibleIds, _item.id) && !_item.hidden);
+            this.render = function (subset) {
+                this.visibleIds = [];
+
+                if (!subset) {
+                    for (var id in this.items) {
+                        if (this.items.hasOwnProperty(id)) {
+                            this.items[id].isVisible = (_.contains(Attributes.visibleIds, id) && !this.items[id].hidden);
+                            this.items[id].isVisible ? this.visibleIds.push(id) : null;
+                        }
+                    }
+                } else if (subset === 'notes') {
+                    for (var i = 0, len = Attributes.visibleIds.length; i < len; i++) {
+                        var _id = Attributes.visibleIds[i];
+                        if (this.items.hasOwnProperty(_id)) {
+                            this.items[_id].isVisible = this.items[_id].hasComments || this.items[_id].hasFinances;
+                            this.items[_id].isVisible ? this.visibleIds.push(_id) : null;
+                        }
+                    }
+                } else {
+                    for (var i = 0, len = Attributes.visibleIds.length; i < len; i++) {
+                        var _id = Attributes.visibleIds[i];
+                        if (this.items.hasOwnProperty(_id)) {
+                            this.items[_id].isVisible = this.items[_id][subset];
+                            this.items[_id].isVisible ? this.visibleIds.push(_id) : null;
+                        }
                     }
                 }
             };
@@ -556,6 +551,137 @@ angular.module('rescour.market', [])
                         });
                     }
                 }
+
+                return this;
+            };
+
+            Attributes.prototype.apply = function () {
+                this.visibleIds = this._calcRangeVisible()._calcDiscreetVisible()._intersectVisible();
+                return this;
+            };
+
+            Attributes.prototype.predict = function () {
+                var self = this;
+                angular.forEach(self.discreet, function (parent) {
+                    angular.forEach(parent.values, function (value) {
+                        $timeout(function () {
+                            var len;
+                            if (parent.selected > 0 && !value.isSelected) {
+                                // Calculate length
+                                value.compare = true;
+                                len = (self._calcDiscreetVisible()._intersectVisible()).length - self.visibleIds.length;
+                                delete value.compare;
+
+                                if (len > 0) {
+                                    value.badge = "badge-success";
+                                    value.predict = "+" + len;
+                                } else {
+                                    value.badge = ""; // Otherwise leave gray
+                                    value.predict = 0;
+                                }
+                            } else { // Means that there is nothing selected in this attribute section,
+                                // or this value is the one selected
+
+                                // Calculate intersection of this value and what current visible is
+                                len = _.intersection(value.ids, self.visibleIds).length;
+
+                                // Make the badge blue if greater than 0
+                                value.badge = len ? "badge-info" : "";
+
+                                // Return the value
+                                value.predict = len;
+                            }
+                        }, 0);
+                    });
+                });
+
+                return this;
+            };
+
+            Attributes.prototype.load = function (search) {
+                var self = this;
+                if (search) {
+                    this.id = search.id || undefined;
+                    this.title = search.title || undefined;
+                    // error handling here
+                    for (var rangeID in search.range) {
+                        try {
+                            // Check if range attribute exists
+                            if (_.has(self.range, rangeID)) {
+                                var withinLowBound = (search.range[rangeID].lowSelected >= self.range[rangeID].low),
+                                    withinHighBound = (search.range[rangeID].highSelected <= self.range[rangeID].high);
+                                // Then check if the selected on the save is still within bounds
+                                if (withinLowBound && withinHighBound) {
+                                    self.range[rangeID].lowSelected = search.range[rangeID].lowSelected;
+                                    self.range[rangeID].highSelected = search.range[rangeID].highSelected;
+                                } else if (!withinLowBound && withinHighBound) {
+                                    self.range[rangeID].lowSelected = self.range[rangeID].low;
+                                    self.range[rangeID].highSelected = search.range[rangeID].highSelected;
+                                } else if (withinLowBound && !withinHighBound) {
+                                    self.range[rangeID].lowSelected = search.range[rangeID].lowSelected;
+                                    self.range[rangeID].highSelected = self.range[rangeID].high;
+                                } else {
+                                    self.range[rangeID].lowSelected = self.range[rangeID].low;
+                                    self.range[rangeID].highSelected = self.range[rangeID].high;
+                                }
+                            } else {
+                                throw new Error(rangeID + " not found in range");
+                            }
+                        } catch (e) {
+                            console.log(e.message);
+                        }
+                    }
+
+                    for (var discreetID in search.discreet) {
+                        try {
+                            // Check if discreet attribute exists on current attributes
+                            if (_.has(self.discreet, discreetID)) {
+                                for (var attrID in search.discreet[discreetID].values) {
+                                    // If the saved search attribute exists
+                                    if (_.has(self.discreet[discreetID].values, attrID)) {
+                                        // Check to see if marked as true
+                                        if (search.discreet[discreetID].values[attrID].isSelected && !self.discreet[discreetID].values[attrID].isSelected) {
+                                            self.discreet[discreetID].values[attrID].isSelected = true;
+                                            self.discreet[discreetID].selected++;
+                                        } else if (!search.discreet[discreetID].values[attrID].isSelected && self.discreet[discreetID].values[attrID].isSelected) {
+                                            self.discreet[discreetID].values[attrID].isSelected = false;
+                                            self.discreet[discreetID].selected--;
+                                        }
+                                    }
+                                }
+                            } else {
+                                throw new Error(discreetID + " not found in discreet");
+                            }
+                        } catch (e) {
+                            console.log(e.message);
+                        }
+                    }
+                } else {
+                    this.id = undefined;
+                    this.title = undefined;
+                    // error handling here
+                    for (var rangeID in self.range) {
+                        if (self.range.hasOwnProperty(rangeID)) {
+                            self.range[rangeID].lowSelected = self.range[rangeID].low;
+                            self.range[rangeID].highSelected = self.range[rangeID].high;
+                        }
+                    }
+
+                    for (var discreetID in self.discreet) {
+                        if (self.discreet.hasOwnProperty(discreetID)) {
+                            for (var attrID in self.discreet[discreetID].values) {
+                                // If the saved search attribute exists
+                                if (self.discreet[discreetID].values.hasOwnProperty(attrID)) {
+                                    // Check to see if marked as true
+                                    if (self.discreet[discreetID].values[attrID].isSelected) {
+                                        self.discreet[discreetID].values[attrID].isSelected = false;
+                                        self.discreet[discreetID].selected--;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             };
 
             Attributes.prototype._reset = function () {
@@ -633,136 +759,7 @@ angular.module('rescour.market', [])
                         }
                     }
                 }
-
                 return intersectArray;
-            };
-
-            Attributes.prototype.apply = function () {
-                this.visibleIds = this._calcRangeVisible()._calcDiscreetVisible()._intersectVisible();
-                return this.visibleIds;
-            };
-
-            Attributes.prototype.predict = function () {
-                var self = this;
-                angular.forEach(self.discreet, function (parent) {
-                    angular.forEach(parent.values, function (value) {
-                        $timeout(function () {
-                            var len;
-                            if (parent.selected > 0 && !value.isSelected) {
-                                // Calculate length
-                                value.compare = true;
-                                len = (self._calcDiscreetVisible()._intersectVisible()).length - self.visibleIds.length;
-                                delete value.compare;
-
-                                if (len > 0) {
-                                    value.badge = "badge-success";
-                                    value.predict = "+" + len;
-                                } else {
-                                    value.badge = ""; // Otherwise leave gray
-                                    value.predict = 0;
-                                }
-                            } else { // Means that there is nothing selected in this attribute section,
-                                // or this value is the one selected
-
-                                // Calculate intersection of this value and what current visible is
-                                len = _.intersection(value.ids, self.visibleIds).length;
-
-                                // Make the badge blue if greater than 0
-                                value.badge = len ? "badge-info" : "";
-
-                                // Return the value
-                                value.predict = len;
-                            }
-                        }, 0);
-                    });
-                });
-            };
-
-            Attributes.prototype.load = function (search) {
-                var self = this;
-                if (search) {
-                    this.id = search.id || undefined;
-                    this.title = search.title || undefined;
-                    // error handling here
-                    for (var rangeID in search.range) {
-                        try {
-                            // Check if range attribute exists
-                            if (_.has(self.range, rangeID)) {
-                                var withinLowBound = (search.range[rangeID].lowSelected >= self.range[rangeID].low),
-                                    withinHighBound = (search.range[rangeID].highSelected <= self.range[rangeID].high);
-                                // Then check if the selected on the save is still within bounds
-                                if (withinLowBound && withinHighBound) {
-                                    self.range[rangeID].lowSelected = search.range[rangeID].lowSelected;
-                                    self.range[rangeID].highSelected = search.range[rangeID].highSelected;
-                                } else if (!withinLowBound && withinHighBound) {
-                                    self.range[rangeID].lowSelected = self.range[rangeID].low;
-                                    self.range[rangeID].highSelected = search.range[rangeID].highSelected;
-                                } else if (withinLowBound && !withinHighBound) {
-                                    self.range[rangeID].lowSelected = search.range[rangeID].lowSelected;
-                                    self.range[rangeID].highSelected = self.range[rangeID].high;
-                                } else {
-                                    self.range[rangeID].lowSelected = self.range[rangeID].low;
-                                    self.range[rangeID].highSelected = self.range[rangeID].high;
-                                }
-                            } else {
-                                throw new Error(rangeID + " not found in range");
-                            }
-                        } catch (e) {
-                            console.log(e.message);
-                        }
-                    }
-
-                    for (var discreetID in search.discreet) {
-                        try {
-                            // Check if discreet attribute exists on current attributes
-                            if (_.has(self.discreet, discreetID)) {
-                                for (var attrID in search.discreet[discreetID].values) {
-                                    // If the saved search attribute exists
-                                    if (_.has(self.discreet[discreetID].values, attrID)) {
-                                        // Check to see if marked as true
-                                        if (search.discreet[discreetID].values[attrID].isSelected && !self.discreet[discreetID].values[attrID].isSelected) {
-                                            self.discreet[discreetID].values[attrID].isSelected = true;
-                                            self.discreet[discreetID].selected++;
-                                        } else if (!search.discreet[discreetID].values[attrID].isSelected && self.discreet[discreetID].values[attrID].isSelected){
-                                            self.discreet[discreetID].values[attrID].isSelected = false;
-                                            self.discreet[discreetID].selected--;
-                                        }
-                                    }
-                                }
-                            } else {
-                                throw new Error(discreetID + " not found in discreet");
-                            }
-                        } catch (e) {
-                            console.log(e.message);
-                        }
-                    }
-                } else {
-                    this.id = undefined;
-                    this.title = undefined;
-                    // error handling here
-                    for (var rangeID in self.range) {
-                        if (self.range.hasOwnProperty(rangeID)) {
-                            self.range[rangeID].lowSelected = self.range[rangeID].low;
-                            self.range[rangeID].highSelected = self.range[rangeID].high;
-                        }
-                    }
-
-                    for (var discreetID in self.discreet) {
-                        if (self.discreet.hasOwnProperty(discreetID)) {
-                            for (var attrID in self.discreet[discreetID].values) {
-                                // If the saved search attribute exists
-                                if (self.discreet[discreetID].values.hasOwnProperty(attrID)) {
-                                    // Check to see if marked as true
-                                    if (self.discreet[discreetID].values[attrID].isSelected) {
-                                        self.discreet[discreetID].values[attrID].isSelected = false;
-                                        self.discreet[discreetID].selected--;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-
             };
 
             return new Attributes();

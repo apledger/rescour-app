@@ -49,21 +49,21 @@ angular.module('rescour.app')
         function ($scope, Items, Attributes, $timeout, $routeParams, detailsId, PropertyDetails, $location) {
             $scope.items = Items.toArray();
             $scope.attributes = Attributes;
-            $scope.toggle = null;
+            $scope.toggle = 'all';
             $scope.getActive = Items.getActive;
 
             if (detailsId) {
                 PropertyDetails.open(Items.items[detailsId]);
             }
-
-            $scope.$on('$locationChangeSuccess', function (e, newLocation, oldLocation) {
-                console.log(oldLocation);
-                if (angular.isObject(Items.items[$location.search().id]) && !PropertyDetails.isOpen()) {
-                    $scope.showItemDetails(Items.items[$location.search().id]);
-                } else if (!angular.isObject(Items.items[$location.search().id]) && PropertyDetails.isOpen()) {
-                    $scope.showItemDetails(null);
-                }
-            });
+//
+//            $scope.$on('$locationChangeSuccess', function (e, newLocation, oldLocation) {
+//                console.log(oldLocation);
+//                if (angular.isObject(Items.items[$location.search().id]) && !PropertyDetails.isOpen()) {
+//                    $scope.showItemDetails(Items.items[$location.search().id]);
+//                } else if (!angular.isObject(Items.items[$location.search().id]) && PropertyDetails.isOpen()) {
+//                    $scope.showItemDetails(null);
+//                }
+//            });
 
             $scope.sortByRange = function (rangeVal) {
                 return function (object) {
@@ -84,47 +84,33 @@ angular.module('rescour.app')
                 $scope.$broadcast('CenterMap', item);
             };
 
-            $scope.refreshItems = function () {
-                $scope.toggle = "all";
-                $scope.render();
-            };
-
             $scope.filter = function () {
-                $scope.toggle = "all";
-                $scope.attributes.modified = true;
                 Attributes.apply();
                 Items.render();
                 Attributes.predict();
-                $scope.$broadcast('Render');
+                $scope.toggle = 'all';
+                $scope.attributes.modified = true;
             };
 
-            $scope.render = function () {
+            $scope.listAll = function () {
+                $scope.toggle = 'all';
                 Items.render();
-                $scope.$broadcast('Render');
             };
 
             $scope.listFavorites = function () {
-                $scope.toggle = "favorites";
-                Items.showFavorites();
-                $scope.$broadcast('Render');
+                $scope.toggle = 'favorites';
+                Items.render('favorites');
             };
 
             $scope.listHidden = function () {
-                $scope.toggle = "hidden";
-                Items.showHidden();
-                $scope.$broadcast('Render');
+                $scope.toggle = 'hidden';
+                Items.render('hidden');
             };
 
             $scope.listNotes = function () {
-                $scope.toggle = "notes";
-                Items.showNotes();
-                $scope.$broadcast('Render');
+                $scope.toggle = 'notes';
+                Items.render('notes');
             };
-
-            $scope.$on("MapReady", function () {
-                $scope.filter();
-                $scope.attributes.modified = false;
-            });
         }])
     .controller("FilterController", ['$scope', 'Items', 'Attributes', 'SavedSearch', '$dialog',
         function ($scope, Items, Attributes, SavedSearch, $dialog) {

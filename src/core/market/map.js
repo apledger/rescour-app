@@ -96,7 +96,7 @@ angular.module('rescour.market.map', ['rescour.market'])
                     });
 
                     scope.$on('CenterMap', function (event, item) {
-                        if (item) {
+                        if (item.marker) {
                             markers.zoomToShowLayer(item.marker, function () {
                                 item.marker.bindPopup(popupTemplate(item), {closeButton: false, minWidth: 325}).openPopup();
                             });

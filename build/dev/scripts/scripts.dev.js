@@ -41130,16 +41130,17 @@ angular.module('rescour.auth', [])
  * Created with JetBrains WebStorm.
  * User: apledger
  * Date: 4/24/13
- * Time: 8:35 PM
- * File: /core/config/deploy-dev.js
+ * Time: 8:32 PM
+ * File: /core/config/dev.js
  */
 
 
 
 angular.module('rescour.config', [])
-    .factory('$_api', function ($http) {
+    .factory('$_api', function () {
         var url = {
-                dev: '/api'
+                local: "http://10.0.1.92:8080/rescour",
+                dev: "http://app-dev.rescour.com/api"
             },
             stripeTokens = {
                 test: 'pk_test_wSAqQNQKI7QqPmBpDcQLgGM7',

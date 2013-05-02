@@ -5493,7 +5493,7 @@ a.label:hover, a.badge:hover {
 .property-details {
   position: absolute;
   left: 647px;
-  top: 0;
+  top: 50px;
   right: 0;
   bottom: 0;
   z-index: 1;
@@ -6190,6 +6190,51 @@ a.label:hover, a.badge:hover {
   background: url("../../../img/zoom-icon.png") no-repeat center rgba(0, 0, 0, 0.2);
 }
 /* line 121, ../../src/app/market/desktop/styles/_map.scss */
+.leaflet-popup-content-wrapper .leaflet-popup-content .popup-main-container .preview .preview-mask {
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+  z-index: 5;
+  background: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  text-align: center;
+}
+/* line 132, ../../src/app/market/desktop/styles/_map.scss */
+.leaflet-popup-content-wrapper .leaflet-popup-content .popup-main-container .preview .preview-mask i {
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+  font-size: 40px;
+  height: 30px;
+  line-height: 30px;
+  color: transparent;
+}
+/* line 142, ../../src/app/market/desktop/styles/_map.scss */
+.leaflet-popup-content-wrapper .leaflet-popup-content .popup-main-container .preview:hover .preview-mask {
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+  display: block;
+  background: rgba(0, 0, 0, 0.5);
+}
+/* line 147, ../../src/app/market/desktop/styles/_map.scss */
+.leaflet-popup-content-wrapper .leaflet-popup-content .popup-main-container .preview:hover .preview-mask i {
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+  line-height: 100px;
+  height: 100px;
+  color: white;
+}
+/* line 156, ../../src/app/market/desktop/styles/_map.scss */
 .leaflet-popup-content-wrapper .leaflet-popup-content .popup-main-container .preview img {
   border: 5px solid white;
   -webkit-border-radius: 2px;
@@ -6201,7 +6246,7 @@ a.label:hover, a.badge:hover {
   width: 100px;
   height: 100px;
 }
-/* line 131, ../../src/app/market/desktop/styles/_map.scss */
+/* line 166, ../../src/app/market/desktop/styles/_map.scss */
 .leaflet-popup-content-wrapper .leaflet-popup-content .popup-main-container ul {
   position: relative;
   color: #333333;
@@ -6211,16 +6256,16 @@ a.label:hover, a.badge:hover {
   width: auto;
   font-size: 13px;
 }
-/* line 140, ../../src/app/market/desktop/styles/_map.scss */
+/* line 175, ../../src/app/market/desktop/styles/_map.scss */
 .leaflet-popup-content-wrapper .leaflet-popup-content .popup-main-container ul li {
   padding: 2px 0px;
 }
-/* line 144, ../../src/app/market/desktop/styles/_map.scss */
+/* line 179, ../../src/app/market/desktop/styles/_map.scss */
 .leaflet-popup-content-wrapper .leaflet-popup-content .popup-main-container ul span {
   font-weight: bold;
 }
 
-/* line 153, ../../src/app/market/desktop/styles/_map.scss */
+/* line 188, ../../src/app/market/desktop/styles/_map.scss */
 .leaflet-control-zoom a {
   text-decoration: none;
 }

@@ -36849,7 +36849,7 @@ angular.module('ui.bootstrap.accordion', ['ui.bootstrap.collapse'])
     controller:'AccordionController',
     transclude: true,
     replace: false,
-    templateUrl: 'template/accordion/accordion.html'
+    templateUrl: '/template/accordion/accordion.html'
   };
 })
 
@@ -36860,7 +36860,7 @@ angular.module('ui.bootstrap.accordion', ['ui.bootstrap.collapse'])
     restrict:'EA',
     transclude:true,              // It transcludes the contents of the directive into the template
     replace: true,                // The element containing the directive will be replaced with the template
-    templateUrl:'template/accordion/accordion-group.html',
+    templateUrl:'/template/accordion/accordion-group.html',
     scope:{ heading:'@' },        // Create an isolated scope and interpolate the heading attribute onto this scope
     controller: ['$scope', function($scope) {
       this.setHeading = function(element) {
@@ -36943,7 +36943,7 @@ angular.module('ui.bootstrap.accordion', ['ui.bootstrap.collapse'])
 angular.module("ui.bootstrap.alert", []).directive('alert', function () {
   return {
     restrict:'EA',
-    templateUrl:'template/alert/alert.html',
+    templateUrl:'/template/alert/alert.html',
     transclude:true,
     replace:true,
     scope:{
@@ -37192,7 +37192,7 @@ angular.module('ui.bootstrap.carousel', ['ui.bootstrap.transition'])
     replace: true,
     controller: 'CarouselController',
     require: 'carousel',
-    templateUrl: 'template/carousel/carousel.html',
+    templateUrl: '/template/carousel/carousel.html',
     scope: {
       interval: '=',
       noTransition: '='
@@ -37205,7 +37205,7 @@ angular.module('ui.bootstrap.carousel', ['ui.bootstrap.transition'])
     restrict: 'EA',
     transclude: true,
     replace: true,
-    templateUrl: 'template/carousel/slide.html',
+    templateUrl: '/template/carousel/slide.html',
     scope: {
       active: '='
     },
@@ -37830,7 +37830,7 @@ angular.module( 'ui.bootstrap.popover', [] )
     restrict: 'EA',
     replace: true,
     scope: { popoverTitle: '@', popoverContent: '@', placement: '@', animation: '&', isOpen: '&' },
-    templateUrl: 'template/popover/popover.html'
+    templateUrl: '/template/popover/popover.html'
   };
 })
 .directive( 'popover', [ '$compile', '$timeout', '$parse', '$window', function ( $compile, $timeout, $parse, $window ) {
@@ -38007,7 +38007,7 @@ angular.module('ui.bootstrap.tabs', [])
     transclude: true,
     scope: {},
     controller: 'TabsController',
-    templateUrl: 'template/tabs/tabs.html',
+    templateUrl: '/template/tabs/tabs.html',
     replace: true
   };
 })
@@ -38045,7 +38045,7 @@ angular.module('ui.bootstrap.tabs', [])
         tabsCtrl.removePane(scope);
       });
     },
-    templateUrl: 'template/tabs/pane.html',
+    templateUrl: '/template/tabs/pane.html',
     replace: true
   };
 }]);
@@ -38061,7 +38061,7 @@ angular.module( 'ui.bootstrap.tooltip', [] )
     restrict: 'EA',
     replace: true,
     scope: { tooltipTitle: '@', placement: '@', animation: '&', isOpen: '&' },
-    templateUrl: 'template/tooltip/tooltip-popup.html'
+    templateUrl: '/template/tooltip/tooltip-popup.html'
   };
 })
 .directive( 'tooltip', [ '$compile', '$timeout', '$parse', '$window', '$document', function ( $compile, $timeout, $parse, $window, $document) {
@@ -38467,7 +38467,7 @@ angular.module('ui.bootstrap.typeahead', [])
         select:'&'
       },
       replace:true,
-      templateUrl:'template/typeahead/typeahead.html',
+      templateUrl:'/template/typeahead/typeahead.html',
       link:function (scope, element, attrs) {
 
         scope.isOpen = function () {
@@ -39605,7 +39605,59 @@ angular.module('rescour.utility', [])
                 }, 0);
             }
         };
-    }]);
+    }])
+    .directive('dropdownToggle',
+        ['$document', '$location', '$window', function ($document, $location, $window) {
+            var openElement = null, close;
+            return {
+                restrict: 'CA',
+                link: function (scope, element, attrs) {
+                    scope.$watch(function dropdownTogglePathWatch() {
+                        return $location.path();
+                    }, function dropdownTogglePathWatchAction() {
+                        if (close) {
+                            close();
+                        }
+                    });
+
+                    element.parent().bind('click', function (event) {
+                        if (close) {
+                            close();
+                        }
+                    });
+
+                    element.bind('click', function (event) {
+                        event.preventDefault();
+                        event.stopPropagation();
+
+                        var iWasOpen = false;
+
+                        if (openElement) {
+                            iWasOpen = openElement === element;
+                            close();
+                        }
+
+                        if (!iWasOpen) {
+                            element.parent().parent().addClass('open');
+                            openElement = element;
+
+                            close = function (event) {
+                                if (event) {
+                                    event.preventDefault();
+                                    event.stopPropagation();
+                                }
+                                $document.unbind('click', close);
+                                element.parent().parent().removeClass('open');
+                                close = null;
+                                openElement = null;
+                            };
+
+                            $document.bind('click', close);
+                        }
+                    });
+                }
+            };
+        }]);
 /**
  * Created with JetBrains WebStorm.
  * User: apledger
@@ -39682,7 +39734,7 @@ angular.module('rescour.market', [])
                 this.isVisible = true;
 
                 // Populate Attributes id stacks during construction of each item object
-                this.mapAttributes(Attributes.active);
+                this._mapAttributes(Attributes);
             };
 
             Item.query = function () {
@@ -39700,15 +39752,15 @@ angular.module('rescour.market', [])
                 return defer.promise;
             };
 
-            Item.prototype.mapAttributes = function (attributes) {
+            Item.prototype._mapAttributes = function (attributes) {
                 for (var attrID in this.attributes.discreet) {
                     if (this.attributes.discreet.hasOwnProperty(attrID)) {
-                        attributes.pushDiscreetID(attrID, this.id, this.attributes.discreet[attrID]);
+                        attributes.pushDiscreetId(attrID, this.id, this.attributes.discreet[attrID]);
                     }
                 }
                 for (var attrID in this.attributes.range) {
                     if (this.attributes.range.hasOwnProperty(attrID)) {
-                        attributes.pushRangeID(attrID, this.id, this.attributes.range[attrID]);
+                        attributes.pushRangeId(attrID, this.id, this.attributes.range[attrID]);
                     }
                 }
             };
@@ -39784,10 +39836,12 @@ angular.module('rescour.market', [])
                         } else {
                             throw new Error("Finances are not an array");
                         }
+                        defer.resolve(self);
                     } catch (e) {
+                        defer.reject(response);
                         console.log(e.message);
                     }
-                    defer.resolve(response);
+
                 }, function (response) {
                     self.details.$spinner = false;
                     defer.reject(response);
@@ -39954,60 +40008,83 @@ angular.module('rescour.market', [])
 
             return Item;
         }])
-    .factory('Filter', ['Attributes',
-        function (Attributes) {
-            var visibleIds = [],
-                filters = {};
+    .service('Items', ['Attributes', 'Item',
+        function (Attributes, Item) {
+            // Private items data
+            var active = null;
+            this.items = {};
+            this.visibleIds = [];
 
-            // Populates an id stack for each attribute criteria
-            function filterAttributes(attributes, badgeFlag) {
-                var intersectArray = [],
-                    unionArray = [];
+            this.setActive = function (item) {
+                active = item;
+                return active;
+            };
 
-                // Make sure not being computed for badge
-                if (!badgeFlag) {
-                    filters = {};
-                    // For each range attribute, determine the ids that fall within the highSelected and lowSelected
-                    for (var rangeID in attributes.range) {
-                        if (attributes.range.hasOwnProperty(rangeID)) {
-                            filters[rangeID] = getIdsWithinRange(attributes.range[rangeID]);
+            this.getActive = function () {
+                return active;
+            };
+
+            this.toArray = function () {
+                return _.map(this.items, function (item, id) {
+                    return item;
+                });
+            };
+
+            this.initialize = function (products) {
+                this.items = {};
+                for (var id in products) {
+                    if (products.hasOwnProperty(id)) {
+                        try {
+                            this.items[id] = new Item(products[id]);
+                        } catch (e) {
+                            console.log(e.message);
                         }
                     }
                 }
+                Attributes.initialize().apply().predict();
+                this.render();
+            };
 
-                // For each discreet attribute, concat together ids (assumes items can only contain 1 discreet attribute)
-                for (var discreetID in attributes.discreet) {
-                    if (attributes.discreet.hasOwnProperty(discreetID)) {
-                        unionArray = [];
-                        for (var attrID in attributes.discreet[discreetID].values) {
-                            if (attributes.discreet[discreetID].values.hasOwnProperty(attrID)) {
-                                var value = attributes.discreet[discreetID].values[attrID];
-                                if (value.isSelected || value.compare) {
-                                    unionArray = unionArray.concat(value.ids);
-                                }
-                            }
-                        }
-                        filters[discreetID] = unionArray;
+            this.reload = function () {
+                for (var id in this.items) {
+                    if (this.items.hasOwnProperty(id)) {
+                        this.items[id]._mapAttributes(Attributes);
                     }
                 }
+                Attributes.initialize();
+            };
 
-                // Loop through filters and intersect
-                for (var id in filters) {
-                    if (filters.hasOwnProperty(id)) {
-                        if (filters[id].length === 0) {
-                            continue;
+            this.render = function (subset) {
+                this.visibleIds = [];
+
+                if (!subset) {
+                    for (var id in this.items) {
+                        if (this.items.hasOwnProperty(id)) {
+                            this.items[id].isVisible = (_.contains(Attributes.visibleIds, id) && !this.items[id].hidden);
+                            this.items[id].isVisible ? this.visibleIds.push(id) : null;
                         }
-                        if (intersectArray.length === 0) {
-                            intersectArray = filters[id];
-                        } else {
-                            intersectArray = _.intersection(intersectArray, filters[id]);
+                    }
+                } else if (subset === 'notes') {
+                    for (var i = 0, len = Attributes.visibleIds.length; i < len; i++) {
+                        var _id = Attributes.visibleIds[i];
+                        if (this.items.hasOwnProperty(_id)) {
+                            this.items[_id].isVisible = this.items[_id].hasComments || this.items[_id].hasFinances;
+                            this.items[_id].isVisible ? this.visibleIds.push(_id) : null;
+                        }
+                    }
+                } else {
+                    for (var i = 0, len = Attributes.visibleIds.length; i < len; i++) {
+                        var _id = Attributes.visibleIds[i];
+                        if (this.items.hasOwnProperty(_id)) {
+                            this.items[_id].isVisible = this.items[_id][subset];
+                            this.items[_id].isVisible ? this.visibleIds.push(_id) : null;
                         }
                     }
                 }
-
-                return intersectArray;
-            }
-
+            };
+        }])
+    .factory('Attributes', ['$timeout',
+        function ($timeout) {
             // Gets the ids of the items on the edges of the high and low values for a single slider
             function getIdsWithinRange(range) {
 
@@ -40041,266 +40118,324 @@ angular.module('rescour.market', [])
                 );
             }
 
-            return {
-                getVisibleIds: function () {
-                    return visibleIds;
-                },
-                filter: function () {
-                    visibleIds = filterAttributes(Attributes.active);
-                    return visibleIds;
-                },
-                addedLength: function (value) {
-                    // Flag attribute for compare to see what amounts would be if value were selected
-                    value.compare = true;
-                    // Run filter
-                    var comp = filterAttributes(Attributes.active, "badge");
-                    // Turn off flag
-                    delete value.compare;
+            // Attributes Constructor
+            function Attributes() {
+                var defaults = {
+                    title: "",
+                    discreet: {},
+                    range: {},
+                    visibleIds: []
+                };
+                // The essentials
+                angular.extend(this, defaults);
+            }
 
-                    // Return difference
-                    return comp.length - visibleIds.length;
+            Attributes.prototype.pushDiscreetId = function (attrID, itemID, value) {
+                // If attribute doesn't exist, initialize attribute, then push
+                if (!_.has(this.discreet, attrID)) {
+                    // Initialize discreet category
+                    this.discreet[attrID] = {
+                        title: attrID,
+                        values: {},
+                        selected: 0
+                    };
+
+                    // This implies no items have come before, so add the first id
+                    this.discreet[attrID].values[value] = {
+                        ids: [itemID],
+                        title: value,
+                        isSelected: false
+                    };
+                    // If attribute has been loaded, but particular value doesn't exist yet, initialize
+                } else if (!_.has(this.discreet[attrID].values, value)) {
+                    // Add first ID
+                    this.discreet[attrID].values[value] = {
+                        ids: [itemID],
+                        title: value,
+                        isSelected: false
+                    };
+                    // If value is found then just push
+                } else {
+                    this.discreet[attrID].values[value].ids.push(itemID);
                 }
             };
-        }])
-    .service('Items', ['Attributes', 'Item', 'Filter',
-        function (Attributes, Item, Filter) {
-            // Private items data
-            this.items = {};
 
-            this.active = null;
+            Attributes.prototype.pushRangeId = function (attrID, itemID, value) {
+                // Check to see if rangeID exists on itself
+                if (!this.range.hasOwnProperty(attrID)) {
+                    this.range[attrID] = {
+                        title: attrID,
+                        ids: [],
+                        na: [],
+                        high: null,
+                        low: null
+                    }
+                }
+                if (value === "NA") {
+                    this.range[attrID].na.push(itemID);
+                }
+                else if (_.isNaN(parseInt(value, 10))) {
+                    this.range[attrID].na.push(itemID);
+                    throw new Error("Cannot push {" + attrID + ": " + value + "} onto Item {id: " + itemID + "}");
+                } else {
+                    var intVal = parseInt(value, 10);
+                    this.range[attrID].ids.push({id: itemID, value: intVal});
 
-            this.getItems = function () {
-                return _.map(this.items, function (item, id) {
-                    return item;
+                    // Check to see if current value is the low bound value
+                    if (this.range[attrID].low === null || intVal <= this.range[attrID].low) {
+                        this.range[attrID].low = intVal;
+                    }
+
+                    // Check to see if the current value is the high bound value
+                    if (this.range[attrID].high === null || intVal >= this.range[attrID].high) {
+                        this.range[attrID].high = intVal;
+                    }
+                }
+            };
+
+            Attributes.prototype.initialize = function () {
+                var attrID;
+                // Set selected to the bounds of high and low
+                if (this.range !== {}) {
+                    _.each(this.range, function (r) {
+                        r.highSelected = r.highSelected || r.high;
+                        r.lowSelected = r.lowSelected || r.low;
+                    });
+                }
+
+                // Sort
+                for (attrID in this.range) {
+                    if (this.range.hasOwnProperty(attrID)) {
+                        this.range[attrID].ids = _.sortBy(this.range[attrID].ids, function (i) {
+                            return i.value;
+                        });
+                    }
+                }
+
+                return this;
+            };
+
+            Attributes.prototype.apply = function () {
+                this.visibleIds = this._calcRangeVisible()._calcDiscreetVisible()._intersectVisible();
+                return this;
+            };
+
+            Attributes.prototype.predict = function () {
+                var self = this;
+                angular.forEach(self.discreet, function (parent) {
+                    angular.forEach(parent.values, function (value) {
+                        $timeout(function () {
+                            var len;
+                            if (parent.selected > 0 && !value.isSelected) {
+                                // Calculate length
+                                value.compare = true;
+                                len = (self._calcDiscreetVisible()._intersectVisible()).length - self.visibleIds.length;
+                                delete value.compare;
+
+                                if (len > 0) {
+                                    value.badge = "badge-success";
+                                    value.predict = "+" + len;
+                                } else {
+                                    value.badge = ""; // Otherwise leave gray
+                                    value.predict = 0;
+                                }
+                            } else { // Means that there is nothing selected in this attribute section,
+                                // or this value is the one selected
+
+                                // Calculate intersection of this value and what current visible is
+                                len = _.intersection(value.ids, self.visibleIds).length;
+
+                                // Make the badge blue if greater than 0
+                                value.badge = len ? "badge-info" : "";
+
+                                // Return the value
+                                value.predict = len;
+                            }
+                        }, 0);
+                    });
                 });
+
+                return this;
             };
 
-            this.showHidden = function () {
-                var visibleIds = Filter.getVisibleIds();
-                for (var i = 0, len = visibleIds.length; i < len; i++) {
-                    if (this.items.hasOwnProperty(visibleIds[i])) {
-                        this.items[visibleIds[i]].isVisible = this.items[visibleIds[i]].hidden;
-                    }
-                }
-            };
-
-            this.showFavorites = function () {
-                var visibleIds = Filter.getVisibleIds();
-                for (var i = 0, len = visibleIds.length; i < len; i++) {
-                    if (this.items.hasOwnProperty(visibleIds[i])) {
-                        this.items[visibleIds[i]].isVisible = this.items[visibleIds[i]].favorites;
-                    }
-                }
-            };
-
-            this.showNotes = function () {
-                var visibleIds = Filter.getVisibleIds();
-                for (var i = 0, len = visibleIds.length; i < len; i++) {
-                    if (this.items.hasOwnProperty(visibleIds[i])) {
-                        this.items[visibleIds[i]].isVisible = this.items[visibleIds[i]].hasComments || this.items[visibleIds[i]].hasFinances;
-                    }
-                }
-            };
-
-            this.createItems = function (products) {
-                this.items = {};
-                for (var id in products) {
-                    if (products.hasOwnProperty(id)) {
+            Attributes.prototype.load = function (search) {
+                var self = this;
+                if (search) {
+                    this.id = search.id || undefined;
+                    this.title = search.title || undefined;
+                    // error handling here
+                    for (var rangeID in search.range) {
                         try {
-                            this.items[id] = new Item(products[id]);
+                            // Check if range attribute exists
+                            if (_.has(self.range, rangeID)) {
+                                var withinLowBound = (search.range[rangeID].lowSelected >= self.range[rangeID].low),
+                                    withinHighBound = (search.range[rangeID].highSelected <= self.range[rangeID].high);
+                                // Then check if the selected on the save is still within bounds
+                                if (withinLowBound && withinHighBound) {
+                                    self.range[rangeID].lowSelected = search.range[rangeID].lowSelected;
+                                    self.range[rangeID].highSelected = search.range[rangeID].highSelected;
+                                } else if (!withinLowBound && withinHighBound) {
+                                    self.range[rangeID].lowSelected = self.range[rangeID].low;
+                                    self.range[rangeID].highSelected = search.range[rangeID].highSelected;
+                                } else if (withinLowBound && !withinHighBound) {
+                                    self.range[rangeID].lowSelected = search.range[rangeID].lowSelected;
+                                    self.range[rangeID].highSelected = self.range[rangeID].high;
+                                } else {
+                                    self.range[rangeID].lowSelected = self.range[rangeID].low;
+                                    self.range[rangeID].highSelected = self.range[rangeID].high;
+                                }
+                            } else {
+                                throw new Error(rangeID + " not found in range");
+                            }
                         } catch (e) {
                             console.log(e.message);
                         }
                     }
-                }
-                Attributes.active.setSelectedBounds();
-                Attributes.active.sort();
-                return _.map(this.items, function (item, id) {
-                    return item;
-                });
-            };
 
-            this.loadItems = function () {
-                for (var id in this.items) {
-                    if (this.items.hasOwnProperty(id)) {
-                        this.items[id].mapAttributes(Attributes.active);
-                    }
-                }
-                Attributes.active.setSelectedBounds();
-                Attributes.active.sort();
-            };
-
-            this.updateVisible = function (visibleIds) {
-                // Loop through each item
-                for (var id in this.items) {
-                    if (this.items.hasOwnProperty(id)) {
-                        this.items[id].isVisible = (_.contains(visibleIds, this.items[id].id) && !this.items[id].hidden);
-                    }
-                }
-            };
-        }])
-    .service('Attributes', function () {
-        // Attributes Constructor
-        function Attributes() {
-            var defaults = {
-                title: "",
-                discreet: {},
-                range: {}
-            };
-            // The essentials
-            angular.extend(this, defaults);
-        }
-
-        Attributes.prototype.pushDiscreetID = function (attrID, itemID, value) {
-            // If attribute doesn't exist, initialize attribute, then push
-            if (!_.has(this.discreet, attrID)) {
-                // Initialize discreet category
-                this.discreet[attrID] = {
-                    title: attrID,
-                    values: {},
-                    selected: 0
-                };
-
-                // This implies no items have come before, so add the first id
-                this.discreet[attrID].values[value] = {
-                    ids: [itemID],
-                    title: value,
-                    isSelected: false
-                };
-                // If attribute has been loaded, but particular value doesn't exist yet, initialize
-            } else if (!_.has(this.discreet[attrID].values, value)) {
-                // Add first ID
-                this.discreet[attrID].values[value] = {
-                    ids: [itemID],
-                    title: value,
-                    isSelected: false
-                };
-                // If value is found then just push
-            } else {
-                this.discreet[attrID].values[value].ids.push(itemID);
-            }
-        };
-
-        Attributes.prototype.pushRangeID = function (attrID, itemID, value) {
-            // Check to see if rangeID exists on itself
-            if (!this.range.hasOwnProperty(attrID)) {
-                this.range[attrID] = {
-                    title: attrID,
-                    ids: [],
-                    na: [],
-                    high: null,
-                    low: null
-                }
-            }
-            if (value === "NA") {
-                this.range[attrID].na.push(itemID);
-            }
-            else if (_.isNaN(parseInt(value, 10))) {
-                this.range[attrID].na.push(itemID);
-                throw new Error("Cannot push {" + attrID + ": " + value + "} onto Item {id: " + itemID + "}");
-            } else {
-                var intVal = parseInt(value, 10);
-                this.range[attrID].ids.push({id: itemID, value: intVal});
-
-                // Check to see if current value is the low bound value
-                if (this.range[attrID].low === null || intVal <= this.range[attrID].low) {
-                    this.range[attrID].low = intVal;
-                }
-
-                // Check to see if the current value is the high bound value
-                if (this.range[attrID].high === null || intVal >= this.range[attrID].high) {
-                    this.range[attrID].high = intVal;
-                }
-            }
-        };
-
-        Attributes.prototype.setSelectedBounds = function () {
-            if (this.range !== {}) {
-                _.each(this.range, function (r) {
-                    r.highSelected = r.highSelected || r.high;
-                    r.lowSelected = r.lowSelected || r.low;
-                });
-            }
-        };
-
-        Attributes.prototype.sort = function () {
-            var attrID;
-            for (attrID in this.range) {
-                if (this.range.hasOwnProperty(attrID)) {
-                    this.range[attrID].ids = _.sortBy(this.range[attrID].ids, function (i) {
-                        return i.value;
-                    });
-                }
-            }
-        };
-
-        Attributes.prototype.reset = function () {
-            this.title = "";
-            this.id = undefined;
-            this.discreet = {};
-            this.range = {};
-        };
-
-        Attributes.prototype.load = function (search) {
-            var self = this;
-            if (search) {
-                this.id = search.id || undefined;
-                this.title = search.title || undefined;
-                // error handling here
-                for (var rangeID in search.range) {
-                    try {
-                        // Check if range attribute exists
-                        if (_.has(self.range, rangeID)) {
-                            // Then check if the selected on the save is still within bounds
-                            if (search.range[rangeID].lowSelected >= self.range[rangeID].low && search.range[rangeID].highSelected <= self.range[rangeID].high) {
-                                self.range[rangeID].lowSelected = search.range[rangeID].lowSelected;
-                                self.range[rangeID].highSelected = search.range[rangeID].highSelected;
-                            } else {
-                                throw new Error(search.range[rangeID].lowSelected + " - " + search.range[rangeID].highSelected + " is not within active bounds");
-                            }
-                        } else {
-                            throw new Error(rangeID + " not found in range");
-                        }
-                    } catch (e) {
-                        console.log(e.message);
-                    }
-
-                }
-
-                for (var discreetID in search.discreet) {
-                    try {
-                        // Check if discreet attribute exists on current attributes
-                        if (_.has(self.discreet, discreetID)) {
-                            for (var attrID in search.discreet[discreetID].values) {
-                                // If the saved search attribute exists
-                                if (_.has(self.discreet[discreetID].values, attrID)) {
-                                    // Check to see if marked as true
-                                    if (search.discreet[discreetID].values[attrID].isSelected === true || search.discreet[discreetID].values[attrID].isSelected === "True") {
-                                        self.discreet[discreetID].values[attrID].isSelected = true;
-                                        self.discreet[discreetID].selected++;
+                    for (var discreetID in search.discreet) {
+                        try {
+                            // Check if discreet attribute exists on current attributes
+                            if (_.has(self.discreet, discreetID)) {
+                                for (var attrID in search.discreet[discreetID].values) {
+                                    // If the saved search attribute exists
+                                    if (_.has(self.discreet[discreetID].values, attrID)) {
+                                        // Check to see if marked as true
+                                        if (search.discreet[discreetID].values[attrID].isSelected && !self.discreet[discreetID].values[attrID].isSelected) {
+                                            self.discreet[discreetID].values[attrID].isSelected = true;
+                                            self.discreet[discreetID].selected++;
+                                        } else if (!search.discreet[discreetID].values[attrID].isSelected && self.discreet[discreetID].values[attrID].isSelected) {
+                                            self.discreet[discreetID].values[attrID].isSelected = false;
+                                            self.discreet[discreetID].selected--;
+                                        }
                                     }
-                                } else {
-                                    throw new Error(attrID + " not found in " + discreetID);
+                                }
+                            } else {
+                                throw new Error(discreetID + " not found in discreet");
+                            }
+                        } catch (e) {
+                            console.log(e.message);
+                        }
+                    }
+                } else {
+                    this.id = undefined;
+                    this.title = undefined;
+                    // error handling here
+                    for (var rangeID in self.range) {
+                        if (self.range.hasOwnProperty(rangeID)) {
+                            self.range[rangeID].lowSelected = self.range[rangeID].low;
+                            self.range[rangeID].highSelected = self.range[rangeID].high;
+                        }
+                    }
+
+                    for (var discreetID in self.discreet) {
+                        if (self.discreet.hasOwnProperty(discreetID)) {
+                            for (var attrID in self.discreet[discreetID].values) {
+                                // If the saved search attribute exists
+                                if (self.discreet[discreetID].values.hasOwnProperty(attrID)) {
+                                    // Check to see if marked as true
+                                    if (self.discreet[discreetID].values[attrID].isSelected) {
+                                        self.discreet[discreetID].values[attrID].isSelected = false;
+                                        self.discreet[discreetID].selected--;
+                                    }
                                 }
                             }
-                        } else {
-                            throw new Error(discreetID + " not found in discreet");
                         }
-                    } catch (e) {
-                        console.log(e.message);
                     }
                 }
-            }
-        };
+            };
 
-        this.active = new Attributes();
+            Attributes.prototype._reset = function () {
+                this.title = "";
+                this.id = undefined;
+                this.discreet = {};
+                this.range = {};
+            };
 
-        this.initialize = function () {
-            angular.copy(new Attributes(), this.active);
-        };
-    })
-    .factory('SavedSearch', ['$_api', '$http', '$q',
-        function ($_api, $http, $q) {
+            Attributes.prototype._calcRangeVisible = function () {
+                var self = this;
+
+                for (var rangeID in self.range) {
+                    if (self.range.hasOwnProperty(rangeID)) {
+                        self.range[rangeID].visibleIds = getIdsWithinRange(self.range[rangeID]);
+                    }
+                }
+
+                return this;
+            };
+
+            Attributes.prototype._calcDiscreetVisible = function () {
+                var unionArray = [],
+                    self = this;
+
+                for (var discreetID in self.discreet) {
+                    if (self.discreet.hasOwnProperty(discreetID)) {
+                        unionArray = [];
+                        var _discreet = self.discreet[discreetID];
+                        _discreet.selected = 0;
+                        for (var attrID in _discreet.values) {
+                            if (self.discreet[discreetID].values.hasOwnProperty(attrID)) {
+                                var _value = self.discreet[discreetID].values[attrID];
+                                if (_value.isSelected || _value.compare) {
+                                    unionArray = unionArray.concat(_value.ids);
+                                }
+                                _value.isSelected ? _discreet.selected += 1 : null;
+                            }
+                        }
+                        self.discreet[discreetID].visibleIds = unionArray;
+                    }
+                }
+
+                return this;
+            };
+
+            Attributes.prototype._intersectVisible = function () {
+                var self = this, _range, _discreet,
+                    intersectArray = [];
+
+                for (var rangeID in self.range) {
+                    if (self.range.hasOwnProperty(rangeID)) {
+                        _range = self.range[rangeID];
+                        if (_range.visibleIds.length === 0) {
+                            continue;
+                        }
+                        if (intersectArray.length === 0) {
+                            intersectArray = _range.visibleIds;
+                        } else {
+                            intersectArray = _.intersection(intersectArray, _range.visibleIds);
+                        }
+                    }
+                }
+
+                for (var rangeID in self.discreet) {
+                    if (self.discreet.hasOwnProperty(rangeID)) {
+                        _discreet = self.discreet[rangeID];
+                        if (_discreet.visibleIds.length === 0) {
+                            continue;
+                        }
+                        if (intersectArray.length === 0) {
+                            intersectArray = _discreet.visibleIds;
+                        } else {
+                            intersectArray = _.intersection(intersectArray, _discreet.visibleIds);
+                        }
+                    }
+                }
+                return intersectArray;
+            };
+
+            return new Attributes();
+        }])
+    .factory('SavedSearch', ['$_api', '$http', '$q', '$dialog',
+        function ($_api, $http, $q, $dialog) {
+            var dialog = $dialog.dialog({
+                backdrop: true,
+                keyboard: true,
+                backdropClick: true,
+                dialogFade: true,
+                backdropFade: true,
+                templateUrl: '/app/market/desktop/views/partials/saved-search-dialog.html',
+                controller: "SaveSearchDialogController"
+            });
+
             var SavedSearch = function (data, id) {
                 var self = this;
                 this.title = data.title || undefined;
@@ -40340,6 +40475,8 @@ angular.module('rescour.market', [])
                 }
             };
 
+            SavedSearch.dialog = dialog;
+
             SavedSearch.query = function () {
                 var searches = [];
                 $http.get($_api.path + '/search/', $_api.config).then(function (response) {
@@ -40376,6 +40513,20 @@ angular.module('rescour.market', [])
             };
 
             return SavedSearch;
+        }])
+    .controller('SaveSearchDialogController', ['$scope', 'dialog',
+        function ($scope, dialog) {
+            $scope.searchSettings = {};
+            $scope.close = function () {
+                dialog.close();
+            };
+
+            $scope.save = function (settings) {
+                dialog.close({
+                    action: 'save',
+                    settings: settings
+                });
+            };
         }])
     .factory('Comment', ['$_api', '$q', '$http', 'User',
         function ($_api, $q, $http, User) {
@@ -40576,49 +40727,123 @@ angular.module('rescour.market', [])
 
             return Finance;
         }])
-    .factory('PropertyDetails', ['Finance', 'Comment', 'Panes',
-        function (Finance, Comment, Panes) {
+    .factory('PropertyDetails', ['$dialog', '$q', 'Items', '$location',
+        function ($dialog, $q, Items, $location) {
             var panes = [
-                {heading: "Details", active: true},
-                {heading: "Pictures", active: false},
-                {heading: "Contact", active: false},
-                {heading: "Comments", active: false},
-                {heading: "Finances", active: false}
-            ];
+                    {heading: "Details", active: true},
+                    {heading: "Pictures", active: false},
+                    {heading: "Contact", active: false},
+                    {heading: "Comments", active: false},
+                    {heading: "Finances", active: false}
+                ],
+                view = $dialog.dialog({
+                    backdrop: false,
+                    keyboard: false,
+                    backdropClick: true,
+                    dialogClass: 'property-details',
+                    dialogFade: true,
+                    backdropFade: false,
+                    templateUrl: '/app/market/desktop/views/partials/market-details.html',
+                    controller: "DetailsController",
+                    resolve: {
+                        activeItem: function (Items, $q, $location) {
+                            var deferred = $q.defer();
+
+                            var item = Items.getActive() || {};
+                            if (!item.hasOwnProperty('details') || _.isEmpty(item.details)) {
+                                item.getDetails().then(function (_item) {
+                                    deferred.resolve(_item);
+                                });
+                            } else {
+                                deferred.resolve(item);
+                            }
+
+                            return deferred.promise;
+                        }
+                    }
+                });
 
             return {
-                Finance: Finance,
-                Comment: Comment,
-                panes: new Panes(panes)
+                isOpen: function () {
+                    return view.isOpen();
+                },
+                open: function (item, resolveCb) {
+                    if (!item && !view.isOpen()) {
+                        Items.setActive(null);
+                    } else if (!item && view.isOpen()) {
+                        console.log("closing here");
+                        view.close();
+                    } else {
+                        Items.setActive(item);
+                        view
+                            .open()
+                            .then(function () {
+                                Items.setActive(null);
+                            })
+                            .then(resolveCb);
+                    }
+
+                    return this;
+                },
+                close: function (result) {
+                    view.close();
+                    return this;
+                },
+                panes: panes,
+                selectPane: function (paneHeading) {
+                    paneHeading = (paneHeading && _.find(panes, function (val) {
+                        return val.heading.toLowerCase() === paneHeading.toLowerCase();
+                    })) ? paneHeading : panes[0].heading;
+
+                    angular.forEach(panes, function (pane) {
+                        if (pane.heading.toLowerCase() === paneHeading.toLowerCase()) {
+                            pane.active = true;
+                        } else {
+                            pane.active = false;
+                        }
+                    });
+                    return this;
+                }
             };
         }])
-    .factory('Panes', function () {
-        var Panes = function (data) {
-            var self = this;
-            data = data || {};
-            this.panes = [];
-
-            angular.forEach(data, function (value, key) {
-                if (value.heading) {
-                    self.panes.push({
-                        heading: value.heading,
-                        active: value.active || false
+    .directive('slider', function () {
+        return {
+            restrict: 'A',
+            link: function (scope, element, attr) {
+                function setupSlider() {
+                    element.find('.slider').slider({
+                        range: true,
+                        min: 0,
+                        max: 100,
+                        // Calculate percentages based off what the low selected and high selected are
+                        values: [
+                            parseInt((((1.0 * (scope.range.lowSelected - scope.range.low)) / (scope.range.high - scope.range.low)) * 100), 10),
+                            parseInt((((1.0 * (scope.range.highSelected - scope.range.low)) / (scope.range.high - scope.range.low)) * 100), 10)
+                        ],
+                        step: 1,
+                        slide: function (event, ui) {
+                            scope.$apply(function () {
+                                scope.range.lowSelected = parseInt((((ui.values[0] / 100) * (scope.range.high - scope.range.low)) + scope.range.low), 10);
+                                scope.range.highSelected = parseInt((((ui.values[1] / 100) * (scope.range.high - scope.range.low)) + scope.range.low), 10);
+                            });
+                        },
+                        stop: function (event, ui) {
+                            scope.$apply(function () {
+                                scope.filter();
+                            });
+                        }
                     });
                 }
-            });
-        };
 
-        Panes.prototype.selectPane = function (paneHeading) {
-            angular.forEach(this.panes, function (pane) {
-                if (pane.heading === paneHeading) {
-                    pane.active = true;
-                } else {
-                    pane.active = false;
-                }
-            });
-        };
+                // Watch when the slider low or high selected changes, update slider accordingly.
 
-        return Panes;
+                scope.$on('rangesDefined', function () {
+                    setupSlider();
+                });
+
+                setupSlider();
+            }
+        };
     });
 
 /**
@@ -40630,16 +40855,11 @@ angular.module('rescour.market', [])
  */
 
 angular.module('rescour.market.map', ['rescour.market'])
-    .directive("map", ['Filter', 'Items', '$compile', 'PropertyDetails',
-        function (Filter, Items, $compile, PropertyDetails) {
+    .directive("map", ['Items', '$compile', 'PropertyDetails',
+        function (Items, $compile, PropertyDetails) {
             return {
                 restrict: "A",
                 transclude: true,
-                scope: {
-                    view: "=",
-                    selected: "=",
-                    center: "="
-                },
                 template: '<div class="map"></div>',
                 link: function (scope, element, attrs, ctrl) {
                     var cloudmadeUrl = 'http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/37875/256/{z}/{x}/{y}.png',
@@ -40651,16 +40871,12 @@ angular.module('rescour.market.map', ['rescour.market'])
                         defaultZoom = 5,
                         $el = element.find(".map")[0],
                         map = new L.Map($el, { center: defaultLatLng, zoom: defaultZoom, zoomControl: false, attributionControl: false}),
-                        markers = new L.MarkerClusterGroup({disableClusteringAtZoom: 13});
+                        markers = new L.MarkerClusterGroup({disableClusteringAtZoom: 13, spiderfyOnMaxZoom: false, spiderfyDistanceMultiplier: 0.1});
                     // layers: [cloudmade],
 
                     var googleLayer = new L.Google('ROADMAP');
                     map.addLayer(googleLayer);
-
                     map.addControl(new L.Control.Zoom({ position: 'topright' }));
-                    //map.scrollWheelZoom.disable();
-
-                    // Listen for when a filter event is fired
 
                     function popupTemplate(item) {
                         scope.item = item;
@@ -40669,7 +40885,7 @@ angular.module('rescour.market.map', ['rescour.market'])
                             "<h4 ng-click=\"showDetails(item)\">" + item.title + "</h4>" +
                             "</div>" +
                             "<div class=\"popup-main-container clearfix\">" +
-                            "<div class=\"preview\" ng-click=\"showPictures(item)\"><div class=\"zoom-mask\"></div>" +
+                            "<div class=\"preview\" ng-click=\"showPictures(item)\"><div class=\"preview-mask\"><i class=\"icon-search\"></i></i></div>" +
                             "<img src=\"" + item.thumbnail + "\" alt=\"\"/></div>" +
                             "<ul>" +
                             "<li><span>" + item.getAttribute('Number of Units') + "</span> Units</li>" +
@@ -40679,7 +40895,7 @@ angular.module('rescour.market.map', ['rescour.market'])
                             "</ul>" +
                             "</div>" +
                             "<div class=\"popup-striped-container popup-footer\">\n    <p>" +
-                            item.address.city + ", " + item.address.state + "</p>\n</div></div>";
+                            item.address.street1 + "</p>\n</div></div>";
 
                         var popupElement = $compile(popupTempl)(scope);
 
@@ -40687,22 +40903,16 @@ angular.module('rescour.market.map', ['rescour.market'])
                     }
 
                     scope.showDetails = function (item) {
-                        if (!item.hasOwnProperty('details')) {
-                            item.getDetails();
-                        }
-                        scope.selected = item;
-                        PropertyDetails.panes.selectPane("Details");
+                        PropertyDetails.open(item).selectPane("Details");
                     };
 
                     scope.showPictures = function (item) {
-                        if (!item.hasOwnProperty('details')) {
-                            item.getDetails();
-                        }
-                        scope.selected = item;
-                        PropertyDetails.panes.selectPane("Pictures");
+                        PropertyDetails.open(item).selectPane("Pictures");
                     };
 
-                    scope.$on("Render", function () {
+                    scope.$watch(function () {
+                        return Items.visibleIds;
+                    }, function () {
                         // Markers plugin says better performance to clear all markers and recreate
                         markers.clearLayers();
                         // Zoom out
@@ -40717,14 +40927,13 @@ angular.module('rescour.market.map', ['rescour.market'])
                                 // Open modal popup
                                 item.marker.on("click", function (e) {
                                     scope.$apply(function () {
-                                        scope.$parent.selectItem(item);
+                                        scope.showDetails(item);
                                     });
                                 });
 
                                 // Bind mouseover popup
                                 item.marker.on("mouseover", function (e) {
                                     item.marker.bindPopup(popupTemplate(item), {closeButton: false, minWidth: 325}).openPopup();
-//                                    item.marker.bindPopup(popupTemplate(item)[0] + popupTemplate(item)[1] +  popupTemplate(item)[2]).openPopup();
                                 });
                                 // Add marker to marker group
                                 markers.addLayer(item.marker);
@@ -40734,17 +40943,14 @@ angular.module('rescour.market.map', ['rescour.market'])
                         map.addLayer(markers);
                     });
 
-                    scope.$watch("center", function (item) {
-                        if (item) {
+                    scope.$on('CenterMap', function (event, item) {
+                        if (item.marker) {
                             markers.zoomToShowLayer(item.marker, function () {
-                                map.panTo(item.location);
                                 item.marker.bindPopup(popupTemplate(item), {closeButton: false, minWidth: 325}).openPopup();
                             });
+                            map.panTo(item.location);
                         }
                     });
-
-                    // Let the controller know to initialize otherwise markers don't get constructed
-                    scope.$emit("MapReady");
                 }
             };
         }]);
@@ -40924,17 +41130,16 @@ angular.module('rescour.auth', [])
  * Created with JetBrains WebStorm.
  * User: apledger
  * Date: 4/24/13
- * Time: 8:32 PM
- * File: /core/config/dev.js
+ * Time: 8:35 PM
+ * File: /core/config/deploy-dev.js
  */
 
 
 
 angular.module('rescour.config', [])
-    .factory('$_api', function () {
+    .factory('$_api', function ($http) {
         var url = {
-                local: "http://10.0.1.92:8080/rescour",
-                dev: "http://dev.maasive.net/rescour"
+                dev: '/api'
             },
             stripeTokens = {
                 test: 'pk_test_wSAqQNQKI7QqPmBpDcQLgGM7',
@@ -41002,7 +41207,7 @@ angular.module('rescour.app',
 
             $routeProvider.when('/',
                 {
-                    redirectTo: '/market'
+                    redirectTo: '/market/'
                 })
                 .otherwise({
                     redirectTo: '/'
@@ -41039,30 +41244,31 @@ angular.module('rescour.app',
 angular.module('rescour.app')
     .config(['$routeProvider',
         function ($routeProvider) {
-            $routeProvider.when('/account/:status', {
-                templateUrl: "/app/account/desktop/views/account.html",
-                controller: 'AccountController',
-                resolve: {
-                    loadUser: function (User, $q) {
-                        var defer = $q.defer();
-                        User.getProfile().then(function (response) {
-                            defer.resolve(response);
-                        }, function (response) {
-                            defer.reject(response);
-                        });
-                        return defer.promise;
-                    },
-                    loadBilling: function (User, $q) {
-                        var defer = $q.defer();
-                        User.getBilling().then(function (response) {
-                            defer.resolve(response);
-                        }, function (response) {
-                            defer.reject(response);
-                        });
-                        return defer.promise;
+            $routeProvider
+                .when('/account/:status', {
+                    templateUrl: "/app/account/desktop/views/account.html",
+                    controller: 'AccountController',
+                    resolve: {
+                        loadUser: function (User, $q) {
+                            var defer = $q.defer();
+                            User.getProfile().then(function (response) {
+                                defer.resolve(response);
+                            }, function (response) {
+                                defer.reject(response);
+                            });
+                            return defer.promise;
+                        },
+                        loadBilling: function (User, $q) {
+                            var defer = $q.defer();
+                            User.getBilling().then(function (response) {
+                                defer.resolve(response);
+                            }, function (response) {
+                                defer.reject(response);
+                            });
+                            return defer.promise;
+                        }
                     }
-                }
-            });
+                });
         }])
     .controller('AccountController', ['$scope', 'loadUser', '$_api', '$http', 'User', '$routeParams', '$rootScope', '$location', 'loadBilling',
         function ($scope, loadUser, $_api, $http, User, $routeParams, $rootScope, $location, loadBilling) {
@@ -41354,173 +41560,127 @@ angular.module('rescour.app')
 angular.module('rescour.app')
     .config(['$routeProvider',
         function ($routeProvider) {
-            $routeProvider.when('/market', {
-                templateUrl: "/app/market/desktop/views/market.html",
-                controller: 'MarketController',
-                resolve: {
-                    loadItems: function ($q, $_api, Items, $rootScope, Item) {
-                        var defer = $q.defer();
-                        Item.query().then(function (result) {
-                            if (angular.equals(result, [])) {
-                                defer.reject("Failed to contact server");
-                            } else {
-                                Items.createItems(result.data.resources);
-                                defer.resolve();
-                            }
-                        }, function (response) {
-                            defer.reject(response);
-                        });
+            $routeProvider
+                .when('/market', {
+                    templateUrl: "/app/market/desktop/views/market.html",
+                    controller: 'MarketController',
+                    reloadOnSearch: false,
+                    resolve: {
+                        loadItems: function ($q, $_api, Items, $rootScope, Item) {
+                            var defer = $q.defer();
+                            Item.query().then(function (result) {
+                                if (angular.equals(result, [])) {
+                                    defer.reject("Failed to contact server");
+                                } else {
+                                    Items.initialize(result.data.resources);
+                                    defer.resolve();
+                                }
+                            }, function (response) {
+                                defer.reject(response);
+                            });
 
-                        return defer.promise;
-                    },
-                    loadUser: function (User, $q) {
-                        var defer = $q.defer();
-                        User.getProfile().then(function (response) {
-                            defer.resolve(response);
-                        }, function (response) {
-                            defer.reject(response);
-                        });
-                        return defer.promise;
+                            return defer.promise;
+                        },
+                        loadUser: function (User, $q) {
+                            var defer = $q.defer();
+                            User.getProfile().then(function (response) {
+                                defer.resolve(response);
+                            }, function (response) {
+                                defer.reject(response);
+                            });
+                            return defer.promise;
+                        }
                     }
+                });
+        }])
+    .controller('MarketController', ['$scope', 'Items', 'Attributes', '$timeout', '$routeParams', 'PropertyDetails', '$location',
+        function ($scope, Items, Attributes, $timeout, $routeParams, PropertyDetails, $location) {
+            $scope.items = Items.toArray();
+            $scope.attributes = Attributes;
+            $scope.toggle = 'all';
+            $scope.getActive = Items.getActive;
+
+            if ($location.search().id) {
+                PropertyDetails.open(Items.items[$location.search().id]).selectPane($location.hash());
+            }
+
+            $scope.$on('$locationChangeSuccess', function (e, newLocation, oldLocation) {
+                if (angular.isObject(Items.items[$location.search().id])) {
+                    PropertyDetails.open(Items.items[$location.search().id]).selectPane($location.hash());
+                } else {
+                    PropertyDetails.close();
                 }
             });
-        }])
-    .controller('MarketController', ['$scope', 'Items', 'Filter', 'Attributes', '$timeout', '$location', '$routeParams',
-        function ($scope, Items, Filter, Attributes, $timeout, $location, $routeParams) {
-            $scope.items = Items.getItems();
-            $scope.attributes = Attributes.active;
-            $scope.view = null;
-            $scope.toggle = null;
-            $scope.selectedItem = null;
-            $scope.center = null;
-            $scope.modal = {};
 
             $scope.sortByRange = function (rangeVal) {
                 return function (object) {
-                    return object.attributes.range[rangeVal] === 'NA' ? 0 : -object.attributes.range[rangeVal];
+                    if (object.attributes.range[rangeVal] === 'NA') {
+                        return 0
+                    } else {
+                        return -object.attributes.range[rangeVal]
+                    }
                 };
             };
 
-            $scope.clear = function () {
-                $scope.modal = $scope.selectedItem = $scope.center = null;
-            };
-
-            $scope.selectItem = function (item) {
-                if (!item.hasOwnProperty('details') || _.isEmpty(item.details)) {
-                    item.getDetails();
-                }
-                Items.active = $scope.selectedItem = item;
+            $scope.showItemDetails = function (item, pane) {
+                $location.search('id', item.id).hash(pane);
             };
 
             $scope.centerMap = function (item) {
-                $scope.selectedItem = null;
-                $scope.center = item;
-            };
-
-            $scope.refreshItems = function () {
-                $scope.toggle = "all";
-                $scope.render(Filter.filter(Attributes.active));
-            };
-
-            $scope.openModal = function (template) {
-                $scope.modal = template;
+                if (PropertyDetails.isOpen()) {
+                    $location.search('id', null).hash(null);
+                }
+                $scope.$broadcast('CenterMap', item);
             };
 
             $scope.filter = function () {
-                $scope.toggle = "all";
-                $scope.modal = $scope.center = null;
+                Attributes.apply();
+                Items.render();
+                Attributes.predict();
+                $scope.toggle = 'all';
                 $scope.attributes.modified = true;
-                $scope.render(Filter.filter(Attributes.active));
-                // Predict Numbers
-                $timeout(function () {
-                    angular.forEach($scope.attributes.discreet, function (parent) {
-                        angular.forEach(parent.values, function (value) {
-                            $timeout(function () {
-                                var len;
-                                if (parent.selected > 0 && !value.isSelected) {
-                                    // Calculate length
-                                    len = Filter.addedLength(value);
-                                    if (len > 0) {
-                                        value.badge = "badge-success";
-                                        value.predict = "+" + len;
-                                    } else {
-                                        value.badge = ""; // Otherwise leave gray
-                                        value.predict = 0;
-                                    }
-                                } else { // Means that there is nothing selected in this attribute section,
-                                    // or this value is the one selected
-
-                                    // Calculate intersection of this value and what current visible is
-                                    len = _.intersection(value.ids, Filter.getVisibleIds()).length;
-
-                                    // Make the badge blue if greater than 0
-                                    value.badge = len ? "badge-info" : "";
-
-                                    // Return the value
-                                    value.predict = len;
-                                }
-                            }, 0);
-                        });
-                    });
-                }, 0);
             };
 
-            $scope.render = function (ids) {
-                Items.updateVisible(ids);
-                $scope.$broadcast('Render');
+            $scope.listAll = function () {
+                $scope.toggle = 'all';
+                Items.render();
             };
 
             $scope.listFavorites = function () {
-                $scope.toggle = "favorites";
-                Items.showFavorites();
-                $scope.$broadcast('Render');
+                $scope.toggle = 'favorites';
+                Items.render('favorites');
             };
 
             $scope.listHidden = function () {
-                $scope.toggle = "hidden";
-                Items.showHidden();
-                $scope.$broadcast('Render');
+                $scope.toggle = 'hidden';
+                Items.render('hidden');
             };
 
             $scope.listNotes = function () {
-                $scope.toggle = "notes";
-                Items.showNotes();
-                $scope.$broadcast('Render');
+                $scope.toggle = 'notes';
+                Items.render('notes');
             };
-
-            $scope.$on("MapReady", function () {
-                $scope.filter();
-                $scope.attributes.modified = false;
-            });
         }])
     .controller("FilterController", ['$scope', 'Items', 'Attributes', 'SavedSearch', '$dialog',
         function ($scope, Items, Attributes, SavedSearch, $dialog) {
             $scope.selectedSearch = null;
             $scope.savedSearches = SavedSearch.query();
-            console.log(SavedSearch.query());
 
             $scope.openSaveDialog = function () {
                 // If its a new search open the dialog
-                if (!$scope.selectedSearch) {
-//                    $scope.openModal(Templates.newSearch);
-                    $dialog.dialog({
-                        backdrop: true,
-                        keyboard: true,
-                        backdropClick: true,
-                        dialogFade: true,
-                        backdropFade: true,
-                        templateUrl: '/app/home/desktop/views/partials/saved-search-dialog.html',
-                        controller: "SaveSearchDialogController"
-                    }).open()
-                        .then(function (result) {
-                            if (result) {
-                                if (result.action === 'save') {
-                                    $scope.saveSearch(result.settings);
+                if ($scope.attributes.modified) {
+                    if (!$scope.selectedSearch) {
+                        SavedSearch.dialog.open()
+                            .then(function (result) {
+                                if (result) {
+                                    if (result.action === 'save') {
+                                        $scope.saveSearch(result.settings);
+                                    }
                                 }
-                            }
-                        });
-                } else {
-                    $scope.saveSearch();
+                            });
+                    } else {
+                        $scope.saveSearch();
+                    }
                 }
             };
 
@@ -41534,15 +41694,13 @@ angular.module('rescour.app')
                     $scope.savedSearches = SavedSearch.query();
                     $scope.attributes.modified = false;
                     $scope.attributes.id = response.id;
-                    $scope.clear();
                 }, function (response) {
                     throw new Error("Could not save search: " + response.error);
                 });
             };
 
-            $scope.filterByDiscreet = function (parent, value) {
+            $scope.toggleDiscreet = function (value) {
                 value.isSelected = !value.isSelected;
-                parent.selected = value.isSelected ? (parent.selected + 1) : (parent.selected - 1);
                 $scope.filter();
             };
 
@@ -41553,12 +41711,10 @@ angular.module('rescour.app')
             };
 
             $scope.loadSearch = function (search) {
-                $scope.attributes.reset();
-                Items.loadItems();
-                $scope.attributes.load(search);
+                Attributes.load(search);
+                $scope.$broadcast('rangesDefined');
                 $scope.filter();
                 $scope.selectedSearch = search;
-                console.log($scope.selectedSearch);
                 $scope.attributes.modified = false;
             };
 
@@ -41568,20 +41724,6 @@ angular.module('rescour.app')
 
             $scope.favorite = function (item) {
                 item.isFavorite = !item.isFavorite;
-            };
-        }])
-    .controller('SaveSearchDialogController', ['$scope', 'dialog',
-        function ($scope, dialog) {
-            $scope.searchSettings = {};
-            $scope.close = function () {
-                dialog.close();
-            };
-
-            $scope.save = function (settings) {
-                dialog.close({
-                    action: 'save',
-                    settings: settings
-                });
             };
         }])
     .controller("ListController", ['$scope', 'PropertyDetails',
@@ -41610,35 +41752,20 @@ angular.module('rescour.app')
             $scope.toggleHidden = function (item) {
                 item.toggleHidden();
             };
-
-            $scope.showPictures = function (item) {
-                $scope.selectItem(item);
-                PropertyDetails.panes.selectPane("Pictures");
-            };
-
-            $scope.showNotes = function (item) {
-                $scope.selectItem(item);
-                PropertyDetails.panes.selectPane("Comments");
-            };
-
-            $scope.showDetails = function (item) {
-                $scope.selectItem(item);
-                PropertyDetails.panes.selectPane("Details");
-            };
-
-            $scope.showContact = function (item) {
-                $scope.selectItem(item);
-                PropertyDetails.panes.selectPane("Contact");
-            };
         }])
-    .controller("DetailsController", ['$scope', '$http', '$_api', '$timeout', 'PropertyDetails',
-        function ($scope, $http, $_api, $timeout, PropertyDetails) {
+    .controller("DetailsController", ['$scope', '$http', '$_api', '$timeout', 'PropertyDetails', 'Items', 'activeItem', '$location', 'Finance',
+        function ($scope, $http, $_api, $timeout, PropertyDetails, Items, activeItem, $location, Finance) {
             $scope.newComment = {};
             $scope.newEmail = {};
-            $scope.panes = PropertyDetails.panes.panes;
-            $scope.valueFormats = PropertyDetails.Finance.valueFormats;
-            $scope.financeFields = PropertyDetails.Finance.fields;
+            $scope.panes = PropertyDetails.panes;
+            $scope.valueFormats = Finance.valueFormats;
+            $scope.financeFields = Finance.fields;
             $scope.contactAlerts = [];
+            $scope.current = activeItem;
+
+            $scope.close = function () {
+                $location.search('id', null).hash(null);
+            };
 
             $scope.addComment = function (comment) {
                 if ($scope.newComment.text) {
@@ -41716,124 +41843,6 @@ angular.module('rescour.app')
 
             $scope.deleteFinance = function (finance) {
                 $scope.current.deleteFinance(finance);
-            };
-        }])
-    .directive('propertyDetails', function () {
-        return {
-            restrict: "C",
-            scope: {
-                current: "="
-            },
-            templateUrl: '/app/market/desktop/views/partials/market-details.html',
-            controller: 'DetailsController',
-            link: function (scope) {
-                scope.close = function () {
-                    scope.current = null;
-                };
-            }
-        };
-    })
-    .directive('slider', function () {
-        return {
-            restrict: 'A',
-            link: function (scope, element, attr) {
-                function setupSlider() {
-                    element.find('.slider').slider({
-                        range: true,
-                        min: 0,
-                        max: 100,
-                        // Calculate percentages based off what the low selected and high selected are
-                        values: [
-                            parseInt((((1.0 * (scope.range.lowSelected - scope.range.low)) / (scope.range.high - scope.range.low)) * 100), 10),
-                            parseInt((((1.0 * (scope.range.highSelected - scope.range.low)) / (scope.range.high - scope.range.low)) * 100), 10)
-                        ],
-                        step: 1,
-                        slide: function (event, ui) {
-                            scope.$apply(function () {
-                                scope.range.lowSelected = parseInt((((ui.values[0] / 100) * (scope.range.high - scope.range.low)) + scope.range.low), 10);
-                                scope.range.highSelected = parseInt((((ui.values[1] / 100) * (scope.range.high - scope.range.low)) + scope.range.low), 10);
-                            });
-                        },
-                        stop: function (event, ui) {
-                            scope.$apply(function () {
-                                scope.filter();
-                            });
-                        }
-                    });
-                }
-
-                // Watch when the slider low or high selected changes, update slider accordingly.
-
-                scope.$on('rangesDefined', function () {
-                    setupSlider();
-                });
-
-                setupSlider();
-            }
-        };
-    })
-    .directive('preview', function () {
-        return {
-            restrict: 'C',
-            link: function (scope, element, attr) {
-                element.bind('hover', function () {
-                    element.find('.zoom-mask').fadeIn(300);
-                }, function () {
-                    element.find('.zoom-mask').fadeOut(300);
-                });
-            }
-        };
-    })
-    .directive('dropdownToggle',
-        ['$document', '$location', '$window', function ($document, $location, $window) {
-            var openElement = null, close;
-            return {
-                restrict: 'CA',
-                link: function (scope, element, attrs) {
-                    scope.$watch(function dropdownTogglePathWatch() {
-                        return $location.path();
-                    }, function dropdownTogglePathWatchAction() {
-                        if (close) {
-                            close();
-                        }
-                    });
-
-                    element.parent().bind('click', function (event) {
-                        if (close) {
-                            close();
-                        }
-                    });
-
-                    element.bind('click', function (event) {
-                        event.preventDefault();
-                        event.stopPropagation();
-
-                        var iWasOpen = false;
-
-                        if (openElement) {
-                            iWasOpen = openElement === element;
-                            close();
-                        }
-
-                        if (!iWasOpen) {
-                            element.parent().parent().addClass('open');
-                            openElement = element;
-
-                            close = function (event) {
-                                if (event) {
-                                    event.preventDefault();
-                                    event.stopPropagation();
-                                }
-                                $document.unbind('click', close);
-                                element.parent().parent().removeClass('open');
-                                close = null;
-                                openElement = null;
-                            };
-
-                            $document.bind('click', close);
-                        }
-                    });
-                }
             };
         }]);
 

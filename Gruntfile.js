@@ -319,6 +319,12 @@ module.exports = function (grunt) {
                 files: [
                     {expand: true, cwd: './src/', src: ['img/**'], dest: './dist/'}
                 ]
+            },
+            // Task is run when a template is modified.
+            template: {
+                files: [
+                    {expand: true, cwd: './src/', src: ['template/**'], dest: './dist/'}
+                ]
             }
         },
         concat: {
@@ -415,6 +421,10 @@ module.exports = function (grunt) {
             images: {
                 files: ['./src/img/**'],
                 tasks: ['copy:images', 'livereload']
+            },
+            template: {
+                files: ['./src/template/**'],
+                tasks: ['copy:template', 'livereload']
             },
             server: {
                 files: ['server.js'],

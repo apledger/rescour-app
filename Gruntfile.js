@@ -365,10 +365,14 @@ module.exports = function (grunt) {
 
                         return contents;
                     },
-                    optimize: 'none',
                     out: './tmp/scripts/scripts.dev.js',
                     preserveLicenseComments: false,
-                    skipModuleInsertion: true
+                    skipModuleInsertion: true,
+                    optimize: 'uglify',
+                    uglify: {
+                        // Let uglifier replace variables to further reduce file size.
+                        no_mangle: true
+                    }
                 }
             },
             prod: {

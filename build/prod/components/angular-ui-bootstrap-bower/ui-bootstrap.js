@@ -51,7 +51,7 @@ angular.module('ui.bootstrap.accordion', ['ui.bootstrap.collapse'])
     controller:'AccordionController',
     transclude: true,
     replace: false,
-    templateUrl: 'template/accordion/accordion.html'
+    templateUrl: '/template/accordion/accordion.html'
   };
 })
 
@@ -62,7 +62,7 @@ angular.module('ui.bootstrap.accordion', ['ui.bootstrap.collapse'])
     restrict:'EA',
     transclude:true,              // It transcludes the contents of the directive into the template
     replace: true,                // The element containing the directive will be replaced with the template
-    templateUrl:'template/accordion/accordion-group.html',
+    templateUrl:'/template/accordion/accordion-group.html',
     scope:{ heading:'@' },        // Create an isolated scope and interpolate the heading attribute onto this scope
     controller: ['$scope', function($scope) {
       this.setHeading = function(element) {
@@ -145,7 +145,7 @@ angular.module('ui.bootstrap.accordion', ['ui.bootstrap.collapse'])
 angular.module("ui.bootstrap.alert", []).directive('alert', function () {
   return {
     restrict:'EA',
-    templateUrl:'template/alert/alert.html',
+    templateUrl:'/template/alert/alert.html',
     transclude:true,
     replace:true,
     scope:{
@@ -394,7 +394,7 @@ angular.module('ui.bootstrap.carousel', ['ui.bootstrap.transition'])
     replace: true,
     controller: 'CarouselController',
     require: 'carousel',
-    templateUrl: 'template/carousel/carousel.html',
+    templateUrl: '/template/carousel/carousel.html',
     scope: {
       interval: '=',
       noTransition: '='
@@ -407,7 +407,7 @@ angular.module('ui.bootstrap.carousel', ['ui.bootstrap.transition'])
     restrict: 'EA',
     transclude: true,
     replace: true,
-    templateUrl: 'template/carousel/slide.html',
+    templateUrl: '/template/carousel/slide.html',
     scope: {
       active: '='
     },
@@ -1032,7 +1032,7 @@ angular.module( 'ui.bootstrap.popover', [] )
     restrict: 'EA',
     replace: true,
     scope: { popoverTitle: '@', popoverContent: '@', placement: '@', animation: '&', isOpen: '&' },
-    templateUrl: 'template/popover/popover.html'
+    templateUrl: '/template/popover/popover.html'
   };
 })
 .directive( 'popover', [ '$compile', '$timeout', '$parse', '$window', function ( $compile, $timeout, $parse, $window ) {
@@ -1209,7 +1209,7 @@ angular.module('ui.bootstrap.tabs', [])
     transclude: true,
     scope: {},
     controller: 'TabsController',
-    templateUrl: 'template/tabs/tabs.html',
+    templateUrl: '/template/tabs/tabs.html',
     replace: true
   };
 })
@@ -1247,7 +1247,7 @@ angular.module('ui.bootstrap.tabs', [])
         tabsCtrl.removePane(scope);
       });
     },
-    templateUrl: 'template/tabs/pane.html',
+    templateUrl: '/template/tabs/pane.html',
     replace: true
   };
 }]);
@@ -1263,10 +1263,10 @@ angular.module( 'ui.bootstrap.tooltip', [] )
     restrict: 'EA',
     replace: true,
     scope: { tooltipTitle: '@', placement: '@', animation: '&', isOpen: '&' },
-    templateUrl: 'template/tooltip/tooltip-popup.html'
+    templateUrl: '/template/tooltip/tooltip-popup.html'
   };
 })
-.directive( 'tooltip', [ '$compile', '$timeout', '$parse', '$window', function ( $compile, $timeout, $parse, $window) {
+.directive( 'tooltip', [ '$compile', '$timeout', '$parse', '$window', '$document', function ( $compile, $timeout, $parse, $window, $document) {
   
   var template = 
     '<tooltip-popup '+
@@ -1333,8 +1333,11 @@ angular.module( 'ui.bootstrap.tooltip', [] )
         
         // Now we add it to the DOM because need some info about it. But it's not 
         // visible yet anyway.
-        element.after( tooltip );
-        
+
+          /** Added by Alan, doesn't work otherwise **/
+//        element.after( tooltip );
+          $document.find('body').append(tooltip);
+
         // Get the position of the directive element.
         position = getPosition();
 
@@ -1666,7 +1669,7 @@ angular.module('ui.bootstrap.typeahead', [])
         select:'&'
       },
       replace:true,
-      templateUrl:'template/typeahead/typeahead.html',
+      templateUrl:'/template/typeahead/typeahead.html',
       link:function (scope, element, attrs) {
 
         scope.isOpen = function () {

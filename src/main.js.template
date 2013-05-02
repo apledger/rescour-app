@@ -61,7 +61,7 @@ require(
         'app/login/login',
     ]
     <% if (environment === 'dev' || environment === 'prod') { %>
-    , function (require) {
+    ,function (require) {
         return require(['app/bootstrap']);
     }
     <% } %>

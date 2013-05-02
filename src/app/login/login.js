@@ -17,6 +17,7 @@ angular.module('rescour.app')
                 resolve: {
                     checkUser: function ($rootScope, $location) {
                         $rootScope.ping().then(function (response) {
+                            console.log("ping success");
                             $location.path('/');
                         });
                     }

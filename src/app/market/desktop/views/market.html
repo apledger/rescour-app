@@ -123,7 +123,7 @@
                         </a>
 
                         <div class="header-container">
-                            <div class="title"><a href="javascript:" ng-click="showItemDetails(item, 'Details')">{{item.title |
+                            <div class="title"><a href="javascript:" ng-click="showItemDetails(item, 'details')">{{item.title |
                                 ellipsis:25}}</a></div>
                             <div class="ranges">
                                 <span>{{item.attributes.range["Number of Units"]}}&nbsp;</span>Units.&nbsp;
@@ -132,7 +132,7 @@
                         </div>
                     </div>
 
-                    <div class="preview" ng-show="!item.hidden" ng-click="showItemDetails(item, 'Pictures')">
+                    <a ng-click="showItemDetails(item, 'pictures')" class="preview" ng-show="!item.hidden">
                         <div class="preview-mask"><i class="icon-search"></i></div>
                         <img ng-src="{{item.thumbnail}}" alt="">
 
@@ -141,7 +141,7 @@
 
                             <p>View Photos</p>
                         </div>
-                    </div>
+                    </a>
 
                     <div class="description" collapse="item.hidden">
                         <div class="text-container">
@@ -161,12 +161,12 @@
                                 <i class="icon-ban-circle" ng-class="{'red': item.hidden}"></i>
                             </div>
 
-                            <div class="footer-button" tooltip="Take Notes" ng-click="showItemDetails(item, 'Comments')">
+                            <div class="footer-button" tooltip="Take Notes" ng-click="showItemDetails(item, 'comments')">
                                 <i class="icon-pencil"></i>
                             </div>
 
                             <!--Contact broker button-->
-                            <div class="footer-button" ng-click="showItemDetails(item, 'Contact')" tooltip="Contact Broker">
+                            <div class="footer-button" ng-click="showItemDetails(item, 'contact')" tooltip="Contact Broker">
                                 <i class="icon-envelope-alt"></i>
 
                                 <span>{{item.getAttribute("Broker")}}</span>

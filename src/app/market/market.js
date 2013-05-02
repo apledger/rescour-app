@@ -38,32 +38,28 @@ angular.module('rescour.app')
                                 defer.reject(response);
                             });
                             return defer.promise;
-                        },
-                        detailsId: function ($location) {
-                            return $location.search().id;
                         }
                     }
                 });
         }])
-    .controller('MarketController', ['$scope', 'Items', 'Attributes', '$timeout', '$routeParams', 'detailsId', 'PropertyDetails', '$location',
-        function ($scope, Items, Attributes, $timeout, $routeParams, detailsId, PropertyDetails, $location) {
+    .controller('MarketController', ['$scope', 'Items', 'Attributes', '$timeout', '$routeParams', 'PropertyDetails', '$location',
+        function ($scope, Items, Attributes, $timeout, $routeParams, PropertyDetails, $location) {
             $scope.items = Items.toArray();
             $scope.attributes = Attributes;
             $scope.toggle = 'all';
             $scope.getActive = Items.getActive;
 
-            if (detailsId) {
-                PropertyDetails.open(Items.items[detailsId]);
+            if ($location.search().id) {
+                PropertyDetails.open(Items.items[$location.search().id]).selectPane($location.hash());
             }
-//
-//            $scope.$on('$locationChangeSuccess', function (e, newLocation, oldLocation) {
-//                console.log(oldLocation);
-//                if (angular.isObject(Items.items[$location.search().id]) && !PropertyDetails.isOpen()) {
-//                    $scope.showItemDetails(Items.items[$location.search().id]);
-//                } else if (!angular.isObject(Items.items[$location.search().id]) && PropertyDetails.isOpen()) {
-//                    $scope.showItemDetails(null);
-//                }
-//            });
+
+            $scope.$on('$locationChangeSuccess', function (e, newLocation, oldLocation) {
+                if (angular.isObject(Items.items[$location.search().id])) {
+                    PropertyDetails.open(Items.items[$location.search().id]).selectPane($location.hash());
+                } else {
+                    PropertyDetails.close();
+                }
+            });
 
             $scope.sortByRange = function (rangeVal) {
                 return function (object) {
@@ -76,11 +72,13 @@ angular.module('rescour.app')
             };
 
             $scope.showItemDetails = function (item, pane) {
-                PropertyDetails.open(item).selectPane(pane);
+                $location.search('id', item.id).hash(pane);
             };
 
             $scope.centerMap = function (item) {
-                Items.setActive(null);
+                if (PropertyDetails.isOpen()) {
+                    $location.search('id', null).hash(null);
+                }
                 $scope.$broadcast('CenterMap', item);
             };
 
@@ -204,8 +202,8 @@ angular.module('rescour.app')
                 item.toggleHidden();
             };
         }])
-    .controller("DetailsController", ['$scope', '$http', '$_api', '$timeout', 'PropertyDetails', 'Items', 'activeItem', 'dialog', 'Finance',
-        function ($scope, $http, $_api, $timeout, PropertyDetails, Items, activeItem, dialog, Finance) {
+    .controller("DetailsController", ['$scope', '$http', '$_api', '$timeout', 'PropertyDetails', 'Items', 'activeItem', '$location', 'Finance',
+        function ($scope, $http, $_api, $timeout, PropertyDetails, Items, activeItem, $location, Finance) {
             $scope.newComment = {};
             $scope.newEmail = {};
             $scope.panes = PropertyDetails.panes;
@@ -215,7 +213,7 @@ angular.module('rescour.app')
             $scope.current = activeItem;
 
             $scope.close = function () {
-                dialog.close();
+                $location.search('id', null).hash(null);
             };
 
             $scope.addComment = function (comment) {

@@ -1098,8 +1098,6 @@ angular.module('rescour.market', [])
                                 deferred.resolve(item);
                             }
 
-                            $location.search('id', item.id);
-
                             return deferred.promise;
                         }
                     }
@@ -1113,13 +1111,13 @@ angular.module('rescour.market', [])
                     if (!item && !view.isOpen()) {
                         Items.setActive(null);
                     } else if (!item && view.isOpen()) {
+                        console.log("closing here");
                         view.close();
                     } else {
                         Items.setActive(item);
                         view
                             .open()
                             .then(function () {
-                                $location.search('id', null);
                                 Items.setActive(null);
                             })
                             .then(resolveCb);
@@ -1134,11 +1132,11 @@ angular.module('rescour.market', [])
                 panes: panes,
                 selectPane: function (paneHeading) {
                     paneHeading = (paneHeading && _.find(panes, function (val) {
-                        return val.heading === paneHeading
+                        return val.heading.toLowerCase() === paneHeading.toLowerCase();
                     })) ? paneHeading : panes[0].heading;
 
                     angular.forEach(panes, function (pane) {
-                        if (pane.heading === paneHeading) {
+                        if (pane.heading.toLowerCase() === paneHeading.toLowerCase()) {
                             pane.active = true;
                         } else {
                             pane.active = false;

@@ -16,10 +16,10 @@ angular.module('rescour.app')
                 controller: 'LoginController',
                 resolve: {
                     checkUser: function ($rootScope, $location) {
-                        $rootScope.ping().then(function (response) {
-                            console.log("ping success");
-                            $location.path('/');
-                        });
+//                        $rootScope.ping().then(function (response) {
+//                            console.log("ping success");
+//                            $location.path('/');
+//                        });
                     }
                 }
             });

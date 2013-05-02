@@ -368,11 +368,7 @@ module.exports = function (grunt) {
                     out: './tmp/scripts/scripts.dev.js',
                     preserveLicenseComments: false,
                     skipModuleInsertion: true,
-                    optimize: 'uglify',
-                    uglify: {
-                        // Let uglifier replace variables to further reduce file size.
-                        no_mangle: true
-                    }
+                    optimize: 'none'
                 }
             },
             prod: {

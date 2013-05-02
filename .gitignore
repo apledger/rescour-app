@@ -2,4 +2,5 @@
 app/.idea
 .sass-cache/
 dist/
+node_modules/
 tmp/

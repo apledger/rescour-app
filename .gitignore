@@ -1,6 +1,5 @@
 .idea
-app/.idea
 .sass-cache/
-dist/
-node_modules/
-tmp/
+/dist/
+/node_modules/
+/tmp/

@@ -7,8 +7,8 @@
  */
 
 angular.module('rescour.market.map', ['rescour.market'])
-    .directive("map", ['Items', '$compile', 'PropertyDetails',
-        function (Items, $compile, PropertyDetails) {
+    .directive("map", ['Items', '$compile', 'PropertyDetails', '$location',
+        function (Items, $compile, PropertyDetails, $location) {
             return {
                 restrict: "A",
                 transclude: true,
@@ -55,11 +55,11 @@ angular.module('rescour.market.map', ['rescour.market'])
                     }
 
                     scope.showDetails = function (item) {
-                        PropertyDetails.open(item).selectPane("Details");
+                        $location.search('id', item.id).hash('details');
                     };
 
                     scope.showPictures = function (item) {
-                        PropertyDetails.open(item).selectPane("Pictures");
+                        $location.search('id', item.id).hash('pictures');
                     };
 
                     scope.$watch(function () {

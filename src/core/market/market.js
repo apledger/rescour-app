@@ -1126,6 +1126,7 @@ angular.module('rescour.market', [])
                     return this;
                 },
                 close: function (result) {
+                    console.log("closing");
                     view.close();
                     return this;
                 },

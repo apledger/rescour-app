@@ -216,6 +216,10 @@ angular.module('rescour.app')
                 $location.search('id', null).hash(null);
             };
 
+            $scope.selectPane = function (pane) {
+                $location.hash(pane.heading);
+            };
+
             $scope.addComment = function (comment) {
                 if ($scope.newComment.text) {
                     $scope.current.addComment(comment).$save().then(function (response) {

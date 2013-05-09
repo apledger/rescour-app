@@ -1079,7 +1079,7 @@ angular.module('rescour.market', [])
                 view = $dialog.dialog({
                     backdrop: false,
                     keyboard: false,
-                    backdropClick: true,
+                    backdropClick: false,
                     dialogClass: 'property-details',
                     dialogFade: false,
                     backdropFade: false,

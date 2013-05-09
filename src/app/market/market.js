@@ -46,6 +46,7 @@ angular.module('rescour.app')
         function ($scope, Items, Attributes, $timeout, $routeParams, PropertyDetails, $location) {
             $scope.items = Items.toArray();
             $scope.attributes = Attributes;
+            console.log($scope.attributes);
             $scope.toggle = 'all';
             $scope.getActive = Items.getActive;
 
@@ -60,16 +61,6 @@ angular.module('rescour.app')
                     PropertyDetails.close();
                 }
             });
-
-            $scope.sortByRange = function (rangeVal) {
-                return function (object) {
-                    if (object.attributes.range[rangeVal] === 'NA') {
-                        return 0
-                    } else {
-                        return -object.attributes.range[rangeVal]
-                    }
-                };
-            };
 
             $scope.showItemDetails = function (item, pane) {
                 $location.search('id', item.id).hash(pane);
@@ -133,6 +124,12 @@ angular.module('rescour.app')
                 }
             };
 
+            $scope.orderByWeight = function () {
+                return function (object) {
+                    return object.weight;
+                };
+            };
+
             $scope.saveSearch = function (settings) {
                 if (typeof settings !== 'undefined') {
                     angular.extend($scope.attributes, settings);
@@ -192,6 +189,16 @@ angular.module('rescour.app')
                     case 'Expired':
                         return 'caption-red';
                 }
+            };
+
+            $scope.orderByRange = function (rangeVal) {
+                return function (object) {
+                    if (object.attributes.range[rangeVal] === 'NA') {
+                        return 0
+                    } else {
+                        return -object.attributes.range[rangeVal]
+                    }
+                };
             };
 
             $scope.toggleFavorites = function (item) {

@@ -34,6 +34,36 @@ angular.module('rescour.app',
                     redirectTo: '/'
                 });
         }])
+    .value('$dimensions', {
+        discreet: {
+            'broker': {
+                title: 'Broker',
+                weight: 10
+            },
+            'state': {
+                title: 'State',
+                weight: 9
+            },
+            'propertyStatus': {
+                title: 'Property Status',
+                weight: 8
+            },
+            'propertyType': {
+                title: 'Property Type',
+                weight: 7
+            }
+        },
+        range: {
+            'numUnits': {
+                title: 'Number of Units',
+                weight: 10
+            },
+            'yearBuilt': {
+                title: 'Year Built',
+                weight: 9
+            }
+        }
+    })
     .controller("AppController", ['$scope', '$rootScope', '$location', '$_api', '$http',
         function ($scope, $rootScope, $location, $_api, $http) {
             $rootScope.$on("$routeChangeStart", function (event, next, current) {

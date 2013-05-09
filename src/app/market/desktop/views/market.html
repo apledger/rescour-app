@@ -71,7 +71,7 @@
             </div>
 
             <!--Range sliders-->
-            <ul class="nav nav-list" ng-repeat="range in attributes.range" slider>
+            <ul class="nav nav-list" ng-repeat="range in attributes.toArray().range | orderBy:orderByWeight()" slider>
                 <li class="nav-header" ng-click="sortBy(range)">
                     {{range.title}} &nbsp;
                     <sort-arrow></sort-arrow>
@@ -81,7 +81,7 @@
             </ul>
 
             <!--Discreet Filters-->
-            <div ng-repeat="discreet in attributes.discreet">
+            <div ng-repeat="discreet in attributes.toArray().discreet | orderBy:orderByWeight()">
                 <div class="nav-header" ng-click="discreet.collapse = !discreet.collapse">
                     {{discreet.title}} &nbsp;
                     <i ng-class="{'icon-chevron-up': !discreet.collapse, 'icon-chevron-down': discreet.collapse}"
@@ -105,7 +105,7 @@
     <!--LIST BEGIN-->
     <div id="MarketList" ng-controller="ListController">
         <div class="market-scroll"
-             chunk="items | filter: searchText | limitVisible | orderBy: sortByRange('Year Built')">
+             chunk="items | filter:searchText | limitVisible | orderBy:orderByRange('yearBuilt')">
             <!--Toggle favorites button-->
             <!--Item boxes display-->
             <div class="market-wrap">
@@ -126,8 +126,8 @@
                             <div class="title"><a href="javascript:" ng-click="showItemDetails(item, 'details')">{{item.title |
                                 ellipsis:25}}</a></div>
                             <div class="ranges">
-                                <span>{{item.attributes.range["Number of Units"]}}&nbsp;</span>Units.&nbsp;
-                                Built in<span>&nbsp;{{item.attributes.range["Year Built"]}}</span>.
+                                <span>{{item.getAttribute('numUnits')}}&nbsp;</span>Units.&nbsp;
+                                Built in<span>&nbsp;{{item.getAttribute('yearBuilt')}}</span>.
                             </div>
                         </div>
                     </div>
@@ -136,8 +136,8 @@
                         <div class="preview-mask"><i class="icon-search"></i></div>
                         <img ng-src="{{item.thumbnail}}" alt="">
 
-                        <div class="preview-caption" ng-class="getStatusClass(item.getAttribute('Property Status'))">
-                            <h2>{{item.getAttribute("Property Status") || "Not Available"}}</h2>
+                        <div class="preview-caption" ng-class="getStatusClass(item.getAttribute('propertyStatus'))">
+                            <h2>{{item.getAttribute('propertyStatus')}}</h2>
 
                             <p>View Photos</p>
                         </div>
@@ -169,7 +169,7 @@
                             <div class="footer-button" ng-click="showItemDetails(item, 'contact')" tooltip="Contact Broker">
                                 <i class="icon-envelope-alt"></i>
 
-                                <span>{{item.getAttribute("Broker")}}</span>
+                                <span>{{item.getAttribute('broker')}}</span>
                             </div>
                         </div>
                     </div>

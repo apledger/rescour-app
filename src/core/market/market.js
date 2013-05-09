@@ -19,62 +19,39 @@ angular.module('rescour.market', [])
                 } else {
                     throw new Error("Cannot find id in " + data);
                 }
+                var defaults = {
+                        attributes: {
+                            discreet: {},
+                            range: {}
+                        },
+                        address: {
+                            street1: 'No address listed'
+                        },
+                        isVisible: true
+                    },
+                    opts = angular.extend({}, defaults, data),
+                    self = this;
 
-                // Check to see if object contained attributes variable
-                if (data.hasOwnProperty('attributes')) {
-                    // Initialize this item's attributes
-                    this.attributes = {
-                        discreet: {},
-                        range: {}
-                    };
+                angular.copy(opts, this);
+                this.title = this.title || 'Untitled Property';
+                this.description = this.description || 'No description provided.';
+                this.thumbnail = this.thumbnail || '/img/apt0.jpg';
+                this.location = (data.address.latitude && data.address.longitude) ? [data.address.latitude, data.address.longitude] : null;
 
-                    // Check and initialize discreet and range of data's attributes incase they do not exist
-                    data.attributes.discreet = data.attributes.discreet || {};
-                    data.attributes.range = data.attributes.range || {};
-
-                    // Loop through API shim's attributes definition
-                    for (var discrID in $_api.map.attributes.discreet) {
-                        // Check to see if data has attribute defined in shim
-                        if (data.attributes.discreet[discrID]) {
-                            // Map attribute with correct name
-                            this.attributes.discreet[$_api.map.attributes.discreet[discrID]] = data.attributes.discreet[discrID];
-                        } else {
-                            // Otherwise set to Not Listed
-                            this.attributes.discreet[$_api.map.attributes.discreet[discrID]] = "Unknown";
-                        }
+                angular.forEach(this.attributes.discreet, function(value, key){
+                    if (!value) {
+                        self[key] = 'Unknown'
                     }
+                });
 
-                    for (var rangeID in $_api.map.attributes.range) {
-                        // Check to see if data has attribute, undefined ranged values will come in as ''
-                        if (data.attributes.range[rangeID] === '' || !data.attributes.range.hasOwnProperty(rangeID)) {
-                            // Set to NA so filter knows to ignore
-                            this.attributes.range[$_api.map.attributes.range[rangeID]] = "NA";
-                        } else {
-                            // Map attribute with correct name
-                            this.attributes.range[$_api.map.attributes.range[rangeID]] = data.attributes.range[rangeID];
-                        }
+                angular.forEach(this.attributes.discreet, function(value, key){
+                    if (_.isNaN(parseInt(value, 10))) {
+                        self[key] = 'NA'
                     }
-                } else {
-                    // If data did not have attributes, log error
-                    throw new Error("Cannot find attributes in Item {id: " + data.id + "}");
-                }
-
-                this.title = data.title || "Title not listed";
-                this.flyer = data.flyer || "";
-                this.description = data.description || "No description provided";
-                this.address = data.address || {
-                    street1: "No address listed"
-                };
-                this.location = (data.address.latitude && data.address.longitude) ? [data.address.latitude, data.address.longitude] : undefined;
-                this.thumbnail = data.thumbnail || "/img/apt0.jpg";
-                this.favorites = data.favorites || false;
-                this.hidden = data.hidden || false;
-                this.hasComments = data.hasComments || false;
-                this.hasFinances = data.hasFinances || false;
-                this.isVisible = true;
+                });
 
                 // Populate Attributes id stacks during construction of each item object
-                this._mapAttributes(Attributes);
+                this._mapAttributes();
             };
 
             Item.query = function () {
@@ -92,15 +69,15 @@ angular.module('rescour.market', [])
                 return defer.promise;
             };
 
-            Item.prototype._mapAttributes = function (attributes) {
+            Item.prototype._mapAttributes = function () {
                 for (var attrID in this.attributes.discreet) {
                     if (this.attributes.discreet.hasOwnProperty(attrID)) {
-                        attributes.pushDiscreetId(attrID, this.id, this.attributes.discreet[attrID]);
+                        Attributes.pushDiscreetId(attrID, this.id, this.attributes.discreet[attrID]);
                     }
                 }
                 for (var attrID in this.attributes.range) {
                     if (this.attributes.range.hasOwnProperty(attrID)) {
-                        attributes.pushRangeId(attrID, this.id, this.attributes.range[attrID]);
+                        Attributes.pushRangeId(attrID, this.id, this.attributes.range[attrID]);
                     }
                 }
             };
@@ -290,35 +267,14 @@ angular.module('rescour.market', [])
                 );
             };
 
-            Item.prototype.refreshComments = function () {
-                var self = this;
-
-                Comment.query(self.id).then(function (response) {
-                    angular.forEach(response, function (value, key) {
-                        if (!_.contains(_.pluck(self.details.notes.comments, 'comment_id'), value.comment_id)) {
-                            self.details.notes.comments.push(value);
-                        }
-                    });
-
-                    for (var key in self.details.notes.comments) {
-                        if (self.details.notes.comments.hasOwnProperty(key)) {
-                            if (!_.contains(_.pluck(response, 'comment_id'), self.details.notes.comments[key].comment_id)) {
-                                delete self.details.notes.comments[key];
-                            }
-                        }
-                    }
-                }, function (response) {
-                    throw new Error("Could not refresh comments, response: " + response);
-                });
-            };
-
             Item.prototype.getAttribute = function (name) {
                 if (this.attributes.discreet.hasOwnProperty(name)) {
                     return this.attributes.discreet[name];
                 } else if (this.attributes.range.hasOwnProperty(name)) {
+//                    var parsed = parseInt(this.attributes.range[name], 10);
                     return this.attributes.range[name];
                 } else {
-                    return "Not Found";
+                    return "Not Available";
                 }
             };
 
@@ -365,9 +321,7 @@ angular.module('rescour.market', [])
             };
 
             this.toArray = function () {
-                return _.map(this.items, function (item, id) {
-                    return item;
-                });
+                return _.map(this.items, function (val) { return val; });
             };
 
             this.initialize = function (products) {
@@ -423,8 +377,8 @@ angular.module('rescour.market', [])
                 }
             };
         }])
-    .factory('Attributes', ['$timeout',
-        function ($timeout) {
+    .factory('Attributes', ['$timeout', '$dimensions',
+        function ($timeout, $dimensions) {
             // Gets the ids of the items on the edges of the high and low values for a single slider
             function getIdsWithinRange(range) {
 
@@ -460,75 +414,79 @@ angular.module('rescour.market', [])
 
             // Attributes Constructor
             function Attributes() {
-                var defaults = {
-                    title: "",
-                    discreet: {},
-                    range: {},
-                    visibleIds: []
-                };
-                // The essentials
-                angular.extend(this, defaults);
-            }
-
-            Attributes.prototype.pushDiscreetId = function (attrID, itemID, value) {
-                // If attribute doesn't exist, initialize attribute, then push
-                if (!_.has(this.discreet, attrID)) {
-                    // Initialize discreet category
-                    this.discreet[attrID] = {
-                        title: attrID,
+                var defaults = angular.extend({
+                        title: "",
+                        discreet: {},
+                        range: {},
+                        visibleIds: []
+                    }, $dimensions),
+                    discreetDefaults = {
                         values: {},
-                        selected: 0
-                    };
-
-                    // This implies no items have come before, so add the first id
-                    this.discreet[attrID].values[value] = {
-                        ids: [itemID],
-                        title: value,
-                        isSelected: false
-                    };
-                    // If attribute has been loaded, but particular value doesn't exist yet, initialize
-                } else if (!_.has(this.discreet[attrID].values, value)) {
-                    // Add first ID
-                    this.discreet[attrID].values[value] = {
-                        ids: [itemID],
-                        title: value,
-                        isSelected: false
-                    };
-                    // If value is found then just push
-                } else {
-                    this.discreet[attrID].values[value].ids.push(itemID);
-                }
-            };
-
-            Attributes.prototype.pushRangeId = function (attrID, itemID, value) {
-                // Check to see if rangeID exists on itself
-                if (!this.range.hasOwnProperty(attrID)) {
-                    this.range[attrID] = {
-                        title: attrID,
+                        selected: 0,
+                        visibleIds: []
+                    },
+                    rangeDefaults = {
                         ids: [],
                         na: [],
                         high: null,
                         low: null
+                    },
+                    self = this;
+
+                angular.copy(defaults, this);
+
+                angular.forEach(this.discreet, function (value, key) {
+                    var _discreet = angular.extend({}, discreetDefaults, value);
+                    angular.copy(_discreet, self.discreet[key]);
+                });
+
+                angular.forEach(this.range, function (value, key) {
+                    var _range = angular.extend({}, rangeDefaults, value);
+                    angular.copy(_range, self.range[key]);
+                });
+            }
+
+            Attributes.prototype.pushDiscreetId = function (attrID, itemID, value) {
+
+                // Only add if dimension already exists
+                if (_.has(this.discreet, attrID)) {
+                    var _discreet = this.discreet[attrID];
+                    value = value || "Unknown";
+
+                    if (_.has(_discreet.values, value)) {
+                        _discreet.values[value].ids.push(itemID);
+                    } else {
+                        _discreet.values[value] = {
+                            ids: [itemID],
+                            title: value,
+                            isSelected: false
+                        };
                     }
                 }
-                if (value === "NA") {
-                    this.range[attrID].na.push(itemID);
-                }
-                else if (_.isNaN(parseInt(value, 10))) {
-                    this.range[attrID].na.push(itemID);
-                    throw new Error("Cannot push {" + attrID + ": " + value + "} onto Item {id: " + itemID + "}");
-                } else {
-                    var intVal = parseInt(value, 10);
-                    this.range[attrID].ids.push({id: itemID, value: intVal});
+            };
 
-                    // Check to see if current value is the low bound value
-                    if (this.range[attrID].low === null || intVal <= this.range[attrID].low) {
-                        this.range[attrID].low = intVal;
+            Attributes.prototype.pushRangeId = function (attrID, itemID, value) {
+                if (_.has(this.range, attrID)) {
+                    var _range = this.range[attrID],
+                        parsedVal = _.isNaN(parseInt(value, 10)) ? "NA" : parseInt(value, 10);
+                    if (parsedVal === "NA") {
+                        _range.na.push(itemID);
                     }
+                    else {
+                        _range.ids.push({
+                            id: itemID,
+                            value: parsedVal
+                        });
 
-                    // Check to see if the current value is the high bound value
-                    if (this.range[attrID].high === null || intVal >= this.range[attrID].high) {
-                        this.range[attrID].high = intVal;
+                        // Check to see if current value is the low bound value
+                        if (_range.low === null || parsedVal <= _range.low) {
+                            _range.low = parsedVal;
+                        }
+
+                        // Check to see if the current value is the high bound value
+                        if (_range.high === null || parsedVal >= _range.high) {
+                            _range.high = parsedVal;
+                        }
                     }
                 }
             };
@@ -682,6 +640,14 @@ angular.module('rescour.market', [])
                         }
                     }
                 }
+            };
+
+            Attributes.prototype.toArray = function () {
+                var attributesArr = angular.extend({}, this, {
+                    discreet: _.map(this.discreet, function (val) { return val }),
+                    range: _.map(this.range, function (val) { return val })
+                });
+                return attributesArr;
             };
 
             Attributes.prototype._reset = function () {

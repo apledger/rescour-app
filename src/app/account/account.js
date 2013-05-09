@@ -13,7 +13,7 @@ angular.module('rescour.app')
         function ($routeProvider) {
             $routeProvider
                 .when('/account/:status', {
-                    templateUrl: "/app/account/desktop/views/account.html",
+                    templateUrl: '/app/account/desktop/views/account.html?' + Date.now(),
                     controller: 'AccountController',
                     resolve: {
                         loadUser: function (User, $q) {
@@ -66,19 +66,19 @@ angular.module('rescour.app')
 
             $scope.accountSubviews = {
                 profile: {
-                    templateUrl: '/app/account/desktop/views/partials/profile.html',
+                    templateUrl: '/app/account/desktop/views/partials/profile.html?' + Date.now(),
                     title: 'Profile'
                 },
                 accountSettings: {
-                    templateUrl: '/app/account/desktop/views/partials/settings.html',
+                    templateUrl: '/app/account/desktop/views/partials/settings.html?' + Date.now(),
                     title: 'Account Settings'
                 },
                 subscription: {
-                    templateUrl: '/app/account/desktop/views/partials/subscription.html',
+                    templateUrl: '/app/account/desktop/views/partials/subscription.html?' + Date.now(),
                     title: 'Subscription'
                 },
                 billing: {
-                    templateUrl: '/app/account/desktop/views/partials/billing.html',
+                    templateUrl: '/app/account/desktop/views/partials/billing.html?' + Date.now(),
                     title: 'Billing'
                 }
             };
@@ -86,11 +86,11 @@ angular.module('rescour.app')
             if (_.contains($scope.user.profile.roles, 'staff')) {
                 $scope.accountSubviews = {
                     profile: {
-                        templateUrl: '/app/account/desktop/views/partials/profile.html',
+                        templateUrl: '/app/account/desktop/views/partials/profile.html?' + Date.now(),
                         title: 'Profile'
                     },
                     accountSettings: {
-                        templateUrl: '/app/account/desktop/views/partials/settings.html',
+                        templateUrl: '/app/account/desktop/views/partials/settings.html?' + Date.now(),
                         title: 'Account Settings',
                         selected: true
                     }
@@ -277,8 +277,8 @@ angular.module('rescour.app')
                     backdropClick: true,
                     dialogFade: true,
                     backdropFade: true,
-                    templateUrl: "/app/account/desktop/views/partials/cancel-account-dialog.html",
-                    controller: "CancelAccountDialogController"
+                    templateUrl: '/app/account/desktop/views/partials/cancel-account-dialog.html?' + Date.now(),
+                    controller: 'CancelAccountDialogController'
                 }).open()
                     .then(function (result) {
                         var defer = $q.defer();

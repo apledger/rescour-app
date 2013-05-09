@@ -778,7 +778,7 @@ angular.module('rescour.market', [])
                 backdropClick: true,
                 dialogFade: true,
                 backdropFade: true,
-                templateUrl: '/app/market/desktop/views/partials/saved-search-dialog.html',
+                templateUrl: '/app/market/desktop/views/partials/saved-search-dialog.html?' + Date.now(),
                 controller: "SaveSearchDialogController"
             });
 
@@ -1089,7 +1089,7 @@ angular.module('rescour.market', [])
                     dialogClass: 'property-details',
                     dialogFade: true,
                     backdropFade: false,
-                    templateUrl: '/app/market/desktop/views/partials/market-details.html',
+                    templateUrl: '/app/market/desktop/views/partials/market-details.html?' + Date.now(),
                     controller: "DetailsController",
                     resolve: {
                         activeItem: function (Items, $q, $location) {

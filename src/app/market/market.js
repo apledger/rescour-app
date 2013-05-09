@@ -11,7 +11,7 @@ angular.module('rescour.app')
         function ($routeProvider) {
             $routeProvider
                 .when('/market', {
-                    templateUrl: "/app/market/desktop/views/market.html",
+                    templateUrl: '/app/market/desktop/views/market.html?' + Date.now(),
                     controller: 'MarketController',
                     reloadOnSearch: false,
                     resolve: {

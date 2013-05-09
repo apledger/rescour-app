@@ -12,7 +12,7 @@ angular.module('rescour.app')
     .config(['$routeProvider',
         function ($routeProvider) {
             $routeProvider.when('/login', {
-                templateUrl: "/app/login/desktop/views/login.html",
+                templateUrl: '/app/login/desktop/views/login.html?' + Date.now(),
                 controller: 'LoginController',
                 resolve: {
                     checkUser: function ($rootScope, $location) {
@@ -25,12 +25,12 @@ angular.module('rescour.app')
             });
 
             $routeProvider.when('/login/forgot-password', {
-                templateUrl: "/app/login/desktop/views/forgot-password.html",
+                templateUrl: "/app/login/desktop/views/forgot-password.html?v=" + Date.now(),
                 controller: 'ForgotPasswordController'
             });
 
             $routeProvider.when('/login/reset-password', {
-                templateUrl: "/app/login/desktop/views/reset-password.html",
+                templateUrl: "/app/login/desktop/views/reset-password.html?v=" + Date.now(),
                 controller: 'ResetPasswordController',
                 resolve: {
                     checkToken: function ($location) {

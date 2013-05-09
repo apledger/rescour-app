@@ -9,6 +9,36 @@
 'use strict';
 
 angular.module('rescour.market', [])
+    .value('$dimensions', {
+        discreet: {
+            'broker': {
+                title: 'Broker',
+                weight: 10
+            },
+            'state': {
+                title: 'State',
+                weight: 9
+            },
+            'propertyStatus': {
+                title: 'Property Status',
+                weight: 8
+            },
+            'propertyType': {
+                title: 'Property Type',
+                weight: 7
+            }
+        },
+        range: {
+            'numUnits': {
+                title: 'Number of Units',
+                weight: 10
+            },
+            'yearBuilt': {
+                title: 'Year Built',
+                weight: 9
+            }
+        }
+    })
     .factory('Item', ['$_api', '$q', '$http', 'Attributes', 'Comment', 'Finance',
         function ($_api, $q, $http, Attributes, Comment, Finance) {
 
@@ -40,13 +70,13 @@ angular.module('rescour.market', [])
 
                 angular.forEach(this.attributes.discreet, function(value, key){
                     if (!value) {
-                        self[key] = 'Unknown'
+                        self.attributes.discreet[key] = 'Unknown'
                     }
                 });
 
-                angular.forEach(this.attributes.discreet, function(value, key){
-                    if (_.isNaN(parseInt(value, 10))) {
-                        self[key] = 'NA'
+                angular.forEach(this.attributes.range, function(value, key){
+                    if (_.isNaN(parseInt(value, 10)) || !value) {
+                        self.attributes.range[key] = 'NA'
                     }
                 });
 
@@ -1077,7 +1107,6 @@ angular.module('rescour.market', [])
                     if (!item && !view.isOpen()) {
                         Items.setActive(null);
                     } else if (!item && view.isOpen()) {
-                        console.log("closing here");
                         view.close();
                     } else {
                         Items.setActive(item);

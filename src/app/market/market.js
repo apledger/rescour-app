@@ -46,7 +46,6 @@ angular.module('rescour.app')
         function ($scope, Items, Attributes, $timeout, $routeParams, PropertyDetails, $location) {
             $scope.items = Items.toArray();
             $scope.attributes = Attributes;
-            console.log($scope.attributes);
             $scope.toggle = 'all';
             $scope.getActive = Items.getActive;
 

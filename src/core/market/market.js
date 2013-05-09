@@ -31,7 +31,7 @@ angular.module('rescour.market', [])
         range: {
             'numUnits': {
                 title: 'Number of Units',
-                bound: 1000,
+                bound: 500,
                 weight: 10
             },
             'yearBuilt': {
@@ -88,7 +88,9 @@ angular.module('rescour.market', [])
             Item.query = function () {
                 var defer = $q.defer(),
                     config = angular.extend({
-                        transformRequest: $_api.loading.main
+                        transformRequest: function (data) {
+                            return data;
+                        }
                     }, $_api.config);
 
                 $http.get($_api.path + '/properties/', config).then(function (response) {
@@ -384,7 +386,7 @@ angular.module('rescour.market', [])
             this.render = function (subset) {
                 this.visibleIds = [];
 
-                if (!subset) {
+                if (!subset || subset === 'all') {
                     for (var id in this.items) {
                         if (this.items.hasOwnProperty(id)) {
                             this.items[id].isVisible = (_.contains(Attributes.visibleIds, id) && !this.items[id].hidden);

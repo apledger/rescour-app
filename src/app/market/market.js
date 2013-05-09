@@ -75,8 +75,10 @@ angular.module('rescour.app')
             $scope.filter = function () {
                 Attributes.apply();
                 Items.render();
+                if ($scope.toggle !== 'all') {
+                    Items.render($scope.toggle);
+                }
                 Attributes.predict();
-                $scope.toggle = 'all';
                 $scope.attributes.modified = true;
             };
 

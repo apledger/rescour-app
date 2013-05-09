@@ -1078,11 +1078,8 @@ angular.module('rescour.market', [])
                 ],
                 view = $dialog.dialog({
                     backdrop: false,
-                    keyboard: false,
                     backdropClick: false,
                     dialogClass: 'property-details',
-                    dialogFade: false,
-                    backdropFade: false,
                     templateUrl: '/app/market/desktop/views/partials/market-details.html',
                     controller: "DetailsController",
                     resolve: {

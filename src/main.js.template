@@ -45,7 +45,8 @@ require(
                 deps: [
                     'core/market/market',
                     'core/market/leaflet-google',
-                    'components/leaflet.markerclusterer/dist/leaflet.markercluster'
+                    'components/leaflet.markerclusterer/dist/leaflet.markercluster',
+                    'components/angular-ui-bootstrap-bower/ui-bootstrap'
                 ]
             },
             'app/bootstrap': {
@@ -56,6 +57,7 @@ require(
     [
         'require',
         'components/jquery-ui/jquery-ui',
+        'components/angular-ui-bootstrap-bower/ui-bootstrap',
         'app/account/account',
         'app/market/market',
         'app/login/login',

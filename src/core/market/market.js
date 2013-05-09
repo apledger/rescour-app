@@ -1078,8 +1078,11 @@ angular.module('rescour.market', [])
                 ],
                 view = $dialog.dialog({
                     backdrop: false,
-                    backdropClick: false,
+                    keyboard: false,
+                    backdropClick: true,
                     dialogClass: 'property-details',
+                    dialogFade: true,
+                    backdropFade: false,
                     templateUrl: '/app/market/desktop/views/partials/market-details.html',
                     controller: "DetailsController",
                     resolve: {
@@ -1123,7 +1126,6 @@ angular.module('rescour.market', [])
                     return this;
                 },
                 close: function (result) {
-                    console.log("closing");
                     view.close();
                     return this;
                 },

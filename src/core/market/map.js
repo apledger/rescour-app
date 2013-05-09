@@ -40,9 +40,9 @@ angular.module('rescour.market.map', ['rescour.market'])
                             "<div class=\"preview\" ng-click=\"showPictures(item)\"><div class=\"preview-mask\"><i class=\"icon-search\"></i></i></div>" +
                             "<img src=\"" + item.thumbnail + "\" alt=\"\"/></div>" +
                             "<ul>" +
-                            "<li><span>" + item.getAttribute('Number of Units') + "</span> Units</li>" +
-                            "<li>Built in <span>" + item.getAttribute('Year Built') + "</span></li>" +
-                            "<li><span>" + item.getAttribute('Broker') + "</span></li>" +
+                            "<li><span>" + item.getAttribute('numUnits') + "</span> Units</li>" +
+                            "<li>Built in <span>" + item.getAttribute('yearBuilt') + "</span></li>" +
+                            "<li><span>" + item.getAttribute('broker') + "</span></li>" +
                             "<li><span>" + item.address.city + ", " + item.address.state + "</span></li>" +
                             "</ul>" +
                             "</div>" +

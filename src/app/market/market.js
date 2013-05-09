@@ -190,12 +190,14 @@ angular.module('rescour.app')
                 }
             };
 
-            $scope.orderByRange = function (rangeVal) {
+            $scope.orderNA = function () {
                 return function (object) {
-                    if (object.attributes.range[rangeVal] === 'NA') {
+                    if (object.attributes.range.yearBuilt === 'NA' && object.attributes.range.numUnits === 'NA') {
                         return 0
-                    } else {
-                        return -object.attributes.range[rangeVal]
+                    } else if (object.attributes.range.yearBuilt === 'NA' || object.attributes.range.numUnits === 'NA') {
+                        return -1;
+                    } else if (object.attributes.range.yearBuilt) {
+                        return -object.attributes.range.yearBuilt;
                     }
                 };
             };

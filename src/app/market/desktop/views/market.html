@@ -75,7 +75,7 @@
                 <li class="nav-header" ng-click="sortBy(range)">
                     {{range.title}} &nbsp;
                     <sort-arrow></sort-arrow>
-                    <div style="float:right;">{{range.lowSelected}} - {{range.highSelected}}</div>
+                    <div style="float:right;">{{range.lowSelected}} - {{range.highSelected | checkBounds:range.bound}}</div>
                 </li>
                 <div class="slider"></div>
             </ul>
@@ -105,7 +105,7 @@
     <!--LIST BEGIN-->
     <div id="MarketList" ng-controller="ListController">
         <div class="market-scroll"
-             chunk="items | filter:searchText | limitVisible | orderBy:orderByRange('yearBuilt')">
+             chunk="items | filter:searchText | limitVisible | orderBy:orderNA()">
             <!--Toggle favorites button-->
             <!--Item boxes display-->
             <div class="market-wrap">

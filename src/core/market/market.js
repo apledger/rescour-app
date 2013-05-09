@@ -31,6 +31,7 @@ angular.module('rescour.market', [])
         range: {
             'numUnits': {
                 title: 'Number of Units',
+                bound: 1000,
                 weight: 10
             },
             'yearBuilt': {
@@ -68,13 +69,13 @@ angular.module('rescour.market', [])
                 this.thumbnail = this.thumbnail || '/img/apt0.jpg';
                 this.location = (data.address.latitude && data.address.longitude) ? [data.address.latitude, data.address.longitude] : null;
 
-                angular.forEach(this.attributes.discreet, function(value, key){
+                angular.forEach(this.attributes.discreet, function (value, key) {
                     if (!value) {
                         self.attributes.discreet[key] = 'Unknown'
                     }
                 });
 
-                angular.forEach(this.attributes.range, function(value, key){
+                angular.forEach(this.attributes.range, function (value, key) {
                     if (_.isNaN(parseInt(value, 10)) || !value) {
                         self.attributes.range[key] = 'NA'
                     }
@@ -351,7 +352,9 @@ angular.module('rescour.market', [])
             };
 
             this.toArray = function () {
-                return _.map(this.items, function (val) { return val; });
+                return _.map(this.items, function (val) {
+                    return val;
+                });
             };
 
             this.initialize = function (products) {
@@ -409,39 +412,6 @@ angular.module('rescour.market', [])
         }])
     .factory('Attributes', ['$timeout', '$dimensions',
         function ($timeout, $dimensions) {
-            // Gets the ids of the items on the edges of the high and low values for a single slider
-            function getIdsWithinRange(range) {
-
-                var endpointArray = [];
-
-                // Iterate from bottom to find low bound on sorted id array
-                for (var j = 0; j < range.ids.length; j++) {
-                    if (range.ids[j].value >= range.lowSelected) {
-                        endpointArray.push(j);
-                        break;
-                    }
-                }
-
-                // Iterate from top to find high bound on sorted id array
-                for (var i = range.ids.length - 1; i > 0; i--) {
-                    if (range.ids[i].value <= range.highSelected) {
-                        endpointArray.push(i);
-                        break;
-                    }
-                }
-
-                endpointArray[1] = endpointArray[1] || endpointArray[0];
-
-                // Remove ids from id, value objects
-                return _.union(
-                    range.na, // concat
-                    _.map(range.ids.slice(endpointArray[0], endpointArray[1] + 1),
-                        function (idPair) {
-                            return idPair.id;
-                        })
-                );
-            }
-
             // Attributes Constructor
             function Attributes() {
                 var defaults = angular.extend({
@@ -477,7 +447,6 @@ angular.module('rescour.market', [])
             }
 
             Attributes.prototype.pushDiscreetId = function (attrID, itemID, value) {
-
                 // Only add if dimension already exists
                 if (_.has(this.discreet, attrID)) {
                     var _discreet = this.discreet[attrID];
@@ -498,24 +467,25 @@ angular.module('rescour.market', [])
             Attributes.prototype.pushRangeId = function (attrID, itemID, value) {
                 if (_.has(this.range, attrID)) {
                     var _range = this.range[attrID],
-                        parsedVal = _.isNaN(parseInt(value, 10)) ? "NA" : parseInt(value, 10);
-                    if (parsedVal === "NA") {
+                        parsedVal = parseInt(value, 10),
+                        boundedVal = _.isNaN(parsedVal) ? "NA" : ($dimensions.range[attrID].bound ? (parsedVal > $dimensions.range[attrID].bound ? $dimensions.range[attrID].bound : parsedVal) : parsedVal);
+                    if (boundedVal === "NA") {
                         _range.na.push(itemID);
                     }
                     else {
                         _range.ids.push({
                             id: itemID,
-                            value: parsedVal
+                            value: boundedVal
                         });
 
                         // Check to see if current value is the low bound value
                         if (_range.low === null || parsedVal <= _range.low) {
-                            _range.low = parsedVal;
+                            _range.low = boundedVal;
                         }
 
                         // Check to see if the current value is the high bound value
                         if (_range.high === null || parsedVal >= _range.high) {
-                            _range.high = parsedVal;
+                            _range.high = boundedVal;
                         }
                     }
                 }
@@ -674,8 +644,12 @@ angular.module('rescour.market', [])
 
             Attributes.prototype.toArray = function () {
                 var attributesArr = angular.extend({}, this, {
-                    discreet: _.map(this.discreet, function (val) { return val }),
-                    range: _.map(this.range, function (val) { return val })
+                    discreet: _.map(this.discreet, function (val) {
+                        return val
+                    }),
+                    range: _.map(this.range, function (val) {
+                        return val
+                    })
                 });
                 return attributesArr;
             };
@@ -692,7 +666,41 @@ angular.module('rescour.market', [])
 
                 for (var rangeID in self.range) {
                     if (self.range.hasOwnProperty(rangeID)) {
-                        self.range[rangeID].visibleIds = getIdsWithinRange(self.range[rangeID]);
+                        var endpointArray = [],
+                            _range = self.range[rangeID];
+
+                        // Iterate from bottom to find low bound on sorted id array
+                        for (var j = 0; j < _range.ids.length; j++) {
+                            if (_range.ids[j].value >= _range.lowSelected) {
+                                endpointArray.push(j);
+                                break;
+                            }
+                        }
+
+                        if (_range.highSelected >= _range.bound) {
+                            endpointArray.push(_range.ids.length - 1);
+                        } else {
+                            // Iterate from top to find high bound on sorted id array
+                            for (var i = _range.ids.length - 1; i > 0; i--) {
+
+                                if (_range.ids[i].value <= _range.highSelected) {
+                                    endpointArray.push(i);
+                                    break;
+                                }
+                            }
+                        }
+
+                        endpointArray[1] = endpointArray[1] || endpointArray[0];
+
+                        // Remove ids from id, value objects
+
+                        self.range[rangeID].visibleIds = _.union(
+                            _range.na, // concat
+                            _.map(_range.ids.slice(endpointArray[0], endpointArray[1] + 1),
+                                function (idPair) {
+                                    return idPair.id;
+                                })
+                        );
                     }
                 }
 
@@ -1179,4 +1187,9 @@ angular.module('rescour.market', [])
                 setupSlider();
             }
         };
+    })
+    .filter('checkBounds', function () {
+        return function (input, limit, e) {
+            return input == limit ? input + "+" : input;
+        }
     });

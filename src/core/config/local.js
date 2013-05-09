@@ -28,19 +28,6 @@ angular.module('rescour.config', [])
             };
 
         return {
-            map: {
-                attributes: {
-                    discreet: {
-                        "Broker": "Broker",
-                        "State": "State",
-                        "property_status": "Property Status"
-                    },
-                    range: {
-                        "Number of Units": "Number of Units",
-                        "Year Built": "Year Built"
-                    }
-                }
-            },
             config: config,
             path: url.local,
             loading: loading,

@@ -5833,28 +5833,22 @@ a.label:hover, a.badge:hover {
   overflow: hidden;
   overflow-y: auto;
   height: 100%;
-  -webkit-overflow-scrolling: touch;
 }
 /* line 45, ../../src/app/market/desktop/styles/_filter.scss */
-#Filter .filter-container * {
-  -webkit-transform: translate3d(0, 0, 0);
-  z-index: 10;
-}
-/* line 51, ../../src/app/market/desktop/styles/_filter.scss */
 #Filter .nav {
   margin-left: 0;
   margin-bottom: 20px;
   list-style: none;
 }
-/* line 56, ../../src/app/market/desktop/styles/_filter.scss */
+/* line 50, ../../src/app/market/desktop/styles/_filter.scss */
 #Filter .nav > li > a {
   display: block;
 }
-/* line 59, ../../src/app/market/desktop/styles/_filter.scss */
+/* line 53, ../../src/app/market/desktop/styles/_filter.scss */
 #Filter .nav > li > a:hover {
   text-decoration: none;
 }
-/* line 62, ../../src/app/market/desktop/styles/_filter.scss */
+/* line 56, ../../src/app/market/desktop/styles/_filter.scss */
 #Filter .nav-header {
   display: block;
   padding: 5px 15px 10px 15px;
@@ -5870,40 +5864,40 @@ a.label:hover, a.badge:hover {
 #Filter .nav-header span {
   font-weight: bold;
 }
-/* line 71, ../../src/app/market/desktop/styles/_filter.scss */
+/* line 65, ../../src/app/market/desktop/styles/_filter.scss */
 #Filter .nav-header:hover, #Filter .nav-header:active {
   color: #9f9f9f;
 }
-/* line 75, ../../src/app/market/desktop/styles/_filter.scss */
+/* line 69, ../../src/app/market/desktop/styles/_filter.scss */
 #Filter .nav-list {
   padding-left: 15px;
   padding-right: 15px;
   margin-bottom: 10px;
   clear: both;
 }
-/* line 82, ../../src/app/market/desktop/styles/_filter.scss */
+/* line 76, ../../src/app/market/desktop/styles/_filter.scss */
 #Filter .nav-list > li > a,
 #Filter .nav-list .nav-header {
   margin-left: -15px;
   margin-right: -15px;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 }
-/* line 87, ../../src/app/market/desktop/styles/_filter.scss */
+/* line 81, ../../src/app/market/desktop/styles/_filter.scss */
 #Filter .nav-list > li > a {
   padding: 3px 15px;
 }
-/* line 91, ../../src/app/market/desktop/styles/_filter.scss */
+/* line 85, ../../src/app/market/desktop/styles/_filter.scss */
 #Filter .nav-list > .active > a,
 #Filter .nav-list > .active > a:hover {
   color: white;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
   background-color: #0088cc;
 }
-/* line 96, ../../src/app/market/desktop/styles/_filter.scss */
+/* line 90, ../../src/app/market/desktop/styles/_filter.scss */
 #Filter .nav-list [class^="icon-"] {
   margin-right: 2px;
 }
-/* line 100, ../../src/app/market/desktop/styles/_filter.scss */
+/* line 94, ../../src/app/market/desktop/styles/_filter.scss */
 #Filter .label,
 #Filter .badge {
   font-size: 12px;
@@ -5915,33 +5909,33 @@ a.label:hover, a.badge:hover {
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
   background-color: #333333;
 }
-/* line 110, ../../src/app/market/desktop/styles/_filter.scss */
+/* line 104, ../../src/app/market/desktop/styles/_filter.scss */
 #Filter .label {
   padding: 1px 4px 2px;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
 }
-/* line 114, ../../src/app/market/desktop/styles/_filter.scss */
+/* line 108, ../../src/app/market/desktop/styles/_filter.scss */
 #Filter .badge {
   padding: 1px 9px 2px;
   -webkit-border-radius: 9px;
   -moz-border-radius: 9px;
   border-radius: 9px;
 }
-/* line 119, ../../src/app/market/desktop/styles/_filter.scss */
+/* line 113, ../../src/app/market/desktop/styles/_filter.scss */
 #Filter a.label:hover,
 #Filter a.badge:hover {
   color: white;
   text-decoration: none;
   cursor: pointer;
 }
-/* line 125, ../../src/app/market/desktop/styles/_filter.scss */
+/* line 119, ../../src/app/market/desktop/styles/_filter.scss */
 #Filter .label-success,
 #Filter .badge-success {
   background-color: #468847;
 }
-/* line 130, ../../src/app/market/desktop/styles/_filter.scss */
+/* line 124, ../../src/app/market/desktop/styles/_filter.scss */
 #Filter .label-info,
 #Filter .badge-info {
   background-color: #0088cc;
@@ -6253,7 +6247,7 @@ a.label:hover, a.badge:hover {
   padding: 5px 15px;
   margin: 0;
   display: inline-block;
-  width: auto;
+  max-width: 155px;
   font-size: 13px;
 }
 /* line 175, ../../src/app/market/desktop/styles/_map.scss */

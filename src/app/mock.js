@@ -9,98 +9,9 @@
 angular.module('rescour.app.mock', ['rescour.app', 'ngMockE2E'])
 // Dummy Calls
     .run(['$httpBackend', '$timeout', function ($httpBackend, $timeout) {
-        var NUM_ITEMS = 400;
+        var NUM_ITEMS = 200;
 
-        var saved = [
-            {
-                discreet: {
-                    Broker: {
-                        title: "Listing Brokerage Firm",
-                        selected: 2,
-                        values: {
-                            CBRE: {
-                                title: "CBRE",
-                                ids: [],
-                                isSelected: true
-                            },
-                            "Jones Lang LaSalle": {
-                                title: "Jones Lang LaSalle",
-                                ids: [],
-                                isSelected: false
-                            },
-                            ARA: {
-                                title: "ARA",
-                                ids: [1, 2, 3, 4],
-                                isSelected: false
-                            },
-                            HFF: {
-                                title: "HFF",
-                                ids: [],
-                                isSelected: true
-                            },
-                            "Cushman Wakefield": {
-                                title: "Cushman Wakefield",
-                                ids: [],
-                                isSelected: false
-                            },
-                            "Random Broker": {
-                                title: "Random Broker",
-                                ids: [],
-                                isSelected: false
-                            }
-                        }
-                    },
-                    Region: {
-                        title: "Region",
-                        selected: 1,
-                        values: {
-                            Atlanta: {
-                                title: "Atlanta",
-                                ids: [],
-                                isSelected: false
-                            },
-                            Nashville: {
-                                title: "Nashville",
-                                ids: [],
-                                isSelected: false
-                            },
-                            Charlotte: {
-                                title: "Charlotte",
-                                ids: [],
-                                isSelected: true
-                            },
-                            Birmingham: {
-                                title: "Birmingham",
-                                ids: [],
-                                isSelected: false
-                            },
-                            Memphis: {
-                                title: "Memphis",
-                                ids: [],
-                                isSelected: false
-                            },
-                            Raleigh: {
-                                title: "Raleigh",
-                                ids: [],
-                                isSelected: false
-                            }
-                        }
-                    }
-                },
-                range: {
-                    "Year Built": {
-                        highSelected: 2000,
-                        lowSelected: 1990
-                    },
-                    "Number of Units": {
-                        highSelected: 400,
-                        lowSelected: 140
-                    }
-                },
-                id: 1,
-                title: "1990's"
-            }
-        ];
+        var saved = {};
 
         var regionMap = [
             {
@@ -271,8 +182,9 @@ angular.module('rescour.app.mock', ['rescour.app', 'ngMockE2E'])
             var randomCity = regionMap[parseInt((Math.random() * regionMap.length), 10)],
                 randomBroker = brokerMap[parseInt((Math.random() * brokerMap.length), 10)],
                 randomYear = parseInt(((Math.random() * 60) + 1950), 10),
-                randomUnits = parseInt(((Math.random() * 400) + 100), 10),
-                randomStatus = statusMap[parseInt((Math.random() * statusMap.length), 10)];
+                randomUnits = parseInt(((Math.random() * 800) + 100), 10),
+                randomStatus = statusMap[parseInt((Math.random() * statusMap.length), 10)],
+                randomType = "Apartment";
 
             var randomDetails = generateDetails({
                 city: randomCity,
@@ -282,7 +194,7 @@ angular.module('rescour.app.mock', ['rescour.app', 'ngMockE2E'])
             });
 
             items[k] = {
-                id: k,
+                id: k.toString(),
                 thumbnail: "/img/apt" + parseInt((Math.random() * 10), 10) + ".jpg",
                 flyer: "http://www.realtyjuggler.com/FlyersSummary",
                 title: randomDetails.title,
@@ -299,13 +211,14 @@ angular.module('rescour.app.mock', ['rescour.app', 'ngMockE2E'])
                 },
                 attributes: {
                     discreet: {
-                        "Broker": randomBroker,
-                        "State": randomCity.region,
-                        "property_status": randomStatus
+                        broker: randomBroker,
+                        state: randomCity.region,
+                        propertyStatus: randomStatus,
+                        propertyType: randomType
                     },
                     range: {
-                        "Year Built": randomYear,
-                        "Number of Units": randomUnits
+                        yearBuilt: randomYear,
+                        numUnits: randomUnits
                     }
                 }
             };
@@ -370,12 +283,13 @@ angular.module('rescour.app.mock', ['rescour.app', 'ngMockE2E'])
         var fakeUser = {
             company: "Fake Company",
             email: "bob@fakecompany.com",
-            first_name: "Robert",
+            firstName: "Robert",
             groups: "ListField",
-            last_name: "Frost",
+            lastName: "Frost",
             password: "myPassword123",
             phone: "123-456-6754",
             username: "bob@fakecompany.com",
+            roles: ['staff']
         }
 
         var fakeCustomer = {
@@ -423,10 +337,13 @@ angular.module('rescour.app.mock', ['rescour.app', 'ngMockE2E'])
             "customer": null,
             "invoice": null,
             "description": null,
-            "dispute": null
+            "dispute": null,
+            subscription: {
+                plan: "staff"
+            }
         }
 
-        $httpBackend.whenGET(/\/properties\/[0-9](?!\/notes|\/favorites|\/hidden)/).respond(function (method, url, data, headers) {
+        $httpBackend.whenGET(/\/properties\/[0-9](?!\/comments|\/favorites|\/hidden|\/finances|\/contact)/).respond(function (method, url, data, headers) {
             var item_id = url.split("/")[2];
 
             return [200, itemDetails[item_id], {}];
@@ -467,7 +384,15 @@ angular.module('rescour.app.mock', ['rescour.app', 'ngMockE2E'])
                 return [200, { }, {}];
             });
 
-        $httpBackend.whenPOST(/\/mail\//).respond(
+        $httpBackend.when('DELETE', /\/properties\/[0-9]+\/finances\/[0-9]+/).respond(
+            function (method, url, data, headers) {
+                var item_id = url.split("/")[2],
+                    finance_id = url.split("/")[4];
+                delete itemDetails[item_id].finances[finance_id];
+                return [200, {}, {}];
+            });
+
+        $httpBackend.whenPOST(/\/properties\/[0-9]+\/contact\//).respond(
             function (method, url, data, headers) {
                 return [200, {}, {}];
             }
@@ -486,23 +411,32 @@ angular.module('rescour.app.mock', ['rescour.app', 'ngMockE2E'])
             return [200, {}, {}];
         });
 
-        $httpBackend.whenGET('/search/').respond({resources: saved });
+        $httpBackend.whenGET('/search/').respond({resources: saved});
         // adds a new phone to the phones array
         $httpBackend.whenPOST('/search/').respond(function (method, url, data, headers) {
-            var _saved = angular.fromJson(data).savedSearch;
-            _saved.id = saved.length + 1;
-            saved.push(_saved);
+            var _data = angular.fromJson(data),
+                _saved = {
+                    id: Date.now(),
+                    savedSearch: _data.savedSearch,
+                    title: _data.title
+                };
+
+            saved[_saved.id] = _saved;
             return [200, { id: _saved.id }, {}];
         });
 
         $httpBackend.whenPUT(/\/search\/[0-9]+/).respond(function (method, url, data, headers) {
-            var _saved = angular.fromJson(data).savedSearch;
-            for (var i = 0; i < saved.length; i++) {
-                if (saved[i].id == _saved.id) {
-                    saved[i] = _saved;
-                }
-            }
-            return [200, {}, {}];
+            var _data = angular.fromJson(data),
+                _id = url.split("/")[2],
+                _saved = {
+                    id: _id,
+                    savedSearch: _data.savedSearch,
+                    title: _data.title
+                };
+
+            saved[_saved.id] = _saved;
+
+            return [200, { id: _saved.id }, {}];
         });
 
         $httpBackend.whenPUT(/\/properties\/\d+\/notes/).respond(function (method, url, data, headers) {

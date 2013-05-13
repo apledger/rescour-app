@@ -49,16 +49,21 @@ angular.module('rescour.app')
             $scope.toggle = 'all';
             $scope.getActive = Items.getActive;
 
+            function openDetails (id) {
+                if (angular.isObject(Items.items[id])) {
+                    PropertyDetails.open(Items.items[id]).selectPane($location.hash());
+                } else {
+                    PropertyDetails.isOpen ? PropertyDetails.close() : null;
+                    $location.search('id', null).hash(null);
+                }
+            }
+
             if ($location.search().id) {
-                PropertyDetails.open(Items.items[$location.search().id]).selectPane($location.hash());
+                openDetails($location.search().id);
             }
 
             $scope.$on('$locationChangeSuccess', function (e, newLocation, oldLocation) {
-                if (angular.isObject(Items.items[$location.search().id])) {
-                    PropertyDetails.open(Items.items[$location.search().id]).selectPane($location.hash());
-                } else {
-                    PropertyDetails.close();
-                }
+                openDetails($location.search().id);
             });
 
             $scope.showItemDetails = function (item, pane) {
@@ -111,13 +116,10 @@ angular.module('rescour.app')
                 // If its a new search open the dialog
                 if ($scope.attributes.modified) {
                     if (!$scope.selectedSearch) {
-                        SavedSearch.dialog.open()
+                        SavedSearch.dialog
+                            .open()
                             .then(function (result) {
-                                if (result) {
-                                    if (result.action === 'save') {
-                                        $scope.saveSearch(result.settings);
-                                    }
-                                }
+                                result ? (result.action === 'save' ? $scope.saveSearch(result.settings) : null) : null;
                             });
                     } else {
                         $scope.saveSearch();
@@ -132,16 +134,24 @@ angular.module('rescour.app')
             };
 
             $scope.saveSearch = function (settings) {
-                if (typeof settings !== 'undefined') {
-                    angular.extend($scope.attributes, settings);
-                }
-                // Create a new resource object with existing attributes
-                $scope.selectedSearch = new SavedSearch($scope.attributes);
-                $scope.selectedSearch.$save().then(function (response) {
-                    $scope.savedSearches = SavedSearch.query();
+                angular.extend($scope.attributes, settings);
+
+                var _search = new SavedSearch($scope.attributes),
+                    _old = _.findWhere($scope.savedSearches, {id: $scope.attributes.id});
+
+                _search.$save().then(function (response) {
+                    if (!_old) {
+                        $scope.savedSearches.push(_search);
+                        $scope.attributes.id = response.id;
+                    } else {
+                        $scope.savedSearches = _.map($scope.savedSearches, function (val) {
+                            return val.id === _old.id ? _search : val;
+                        });
+                    }
+                    $scope.selectedSearch = _search;
                     $scope.attributes.modified = false;
-                    $scope.attributes.id = response.id;
                 }, function (response) {
+                    $scope.savedSearches = SavedSearch.query();
                     throw new Error("Could not save search: " + response.error);
                 });
             };

@@ -4,7 +4,7 @@
     <div class="navbar market-controls">
         <ul class="nav" style="margin-left:15px;">
             <li ng-class="{'active': toggle == 'all'}" tooltip="Display All" tooltip-placement="bottom">
-                <a ng-click="refreshItems()" href="javascript:"><i class="icon-list"></i></a>
+                <a ng-click="listAll()" href="javascript:"><i class="icon-list"></i></a>
             </li>
             <li ng-class="{'active': toggle == 'favorites'}" tooltip="My Favorites" tooltip-placement="bottom">
                 <a ng-click="listFavorites()" href="javascript:"><i class="icon-star"></i></a>
@@ -34,7 +34,7 @@
     </div>
 </header>
 
-<div class="main-container" ng-cloak>
+<div class="main-container" spinner="getActive().details.$spinner" spinner-size="large">
     <!--FILTERS BEGIN-->
     <div id="Filter" ng-controller="FilterController">
         <div class="filter-container">
@@ -59,7 +59,6 @@
                         <a class="btn dropdown-toggle"><i class="icon-caret-down"></i></a>
                     </div>
 
-
                     <ul class="dropdown-menu">
                         <li><a href="javascript:" ng-click="loadSearch()">New Search</a></li>
                         <li class="divider"></li>
@@ -71,17 +70,17 @@
             </div>
 
             <!--Range sliders-->
-            <ul class="nav nav-list" ng-repeat="range in attributes.range" slider>
+            <ul class="nav nav-list" ng-repeat="range in attributes.toArray().range | orderBy:orderByWeight()" slider>
                 <li class="nav-header" ng-click="sortBy(range)">
                     {{range.title}} &nbsp;
                     <sort-arrow></sort-arrow>
-                    <div style="float:right;">{{range.lowSelected}} - {{range.highSelected}}</div>
+                    <div style="float:right;">{{range.lowSelected}} - {{range.highSelected | checkBounds:range.bound}}</div>
                 </li>
                 <div class="slider"></div>
             </ul>
 
             <!--Discreet Filters-->
-            <div ng-repeat="discreet in attributes.discreet">
+            <div ng-repeat="discreet in attributes.toArray().discreet | orderBy:orderByWeight()">
                 <div class="nav-header" ng-click="discreet.collapse = !discreet.collapse">
                     {{discreet.title}} &nbsp;
                     <i ng-class="{'icon-chevron-up': !discreet.collapse, 'icon-chevron-down': discreet.collapse}"
@@ -90,7 +89,7 @@
 
                 <ul class="nav nav-list" collapse="discreet.collapse">
                     <li ng-class="{'active': value.isSelected }" ng-repeat="value in discreet.values">
-                        <a ng-click="filterByDiscreet(discreet, value)" href="javascript:">
+                        <a ng-click="toggleDiscreet(value)" href="javascript:">
                             {{value.title | ellipsis:26}}
                         <span ng-show="value" class="badge {{value.badge}}"
                               style="float:right;">{{value.predict}}</span>
@@ -105,7 +104,7 @@
     <!--LIST BEGIN-->
     <div id="MarketList" ng-controller="ListController">
         <div class="market-scroll"
-             chunk="items | filter: searchText | limitVisible | orderBy: sortByRange('Year Built')">
+             chunk="items | filter:searchText | limitVisible | orderBy:orderNA()">
             <!--Toggle favorites button-->
             <!--Item boxes display-->
             <div class="market-wrap">
@@ -118,34 +117,34 @@
                     <!--Top bar of item box-->
                     <div class="dimensions clearfix">
                         <!--Location Button-->
-                        <a href="javascript:" class="btn location" ng-click="panTo(item)" tooltip="Show on Map">
+                        <a href="javascript:" class="btn location" ng-class="{'disabled': !item.location}" ng-click="panTo(item)" tooltip="Show on Map">
                             <i class="icon-map-marker"></i>
                         </a>
 
                         <div class="header-container">
-                            <div class="title"><a href="javascript:" ng-click="showDetails(item)">{{item.title |
+                            <div class="title"><a href="javascript:" ng-click="showItemDetails(item, 'details')">{{item.title |
                                 ellipsis:25}}</a></div>
                             <div class="ranges">
-                                <span>{{item.attributes.range["Number of Units"]}}&nbsp;</span>Units.&nbsp;
-                                Built in<span>&nbsp;{{item.attributes.range["Year Built"]}}</span>.
+                                <span>{{item.getAttribute('numUnits')}}&nbsp;</span>Units.&nbsp;
+                                Built in<span>&nbsp;{{item.getAttribute('yearBuilt')}}</span>.
                             </div>
                         </div>
                     </div>
 
-                    <div class="preview" ng-show="!item.hidden" ng-click="showPictures(item)">
+                    <a ng-click="showItemDetails(item, 'pictures')" class="preview" ng-show="!item.hidden">
                         <div class="preview-mask"><i class="icon-search"></i></div>
                         <img ng-src="{{item.thumbnail}}" alt="">
 
-                        <div class="preview-caption" ng-class="getStatusClass(item.getAttribute('Property Status'))">
-                            <h2>{{item.getAttribute("Property Status") || "Not Available"}}</h2>
+                        <div class="preview-caption" ng-class="getStatusClass(item.getAttribute('propertyStatus'))">
+                            <h2>{{item.getAttribute('propertyStatus')}}</h2>
 
                             <p>View Photos</p>
                         </div>
-                    </div>
+                    </a>
 
                     <div class="description" collapse="item.hidden">
                         <div class="text-container">
-                            <p>{{item.description | ellipsis:100}} </p>
+                            <p>{{item.description | ellipsis:110}} </p>
                         </div>
                     </div>
 
@@ -161,15 +160,15 @@
                                 <i class="icon-ban-circle" ng-class="{'red': item.hidden}"></i>
                             </div>
 
-                            <div class="footer-button" tooltip="Take Notes" ng-click="showNotes(item)">
+                            <div class="footer-button" tooltip="Take Notes" ng-click="showItemDetails(item, 'comments')">
                                 <i class="icon-pencil"></i>
                             </div>
 
                             <!--Contact broker button-->
-                            <div class="footer-button" ng-click="showContact(item)" tooltip="Contact Broker">
+                            <div class="footer-button" ng-click="showItemDetails(item, 'contact')" tooltip="Contact Broker">
                                 <i class="icon-envelope-alt"></i>
 
-                                <span>{{item.getAttribute("Broker")}}</span>
+                                <span>{{item.getAttribute('broker')}}</span>
                             </div>
                         </div>
                     </div>
@@ -180,11 +179,7 @@
     <!--LIST END-->
 
     <!--Map-->
-    <div map center="center" selected="selectedItem" view="view"></div>
-
-    <!--Detail view over map-->
-    <div fade-in="current" class="property-details" current="selectedItem" spinner-size="large"
-         spinner="current.details.$spinner"></div>
+    <div map></div>
 </div>
 
 <div id="Footer">

@@ -7,7 +7,7 @@
 </div>
 <div class="span12">
 <div tabs ng-cloak>
-<div pane class="container-fluid" heading="{{panes[0].heading}}" active="panes[0].active">
+<div pane class="container-fluid" select-fn="selectPane(panes[0])" heading="{{panes[0].heading}}" active="panes[0].active">
     <div class="row-fluid">
         <div class="span12">
 
@@ -18,7 +18,7 @@
                         <strong>Property Status</strong>
                     </td>
                     <td>
-                        {{current.getAttribute("Property Status")}}
+                        {{current.getAttribute('propertyStatus')}}
                     </td>
                 </tr>
                 <tr>
@@ -26,7 +26,7 @@
                         <strong>Broker</strong>
                     </td>
                     <td>
-                        {{current.getAttribute("Broker")}}
+                        {{current.getAttribute('broker')}}
                     </td>
                 </tr>
                 <tr>
@@ -34,7 +34,7 @@
                         <strong>Year Built</strong>
                     </td>
                     <td>
-                        {{current.getAttribute("Year Built")}}
+                        {{current.getAttribute('yearBuilt')}}
                     </td>
                 </tr>
                 <tr>
@@ -42,7 +42,7 @@
                         <strong>Number of Units</strong>
                     </td>
                     <td>
-                        {{current.getAttribute("Number of Units")}}
+                        {{current.getAttribute('numUnits')}}
                     </td>
                 </tr>
                 <tr>
@@ -58,7 +58,7 @@
                         <strong>Property Type</strong>
                     </td>
                     <td>
-                        {{current.getAttribute('Property Type')}}
+                        {{current.getAttribute('propertyType')}}
                     </td>
                 </tr>
                 <tr ng-show="current.details.acres">

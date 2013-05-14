@@ -18,7 +18,9 @@
     "angular-ui": "~0.4.0",
     "spin.js": "~1.3.0",
     "angular-ui-bootstrap-bower": "~0.2.0",
-    "leaflet.markerclusterer": "latest"
+    "leaflet.markerclusterer": "latest",
+    "hammerjs": "~1.0.5",
+    "angular-hammerjs": "latest"
   },
   "devDependencies": {
     "angular-scenario": "~1.0.4"

@@ -9,7 +9,6 @@
 if (!window.console) window.console = {};
 if (!window.console.log) window.console.log = function () {
 };
-
 angular.module('rescour.app',
         [
             'ui.bootstrap',
@@ -18,10 +17,11 @@ angular.module('rescour.app',
             'rescour.user',
             'rescour.utility',
             'rescour.market',
-            'rescour.market.map'
+            'rescour.market.map',
+            'rescour.browserDetect'
         ])
-    .config(['$routeProvider', '$locationProvider', '$httpProvider',
-        function ($routeProvider, $locationProvider, $httpProvider) {
+    .config(['$routeProvider', '$locationProvider', '$httpProvider', 'BrowserDetectProvider',
+        function ($routeProvider, $locationProvider, $httpProvider, BrowserDetectProvider) {
             $httpProvider.defaults.useXDomain = true;
             $httpProvider.defaults.withCredentials = true;
             $locationProvider.html5Mode(true);

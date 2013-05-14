@@ -83,6 +83,7 @@
 <script src="/core/market/map.js"></script>
 <script src="/core/market/leaflet-google.js"></script>
 <script src="/core/utility/utility.js"></script>
+<script src="/core/browser-detect/browser-detect.js"></script>
 <script src="/app/app.js"></script>
 <script src="/app/account/account.js"></script>
 <script src="/app/login/login.js"></script>

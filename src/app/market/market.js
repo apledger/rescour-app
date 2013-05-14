@@ -42,12 +42,13 @@ angular.module('rescour.app')
                     }
                 });
         }])
-    .controller('MarketController', ['$scope', 'Items', 'Attributes', '$timeout', '$routeParams', 'PropertyDetails', '$location',
-        function ($scope, Items, Attributes, $timeout, $routeParams, PropertyDetails, $location) {
+    .controller('MarketController', ['$scope', 'Items', 'Attributes', '$timeout', '$routeParams', 'PropertyDetails', '$location', 'BrowserDetect',
+        function ($scope, Items, Attributes, $timeout, $routeParams, PropertyDetails, $location, BrowserDetect) {
             $scope.items = Items.toArray();
             $scope.attributes = Attributes;
             $scope.toggle = 'all';
             $scope.getActive = Items.getActive;
+            $scope.browser = BrowserDetect;
 
             function openDetails (id) {
                 if (angular.isObject(Items.items[id])) {

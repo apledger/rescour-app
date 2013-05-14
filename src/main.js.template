@@ -17,6 +17,7 @@ require(
                     'core/market/map',
                     'core/market/market',
                     'core/auth/auth',
+                    'core/browser-detect/browser-detect',
                 <% if (environment === 'dev') { %>
                     'core/config/dev'
                 <% } else if (environment === 'demo') { %>

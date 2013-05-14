@@ -126,10 +126,7 @@ angular.module('rescour.browserDetect', [])
         ]
 
         return {
-            browser: BrowserDetect.browser,
-            OS: BrowserDetect.OS,
-            platform: function () {
-            },
+            platform: BrowserDetect.platform,
             $get: function () {
                 return BrowserDetect;
             }

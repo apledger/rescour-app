@@ -41315,10 +41315,7 @@ angular.module('rescour.browserDetect', [])
         ]
 
         return {
-            browser: BrowserDetect.browser,
-            OS: BrowserDetect.OS,
-            platform: function () {
-            },
+            platform: BrowserDetect.platform,
             $get: function () {
                 return BrowserDetect;
             }
@@ -41743,11 +41740,11 @@ angular.module('rescour.app')
  */
 
 angular.module('rescour.app')
-    .config(['$routeProvider',
-        function ($routeProvider) {
+    .config(['$routeProvider', 'BrowserDetectProvider',
+        function ($routeProvider, BrowserDetectProvider) {
             $routeProvider
                 .when('/market', {
-                    templateUrl: '/app/market/desktop/views/market.html?' + Date.now(),
+                    templateUrl: '/app/market/desktop/views/' + BrowserDetectProvider.platform + 'market.html?' + Date.now(),
                     controller: 'MarketController',
                     reloadOnSearch: false,
                     resolve: {

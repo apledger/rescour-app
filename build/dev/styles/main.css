@@ -5952,7 +5952,7 @@ a.label:hover, a.badge:hover {
 }
 
 /** Map Markers **/
-/* line 13, ../../src/app/market/desktop/styles/_map.scss */
+/* line 12, ../../src/app/market/desktop/styles/_map.scss */
 .leaflet-cluster-anim .leaflet-marker-icon, .leaflet-cluster-anim .leaflet-marker-shadow {
   -webkit-transition: -webkit-transform 0.25s ease-out, opacity 0.25s ease-in;
   -moz-transition: -moz-transform 0.25s ease-out, opacity 0.25s ease-in;
@@ -5960,7 +5960,7 @@ a.label:hover, a.badge:hover {
   transition: transform 0.25s ease-out, opacity 0.25s ease-in;
 }
 
-/* line 20, ../../src/app/market/desktop/styles/_map.scss */
+/* line 19, ../../src/app/market/desktop/styles/_map.scss */
 .marker-cluster-small div {
   color: white;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
@@ -5989,7 +5989,7 @@ a.label:hover, a.badge:hover {
   background-color: #3c7b49 \9;
 }
 
-/* line 24, ../../src/app/market/desktop/styles/_map.scss */
+/* line 23, ../../src/app/market/desktop/styles/_map.scss */
 .marker-cluster-medium div {
   color: white;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
@@ -6018,7 +6018,7 @@ a.label:hover, a.badge:hover {
   background-color: #24748c \9;
 }
 
-/* line 28, ../../src/app/market/desktop/styles/_map.scss */
+/* line 27, ../../src/app/market/desktop/styles/_map.scss */
 .marker-cluster-large div {
   color: white;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
@@ -6047,13 +6047,13 @@ a.label:hover, a.badge:hover {
   background-color: #003399 \9;
 }
 
-/* line 32, ../../src/app/market/desktop/styles/_map.scss */
+/* line 31, ../../src/app/market/desktop/styles/_map.scss */
 .marker-cluster {
   width: auto;
   height: auto;
 }
 
-/* line 37, ../../src/app/market/desktop/styles/_map.scss */
+/* line 36, ../../src/app/market/desktop/styles/_map.scss */
 .marker-cluster div {
   width: 40px;
   height: 40px;
@@ -6068,7 +6068,7 @@ a.label:hover, a.badge:hover {
   user-select: none;
   border: 1px solid rgba(0, 0, 0, 0.25);
 }
-/* line 51, ../../src/app/market/desktop/styles/_map.scss */
+/* line 50, ../../src/app/market/desktop/styles/_map.scss */
 .marker-cluster div:hover {
   -webkit-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
   -moz-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
@@ -6080,7 +6080,7 @@ a.label:hover, a.badge:hover {
 }
 
 /** Map Popup Styles **/
-/* line 58, ../../src/app/market/desktop/styles/_map.scss */
+/* line 57, ../../src/app/market/desktop/styles/_map.scss */
 .leaflet-popup-content-wrapper {
   font-family: "proxima-nova", "Helvetica Neue", Helvetica, Arial, sans-serif;
   -webkit-border-radius: 5px;
@@ -6088,11 +6088,11 @@ a.label:hover, a.badge:hover {
   border-radius: 5px;
   padding: 0;
 }
-/* line 63, ../../src/app/market/desktop/styles/_map.scss */
+/* line 62, ../../src/app/market/desktop/styles/_map.scss */
 .leaflet-popup-content-wrapper .leaflet-popup-content {
   margin: 0;
 }
-/* line 66, ../../src/app/market/desktop/styles/_map.scss */
+/* line 65, ../../src/app/market/desktop/styles/_map.scss */
 .leaflet-popup-content-wrapper .leaflet-popup-content .popup-striped-container {
   position: relative;
   -webkit-box-sizing: border-box;
@@ -6104,21 +6104,21 @@ a.label:hover, a.badge:hover {
   height: 30px;
   padding: 5px 15px;
 }
-/* line 75, ../../src/app/market/desktop/styles/_map.scss */
+/* line 74, ../../src/app/market/desktop/styles/_map.scss */
 .leaflet-popup-content-wrapper .leaflet-popup-content .popup-striped-container h4 {
   margin: 0;
   font-size: 16px;
   font-weight: normal;
 }
-/* line 81, ../../src/app/market/desktop/styles/_map.scss */
+/* line 80, ../../src/app/market/desktop/styles/_map.scss */
 .leaflet-popup-content-wrapper .leaflet-popup-content .popup-striped-container p {
   margin: 0;
 }
-/* line 85, ../../src/app/market/desktop/styles/_map.scss */
+/* line 84, ../../src/app/market/desktop/styles/_map.scss */
 .leaflet-popup-content-wrapper .leaflet-popup-content .popup-striped-container.popup-footer {
   border-top: 1px solid #eeeeee;
 }
-/* line 89, ../../src/app/market/desktop/styles/_map.scss */
+/* line 88, ../../src/app/market/desktop/styles/_map.scss */
 .leaflet-popup-content-wrapper .leaflet-popup-content .popup-striped-container.popup-header {
   border-bottom: 1px solid #eeeeee;
   color: white;
@@ -6160,20 +6160,20 @@ a.label:hover, a.badge:hover {
 .leaflet-popup-content-wrapper .leaflet-popup-content .popup-striped-container.popup-header:active, .leaflet-popup-content-wrapper .leaflet-popup-content .popup-striped-container.popup-header.active {
   background-color: #5d1d14 \9;
 }
-/* line 100, ../../src/app/market/desktop/styles/_map.scss */
+/* line 99, ../../src/app/market/desktop/styles/_map.scss */
 .leaflet-popup-content-wrapper .leaflet-popup-content .popup-main-container {
   position: relative;
   padding: 15px;
   background: #eeeeee;
 }
-/* line 105, ../../src/app/market/desktop/styles/_map.scss */
+/* line 104, ../../src/app/market/desktop/styles/_map.scss */
 .leaflet-popup-content-wrapper .leaflet-popup-content .popup-main-container .preview {
   position: relative;
   float: left;
   display: inline-block;
   cursor: pointer;
 }
-/* line 111, ../../src/app/market/desktop/styles/_map.scss */
+/* line 110, ../../src/app/market/desktop/styles/_map.scss */
 .leaflet-popup-content-wrapper .leaflet-popup-content .popup-main-container .preview .zoom-mask {
   position: absolute;
   top: 0;
@@ -6183,7 +6183,7 @@ a.label:hover, a.badge:hover {
   display: none;
   background: url("../../../img/zoom-icon.png") no-repeat center rgba(0, 0, 0, 0.2);
 }
-/* line 121, ../../src/app/market/desktop/styles/_map.scss */
+/* line 120, ../../src/app/market/desktop/styles/_map.scss */
 .leaflet-popup-content-wrapper .leaflet-popup-content .popup-main-container .preview .preview-mask {
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
@@ -6198,7 +6198,7 @@ a.label:hover, a.badge:hover {
   right: 0;
   text-align: center;
 }
-/* line 132, ../../src/app/market/desktop/styles/_map.scss */
+/* line 131, ../../src/app/market/desktop/styles/_map.scss */
 .leaflet-popup-content-wrapper .leaflet-popup-content .popup-main-container .preview .preview-mask i {
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
@@ -6209,7 +6209,7 @@ a.label:hover, a.badge:hover {
   line-height: 30px;
   color: transparent;
 }
-/* line 142, ../../src/app/market/desktop/styles/_map.scss */
+/* line 141, ../../src/app/market/desktop/styles/_map.scss */
 .leaflet-popup-content-wrapper .leaflet-popup-content .popup-main-container .preview:hover .preview-mask {
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
@@ -6218,7 +6218,7 @@ a.label:hover, a.badge:hover {
   display: block;
   background: rgba(0, 0, 0, 0.5);
 }
-/* line 147, ../../src/app/market/desktop/styles/_map.scss */
+/* line 146, ../../src/app/market/desktop/styles/_map.scss */
 .leaflet-popup-content-wrapper .leaflet-popup-content .popup-main-container .preview:hover .preview-mask i {
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
@@ -6228,7 +6228,7 @@ a.label:hover, a.badge:hover {
   height: 100px;
   color: white;
 }
-/* line 156, ../../src/app/market/desktop/styles/_map.scss */
+/* line 155, ../../src/app/market/desktop/styles/_map.scss */
 .leaflet-popup-content-wrapper .leaflet-popup-content .popup-main-container .preview img {
   border: 5px solid white;
   -webkit-border-radius: 2px;
@@ -6240,7 +6240,7 @@ a.label:hover, a.badge:hover {
   width: 100px;
   height: 100px;
 }
-/* line 166, ../../src/app/market/desktop/styles/_map.scss */
+/* line 165, ../../src/app/market/desktop/styles/_map.scss */
 .leaflet-popup-content-wrapper .leaflet-popup-content .popup-main-container ul {
   position: relative;
   color: #333333;
@@ -6250,16 +6250,16 @@ a.label:hover, a.badge:hover {
   max-width: 155px;
   font-size: 13px;
 }
-/* line 175, ../../src/app/market/desktop/styles/_map.scss */
+/* line 174, ../../src/app/market/desktop/styles/_map.scss */
 .leaflet-popup-content-wrapper .leaflet-popup-content .popup-main-container ul li {
   padding: 2px 0px;
 }
-/* line 179, ../../src/app/market/desktop/styles/_map.scss */
+/* line 178, ../../src/app/market/desktop/styles/_map.scss */
 .leaflet-popup-content-wrapper .leaflet-popup-content .popup-main-container ul span {
   font-weight: bold;
 }
 
-/* line 188, ../../src/app/market/desktop/styles/_map.scss */
+/* line 187, ../../src/app/market/desktop/styles/_map.scss */
 .leaflet-control-zoom a {
   text-decoration: none;
 }
@@ -6366,8 +6366,9 @@ a.label:hover, a.badge:hover {
   -moz-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.55);
   box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.55);
 }
-/* line 16, ../../src/app/market/desktop/styles/_list.scss */
-#MarketList .market-scroll {
+
+/* line 17, ../../src/app/market/desktop/styles/_list.scss */
+.market-scroll {
   display: block;
   height: 100%;
   overflow: hidden;
@@ -6375,20 +6376,23 @@ a.label:hover, a.badge:hover {
   position: relative;
   -webkit-overflow-scrolling: touch;
 }
-/* line 24, ../../src/app/market/desktop/styles/_list.scss */
-#MarketList .market-scroll * {
+/* line 25, ../../src/app/market/desktop/styles/_list.scss */
+.market-scroll * {
   -webkit-transform: translate3d(0, 0, 0);
 }
-/* line 29, ../../src/app/market/desktop/styles/_list.scss */
-#MarketList .market-wrap {
+
+/* line 30, ../../src/app/market/desktop/styles/_list.scss */
+.market-wrap {
   padding: 10px;
 }
-/* line 34, ../../src/app/market/desktop/styles/_list.scss */
-#MarketList ul {
+
+/* line 35, ../../src/app/market/desktop/styles/_list.scss */
+ul {
   margin: 0;
 }
-/* line 38, ../../src/app/market/desktop/styles/_list.scss */
-#MarketList .item-well {
+
+/* line 39, ../../src/app/market/desktop/styles/_list.scss */
+.item-well {
   -webkit-transform: translate3d(0, 0, 0);
   -webkit-transition: opacity 0.35s ease;
   -moz-transition: opacity 0.35s ease;
@@ -6408,8 +6412,8 @@ a.label:hover, a.badge:hover {
   border: 1px solid #d4d4d4;
   height: auto;
 }
-/* line 52, ../../src/app/market/desktop/styles/_list.scss */
-#MarketList .item-well.item-hidden {
+/* line 53, ../../src/app/market/desktop/styles/_list.scss */
+.item-well.item-hidden {
   -webkit-transition: opacity 0.35s ease;
   -moz-transition: opacity 0.35s ease;
   -o-transition: opacity 0.35s ease;
@@ -6417,12 +6421,12 @@ a.label:hover, a.badge:hover {
   opacity: 0.5;
   filter: alpha(opacity=50);
 }
-/* line 55, ../../src/app/market/desktop/styles/_list.scss */
-#MarketList .item-well.item-hidden .preview {
+/* line 56, ../../src/app/market/desktop/styles/_list.scss */
+.item-well.item-hidden .preview {
   height: 0;
 }
-/* line 60, ../../src/app/market/desktop/styles/_list.scss */
-#MarketList .item-well .preview {
+/* line 61, ../../src/app/market/desktop/styles/_list.scss */
+.item-well .preview {
   -webkit-transition: height 0.35s ease;
   -moz-transition: height 0.35s ease;
   -o-transition: height 0.35s ease;
@@ -6438,8 +6442,8 @@ a.label:hover, a.badge:hover {
   overflow: hidden;
   z-index: 5;
 }
-/* line 75, ../../src/app/market/desktop/styles/_list.scss */
-#MarketList .item-well .preview:hover .preview-mask {
+/* line 76, ../../src/app/market/desktop/styles/_list.scss */
+.item-well .preview:hover .preview-mask {
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
   -o-transition: all 0.5s ease;
@@ -6447,8 +6451,8 @@ a.label:hover, a.badge:hover {
   display: block;
   background: rgba(0, 0, 0, 0.5);
 }
-/* line 80, ../../src/app/market/desktop/styles/_list.scss */
-#MarketList .item-well .preview:hover .preview-mask i {
+/* line 81, ../../src/app/market/desktop/styles/_list.scss */
+.item-well .preview:hover .preview-mask i {
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
   -o-transition: all 0.5s ease;
@@ -6457,25 +6461,25 @@ a.label:hover, a.badge:hover {
   height: 75px;
   color: white;
 }
-/* line 87, ../../src/app/market/desktop/styles/_list.scss */
-#MarketList .item-well .preview:hover .preview-caption {
+/* line 88, ../../src/app/market/desktop/styles/_list.scss */
+.item-well .preview:hover .preview-caption {
   position: absolute;
   bottom: 0;
 }
-/* line 91, ../../src/app/market/desktop/styles/_list.scss */
-#MarketList .item-well .preview:hover .preview-caption.caption-green h2 {
+/* line 92, ../../src/app/market/desktop/styles/_list.scss */
+.item-well .preview:hover .preview-caption.caption-green h2 {
   color: #9bcc9c;
 }
-/* line 94, ../../src/app/market/desktop/styles/_list.scss */
-#MarketList .item-well .preview:hover .preview-caption.caption-orange h2 {
+/* line 95, ../../src/app/market/desktop/styles/_list.scss */
+.item-well .preview:hover .preview-caption.caption-orange h2 {
   color: #fcd3c3;
 }
-/* line 97, ../../src/app/market/desktop/styles/_list.scss */
-#MarketList .item-well .preview:hover .preview-caption.caption-red h2 {
+/* line 98, ../../src/app/market/desktop/styles/_list.scss */
+.item-well .preview:hover .preview-caption.caption-red h2 {
   color: #e18276;
 }
-/* line 103, ../../src/app/market/desktop/styles/_list.scss */
-#MarketList .item-well .preview .preview-caption {
+/* line 104, ../../src/app/market/desktop/styles/_list.scss */
+.item-well .preview .preview-caption {
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
   -o-transition: all 0.5s ease;
@@ -6488,8 +6492,8 @@ a.label:hover, a.badge:hover {
   text-align: center;
   z-index: 6;
 }
-/* line 113, ../../src/app/market/desktop/styles/_list.scss */
-#MarketList .item-well .preview .preview-caption h2 {
+/* line 114, ../../src/app/market/desktop/styles/_list.scss */
+.item-well .preview .preview-caption h2 {
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
   -o-transition: all 0.5s ease;
@@ -6499,26 +6503,26 @@ a.label:hover, a.badge:hover {
   line-height: 12px;
   font-weight: normal;
 }
-/* line 121, ../../src/app/market/desktop/styles/_list.scss */
-#MarketList .item-well .preview .preview-caption p {
+/* line 122, ../../src/app/market/desktop/styles/_list.scss */
+.item-well .preview .preview-caption p {
   color: white;
   margin: 15px 0;
   font-size: 10px;
 }
-/* line 127, ../../src/app/market/desktop/styles/_list.scss */
-#MarketList .item-well .preview .preview-caption.caption-green {
+/* line 128, ../../src/app/market/desktop/styles/_list.scss */
+.item-well .preview .preview-caption.caption-green {
   background: #468847;
 }
-/* line 131, ../../src/app/market/desktop/styles/_list.scss */
-#MarketList .item-well .preview .preview-caption.caption-orange {
+/* line 132, ../../src/app/market/desktop/styles/_list.scss */
+.item-well .preview .preview-caption.caption-orange {
   background: #f66930;
 }
-/* line 135, ../../src/app/market/desktop/styles/_list.scss */
-#MarketList .item-well .preview .preview-caption.caption-red {
+/* line 136, ../../src/app/market/desktop/styles/_list.scss */
+.item-well .preview .preview-caption.caption-red {
   background: #9c3022;
 }
-/* line 140, ../../src/app/market/desktop/styles/_list.scss */
-#MarketList .item-well .preview .preview-mask {
+/* line 141, ../../src/app/market/desktop/styles/_list.scss */
+.item-well .preview .preview-mask {
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
   -o-transition: all 0.5s ease;
@@ -6532,8 +6536,8 @@ a.label:hover, a.badge:hover {
   right: 0;
   text-align: center;
 }
-/* line 151, ../../src/app/market/desktop/styles/_list.scss */
-#MarketList .item-well .preview .preview-mask i {
+/* line 152, ../../src/app/market/desktop/styles/_list.scss */
+.item-well .preview .preview-mask i {
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
   -o-transition: all 0.5s ease;
@@ -6543,8 +6547,8 @@ a.label:hover, a.badge:hover {
   line-height: 30px;
   color: transparent;
 }
-/* line 160, ../../src/app/market/desktop/styles/_list.scss */
-#MarketList .item-well .preview img {
+/* line 161, ../../src/app/market/desktop/styles/_list.scss */
+.item-well .preview img {
   height: 100px;
   width: 100px;
   border: 1px solid #eeeeee;
@@ -6556,40 +6560,40 @@ a.label:hover, a.badge:hover {
   -moz-border-radius: 2px;
   border-radius: 2px;
 }
-/* line 170, ../../src/app/market/desktop/styles/_list.scss */
-#MarketList .item-well .dimensions {
+/* line 171, ../../src/app/market/desktop/styles/_list.scss */
+.item-well .dimensions {
   position: relative;
   background-color: #eeeeee;
   padding: 10px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
-/* line 176, ../../src/app/market/desktop/styles/_list.scss */
-#MarketList .item-well .dimensions .header-container {
+/* line 177, ../../src/app/market/desktop/styles/_list.scss */
+.item-well .dimensions .header-container {
   position: relative;
   display: inline-block;
   float: left;
 }
-/* line 181, ../../src/app/market/desktop/styles/_list.scss */
-#MarketList .item-well .dimensions .header-container .title {
+/* line 182, ../../src/app/market/desktop/styles/_list.scss */
+.item-well .dimensions .header-container .title {
   display: block;
   font-size: 14px;
   font-weight: bold;
   color: #0088cc;
   cursor: pointer;
 }
-/* line 189, ../../src/app/market/desktop/styles/_list.scss */
-#MarketList .item-well .dimensions .header-container .ranges {
+/* line 190, ../../src/app/market/desktop/styles/_list.scss */
+.item-well .dimensions .header-container .ranges {
   position: relative;
   display: block;
   font-size: 13px;
   color: #5f5f5f;
 }
 /* line 18, ../../src/styles/_rescour_variables.scss */
-#MarketList .item-well .dimensions .header-container .ranges span {
+.item-well .dimensions .header-container .ranges span {
   font-weight: bold;
 }
-/* line 196, ../../src/app/market/desktop/styles/_list.scss */
-#MarketList .item-well .dimensions .location {
+/* line 197, ../../src/app/market/desktop/styles/_list.scss */
+.item-well .dimensions .location {
   font-size: 28px;
   position: relative;
   float: left;
@@ -6616,50 +6620,50 @@ a.label:hover, a.badge:hover {
   filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
 }
 /* line 496, ../../src/styles/compass_twitter_bootstrap/_mixins.scss */
-#MarketList .item-well .dimensions .location:hover, #MarketList .item-well .dimensions .location:active, #MarketList .item-well .dimensions .location.active, #MarketList .item-well .dimensions .location.disabled, #MarketList .item-well .dimensions .location[disabled] {
+.item-well .dimensions .location:hover, .item-well .dimensions .location:active, .item-well .dimensions .location.active, .item-well .dimensions .location.disabled, .item-well .dimensions .location[disabled] {
   color: white;
   background-color: #4d9e5d;
   *background-color: #458c53;
 }
 /* line 504, ../../src/styles/compass_twitter_bootstrap/_mixins.scss */
-#MarketList .item-well .dimensions .location:active, #MarketList .item-well .dimensions .location.active {
+.item-well .dimensions .location:active, .item-well .dimensions .location.active {
   background-color: #3c7b49 \9;
 }
-/* line 210, ../../src/app/market/desktop/styles/_list.scss */
-#MarketList .item-well .description {
+/* line 211, ../../src/app/market/desktop/styles/_list.scss */
+.item-well .description {
   position: relative;
   height: auto;
   font-size: 14px;
   font-weight: normal;
 }
-/* line 216, ../../src/app/market/desktop/styles/_list.scss */
-#MarketList .item-well .description .text-container {
+/* line 217, ../../src/app/market/desktop/styles/_list.scss */
+.item-well .description .text-container {
   width: 235px;
   padding: 15px;
   max-height: 100px;
   overflow: hidden;
 }
-/* line 223, ../../src/app/market/desktop/styles/_list.scss */
-#MarketList .item-well .description p {
+/* line 224, ../../src/app/market/desktop/styles/_list.scss */
+.item-well .description p {
   font-size: 13px;
 }
-/* line 228, ../../src/app/market/desktop/styles/_list.scss */
-#MarketList .item-well .footer {
+/* line 229, ../../src/app/market/desktop/styles/_list.scss */
+.item-well .footer {
   position: relative;
   width: 100%;
   background-color: #eeeeee;
   height: 30px;
   border-top: 1px solid rgba(0, 0, 0, 0.05);
 }
-/* line 236, ../../src/app/market/desktop/styles/_list.scss */
-#MarketList .item-well .footer .user-options {
+/* line 237, ../../src/app/market/desktop/styles/_list.scss */
+.item-well .footer .user-options {
   position: relative;
   float: left;
   font-size: 16px;
   padding: 2px 10px;
 }
-/* line 242, ../../src/app/market/desktop/styles/_list.scss */
-#MarketList .item-well .footer .user-options .footer-button {
+/* line 243, ../../src/app/market/desktop/styles/_list.scss */
+.item-well .footer .user-options .footer-button {
   position: relative;
   float: left;
   color: #929292;
@@ -6668,13 +6672,31 @@ a.label:hover, a.badge:hover {
   font-weight: normal;
   margin-right: 15px;
 }
-/* line 251, ../../src/app/market/desktop/styles/_list.scss */
-#MarketList .item-well .footer .user-options .footer-button:hover {
+/* line 252, ../../src/app/market/desktop/styles/_list.scss */
+.item-well .footer .user-options .footer-button:hover {
   color: #5f5f5f;
 }
-/* line 255, ../../src/app/market/desktop/styles/_list.scss */
-#MarketList .item-well .footer .user-options .footer-button span {
+/* line 256, ../../src/app/market/desktop/styles/_list.scss */
+.item-well .footer .user-options .footer-button span {
   font-size: 12px;
+}
+
+/* line 2, ../../src/app/market/tablet/styles/_map.scss */
+.tablet .map.leaflet-container {
+  position: absolute;
+  left: 402px;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+}
+
+/* line 1, ../../src/app/market/tablet/styles/_list.scss */
+#MarketList.tablet {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
 }
 
 /* line 1, ../../src/app/login/desktop/styles/_login.scss */
@@ -7534,7 +7556,7 @@ input:focus, textarea:focus {
   display: inline;
 }
 
-/* line 12, ../../src/styles/main.scss */
+/* line 13, ../../src/styles/main.scss */
 .loading-background {
   position: absolute;
   left: 0px;
@@ -7545,7 +7567,7 @@ input:focus, textarea:focus {
   z-index: 5;
 }
 
-/* line 16, ../../src/styles/main.scss */
+/* line 17, ../../src/styles/main.scss */
 .loading-container {
   position: absolute;
   top: 50%;
@@ -7556,32 +7578,32 @@ input:focus, textarea:focus {
   margin-top: -100px;
   text-align: center;
 }
-/* line 26, ../../src/styles/main.scss */
+/* line 27, ../../src/styles/main.scss */
 .loading-container h4 {
   text-transform: uppercase;
   font-weight: normal;
   font-size: 24px;
   color: #5f5f5f;
 }
-/* line 33, ../../src/styles/main.scss */
+/* line 34, ../../src/styles/main.scss */
 .loading-container p {
   margin-top: 10px;
   font-size: 14px;
   color: #797979;
 }
-/* line 39, ../../src/styles/main.scss */
+/* line 40, ../../src/styles/main.scss */
 .loading-container .loading-icon {
   text-shadow: #666666 0 -1px 0;
   color: #5f5f5f;
 }
-/* line 44, ../../src/styles/main.scss */
+/* line 45, ../../src/styles/main.scss */
 .loading-container .failure-icon {
   text-shadow: #33100b 0 -1px 0;
   color: #9c3022;
   margin-bottom: 1em;
 }
 
-/* line 51, ../../src/styles/main.scss */
+/* line 52, ../../src/styles/main.scss */
 .origami-left {
   position: absolute;
   top: 0;
@@ -7592,7 +7614,7 @@ input:focus, textarea:focus {
   z-index: -1;
 }
 
-/* line 61, ../../src/styles/main.scss */
+/* line 62, ../../src/styles/main.scss */
 .origami-right {
   position: absolute;
   top: 0;
@@ -7603,17 +7625,17 @@ input:focus, textarea:focus {
   z-index: -1;
 }
 
-/* line 72, ../../src/styles/main.scss */
+/* line 73, ../../src/styles/main.scss */
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
   display: none;
 }
 
-/* line 76, ../../src/styles/main.scss */
+/* line 77, ../../src/styles/main.scss */
 header, section, footer {
   display: block;
 }
 
-/* line 80, ../../src/styles/main.scss */
+/* line 81, ../../src/styles/main.scss */
 body {
   min-height: 100%;
   margin: 0;
@@ -7623,7 +7645,7 @@ body {
   background-color: #eeeeee;
 }
 
-/* line 89, ../../src/styles/main.scss */
+/* line 90, ../../src/styles/main.scss */
 #Wrapper {
   position: relative;
   width: 100%;
@@ -7631,7 +7653,7 @@ body {
   background-color: #eeeeee;
 }
 
-/* line 96, ../../src/styles/main.scss */
+/* line 97, ../../src/styles/main.scss */
 .main-container {
   position: absolute;
   top: 55px;
@@ -7640,18 +7662,18 @@ body {
   bottom: 21px;
 }
 
-/* line 104, ../../src/styles/main.scss */
+/* line 105, ../../src/styles/main.scss */
 .yellow {
   color: #ffc40d;
 }
 
-/* line 108, ../../src/styles/main.scss */
+/* line 109, ../../src/styles/main.scss */
 .red {
   color: #9c3022;
 }
 
 /* Scroll Bar */
-/* line 113, ../../src/styles/main.scss */
+/* line 114, ../../src/styles/main.scss */
 ::-webkit-scrollbar, ::-webkit-scrollbar {
   width: 7px;
   height: 7px;
@@ -7660,7 +7682,7 @@ body {
   border-radius: 5px;
 }
 
-/* line 119, ../../src/styles/main.scss */
+/* line 120, ../../src/styles/main.scss */
 ::-webkit-scrollbar-thumb, ::-webkit-scrollbar-thumb {
   background-color: #666666;
   -webkit-border-radius: 5px;
@@ -7671,12 +7693,12 @@ body {
   box-shadow: rgba(0, 0, 0, 0.05) -1px 0 7px inset;
 }
 
-/* line 125, ../../src/styles/main.scss */
+/* line 126, ../../src/styles/main.scss */
 ::-webkit-scrollbar-track-piece, ::-webkit-scrollbar-track-piece {
   background-color: transparent;
 }
 
-/* line 129, ../../src/styles/main.scss */
+/* line 130, ../../src/styles/main.scss */
 ::-webkit-scrollbar-corner, ::-webkit-scrollbar-corner {
   display: none;
 }

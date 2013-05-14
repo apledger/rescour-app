@@ -41196,6 +41196,7 @@ angular.module('rescour.browserDetect', [])
                     || this.searchVersion(navigator.appVersion)
                     || "an unknown version";
                 this.OS = this.searchString(this.dataOS) || "an unknown OS";
+                this.platform = navigator.userAgent.match(/iPad/i) != null ? 'tablet' : 'desktop';
             },
             searchString: function (data) {
                 for (var i = 0; i < data.length; i++) {

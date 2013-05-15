@@ -2,14 +2,24 @@ $detailsHeaderColor: $light-gray;
 
 .property-details {
   position: absolute;
-  left: $filterWidth + $marketWidth;
-  top: $headerHeight;
-  right: 0;
-  bottom: 0;
   z-index: 1;
   background: $light-gray;
   overflow-y: scroll;
   overflow-x: hidden;
+
+  &.desktop {
+    left: $filterWidth + $marketWidth;
+    top: $headerHeight;
+    right: 0;
+    bottom: 0;
+  }
+
+  &.tablet {
+    left: $marketWidth;
+    top: $headerHeight;
+    right: 0;
+    bottom: 0;
+  }
 
   .page-header {
     h4 {

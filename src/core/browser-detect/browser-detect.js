@@ -119,12 +119,6 @@ angular.module('rescour.browserDetect', [])
         };
         BrowserDetect.init();
 
-        var tabletDetect = [
-            {
-                OS: 'Mac'
-            }
-        ]
-
         return {
             platform: BrowserDetect.platform,
             $get: function () {

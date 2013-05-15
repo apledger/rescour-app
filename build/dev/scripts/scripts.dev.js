@@ -42276,8 +42276,8 @@ angular.module('rescour.market', [])
 
             return Finance;
         }])
-    .factory('PropertyDetails', ['$dialog', '$q', 'Items', '$location',
-        function ($dialog, $q, Items, $location) {
+    .factory('PropertyDetails', ['$dialog', '$q', 'Items', 'BrowserDetect',
+        function ($dialog, $q, Items, BrowserDetect) {
             var panes = [
                     {heading: "Details", active: true},
                     {heading: "Pictures", active: false},
@@ -42289,10 +42289,10 @@ angular.module('rescour.market', [])
                     backdrop: false,
                     keyboard: false,
                     backdropClick: true,
-                    dialogClass: 'property-details',
+                    dialogClass: 'property-details ' + BrowserDetect.platform,
                     dialogFade: true,
                     backdropFade: false,
-                    templateUrl: '/app/market/desktop/views/partials/market-details.html?' + Date.now(),
+                    templateUrl: '/app/market/' + BrowserDetect.platform + '/views/partials/market-details.html?' + Date.now(),
                     controller: "DetailsController",
                     resolve: {
                         activeItem: function (Items, $q, $location) {
@@ -42800,12 +42800,6 @@ angular.module('rescour.browserDetect', [])
         };
         BrowserDetect.init();
 
-        var tabletDetect = [
-            {
-                OS: 'Mac'
-            }
-        ]
-
         return {
             platform: BrowserDetect.platform,
             $get: function () {
@@ -43237,8 +43231,9 @@ angular.module('rescour.app')
         function ($routeProvider, BrowserDetectProvider) {
             $routeProvider
                 .when('/market', {
-                    templateUrl: '/app/market/' + BrowserDetectProvider.platform + '/views/market.html?' + Date.now(),
-//                    templateUrl: '/app/market/tablet/views/market.html?' + Date.now(),
+//                    templateUrl: '/app/market/' + BrowserDetectProvider.platform + '/views/market.html?' + Date.now(),
+                    templateUrl: '/app/market/tablet/views/market.html?' + Date.now(),
+
                     controller: 'MarketController',
                     reloadOnSearch: false,
                     resolve: {

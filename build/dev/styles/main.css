@@ -5492,25 +5492,35 @@ a.label:hover, a.badge:hover {
 /* line 3, ../../src/app/market/desktop/styles/_details.scss */
 .property-details {
   position: absolute;
-  left: 647px;
-  top: 50px;
-  right: 0;
-  bottom: 0;
   z-index: 1;
   background: #eeeeee;
   overflow-y: scroll;
   overflow-x: hidden;
 }
-/* line 15, ../../src/app/market/desktop/styles/_details.scss */
+/* line 10, ../../src/app/market/desktop/styles/_details.scss */
+.property-details.desktop {
+  left: 647px;
+  top: 50px;
+  right: 0;
+  bottom: 0;
+}
+/* line 17, ../../src/app/market/desktop/styles/_details.scss */
+.property-details.tablet {
+  left: 402px;
+  top: 50px;
+  right: 0;
+  bottom: 0;
+}
+/* line 25, ../../src/app/market/desktop/styles/_details.scss */
 .property-details .page-header h4 {
   font-weight: normal;
 }
-/* line 21, ../../src/app/market/desktop/styles/_details.scss */
+/* line 31, ../../src/app/market/desktop/styles/_details.scss */
 .property-details .comment-alert span {
   float: right;
   font-size: 13px;
 }
-/* line 25, ../../src/app/market/desktop/styles/_details.scss */
+/* line 35, ../../src/app/market/desktop/styles/_details.scss */
 .property-details .comment-alert p {
   overflow-wrap: break-word;
 }
@@ -5629,12 +5639,12 @@ a.label:hover, a.badge:hover {
 .property-details .tab-content {
   margin-top: 5px;
 }
-/* line 32, ../../src/app/market/desktop/styles/_details.scss */
+/* line 42, ../../src/app/market/desktop/styles/_details.scss */
 .property-details .form-actions {
   background: none;
 }
 
-/* line 39, ../../src/app/market/desktop/styles/_details.scss */
+/* line 49, ../../src/app/market/desktop/styles/_details.scss */
 .picture-container .counter {
   position: absolute;
   top: 10px;
@@ -5652,55 +5662,55 @@ a.label:hover, a.badge:hover {
   border-radius: 23px;
   opacity: 0.7;
 }
-/* line 54, ../../src/app/market/desktop/styles/_details.scss */
+/* line 64, ../../src/app/market/desktop/styles/_details.scss */
 .picture-container .counter:hover {
   opacity: 0.8;
   cursor: default;
 }
-/* line 60, ../../src/app/market/desktop/styles/_details.scss */
+/* line 70, ../../src/app/market/desktop/styles/_details.scss */
 .picture-container .carousel .item > img {
   margin: 0px auto;
   display: block;
   line-height: 1;
 }
-/* line 66, ../../src/app/market/desktop/styles/_details.scss */
+/* line 76, ../../src/app/market/desktop/styles/_details.scss */
 .picture-container .carousel-inner {
   text-align: center;
   min-height: 40px;
 }
-/* line 71, ../../src/app/market/desktop/styles/_details.scss */
+/* line 81, ../../src/app/market/desktop/styles/_details.scss */
 .picture-container .carousel-control {
   top: 50%;
 }
-/* line 75, ../../src/app/market/desktop/styles/_details.scss */
+/* line 85, ../../src/app/market/desktop/styles/_details.scss */
 .picture-container .left {
   left: -55px;
 }
-/* line 79, ../../src/app/market/desktop/styles/_details.scss */
+/* line 89, ../../src/app/market/desktop/styles/_details.scss */
 .picture-container .right {
   right: -55px;
 }
 
-/* line 84, ../../src/app/market/desktop/styles/_details.scss */
+/* line 94, ../../src/app/market/desktop/styles/_details.scss */
 .contact-selected strong {
   color: #0088cc;
 }
 
-/* line 89, ../../src/app/market/desktop/styles/_details.scss */
+/* line 99, ../../src/app/market/desktop/styles/_details.scss */
 .well.contact {
   cursor: pointer;
 }
 
-/* line 94, ../../src/app/market/desktop/styles/_details.scss */
+/* line 104, ../../src/app/market/desktop/styles/_details.scss */
 .contact-form .controls {
   margin: 0 0 30px;
 }
-/* line 97, ../../src/app/market/desktop/styles/_details.scss */
+/* line 107, ../../src/app/market/desktop/styles/_details.scss */
 .contact-form .checkbox {
   cursor: pointer;
 }
 
-/* line 104, ../../src/app/market/desktop/styles/_details.scss */
+/* line 114, ../../src/app/market/desktop/styles/_details.scss */
 .finance-container .control-group .finance-delete {
   font-size: 16px;
   line-height: 30px;
@@ -5712,11 +5722,11 @@ a.label:hover, a.badge:hover {
   height: 30px;
   margin-right: 10px;
 }
-/* line 115, ../../src/app/market/desktop/styles/_details.scss */
+/* line 125, ../../src/app/market/desktop/styles/_details.scss */
 .finance-container .control-group .finance-delete:hover {
   color: #481610;
 }
-/* line 120, ../../src/app/market/desktop/styles/_details.scss */
+/* line 130, ../../src/app/market/desktop/styles/_details.scss */
 .finance-container .control-group:hover .finance-delete {
   color: #9c3022;
   -webkit-transition: all 0.4s ease-in;
@@ -5724,21 +5734,21 @@ a.label:hover, a.badge:hover {
   -o-transition: all 0.4s ease-in;
   transition: all 0.4s ease-in;
 }
-/* line 126, ../../src/app/market/desktop/styles/_details.scss */
+/* line 136, ../../src/app/market/desktop/styles/_details.scss */
 .finance-container .control-label {
   position: relative;
   text-align: left;
   padding-top: 0;
   width: auto;
 }
-/* line 133, ../../src/app/market/desktop/styles/_details.scss */
+/* line 143, ../../src/app/market/desktop/styles/_details.scss */
 .finance-container .control-spinner {
   display: inline-block;
   width: 10px;
   height: 10px;
   margin-left: 20px;
 }
-/* line 140, ../../src/app/market/desktop/styles/_details.scss */
+/* line 150, ../../src/app/market/desktop/styles/_details.scss */
 .finance-container .edit-label {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
@@ -5748,11 +5758,11 @@ a.label:hover, a.badge:hover {
   width: 150px;
   margin-right: 10px;
 }
-/* line 148, ../../src/app/market/desktop/styles/_details.scss */
+/* line 158, ../../src/app/market/desktop/styles/_details.scss */
 .finance-container .edit-label:hover {
   background: rgba(0, 0, 0, 0.1);
 }
-/* line 152, ../../src/app/market/desktop/styles/_details.scss */
+/* line 162, ../../src/app/market/desktop/styles/_details.scss */
 .finance-container .edit-label:focus {
   font-weight: normal;
   background-color: white !important;
@@ -5765,26 +5775,26 @@ a.label:hover, a.badge:hover {
   -o-transition: border linear 0.2s, box-shadow linear 0.2s;
   transition: border linear 0.2s, box-shadow linear 0.2s;
 }
-/* line 160, ../../src/app/market/desktop/styles/_details.scss */
+/* line 170, ../../src/app/market/desktop/styles/_details.scss */
 .finance-container .edit-label ~ i {
   position: absolute;
   top: 5px;
   right: 15px;
   color: transparent;
 }
-/* line 167, ../../src/app/market/desktop/styles/_details.scss */
+/* line 177, ../../src/app/market/desktop/styles/_details.scss */
 .finance-container .edit-label:hover ~ i {
   color: rgba(0, 0, 0, 0.55);
 }
-/* line 171, ../../src/app/market/desktop/styles/_details.scss */
+/* line 181, ../../src/app/market/desktop/styles/_details.scss */
 .finance-container .edit-label:focus ~ i {
   color: transparent;
 }
-/* line 176, ../../src/app/market/desktop/styles/_details.scss */
+/* line 186, ../../src/app/market/desktop/styles/_details.scss */
 .finance-container select {
   width: 60px;
 }
-/* line 180, ../../src/app/market/desktop/styles/_details.scss */
+/* line 190, ../../src/app/market/desktop/styles/_details.scss */
 .finance-container .form-actions {
   padding-left: 20px;
 }

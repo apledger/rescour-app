@@ -1,7 +1,7 @@
 <div class="tabbable">
   <ul class="nav nav-tabs">
     <li ng-repeat="pane in panes" ng-class="{active:pane.selected}">
-      <a href="javascript:" ah-tap="setHash(pane)">{{pane.heading}}</a>
+      <a href="javascript:" ng-click="setHash(pane)">{{pane.heading}}</a>
     </li>
   </ul>
   <div class="tab-content" ng-transclude></div>

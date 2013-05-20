@@ -1,28 +1,4 @@
 <header>
-    <div class="navbar market-controls">
-        <ul class="nav" style="margin-left:15px;">
-            <li ng-class="{'active': toggle == 'all'}">
-                <a ah-tap="listAll()" href="javascript:"><i class="icon-list"></i></a>
-            </li>
-            <li ng-class="{'active': toggle == 'favorites'}">
-                <a ah-tap="listFavorites()" href="javascript:"><i class="icon-star"></i></a>
-            </li>
-            <li ng-class="{'active': toggle == 'hidden'}">
-                <a ah-tap="listHidden()" href="javascript:"><i
-                        class="icon-ban-circle"></i></a>
-            </li>
-            <li ng-class="{'active': toggle == 'notes'}">
-                <a ah-tap="listNotes()" href="javascript:"><i
-                        class="icon-pencil"></i></a>
-            </li>
-            <li>
-                <form class="navbar-search">
-                    <input type="text" class="search-query input-medium" ng-model="searchText.title"
-                           placeholder="Search">
-                </form>
-            </li>
-        </ul>
-    </div>
 
     <a class="logo" href="/"></a>
 
@@ -37,11 +13,41 @@
 <div class="main-container" spinner="getActive().details.$spinner" spinner-size="large">
     <!--LIST BEGIN-->
     <div id="MarketList" class="tablet" ng-controller="ListController">
-        <div class="market-scroll"
-             chunk="items | filter:searchText | limitVisible | orderBy:orderNA()">
+        <div class="powers">
+            <div class="powers-menu">
+                <a href="javascript:">Showing {{toggle}}<i></i></a>
+                <ul class="powers-menu-list">
+                    <li><a ah-tap="listAll()" href="javascript:">All <i class="icon-list"></i></a></li>
+                    <li><a ah-tap="listFavorites()" href="javascript:">Favorites <i class="icon-star"></i></a></li>
+                    <li><a ah-tap="listHidden()" href="javascript:">Hidden <i class="icon-ban-circle"></i></a></li>
+                    <li><a ah-tap="listNotes()" href="javascript:">Notes <i class="icon-pencil"></i></a></li>
+                </ul>
+            </div>
+
+                <!--<li ng-class="{'active': toggle == 'favorites'}">-->
+                <!--<a ah-tap="listFavorites()" href="javascript:"><i class="icon-star"></i></a>-->
+                <!--</li>-->
+                <!--<li ng-class="{'active': toggle == 'hidden'}">-->
+                <!--<a ah-tap="listHidden()" href="javascript:"><i-->
+                <!--class="icon-ban-circle"></i></a>-->
+                <!--</li>-->
+                <!--<li ng-class="{'active': toggle == 'notes'}">-->
+                <!--<a ah-tap="listNotes()" href="javascript:"><i-->
+                <!--class="icon-pencil"></i></a>-->
+                <!--</li>-->
+                <!--<li>-->
+                <!--<form class="navbar-search">-->
+                <!--<input type="text" class="search-query input-medium" ng-model="searchText.title"-->
+                <!--placeholder="Search">-->
+                <!--</form>-->
+                <!--</li>-->
+
+        </div>
+        <div class="market-list-scroll"
+             chunk="items | filter:searchText | limitVisible | orderBy:orderNA()" chunk-size="8">
             <!--Toggle favorites button-->
             <!--Item boxes display-->
-            <div class="market-wrap">
+            <div class="market-list-wrap">
                 <div id="item-{{item.id}}" class="item-well"
                      ng-class="{'item-hidden': item.hidden}"
                      ng-repeat="item in chunk"
@@ -116,7 +122,12 @@
     <!--LIST END-->
 
     <!--Map-->
-    <div map class="tablet"></div>
+    <div class="map-container tablet">
+        <div class="powers"></div>
+        <div class="map-wrap">
+            <div map></div>
+        </div>
+    </div>
 </div>
 
 <div id="Footer">

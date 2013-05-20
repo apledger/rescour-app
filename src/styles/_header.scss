@@ -1,7 +1,8 @@
 header {
   position: relative;
   border-top: 4px solid #993333;
-  @include box-shadow(3px 1px 5px $dark-gray);
+  //@include box-shadow(3px 1px 5px $dark-gray);
+  border-bottom: darken(#d5d5d5, 30%);
   @include gradient-vertical(#ffffff, #d5d5d5);
   width: 100%;
   height: $headerHeight;

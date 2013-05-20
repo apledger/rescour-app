@@ -7,8 +7,8 @@
  */
 
 angular.module('rescour.market.map', ['rescour.market'])
-    .directive("map", ['Items', '$compile', 'PropertyDetails', '$location',
-        function (Items, $compile, PropertyDetails, $location) {
+    .directive("map", ['Items', '$compile', 'PropertyDetails', '$location', 'BrowserDetect',
+        function (Items, $compile, PropertyDetails, $location, BrowserDetect) {
             return {
                 restrict: "A",
                 transclude: true,
@@ -76,16 +76,22 @@ angular.module('rescour.market.map', ['rescour.market'])
                             if (item.isVisible && item.location) {
                                 // Initialize new marker at location
                                 item.marker = new L.Marker(new L.LatLng(item.location[0], item.location[1]), { title: item.title });
+                                var popupTpl = popupTemplate(item);
+                                item.marker.bindPopup(popupTpl, {closeButton: false, minWidth: 325});
                                 // Open modal popup
                                 item.marker.on("click", function (e) {
                                     scope.$apply(function () {
-                                        scope.showDetails(item);
+                                        if (BrowserDetect.platform !== 'tablet') {
+                                            scope.showDetails(item);
+                                        } else {
+                                            item.marker.openPopup();
+                                        }
                                     });
                                 });
 
                                 // Bind mouseover popup
                                 item.marker.on("mouseover", function (e) {
-                                    item.marker.bindPopup(popupTemplate(item), {closeButton: false, minWidth: 325}).openPopup();
+                                    item.marker.openPopup();
                                 });
                                 // Add marker to marker group
                                 markers.addLayer(item.marker);

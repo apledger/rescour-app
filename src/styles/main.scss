@@ -9,6 +9,7 @@
 @import "header";
 @import "footer";
 @import "ngform";
+@import "powers";
 
 .loading-background {
   position: absolute; left: 0px; top: 0px; bottom:0px; right: 0px; background: $light-gray; z-index: 5;
@@ -96,7 +97,7 @@ body {
 
 .main-container {
   position: absolute;
-  top: $headerHeight + 5px;
+  top: $headerHeight + 4px;
   left: 0;
   right: 0;
   bottom: 21px;

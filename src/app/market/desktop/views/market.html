@@ -104,11 +104,11 @@
 
     <!--LIST BEGIN-->
     <div id="MarketList" ng-controller="ListController">
-        <div class="market-scroll"
+        <div class="market-list-scroll"
              chunk="items | filter:searchText | limitVisible | orderBy:orderNA()">
             <!--Toggle favorites button-->
             <!--Item boxes display-->
-            <div class="market-wrap">
+            <div class="market-list-wrap">
                 <div id="item-{{item.id}}" class="item-well"
                      ng-class="{'item-hidden': item.hidden}"
                      ng-repeat="item in chunk"

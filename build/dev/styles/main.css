@@ -6709,6 +6709,13 @@ ul {
   bottom: 0;
 }
 
+/* line 8, ../../src/app/market/tablet/styles/_list.scss */
+.market-controls.tablet {
+  left: 0;
+  position: relative;
+  float: left;
+}
+
 /* line 1, ../../src/app/login/desktop/styles/_login.scss */
 .login-wrap {
   position: absolute;

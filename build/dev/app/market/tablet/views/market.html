@@ -38,7 +38,7 @@
     <!--LIST BEGIN-->
     <div id="MarketList" class="tablet" ng-controller="ListController">
         <div class="market-scroll"
-             chunk="items | filter:searchText | limitVisible | orderBy:orderNA()">
+             chunk="items | filter:searchText | limitVisible | orderBy:orderNA()" chunk-size="5">
             <!--Toggle favorites button-->
             <!--Item boxes display-->
             <div class="market-wrap">

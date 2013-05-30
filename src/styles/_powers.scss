@@ -21,14 +21,12 @@ $powersBg: $red;
     position: absolute;
     top: 100%;
     left: 0;
-    height: 5px;
     width: 100%;
     background: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgi…gd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmFkKSIgLz48L3N2Zz4g');
     background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, rgba(0, 0, 0, 0.2)), color-stop(100%, rgba(0, 0, 0, 0)));
     background: -webkit-linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
     background: -moz-linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
     background: -o-linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
-
     background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
   }
 

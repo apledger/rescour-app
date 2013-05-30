@@ -49,6 +49,8 @@ $detailsHeaderColor: $light-gray;
 }
 
 .picture-container {
+  min-height: 420px;
+  position: relative;
 
   .counter {
     position: absolute;
@@ -71,15 +73,22 @@ $detailsHeaderColor: $light-gray;
     }
   }
 
+  .carousel {
+    margin-bottom: 0;
+  }
+
   .carousel .item > img {
-    margin:0px auto;
+    margin: 0px auto;
+    max-width: 600px;
+    max-height: 400px;
     display: block;
     line-height: 1;
   }
 
   .carousel-inner {
     text-align: center;
-    min-height: 40px;
+    height: 400px;
+    width: 600px;
   }
 
   .carousel-control {

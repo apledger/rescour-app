@@ -1116,7 +1116,6 @@ angular.module('rescour.market', [])
                             var item = Items.getActive() || {};
                             if (!item.hasOwnProperty('details') || _.isEmpty(item.details)) {
                                 item.getDetails().then(function (_item) {
-                                    view.setConditionalClass(item.getStatusClass());
                                     deferred.resolve(_item);
                                 });
                             } else {
@@ -1139,6 +1138,7 @@ angular.module('rescour.market', [])
                         view.close();
                     } else {
                         Items.setActive(item);
+                        view.setConditionalClass(item.getStatusClass());
                         view
                             .open()
                             .then(function () {

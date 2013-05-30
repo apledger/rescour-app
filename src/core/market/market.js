@@ -311,6 +311,24 @@ angular.module('rescour.market', [])
                 }
             };
 
+            Item.prototype.getStatusClass = function (type) {
+                var suffix = (type === 'solid' || type === 'gradient') ? '-' + type : '';
+
+                switch (this.getAttribute('propertyStatus')) {
+                    case 'Marketing':
+                        return 'status-marketing' + suffix;
+                    case 'Under Contract':
+                        return 'status-under' + suffix;
+                    case 'Under LOI':
+                        return 'status-under' + suffix;
+                    case 'Expired':
+                        return 'status-expired' + suffix;
+                    default:
+                        return 'status-unknown' + suffix;
+                }
+
+            };
+
             Item.prototype.getAddress = function () {
                 var addressStr = '';
 
@@ -1098,6 +1116,7 @@ angular.module('rescour.market', [])
                             var item = Items.getActive() || {};
                             if (!item.hasOwnProperty('details') || _.isEmpty(item.details)) {
                                 item.getDetails().then(function (_item) {
+                                    view.setConditionalClass(item.getStatusClass());
                                     deferred.resolve(_item);
                                 });
                             } else {

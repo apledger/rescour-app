@@ -41,7 +41,7 @@ angular.module('rescour.market.map', ['rescour.market'])
                     function popupTemplate(item) {
                         scope.item = item;
 
-                        var popupTempl = "<div><div class=\"btn popup-striped-container popup-header\">" +
+                        var popupTempl = "<div><div class=\"btn popup-striped-container popup-header " + item.getStatusClass('gradient') + "\">" +
                             "<h4 ng-click=\"showItemDetails(item)\">" + item.title + "</h4>" +
                             "</div>" +
                             "<div class=\"popup-main-container clearfix\">" +

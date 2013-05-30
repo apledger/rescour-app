@@ -87,7 +87,6 @@
 
       &.popup-header {
         border-bottom: 1px solid $grayLighter;
-        @include buttonBackground($btnDangerBackground, $btnDangerBackgroundHighlight);
         @include border-top-right-radius(5px);
         @include border-top-left-radius(5px);
         @include border-bottom-left-radius(0);

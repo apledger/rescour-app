@@ -88,16 +88,6 @@ ul {
       .preview-caption {
         position: absolute;
         bottom: 0;
-
-        &.caption-green h2 {
-          color: lighten($green, 30%);
-        }
-        &.caption-orange h2 {
-          color: lighten($orange, 30%);
-        }
-        &.caption-red h2 {
-          color: lighten($red, 30%);
-        }
       }
     }
 

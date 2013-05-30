@@ -6,6 +6,7 @@ $detailsHeaderColor: $light-gray;
   background: $light-gray;
   overflow-y: scroll;
   overflow-x: hidden;
+  @include rescourTabs;
 
   &.desktop {
     left: $filterWidth + $marketWidth;
@@ -22,6 +23,11 @@ $detailsHeaderColor: $light-gray;
   }
 
   .page-header {
+    margin: 20px 20px 30px;
+    .btn {
+      margin-top: 10px;
+    }
+
     h4 {
       font-weight: normal;
     }
@@ -36,8 +42,6 @@ $detailsHeaderColor: $light-gray;
       overflow-wrap: break-word;
     }
   }
-
-  @include rescourTabs;
 
   .form-actions {
     background: none;

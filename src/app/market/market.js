@@ -192,19 +192,6 @@ angular.module('rescour.app')
                 $scope.centerMap(item);
             };
 
-            $scope.getStatusClass = function (status) {
-                switch (status) {
-                    case 'Marketing':
-                        return 'caption-green';
-                    case 'Under Contract':
-                        return 'caption-orange';
-                    case 'Under LOI':
-                        return 'caption-orange';
-                    case 'Expired':
-                        return 'caption-red';
-                }
-            };
-
             $scope.orderNA = function () {
                 return function (object) {
                     if (object.attributes.range.yearBuilt === 'NA' && object.attributes.range.numUnits === 'NA') {

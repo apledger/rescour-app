@@ -68,6 +68,14 @@
                         {{current.details.acres}}
                     </td>
                 </tr>
+                <tr ng-show="current.details.price">
+                    <td>
+                        <strong>Price</strong>
+                    </td>
+                    <td>
+                        {{current.details.price}}
+                    </td>
+                </tr>
                 <tr>
                     <td>
                         <strong>Flyer</strong>
@@ -113,14 +121,14 @@
                         {{mix.units}}
                     </td>
                     <td>
-                        {{mix.sqft}} ft&sup2;
+                        {{mix.sqft}}
                     </td>
                     <td>
                         {{mix.rent && (mix.rent | currency) || ""}}
                         <!--{{mix.rent | currency}}-->
                     </td>
                     <td>
-                        {{mix.rentpsqft}}
+                        {{mix.rentpsqft && (mix.rentpsqft | currency) || ""}}
                     </td>
                 </tr>
                 </tbody>

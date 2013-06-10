@@ -185,8 +185,88 @@ angular.module('rescour.app')
                 item.isFavorite = !item.isFavorite;
             };
         }])
-    .controller("ListController", ['$scope', 'PropertyDetails', '$window',
-        function ($scope, PropertyDetails, $window) {
+    .controller("ListController", ['$scope', 'PropertyDetails', '$window', 'Power',
+        function ($scope, PropertyDetails, $window, Power) {
+            $scope.sortBy = function (dimension) {
+                console.log("sorting " + dimension);
+            }
+
+            $scope.sortYear = function () {
+                $scope.sortBy('year')
+            };
+
+            $scope.sortUnits = function () {
+                $scope.sortBy('units')
+            };
+
+            $scope.sortPower = {
+                title: 'Sort',
+                options: {
+                    'Year': {
+                        action: $scope.sortYear,
+                        icon: 'icon-plus',
+                        title: 'Year'
+                    },
+                    'Units': {
+                        action: function () {
+                            console.log("hello");
+                            $scope.sortBy('Units');
+                        },
+                        icon: 'icon-minus',
+                        title: 'Units'
+                    }
+                }
+            };
+
+            $scope.showPower = {
+                title: 'Show',
+                options: {
+                    'All': {
+                        action: function () {
+                            console.log("All");
+                        },
+                        icon: 'icon-plus',
+                        title: 'All'
+                    },
+                    'Favorites': {
+                        action: function () {
+                            console.log("favorites");
+                        },
+                        icon: 'icon-minus',
+                        title: 'Favorites'
+                    },
+                    'Hidden': {
+                        action: function () {
+                            console.log("Hidden");
+                        },
+                        icon: 'icon-minus',
+                        title: 'Hidden'
+                    },
+                    'Notes': {
+                        action: function () {
+                            console.log("Notes");
+                        },
+                        icon: 'icon-minus',
+                        title: 'Notes'
+                    }
+                }
+            };
+
+            $scope.searchPower = {
+                title: 'Search',
+                options: {
+                    'Notes': {
+                        action: function () {
+                            console.log("Notes");
+                        },
+                        icon: 'icon-minus',
+                        title: 'Notes'
+                    }
+                }
+            };
+
+
+
             $scope.panTo = function (item) {
                 $scope.centerMap(item);
             };

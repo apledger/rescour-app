@@ -19,6 +19,7 @@ angular.module('rescour.app',
             'rescour.market',
             'rescour.market.map',
             'rescour.browserDetect',
+            'rescour.powers',
             'ahTouch'
         ])
     .config(['$routeProvider', '$locationProvider', '$httpProvider', 'BrowserDetectProvider',

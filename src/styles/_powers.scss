@@ -6,15 +6,11 @@ $powersBg: $grayLighter;
   height: 30px;
   width: 100%;
   position: relative;
-  padding: 5px 15px;
   @include gradient-vertical(darken($powersBg, 10%), lighten($powersBg, 10%));
   border-top: 1px solid darken($powersBg, 20%);
   @include box-shadows(inset 0 1px 0 lighten($powersBg, 20%), 0 2px 2px rgba(0, 0, 0, 0.4));
   z-index: 5000;
 
-  &.expand {
-    height: auto;
-  }
 
   &::after {
     content: "";
@@ -30,24 +26,33 @@ $powersBg: $grayLighter;
     background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
   }
 
-  .powers-menu {
+  .power {
+    @include box-sizing(border-box);
+    position: relative;
     display: inline-block;
 
-    .powers-menu-list {
-      display: none;
-      background: $powersBg;
-      //position: relative;
-      height: auto;
-      width: 100%;
-
-      li {
-        display: block;
-      }
+    &:not(:first-child) {
+      margin-left: -5px;
     }
 
-    &.open .powers-menu-list {
+    &.open > .power-menu {
       display: block;
+    }
 
+    .power-title {
+      padding: 5px 20px;
+      border-right: 1px solid $gray;
+      cursor: pointer;
+    }
+
+    .power-menu {
+      position: absolute;
+      left: 0;
+      display: none;
+      background: gray;
+      padding: 15px;
+      min-width: 100%;
     }
   }
+
 }

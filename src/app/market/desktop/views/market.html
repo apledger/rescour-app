@@ -105,15 +105,9 @@
     <!--LIST BEGIN-->
     <div id="MarketList" ng-controller="ListController">
         <div class="powers">
-            <div class="powers-menu">
-                <a href="javascript:">Showing {{toggle}}<i></i></a>
-                <ul class="powers-menu-list">
-                    <li><a ah-tap="listAll()" href="javascript:">All <i class="icon-list"></i></a></li>
-                    <li><a ah-tap="listFavorites()" href="javascript:">Favorites <i class="icon-star"></i></a></li>
-                    <li><a ah-tap="listHidden()" href="javascript:">Hidden <i class="icon-ban-circle"></i></a></li>
-                    <li><a ah-tap="listNotes()" href="javascript:">Notes <i class="icon-pencil"></i></a></li>
-                </ul>
-            </div>
+            <div power="sortPower"></div>
+            <div power="showPower"></div>
+            <div power="searchPower"></div>
         </div>
         <div class="market-list-scroll"
              chunk="items | filter:searchText | limitVisible | orderBy:orderNA()">

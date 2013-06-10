@@ -2,13 +2,14 @@
 @import "compass/reset";
 @import "compass_twitter_bootstrap";
 @import "rescour_variables";
-@import "market/desktop/styles/market";
-@import "market/tablet/styles/market";
-@import "login/desktop/styles/login";
-@import "account/desktop/styles/account";
+@import "app/market/desktop/styles/market";
+@import "app/market/tablet/styles/market";
+@import "app/login/desktop/styles/login";
+@import "app/account/desktop/styles/account";
 @import "header";
 @import "footer";
 @import "ngform";
+//@import "core/powers/powers";
 @import "powers";
 
 .loading-background {

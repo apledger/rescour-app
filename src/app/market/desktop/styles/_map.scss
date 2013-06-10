@@ -17,11 +17,13 @@
 }
 
 .marker-cluster-small div {
-  @include buttonBackground($btnSuccessBackground, $btnSuccessBackgroundHighlight);
+  //@include buttonBackground($btnSuccessBackground, $btnSuccessBackgroundHighlight);
+  @include buttonBackground($btnInfoBackground, $btnInfoBackgroundHighlight);
+
 }
 
 .marker-cluster-medium div {
-  @include buttonBackground($btnInfoBackground, $btnInfoBackgroundHighlight);
+  @include buttonBackground(darken($btnInfoBackground, 20%), darken($btnInfoBackgroundHighlight, 20%));
 }
 
 .marker-cluster-large div {

@@ -104,6 +104,17 @@
 
     <!--LIST BEGIN-->
     <div id="MarketList" ng-controller="ListController">
+        <div class="powers">
+            <div class="powers-menu">
+                <a href="javascript:">Showing {{toggle}}<i></i></a>
+                <ul class="powers-menu-list">
+                    <li><a ah-tap="listAll()" href="javascript:">All <i class="icon-list"></i></a></li>
+                    <li><a ah-tap="listFavorites()" href="javascript:">Favorites <i class="icon-star"></i></a></li>
+                    <li><a ah-tap="listHidden()" href="javascript:">Hidden <i class="icon-ban-circle"></i></a></li>
+                    <li><a ah-tap="listNotes()" href="javascript:">Notes <i class="icon-pencil"></i></a></li>
+                </ul>
+            </div>
+        </div>
         <div class="market-list-scroll"
              chunk="items | filter:searchText | limitVisible | orderBy:orderNA()">
             <!--Toggle favorites button-->
@@ -184,7 +195,13 @@
     <!--LIST END-->
 
     <!--Map-->
-    <div map></div>
+    <div class="map-container desktop">
+        <div class="powers"></div>
+        <div class="map-wrap">
+            <div map></div>
+        </div>
+    </div>
+    <!--<div map></div>-->
 </div>
 
 <div id="Footer">

@@ -11,8 +11,8 @@ angular.module('rescour.app')
         function ($routeProvider, BrowserDetectProvider) {
             $routeProvider
                 .when('/market', {
-//                    templateUrl: '/app/market/' + BrowserDetectProvider.platform + '/views/market.html?' + Date.now(),
-                    templateUrl: '/app/market/tablet/views/market.html?' + Date.now(),
+                    templateUrl: '/app/market/' + BrowserDetectProvider.platform + '/views/market.html?' + Date.now(),
+//                    templateUrl: '/app/market/tablet/views/market.html?' + Date.now(),
                     controller: 'MarketController',
                     reloadOnSearch: false,
                     resolve: {
@@ -185,12 +185,12 @@ angular.module('rescour.app')
                 item.isFavorite = !item.isFavorite;
             };
         }])
-    .controller("ListController", ['$scope', 'PropertyDetails',
-        function ($scope, PropertyDetails) {
+    .controller("ListController", ['$scope', 'PropertyDetails', '$window',
+        function ($scope, PropertyDetails, $window) {
             $scope.panTo = function (item) {
                 $scope.centerMap(item);
             };
-
+            
             $scope.getStatusClass = function (status) {
                 switch (status) {
                     case 'Marketing':

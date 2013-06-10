@@ -562,13 +562,17 @@ angular.module('rescour.utility', [])
                     el.css({
                         height: elParent.height() - elHeight
                     });
+                    console.log(elHeight, elParent.height());
                 }
+
 
                 setHeight(elSibling);
 
-                $window.onresize = function () {
-                    scope.$broadcast('window-resized');
-                };
+                angular.element($window).bind('resize', function () {
+                    scope.$apply(function () {
+                        scope.$broadcast('window-resized');
+                    });
+                });
 
                 scope.$on('window-resized', function () {
                     setHeight(elSibling);

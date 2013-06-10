@@ -149,7 +149,7 @@
                         <div class="preview-mask"><i class="icon-search"></i></div>
                         <img ng-src="{{item.thumbnail}}" alt="">
 
-                        <div class="preview-caption" ng-class="getStatusClass(item.getAttribute('propertyStatus'))">
+                        <div class="preview-caption" ng-class="item.getStatusClass('solid')">
                             <h2>{{item.getAttribute('propertyStatus')}}</h2>
 
                             <p>View Photos</p>

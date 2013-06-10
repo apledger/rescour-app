@@ -58,6 +58,36 @@ angular.module('rescour.app.mock', ['rescour.app', 'ngMockE2E'])
                 city: 'Orlando',
                 region: 'Florida',
                 location: [28.5381, -81.3794]
+            },
+            {
+                city: 'Tampa',
+                region: 'Florida',
+                location: [27.9472, -82.4586]
+            },
+            {
+                city: 'Jacksonville',
+                region: 'Florida',
+                location: [30.3319, -81.6558]
+            },
+            {
+                city: 'Houston',
+                region: 'Texas',
+                location: [29.7631, -95.3631]
+            },
+            {
+                city: 'Dallas',
+                region: 'Texas',
+                location: [32.7828, -96.8039]
+            },
+            {
+                city: 'Austin',
+                region: 'Texas',
+                location: [30.2669, -97.7428]
+            },
+            {
+                city: 'Washington DC',
+                region: 'Washington DC',
+                location: [38.8900, -77.0300]
             }
         ];
         var brokerMap = [

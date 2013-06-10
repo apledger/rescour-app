@@ -1,4 +1,4 @@
-<div class="container-fluid" >
+<div class="container-fluid">
 <div class="row-fluid">
 <div class="page-header clearfix">
     <button class="btn pull-right" ng-click="close()"><i class="icon-arrow-left"></i>&nbsp;Back to map</button>
@@ -10,7 +10,6 @@
 <div pane class="container-fluid" select-fn="selectPane(panes[0])" heading="{{panes[0].heading}}" active="panes[0].active">
     <div class="row-fluid">
         <div class="span12">
-
             <table class="table table-bordered">
                 <tbody>
                 <tr>
@@ -69,6 +68,14 @@
                         {{current.details.acres}}
                     </td>
                 </tr>
+                <tr ng-show="current.details.price">
+                    <td>
+                        <strong>Price</strong>
+                    </td>
+                    <td>
+                        {{current.details.price}}
+                    </td>
+                </tr>
                 <tr>
                     <td>
                         <strong>Flyer</strong>
@@ -114,14 +121,14 @@
                         {{mix.units}}
                     </td>
                     <td>
-                        {{mix.sqft}} ft&sup2;
+                        {{mix.sqft}}
                     </td>
                     <td>
                         {{mix.rent && (mix.rent | currency) || ""}}
                         <!--{{mix.rent | currency}}-->
                     </td>
                     <td>
-                        {{mix.rentpsqft}}
+                        {{mix.rentpsqft && (mix.rentpsqft | currency) || ""}}
                     </td>
                 </tr>
                 </tbody>

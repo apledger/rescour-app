@@ -30,11 +30,19 @@ angular.module('rescour.market.map', ['rescour.market'])
                     map.addLayer(googleLayer);
                     map.addControl(new L.Control.Zoom({ position: 'topright' }));
 
+                    scope.showDetails = function (item) {
+                        $location.search('id', item.id).hash('details');
+                    };
+
+                    scope.showPictures = function (item) {
+                        $location.search('id', item.id).hash('pictures');
+                    };
+
                     function popupTemplate(item) {
                         scope.item = item;
 
-                        var popupTempl = "<div><div class=\"btn popup-striped-container popup-header\">" +
-                            "<h4 ng-click=\"showDetails(item)\">" + item.title + "</h4>" +
+                        var popupTempl = "<div><div class=\"btn popup-striped-container popup-header " + item.getStatusClass('gradient') + "\">" +
+                            "<h4 ng-click=\"showItemDetails(item)\">" + item.title + "</h4>" +
                             "</div>" +
                             "<div class=\"popup-main-container clearfix\">" +
                             "<div class=\"preview\" ng-click=\"showPictures(item)\"><div class=\"preview-mask\"><i class=\"icon-search\"></i></i></div>" +
@@ -54,13 +62,27 @@ angular.module('rescour.market.map', ['rescour.market'])
                         return popupElement[0];
                     }
 
-                    scope.showDetails = function (item) {
-                        $location.search('id', item.id).hash('details');
-                    };
+                    function initMarkers() {
+                        angular.forEach(Items.items, function (item) {
+                            if (item.location) {
+                                item.marker = new L.Marker(new L.LatLng(item.location[0], item.location[1]), { title: item.title });
+                                item.marker.on("click", function (e) {
+                                    scope.$apply(function () {
+                                        if (BrowserDetect.platform !== 'tablet') {
+                                            scope.showDetails(item);
+                                        } else {
+                                            item.marker.bindPopup(popupTemplate(item), {closeButton: false, minWidth: 325}).openPopup();
+                                        }
+                                    });
+                                });
 
-                    scope.showPictures = function (item) {
-                        $location.search('id', item.id).hash('pictures');
-                    };
+                                // Bind mouseover popup
+                                item.marker.on("mouseover", function (e) {
+                                    item.marker.bindPopup(popupTemplate(item), {closeButton: false, minWidth: 325}).openPopup();
+                                });
+                            }
+                        });
+                    }
 
                     scope.$watch(function () {
                         return Items.visibleIds;
@@ -75,24 +97,6 @@ angular.module('rescour.market.map', ['rescour.market'])
                             // Check visibility
                             if (item.isVisible && item.location) {
                                 // Initialize new marker at location
-                                item.marker = new L.Marker(new L.LatLng(item.location[0], item.location[1]), { title: item.title });
-                                var popupTpl = popupTemplate(item);
-                                item.marker.bindPopup(popupTpl, {closeButton: false, minWidth: 325});
-                                // Open modal popup
-                                item.marker.on("click", function (e) {
-                                    scope.$apply(function () {
-                                        if (BrowserDetect.platform !== 'tablet') {
-                                            scope.showDetails(item);
-                                        } else {
-                                            item.marker.openPopup();
-                                        }
-                                    });
-                                });
-
-                                // Bind mouseover popup
-                                item.marker.on("mouseover", function (e) {
-                                    item.marker.openPopup();
-                                });
                                 // Add marker to marker group
                                 markers.addLayer(item.marker);
                             }
@@ -109,6 +113,8 @@ angular.module('rescour.market.map', ['rescour.market'])
                             map.panTo(item.location);
                         }
                     });
+
+                    initMarkers();
                 }
             };
         }]);

@@ -36209,6 +36209,12 @@ dialogModule.provider("$dialog", function () {
                 };
             }
 
+            Dialog.prototype.setConditionalClass = function (dClass) {
+                this.options.conditionalClass ? this.modalEl.removeClass(this.options.conditionalClass) : null;
+                this.modalEl.addClass(dClass);
+                this.options.conditionalClass = dClass;
+            };
+
             // The `isOpen()` method returns wether the dialog is currently visible.
             Dialog.prototype.isOpen = function () {
                 return this._open;
@@ -41514,6 +41520,24 @@ angular.module('rescour.market', [])
                 }
             };
 
+            Item.prototype.getStatusClass = function (type) {
+                var suffix = (type === 'solid' || type === 'gradient') ? '-' + type : '';
+
+                switch (this.getAttribute('propertyStatus')) {
+                    case 'Marketing':
+                        return 'status-marketing' + suffix;
+                    case 'Under Contract':
+                        return 'status-under' + suffix;
+                    case 'Under LOI':
+                        return 'status-under' + suffix;
+                    case 'Expired':
+                        return 'status-expired' + suffix;
+                    default:
+                        return 'status-unknown' + suffix;
+                }
+
+            };
+
             Item.prototype.getAddress = function () {
                 var addressStr = '';
 
@@ -42323,6 +42347,7 @@ angular.module('rescour.market', [])
                         view.close();
                     } else {
                         Items.setActive(item);
+                        view.setConditionalClass(item.getStatusClass());
                         view
                             .open()
                             .then(function () {
@@ -42408,8 +42433,8 @@ angular.module('rescour.market', [])
  */
 
 angular.module('rescour.market.map', ['rescour.market'])
-    .directive("map", ['Items', '$compile', 'PropertyDetails', '$location',
-        function (Items, $compile, PropertyDetails, $location) {
+    .directive("map", ['Items', '$compile', 'PropertyDetails', '$location', 'BrowserDetect',
+        function (Items, $compile, PropertyDetails, $location, BrowserDetect) {
             return {
                 restrict: "A",
                 transclude: true,
@@ -42431,11 +42456,19 @@ angular.module('rescour.market.map', ['rescour.market'])
                     map.addLayer(googleLayer);
                     map.addControl(new L.Control.Zoom({ position: 'topright' }));
 
+                    scope.showDetails = function (item) {
+                        $location.search('id', item.id).hash('details');
+                    };
+
+                    scope.showPictures = function (item) {
+                        $location.search('id', item.id).hash('pictures');
+                    };
+
                     function popupTemplate(item) {
                         scope.item = item;
 
-                        var popupTempl = "<div><div class=\"btn popup-striped-container popup-header\">" +
-                            "<h4 ng-click=\"showDetails(item)\">" + item.title + "</h4>" +
+                        var popupTempl = "<div><div class=\"btn popup-striped-container popup-header " + item.getStatusClass('gradient') + "\">" +
+                            "<h4 ng-click=\"showItemDetails(item)\">" + item.title + "</h4>" +
                             "</div>" +
                             "<div class=\"popup-main-container clearfix\">" +
                             "<div class=\"preview\" ng-click=\"showPictures(item)\"><div class=\"preview-mask\"><i class=\"icon-search\"></i></i></div>" +
@@ -42455,13 +42488,27 @@ angular.module('rescour.market.map', ['rescour.market'])
                         return popupElement[0];
                     }
 
-                    scope.showDetails = function (item) {
-                        $location.search('id', item.id).hash('details');
-                    };
+                    function initMarkers() {
+                        angular.forEach(Items.items, function (item) {
+                            if (item.location) {
+                                item.marker = new L.Marker(new L.LatLng(item.location[0], item.location[1]), { title: item.title });
+                                item.marker.on("click", function (e) {
+                                    scope.$apply(function () {
+                                        if (BrowserDetect.platform !== 'tablet') {
+                                            scope.showDetails(item);
+                                        } else {
+                                            item.marker.bindPopup(popupTemplate(item), {closeButton: false, minWidth: 325}).openPopup();
+                                        }
+                                    });
+                                });
 
-                    scope.showPictures = function (item) {
-                        $location.search('id', item.id).hash('pictures');
-                    };
+                                // Bind mouseover popup
+                                item.marker.on("mouseover", function (e) {
+                                    item.marker.bindPopup(popupTemplate(item), {closeButton: false, minWidth: 325}).openPopup();
+                                });
+                            }
+                        });
+                    }
 
                     scope.$watch(function () {
                         return Items.visibleIds;
@@ -42476,18 +42523,6 @@ angular.module('rescour.market.map', ['rescour.market'])
                             // Check visibility
                             if (item.isVisible && item.location) {
                                 // Initialize new marker at location
-                                item.marker = new L.Marker(new L.LatLng(item.location[0], item.location[1]), { title: item.title });
-                                // Open modal popup
-                                item.marker.on("click", function (e) {
-                                    scope.$apply(function () {
-                                        scope.showDetails(item);
-                                    });
-                                });
-
-                                // Bind mouseover popup
-                                item.marker.on("mouseover", function (e) {
-                                    item.marker.bindPopup(popupTemplate(item), {closeButton: false, minWidth: 325}).openPopup();
-                                });
                                 // Add marker to marker group
                                 markers.addLayer(item.marker);
                             }
@@ -42504,6 +42539,8 @@ angular.module('rescour.market.map', ['rescour.market'])
                             map.panTo(item.location);
                         }
                     });
+
+                    initMarkers();
                 }
             };
         }]);
@@ -43231,8 +43268,8 @@ angular.module('rescour.app')
         function ($routeProvider, BrowserDetectProvider) {
             $routeProvider
                 .when('/market', {
-//                    templateUrl: '/app/market/' + BrowserDetectProvider.platform + '/views/market.html?' + Date.now(),
-                    templateUrl: '/app/market/tablet/views/market.html?' + Date.now(),
+                    templateUrl: '/app/market/' + BrowserDetectProvider.platform + '/views/market.html?' + Date.now(),
+//                    templateUrl: '/app/market/tablet/views/market.html?' + Date.now(),
 
                     controller: 'MarketController',
                     reloadOnSearch: false,
@@ -43410,19 +43447,6 @@ angular.module('rescour.app')
         function ($scope, PropertyDetails) {
             $scope.panTo = function (item) {
                 $scope.centerMap(item);
-            };
-
-            $scope.getStatusClass = function (status) {
-                switch (status) {
-                    case 'Marketing':
-                        return 'caption-green';
-                    case 'Under Contract':
-                        return 'caption-orange';
-                    case 'Under LOI':
-                        return 'caption-orange';
-                    case 'Expired':
-                        return 'caption-red';
-                }
             };
 
             $scope.orderNA = function () {

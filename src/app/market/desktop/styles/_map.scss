@@ -33,11 +33,13 @@
 }
 
 .marker-cluster-small div {
-  @include buttonBackground($btnSuccessBackground, $btnSuccessBackgroundHighlight);
+  //@include buttonBackground($btnSuccessBackground, $btnSuccessBackgroundHighlight);
+  @include buttonBackground($btnInfoBackground, $btnInfoBackgroundHighlight);
+
 }
 
 .marker-cluster-medium div {
-  @include buttonBackground($btnInfoBackground, $btnInfoBackgroundHighlight);
+  @include buttonBackground(darken($btnInfoBackground, 20%), darken($btnInfoBackgroundHighlight, 20%));
 }
 
 .marker-cluster-large div {
@@ -103,7 +105,6 @@
 
       &.popup-header {
         border-bottom: 1px solid $grayLighter;
-        @include buttonBackground($btnDangerBackground, $btnDangerBackgroundHighlight);
         @include border-top-right-radius(5px);
         @include border-top-left-radius(5px);
         @include border-bottom-left-radius(0);

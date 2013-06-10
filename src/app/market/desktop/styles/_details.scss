@@ -6,6 +6,7 @@ $detailsHeaderColor: $light-gray;
   background: $light-gray;
   overflow-y: scroll;
   overflow-x: hidden;
+  @include rescourTabs;
 
   &.desktop {
     left: $filterWidth + $marketWidth;
@@ -22,6 +23,11 @@ $detailsHeaderColor: $light-gray;
   }
 
   .page-header {
+    margin: 20px 20px 30px;
+    .btn {
+      margin-top: 10px;
+    }
+
     h4 {
       font-weight: normal;
     }
@@ -37,14 +43,14 @@ $detailsHeaderColor: $light-gray;
     }
   }
 
-  @include rescourTabs;
-
   .form-actions {
     background: none;
   }
 }
 
 .picture-container {
+  min-height: 420px;
+  position: relative;
 
   .counter {
     position: absolute;
@@ -67,15 +73,22 @@ $detailsHeaderColor: $light-gray;
     }
   }
 
+  .carousel {
+    margin-bottom: 0;
+  }
+
   .carousel .item > img {
-    margin:0px auto;
+    margin: 0px auto;
+    max-width: 600px;
+    max-height: 400px;
     display: block;
     line-height: 1;
   }
 
   .carousel-inner {
     text-align: center;
-    min-height: 40px;
+    height: 400px;
+    width: 600px;
   }
 
   .carousel-control {

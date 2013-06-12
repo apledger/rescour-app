@@ -156,14 +156,17 @@
 
 <div pane class="container-fluid picture-container" heading="{{panes[1].heading}}" active="panes[1].active">
     <div class="row-fluid">
-        <div class="span8 offset2" ng-show="current.getImages().length > 0">
-            <div carousel no-transition="true">
-                <div slide ng-repeat="slide in current.getImages()" active="slide.active">
-                    <img ng-src="{{slide.link}}" style="margin:auto;">
+        <div class="span10 offset1" ng-show="current.getImages().length > 0">
 
-                    <div class="counter">{{$index + 1}} of {{current.getImages().length}}</div>
-                </div>
-            </div>
+            <div img-viewer images="currentImages"></div>
+
+            <!--<div carousel no-transition="true">-->
+                <!--<div slide ng-repeat="slide in current.getImages()" active="slide.active">-->
+                    <!--<img ng-src="{{slide.link}}" style="margin:auto;">-->
+
+                    <!--<div class="counter">{{$index + 1}} of {{current.getImages().length}}</div>-->
+                <!--</div>-->
+            <!--</div>-->
         </div>
         <div class="span8 alert alert-info" ng-show="current.getImages().length == 0">
             <strong>Sorry!</strong> We don't have any images for this listing.

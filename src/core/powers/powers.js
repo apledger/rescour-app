@@ -59,7 +59,7 @@ angular.module('rescour.powers', [])
 
                     PowersController.addPower(scope);
 
-                    console.log(scope.power);
+//                    console.log(scope.power);
 
                     element.bind('click', function (e) {
                         if (!_power.isOpen) {
@@ -87,7 +87,7 @@ angular.module('rescour.powers', [])
                     el.css({
                         height: elParent.height() - elHeight
                     });
-                    console.log(elHeight, elParent.height());
+//                    console.log(elHeight, elParent.height());
                 }
 
                 setHeight(elSibling);

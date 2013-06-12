@@ -300,6 +300,7 @@ angular.module('rescour.app')
             $scope.financeFields = Finance.fields;
             $scope.contactAlerts = [];
             $scope.current = activeItem;
+            $scope.currentImages = $scope.current.getImages();
 
             $scope.close = function () {
                 $location.search('id', null).hash(null);

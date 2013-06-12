@@ -1,0 +1,136 @@
+<header>
+    <a class="logo" href="/"></a>
+
+    <div class="navbar">
+        <ul class="nav pull-right" style="padding-top:4px">
+            <li><a href="/account/">My Account</a></li>
+            <li><a href="/logout">Logout</a></li>
+        </ul>
+    </div>
+</header>
+
+<div class="main-container" spinner="getActive().details.$spinner" spinner-size="large">
+    <!--LIST BEGIN-->
+    <div id="MarketList" class="tablet" ng-controller="ListController">
+        <div class="powers">
+            <div class="powers-menu">
+                <a href="javascript:">Showing {{toggle}}<i></i></a>
+                <ul class="powers-menu-list">
+                    <li><a ah-tap="listAll()" href="javascript:">All <i class="icon-list"></i></a></li>
+                    <li><a ah-tap="listFavorites()" href="javascript:">Favorites <i class="icon-star"></i></a></li>
+                    <li><a ah-tap="listHidden()" href="javascript:">Hidden <i class="icon-ban-circle"></i></a></li>
+                    <li><a ah-tap="listNotes()" href="javascript:">Notes <i class="icon-pencil"></i></a></li>
+                </ul>
+            </div>
+
+                <!--<li ng-class="{'active': toggle == 'favorites'}">-->
+                <!--<a ah-tap="listFavorites()" href="javascript:"><i class="icon-star"></i></a>-->
+                <!--</li>-->
+                <!--<li ng-class="{'active': toggle == 'hidden'}">-->
+                <!--<a ah-tap="listHidden()" href="javascript:"><i-->
+                <!--class="icon-ban-circle"></i></a>-->
+                <!--</li>-->
+                <!--<li ng-class="{'active': toggle == 'notes'}">-->
+                <!--<a ah-tap="listNotes()" href="javascript:"><i-->
+                <!--class="icon-pencil"></i></a>-->
+                <!--</li>-->
+                <!--<li>-->
+                <!--<form class="navbar-search">-->
+                <!--<input type="text" class="search-query input-medium" ng-model="searchText.title"-->
+                <!--placeholder="Search">-->
+                <!--</form>-->
+                <!--</li>-->
+
+        </div>
+        <div class="market-list-scroll"
+             chunk="items | filter:searchText | limitVisible | orderBy:orderNA()" chunk-size="5">
+            <!--Toggle favorites button-->
+            <!--Item boxes display-->
+            <div class="market-list-wrap">
+                <div id="item-{{item.id}}" class="item-well"
+                     ng-class="{'item-hidden': item.hidden}"
+                     ng-repeat="item in chunk"
+                     spinner="item.$spinner">
+                    <!--Thumbnail preview button-->
+
+                    <!--Top bar of item box-->
+                    <div class="dimensions clearfix">
+                        <!--Location Button-->
+                        <a href="javascript:" class="btn location" ng-class="{'disabled': !item.location}"
+                           ah-tap="panTo(item)">
+                            <i class="icon-map-marker"></i>
+                        </a>
+
+                        <div class="header-container">
+                            <div class="title"><a href="javascript:" ah-tap="showItemDetails(item, 'details')">{{item.title
+                                |
+                                ellipsis:25}}</a></div>
+                            <div class="ranges">
+                                <span>{{item.getAttribute('numUnits')}}&nbsp;</span>Units.&nbsp;
+                                Built in<span>&nbsp;{{item.getAttribute('yearBuilt')}}</span>.
+                            </div>
+                        </div>
+                    </div>
+
+                    <a ah-tap="showItemDetails(item, 'pictures')" class="preview" ng-show="!item.hidden">
+                        <div class="preview-mask"><i class="icon-search"></i></div>
+                        <img ng-src="{{item.thumbnail}}" alt="">
+
+                        <div class="preview-caption" ng-class="item.getStatusClass('solid')">
+                            <h2>{{item.getAttribute('propertyStatus')}}</h2>
+
+                            <p>View Photos</p>
+                        </div>
+                    </a>
+
+                    <div class="description" collapse="item.hidden">
+                        <div class="text-container">
+                            <p>{{item.description | ellipsis:110}} </p>
+                        </div>
+                    </div>
+
+                    <div class="footer">
+                        <div class="user-options">
+                            <!--Toggle favorite button-->
+                            <div class="footer-button" ah-tap="toggleFavorites(item)">
+                                <i class="icon-star" ng-class="{'yellow': item.favorites}"></i>
+                            </div>
+
+                            <!--Toggle hidden button-->
+                            <div class="footer-button" ah-tap="toggleHidden(item)">
+                                <i class="icon-ban-circle" ng-class="{'red': item.hidden}"></i>
+                            </div>
+
+                            <div class="footer-button"
+                                 ah-tap="showItemDetails(item, 'comments')">
+                                <i class="icon-pencil"></i>
+                            </div>
+
+                            <!--Contact broker button-->
+                            <div class="footer-button" ah-tap="showItemDetails(item, 'contact')">
+                                <i class="icon-envelope-alt"></i>
+
+                                <span>{{item.getAttribute('broker')}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--LIST END-->
+
+    <!--Map-->
+    <div class="map-container tablet">
+        <div class="powers">
+
+        </div>
+        <div class="map-wrap">
+            <div map></div>
+        </div>
+    </div>
+</div>
+
+<div id="Footer">
+    <p><a href="javascript:">Copyright 2012 REscour</a></p>
+</div>

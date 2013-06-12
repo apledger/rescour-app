@@ -240,33 +240,31 @@ angular.module('rescour.app')
     .
     controller("ListController", ['$scope', 'PropertyDetails', '$window', 'Power',
         function ($scope, PropertyDetails, $window, Power) {
-            $scope.sortBy = function (dimension) {
-                console.log("sorting " + dimension);
-            }
-
-            $scope.sortYear = function () {
-                $scope.sortBy('year')
-            };
-
-            $scope.sortUnits = function () {
-                $scope.sortBy('units')
-            };
+            $scope.sortBy = "yearBuilt";
 
             $scope.sortPower = {
                 title: 'Sort',
                 options: {
                     'Year': {
-                        action: $scope.sortYear,
-                        icon: 'icon-plus',
+                        action: function () {
+                            $scope.sortBy = 'yearBuilt';
+                        },
+                        icon: '',
                         title: 'Year'
                     },
                     'Units': {
                         action: function () {
-                            console.log("hello");
-                            $scope.sortBy('Units');
+                            $scope.sortBy = 'numUnits';
                         },
-                        icon: 'icon-minus',
+                        icon: '',
                         title: 'Units'
+                    },
+                    'Name': {
+                        action: function () {
+                            $scope.sortBy = 'Name';
+                        },
+                        icon: '',
+                        title: 'Name'
                     }
                 }
             };
@@ -310,15 +308,21 @@ angular.module('rescour.app')
             };
 
             $scope.orderNA = function () {
-                return function (object) {
-                    if (object.attributes.range.yearBuilt === 'NA' && object.attributes.range.numUnits === 'NA') {
-                        return 0
-                    } else if (object.attributes.range.yearBuilt === 'NA' || object.attributes.range.numUnits === 'NA') {
-                        return -1;
-                    } else if (object.attributes.range.yearBuilt) {
-                        return -object.attributes.range.yearBuilt;
+                if ($scope.sortBy === "numUnits" || $scope.sortBy === "yearBuilt") {
+                    return function (object) {
+                        if (object.attributes.range.yearBuilt === 'NA' && object.attributes.range.numUnits === 'NA') {
+                            return 0
+                        } else if (object.attributes.range.yearBuilt === 'NA' || object.attributes.range.numUnits === 'NA') {
+                            return -1;
+                        } else if (object.attributes.range[$scope.sortBy]) {
+                            return -object.attributes.range[$scope.sortBy];
+                        }
+                    };
+                } else {
+                    return function(object){
+                        return object.title;
                     }
-                };
+                }
             };
 
             $scope.toggleFavorites = function (item) {

@@ -37,37 +37,42 @@
 <div class="main-container" spinner="getActive().details.$spinner" spinner-size="large">
     <!--FILTERS BEGIN-->
     <div id="Filter" ng-controller="FilterController">
-        <div class="filter-container">
-            <div class="saved-search">
-                <!--Saved search dropdown-->
-                <!--Save search button-->
+        <div class="powers">
+            <div power="savePower"></div>
+            <div power="loadPower"></div>
+        </div>
+        <div class="scroll-container">
+            <div class="filter-container">
+            <!--<div class="saved-search">-->
+                <!--&lt;!&ndash;Saved search dropdown&ndash;&gt;-->
+                <!--&lt;!&ndash;Save search button&ndash;&gt;-->
 
-                <div class="dropdown saved-dropdown">
+                <!--<div class="dropdown saved-dropdown">-->
 
-                    <div class="btn-group">
-                        <button class="btn saved-dropdown" tooltip="Reset" tooltip-placement="bottom"
-                                ng-click="refreshSearch()">
-                            <!--<i class="icon-refresh"></i>-->
-                            {{attributes.title || "New Search"}}
-                        </button>
-                        <button class="btn btn-search-save"
-                                ng-class="{'disabled': !attributes.modified, 'btn-success': attributes.modified}"
-                                tooltip="Save" tooltip-placement="bottom"
-                                ng-click="openSaveDialog()">
-                            <i class="icon-save"></i>
-                        </button>
-                        <a class="btn dropdown-toggle"><i class="icon-caret-down"></i></a>
-                    </div>
+                    <!--<div class="btn-group">-->
+                        <!--<button class="btn saved-dropdown" tooltip="Reset" tooltip-placement="bottom"-->
+                                <!--ng-click="refreshSearch()">-->
+                            <!--&lt;!&ndash;<i class="icon-refresh"></i>&ndash;&gt;-->
+                            <!--{{attributes.title || "New Search"}}-->
+                        <!--</button>-->
+                        <!--<button class="btn btn-search-save"-->
+                                <!--ng-class="{'disabled': !attributes.modified, 'btn-success': attributes.modified}"-->
+                                <!--tooltip="Save" tooltip-placement="bottom"-->
+                                <!--ng-click="openSaveDialog()">-->
+                            <!--<i class="icon-save"></i>-->
+                        <!--</button>-->
+                        <!--<a class="btn dropdown-toggle"><i class="icon-caret-down"></i></a>-->
+                    <!--</div>-->
 
-                    <ul class="dropdown-menu">
-                        <li><a href="javascript:" ng-click="loadSearch()">New Search</a></li>
-                        <li class="divider"></li>
-                        <li ng-repeat="saved in savedSearches">
-                            <a href="javascript:" ng-click="loadSearch(saved)">{{saved.title}}</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+                    <!--<ul class="dropdown-menu">-->
+                        <!--<li><a href="javascript:" ng-click="loadSearch()">New Search</a></li>-->
+                        <!--<li class="divider"></li>-->
+                        <!--<li ng-repeat="saved in savedSearches">-->
+                            <!--<a href="javascript:" ng-click="loadSearch(saved)">{{saved.title}}</a>-->
+                        <!--</li>-->
+                    <!--</ul>-->
+                <!--</div>-->
+            <!--</div>-->
 
             <!--Range sliders-->
             <ul class="nav nav-list" ng-repeat="range in attributes.toArray().range | orderBy:orderByWeight()" slider>
@@ -98,7 +103,7 @@
                     </li>
                 </ul>
             </div>
-        </div>
+        </div></div>
     </div>
     <!--FILTERS END-->
 
@@ -109,7 +114,7 @@
             <div power="showPower"></div>
             <div power="searchPower"></div>
         </div>
-        <div class="market-list-scroll"
+        <div class="scroll-container"
              chunk="items | filter:searchText | limitVisible | orderBy:orderNA()">
             <!--Toggle favorites button-->
             <!--Item boxes display-->
@@ -190,7 +195,9 @@
 
     <!--Map-->
     <div class="map-container desktop">
-        <div class="powers"></div>
+        <div class="powers">
+            <div power="mapPower"></div>
+        </div>
         <div class="map-wrap">
             <div map></div>
         </div>

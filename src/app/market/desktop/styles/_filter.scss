@@ -36,10 +36,13 @@
   }
 
   .filter-container {
+    @include box-sizing(border-box);
     display:block;
     overflow: hidden;
     overflow-y: auto;
     height: 100%;
+    padding-top: 10px;
+
   }
 
   .nav {

@@ -4,3 +4,15 @@
 @import 'slider';
 @import 'list';
 
+.scroll-container {
+  display: block;
+  height: 100%;
+  overflow: hidden;
+  overflow-y: auto;
+  position: relative;
+  -webkit-overflow-scrolling: touch;
+
+  * {
+    -webkit-transform: translate3d(0,0,0);
+  }
+}

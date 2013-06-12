@@ -50,6 +50,26 @@ angular.module('rescour.app')
             $scope.toggle = 'all';
             $scope.getActive = Items.getActive;
             $scope.browser = BrowserDetect;
+            $scope.mapPower = {
+                title: 'Options',
+                options: {
+                    'Year': {
+                        action: function () {
+                            console.log("hello");
+                        },
+                        icon: 'icon-plus',
+                        title: 'Year'
+                    },
+                    'Units': {
+                        action: function () {
+                            console.log("hello");
+                        },
+                        icon: 'icon-minus',
+                        title: 'Units'
+                    }
+                }
+            }
+
 
             function openDetails (id) {
                 if (angular.isObject(Items.items[id])) {
@@ -113,6 +133,46 @@ angular.module('rescour.app')
         function ($scope, Items, Attributes, SavedSearch, $dialog) {
             $scope.selectedSearch = null;
             $scope.savedSearches = SavedSearch.query();
+            console.log($scope.savedSearches);
+            $scope.loadPower = {
+                title: 'Load',
+                options: {
+                    'Year': {
+                        action: function () {
+                            console.log("hello");
+                        },
+                        icon: 'icon-plus',
+                        title: 'Year'
+                    },
+                    'Units': {
+                        action: function () {
+                            console.log("hello");
+                        },
+                        icon: 'icon-minus',
+                        title: 'Units'
+                    }
+                }
+            };
+
+            $scope.savePower = {
+                title: 'Save',
+                options: {
+                    'Year': {
+                        action: function () {
+                            console.log("hello");
+                        },
+                        icon: 'icon-plus',
+                        title: 'Year'
+                    },
+                    'Units': {
+                        action: function () {
+                            console.log("hello");
+                        },
+                        icon: 'icon-minus',
+                        title: 'Units'
+                    }
+                }
+            };
 
             $scope.openSaveDialog = function () {
                 // If its a new search open the dialog
@@ -300,6 +360,39 @@ angular.module('rescour.app')
             $scope.financeFields = Finance.fields;
             $scope.contactAlerts = [];
             $scope.current = activeItem;
+            $scope.detailsPower = {
+                title: 'Options',
+                options: {
+                    'All': {
+                        action: function () {
+                            console.log("All");
+                        },
+                        icon: 'icon-plus',
+                        title: 'All'
+                    },
+                    'Favorites': {
+                        action: function () {
+                            console.log("favorites");
+                        },
+                        icon: 'icon-minus',
+                        title: 'Favorites'
+                    },
+                    'Hidden': {
+                        action: function () {
+                            console.log("Hidden");
+                        },
+                        icon: 'icon-minus',
+                        title: 'Hidden'
+                    },
+                    'Notes': {
+                        action: function () {
+                            console.log("Notes");
+                        },
+                        icon: 'icon-minus',
+                        title: 'Notes'
+                    }
+                }
+            };
 
             $scope.close = function () {
                 $location.search('id', null).hash(null);

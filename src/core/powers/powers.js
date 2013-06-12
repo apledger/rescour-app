@@ -2,8 +2,6 @@ angular.module('rescour.powers', [])
     .factory('Power',
         ['$document', '$window',
             function ($document, $window) {
-                var body = $document.find('body');
-
                 function Power(opts, el) {
                     this.title = opts.title || {};
                     this.options = opts.options || {};
@@ -11,29 +9,29 @@ angular.module('rescour.powers', [])
 
                 return Power;
             }])
-    .controller('PowersController', ['$scope', '$document', function ($scope, $document) {
+    .controller('PowersController', ['$scope', '$rootScope', function ($scope, $rootScope) {
         var powers = [];
 
         this.addPower = function (power) {
             powers.push(power);
-        }
+        };
 
         this.open = function (power) {
+            $rootScope.$broadcast('Powers.close');
+            power.open();
+        };
+
+        $scope.$on('Powers.close', function () {
             angular.forEach(powers, function (value, key) {
                 if (value.power.isOpen) {
-                    $document.unbind('click', value.power.close);
-                    value.power.isOpen = false;
+                    value.power.close();
                 }
             });
+        });
 
-            $document.bind('click', power.close);
-            power.isOpen = true;
-        }
     }])
     .directive('power', ['$document', 'Power', '$compile',
         function ($document, Power, $compile) {
-            var menuTpl = '<div>\n    <ul>\n        <li ng-repeat="option in options" ng-click="option.action()">{{option.title}}</li>\n    </ul>\n</div>';
-//            var menuTpl = '<div>Menu Element</div>'
             return {
                 require: '^powers',
                 scope: {
@@ -48,26 +46,31 @@ angular.module('rescour.powers', [])
 
                     _power.close = function (e) {
                         if (e) {
-                            e.preventDefault();
                             e.stopPropagation();
+                            e.preventDefault();
                         }
+
                         scope.$apply(function () {
                             _power.isOpen = false;
                         });
-                        $document.unbind('click');
-                    }
+
+                        $document.unbind('click', _power.close);
+                    };
+
+                    _power.open = function () {
+                        scope.$apply(function () {
+                            _power.isOpen = true;
+                        });
+                        $document.bind('click', _power.close);
+                    };
 
                     PowersController.addPower(scope);
-
-                    console.log(scope.power);
 
                     element.bind('click', function (e) {
                         if (!_power.isOpen) {
                             e.preventDefault();
                             e.stopPropagation();
-                            scope.$apply(function () {
-                                PowersController.open(_power);
-                            });
+                            PowersController.open(_power);
                         }
                     });
                 }
@@ -87,7 +90,6 @@ angular.module('rescour.powers', [])
                     el.css({
                         height: elParent.height() - elHeight
                     });
-                    console.log(elHeight, elParent.height());
                 }
 
                 setHeight(elSibling);
@@ -104,81 +106,4 @@ angular.module('rescour.powers', [])
             },
             controller: 'PowersController'
         }
-    }])
-//    .directive('powerMenu', ['$location', '$document',
-//        function ($location, $document) {
-//            var openElement = null, close;
-//            return {
-//                scope: {
-//                    options: '=',
-//                    orientation: '@'
-//                },
-//                restrict: 'C',
-//                templateUrl: '/core/powers/template/power-menu.html',
-//                link: function (scope, element, attrs) {
-////                element.bind('click', function (event) {
-////                    if (element.hasClass('open')) {
-////                        element.removeClass('open');
-////                    } else {
-////                        element.addClass('open');
-////                    }
-////                });
-//                    var pAnchor = scope.anchor || 'bottom-left';
-//
-//                    var $scope = scope.$new();
-//
-//                    console.log(element.children());
-//
-//                    scope.$watch(function dropdownTogglePathWatch() {
-//                        return $location.path();
-//                    }, function dropdownTogglePathWatchAction() {
-//                        if (close) {
-//                            close();
-//                        }
-//                    });
-//
-//                    element.parent().bind('click', function (event) {
-//                        event.preventDefault();
-//                        event.stopPropagation();
-//                    });
-//
-//                    element.bind('click', function (event) {
-//                        event.preventDefault();
-//                        event.stopPropagation();
-//
-//                        var iWasOpen = false;
-//
-//                        if (openElement) {
-//                            iWasOpen = openElement === element;
-//                            close();
-//                        }
-//
-//                        if (!iWasOpen) {
-//                            element.parent().addClass('expand');
-//                            element.addClass('open');
-//                            openElement = element;
-//                            close = function (event) {
-//                                if (event) {
-//                                    event.preventDefault();
-//                                    event.stopPropagation();
-//                                }
-//                                $document.unbind('click', close);
-//                                element.parent().removeClass('expand');
-//                                element.removeClass('open');
-//                                close = null;
-//                                openElement = null;
-//                            };
-//
-//                            $document.bind('click', close);
-//                        }
-//
-//                        scope.$emit('window-resized');
-//                    });
-//                    var menuList = element.find('.powers-menu-list');
-//                    menuList.bind('click', function (event) {
-//                        event.preventDefault();
-//                        event.stopPropagation();
-//                    });
-//                }
-//            };
-//        }]);
+    }]);

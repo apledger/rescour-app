@@ -840,6 +840,19 @@ angular.module('rescour.market', [])
 
         SavedSearch.dialog = dialog;
 
+//            SavedSearch.query = function () {
+//                var searches = [];
+//                $http.get($_api.path + '/search/', $_api.config).then(function (response) {
+//                    angular.forEach(response.data.resources, function (value, key) {
+//                        try {
+//                            searches.push(new SavedSearch(angular.fromJson(value.savedSearch), value.id));
+//                        } catch (e) {
+//                            console.log(e.message);
+//                        }
+//                    });
+//                });
+//                return searches;
+//            };
 
         SavedSearch.query = function () {
             var defer = $q.defer(),
@@ -868,6 +881,26 @@ angular.module('rescour.market', [])
                 }
             );
 
+            return defer.promise;
+        }
+
+        SavedSearch.prototype.$save = function () {
+            var defer = $q.defer(),
+                self = this;
+            if (self.id) {
+                $http.put($_api.path + '/search/' + self.id, JSON.stringify({savedSearch:JSON.stringify(self)}), $_api.config).then(function (response) {
+                    defer.resolve(response.data);
+                }, function (response) {
+                    defer.reject(response.data);
+                });
+            } else {
+                $http.post($_api.path + '/search/', JSON.stringify({savedSearch:JSON.stringify(self)}), $_api.config).then(function (response) {
+                    self.id = response.data.id;
+                    defer.resolve(response.data);
+                }, function (response) {
+                    defer.reject(response.data);
+                });
+            }
             return defer.promise;
         }
 

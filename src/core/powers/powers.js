@@ -2,9 +2,8 @@ angular.module('rescour.powers', [])
     .factory('Power',
         ['$document', '$window',
             function ($document, $window) {
-                function Power(opts, el) {
-                    this.title = opts.title || {};
-                    this.options = opts.options || {};
+                function Power(opts) {
+                    angular.extend(this, {}, opts);
                 };
 
                 return Power;
@@ -65,6 +64,8 @@ angular.module('rescour.powers', [])
                     };
 
                     PowersController.addPower(scope);
+
+                    scope.predicate = 'weight';
 
                     element.bind('click', function (e) {
                         if (!_power.isOpen) {

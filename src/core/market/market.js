@@ -841,19 +841,49 @@ angular.module('rescour.market', [])
 
             SavedSearch.dialog = dialog;
 
+//            SavedSearch.query = function () {
+//                var searches = [];
+//                $http.get($_api.path + '/search/', $_api.config).then(function (response) {
+//                    angular.forEach(response.data.resources, function (value, key) {
+//                        try {
+//                            searches.push(new SavedSearch(angular.fromJson(value.savedSearch), value.id));
+//                        } catch (e) {
+//                            console.log(e.message);
+//                        }
+//                    });
+//                });
+//                return searches;
+//            };
+
             SavedSearch.query = function () {
-                var searches = [];
-                $http.get($_api.path + '/search/', $_api.config).then(function (response) {
-                    angular.forEach(response.data.resources, function (value, key) {
-                        try {
-                            searches.push(new SavedSearch(angular.fromJson(value.savedSearch), value.id));
-                        } catch (e) {
-                            console.log(e.message);
+                var defer = $q.defer(),
+                    self = this,
+                    path = $_api.path + '/search/',
+                    config = angular.extend({
+                        transformRequest: function (data) {
+                            return data;
                         }
-                    });
-                });
-                return searches;
-            };
+                    }, $_api.config);
+
+                $http.get(path, config).then(
+                    function (response) {
+                        var searches = [];
+                        angular.forEach(response.data.resources, function (value, key) {
+                            try {
+                                searches.push(new SavedSearch(angular.fromJson(value.savedSearch), value.id));
+                            } catch (e) {
+                                console.log(e.message);
+                            }
+                        });
+                        defer.resolve(searches);
+                    },
+                    function (response) {
+                        defer.reject(response);
+                    }
+                );
+
+                return defer.promise;
+            }
 
             SavedSearch.prototype.$save = function () {
                 var defer = $q.defer(),

@@ -50,28 +50,8 @@ angular.module('rescour.app')
             $scope.toggle = 'all';
             $scope.getActive = Items.getActive;
             $scope.browser = BrowserDetect;
-            $scope.mapPower = {
-                title: 'Options',
-                options: {
-                    'Year': {
-                        action: function () {
-                            console.log("hello");
-                        },
-                        icon: 'icon-plus',
-                        title: 'Year'
-                    },
-                    'Units': {
-                        action: function () {
-                            console.log("hello");
-                        },
-                        icon: 'icon-minus',
-                        title: 'Units'
-                    }
-                }
-            }
 
-
-            function openDetails (id) {
+            function openDetails(id) {
                 if (angular.isObject(Items.items[id])) {
                     PropertyDetails.open(Items.items[id]).selectPane($location.hash());
                 } else {
@@ -132,44 +112,54 @@ angular.module('rescour.app')
     .controller("FilterController", ['$scope', 'Items', 'Attributes', 'SavedSearch', '$dialog',
         function ($scope, Items, Attributes, SavedSearch, $dialog) {
             $scope.selectedSearch = null;
-            $scope.savedSearches = SavedSearch.query();
-            console.log($scope.savedSearches);
             $scope.loadPower = {
                 title: 'Load',
                 options: {
-                    'Year': {
+                    'New': {
                         action: function () {
-                            console.log("hello");
+                            $scope.loadSearch();
                         },
-                        icon: 'icon-plus',
-                        title: 'Year'
-                    },
-                    'Units': {
-                        action: function () {
-                            console.log("hello");
-                        },
-                        icon: 'icon-minus',
-                        title: 'Units'
+                        icon: 'icon-plus-sign',
+                        title: 'New Search',
+                        weight: 10
                     }
                 }
             };
 
+            var updateLoadPower = function () {
+                angular.forEach($scope.savedSearches, function (value) {
+                    $scope.loadPower.options[value.title] = {
+                        action: function () {
+                            console.log(value);
+                            $scope.loadSearch(value);
+                        },
+                        title: value.title
+                    }
+                });
+            }
+
+            SavedSearch.query().then(function (savedSearches) {
+                $scope.savedSearches = savedSearches;
+                updateLoadPower();
+            });
+
             $scope.savePower = {
                 title: 'Save',
+                color: 'green',
                 options: {
-                    'Year': {
+                    'Save': {
                         action: function () {
-                            console.log("hello");
+                            $scope.openSaveDialog();
                         },
-                        icon: 'icon-plus',
-                        title: 'Year'
+                        icon: 'icon-save',
+                        title: 'Save'
                     },
-                    'Units': {
+                    'SaveAs': {
                         action: function () {
                             console.log("hello");
                         },
-                        icon: 'icon-minus',
-                        title: 'Units'
+                        icon: 'icon-save',
+                        title: 'Save As...'
                     }
                 }
             };
@@ -205,6 +195,7 @@ angular.module('rescour.app')
                     if (!_old) {
                         $scope.savedSearches.push(_search);
                         $scope.attributes.id = response.id;
+
                     } else {
                         $scope.savedSearches = _.map($scope.savedSearches, function (val) {
                             return val.id === _old.id ? _search : val;
@@ -212,6 +203,7 @@ angular.module('rescour.app')
                     }
                     $scope.selectedSearch = _search;
                     $scope.attributes.modified = false;
+                    updateLoadPower();
                 }, function (response) {
                     $scope.savedSearches = SavedSearch.query();
                     throw new Error("Could not save search: " + response.error);
@@ -245,7 +237,8 @@ angular.module('rescour.app')
                 item.isFavorite = !item.isFavorite;
             };
         }])
-    .controller("ListController", ['$scope', 'PropertyDetails', '$window', 'Power',
+    .
+    controller("ListController", ['$scope', 'PropertyDetails', '$window', 'Power',
         function ($scope, PropertyDetails, $window, Power) {
             $scope.sortBy = function (dimension) {
                 console.log("sorting " + dimension);
@@ -283,49 +276,34 @@ angular.module('rescour.app')
                 options: {
                     'All': {
                         action: function () {
-                            console.log("All");
+                            $scope.listAll();
                         },
-                        icon: 'icon-plus',
+                        icon: 'icon-list',
                         title: 'All'
                     },
                     'Favorites': {
                         action: function () {
-                            console.log("favorites");
+                            $scope.listFavorites();
                         },
-                        icon: 'icon-minus',
+                        icon: 'icon-star',
                         title: 'Favorites'
                     },
                     'Hidden': {
                         action: function () {
-                            console.log("Hidden");
+                            $scope.listHidden();
                         },
-                        icon: 'icon-minus',
+                        icon: 'icon-ban-circle',
                         title: 'Hidden'
                     },
                     'Notes': {
                         action: function () {
-                            console.log("Notes");
+                            $scope.listNotes();
                         },
-                        icon: 'icon-minus',
+                        icon: 'icon-pencil',
                         title: 'Notes'
                     }
                 }
             };
-
-            $scope.searchPower = {
-                title: 'Search',
-                options: {
-                    'Notes': {
-                        action: function () {
-                            console.log("Notes");
-                        },
-                        icon: 'icon-minus',
-                        title: 'Notes'
-                    }
-                }
-            };
-
-
 
             $scope.panTo = function (item) {
                 $scope.centerMap(item);

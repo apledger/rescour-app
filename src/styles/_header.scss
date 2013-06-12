@@ -17,9 +17,25 @@ header {
     float: left;
   }
 
+  .navbar-search {
+    position: absolute;
+    margin-top: 10px;
+    left: $filterWidth;
+
+    input {
+      width: 150px;
+      @include transition(width .3s);
+    }
+
+    input:focus {
+      width: 200px;
+      @include transition(width .3s);
+    }
+  }
+
   .market-controls {
     position: absolute;
-    padding-top:4px;
+    padding-top: 4px;
     left: $filterWidth;
     width: $marketWidth - 2px;
     border-left: 1px solid #AAAAAA;

@@ -7,19 +7,15 @@ $detailsHeaderColor: $light-gray;
   overflow-y: scroll;
   overflow-x: hidden;
   @include rescourTabs;
-
+  top: $headerHeight + 5px;
+  right: 0;
+  bottom: 0;
   &.desktop {
     left: $filterWidth + $marketWidth;
-    top: $headerHeight;
-    right: 0;
-    bottom: 0;
   }
 
   &.tablet {
     left: $marketWidth;
-    top: $headerHeight;
-    right: 0;
-    bottom: 0;
   }
 
   .page-header {

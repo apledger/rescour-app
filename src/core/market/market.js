@@ -840,19 +840,36 @@ angular.module('rescour.market', [])
 
         SavedSearch.dialog = dialog;
 
+
         SavedSearch.query = function () {
-            var searches = [];
-            $http.get($_api.path + '/search/', $_api.config).then(function (response) {
-                angular.forEach(response.data.resources, function (value, key) {
-                    try {
-                        searches.push(new SavedSearch(angular.fromJson(value.savedSearch), value.id));
-                    } catch (e) {
-                        console.log(e.message);
+            var defer = $q.defer(),
+                self = this,
+                path = $_api.path + '/search/',
+                config = angular.extend({
+                    transformRequest:function (data) {
+                        return data;
                     }
-                });
-            });
-            return searches;
-        };
+                }, $_api.config);
+
+            $http.get(path, config).then(
+                function (response) {
+                    var searches = [];
+                    angular.forEach(response.data.resources, function (value, key) {
+                        try {
+                            searches.push(new SavedSearch(angular.fromJson(value.savedSearch), value.id));
+                        } catch (e) {
+                            console.log(e.message);
+                        }
+                    });
+                    defer.resolve(searches);
+                },
+                function (response) {
+                    defer.reject(response);
+                }
+            );
+
+            return defer.promise;
+        }
 
         SavedSearch.prototype.$save = function () {
             var defer = $q.defer(),
@@ -1222,13 +1239,13 @@ angular.module('rescour.market', [])
             if (scope.images.length > 0) {
                 scope.images[0].isActive = true;
             }
-            
+
             viewerCtrl.setSlides(scope.images);
             viewerCtrl.element = element;
 
         }
-        
-                
+
+
     }
 }])
     .controller('viewerCtrl', ['$scope', '$timeout',
@@ -1250,12 +1267,12 @@ angular.module('rescour.market', [])
             $scope.current = $scope.current == $scope.slides.length - 1 ? $scope.current = 0 : $scope.current += 1;
             $scope.slides[$scope.current].isActive = true;
         }
-        
-        $scope.getClass = function(image){
+
+        $scope.getClass = function (image) {
             var newImg = new Image;
             newImg.src = image.link;
-            if(image.isActive){
-                return (newImg.width/newImg.height) < (self.element[0].clientWidth/self.element[0].clientHeight) ?  "active-portrait" :  "active-landscape";
+            if (image.isActive) {
+                return (newImg.width / newImg.height) < (self.element[0].clientWidth / self.element[0].clientHeight) ? "active-portrait" : "active-landscape";
             } else {
                 return "";
             }

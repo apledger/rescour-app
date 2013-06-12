@@ -1,7 +1,6 @@
 .idea
 .sass-cache/
-
-.dist/
+/dist/
 !src/
 /node_modules/
 /tmp/

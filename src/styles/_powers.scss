@@ -3,46 +3,81 @@ $powersBg: $grayLighter;
 
 .powers {
   @include box-sizing(border-box);
-  height: 30px;
   width: 100%;
   position: relative;
   @include gradient-vertical(darken($powersBg, 10%), lighten($powersBg, 10%));
   border-top: 1px solid darken($powersBg, 20%);
   @include box-shadows(inset 0 1px 0 lighten($powersBg, 20%), 0 2px 2px rgba(0, 0, 0, 0.4));
   z-index: 5000;
+  padding: 0 10px;
 
 
-  &::after {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    background: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgi…gd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmFkKSIgLz48L3N2Zz4g');
-    background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, rgba(0, 0, 0, 0.2)), color-stop(100%, rgba(0, 0, 0, 0)));
-    background: -webkit-linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
-    background: -moz-linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
-    background: -o-linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
-    background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
-  }
+  //
+  //&::after {
+  //  content: "";
+  //  position: absolute;
+  //  top: 100%;
+  //  left: 0;
+  //  width: 100%;
+  //  background: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgi…gd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmFkKSIgLz48L3N2Zz4g');
+  //  background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, rgba(0, 0, 0, 0.2)), color-stop(100%, rgba(0, 0, 0, 0)));
+  //  background: -webkit-linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
+  //  background: -moz-linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
+  //  background: -o-linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
+  //  background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
+  //}
 
   .power {
     @include box-sizing(border-box);
     position: relative;
     display: inline-block;
+    border-right: 1px solid darken($powersBg, 20%);
 
     &:not(:first-child) {
       margin-left: -5px;
     }
 
-    &.open > .power-menu {
-      display: block;
+    &:first-child {
+      border-left: 1px solid darken($powersBg, 20%);
+    }
+
+    &.open {
+
+      & > .power-menu {
+        display: block;
+      }
+
+      & > .power-title::after {
+        content: '\f106';
+      }
     }
 
     .power-title {
-      padding: 5px 20px;
-      border-right: 1px solid $gray;
+      font-size: 1em;
+      padding: 0 15px;
+      line-height: 2em;
       cursor: pointer;
+
+      &::after {
+        font-family: FontAwesome;
+        font-weight: normal;
+        font-style: normal;
+        text-decoration: inherit;
+        -webkit-font-smoothing: antialiased;
+        display: inline;
+        width: auto;
+        height: auto;
+        line-height: normal;
+        vertical-align: baseline;
+        background-image: none;
+        background-position: 0% 0%;
+        background-repeat: repeat;
+        margin-top: 0;
+
+        content: '\f107';
+        padding-left: 15px;
+
+      }
     }
 
     .power-menu {

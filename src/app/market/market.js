@@ -277,6 +277,7 @@ angular.module('rescour.app')
                             $scope.listAll();
                         },
                         icon: 'icon-list',
+                        selectable: true,
                         title: 'All'
                     },
                     'Favorites': {
@@ -284,6 +285,7 @@ angular.module('rescour.app')
                             $scope.listFavorites();
                         },
                         icon: 'icon-star',
+                        selectable: true,
                         title: 'Favorites'
                     },
                     'Hidden': {
@@ -291,6 +293,7 @@ angular.module('rescour.app')
                             $scope.listHidden();
                         },
                         icon: 'icon-ban-circle',
+                        selectable: true,
                         title: 'Hidden'
                     },
                     'Notes': {
@@ -298,6 +301,7 @@ angular.module('rescour.app')
                             $scope.listNotes();
                         },
                         icon: 'icon-pencil',
+                        selectable: true,
                         title: 'Notes'
                     }
                 }

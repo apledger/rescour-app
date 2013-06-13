@@ -2,8 +2,8 @@
     <div class="power-title">{{power.title}}</div>
     <div class="power-menu">
         <ul>
-            <li ng-repeat="option in power.options | orderBy:predicate" ng-click="option.action()"
-                ng-class="{'active': (option.selected && option.selectable)}">
+            <li ng-repeat="option in power.options | orderBy:predicate" ng-click="optionSelected(option)"
+                ng-class="{'active': (option.isSelected && option.selectable)}">
                 <i class="{{option.icon}}"></i>
                 <a href="javascript:">{{option.title}}</a>
             </li>

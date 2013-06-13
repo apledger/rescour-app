@@ -44,8 +44,7 @@ $lineSpacing: 14px;
     @include box-sizing(border-box);
     position: relative;
     display: inline-block;
-    border-right: 1px solid darken($powersBg, 20%);
-    border-left: 1px solid darken($powersBg, 20%);
+    border-right: 1px solid darken($powersBg, 20%) !important;
 
     &.power-green {
       @include powerBg($green);
@@ -61,7 +60,6 @@ $lineSpacing: 14px;
 
     &:hover {
       background: lighten($powersBg, 5%);
-      border-left: 1px solid darken($powersBg, 20%);
 
       .power-title {
         color: darken($gray, 15%);
@@ -71,7 +69,6 @@ $lineSpacing: 14px;
     &:active, &.open {
       background: darken($powersBg, 5%);
       @include box-shadow(inset 0 1px 2px rgba(0, 0, 0, 0.2));
-      border-left: 1px solid darken($powersBg, 20%);
     }
 
     &.open {
@@ -85,7 +82,7 @@ $lineSpacing: 14px;
     }
 
     &:first-child {
-      border-left: none !important;
+      //border-left: none !important;
     }
 
     &.open {

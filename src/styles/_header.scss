@@ -5,8 +5,8 @@ header {
   border-bottom: darken(#d5d5d5, 30%);
   @include gradient-vertical(#ffffff, #d5d5d5);
   width: 100%;
-  height: $headerHeight;
-  z-index: 1000;
+  height: $headerHeight + 5px;
+  z-index: 1;
 
   .logo {
     margin: 10px 0px 5px 45px;

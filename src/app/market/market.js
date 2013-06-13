@@ -262,40 +262,40 @@ angular.module('rescour.app')
             };
 
             $scope.showPower = {
-                title:'All',
-                toggle:'all',
-                options:{
-                    all:{
-                        action:function () {
-                            $scope.toggleShow(this);
+                title: 'All',
+                toggle: 'all',
+                options: {
+                    all: {
+                        action: function () {
+                            Items.render(this.key);
                             $scope.showPower.title = this.title;
                         },
-                        icon:'icon-list',
-                        title:'All'
+                        icon: 'icon-list',
+                        title: 'All'
                     },
-                    'favorites':{
-                        action:function () {
-                            $scope.toggleShow(this);
+                    'favorites': {
+                        action: function () {
+                            Items.render(this.key);
                             $scope.showPower.title = this.title;
                         },
-                        icon:'icon-star',
-                        title:'Favorites'
+                        icon: 'icon-star',
+                        title: 'Favorites'
                     },
-                    'hidden':{
-                        action:function () {
-                            $scope.toggleShow(this);
+                    'hidden': {
+                        action: function () {
+                            Items.render(this.key);
                             $scope.showPower.title = this.title;
                         },
-                        icon:'icon-ban-circle',
-                        title:'Hidden'
+                        icon: 'icon-ban-circle',
+                        title: 'Hidden'
                     },
-                    'notes':{
-                        action:function () {
-                            $scope.toggleShow(this);
+                    'notes': {
+                        action: function () {
+                            Items.render(this.key);
                             $scope.showPower.title = this.title;
                         },
-                        icon:'icon-pencil',
-                        title:'Notes'
+                        icon: 'icon-pencil',
+                        title: 'Notes'
                     }
                 }
             };
@@ -316,7 +316,7 @@ angular.module('rescour.app')
                         }
                     };
                 } else {
-                    return function(object){
+                    return function (object) {
                         return object.title;
                     }
                 }

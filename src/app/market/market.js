@@ -271,6 +271,17 @@ angular.module('rescour.app')
                 }
             };
 
+            $scope.reportPower = {
+                title: 'Export',
+                options: {
+                    'CSV': {
+                        action: $scope.sortYear,
+                        icon: 'icon-mail',
+                        title: 'To CSV'
+                    }
+                }
+            };
+
             $scope.showPower = {
                 title: 'Show',
                 options: {

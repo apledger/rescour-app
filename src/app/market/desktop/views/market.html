@@ -84,6 +84,7 @@
             <div power="showPower"></div>
             <div power="reportPower"></div>
         </div>
+
         <div class="scroll-container"
              chunk="items | filter:searchText | limitVisible | orderBy:orderNA()">
             <!--Toggle favorites button-->
@@ -104,9 +105,7 @@
                         </a>
 
                         <div class="header-container">
-                            <div class="title"><a href="javascript:" ng-click="showItemDetails(item, 'details')">{{item.title
-                                |
-                                ellipsis:25}}</a></div>
+                            <div class="title"><a href="javascript:" ng-click="showItemDetails(item, 'details')">{{item.title | ellipsis:25}}</a></div>
                             <div class="ranges">
                                 <span>{{item.getAttribute('numUnits')}}&nbsp;</span>Units.&nbsp;
                                 Built in<span>&nbsp;{{item.getAttribute('yearBuilt')}}</span>.

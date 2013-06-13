@@ -240,33 +240,31 @@ angular.module('rescour.app')
     .
     controller("ListController", ['$scope', 'PropertyDetails', '$window', 'Power',
         function ($scope, PropertyDetails, $window, Power) {
-            $scope.sortBy = function (dimension) {
-                console.log("sorting " + dimension);
-            }
-
-            $scope.sortYear = function () {
-                $scope.sortBy('year')
-            };
-
-            $scope.sortUnits = function () {
-                $scope.sortBy('units')
-            };
+            $scope.sortBy = "yearBuilt";
 
             $scope.sortPower = {
                 title: 'Sort',
                 options: {
                     'Year': {
-                        action: $scope.sortYear,
-                        icon: 'icon-plus',
+                        action: function () {
+                            $scope.sortBy = 'yearBuilt';
+                        },
+                        icon: 'icon-calendar',
                         title: 'Year'
                     },
                     'Units': {
                         action: function () {
-                            console.log("hello");
-                            $scope.sortBy('Units');
+                            $scope.sortBy = 'numUnits';
                         },
-                        icon: 'icon-minus',
+                        icon: 'icon-building',
                         title: 'Units'
+                    },
+                    'Name': {
+                        action: function () {
+                            $scope.sortBy = 'Name';
+                        },
+                        icon: 'icon-sort-by-alphabet',
+                        title: 'Name'
                     }
                 }
             };
@@ -290,6 +288,7 @@ angular.module('rescour.app')
                             $scope.listAll();
                         },
                         icon: 'icon-list',
+                        selectable: true,
                         title: 'All'
                     },
                     'Favorites': {
@@ -297,6 +296,7 @@ angular.module('rescour.app')
                             $scope.listFavorites();
                         },
                         icon: 'icon-star',
+                        selectable: true,
                         title: 'Favorites'
                     },
                     'Hidden': {
@@ -304,6 +304,7 @@ angular.module('rescour.app')
                             $scope.listHidden();
                         },
                         icon: 'icon-ban-circle',
+                        selectable: true,
                         title: 'Hidden'
                     },
                     'Notes': {
@@ -311,6 +312,7 @@ angular.module('rescour.app')
                             $scope.listNotes();
                         },
                         icon: 'icon-pencil',
+                        selectable: true,
                         title: 'Notes'
                     }
                 }
@@ -321,15 +323,21 @@ angular.module('rescour.app')
             };
 
             $scope.orderNA = function () {
-                return function (object) {
-                    if (object.attributes.range.yearBuilt === 'NA' && object.attributes.range.numUnits === 'NA') {
-                        return 0
-                    } else if (object.attributes.range.yearBuilt === 'NA' || object.attributes.range.numUnits === 'NA') {
-                        return -1;
-                    } else if (object.attributes.range.yearBuilt) {
-                        return -object.attributes.range.yearBuilt;
+                if ($scope.sortBy === "numUnits" || $scope.sortBy === "yearBuilt") {
+                    return function (object) {
+                        if (object.attributes.range.yearBuilt === 'NA' && object.attributes.range.numUnits === 'NA') {
+                            return 0
+                        } else if (object.attributes.range.yearBuilt === 'NA' || object.attributes.range.numUnits === 'NA') {
+                            return -1;
+                        } else if (object.attributes.range[$scope.sortBy]) {
+                            return -object.attributes.range[$scope.sortBy];
+                        }
+                    };
+                } else {
+                    return function(object){
+                        return object.title;
                     }
-                };
+                }
             };
 
             $scope.toggleFavorites = function (item) {
@@ -349,6 +357,7 @@ angular.module('rescour.app')
             $scope.financeFields = Finance.fields;
             $scope.contactAlerts = [];
             $scope.current = activeItem;
+            $scope.currentImages = $scope.current.getImages();
             $scope.detailsPower = {
                 title: 'Options',
                 options: {

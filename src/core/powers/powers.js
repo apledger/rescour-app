@@ -28,6 +28,8 @@ angular.module('rescour.powers', [])
             });
         });
 
+
+
     }])
     .directive('power', ['$document', 'Power', '$compile',
         function ($document, Power, $compile) {
@@ -64,6 +66,14 @@ angular.module('rescour.powers', [])
                     };
 
                     PowersController.addPower(scope);
+
+                    scope.optionSelected = function(option){
+                        angular.forEach(_power.options, function(value, key){
+                            value.isSelected = false;
+                        });
+                        option.isSelected = true;
+                        option.action();
+                    };
 
                     scope.predicate = 'weight';
 

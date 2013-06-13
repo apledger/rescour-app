@@ -270,6 +270,18 @@ angular.module('rescour.app.mock', ['rescour.app', 'ngMockE2E'])
                     {
                         link: '/img/apartment-details-2.jpg',
                         caption: 'This is the second picture'
+                    },
+                    {
+                        link: 'http://placehold.it/300x600.jpg',
+                        caption: 'This is the second picture'
+                    },
+                    {
+                        link: 'http://placehold.it/750x300.jpg',
+                        caption: 'This is the second picture'
+                    },
+                    {
+                        link: 'http://placehold.it/400x400.jpg',
+                        caption: 'This is the second picture'
                     }
                 ],
                 unitMix: [

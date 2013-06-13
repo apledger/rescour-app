@@ -136,10 +136,17 @@ $lineSpacing: 14px;
         width: auto;
         margin: 10px 0;
 
-        li {
+
+
+       li {
           padding: 5px 10px;
 
-          a {
+         &.active {
+           background: $blue;
+           color: $white;
+         }
+
+         a {
             text-decoration: none;
             color: $black;
           }
@@ -149,6 +156,7 @@ $lineSpacing: 14px;
             font-size: 12px;
             margin-right: 5px;
           }
+
 
           &:hover {
             background: $blue;

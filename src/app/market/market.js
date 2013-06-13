@@ -249,21 +249,21 @@ angular.module('rescour.app')
                         action: function () {
                             $scope.sortBy = 'yearBuilt';
                         },
-                        icon: '',
+                        icon: 'icon-calendar',
                         title: 'Year'
                     },
                     'Units': {
                         action: function () {
                             $scope.sortBy = 'numUnits';
                         },
-                        icon: '',
+                        icon: 'icon-building',
                         title: 'Units'
                     },
                     'Name': {
                         action: function () {
                             $scope.sortBy = 'Name';
                         },
-                        icon: '',
+                        icon: 'icon-sort-by-alphabet',
                         title: 'Name'
                     }
                 }

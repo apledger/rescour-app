@@ -1,5 +1,5 @@
 <div class="viewer-container">
-    <div ng-class="getClass(image)" class="viewer-inner" ng-repeat="image in images">
+    <div ng-class="getClass(image)" class="view-inner" ng-repeat="image in images" ng-show="image.isActive">
             <img ng-src="{{image.link}}">
     </div>
     <div class="counter">{{current + 1}} of {{slides.length}}</div>

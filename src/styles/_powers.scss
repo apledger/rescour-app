@@ -12,6 +12,10 @@ $lineSpacing: 14px;
 
     .power-title {
       color: lighten($white, 5%);
+
+      i {
+        color: lighten($white, 5%);
+      }
     }
   }
 
@@ -21,6 +25,10 @@ $lineSpacing: 14px;
     @include box-shadow(inset 0 1px 2px rgba(0, 0, 0, 0.2));
     .power-title {
       color: $white !important;
+
+      i {
+        color: $white;
+      }
     }
   }
 
@@ -33,7 +41,7 @@ $lineSpacing: 14px;
 .powers {
   @include box-sizing(border-box);
   width: 100%;
-  min-height: $lineSpacing*2;
+  min-height: 35px;
   position: relative;
   @include gradient-vertical(darken($powersBg, 10%), lighten($powersBg, 10%));
   border-top: 1px solid darken($powersBg, 20%);
@@ -46,16 +54,22 @@ $lineSpacing: 14px;
     display: inline-block;
     border-right: 1px solid darken($powersBg, 20%) !important;
 
-    &.power-green {
+    &.green {
       @include powerBg($green);
     }
 
-    &.power-red {
+    &.red {
       @include powerBg($red);
     }
 
-    &.power-orange {
+    &.orange {
       @include powerBg($orange);
+    }
+
+    &.right {
+      float: right;
+      border-left: 1px solid darken($powersBg, 20%) !important;
+      border-right: none !important;
     }
 
     &:hover {
@@ -103,8 +117,9 @@ $lineSpacing: 14px;
       font-weight: bold;
       text-transform: uppercase;
       color: $gray;
+      text-align: center;
 
-      &::after {
+      &.power-icon-dropdown::after {
         font-family: FontAwesome;
         font-weight: normal;
         font-style: normal;

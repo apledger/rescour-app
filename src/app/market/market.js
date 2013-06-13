@@ -50,6 +50,10 @@ angular.module('rescour.app')
             $scope.toggle = 'all';
             $scope.getActive = Items.getActive;
             $scope.browser = BrowserDetect;
+            $scope.mapPower = {
+                icon: 'icon-cog',
+                float: 'right'
+            };
 
             function openDetails(id) {
                 if (angular.isObject(Items.items[id])) {
@@ -123,27 +127,6 @@ angular.module('rescour.app')
                 $scope.savedSearches = savedSearches;
                 updateLoadPower();
             });
-
-            $scope.savePower = {
-                title: 'Save',
-                color: 'green',
-                options: {
-                    'Save': {
-                        action: function () {
-                            $scope.openSaveDialog();
-                        },
-                        icon: 'icon-save',
-                        title: 'Save'
-                    },
-                    'SaveAs': {
-                        action: function () {
-                            console.log("hello");
-                        },
-                        icon: 'icon-save',
-                        title: 'Save As...'
-                    }
-                }
-            };
 
             $scope.openSaveDialog = function () {
                 // If its a new search open the dialog
@@ -251,13 +234,14 @@ angular.module('rescour.app')
             };
 
             $scope.reportPower = {
-                title: 'Export',
-                options: {
-                    'CSV': {
-                        action: $scope.sortYear,
-                        icon: 'icon-mail',
-                        title: 'To CSV'
-                    }
+                icon: 'icon-cloud-download',
+                color: 'green',
+                tooltip: {
+                    text: 'Download Report',
+                    placement: 'bottom'
+                },
+                action: function () {
+                    console.log("Sending Report");
                 }
             };
 

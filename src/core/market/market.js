@@ -1292,12 +1292,17 @@ angular.module('rescour.market', [])
             }
 
             $scope.getClass = function (image) {
-                var newImg = new Image;
-                newImg.src = image.link;
+                var imgWidth = self.element[0].children[$scope.current].children[0].clientWidth,
+                    imgHeight = self.element[0].children[$scope.current].children[0].clientHeight,
+                    boxWidth = self.element[0].clientWidth,
+                    boxHeight = self.element[0].clientHeight;
                 if (image.isActive) {
-                    return (newImg.width / newImg.height) < (self.element[0].clientWidth / self.element[0].clientHeight) ? "active-portrait" : "active-landscape";
+                    if(imgWidth < boxWidth && imgWidth !== 0){
+                        return "portrait"
+                    }
+                    return (imgWidth / imgHeight) < (boxWidth / boxHeight) ? "portrait" : "landscape";
                 } else {
-                    return "";
+                    return "view-inner";
                 }
             }
 

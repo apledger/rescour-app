@@ -301,6 +301,11 @@ angular.module('rescour.app')
                 $scope.centerMap(item);
             };
 
+
+            $scope.getVisibleLength = function (){
+                return Items.visibleIds.length;
+            };
+
             $scope.orderNA = function () {
                 if ($scope.sortBy === "numUnits" || $scope.sortBy === "yearBuilt") {
                     return function (object) {

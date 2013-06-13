@@ -90,6 +90,9 @@
             <!--Toggle favorites button-->
             <!--Item boxes display-->
             <div class="market-list-wrap">
+                <div class="list-status">
+                    Displaying <strong>{{getVisibleLength()}}</strong> Results
+                </div>
                 <div id="item-{{item.id}}" class="item-well"
                      ng-class="{'item-hidden': item.hidden}"
                      ng-repeat="item in chunk"

@@ -99,15 +99,18 @@ angular.module('rescour.app')
             $scope.selectedSearch = null;
             $scope.loadPower = {
                 title: 'Load',
-                options: {
-                    'New': {
-                        action: function () {
-                            $scope.loadSearch();
-                        },
-                        icon: 'icon-plus-sign',
-                        title: 'New Search',
-                        weight: 10
-                    }
+                options: {}
+            };
+
+            $scope.newPower = {
+                icon: 'icon-refresh',
+                action: function () {
+                    $scope.loadSearch();
+                },
+                color: 'green',
+                tooltip: {
+                    text: 'Clear Search',
+                    placement: 'right'
                 }
             };
 
@@ -207,28 +210,33 @@ angular.module('rescour.app')
             $scope.sortBy = "yearBuilt";
 
             $scope.sortPower = {
-                title: 'Sort',
+                toggle: 'yearBuilt',
+                icon: 'icon-sort-by-order',
+                tooltip:{
+                    text: 'Sort',
+                    placement: 'top'
+                },
                 options: {
-                    'Year': {
+                    yearBuilt: {
                         action: function () {
-                            $scope.sortBy = 'yearBuilt';
+                            $scope.sortBy = this.key;
                         },
                         icon: 'icon-calendar',
                         title: 'Year'
                     },
-                    'Units': {
+                    numUnits: {
                         action: function () {
-                            $scope.sortBy = 'numUnits';
+                            $scope.sortBy = this.key;
                         },
                         icon: 'icon-building',
                         title: 'Units'
                     },
-                    'Name': {
+                    title: {
                         action: function () {
-                            $scope.sortBy = 'Name';
+                            $scope.sortBy = this.key;
                         },
                         icon: 'icon-sort-by-alphabet',
-                        title: 'Name'
+                        title: 'Title'
                     }
                 }
             };
@@ -246,13 +254,18 @@ angular.module('rescour.app')
             };
 
             $scope.showPower = {
-                title: 'All',
                 toggle: 'all',
+                icon: 'icon-list',
+                tooltip:{
+                    text: 'Show',
+                    placement: 'top'
+                },
                 options: {
                     all: {
                         action: function () {
                             Items.render(this.key);
-                            $scope.showPower.title = this.title;
+                            $scope.showPower.icon = this.icon;
+                            console.log($scope.showPower.icon);
                         },
                         icon: 'icon-list',
                         title: 'All'
@@ -260,7 +273,7 @@ angular.module('rescour.app')
                     'favorites': {
                         action: function () {
                             Items.render(this.key);
-                            $scope.showPower.title = this.title;
+                            $scope.showPower.icon = this.icon;
                         },
                         icon: 'icon-star',
                         title: 'Favorites'
@@ -268,7 +281,7 @@ angular.module('rescour.app')
                     'hidden': {
                         action: function () {
                             Items.render(this.key);
-                            $scope.showPower.title = this.title;
+                            $scope.showPower.icon = this.icon;
                         },
                         icon: 'icon-ban-circle',
                         title: 'Hidden'
@@ -276,7 +289,7 @@ angular.module('rescour.app')
                     'notes': {
                         action: function () {
                             Items.render(this.key);
-                            $scope.showPower.title = this.title;
+                            $scope.showPower.icon = this.icon;
                         },
                         icon: 'icon-pencil',
                         title: 'Notes'
@@ -301,7 +314,7 @@ angular.module('rescour.app')
                     };
                 } else {
                     return function (object) {
-                        return object.title;
+                        return object[$scope.sortBy];
                     }
                 }
             };

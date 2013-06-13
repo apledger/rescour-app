@@ -1,9 +1,5 @@
 <header>
     <a class="logo" href="/"></a>
-    <form class="navbar-search">
-        <input type="text" class="search-query input-medium" ng-model="searchText.title"
-               placeholder="Search">
-    </form>
 
     <div class="navbar">
         <ul class="nav pull-right" style="padding-top:4px">
@@ -17,6 +13,7 @@
     <!--FILTERS BEGIN-->
     <div id="Filter" ng-controller="FilterController">
         <div class="powers">
+            <div power="newPower"></div>
             <div power="loadPower"></div>
         </div>
         <div class="scroll-container">
@@ -28,7 +25,7 @@
                 <div class="dropdown saved-dropdown">
 
                     <div class="btn-group">
-                        <button class="btn saved-dropdown" tooltip="Reset" tooltip-placement="bottom"
+                        <button class="btn saved-dropdown" tooltip="Refresh" tooltip-placement="bottom"
                                 ng-click="refreshSearch()">
                             <!--<i class="icon-refresh"></i>-->
                             {{attributes.title || "New Search"}}
@@ -82,6 +79,10 @@
             <div power="reportPower"></div>
             <div power="sortPower"></div>
             <div power="showPower"></div>
+            <div class="power-search">
+                <input type="text" ng-model="searchText.title"
+                   placeholder="Search">
+            </div>
         </div>
 
         <div class="scroll-container"

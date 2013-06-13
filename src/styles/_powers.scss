@@ -47,6 +47,22 @@ $lineSpacing: 14px;
   border-top: 1px solid darken($powersBg, 20%);
   @include box-shadows(inset 0 1px 0 lighten($powersBg, 20%), 0 2px 2px rgba(0, 0, 0, 0.4));
   z-index: 5000;
+  padding: 0 15px;
+
+  .power-search {
+    position: relative;
+    display: inline-block;
+    @include box-sizing(border-box);
+
+    input {
+      margin: 0;
+      padding: 2px 7px;
+      margin-left: 5px;
+      margin-bottom: 1px;
+      width: 160px;
+      @include transition(all 0.2 ease-in);
+    }
+  }
 
   .power {
     @include box-sizing(border-box);
@@ -127,7 +143,7 @@ $lineSpacing: 14px;
         -webkit-font-smoothing: antialiased;
         display: inline;
         content: '\f107';
-        padding-left: $lineSpacing;
+        padding-left: $lineSpacing/2;
       }
     }
 
@@ -148,17 +164,23 @@ $lineSpacing: 14px;
         width: auto;
         margin: 10px 0;
 
-
-
-       li {
+        li {
           padding: 5px 10px;
 
-         &.active {
-           background: $blue;
-           color: $white;
-         }
+          &.active {
+            background: $blue;
 
-         a {
+            i {
+              font-weight: bold;
+              color: $white;
+            }
+            a {
+              font-weight: bold;
+              color: $white;
+            }
+          }
+
+          a {
             text-decoration: none;
             color: $black;
           }
@@ -168,7 +190,6 @@ $lineSpacing: 14px;
             font-size: 12px;
             margin-right: 5px;
           }
-
 
           &:hover {
             background: $blue;

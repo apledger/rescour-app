@@ -79,6 +79,10 @@ angular.module('rescour.app')
                 $scope.$broadcast('CenterMap', item);
             };
 
+            $scope.render = function (subset) {
+                Items.render(subset);
+            };
+
             $scope.filter = function () {
                 Attributes.apply();
                 Items.render();
@@ -264,6 +268,7 @@ angular.module('rescour.app')
                     all:{
                         action:function () {
                             $scope.toggleShow(this);
+                            $scope.showPower.title = this.title;
                         },
                         icon:'icon-list',
                         title:'All'
@@ -271,6 +276,7 @@ angular.module('rescour.app')
                     'favorites':{
                         action:function () {
                             $scope.toggleShow(this);
+                            $scope.showPower.title = this.title;
                         },
                         icon:'icon-star',
                         title:'Favorites'
@@ -278,6 +284,7 @@ angular.module('rescour.app')
                     'hidden':{
                         action:function () {
                             $scope.toggleShow(this);
+                            $scope.showPower.title = this.title;
                         },
                         icon:'icon-ban-circle',
                         title:'Hidden'
@@ -285,16 +292,12 @@ angular.module('rescour.app')
                     'notes':{
                         action:function () {
                             $scope.toggleShow(this);
+                            $scope.showPower.title = this.title;
                         },
                         icon:'icon-pencil',
                         title:'Notes'
                     }
                 }
-            };
-
-            $scope.toggleShow = function (option) {
-                Items.render(option.key);
-                $scope.showPower.title = option.title;
             };
 
             $scope.panTo = function (item) {

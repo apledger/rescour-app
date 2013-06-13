@@ -48,7 +48,6 @@ L.MarkerClusterGroup = L.FeatureGroup.extend({
 
 		this._inZoomAnimation = 0;
 		this._needsClustering = [];
-		this._needsRemoving = []; //Markers removed while we aren't on the map need to be kept track of
 		//The bounds of the currently shown area (from _getExpandedVisibleBounds) Updated on zoom/move
 		this._currentShownBounds = null;
 	},
@@ -102,9 +101,7 @@ L.MarkerClusterGroup = L.FeatureGroup.extend({
 	removeLayer: function (layer) {
 
 		if (!this._map) {
-			if (!this._arraySplice(this._needsClustering, layer) && this.hasLayer(layer)) {
-				this._needsRemoving.push(layer);
-			}
+			this._arraySplice(this._needsClustering, layer);
 			return this;
 		}
 
@@ -272,18 +269,12 @@ L.MarkerClusterGroup = L.FeatureGroup.extend({
 			return false;
 		}
 
-		var i, anArray = this._needsClustering;
-
-		for (i = anArray.length - 1; i >= 0; i--) {
-			if (anArray[i] === layer) {
-				return true;
-			}
-		}
-
-		anArray = this._needsRemoving;
-		for (i = anArray.length - 1; i >= 0; i--) {
-			if (anArray[i] === layer) {
-				return false;
+		if (this._needsClustering.length > 0) {
+			var anArray = this._needsClustering;
+			for (var i = anArray.length - 1; i >= 0; i--) {
+				if (anArray[i] === layer) {
+					return true;
+				}
 			}
 		}
 
@@ -331,27 +322,19 @@ L.MarkerClusterGroup = L.FeatureGroup.extend({
 	//Overrides FeatureGroup.onAdd
 	onAdd: function (map) {
 		this._map = map;
-		var i, l, layer;
 
 		if (!this._gridClusters) {
 			this._generateInitialClusters();
 		}
 
-		for (i = 0, l = this._needsRemoving.length; i < l; i++) {
-			layer = this._needsRemoving[i];
-			this._removeLayer(layer);
-		}
-		this._needsRemoving = [];
-
-		for (i = 0, l = this._needsClustering.length; i < l; i++) {
-			layer = this._needsClustering[i];
+		for (var i = 0, l = this._needsClustering.length; i < l; i++) {
+			var layer = this._needsClustering[i];
 			if (layer.__parent) {
 				continue;
 			}
 			this._addLayer(layer, this._maxZoom);
 		}
 		this._needsClustering = [];
-
 
 		this._map.on('zoomend', this._zoomEnd, this);
 		this._map.on('moveend', this._moveEnd, this);
@@ -401,7 +384,7 @@ L.MarkerClusterGroup = L.FeatureGroup.extend({
 		for (var i = anArray.length - 1; i >= 0; i--) {
 			if (anArray[i] === obj) {
 				anArray.splice(i, 1);
-				return true;
+				return;
 			}
 		}
 	},

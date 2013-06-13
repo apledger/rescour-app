@@ -82,31 +82,8 @@ angular.module('rescour.app')
             $scope.filter = function () {
                 Attributes.apply();
                 Items.render();
-                if ($scope.toggle !== 'all') {
-                    Items.render($scope.toggle);
-                }
                 Attributes.predict();
                 $scope.attributes.modified = true;
-            };
-
-            $scope.listAll = function () {
-                $scope.toggle = 'all';
-                Items.render();
-            };
-
-            $scope.listFavorites = function () {
-                $scope.toggle = 'favorites';
-                Items.render('favorites');
-            };
-
-            $scope.listHidden = function () {
-                $scope.toggle = 'hidden';
-                Items.render('hidden');
-            };
-
-            $scope.listNotes = function () {
-                $scope.toggle = 'notes';
-                Items.render('notes');
             };
         }])
     .controller("FilterController", ['$scope', 'Items', 'Attributes', 'SavedSearch', '$dialog',
@@ -238,8 +215,8 @@ angular.module('rescour.app')
             };
         }])
     .
-    controller("ListController", ['$scope', 'PropertyDetails', '$window', 'Power',
-        function ($scope, PropertyDetails, $window, Power) {
+    controller("ListController", ['$scope', 'PropertyDetails', 'Items',
+        function ($scope, PropertyDetails, Items) {
             $scope.sortBy = "yearBuilt";
 
             $scope.sortPower = {
@@ -281,41 +258,43 @@ angular.module('rescour.app')
             };
 
             $scope.showPower = {
-                title: 'Show',
-                options: {
-                    'All': {
-                        action: function () {
-                            $scope.listAll();
+                title:'All',
+                toggle:'all',
+                options:{
+                    all:{
+                        action:function () {
+                            $scope.toggleShow(this);
                         },
-                        icon: 'icon-list',
-                        selectable: true,
-                        title: 'All'
+                        icon:'icon-list',
+                        title:'All'
                     },
-                    'Favorites': {
-                        action: function () {
-                            $scope.listFavorites();
+                    'favorites':{
+                        action:function () {
+                            $scope.toggleShow(this);
                         },
-                        icon: 'icon-star',
-                        selectable: true,
-                        title: 'Favorites'
+                        icon:'icon-star',
+                        title:'Favorites'
                     },
-                    'Hidden': {
-                        action: function () {
-                            $scope.listHidden();
+                    'hidden':{
+                        action:function () {
+                            $scope.toggleShow(this);
                         },
-                        icon: 'icon-ban-circle',
-                        selectable: true,
-                        title: 'Hidden'
+                        icon:'icon-ban-circle',
+                        title:'Hidden'
                     },
-                    'Notes': {
-                        action: function () {
-                            $scope.listNotes();
+                    'notes':{
+                        action:function () {
+                            $scope.toggleShow(this);
                         },
-                        icon: 'icon-pencil',
-                        selectable: true,
-                        title: 'Notes'
+                        icon:'icon-pencil',
+                        title:'Notes'
                     }
                 }
+            };
+
+            $scope.toggleShow = function (option) {
+                Items.render(option.key);
+                $scope.showPower.title = option.title;
             };
 
             $scope.panTo = function (item) {

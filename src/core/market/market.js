@@ -401,16 +401,18 @@ angular.module('rescour.market', [])
         };
 
         this.render = function (subset) {
-            this.visibleIds = [];
+            var self = this;
+            self.visibleIds = [];
+            self.subset = subset || self.subset;
 
-            if (!subset || subset === 'all') {
+            if (!self.subset || self.subset === 'all') {
                 for (var id in this.items) {
                     if (this.items.hasOwnProperty(id)) {
                         this.items[id].isVisible = (_.contains(Attributes.visibleIds, id) && !this.items[id].hidden);
                         this.items[id].isVisible ? this.visibleIds.push(id) : null;
                     }
                 }
-            } else if (subset === 'notes') {
+            } else if (self.subset === 'notes') {
                 for (var i = 0, len = Attributes.visibleIds.length; i < len; i++) {
                     var _id = Attributes.visibleIds[i];
                     if (this.items.hasOwnProperty(_id)) {
@@ -422,7 +424,7 @@ angular.module('rescour.market', [])
                 for (var i = 0, len = Attributes.visibleIds.length; i < len; i++) {
                     var _id = Attributes.visibleIds[i];
                     if (this.items.hasOwnProperty(_id)) {
-                        this.items[_id].isVisible = this.items[_id][subset];
+                        this.items[_id].isVisible = this.items[_id][self.subset];
                         this.items[_id].isVisible ? this.visibleIds.push(_id) : null;
                     }
                 }

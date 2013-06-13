@@ -4,6 +4,11 @@ angular.module('rescour.powers', [])
             function ($document, $window) {
                 function Power(opts) {
                     angular.extend(this, {}, opts);
+                    if (this.options) {
+                        angular.forEach(this.options, function (value, key) {
+                            value.key = key;
+                        });
+                    }
                 };
 
                 return Power;
@@ -27,9 +32,6 @@ angular.module('rescour.powers', [])
                 }
             });
         });
-
-
-
     }])
     .directive('power', ['$document', 'Power', '$compile',
         function ($document, Power, $compile) {
@@ -67,15 +69,16 @@ angular.module('rescour.powers', [])
 
                     PowersController.addPower(scope);
 
-                    scope.optionSelected = function(option){
-                        angular.forEach(_power.options, function(value, key){
-                            value.isSelected = false;
-                        });
-                        option.isSelected = true;
+                    scope.selectOption = function (option){
+                        if (_power.toggle) {
+                            angular.forEach(_power.options, function (value, key) {
+                                value.isSelected = false;
+                            });
+                            option.isSelected = true;
+                            _power.toggle = option.key;
+                        }
                         option.action();
                     };
-
-                    scope.predicate = 'weight';
 
                     element.bind('click', function (e) {
                         if (!_power.isOpen) {
@@ -84,6 +87,12 @@ angular.module('rescour.powers', [])
                             PowersController.open(_power);
                         }
                     });
+
+                    scope.predicate = 'weight';
+
+                    if (_power.toggle && _power.options.hasOwnProperty(_power.toggle)) {
+                        scope.selectOption(_power.options[_power.toggle]);
+                    }
                 }
             };
         }])

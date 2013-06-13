@@ -75,7 +75,7 @@ $headerHeight: 50px;
           border:none;
           border-bottom: 1px solid darken($detailsHeaderColor, 20%);
           text-shadow: rgb(255, 255, 255) 2px 1px 0px;
-          @include transition(all 0.3s ease);
+          //@include transition(all 0.3s ease);
         }
 
         & > a:hover {

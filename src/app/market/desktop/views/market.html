@@ -17,7 +17,6 @@
     <!--FILTERS BEGIN-->
     <div id="Filter" ng-controller="FilterController">
         <div class="powers">
-            <div power="savePower"></div>
             <div power="loadPower"></div>
         </div>
         <div class="scroll-container">
@@ -80,9 +79,9 @@
     <!--LIST BEGIN-->
     <div id="MarketList" ng-controller="ListController">
         <div class="powers">
+            <div power="reportPower"></div>
             <div power="sortPower"></div>
             <div power="showPower"></div>
-            <div power="reportPower"></div>
         </div>
 
         <div class="scroll-container"
@@ -167,6 +166,9 @@
 
     <!--Map-->
     <div class="map-container desktop">
+        <div class="powers">
+            <div power="mapPower"></div>
+        </div>
         <div class="map-wrap">
             <div map></div>
         </div>

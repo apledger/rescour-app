@@ -11,6 +11,10 @@ angular.module('rescour.powers', [])
                     }
                 };
 
+                Power.prototype.getOptions = function () {
+                    return _.map(this.options, function (value) { return value });
+                };
+
                 return Power;
             }])
     .controller('PowersController', ['$scope', '$rootScope', function ($scope, $rootScope) {
@@ -46,6 +50,7 @@ angular.module('rescour.powers', [])
 
                     var _power = scope.power = new Power(scope.power, element);
                     var body = $document.find('body');
+                    scope.predicate = 'weight';
 
                     _power.close = function (e) {
                         if (e) {
@@ -81,14 +86,16 @@ angular.module('rescour.powers', [])
                     };
 
                     element.bind('click', function (e) {
-                        if (!_power.isOpen) {
+                        if (!_power.isOpen && _power.options) {
                             e.preventDefault();
                             e.stopPropagation();
                             PowersController.open(_power);
+                        } else if (_power.action) {
+                            scope.$apply(function () {
+                                _power.action();
+                            })
                         }
                     });
-
-                    scope.predicate = 'weight';
 
                     if (_power.toggle && _power.options.hasOwnProperty(_power.toggle)) {
                         scope.selectOption(_power.options[_power.toggle]);

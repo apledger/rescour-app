@@ -40870,7 +40870,7 @@ angular.module('rescour.utility', [])
 
                 element.bind('scroll', function () {
                     // Check if within bottom of scrollable div
-                    if ((raw.scrollTop + raw.offsetHeight) >= raw.scrollHeight) {
+                    if ((raw.scrollTop + raw.offsetHeight)*1.05 >= raw.scrollHeight) {
                         // increase chunkSize and re-filter
                         scope.$apply(function () {
                             // take next limit
@@ -41561,7 +41561,6 @@ angular.module('rescour.market', [])
                     return value;
                 }) : undefined;
             };
-
             return Item;
         }])
     .service('Items', ['Attributes', 'Item',
@@ -41611,30 +41610,20 @@ angular.module('rescour.market', [])
             };
 
             this.render = function (subset) {
-                this.visibleIds = [];
+                var self = this;
+                self.visibleIds = [];
+                self.subset = subset || self.subset;
 
-                if (!subset || subset === 'all') {
-                    for (var id in this.items) {
-                        if (this.items.hasOwnProperty(id)) {
-                            this.items[id].isVisible = (_.contains(Attributes.visibleIds, id) && !this.items[id].hidden);
-                            this.items[id].isVisible ? this.visibleIds.push(id) : null;
+                for (var id in this.items) {
+                    if (this.items.hasOwnProperty(id)) {
+                        if (!self.subset || self.subset === 'all') {
+                            this.items[id].isVisible = _.contains(Attributes.visibleIds, id) && !this.items[id].hidden;
+                        } else if (self.subset === 'notes') {
+                            this.items[id].isVisible = _.contains(Attributes.visibleIds, id) && (this.items[id].hasComments || this.items[id].hasFinances);
+                        } else {
+                            this.items[id].isVisible = _.contains(Attributes.visibleIds, id) && this.items[id][self.subset];
                         }
-                    }
-                } else if (subset === 'notes') {
-                    for (var i = 0, len = Attributes.visibleIds.length; i < len; i++) {
-                        var _id = Attributes.visibleIds[i];
-                        if (this.items.hasOwnProperty(_id)) {
-                            this.items[_id].isVisible = this.items[_id].hasComments || this.items[_id].hasFinances;
-                            this.items[_id].isVisible ? this.visibleIds.push(_id) : null;
-                        }
-                    }
-                } else {
-                    for (var i = 0, len = Attributes.visibleIds.length; i < len; i++) {
-                        var _id = Attributes.visibleIds[i];
-                        if (this.items.hasOwnProperty(_id)) {
-                            this.items[_id].isVisible = this.items[_id][subset];
-                            this.items[_id].isVisible ? this.visibleIds.push(_id) : null;
-                        }
+                        this.items[id].isVisible ? this.visibleIds.push(id) : null;
                     }
                 }
             };
@@ -42050,19 +42039,69 @@ angular.module('rescour.market', [])
 
             SavedSearch.dialog = dialog;
 
+//            SavedSearch.query = function () {
+//                var searches = [];
+//                $http.get($_api.path + '/search/', $_api.config).then(function (response) {
+//                    angular.forEach(response.data.resources, function (value, key) {
+//                        try {
+//                            searches.push(new SavedSearch(angular.fromJson(value.savedSearch), value.id));
+//                        } catch (e) {
+//                            console.log(e.message);
+//                        }
+//                    });
+//                });
+//                return searches;
+//            };
+
             SavedSearch.query = function () {
-                var searches = [];
-                $http.get($_api.path + '/search/', $_api.config).then(function (response) {
-                    angular.forEach(response.data.resources, function (value, key) {
-                        try {
-                            searches.push(new SavedSearch(angular.fromJson(value.savedSearch), value.id));
-                        } catch (e) {
-                            console.log(e.message);
+                var defer = $q.defer(),
+                    self = this,
+                    path = $_api.path + '/search/',
+                    config = angular.extend({
+                        transformRequest: function (data) {
+                            return data;
                         }
+                    }, $_api.config);
+
+                $http.get(path, config).then(
+                    function (response) {
+                        var searches = [];
+                        angular.forEach(response.data.resources, function (value, key) {
+                            try {
+                                searches.push(new SavedSearch(angular.fromJson(value.savedSearch), value.id));
+                            } catch (e) {
+                                console.log(e.message);
+                            }
+                        });
+                        defer.resolve(searches);
+                    },
+                    function (response) {
+                        defer.reject(response);
+                    }
+                );
+
+                return defer.promise;
+            }
+
+            SavedSearch.prototype.$save = function () {
+                var defer = $q.defer(),
+                    self = this;
+                if (self.id) {
+                    $http.put($_api.path + '/search/' + self.id, JSON.stringify({savedSearch: JSON.stringify(self)}), $_api.config).then(function (response) {
+                        defer.resolve(response.data);
+                    }, function (response) {
+                        defer.reject(response.data);
                     });
-                });
-                return searches;
-            };
+                } else {
+                    $http.post($_api.path + '/search/', JSON.stringify({savedSearch: JSON.stringify(self)}), $_api.config).then(function (response) {
+                        self.id = response.data.id;
+                        defer.resolve(response.data);
+                    }, function (response) {
+                        defer.reject(response.data);
+                    });
+                }
+                return defer.promise;
+            }
 
             SavedSearch.prototype.$save = function () {
                 var defer = $q.defer(),
@@ -42418,8 +42457,68 @@ angular.module('rescour.market', [])
             }
         };
     })
+    .directive('imgViewer', ['$window', function ($document) {
+        return{
+            restrict: 'EA',
+            transclude: true,
+            replace: true,
+            templateUrl: 'template/img-viewer/img-viewer.html',
+            controller: 'viewerCtrl',
+            scope: {
+                images: '='
+            },
+            link: function (scope, element, attr, viewerCtrl) {
+                if (scope.images.length > 0) {
+                    scope.images[0].isActive = true;
+                }
+
+                viewerCtrl.setSlides(scope.images);
+                viewerCtrl.element = element;
+
+            }
+
+
+        }
+    }])
+    .controller('viewerCtrl', ['$scope', '$timeout',
+        function ($scope, $timeout) {
+            var self = this;
+            $scope.current = 0;
+            self.setSlides = function (slides) {
+                $scope.slides = slides;
+            }
+
+            $scope.prev = function () {
+                $scope.slides[$scope.current].isActive = false;
+                $scope.current = $scope.current == 0 ? $scope.slides.length - 1 : $scope.current -= 1;
+                $scope.slides[$scope.current].isActive = true;
+            }
+
+            $scope.next = function () {
+                $scope.slides[$scope.current].isActive = false;
+                $scope.current = $scope.current == $scope.slides.length - 1 ? $scope.current = 0 : $scope.current += 1;
+                $scope.slides[$scope.current].isActive = true;
+            }
+
+            $scope.getClass = function (image) {
+                var imgWidth = self.element[0].children[$scope.current].children[0].clientWidth,
+                    imgHeight = self.element[0].children[$scope.current].children[0].clientHeight,
+                    boxWidth = self.element[0].clientWidth,
+                    boxHeight = self.element[0].clientHeight;
+                if (image.isActive) {
+                    if(imgWidth < boxWidth && imgWidth !== 0){
+                        return "portrait"
+                    }
+                    return (imgWidth / imgHeight) < (boxWidth / boxHeight) ? "portrait" : "landscape";
+                } else {
+                    return "view-inner";
+                }
+            }
+
+        }])
     .filter('checkBounds', function () {
         return function (input, limit, e) {
+
             return input == limit ? input + "+" : input;
         }
     });
@@ -42726,6 +42825,7 @@ angular.module('rescour.browserDetect', [])
                     || "an unknown version";
                 this.OS = this.searchString(this.dataOS) || "an unknown OS";
                 this.platform = navigator.userAgent.match(/iPad/i) != null ? 'tablet' : 'desktop';
+//                this.platform = 'tablet';
             },
             searchString: function (data) {
                 for (var i = 0; i < data.length; i++) {
@@ -42844,6 +42944,144 @@ angular.module('rescour.browserDetect', [])
             }
         }
     });
+angular.module('rescour.powers', [])
+    .factory('Power',
+        ['$document', '$window',
+            function ($document, $window) {
+                function Power(opts) {
+                    angular.extend(this, {}, opts);
+                    if (this.options) {
+                        angular.forEach(this.options, function (value, key) {
+                            value.key = key;
+                        });
+                    }
+
+                    this.float = this.float || 'left';
+                };
+
+                Power.prototype.getOptions = function () {
+                    return _.map(this.options, function (value) { return value });
+                };
+
+                return Power;
+            }])
+    .controller('PowersController', ['$scope', '$rootScope', function ($scope, $rootScope) {
+        var powers = [];
+
+        this.addPower = function (power) {
+            powers.push(power);
+        };
+
+        this.open = function (power) {
+            $rootScope.$broadcast('Powers.close');
+            power.open();
+        };
+
+        $scope.$on('Powers.close', function () {
+            angular.forEach(powers, function (value, key) {
+                if (value.power.isOpen) {
+                    value.power.close();
+                }
+            });
+        });
+    }])
+    .directive('power', ['$document', 'Power', '$compile',
+        function ($document, Power, $compile) {
+            return {
+                require: '^powers',
+                scope: {
+                    power: '='
+                },
+                replace: true,
+                templateUrl: '/core/powers/template/power.html',
+                link: function (scope, element, attrs, PowersController) {
+
+                    var _power = scope.power = new Power(scope.power, element);
+                    var body = $document.find('body');
+                    scope.predicate = 'weight';
+
+                    _power.close = function (e) {
+                        if (e) {
+                            e.stopPropagation();
+                            e.preventDefault();
+                        }
+
+                        scope.$apply(function () {
+                            _power.isOpen = false;
+                        });
+
+                        $document.unbind('click', _power.close);
+                    };
+
+                    _power.open = function () {
+                        scope.$apply(function () {
+                            _power.isOpen = true;
+                        });
+                        $document.bind('click', _power.close);
+                    };
+
+                    PowersController.addPower(scope);
+
+                    scope.selectOption = function (option){
+                        if (_power.toggle) {
+                            angular.forEach(_power.options, function (value, key) {
+                                value.isSelected = false;
+                            });
+                            option.isSelected = true;
+                            _power.toggle = option.key;
+                        }
+                        option.action();
+                    };
+
+                    element.bind('click', function (e) {
+                        if (!_power.isOpen && _power.options) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            PowersController.open(_power);
+                        } else if (_power.action) {
+                            scope.$apply(function () {
+                                _power.action();
+                            });
+                        }
+                    });
+
+                    if (_power.toggle && _power.options.hasOwnProperty(_power.toggle)) {
+                        scope.selectOption(_power.options[_power.toggle]);
+                    }
+                }
+            };
+        }])
+    .directive('powers', ['$window', function ($window) {
+        return {
+            restrict: 'C',
+            link: function (scope, element, attrs) {
+
+                var elHeight = element.prop('offsetHeight'),
+                    elSibling = element.next(),
+                    elParent = element.parent();
+
+                function setHeight(el) {
+                    elHeight = element.prop('offsetHeight');
+                    el.css({
+                        height: elParent.height() - elHeight
+                    });
+                }
+
+                setHeight(elSibling);
+
+                angular.element($window).bind('resize', function () {
+                    scope.$apply(function () {
+                        scope.$broadcast('window-resized');
+                    });
+                });
+
+                scope.$on('window-resized', function () {
+                    setHeight(elSibling);
+                });
+            },
+            controller: 'PowersController'
+        }
+    }]);
 /**
  * Created with JetBrains WebStorm.
  * User: apledger
@@ -42902,6 +43140,7 @@ angular.module('rescour.app',
             'rescour.market',
             'rescour.market.map',
             'rescour.browserDetect',
+            'rescour.powers',
             'ahTouch'
         ])
     .config(['$routeProvider', '$locationProvider', '$httpProvider', 'BrowserDetectProvider',
@@ -42999,6 +43238,33 @@ angular.module('rescour.app')
                     $scope.activeSubview = subview;
                 } else {
                     throw new Error("Unknown subview " + subview);
+                }
+            };
+            $scope.accountPower = {
+                title: User.profile.email,
+                float: 'right',
+                options: {
+                    back: {
+                        title: 'Back to Application',
+                        icon: 'icon-home',
+                        action: function () {
+                            $location.path('/');
+                        }
+                    },
+                    logout: {
+                        title: 'Logout',
+                        icon: 'icon-power-off',
+                        action: function () {
+                            $location.path('/logout');
+                        }
+                    }
+                }
+            };
+
+            $scope.backPower = {
+                title: 'Back to Application',
+                action: function () {
+                    $location.path('/');
                 }
             };
 
@@ -43270,7 +43536,6 @@ angular.module('rescour.app')
                 .when('/market', {
                     templateUrl: '/app/market/' + BrowserDetectProvider.platform + '/views/market.html?' + Date.now(),
 //                    templateUrl: '/app/market/tablet/views/market.html?' + Date.now(),
-
                     controller: 'MarketController',
                     reloadOnSearch: false,
                     resolve: {
@@ -43301,15 +43566,35 @@ angular.module('rescour.app')
                     }
                 });
         }])
-    .controller('MarketController', ['$scope', 'Items', 'Attributes', '$timeout', '$routeParams', 'PropertyDetails', '$location', 'BrowserDetect',
-        function ($scope, Items, Attributes, $timeout, $routeParams, PropertyDetails, $location, BrowserDetect) {
+    .controller('MarketController', ['$scope', 'Items', 'Attributes', '$timeout', '$routeParams', 'PropertyDetails', '$location', 'BrowserDetect', 'User',
+        function ($scope, Items, Attributes, $timeout, $routeParams, PropertyDetails, $location, BrowserDetect, User) {
             $scope.items = Items.toArray();
             $scope.attributes = Attributes;
             $scope.toggle = 'all';
             $scope.getActive = Items.getActive;
             $scope.browser = BrowserDetect;
+            $scope.mapPower = {
+                float: 'right',
+                title: User.profile.email,
+                options: {
+                    'My Account': {
+                        title: 'My Account',
+                        icon: 'icon-user',
+                        action: function () {
+                            $location.path('/account/');
+                        }
+                    },
+                    'Logout': {
+                        title: 'Logout',
+                        icon: 'icon-power-off',
+                        action: function () {
+                            $location.path('/logout');
+                        }
+                    }
+                }
+            };
 
-            function openDetails (id) {
+            function openDetails(id) {
                 if (angular.isObject(Items.items[id])) {
                     PropertyDetails.open(Items.items[id]).selectPane($location.hash());
                 } else {
@@ -43337,40 +43622,53 @@ angular.module('rescour.app')
                 $scope.$broadcast('CenterMap', item);
             };
 
+            $scope.render = function (subset) {
+                Items.render(subset);
+            };
+
             $scope.filter = function () {
                 Attributes.apply();
                 Items.render();
-                if ($scope.toggle !== 'all') {
-                    Items.render($scope.toggle);
-                }
                 Attributes.predict();
                 $scope.attributes.modified = true;
-            };
-
-            $scope.listAll = function () {
-                $scope.toggle = 'all';
-                Items.render();
-            };
-
-            $scope.listFavorites = function () {
-                $scope.toggle = 'favorites';
-                Items.render('favorites');
-            };
-
-            $scope.listHidden = function () {
-                $scope.toggle = 'hidden';
-                Items.render('hidden');
-            };
-
-            $scope.listNotes = function () {
-                $scope.toggle = 'notes';
-                Items.render('notes');
             };
         }])
     .controller("FilterController", ['$scope', 'Items', 'Attributes', 'SavedSearch', '$dialog',
         function ($scope, Items, Attributes, SavedSearch, $dialog) {
             $scope.selectedSearch = null;
-            $scope.savedSearches = SavedSearch.query();
+            $scope.loadPower = {
+                title: 'Load',
+                options: {}
+            };
+
+            $scope.newPower = {
+                icon: 'icon-refresh',
+                action: function () {
+                    $scope.loadSearch();
+                },
+                color: 'blue',
+                tooltip: {
+                    text: 'Clear Search',
+                    placement: 'right'
+                }
+            };
+
+            var updateLoadPower = function () {
+                angular.forEach($scope.savedSearches, function (value) {
+                    $scope.loadPower.options[value.title] = {
+                        action: function () {
+                            console.log(value);
+                            $scope.loadSearch(value);
+                        },
+                        title: value.title
+                    }
+                });
+            }
+
+            SavedSearch.query().then(function (savedSearches) {
+                $scope.savedSearches = savedSearches;
+                updateLoadPower();
+            });
 
             $scope.openSaveDialog = function () {
                 // If its a new search open the dialog
@@ -43403,6 +43701,7 @@ angular.module('rescour.app')
                     if (!_old) {
                         $scope.savedSearches.push(_search);
                         $scope.attributes.id = response.id;
+
                     } else {
                         $scope.savedSearches = _.map($scope.savedSearches, function (val) {
                             return val.id === _old.id ? _search : val;
@@ -43410,6 +43709,7 @@ angular.module('rescour.app')
                     }
                     $scope.selectedSearch = _search;
                     $scope.attributes.modified = false;
+                    updateLoadPower();
                 }, function (response) {
                     $scope.savedSearches = SavedSearch.query();
                     throw new Error("Could not save search: " + response.error);
@@ -43443,22 +43743,124 @@ angular.module('rescour.app')
                 item.isFavorite = !item.isFavorite;
             };
         }])
-    .controller("ListController", ['$scope', 'PropertyDetails',
-        function ($scope, PropertyDetails) {
+    .
+    controller("ListController", ['$scope', 'PropertyDetails', 'Items',
+        function ($scope, PropertyDetails, Items) {
+            $scope.sortBy = "yearBuilt";
+
+            $scope.sortPower = {
+                toggle: 'yearBuilt',
+                icon: 'icon-sort-by-order',
+                tooltip:{
+                    text: 'Sort',
+                    placement: 'bottom'
+                },
+                options: {
+                    yearBuilt: {
+                        action: function () {
+                            $scope.sortBy = this.key;
+                        },
+                        icon: 'icon-calendar',
+                        title: 'Year'
+                    },
+                    numUnits: {
+                        action: function () {
+                            $scope.sortBy = this.key;
+                        },
+                        icon: 'icon-building',
+                        title: 'Units'
+                    },
+                    title: {
+                        action: function () {
+                            $scope.sortBy = this.key;
+                        },
+                        icon: 'icon-sort-by-alphabet',
+                        title: 'Title'
+                    }
+                }
+            };
+
+            $scope.reportPower = {
+                icon: 'icon-download-alt',
+                color: 'blue',
+                tooltip: {
+                    text: 'Download Report',
+                    placement: 'bottom'
+                },
+                action: function () {
+                    console.log("Sending Report");
+                }
+            };
+
+            $scope.showPower = {
+                toggle: 'all',
+                icon: 'icon-list',
+                tooltip:{
+                    text: 'Show',
+                    placement: 'bottom'
+                },
+                options: {
+                    all: {
+                        action: function () {
+                            Items.render(this.key);
+                            $scope.showPower.icon = this.icon;
+                            console.log($scope.showPower.icon);
+                        },
+                        icon: 'icon-list',
+                        title: 'All'
+                    },
+                    'favorites': {
+                        action: function () {
+                            Items.render(this.key);
+                            $scope.showPower.icon = this.icon;
+                        },
+                        icon: 'icon-star',
+                        title: 'Favorites'
+                    },
+                    'hidden': {
+                        action: function () {
+                            Items.render(this.key);
+                            $scope.showPower.icon = this.icon;
+                        },
+                        icon: 'icon-ban-circle',
+                        title: 'Hidden'
+                    },
+                    'notes': {
+                        action: function () {
+                            Items.render(this.key);
+                            $scope.showPower.icon = this.icon;
+                        },
+                        icon: 'icon-pencil',
+                        title: 'Notes'
+                    }
+                }
+            };
+
             $scope.panTo = function (item) {
                 $scope.centerMap(item);
             };
 
+
+            $scope.getVisibleLength = function (){
+                return Items.visibleIds.length;
+            };
+
             $scope.orderNA = function () {
-                return function (object) {
-                    if (object.attributes.range.yearBuilt === 'NA' && object.attributes.range.numUnits === 'NA') {
-                        return 0
-                    } else if (object.attributes.range.yearBuilt === 'NA' || object.attributes.range.numUnits === 'NA') {
-                        return -1;
-                    } else if (object.attributes.range.yearBuilt) {
-                        return -object.attributes.range.yearBuilt;
+                if ($scope.sortBy === "numUnits" || $scope.sortBy === "yearBuilt") {
+                    return function (object) {
+                        if (object.attributes.range.yearBuilt === 'NA' && object.attributes.range.numUnits === 'NA') {
+                            return 0
+                        } else if (object.attributes.range.yearBuilt === 'NA' || object.attributes.range.numUnits === 'NA') {
+                            return -1;
+                        } else if (object.attributes.range[$scope.sortBy]) {
+                            return -object.attributes.range[$scope.sortBy];
+                        }
+                    };
+                } else {
+                    return function (object) {
+                        return object[$scope.sortBy];
                     }
-                };
+                }
             };
 
             $scope.toggleFavorites = function (item) {
@@ -43478,6 +43880,40 @@ angular.module('rescour.app')
             $scope.financeFields = Finance.fields;
             $scope.contactAlerts = [];
             $scope.current = activeItem;
+            $scope.currentImages = $scope.current.getImages();
+            $scope.detailsPower = {
+                title: 'Options',
+                options: {
+                    'All': {
+                        action: function () {
+                            console.log("All");
+                        },
+                        icon: 'icon-plus',
+                        title: 'All'
+                    },
+                    'Favorites': {
+                        action: function () {
+                            console.log("favorites");
+                        },
+                        icon: 'icon-minus',
+                        title: 'Favorites'
+                    },
+                    'Hidden': {
+                        action: function () {
+                            console.log("Hidden");
+                        },
+                        icon: 'icon-minus',
+                        title: 'Hidden'
+                    },
+                    'Notes': {
+                        action: function () {
+                            console.log("Notes");
+                        },
+                        icon: 'icon-minus',
+                        title: 'Notes'
+                    }
+                }
+            };
 
             $scope.close = function () {
                 $location.search('id', null).hash(null);

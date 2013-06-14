@@ -1,19 +1,20 @@
-#Footer {
+.main-footer {
   position: fixed;
   width: 100%;
   bottom: 0px;
   left: 0px;
-  height: 20px;
+  height: $footerHeight;
   background-color: $light-gray;
   border-top: 1px solid darken($light-gray, 20%);
   z-index: 3000;
-}
+  border-bottom: 4px solid $red;
 
-#Footer p {
-  text-align: center;
-}
+  p, a {
+    text-align: center;
+    margin: 7px !important;
 
-#Footer p a {
-  font-size: 10px;
-  margin-right: 10px;
+    img {
+      height: 24px;
+    }
+  }
 }

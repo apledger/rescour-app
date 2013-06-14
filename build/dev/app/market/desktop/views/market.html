@@ -1,43 +1,23 @@
 <header>
-    <a class="logo" href="/"></a>
+    <!--<a class="logo" href="/"></a>-->
 
-    <div class="navbar market-controls">
-        <ul class="nav" style="margin-left:15px;">
-            <li ng-class="{'active': toggle == 'all'}" tooltip="Display All" tooltip-placement="bottom">
-                <a ng-click="listAll()" href="javascript:"><i class="icon-list"></i></a>
-            </li>
-            <li ng-class="{'active': toggle == 'favorites'}" tooltip="My Favorites" tooltip-placement="bottom">
-                <a ng-click="listFavorites()" href="javascript:"><i class="icon-star"></i></a>
-            </li>
-            <li ng-class="{'active': toggle == 'hidden'}">
-                <a ng-click="listHidden()" href="javascript:" tooltip="My Hidden" tooltip-placement="bottom"><i
-                        class="icon-ban-circle"></i></a>
-            </li>
-            <li ng-class="{'active': toggle == 'notes'}">
-                <a ng-click="listNotes()" href="javascript:" tooltip="My Notes" tooltip-placement="bottom"><i
-                        class="icon-pencil"></i></a>
-            </li>
-            <li>
-                <form class="navbar-search">
-                    <input type="text" class="search-query input-medium" ng-model="searchText.title"
-                           placeholder="Search">
-                </form>
-            </li>
-        </ul>
-    </div>
-
-    <div class="navbar">
-        <ul class="nav pull-right" style="padding-top:4px">
-            <li><a href="/account/">My Account</a></li>
-            <li><a href="/logout">Logout</a></li>
-        </ul>
-    </div>
+    <!--<div class="navbar">-->
+        <!--<ul class="nav pull-right" style="padding-top:4px">-->
+            <!--<li><a href="/account/">My Account</a></li>-->
+            <!--<li><a href="/logout">Logout</a></li>-->
+        <!--</ul>-->
+    <!--</div>-->
 </header>
 
 <div class="main-container" spinner="getActive().details.$spinner" spinner-size="large">
     <!--FILTERS BEGIN-->
     <div id="Filter" ng-controller="FilterController">
-        <div class="filter-container">
+        <div class="powers">
+            <div power="newPower"></div>
+            <div power="loadPower"></div>
+        </div>
+        <div class="scroll-container">
+            <div class="filter-container">
             <div class="saved-search">
                 <!--Saved search dropdown-->
                 <!--Save search button-->
@@ -45,7 +25,7 @@
                 <div class="dropdown saved-dropdown">
 
                     <div class="btn-group">
-                        <button class="btn saved-dropdown" tooltip="Reset" tooltip-placement="bottom"
+                        <button class="btn saved-dropdown" tooltip="Refresh" tooltip-placement="bottom"
                                 ng-click="refreshSearch()">
                             <!--<i class="icon-refresh"></i>-->
                             {{attributes.title || "New Search"}}
@@ -56,16 +36,7 @@
                                 ng-click="openSaveDialog()">
                             <i class="icon-save"></i>
                         </button>
-                        <a class="btn dropdown-toggle"><i class="icon-caret-down"></i></a>
                     </div>
-
-                    <ul class="dropdown-menu">
-                        <li><a href="javascript:" ng-click="loadSearch()">New Search</a></li>
-                        <li class="divider"></li>
-                        <li ng-repeat="saved in savedSearches">
-                            <a href="javascript:" ng-click="loadSearch(saved)">{{saved.title}}</a>
-                        </li>
-                    </ul>
                 </div>
             </div>
 
@@ -98,17 +69,30 @@
                     </li>
                 </ul>
             </div>
-        </div>
+        </div></div>
     </div>
     <!--FILTERS END-->
 
     <!--LIST BEGIN-->
     <div id="MarketList" ng-controller="ListController">
-        <div class="market-scroll"
+        <div class="powers">
+            <div power="reportPower"></div>
+            <div power="sortPower"></div>
+            <div power="showPower"></div>
+            <div class="power-search">
+                <input type="text" ng-model="searchText.title"
+                   placeholder="Search">
+            </div>
+        </div>
+
+        <div class="scroll-container"
              chunk="items | filter:searchText | limitVisible | orderBy:orderNA()">
             <!--Toggle favorites button-->
             <!--Item boxes display-->
-            <div class="market-wrap">
+            <div class="market-list-wrap">
+                <div class="list-status">
+                    Displaying <strong>{{getVisibleLength()}}</strong> Results
+                </div>
                 <div id="item-{{item.id}}" class="item-well"
                      ng-class="{'item-hidden': item.hidden}"
                      ng-repeat="item in chunk"
@@ -124,9 +108,7 @@
                         </a>
 
                         <div class="header-container">
-                            <div class="title"><a href="javascript:" ng-click="showItemDetails(item, 'details')">{{item.title
-                                |
-                                ellipsis:25}}</a></div>
+                            <div class="title"><a href="javascript:" ng-click="showItemDetails(item, 'details')">{{item.title | ellipsis:25}}</a></div>
                             <div class="ranges">
                                 <span>{{item.getAttribute('numUnits')}}&nbsp;</span>Units.&nbsp;
                                 Built in<span>&nbsp;{{item.getAttribute('yearBuilt')}}</span>.
@@ -171,7 +153,7 @@
                             <!--Contact broker button-->
                             <div class="footer-button" ng-click="showItemDetails(item, 'contact')"
                                  tooltip="Contact Broker">
-                                <i class="icon-envelope-alt"></i>
+                                <i class="icon-envelope"></i>
 
                                 <span>{{item.getAttribute('broker')}}</span>
                             </div>
@@ -184,9 +166,14 @@
     <!--LIST END-->
 
     <!--Map-->
-    <div map></div>
-</div>
+    <div class="map-container desktop">
+        <div class="powers">
+            <div power="mapPower"></div>
+        </div>
 
-<div id="Footer">
-    <p><a href="javascript:">Copyright 2012 REscour</a></p>
+        <div class="map-wrap">
+            <div map></div>
+        </div>
+    </div>
+    <!--<div map></div>-->
 </div>

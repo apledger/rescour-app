@@ -43,16 +43,32 @@ angular.module('rescour.app')
                     }
                 });
         }])
-    .controller('MarketController', ['$scope', 'Items', 'Attributes', '$timeout', '$routeParams', 'PropertyDetails', '$location', 'BrowserDetect',
-        function ($scope, Items, Attributes, $timeout, $routeParams, PropertyDetails, $location, BrowserDetect) {
+    .controller('MarketController', ['$scope', 'Items', 'Attributes', '$timeout', '$routeParams', 'PropertyDetails', '$location', 'BrowserDetect', 'User',
+        function ($scope, Items, Attributes, $timeout, $routeParams, PropertyDetails, $location, BrowserDetect, User) {
             $scope.items = Items.toArray();
             $scope.attributes = Attributes;
             $scope.toggle = 'all';
             $scope.getActive = Items.getActive;
             $scope.browser = BrowserDetect;
             $scope.mapPower = {
-                icon: 'icon-cog',
-                float: 'right'
+                float: 'right',
+                title: User.profile.email,
+                options: {
+                    'My Account': {
+                        title: 'My Account',
+                        icon: 'icon-user',
+                        action: function () {
+                            $location.path('/account/');
+                        }
+                    },
+                    'Logout': {
+                        title: 'Logout',
+                        icon: 'icon-power-off',
+                        action: function () {
+                            $location.path('/logout');
+                        }
+                    }
+                }
             };
 
             function openDetails(id) {
@@ -107,7 +123,7 @@ angular.module('rescour.app')
                 action: function () {
                     $scope.loadSearch();
                 },
-                color: 'green',
+                color: 'blue',
                 tooltip: {
                     text: 'Clear Search',
                     placement: 'right'
@@ -214,7 +230,7 @@ angular.module('rescour.app')
                 icon: 'icon-sort-by-order',
                 tooltip:{
                     text: 'Sort',
-                    placement: 'top'
+                    placement: 'bottom'
                 },
                 options: {
                     yearBuilt: {
@@ -242,8 +258,8 @@ angular.module('rescour.app')
             };
 
             $scope.reportPower = {
-                icon: 'icon-cloud-download',
-                color: 'green',
+                icon: 'icon-download-alt',
+                color: 'blue',
                 tooltip: {
                     text: 'Download Report',
                     placement: 'bottom'
@@ -258,7 +274,7 @@ angular.module('rescour.app')
                 icon: 'icon-list',
                 tooltip:{
                     text: 'Show',
-                    placement: 'top'
+                    placement: 'bottom'
                 },
                 options: {
                     all: {

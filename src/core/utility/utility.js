@@ -211,7 +211,7 @@ angular.module('rescour.utility', [])
 
                 element.bind('scroll', function () {
                     // Check if within bottom of scrollable div
-                    if ((raw.scrollTop + raw.offsetHeight) >= raw.scrollHeight) {
+                    if ((raw.scrollTop + raw.offsetHeight)*1.05 >= raw.scrollHeight) {
                         // increase chunkSize and re-filter
                         scope.$apply(function () {
                             // take next limit

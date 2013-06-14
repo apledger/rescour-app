@@ -98,10 +98,10 @@ body {
 
 .main-container {
   position: absolute;
-  top: $headerHeight + 4px;
+  top: 4px;
   left: 0;
   right: 0;
-  bottom: 21px;
+  bottom: $footerHeight;
 }
 
 .yellow {

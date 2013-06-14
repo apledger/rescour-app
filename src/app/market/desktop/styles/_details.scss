@@ -7,9 +7,9 @@ $detailsHeaderColor: $light-gray;
   overflow-y: scroll;
   overflow-x: hidden;
   @include rescourTabs;
-  top: $headerHeight + 5px;
+  top: 40px;
   right: 0;
-  bottom: 0;
+  bottom: 21px;
   &.desktop {
     left: $filterWidth + $marketWidth;
   }

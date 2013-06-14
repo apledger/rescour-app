@@ -9,6 +9,8 @@ angular.module('rescour.powers', [])
                             value.key = key;
                         });
                     }
+
+                    this.float = this.float || 'left';
                 };
 
                 Power.prototype.getOptions = function () {
@@ -93,7 +95,7 @@ angular.module('rescour.powers', [])
                         } else if (_power.action) {
                             scope.$apply(function () {
                                 _power.action();
-                            })
+                            });
                         }
                     });
 

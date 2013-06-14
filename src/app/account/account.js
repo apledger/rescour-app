@@ -63,6 +63,33 @@ angular.module('rescour.app')
                     throw new Error("Unknown subview " + subview);
                 }
             };
+            $scope.accountPower = {
+                title: User.profile.email,
+                float: 'right',
+                options: {
+                    back: {
+                        title: 'Back to Application',
+                        icon: 'icon-home',
+                        action: function () {
+                            $location.path('/');
+                        }
+                    },
+                    logout: {
+                        title: 'Logout',
+                        icon: 'icon-power-off',
+                        action: function () {
+                            $location.path('/logout');
+                        }
+                    }
+                }
+            };
+
+            $scope.backPower = {
+                title: 'Back to Application',
+                action: function () {
+                    $location.path('/');
+                }
+            };
 
             $scope.accountSubviews = {
                 profile: {

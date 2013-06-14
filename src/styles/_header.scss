@@ -5,17 +5,9 @@ header {
   border-bottom: darken(#d5d5d5, 30%);
   @include gradient-vertical(#ffffff, #d5d5d5);
   width: 100%;
-  height: $headerHeight + 5px;
   z-index: 1;
 
-  .logo {
-    margin: 10px 0px 5px 45px;
-    background: url('../../../img/logo.png') no-repeat center;
-    height: 35px;
-    width: 143px;
-    position: relative;
-    float: left;
-  }
+
 
   .navbar-search {
     position: absolute;

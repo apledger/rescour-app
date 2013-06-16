@@ -9,7 +9,7 @@ $detailsHeaderColor: $light-gray;
   @include rescourTabs;
   top: 40px;
   right: 0;
-  bottom: 21px;
+  bottom: $footerHeight + 5px;
   &.desktop {
     left: $filterWidth + $marketWidth;
   }
@@ -52,8 +52,6 @@ $detailsHeaderColor: $light-gray;
   height: 400px;
   width: 100%;
 
-
-
   .viewer-inner{
     position: relative;
     height: 400px;
@@ -62,9 +60,10 @@ $detailsHeaderColor: $light-gray;
 
     img {
       position: relative;
-      max-height: 100%;
+      //max-height: 100%;
+      max-height: 400px !important;
       max-width: 100%;
-      vertical-align: middle;
+      vertical-align: middle !important;
     }
   }
 

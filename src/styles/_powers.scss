@@ -44,10 +44,8 @@ $lineSpacing: 14px;
   min-height: 34px;
   position: relative;
   @include gradient-vertical(darken($powersBg, 10%), lighten($powersBg, 10%));
-  //border-top: 1px solid darken($powersBg, 20%);
   @include box-shadows(inset 0 1px 4px rgba(255,255,255,0.7), 0 2px 2px rgba(0, 0, 0, 0.4));
   z-index: 5000;
-  padding: 0 15px;
 
   .power-search {
     position: relative;

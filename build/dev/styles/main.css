@@ -5770,7 +5770,7 @@ a.label:hover, a.badge:hover {
   overflow-x: hidden;
   top: 40px;
   right: 0;
-  bottom: 21px;
+  bottom: 40px;
 }
 /* line 30, ../../src/styles/_rescour_variables.scss */
 .property-details.status-expired .nav-tabs > li {
@@ -5939,33 +5939,33 @@ a.label:hover, a.badge:hover {
   height: 400px;
   width: 100%;
 }
-/* line 57, ../../src/app/market/desktop/styles/_details.scss */
+/* line 55, ../../src/app/market/desktop/styles/_details.scss */
 .viewer-container .viewer-inner {
   position: relative;
   height: 400px;
   width: 100%;
   text-align: center;
 }
-/* line 63, ../../src/app/market/desktop/styles/_details.scss */
+/* line 61, ../../src/app/market/desktop/styles/_details.scss */
 .viewer-container .viewer-inner img {
   position: relative;
-  max-height: 100%;
+  max-height: 400px !important;
   max-width: 100%;
-  vertical-align: middle;
+  vertical-align: middle !important;
 }
-/* line 71, ../../src/app/market/desktop/styles/_details.scss */
+/* line 70, ../../src/app/market/desktop/styles/_details.scss */
 .viewer-container .landscape {
   display: table-cell;
   vertical-align: middle;
   height: 400px;
 }
-/* line 77, ../../src/app/market/desktop/styles/_details.scss */
+/* line 76, ../../src/app/market/desktop/styles/_details.scss */
 .viewer-container .portrait {
   display: inline-block;
   text-align: center;
   width: 100%;
 }
-/* line 84, ../../src/app/market/desktop/styles/_details.scss */
+/* line 83, ../../src/app/market/desktop/styles/_details.scss */
 .viewer-container .counter {
   position: absolute;
   top: 10px;
@@ -5983,12 +5983,12 @@ a.label:hover, a.badge:hover {
   border-radius: 23px;
   opacity: 0.7;
 }
-/* line 99, ../../src/app/market/desktop/styles/_details.scss */
+/* line 98, ../../src/app/market/desktop/styles/_details.scss */
 .viewer-container .counter:hover {
   opacity: 0.8;
   cursor: default;
 }
-/* line 105, ../../src/app/market/desktop/styles/_details.scss */
+/* line 104, ../../src/app/market/desktop/styles/_details.scss */
 .viewer-container .viewer-control {
   position: absolute;
   top: 0px;
@@ -6006,28 +6006,28 @@ a.label:hover, a.badge:hover {
   opacity: 0.5;
   filter: alpha(opacity=50);
 }
-/* line 121, ../../src/app/market/desktop/styles/_details.scss */
+/* line 120, ../../src/app/market/desktop/styles/_details.scss */
 .viewer-container .viewer-control:hover {
   color: #222222;
   text-decoration: none;
   background: #5f5f5f;
   cursor: pointer;
 }
-/* line 130, ../../src/app/market/desktop/styles/_details.scss */
+/* line 129, ../../src/app/market/desktop/styles/_details.scss */
 .viewer-container .left {
   left: -55px;
 }
-/* line 134, ../../src/app/market/desktop/styles/_details.scss */
+/* line 133, ../../src/app/market/desktop/styles/_details.scss */
 .viewer-container .right {
   right: -55px;
 }
 
-/* line 138, ../../src/app/market/desktop/styles/_details.scss */
+/* line 137, ../../src/app/market/desktop/styles/_details.scss */
 .picture-container {
   min-height: 420px;
   position: relative;
 }
-/* line 147, ../../src/app/market/desktop/styles/_details.scss */
+/* line 146, ../../src/app/market/desktop/styles/_details.scss */
 .picture-container .counter {
   position: absolute;
   top: 10px;
@@ -6045,32 +6045,32 @@ a.label:hover, a.badge:hover {
   border-radius: 23px;
   opacity: 0.7;
 }
-/* line 162, ../../src/app/market/desktop/styles/_details.scss */
+/* line 161, ../../src/app/market/desktop/styles/_details.scss */
 .picture-container .counter:hover {
   opacity: 0.8;
   cursor: default;
 }
 
-/* line 170, ../../src/app/market/desktop/styles/_details.scss */
+/* line 169, ../../src/app/market/desktop/styles/_details.scss */
 .contact-selected strong {
   color: #0088cc;
 }
 
-/* line 175, ../../src/app/market/desktop/styles/_details.scss */
+/* line 174, ../../src/app/market/desktop/styles/_details.scss */
 .well.contact {
   cursor: pointer;
 }
 
-/* line 180, ../../src/app/market/desktop/styles/_details.scss */
+/* line 179, ../../src/app/market/desktop/styles/_details.scss */
 .contact-form .controls {
   margin: 0 0 30px;
 }
-/* line 183, ../../src/app/market/desktop/styles/_details.scss */
+/* line 182, ../../src/app/market/desktop/styles/_details.scss */
 .contact-form .checkbox {
   cursor: pointer;
 }
 
-/* line 190, ../../src/app/market/desktop/styles/_details.scss */
+/* line 189, ../../src/app/market/desktop/styles/_details.scss */
 .finance-container .control-group .finance-delete {
   font-size: 16px;
   line-height: 30px;
@@ -6082,11 +6082,11 @@ a.label:hover, a.badge:hover {
   height: 30px;
   margin-right: 10px;
 }
-/* line 201, ../../src/app/market/desktop/styles/_details.scss */
+/* line 200, ../../src/app/market/desktop/styles/_details.scss */
 .finance-container .control-group .finance-delete:hover {
   color: #481610;
 }
-/* line 206, ../../src/app/market/desktop/styles/_details.scss */
+/* line 205, ../../src/app/market/desktop/styles/_details.scss */
 .finance-container .control-group:hover .finance-delete {
   color: #9c3022;
   -webkit-transition: all 0.4s ease-in;
@@ -6094,21 +6094,21 @@ a.label:hover, a.badge:hover {
   -o-transition: all 0.4s ease-in;
   transition: all 0.4s ease-in;
 }
-/* line 212, ../../src/app/market/desktop/styles/_details.scss */
+/* line 211, ../../src/app/market/desktop/styles/_details.scss */
 .finance-container .control-label {
   position: relative;
   text-align: left;
   padding-top: 0;
   width: auto;
 }
-/* line 219, ../../src/app/market/desktop/styles/_details.scss */
+/* line 218, ../../src/app/market/desktop/styles/_details.scss */
 .finance-container .control-spinner {
   display: inline-block;
   width: 10px;
   height: 10px;
   margin-left: 20px;
 }
-/* line 226, ../../src/app/market/desktop/styles/_details.scss */
+/* line 225, ../../src/app/market/desktop/styles/_details.scss */
 .finance-container .edit-label {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
@@ -6118,11 +6118,11 @@ a.label:hover, a.badge:hover {
   width: 150px;
   margin-right: 10px;
 }
-/* line 234, ../../src/app/market/desktop/styles/_details.scss */
+/* line 233, ../../src/app/market/desktop/styles/_details.scss */
 .finance-container .edit-label:hover {
   background: rgba(0, 0, 0, 0.1);
 }
-/* line 238, ../../src/app/market/desktop/styles/_details.scss */
+/* line 237, ../../src/app/market/desktop/styles/_details.scss */
 .finance-container .edit-label:focus {
   font-weight: normal;
   background-color: white !important;
@@ -6135,26 +6135,26 @@ a.label:hover, a.badge:hover {
   -o-transition: border linear 0.2s, box-shadow linear 0.2s;
   transition: border linear 0.2s, box-shadow linear 0.2s;
 }
-/* line 246, ../../src/app/market/desktop/styles/_details.scss */
+/* line 245, ../../src/app/market/desktop/styles/_details.scss */
 .finance-container .edit-label ~ i {
   position: absolute;
   top: 5px;
   right: 15px;
   color: transparent;
 }
-/* line 253, ../../src/app/market/desktop/styles/_details.scss */
+/* line 252, ../../src/app/market/desktop/styles/_details.scss */
 .finance-container .edit-label:hover ~ i {
   color: rgba(0, 0, 0, 0.55);
 }
-/* line 257, ../../src/app/market/desktop/styles/_details.scss */
+/* line 256, ../../src/app/market/desktop/styles/_details.scss */
 .finance-container .edit-label:focus ~ i {
   color: transparent;
 }
-/* line 262, ../../src/app/market/desktop/styles/_details.scss */
+/* line 261, ../../src/app/market/desktop/styles/_details.scss */
 .finance-container select {
   width: 60px;
 }
-/* line 266, ../../src/app/market/desktop/styles/_details.scss */
+/* line 265, ../../src/app/market/desktop/styles/_details.scss */
 .finance-container .form-actions {
   padding-left: 20px;
 }
@@ -7959,9 +7959,8 @@ input:focus, textarea:focus {
   -moz-box-shadow: inset 0 1px 4px rgba(255, 255, 255, 0.7), 0 2px 2px rgba(0, 0, 0, 0.4);
   box-shadow: inset 0 1px 4px rgba(255, 255, 255, 0.7), 0 2px 2px rgba(0, 0, 0, 0.4);
   z-index: 5000;
-  padding: 0 15px;
 }
-/* line 52, ../../src/styles/_powers.scss */
+/* line 50, ../../src/styles/_powers.scss */
 .powers .power-search {
   position: relative;
   display: inline-block;
@@ -7969,7 +7968,7 @@ input:focus, textarea:focus {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-/* line 57, ../../src/styles/_powers.scss */
+/* line 55, ../../src/styles/_powers.scss */
 .powers .power-search input {
   margin: 0;
   padding: 2px 7px;
@@ -7981,7 +7980,7 @@ input:focus, textarea:focus {
   -o-transition: all 0.2 ease-in;
   transition: all 0.2 ease-in;
 }
-/* line 67, ../../src/styles/_powers.scss */
+/* line 65, ../../src/styles/_powers.scss */
 .powers .power {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -7990,7 +7989,7 @@ input:focus, textarea:focus {
   display: inline-block;
   border-right: 1px solid #bbbbbb !important;
 }
-/* line 73, ../../src/styles/_powers.scss */
+/* line 71, ../../src/styles/_powers.scss */
 .powers .power.green {
   border-left: 1px solid #356635;
   border-right: 1px solid #356635;
@@ -8035,7 +8034,7 @@ input:focus, textarea:focus {
 .powers .power.green .power-title {
   color: white;
 }
-/* line 77, ../../src/styles/_powers.scss */
+/* line 75, ../../src/styles/_powers.scss */
 .powers .power.red {
   border-left: 1px solid #722319;
   border-right: 1px solid #722319;
@@ -8080,7 +8079,7 @@ input:focus, textarea:focus {
 .powers .power.red .power-title {
   color: white;
 }
-/* line 81, ../../src/styles/_powers.scss */
+/* line 79, ../../src/styles/_powers.scss */
 .powers .power.orange {
   border-left: 1px solid #e94a0a;
   border-right: 1px solid #e94a0a;
@@ -8125,7 +8124,7 @@ input:focus, textarea:focus {
 .powers .power.orange .power-title {
   color: white;
 }
-/* line 85, ../../src/styles/_powers.scss */
+/* line 83, ../../src/styles/_powers.scss */
 .powers .power.blue {
   border-left: 1px solid #006699;
   border-right: 1px solid #006699;
@@ -8170,52 +8169,52 @@ input:focus, textarea:focus {
 .powers .power.blue .power-title {
   color: white;
 }
-/* line 89, ../../src/styles/_powers.scss */
+/* line 87, ../../src/styles/_powers.scss */
 .powers .power.power-right {
   float: right;
   border-left: 1px solid #bbbbbb !important;
   border-right: none !important;
 }
-/* line 94, ../../src/styles/_powers.scss */
+/* line 92, ../../src/styles/_powers.scss */
 .powers .power.power-right .power-menu {
   right: 0;
 }
-/* line 100, ../../src/styles/_powers.scss */
+/* line 98, ../../src/styles/_powers.scss */
 .powers .power.power-left .power-menu {
   left: 0;
 }
-/* line 105, ../../src/styles/_powers.scss */
+/* line 103, ../../src/styles/_powers.scss */
 .powers .power:hover {
   background: #fbfbfb;
 }
-/* line 108, ../../src/styles/_powers.scss */
+/* line 106, ../../src/styles/_powers.scss */
 .powers .power:hover .power-title {
   color: #393939;
 }
-/* line 113, ../../src/styles/_powers.scss */
+/* line 111, ../../src/styles/_powers.scss */
 .powers .power:active, .powers .power.open {
   background: #e1e1e1;
   -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
   -moz-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
 }
-/* line 119, ../../src/styles/_powers.scss */
+/* line 117, ../../src/styles/_powers.scss */
 .powers .power.open .power-title {
   color: #393939;
 }
-/* line 124, ../../src/styles/_powers.scss */
+/* line 122, ../../src/styles/_powers.scss */
 .powers .power:not(:first-child) {
   margin-left: -5px;
 }
-/* line 134, ../../src/styles/_powers.scss */
+/* line 132, ../../src/styles/_powers.scss */
 .powers .power.open > .power-menu {
   display: block;
 }
-/* line 138, ../../src/styles/_powers.scss */
+/* line 136, ../../src/styles/_powers.scss */
 .powers .power.open > .power-title::after {
   content: '\f106';
 }
-/* line 143, ../../src/styles/_powers.scss */
+/* line 141, ../../src/styles/_powers.scss */
 .powers .power .power-title {
   font-size: 12px;
   padding: 7px 14px;
@@ -8225,7 +8224,7 @@ input:focus, textarea:focus {
   color: #5f5f5f;
   text-align: center;
 }
-/* line 152, ../../src/styles/_powers.scss */
+/* line 150, ../../src/styles/_powers.scss */
 .powers .power .power-title.power-icon-dropdown::after {
   font-family: FontAwesome;
   font-weight: normal;
@@ -8236,7 +8235,7 @@ input:focus, textarea:focus {
   content: '\f107';
   padding-left: 7px;
 }
-/* line 164, ../../src/styles/_powers.scss */
+/* line 162, ../../src/styles/_powers.scss */
 .powers .power .power-menu {
   position: absolute;
   display: none;
@@ -8252,47 +8251,47 @@ input:focus, textarea:focus {
   -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
 }
-/* line 175, ../../src/styles/_powers.scss */
+/* line 173, ../../src/styles/_powers.scss */
 .powers .power .power-menu ul {
   position: relative;
   width: auto;
   margin: 10px 0;
 }
-/* line 180, ../../src/styles/_powers.scss */
+/* line 178, ../../src/styles/_powers.scss */
 .powers .power .power-menu ul li {
   padding: 5px 10px;
 }
-/* line 183, ../../src/styles/_powers.scss */
+/* line 181, ../../src/styles/_powers.scss */
 .powers .power .power-menu ul li.active {
   background: #0088cc;
 }
-/* line 186, ../../src/styles/_powers.scss */
+/* line 184, ../../src/styles/_powers.scss */
 .powers .power .power-menu ul li.active i {
   font-weight: bold;
   color: white;
 }
-/* line 190, ../../src/styles/_powers.scss */
+/* line 188, ../../src/styles/_powers.scss */
 .powers .power .power-menu ul li.active a {
   font-weight: bold;
   color: white;
 }
-/* line 196, ../../src/styles/_powers.scss */
+/* line 194, ../../src/styles/_powers.scss */
 .powers .power .power-menu ul li a {
   text-decoration: none;
   color: black;
 }
-/* line 201, ../../src/styles/_powers.scss */
+/* line 199, ../../src/styles/_powers.scss */
 .powers .power .power-menu ul li i {
   color: #5f5f5f;
   font-size: 12px;
   margin-right: 5px;
 }
-/* line 207, ../../src/styles/_powers.scss */
+/* line 205, ../../src/styles/_powers.scss */
 .powers .power .power-menu ul li:hover {
   background: #0088cc;
   cursor: pointer;
 }
-/* line 211, ../../src/styles/_powers.scss */
+/* line 209, ../../src/styles/_powers.scss */
 .powers .power .power-menu ul li:hover a, .powers .power .power-menu ul li:hover i {
   color: white;
   font-weight: bold;

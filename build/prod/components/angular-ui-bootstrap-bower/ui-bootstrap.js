@@ -638,6 +638,12 @@ dialogModule.provider("$dialog", function () {
                 };
             }
 
+            Dialog.prototype.setConditionalClass = function (dClass) {
+                this.options.conditionalClass ? this.modalEl.removeClass(this.options.conditionalClass) : null;
+                this.modalEl.addClass(dClass);
+                this.options.conditionalClass = dClass;
+            };
+
             // The `isOpen()` method returns wether the dialog is currently visible.
             Dialog.prototype.isOpen = function () {
                 return this._open;

@@ -1,4 +1,7 @@
 <div class="container-fluid">
+<div class="powers">
+    <div power="detailsPower"></div>
+</div>
 <div class="row-fluid">
 <div class="page-header clearfix">
     <button class="btn pull-right" ah-tap="close()"><i class="icon-arrow-left"></i>&nbsp;Back to map</button>
@@ -7,7 +10,8 @@
 </div>
 <div class="span12">
 <div tabs ng-cloak>
-<div pane class="container-fluid" select-fn="selectPane(panes[0])" heading="{{panes[0].heading}}" active="panes[0].active">
+<div pane class="container-fluid" select-fn="selectPane(panes[0])" heading="{{panes[0].heading}}"
+     active="panes[0].active">
     <div class="row-fluid">
         <div class="span12">
             <table class="table table-bordered">

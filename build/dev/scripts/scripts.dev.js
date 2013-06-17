@@ -43205,7 +43205,9 @@ angular.module('rescour.powers', [])
             return {
                 require: '^powers',
                 scope: {
-                    power: '='
+                    power: '=',
+                    powerTooltip: '@',
+                    powerTooltipPlacement: '@'
                 },
                 replace: true,
                 templateUrl: '/core/powers/template/power.html',
@@ -43864,11 +43866,7 @@ angular.module('rescour.app')
                 action: function () {
                     $scope.loadSearch();
                 },
-                color: 'blue',
-                tooltip: {
-                    text: 'Clear Search',
-                    placement: 'right'
-                }
+                color: 'blue'
             };
 
             var updateLoadPower = function () {
@@ -43968,10 +43966,6 @@ angular.module('rescour.app')
             $scope.sortPower = {
                 toggle: 'yearBuilt',
                 icon: 'icon-sort-by-order',
-                tooltip: {
-                    text: 'Sort',
-                    placement: 'bottom'
-                },
                 options: {
                     yearBuilt: {
                         action: function () {
@@ -44000,10 +43994,6 @@ angular.module('rescour.app')
             $scope.reportPower = {
                 icon: 'icon-download-alt',
                 color: 'blue',
-                tooltip: {
-                    text: 'Download Report',
-                    placement: 'bottom'
-                },
                 action: function () {
                     Reports.openDialog()
                         .then(function (response) {

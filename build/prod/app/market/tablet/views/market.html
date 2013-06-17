@@ -1,47 +1,28 @@
 <header>
-    <div class="navbar market-controls tablet">
-        <ul class="nav" style="margin-left:15px;">
-            <li ng-class="{'active': toggle == 'all'}">
-                <a ah-tap="listAll()" href="javascript:"><i class="icon-list"></i></a>
-            </li>
-            <li ng-class="{'active': toggle == 'favorites'}">
-                <a ah-tap="listFavorites()" href="javascript:"><i class="icon-star"></i></a>
-            </li>
-            <li ng-class="{'active': toggle == 'hidden'}">
-                <a ah-tap="listHidden()" href="javascript:"><i
-                        class="icon-ban-circle"></i></a>
-            </li>
-            <li ng-class="{'active': toggle == 'notes'}">
-                <a ah-tap="listNotes()" href="javascript:"><i
-                        class="icon-pencil"></i></a>
-            </li>
-            <li>
-                <form class="navbar-search">
-                    <input type="text" class="search-query input-medium" ng-model="searchText.title"
-                           placeholder="Search">
-                </form>
-            </li>
-        </ul>
-    </div>
-
-    <a class="logo" href="/"></a>
-
-    <div class="navbar">
-        <ul class="nav pull-right" style="padding-top:4px">
-            <li><a href="/account/">My Account</a></li>
-            <li><a href="/logout">Logout</a></li>
-        </ul>
-    </div>
 </header>
 
 <div class="main-container" spinner="getActive().details.$spinner" spinner-size="large">
     <!--LIST BEGIN-->
     <div id="MarketList" class="tablet" ng-controller="ListController">
-        <div class="market-scroll"
-             chunk="items | filter:searchText | limitVisible | orderBy:orderNA()" chunk-size="5">
+        <div class="powers">
+            <div power="reportPower"></div>
+            <div power="sortPower"></div>
+            <div power="showPower"></div>
+            <div class="power-search">
+                <input type="text" ng-model="searchText.title"
+                       placeholder="Search">
+            </div>
+        </div>
+
+        <div class="scroll-container"
+             chunk="items | filter:searchText | limitVisible | orderBy:orderNA()"
+             chunk-size="5">
             <!--Toggle favorites button-->
             <!--Item boxes display-->
-            <div class="market-wrap">
+            <div class="market-list-wrap">
+                <div class="list-status">
+                    Displaying <strong>{{getVisibleLength()}}</strong> Results
+                </div>
                 <div id="item-{{item.id}}" class="item-well"
                      ng-class="{'item-hidden': item.hidden}"
                      ng-repeat="item in chunk"
@@ -58,8 +39,7 @@
 
                         <div class="header-container">
                             <div class="title"><a href="javascript:" ah-tap="showItemDetails(item, 'details')">{{item.title
-                                |
-                                ellipsis:25}}</a></div>
+                                | ellipsis:25}}</a></div>
                             <div class="ranges">
                                 <span>{{item.getAttribute('numUnits')}}&nbsp;</span>Units.&nbsp;
                                 Built in<span>&nbsp;{{item.getAttribute('yearBuilt')}}</span>.
@@ -71,7 +51,7 @@
                         <div class="preview-mask"><i class="icon-search"></i></div>
                         <img ng-src="{{item.thumbnail}}" alt="">
 
-                        <div class="preview-caption" ng-class="getStatusClass(item.getAttribute('propertyStatus'))">
+                        <div class="preview-caption" ng-class="item.getStatusClass('solid')">
                             <h2>{{item.getAttribute('propertyStatus')}}</h2>
 
                             <p>View Photos</p>
@@ -103,7 +83,7 @@
 
                             <!--Contact broker button-->
                             <div class="footer-button" ah-tap="showItemDetails(item, 'contact')">
-                                <i class="icon-envelope-alt"></i>
+                                <i class="icon-envelope"></i>
 
                                 <span>{{item.getAttribute('broker')}}</span>
                             </div>
@@ -116,9 +96,14 @@
     <!--LIST END-->
 
     <!--Map-->
-    <div map class="tablet"></div>
-</div>
+    <div class="map-container tablet">
+        <div class="powers">
+            <div power="mapPower"></div>
+        </div>
 
-<div id="Footer">
-    <p><a href="javascript:">Copyright 2012 REscour</a></p>
+        <div class="map-wrap">
+            <div map></div>
+        </div>
+    </div>
+    <!--<div map></div>-->
 </div>

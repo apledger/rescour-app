@@ -221,14 +221,14 @@ angular.module('rescour.app')
             };
         }])
     .
-    controller("ListController", ['$scope', 'PropertyDetails', 'Items',
-        function ($scope, PropertyDetails, Items) {
+    controller("ListController", ['$scope', 'PropertyDetails', 'Items', 'Reports',
+        function ($scope, PropertyDetails, Items, Reports) {
             $scope.sortBy = "yearBuilt";
 
             $scope.sortPower = {
                 toggle: 'yearBuilt',
                 icon: 'icon-sort-by-order',
-                tooltip:{
+                tooltip: {
                     text: 'Sort',
                     placement: 'bottom'
                 },
@@ -265,14 +265,17 @@ angular.module('rescour.app')
                     placement: 'bottom'
                 },
                 action: function () {
-                    console.log("Sending Report");
+                    Reports.openDialog()
+                        .then(function (response) {
+                            console.log(response);
+                        });
                 }
             };
 
             $scope.showPower = {
                 toggle: 'all',
                 icon: 'icon-list',
-                tooltip:{
+                tooltip: {
                     text: 'Show',
                     placement: 'bottom'
                 },
@@ -317,8 +320,7 @@ angular.module('rescour.app')
                 $scope.centerMap(item);
             };
 
-
-            $scope.getVisibleLength = function (){
+            $scope.getVisibleLength = function () {
                 return Items.visibleIds.length;
             };
 

@@ -830,20 +830,6 @@ angular.module('rescour.market', [])
 
             SavedSearch.dialog = dialog;
 
-//            SavedSearch.query = function () {
-//                var searches = [];
-//                $http.get($_api.path + '/search/', $_api.config).then(function (response) {
-//                    angular.forEach(response.data.resources, function (value, key) {
-//                        try {
-//                            searches.push(new SavedSearch(angular.fromJson(value.savedSearch), value.id));
-//                        } catch (e) {
-//                            console.log(e.message);
-//                        }
-//                    });
-//                });
-//                return searches;
-//            };
-
             SavedSearch.query = function () {
                 var defer = $q.defer(),
                     self = this,
@@ -1209,6 +1195,65 @@ angular.module('rescour.market', [])
                 }
             };
         }])
+    .factory('Reports', ['$http', '$q', '$dialog', 'BrowserDetect',
+        function ($http, $q, $dialog, BrowserDetect) {
+            var view = $dialog.dialog({
+                backdrop: true,
+                keyboard: true,
+                backdropClick: true,
+                dialogFade: true,
+                backdropFade: true,
+                templateUrl: '/app/market/' + BrowserDetect.platform + '/views/partials/reports-dialog.html?' + Date.now(),
+                controller: "ReportsDialogController"
+            });
+
+            return {
+                openDialog: function () {
+                    var defer = $q.defer();
+
+                    view.open().then(function (settings) {
+                        var path = $_api.path + '/reports/',
+                            config = angular.extend({
+                                transformRequest: function (data) {
+                                    return data;
+                                }
+                            }, $_api.config),
+                            body = JSON.stringify({
+                                ids: settings.ids
+                            });
+
+                        $http.post(path, body, config).then(
+                            function (response) {
+                                defer.resolve(response);
+                            },
+                            function (response) {
+                                defer.reject(response);
+                            }
+                        );
+                    });
+
+                    return defer.promise;
+                }
+            }
+        }])
+    .controller('ReportsDialogController', ['$scope', 'dialog', 'Items', 'User',
+        function ($scope, dialog, Items, User) {
+            $scope.userEmail = User.profile.email;
+            console.log(User);
+            $scope.reportLength = Items.visibleIds.length;
+            $scope.reportSettings = {};
+
+            $scope.close = function () {
+                dialog.close();
+            };
+
+            $scope.save = function (settings) {
+                dialog.close({
+                    ids: Items.visibleIds,
+                    email: $scope.userEmail
+                });
+            };
+        }])
     .directive('slider', function () {
         return {
             restrict: 'A',
@@ -1251,9 +1296,9 @@ angular.module('rescour.market', [])
     .directive('imgViewer', ['$window', function ($document) {
         return{
             restrict: 'EA',
-            transclude: true,
-            replace: true,
-            templateUrl: 'template/img-viewer/img-viewer.html',
+//            transclude: true,
+//            replace: true,
+            templateUrl: '/template/img-viewer/img-viewer.html',
             controller: 'viewerCtrl',
             scope: {
                 images: '='
@@ -1263,12 +1308,11 @@ angular.module('rescour.market', [])
                     scope.images[0].isActive = true;
                 }
 
+                console.log(scope.images);
+
                 viewerCtrl.setSlides(scope.images);
                 viewerCtrl.element = element;
-
             }
-
-
         }
     }])
     .controller('viewerCtrl', ['$scope', '$timeout',
@@ -1277,39 +1321,22 @@ angular.module('rescour.market', [])
             $scope.current = 0;
             self.setSlides = function (slides) {
                 $scope.slides = slides;
-            }
+            };
 
             $scope.prev = function () {
                 $scope.slides[$scope.current].isActive = false;
                 $scope.current = $scope.current == 0 ? $scope.slides.length - 1 : $scope.current -= 1;
                 $scope.slides[$scope.current].isActive = true;
-            }
+            };
 
             $scope.next = function () {
                 $scope.slides[$scope.current].isActive = false;
                 $scope.current = $scope.current == $scope.slides.length - 1 ? $scope.current = 0 : $scope.current += 1;
                 $scope.slides[$scope.current].isActive = true;
-            }
-
-            $scope.getClass = function (image) {
-                var imgWidth = self.element[0].children[$scope.current].children[0].clientWidth,
-                    imgHeight = self.element[0].children[$scope.current].children[0].clientHeight,
-                    boxWidth = self.element[0].clientWidth,
-                    boxHeight = self.element[0].clientHeight;
-                if (image.isActive) {
-                    if(imgWidth < boxWidth && imgWidth !== 0){
-                        return "portrait"
-                    }
-                    return (imgWidth / imgHeight) < (boxWidth / boxHeight) ? "portrait" : "landscape";
-                } else {
-                    return "view-inner";
-                }
-            }
-
+            };
         }])
     .filter('checkBounds', function () {
         return function (input, limit, e) {
-
             return input == limit ? input + "+" : input;
         }
     });

@@ -5,6 +5,7 @@ require(
             'app/app': {
                 deps: [
                     'components/angular/angular',
+                    'components/angular-cookies/angular-cookies',
                     'components/underscore/underscore',
                     'components/angular-ui-bootstrap-bower/ui-bootstrap',
                     'components/jquery-ui/jquery-ui',
@@ -29,6 +30,9 @@ require(
                     'core/config/prod'
                 <% } %>
                 ]
+            },
+            'components/angular-cookies/angular-cookies': {
+                deps: ['components/angular/angular']
             },
             'components/angular-hammerjs/angular-hammer': {
                 deps: ['components/hammerjs/dist/hammer']
@@ -55,6 +59,9 @@ require(
                     'components/leaflet.markerclusterer/dist/leaflet.markercluster',
                     'components/angular-ui-bootstrap-bower/ui-bootstrap'
                 ]
+            },
+            'core/user/user': {
+                deps: ['components/angular-cookies/angular-cookies']
             },
             'app/bootstrap': {
                 deps: ['app/app']

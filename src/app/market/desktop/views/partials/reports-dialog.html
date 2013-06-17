@@ -1,0 +1,22 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="close()">&times;</button>
+    <h3 id="myModalLabel">Generate Report</h3>
+</div>
+<div class="modal-body">
+    <form name="formReportDialog" class="form-horizontal">
+        <div class="control-group" ng-class="{'success': formReportDialog.$valid}">
+            <div class="control-label">Search Name:</div>
+            <div class="controls">
+                <input type="text" required autofocus autoselect ng-model="reportSettings.title">
+                <span class="help help-inline">
+                    <span class="help-error"><i class="icon-exclamation-sign"></i></span>
+                    <span class="help-success"><i class="icon-ok-sign"></i></span>
+                </span>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn" ng-click="close()">Close</button>
+    <button class="btn btn-primary" ng-click="save(reportSettings)">Save changes</button>
+</div>

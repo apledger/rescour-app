@@ -64,7 +64,8 @@ angular.module('rescour.app')
                 }
             };
             $scope.accountPower = {
-                title: User.profile.email,
+//                title: User.profile.email,
+                icon: 'power-logo',
                 float: 'right',
                 options: {
                     back: {

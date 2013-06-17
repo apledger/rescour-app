@@ -5770,7 +5770,7 @@ a.label:hover, a.badge:hover {
   overflow-x: hidden;
   top: 40px;
   right: 0;
-  bottom: 40px;
+  bottom: 29px;
 }
 /* line 30, ../../src/styles/_rescour_variables.scss */
 .property-details.status-expired .nav-tabs > li {
@@ -5932,44 +5932,41 @@ a.label:hover, a.badge:hover {
   background: none;
 }
 
-/* line 49, ../../src/app/market/desktop/styles/_details.scss */
-.viewer-container {
-  margin-bottom: 0px;
+/* line 50, ../../src/app/market/desktop/styles/_details.scss */
+.picture-container {
+  min-height: 420px;
   position: relative;
-  height: 400px;
-  width: 100%;
 }
-/* line 55, ../../src/app/market/desktop/styles/_details.scss */
-.viewer-container .viewer-inner {
+/* line 54, ../../src/app/market/desktop/styles/_details.scss */
+.picture-container table {
+  margin: 0 auto;
+  min-height: 400px;
+}
+/* line 58, ../../src/app/market/desktop/styles/_details.scss */
+.picture-container table td {
+  vertical-align: center;
+  text-align: center;
+}
+/* line 63, ../../src/app/market/desktop/styles/_details.scss */
+.picture-container table .viewer-inner {
   position: relative;
   height: 400px;
   width: 100%;
   text-align: center;
 }
-/* line 61, ../../src/app/market/desktop/styles/_details.scss */
-.viewer-container .viewer-inner img {
+/* line 69, ../../src/app/market/desktop/styles/_details.scss */
+.picture-container table .viewer-inner img {
   position: relative;
   max-height: 400px !important;
   max-width: 100%;
   vertical-align: middle !important;
 }
-/* line 70, ../../src/app/market/desktop/styles/_details.scss */
-.viewer-container .landscape {
-  display: table-cell;
-  vertical-align: middle;
-  height: 400px;
-}
-/* line 76, ../../src/app/market/desktop/styles/_details.scss */
-.viewer-container .portrait {
-  display: inline-block;
-  text-align: center;
-  width: 100%;
-}
-/* line 83, ../../src/app/market/desktop/styles/_details.scss */
-.viewer-container .counter {
+/* line 79, ../../src/app/market/desktop/styles/_details.scss */
+.picture-container .counter {
   position: absolute;
   top: 10px;
-  left: 10px;
+  left: 50%;
+  margin-left: -30px;
   padding: 5px 10px;
   width: auto;
   color: white;
@@ -5983,94 +5980,74 @@ a.label:hover, a.badge:hover {
   border-radius: 23px;
   opacity: 0.7;
 }
-/* line 98, ../../src/app/market/desktop/styles/_details.scss */
-.viewer-container .counter:hover {
+/* line 95, ../../src/app/market/desktop/styles/_details.scss */
+.picture-container .counter:hover {
   opacity: 0.8;
   cursor: default;
 }
-/* line 104, ../../src/app/market/desktop/styles/_details.scss */
-.viewer-container .viewer-control {
+/* line 101, ../../src/app/market/desktop/styles/_details.scss */
+.picture-container .viewer-control {
   position: absolute;
   top: 0px;
-  width: 40px;
+  width: 75px;
   height: 100%;
   font-size: 20px;
-  font-weight: 150;
-  line-height: 400px;
   color: #222222;
   text-align: center;
   background: #eeeeee;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
-  opacity: 0.5;
-  filter: alpha(opacity=50);
+  opacity: 0.75;
+  filter: alpha(opacity=75);
 }
-/* line 120, ../../src/app/market/desktop/styles/_details.scss */
-.viewer-container .viewer-control:hover {
-  color: #222222;
+/* line 113, ../../src/app/market/desktop/styles/_details.scss */
+.picture-container .viewer-control i {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -20px;
+  margin-left: -6px;
+}
+/* line 121, ../../src/app/market/desktop/styles/_details.scss */
+.picture-container .viewer-control.left {
+  left: 15px;
+}
+/* line 125, ../../src/app/market/desktop/styles/_details.scss */
+.picture-container .viewer-control.right {
+  right: 15px;
+}
+/* line 130, ../../src/app/market/desktop/styles/_details.scss */
+.picture-container .viewer-control:hover {
   text-decoration: none;
   background: #5f5f5f;
   cursor: pointer;
 }
-/* line 129, ../../src/app/market/desktop/styles/_details.scss */
-.viewer-container .left {
-  left: -55px;
-}
-/* line 133, ../../src/app/market/desktop/styles/_details.scss */
-.viewer-container .right {
-  right: -55px;
-}
-
-/* line 137, ../../src/app/market/desktop/styles/_details.scss */
-.picture-container {
-  min-height: 420px;
-  position: relative;
-}
-/* line 146, ../../src/app/market/desktop/styles/_details.scss */
-.picture-container .counter {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  padding: 5px 10px;
-  width: auto;
+/* line 135, ../../src/app/market/desktop/styles/_details.scss */
+.picture-container .viewer-control:hover i {
   color: white;
-  text-align: center;
-  font-size: 13px;
-  font-weight: bold;
-  background: #222222;
-  border: 3px solid white;
-  -webkit-border-radius: 23px;
-  -moz-border-radius: 23px;
-  border-radius: 23px;
-  opacity: 0.7;
-}
-/* line 161, ../../src/app/market/desktop/styles/_details.scss */
-.picture-container .counter:hover {
-  opacity: 0.8;
-  cursor: default;
 }
 
-/* line 169, ../../src/app/market/desktop/styles/_details.scss */
+/* line 142, ../../src/app/market/desktop/styles/_details.scss */
 .contact-selected strong {
   color: #0088cc;
 }
 
-/* line 174, ../../src/app/market/desktop/styles/_details.scss */
+/* line 147, ../../src/app/market/desktop/styles/_details.scss */
 .well.contact {
   cursor: pointer;
 }
 
-/* line 179, ../../src/app/market/desktop/styles/_details.scss */
+/* line 152, ../../src/app/market/desktop/styles/_details.scss */
 .contact-form .controls {
   margin: 0 0 30px;
 }
-/* line 182, ../../src/app/market/desktop/styles/_details.scss */
+/* line 155, ../../src/app/market/desktop/styles/_details.scss */
 .contact-form .checkbox {
   cursor: pointer;
 }
 
-/* line 189, ../../src/app/market/desktop/styles/_details.scss */
+/* line 162, ../../src/app/market/desktop/styles/_details.scss */
 .finance-container .control-group .finance-delete {
   font-size: 16px;
   line-height: 30px;
@@ -6082,11 +6059,11 @@ a.label:hover, a.badge:hover {
   height: 30px;
   margin-right: 10px;
 }
-/* line 200, ../../src/app/market/desktop/styles/_details.scss */
+/* line 173, ../../src/app/market/desktop/styles/_details.scss */
 .finance-container .control-group .finance-delete:hover {
   color: #481610;
 }
-/* line 205, ../../src/app/market/desktop/styles/_details.scss */
+/* line 178, ../../src/app/market/desktop/styles/_details.scss */
 .finance-container .control-group:hover .finance-delete {
   color: #9c3022;
   -webkit-transition: all 0.4s ease-in;
@@ -6094,21 +6071,21 @@ a.label:hover, a.badge:hover {
   -o-transition: all 0.4s ease-in;
   transition: all 0.4s ease-in;
 }
-/* line 211, ../../src/app/market/desktop/styles/_details.scss */
+/* line 184, ../../src/app/market/desktop/styles/_details.scss */
 .finance-container .control-label {
   position: relative;
   text-align: left;
   padding-top: 0;
   width: auto;
 }
-/* line 218, ../../src/app/market/desktop/styles/_details.scss */
+/* line 191, ../../src/app/market/desktop/styles/_details.scss */
 .finance-container .control-spinner {
   display: inline-block;
   width: 10px;
   height: 10px;
   margin-left: 20px;
 }
-/* line 225, ../../src/app/market/desktop/styles/_details.scss */
+/* line 198, ../../src/app/market/desktop/styles/_details.scss */
 .finance-container .edit-label {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
@@ -6118,11 +6095,11 @@ a.label:hover, a.badge:hover {
   width: 150px;
   margin-right: 10px;
 }
-/* line 233, ../../src/app/market/desktop/styles/_details.scss */
+/* line 206, ../../src/app/market/desktop/styles/_details.scss */
 .finance-container .edit-label:hover {
   background: rgba(0, 0, 0, 0.1);
 }
-/* line 237, ../../src/app/market/desktop/styles/_details.scss */
+/* line 210, ../../src/app/market/desktop/styles/_details.scss */
 .finance-container .edit-label:focus {
   font-weight: normal;
   background-color: white !important;
@@ -6135,26 +6112,26 @@ a.label:hover, a.badge:hover {
   -o-transition: border linear 0.2s, box-shadow linear 0.2s;
   transition: border linear 0.2s, box-shadow linear 0.2s;
 }
-/* line 245, ../../src/app/market/desktop/styles/_details.scss */
+/* line 218, ../../src/app/market/desktop/styles/_details.scss */
 .finance-container .edit-label ~ i {
   position: absolute;
   top: 5px;
   right: 15px;
   color: transparent;
 }
-/* line 252, ../../src/app/market/desktop/styles/_details.scss */
+/* line 225, ../../src/app/market/desktop/styles/_details.scss */
 .finance-container .edit-label:hover ~ i {
   color: rgba(0, 0, 0, 0.55);
 }
-/* line 256, ../../src/app/market/desktop/styles/_details.scss */
+/* line 229, ../../src/app/market/desktop/styles/_details.scss */
 .finance-container .edit-label:focus ~ i {
   color: transparent;
 }
-/* line 261, ../../src/app/market/desktop/styles/_details.scss */
+/* line 234, ../../src/app/market/desktop/styles/_details.scss */
 .finance-container select {
   width: 60px;
 }
-/* line 265, ../../src/app/market/desktop/styles/_details.scss */
+/* line 238, ../../src/app/market/desktop/styles/_details.scss */
 .finance-container .form-actions {
   padding-left: 20px;
 }
@@ -6182,7 +6159,7 @@ a.label:hover, a.badge:hover {
 }
 /* line 21, ../../src/app/market/desktop/styles/_filter.scss */
 #Filter .saved-dropdown {
-  width: 145px;
+  width: 170px;
 }
 /* line 25, ../../src/app/market/desktop/styles/_filter.scss */
 #Filter .btn-search-save {
@@ -7810,20 +7787,31 @@ header .market-controls {
   width: 100%;
   bottom: 0px;
   left: 0px;
-  height: 35px;
+  height: 24px;
+  padding: 3px;
+  font-size: 11px;
   background-color: #eeeeee;
   border-top: 1px solid #bbbbbb;
   z-index: 3000;
-  border-bottom: 4px solid #9c3022;
-}
-/* line 12, ../../src/styles/_footer.scss */
-.main-footer p, .main-footer a {
   text-align: center;
-  margin: 7px !important;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
 /* line 16, ../../src/styles/_footer.scss */
-.main-footer p img, .main-footer a img {
-  height: 24px;
+.main-footer ul {
+  display: inline-block;
+  list-style: none;
+}
+/* line 20, ../../src/styles/_footer.scss */
+.main-footer ul li {
+  display: inline-block;
+  padding: 0 5px;
+  margin: 0 5px;
+}
+/* line 25, ../../src/styles/_footer.scss */
+.main-footer ul li a {
+  text-decoration: none;
 }
 
 /* line 3, ../../src/styles/_ngform.scss */
@@ -7964,23 +7952,18 @@ input:focus, textarea:focus {
 .powers .power-search {
   position: relative;
   display: inline-block;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
 }
-/* line 55, ../../src/styles/_powers.scss */
+/* line 54, ../../src/styles/_powers.scss */
 .powers .power-search input {
   margin: 0;
   padding: 2px 7px;
-  margin-left: 5px;
   margin-bottom: 1px;
-  width: 160px;
   -webkit-transition: all 0.2 ease-in;
   -moz-transition: all 0.2 ease-in;
   -o-transition: all 0.2 ease-in;
   transition: all 0.2 ease-in;
 }
-/* line 65, ../../src/styles/_powers.scss */
+/* line 62, ../../src/styles/_powers.scss */
 .powers .power {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -7989,7 +7972,7 @@ input:focus, textarea:focus {
   display: inline-block;
   border-right: 1px solid #bbbbbb !important;
 }
-/* line 71, ../../src/styles/_powers.scss */
+/* line 68, ../../src/styles/_powers.scss */
 .powers .power.green {
   border-left: 1px solid #356635;
   border-right: 1px solid #356635;
@@ -8034,7 +8017,7 @@ input:focus, textarea:focus {
 .powers .power.green .power-title {
   color: white;
 }
-/* line 75, ../../src/styles/_powers.scss */
+/* line 72, ../../src/styles/_powers.scss */
 .powers .power.red {
   border-left: 1px solid #722319;
   border-right: 1px solid #722319;
@@ -8079,7 +8062,7 @@ input:focus, textarea:focus {
 .powers .power.red .power-title {
   color: white;
 }
-/* line 79, ../../src/styles/_powers.scss */
+/* line 76, ../../src/styles/_powers.scss */
 .powers .power.orange {
   border-left: 1px solid #e94a0a;
   border-right: 1px solid #e94a0a;
@@ -8124,7 +8107,7 @@ input:focus, textarea:focus {
 .powers .power.orange .power-title {
   color: white;
 }
-/* line 83, ../../src/styles/_powers.scss */
+/* line 80, ../../src/styles/_powers.scss */
 .powers .power.blue {
   border-left: 1px solid #006699;
   border-right: 1px solid #006699;
@@ -8169,52 +8152,52 @@ input:focus, textarea:focus {
 .powers .power.blue .power-title {
   color: white;
 }
-/* line 87, ../../src/styles/_powers.scss */
+/* line 84, ../../src/styles/_powers.scss */
 .powers .power.power-right {
   float: right;
   border-left: 1px solid #bbbbbb !important;
   border-right: none !important;
 }
-/* line 92, ../../src/styles/_powers.scss */
+/* line 89, ../../src/styles/_powers.scss */
 .powers .power.power-right .power-menu {
   right: 0;
 }
-/* line 98, ../../src/styles/_powers.scss */
+/* line 95, ../../src/styles/_powers.scss */
 .powers .power.power-left .power-menu {
   left: 0;
 }
-/* line 103, ../../src/styles/_powers.scss */
+/* line 100, ../../src/styles/_powers.scss */
 .powers .power:hover {
   background: #fbfbfb;
 }
-/* line 106, ../../src/styles/_powers.scss */
+/* line 103, ../../src/styles/_powers.scss */
 .powers .power:hover .power-title {
   color: #393939;
 }
-/* line 111, ../../src/styles/_powers.scss */
+/* line 108, ../../src/styles/_powers.scss */
 .powers .power:active, .powers .power.open {
   background: #e1e1e1;
   -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
   -moz-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
 }
-/* line 117, ../../src/styles/_powers.scss */
+/* line 114, ../../src/styles/_powers.scss */
 .powers .power.open .power-title {
   color: #393939;
 }
-/* line 122, ../../src/styles/_powers.scss */
+/* line 119, ../../src/styles/_powers.scss */
 .powers .power:not(:first-child) {
   margin-left: -5px;
 }
-/* line 132, ../../src/styles/_powers.scss */
+/* line 129, ../../src/styles/_powers.scss */
 .powers .power.open > .power-menu {
   display: block;
 }
-/* line 136, ../../src/styles/_powers.scss */
+/* line 133, ../../src/styles/_powers.scss */
 .powers .power.open > .power-title::after {
   content: '\f106';
 }
-/* line 141, ../../src/styles/_powers.scss */
+/* line 138, ../../src/styles/_powers.scss */
 .powers .power .power-title {
   font-size: 12px;
   padding: 7px 14px;
@@ -8224,7 +8207,24 @@ input:focus, textarea:focus {
   color: #5f5f5f;
   text-align: center;
 }
-/* line 150, ../../src/styles/_powers.scss */
+/* line 147, ../../src/styles/_powers.scss */
+.powers .power .power-title i.power-logo {
+  display: inline-block;
+  height: 14px;
+  width: 100px;
+}
+/* line 152, ../../src/styles/_powers.scss */
+.powers .power .power-title i.power-logo::after {
+  content: '';
+  background: url("/img/logo-small.png") no-repeat center;
+  display: inline-block;
+  position: absolute;
+  top: 8px;
+  left: 15px;
+  height: 20px;
+  width: 100px;
+}
+/* line 164, ../../src/styles/_powers.scss */
 .powers .power .power-title.power-icon-dropdown::after {
   font-family: FontAwesome;
   font-weight: normal;
@@ -8235,7 +8235,7 @@ input:focus, textarea:focus {
   content: '\f107';
   padding-left: 7px;
 }
-/* line 162, ../../src/styles/_powers.scss */
+/* line 176, ../../src/styles/_powers.scss */
 .powers .power .power-menu {
   position: absolute;
   display: none;
@@ -8251,47 +8251,47 @@ input:focus, textarea:focus {
   -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
 }
-/* line 173, ../../src/styles/_powers.scss */
+/* line 187, ../../src/styles/_powers.scss */
 .powers .power .power-menu ul {
   position: relative;
   width: auto;
   margin: 10px 0;
 }
-/* line 178, ../../src/styles/_powers.scss */
+/* line 192, ../../src/styles/_powers.scss */
 .powers .power .power-menu ul li {
   padding: 5px 10px;
 }
-/* line 181, ../../src/styles/_powers.scss */
+/* line 195, ../../src/styles/_powers.scss */
 .powers .power .power-menu ul li.active {
   background: #0088cc;
 }
-/* line 184, ../../src/styles/_powers.scss */
+/* line 198, ../../src/styles/_powers.scss */
 .powers .power .power-menu ul li.active i {
   font-weight: bold;
   color: white;
 }
-/* line 188, ../../src/styles/_powers.scss */
+/* line 202, ../../src/styles/_powers.scss */
 .powers .power .power-menu ul li.active a {
   font-weight: bold;
   color: white;
 }
-/* line 194, ../../src/styles/_powers.scss */
+/* line 208, ../../src/styles/_powers.scss */
 .powers .power .power-menu ul li a {
   text-decoration: none;
   color: black;
 }
-/* line 199, ../../src/styles/_powers.scss */
+/* line 213, ../../src/styles/_powers.scss */
 .powers .power .power-menu ul li i {
   color: #5f5f5f;
   font-size: 12px;
   margin-right: 5px;
 }
-/* line 205, ../../src/styles/_powers.scss */
+/* line 219, ../../src/styles/_powers.scss */
 .powers .power .power-menu ul li:hover {
   background: #0088cc;
   cursor: pointer;
 }
-/* line 209, ../../src/styles/_powers.scss */
+/* line 223, ../../src/styles/_powers.scss */
 .powers .power .power-menu ul li:hover a, .powers .power .power-menu ul li:hover i {
   color: white;
   font-weight: bold;
@@ -8400,7 +8400,7 @@ body {
   top: 4px;
   left: 0;
   right: 0;
-  bottom: 35px;
+  bottom: 24px;
 }
 
 /* line 107, ../../src/styles/main.scss */

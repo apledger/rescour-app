@@ -1,8 +1,10 @@
-<div class="viewer-container">
-    <div ng-class="getClass(image)" class="view-inner" ng-repeat="image in images" ng-show="image.isActive">
+<table>
+    <tr>
+        <td class="view-inner" ng-repeat="image in images" ng-show="image.isActive">
             <img ng-src="{{image.link}}">
-    </div>
-    <div class="counter">{{current + 1}} of {{slides.length}}</div>
-    <a class="viewer-control left" ng-click="prev()" ng-show="slides.length > 1"><i class="icon-chevron-left"></i></a>
-    <a class="viewer-control right" ng-click="next()" ng-show="slides.length > 1"><i class="icon-chevron-right"></i></a>
-</div>
+        </td>
+        <td class="viewer-control left" ng-click="prev()" ng-show="slides.length > 1"><i class="icon-chevron-left"></i></td>
+        <td class="viewer-control right" ng-click="next()" ng-show="slides.length > 1"><i class="icon-chevron-right"></i></td>
+    </tr>
+</table>
+<div class="counter">{{current + 1}} of {{slides.length}}</div>

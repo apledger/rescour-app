@@ -37324,6 +37324,192 @@ angular.module('ui.bootstrap.typeahead', [])
             return (query) ? matchItem.replace(new RegExp(query, 'gi'), '<strong>$&</strong>') : query;
         };
     });
+/**
+ * @license AngularJS v1.0.7
+ * (c) 2010-2012 Google, Inc. http://angularjs.org
+ * License: MIT
+ */
+(function(window, angular, undefined) {
+
+
+/**
+ * @ngdoc overview
+ * @name ngCookies
+ */
+
+
+angular.module('ngCookies', ['ng']).
+  /**
+   * @ngdoc object
+   * @name ngCookies.$cookies
+   * @requires $browser
+   *
+   * @description
+   * Provides read/write access to browser's cookies.
+   *
+   * Only a simple Object is exposed and by adding or removing properties to/from
+   * this object, new cookies are created/deleted at the end of current $eval.
+   *
+   * @example
+   <doc:example>
+     <doc:source>
+       <script>
+         function ExampleController($cookies) {
+           // Retrieving a cookie
+           var favoriteCookie = $cookies.myFavorite;
+           // Setting a cookie
+           $cookies.myFavorite = 'oatmeal';
+         }
+       </script>
+     </doc:source>
+   </doc:example>
+   */
+   factory('$cookies', ['$rootScope', '$browser', function ($rootScope, $browser) {
+      var cookies = {},
+          lastCookies = {},
+          lastBrowserCookies,
+          runEval = false,
+          copy = angular.copy,
+          isUndefined = angular.isUndefined;
+
+      //creates a poller fn that copies all cookies from the $browser to service & inits the service
+      $browser.addPollFn(function() {
+        var currentCookies = $browser.cookies();
+        if (lastBrowserCookies != currentCookies) { //relies on browser.cookies() impl
+          lastBrowserCookies = currentCookies;
+          copy(currentCookies, lastCookies);
+          copy(currentCookies, cookies);
+          if (runEval) $rootScope.$apply();
+        }
+      })();
+
+      runEval = true;
+
+      //at the end of each eval, push cookies
+      //TODO: this should happen before the "delayed" watches fire, because if some cookies are not
+      //      strings or browser refuses to store some cookies, we update the model in the push fn.
+      $rootScope.$watch(push);
+
+      return cookies;
+
+
+      /**
+       * Pushes all the cookies from the service to the browser and verifies if all cookies were stored.
+       */
+      function push() {
+        var name,
+            value,
+            browserCookies,
+            updated;
+
+        //delete any cookies deleted in $cookies
+        for (name in lastCookies) {
+          if (isUndefined(cookies[name])) {
+            $browser.cookies(name, undefined);
+          }
+        }
+
+        //update all cookies updated in $cookies
+        for(name in cookies) {
+          value = cookies[name];
+          if (!angular.isString(value)) {
+            if (angular.isDefined(lastCookies[name])) {
+              cookies[name] = lastCookies[name];
+            } else {
+              delete cookies[name];
+            }
+          } else if (value !== lastCookies[name]) {
+            $browser.cookies(name, value);
+            updated = true;
+          }
+        }
+
+        //verify what was actually stored
+        if (updated){
+          updated = false;
+          browserCookies = $browser.cookies();
+
+          for (name in cookies) {
+            if (cookies[name] !== browserCookies[name]) {
+              //delete or reset all cookies that the browser dropped from $cookies
+              if (isUndefined(browserCookies[name])) {
+                delete cookies[name];
+              } else {
+                cookies[name] = browserCookies[name];
+              }
+              updated = true;
+            }
+          }
+        }
+      }
+    }]).
+
+
+  /**
+   * @ngdoc object
+   * @name ngCookies.$cookieStore
+   * @requires $cookies
+   *
+   * @description
+   * Provides a key-value (string-object) storage, that is backed by session cookies.
+   * Objects put or retrieved from this storage are automatically serialized or
+   * deserialized by angular's toJson/fromJson.
+   * @example
+   */
+   factory('$cookieStore', ['$cookies', function($cookies) {
+
+      return {
+        /**
+         * @ngdoc method
+         * @name ngCookies.$cookieStore#get
+         * @methodOf ngCookies.$cookieStore
+         *
+         * @description
+         * Returns the value of given cookie key
+         *
+         * @param {string} key Id to use for lookup.
+         * @returns {Object} Deserialized cookie value.
+         */
+        get: function(key) {
+          var value = $cookies[key];
+          return value ? angular.fromJson(value) : value;
+        },
+
+        /**
+         * @ngdoc method
+         * @name ngCookies.$cookieStore#put
+         * @methodOf ngCookies.$cookieStore
+         *
+         * @description
+         * Sets a value for given cookie key
+         *
+         * @param {string} key Id for the `value`.
+         * @param {Object} value Value to be stored.
+         */
+        put: function(key, value) {
+          $cookies[key] = angular.toJson(value);
+        },
+
+        /**
+         * @ngdoc method
+         * @name ngCookies.$cookieStore#remove
+         * @methodOf ngCookies.$cookieStore
+         *
+         * @description
+         * Remove given cookie
+         *
+         * @param {string} key Id of the key-value pair to delete.
+         */
+        remove: function(key) {
+          delete $cookies[key];
+        }
+      };
+
+    }]);
+
+
+})(window, window.angular);
+
 //     Underscore.js 1.4.4
 //     http://underscorejs.org
 //     (c) 2009-2013 Jeremy Ashkenas, DocumentCloud Inc.
@@ -40563,99 +40749,101 @@ L.Google = L.Class.extend({
  * Time: 3:58 PM
  * File: user.js
  */
-angular.module('rescour.user', [])
-    .service('User', ['$http', '$q', '$_api', function ($http, $q, $_api) {
-        this.profile = {};
-        this.billing = {};
+angular.module('rescour.user', ['ngCookies'])
+    .service('User', ['$http', '$q', '$_api', '$cookieStore', '$cookies',
+        function ($http, $q, $_api, $cookieStore, $cookies) {
+            this.profile = {};
+            this.billing = {};
 
-        this.getProfile = function () {
-            var defer = $q.defer(),
-                self = this,
-                path = $_api.path + '/auth/users/user/',
-                config = angular.extend({
-                }, $_api.config);
+            this.getProfile = function () {
+                var defer = $q.defer(),
+                    self = this,
+                    path = $_api.path + '/auth/users/user/',
+                    config = angular.extend({
+                    }, $_api.config);
 
-            $http.get(path, config).then(
-                function (response) {
-                    angular.copy(response.data, self.profile);
-                    defer.resolve(response);
-                },
-                function (response) {
-                    defer.reject(response);
-                }
-            );
 
-            return defer.promise;
-        };
-
-        this.saveProfile = function () {
-            var defer = $q.defer(),
-                self = this,
-                path = $_api.path + '/auth/users/user/',
-                config = angular.extend({
-                    transformRequest: function (data) {
-                        return data;
+                $http.get(path, config).then(
+                    function (response) {
+                        angular.copy(response.data, self.profile);
+                        defer.resolve(response);
+                    },
+                    function (response) {
+                        defer.reject(response);
                     }
-                }, $_api.config),
-                body = JSON.stringify(this.profile);
-            $http.put(path, body, config).then(
-                function (response) {
-                    defer.resolve(response);
-                },
-                function (response) {
-                    self.getProfile();
-                    throw new Error("Error updating profile");
-                    defer.reject(response);
-                }
-            );
+                );
 
-            return defer.promise;
-        };
+                return defer.promise;
+            };
 
-        this.getBilling = function () {
-            var defer = $q.defer(),
-                self = this,
-                path = $_api.path + '/auth/users/user/payment/',
-                config = angular.extend({
-                    transformRequest: function (data) {
-                        return data;
+            this.saveProfile = function () {
+                var defer = $q.defer(),
+                    self = this,
+                    path = $_api.path + '/auth/users/user/',
+                    config = angular.extend({
+                        transformRequest: function (data) {
+                            return data;
+                        }
+                    }, $_api.config),
+                    body = JSON.stringify(this.profile);
+                $http.put(path, body, config).then(
+                    function (response) {
+                        defer.resolve(response);
+                    },
+                    function (response) {
+                        self.getProfile();
+                        throw new Error("Error updating profile");
+                        defer.reject(response);
                     }
-                }, $_api.config);
+                );
 
-            $http.get(path, config).then(
-                function (response) {
-                    angular.copy(response.data, self.billing);
-                    defer.resolve(response);
-                },
-                function (response) {
-                    defer.reject(response);
-                }
-            );
+                return defer.promise;
+            };
 
-            return defer.promise;
-        };
+            this.getBilling = function () {
+                var defer = $q.defer(),
+                    self = this,
+                    path = $_api.path + '/auth/users/user/payment/',
+                    config = angular.extend({
+                        transformRequest: function (data) {
+                            return data;
+                        }
+                    }, $_api.config);
 
-        this.cancelSubscription = function (reason, transformFn) {
-            var defer = $q.defer(),
-                path = $_api.path + '/auth/users/user/cancel/',
-                config = angular.extend({
-                    transformRequest: transformFn
-                }, $_api.config),
-                body = JSON.stringify({
-                    text: reason
-                });
+                $http.get(path, config).then(
+                    function (response) {
+                        angular.copy(response.data, self.billing);
+                        defer.resolve(response);
+                    },
+                    function (response) {
+                        defer.reject(response);
+                    }
+                );
 
-            $http.post(path, body, config).then(
-                function (response) {
-                    defer.resolve(response);
-                },
-                function (response) {
-                    defer.reject(response);
-                }
-            );
-            return defer.promise;
-        };
-    }]);
+                return defer.promise;
+            };
+
+            this.cancelSubscription = function (reason, transformFn) {
+                var defer = $q.defer(),
+                    path = $_api.path + '/auth/users/user/cancel/',
+                    config = angular.extend({
+                        transformRequest: transformFn
+                    }, $_api.config),
+                    body = JSON.stringify({
+                        text: reason
+                    });
+
+                $http.post(path, body, config).then(
+                    function (response) {
+                        defer.resolve(response);
+                    },
+                    function (response) {
+                        defer.reject(response);
+                    }
+                );
+                return defer.promise;
+            };
+        }]);
 
 /**
  * Created with JetBrains WebStorm.
@@ -42039,20 +42227,6 @@ angular.module('rescour.market', [])
 
             SavedSearch.dialog = dialog;
 
-//            SavedSearch.query = function () {
-//                var searches = [];
-//                $http.get($_api.path + '/search/', $_api.config).then(function (response) {
-//                    angular.forEach(response.data.resources, function (value, key) {
-//                        try {
-//                            searches.push(new SavedSearch(angular.fromJson(value.savedSearch), value.id));
-//                        } catch (e) {
-//                            console.log(e.message);
-//                        }
-//                    });
-//                });
-//                return searches;
-//            };
-
             SavedSearch.query = function () {
                 var defer = $q.defer(),
                     self = this,
@@ -42418,6 +42592,65 @@ angular.module('rescour.market', [])
                 }
             };
         }])
+    .factory('Reports', ['$http', '$q', '$dialog', 'BrowserDetect', '$_api',
+        function ($http, $q, $dialog, BrowserDetect, $_api) {
+            var view = $dialog.dialog({
+                backdrop: true,
+                keyboard: true,
+                backdropClick: true,
+                dialogFade: true,
+                backdropFade: true,
+                templateUrl: '/app/market/' + BrowserDetect.platform + '/views/partials/reports-dialog.html?' + Date.now(),
+                controller: "ReportsDialogController"
+            });
+
+            return {
+                openDialog: function () {
+                    var defer = $q.defer();
+
+                    view.open().then(function (settings) {
+                        var path = $_api.path + '/reports/',
+                            config = angular.extend({
+                                transformRequest: function (data) {
+                                    return data;
+                                }
+                            }, $_api.config),
+                            body = JSON.stringify({
+                                ids: settings.ids,
+                                token: settings.token
+                            });
+
+                        $http.post(path, body, config).then(
+                            function (response) {
+                                defer.resolve(response);
+                            },
+                            function (response) {
+                                defer.reject(response);
+                            }
+                        );
+                    });
+
+                    return defer.promise;
+                }
+            }
+        }])
+    .controller('ReportsDialogController', ['$scope', 'dialog', 'Items', 'User',
+        function ($scope, dialog, Items, User) {
+            $scope.userEmail = User.profile.email;
+            $scope.reportLength = Items.visibleIds.length;
+            $scope.reportSettings = {};
+
+            $scope.close = function () {
+                dialog.close();
+            };
+
+            $scope.save = function (settings) {
+                dialog.close({
+                    ids: Items.visibleIds,
+                    token: User.profile.token
+                });
+            };
+        }])
     .directive('slider', function () {
         return {
             restrict: 'A',
@@ -42460,9 +42693,9 @@ angular.module('rescour.market', [])
     .directive('imgViewer', ['$window', function ($document) {
         return{
             restrict: 'EA',
-            transclude: true,
-            replace: true,
-            templateUrl: 'template/img-viewer/img-viewer.html',
+//            transclude: true,
+//            replace: true,
+            templateUrl: '/template/img-viewer/img-viewer.html',
             controller: 'viewerCtrl',
             scope: {
                 images: '='
@@ -42472,12 +42705,11 @@ angular.module('rescour.market', [])
                     scope.images[0].isActive = true;
                 }
 
+                console.log(scope.images);
+
                 viewerCtrl.setSlides(scope.images);
                 viewerCtrl.element = element;
-
             }
-
-
         }
     }])
     .controller('viewerCtrl', ['$scope', '$timeout',
@@ -42486,39 +42718,22 @@ angular.module('rescour.market', [])
             $scope.current = 0;
             self.setSlides = function (slides) {
                 $scope.slides = slides;
-            }
+            };
 
             $scope.prev = function () {
                 $scope.slides[$scope.current].isActive = false;
                 $scope.current = $scope.current == 0 ? $scope.slides.length - 1 : $scope.current -= 1;
                 $scope.slides[$scope.current].isActive = true;
-            }
+            };
 
             $scope.next = function () {
                 $scope.slides[$scope.current].isActive = false;
                 $scope.current = $scope.current == $scope.slides.length - 1 ? $scope.current = 0 : $scope.current += 1;
                 $scope.slides[$scope.current].isActive = true;
-            }
-
-            $scope.getClass = function (image) {
-                var imgWidth = self.element[0].children[$scope.current].children[0].clientWidth,
-                    imgHeight = self.element[0].children[$scope.current].children[0].clientHeight,
-                    boxWidth = self.element[0].clientWidth,
-                    boxHeight = self.element[0].clientHeight;
-                if (image.isActive) {
-                    if(imgWidth < boxWidth && imgWidth !== 0){
-                        return "portrait"
-                    }
-                    return (imgWidth / imgHeight) < (boxWidth / boxHeight) ? "portrait" : "landscape";
-                } else {
-                    return "view-inner";
-                }
-            }
-
+            };
         }])
     .filter('checkBounds', function () {
         return function (input, limit, e) {
-
             return input == limit ? input + "+" : input;
         }
     });
@@ -43241,7 +43456,8 @@ angular.module('rescour.app')
                 }
             };
             $scope.accountPower = {
-                title: User.profile.email,
+//                title: User.profile.email,
+                icon: 'power-logo',
                 float: 'right',
                 options: {
                     back: {
@@ -43575,7 +43791,8 @@ angular.module('rescour.app')
             $scope.browser = BrowserDetect;
             $scope.mapPower = {
                 float: 'right',
-                title: User.profile.email,
+//                title: User.profile.email,
+                icon: 'power-logo',
                 options: {
                     'My Account': {
                         title: 'My Account',
@@ -43588,6 +43805,7 @@ angular.module('rescour.app')
                         title: 'Logout',
                         icon: 'icon-power-off',
                         action: function () {
+
                             $location.path('/logout');
                         }
                     }
@@ -43657,7 +43875,6 @@ angular.module('rescour.app')
                 angular.forEach($scope.savedSearches, function (value) {
                     $scope.loadPower.options[value.title] = {
                         action: function () {
-                            console.log(value);
                             $scope.loadSearch(value);
                         },
                         title: value.title
@@ -43744,14 +43961,14 @@ angular.module('rescour.app')
             };
         }])
     .
-    controller("ListController", ['$scope', 'PropertyDetails', 'Items',
-        function ($scope, PropertyDetails, Items) {
+    controller("ListController", ['$scope', 'PropertyDetails', 'Items', 'Reports',
+        function ($scope, PropertyDetails, Items, Reports) {
             $scope.sortBy = "yearBuilt";
 
             $scope.sortPower = {
                 toggle: 'yearBuilt',
                 icon: 'icon-sort-by-order',
-                tooltip:{
+                tooltip: {
                     text: 'Sort',
                     placement: 'bottom'
                 },
@@ -43788,14 +44005,16 @@ angular.module('rescour.app')
                     placement: 'bottom'
                 },
                 action: function () {
-                    console.log("Sending Report");
+                    Reports.openDialog()
+                        .then(function (response) {
+                        });
                 }
             };
 
             $scope.showPower = {
                 toggle: 'all',
                 icon: 'icon-list',
-                tooltip:{
+                tooltip: {
                     text: 'Show',
                     placement: 'bottom'
                 },
@@ -43804,7 +44023,6 @@ angular.module('rescour.app')
                         action: function () {
                             Items.render(this.key);
                             $scope.showPower.icon = this.icon;
-                            console.log($scope.showPower.icon);
                         },
                         icon: 'icon-list',
                         title: 'All'
@@ -43840,8 +44058,7 @@ angular.module('rescour.app')
                 $scope.centerMap(item);
             };
 
-
-            $scope.getVisibleLength = function (){
+            $scope.getVisibleLength = function () {
                 return Items.visibleIds.length;
             };
 
@@ -43881,39 +44098,6 @@ angular.module('rescour.app')
             $scope.contactAlerts = [];
             $scope.current = activeItem;
             $scope.currentImages = $scope.current.getImages();
-            $scope.detailsPower = {
-                title: 'Options',
-                options: {
-                    'All': {
-                        action: function () {
-                            console.log("All");
-                        },
-                        icon: 'icon-plus',
-                        title: 'All'
-                    },
-                    'Favorites': {
-                        action: function () {
-                            console.log("favorites");
-                        },
-                        icon: 'icon-minus',
-                        title: 'Favorites'
-                    },
-                    'Hidden': {
-                        action: function () {
-                            console.log("Hidden");
-                        },
-                        icon: 'icon-minus',
-                        title: 'Hidden'
-                    },
-                    'Notes': {
-                        action: function () {
-                            console.log("Notes");
-                        },
-                        icon: 'icon-minus',
-                        title: 'Notes'
-                    }
-                }
-            };
 
             $scope.close = function () {
                 $location.search('id', null).hash(null);

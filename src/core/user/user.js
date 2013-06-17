@@ -10,15 +10,6 @@ angular.module('rescour.user', ['ngCookies'])
         function ($http, $q, $_api, $cookieStore, $cookies) {
             this.profile = {};
             this.billing = {};
-            var getCookies = function(){
-                var pairs = document.cookie.split(";");
-                var cookies = {};
-                for (var i=0; i<pairs.length; i++){
-                    var pair = pairs[i].split("=");
-                    cookies[pair[0]] = unescape(pair[1]);
-                }
-                return cookies;
-            }
 
             this.getProfile = function () {
                 var defer = $q.defer(),
@@ -27,13 +18,10 @@ angular.module('rescour.user', ['ngCookies'])
                     config = angular.extend({
                     }, $_api.config);
 
-                console.log($cookieStore.user);
-                console.log($cookies.user);
 
                 $http.get(path, config).then(
                     function (response) {
                         angular.copy(response.data, self.profile);
-                        console.log(document.cookie);
                         defer.resolve(response);
                     },
                     function (response) {

@@ -1,26 +1,16 @@
 <header>
-    <!--<a class="logo" href="/"></a>-->
-
-    <!--<div class="navbar">-->
-        <!--<ul class="nav pull-right" style="padding-top:4px">-->
-            <!--<li><a href="/account/">My Account</a></li>-->
-            <!--<li><a href="/logout">Logout</a></li>-->
-        <!--</ul>-->
-    <!--</div>-->
 </header>
 
 <div class="main-container" spinner="getActive().details.$spinner" spinner-size="large">
     <!--FILTERS BEGIN-->
     <div id="Filter" ng-controller="FilterController">
         <div class="powers">
-            <div power="newPower"></div>
+            <div power="newPower" power-tooltip="Clear Search" power-tooltip-placement="right"></div>
             <div power="loadPower"></div>
         </div>
         <div class="scroll-container">
             <div class="filter-container">
             <div class="saved-search">
-                <!--Saved search dropdown-->
-                <!--Save search button-->
 
                 <div class="dropdown saved-dropdown">
 
@@ -76,9 +66,9 @@
     <!--LIST BEGIN-->
     <div id="MarketList" ng-controller="ListController">
         <div class="powers">
-            <div power="reportPower"></div>
-            <div power="sortPower"></div>
-            <div power="showPower"></div>
+            <div power="reportPower" power-tooltip="Download Report" power-tooltip-placement="bottom"></div>
+            <div power="sortPower" power-tooltip="Sort" power-tooltip-placement="bottom"></div>
+            <div power="showPower" power-tooltip="Show" power-tooltip-placement="bottom"></div>
             <div class="power-search">
                 <input type="text" ng-model="searchText.title"
                    placeholder="Search">

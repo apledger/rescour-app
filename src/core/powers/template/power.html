@@ -1,5 +1,5 @@
 <div class="power power-{{power.float}} {{power.color}} clearfix" ng-class="{'open': power.isOpen }">
-    <div class="power-title" ng-class="{'power-icon-dropdown': power.options}" tooltip="{{power.tooltip.text}}" tooltip-placement="{{power.tooltip.placement}}">
+    <div class="power-title" ng-class="{'power-icon-dropdown': power.options}" tooltip="{{powerTooltip}}" tooltip-placement="{{powerTooltipPlacement}}">
         <i ng-show="!power.title" ng-class="power.icon"></i>{{power.title}}
     </div>
     <div class="power-menu">

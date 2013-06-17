@@ -50,14 +50,11 @@ $lineSpacing: 14px;
   .power-search {
     position: relative;
     display: inline-block;
-    @include box-sizing(border-box);
 
     input {
       margin: 0;
       padding: 2px 7px;
-      margin-left: 5px;
       margin-bottom: 1px;
-      width: 160px;
       @include transition(all 0.2 ease-in);
     }
   }
@@ -146,6 +143,23 @@ $lineSpacing: 14px;
       text-transform: uppercase;
       color: $gray;
       text-align: center;
+
+      i.power-logo {
+        display: inline-block;
+        height: 14px;
+        width: 100px;
+
+        &::after {
+          content: '';
+          background: url('/img/logo-small.png') no-repeat center;
+          display: inline-block;
+          position: absolute;
+          top: 8px;
+          left: 15px;
+          height: 20px;
+          width: 100px;
+        }
+      }
 
       &.power-icon-dropdown::after {
         font-family: FontAwesome;

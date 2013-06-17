@@ -44,7 +44,9 @@ angular.module('rescour.powers', [])
             return {
                 require: '^powers',
                 scope: {
-                    power: '='
+                    power: '=',
+                    powerTooltip: '@',
+                    powerTooltipPlacement: '@'
                 },
                 replace: true,
                 templateUrl: '/core/powers/template/power.html',

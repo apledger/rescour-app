@@ -52,7 +52,8 @@ angular.module('rescour.app')
             $scope.browser = BrowserDetect;
             $scope.mapPower = {
                 float: 'right',
-                title: User.profile.email,
+//                title: User.profile.email,
+                icon: 'power-logo',
                 options: {
                     'My Account': {
                         title: 'My Account',
@@ -65,6 +66,7 @@ angular.module('rescour.app')
                         title: 'Logout',
                         icon: 'icon-power-off',
                         action: function () {
+
                             $location.path('/logout');
                         }
                     }
@@ -123,18 +125,13 @@ angular.module('rescour.app')
                 action: function () {
                     $scope.loadSearch();
                 },
-                color: 'blue',
-                tooltip: {
-                    text: 'Clear Search',
-                    placement: 'right'
-                }
+                color: 'blue'
             };
 
             var updateLoadPower = function () {
                 angular.forEach($scope.savedSearches, function (value) {
                     $scope.loadPower.options[value.title] = {
                         action: function () {
-                            console.log(value);
                             $scope.loadSearch(value);
                         },
                         title: value.title
@@ -228,10 +225,6 @@ angular.module('rescour.app')
             $scope.sortPower = {
                 toggle: 'yearBuilt',
                 icon: 'icon-sort-by-order',
-                tooltip: {
-                    text: 'Sort',
-                    placement: 'bottom'
-                },
                 options: {
                     yearBuilt: {
                         action: function () {
@@ -260,14 +253,9 @@ angular.module('rescour.app')
             $scope.reportPower = {
                 icon: 'icon-download-alt',
                 color: 'blue',
-                tooltip: {
-                    text: 'Download Report',
-                    placement: 'bottom'
-                },
                 action: function () {
                     Reports.openDialog()
                         .then(function (response) {
-                            console.log(response);
                         });
                 }
             };
@@ -284,7 +272,6 @@ angular.module('rescour.app')
                         action: function () {
                             Items.render(this.key);
                             $scope.showPower.icon = this.icon;
-                            console.log($scope.showPower.icon);
                         },
                         icon: 'icon-list',
                         title: 'All'
@@ -360,39 +347,6 @@ angular.module('rescour.app')
             $scope.contactAlerts = [];
             $scope.current = activeItem;
             $scope.currentImages = $scope.current.getImages();
-            $scope.detailsPower = {
-                title: 'Options',
-                options: {
-                    'All': {
-                        action: function () {
-                            console.log("All");
-                        },
-                        icon: 'icon-plus',
-                        title: 'All'
-                    },
-                    'Favorites': {
-                        action: function () {
-                            console.log("favorites");
-                        },
-                        icon: 'icon-minus',
-                        title: 'Favorites'
-                    },
-                    'Hidden': {
-                        action: function () {
-                            console.log("Hidden");
-                        },
-                        icon: 'icon-minus',
-                        title: 'Hidden'
-                    },
-                    'Notes': {
-                        action: function () {
-                            console.log("Notes");
-                        },
-                        icon: 'icon-minus',
-                        title: 'Notes'
-                    }
-                }
-            };
 
             $scope.close = function () {
                 $location.search('id', null).hash(null);

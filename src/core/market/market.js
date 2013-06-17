@@ -1195,8 +1195,8 @@ angular.module('rescour.market', [])
                 }
             };
         }])
-    .factory('Reports', ['$http', '$q', '$dialog', 'BrowserDetect',
-        function ($http, $q, $dialog, BrowserDetect) {
+    .factory('Reports', ['$http', '$q', '$dialog', 'BrowserDetect', '$_api',
+        function ($http, $q, $dialog, BrowserDetect, $_api) {
             var view = $dialog.dialog({
                 backdrop: true,
                 keyboard: true,
@@ -1219,7 +1219,8 @@ angular.module('rescour.market', [])
                                 }
                             }, $_api.config),
                             body = JSON.stringify({
-                                ids: settings.ids
+                                ids: settings.ids,
+                                token: settings.token
                             });
 
                         $http.post(path, body, config).then(
@@ -1239,7 +1240,6 @@ angular.module('rescour.market', [])
     .controller('ReportsDialogController', ['$scope', 'dialog', 'Items', 'User',
         function ($scope, dialog, Items, User) {
             $scope.userEmail = User.profile.email;
-            console.log(User);
             $scope.reportLength = Items.visibleIds.length;
             $scope.reportSettings = {};
 
@@ -1250,7 +1250,7 @@ angular.module('rescour.market', [])
             $scope.save = function (settings) {
                 dialog.close({
                     ids: Items.visibleIds,
-                    email: $scope.userEmail
+                    token: User.profile.token
                 });
             };
         }])

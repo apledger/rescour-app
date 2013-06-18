@@ -8255,43 +8255,42 @@ input:focus, textarea:focus {
   position: relative;
   width: auto;
   margin: 10px 0;
-  background: white;
 }
-/* line 192, ../../src/styles/_powers.scss */
+/* line 191, ../../src/styles/_powers.scss */
 .powers .power .power-menu ul li {
   padding: 5px 10px;
 }
-/* line 195, ../../src/styles/_powers.scss */
+/* line 194, ../../src/styles/_powers.scss */
 .powers .power .power-menu ul li.active {
   background: #0088cc;
 }
-/* line 198, ../../src/styles/_powers.scss */
+/* line 197, ../../src/styles/_powers.scss */
 .powers .power .power-menu ul li.active i {
   font-weight: bold;
   color: white;
 }
-/* line 202, ../../src/styles/_powers.scss */
+/* line 201, ../../src/styles/_powers.scss */
 .powers .power .power-menu ul li.active a {
   font-weight: bold;
   color: white;
 }
-/* line 208, ../../src/styles/_powers.scss */
+/* line 207, ../../src/styles/_powers.scss */
 .powers .power .power-menu ul li a {
   text-decoration: none;
   color: black;
 }
-/* line 213, ../../src/styles/_powers.scss */
+/* line 212, ../../src/styles/_powers.scss */
 .powers .power .power-menu ul li i {
   color: #5f5f5f;
   font-size: 12px;
   margin-right: 5px;
 }
-/* line 219, ../../src/styles/_powers.scss */
+/* line 218, ../../src/styles/_powers.scss */
 .powers .power .power-menu ul li:hover {
   background: #0088cc;
   cursor: pointer;
 }
-/* line 223, ../../src/styles/_powers.scss */
+/* line 222, ../../src/styles/_powers.scss */
 .powers .power .power-menu ul li:hover a, .powers .power .power-menu ul li:hover i {
   color: white;
   font-weight: bold;

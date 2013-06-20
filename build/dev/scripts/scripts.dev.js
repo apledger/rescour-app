@@ -43210,7 +43210,7 @@ angular.module('rescour.powers', [])
                     powerTooltipPlacement: '@'
                 },
                 replace: true,
-                templateUrl: '/core/powers/template/power.html',
+                templateUrl: '/core/powers/template/power.html?v='+Date.now(),
                 link: function (scope, element, attrs, PowersController) {
 
                     var _power = scope.power = new Power(scope.power, element);

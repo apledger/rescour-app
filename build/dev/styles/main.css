@@ -8189,15 +8189,19 @@ input:focus, textarea:focus {
 .powers .power:not(:first-child) {
   margin-left: -5px;
 }
-/* line 129, ../../src/styles/_powers.scss */
+/* line 127, ../../src/styles/_powers.scss */
+.powers .power.open {
+  *z-index: 1000;
+}
+/* line 132, ../../src/styles/_powers.scss */
 .powers .power.open > .power-menu {
   display: block;
 }
-/* line 133, ../../src/styles/_powers.scss */
+/* line 136, ../../src/styles/_powers.scss */
 .powers .power.open > .power-title::after {
   content: '\f106';
 }
-/* line 138, ../../src/styles/_powers.scss */
+/* line 141, ../../src/styles/_powers.scss */
 .powers .power .power-title {
   font-size: 12px;
   padding: 7px 14px;
@@ -8207,13 +8211,13 @@ input:focus, textarea:focus {
   color: #5f5f5f;
   text-align: center;
 }
-/* line 147, ../../src/styles/_powers.scss */
+/* line 150, ../../src/styles/_powers.scss */
 .powers .power .power-title i.power-logo {
   display: inline-block;
   height: 14px;
   width: 100px;
 }
-/* line 152, ../../src/styles/_powers.scss */
+/* line 155, ../../src/styles/_powers.scss */
 .powers .power .power-title i.power-logo::after {
   content: '';
   background: url("/img/logo-small.png") no-repeat center;
@@ -8224,7 +8228,7 @@ input:focus, textarea:focus {
   height: 20px;
   width: 100px;
 }
-/* line 164, ../../src/styles/_powers.scss */
+/* line 167, ../../src/styles/_powers.scss */
 .powers .power .power-title.power-icon-dropdown::after {
   font-family: FontAwesome;
   font-weight: normal;
@@ -8235,14 +8239,21 @@ input:focus, textarea:focus {
   content: '\f107';
   padding-left: 7px;
 }
-/* line 176, ../../src/styles/_powers.scss */
+/* line 179, ../../src/styles/_powers.scss */
 .powers .power .power-menu {
   position: absolute;
   display: none;
-  background-color: white;
-  width: 200px;
+  min-width: 160px;
   border: 1px solid #d4d4d4;
-  z-index: 2;
+  z-index: 1000;
+  background-color: white;
+  background-image: -moz-linear-gradient(top, white, white);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(white), to(white));
+  background-image: -webkit-linear-gradient(top, white, white);
+  background-image: -o-linear-gradient(top, white, white);
+  background-image: linear-gradient(to bottom, #ffffff, #ffffff);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fcfcfc', endColorstr='#fcfcfc', GradientType=0);
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
   border-radius: 2px;
@@ -8250,47 +8261,47 @@ input:focus, textarea:focus {
   -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
 }
-/* line 186, ../../src/styles/_powers.scss */
+/* line 190, ../../src/styles/_powers.scss */
 .powers .power .power-menu ul {
   position: relative;
   width: auto;
   margin: 10px 0;
 }
-/* line 191, ../../src/styles/_powers.scss */
+/* line 195, ../../src/styles/_powers.scss */
 .powers .power .power-menu ul li {
   padding: 5px 10px;
 }
-/* line 194, ../../src/styles/_powers.scss */
+/* line 198, ../../src/styles/_powers.scss */
 .powers .power .power-menu ul li.active {
   background: #0088cc;
 }
-/* line 197, ../../src/styles/_powers.scss */
+/* line 201, ../../src/styles/_powers.scss */
 .powers .power .power-menu ul li.active i {
   font-weight: bold;
   color: white;
 }
-/* line 201, ../../src/styles/_powers.scss */
+/* line 205, ../../src/styles/_powers.scss */
 .powers .power .power-menu ul li.active a {
   font-weight: bold;
   color: white;
 }
-/* line 207, ../../src/styles/_powers.scss */
+/* line 211, ../../src/styles/_powers.scss */
 .powers .power .power-menu ul li a {
   text-decoration: none;
   color: black;
 }
-/* line 212, ../../src/styles/_powers.scss */
+/* line 216, ../../src/styles/_powers.scss */
 .powers .power .power-menu ul li i {
   color: #5f5f5f;
   font-size: 12px;
   margin-right: 5px;
 }
-/* line 218, ../../src/styles/_powers.scss */
+/* line 222, ../../src/styles/_powers.scss */
 .powers .power .power-menu ul li:hover {
   background: #0088cc;
   cursor: pointer;
 }
-/* line 222, ../../src/styles/_powers.scss */
+/* line 226, ../../src/styles/_powers.scss */
 .powers .power .power-menu ul li:hover a, .powers .power .power-menu ul li:hover i {
   color: white;
   font-weight: bold;

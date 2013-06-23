@@ -119,11 +119,6 @@ $lineSpacing: 14px;
     }
 
     &.open {
-      // IE7's z-index only goes to the nearest positioned ancestor, which would
-      // make the menu appear below buttons that appeared later on the page
-      *z-index: 2000;
-      z-index: 2000;
-
       .power-title {
         color: darken($gray, 15%);
       }
@@ -180,7 +175,7 @@ $lineSpacing: 14px;
       display: none;
       top: 100%;
       background: $white;
-      min-width: 160px;
+      min-width: 175px;
       border: 1px solid $borderGray;
       z-index: $zindexDropdown;
       @include border-radius(2px);
@@ -188,7 +183,7 @@ $lineSpacing: 14px;
       padding: 10px 0;
 
       li {
-        padding: 5px 10px;
+        padding: 5px 15px;
 
         &.active {
           background: $blue;
@@ -220,7 +215,6 @@ $lineSpacing: 14px;
 
           a, i {
             color: $white;
-            font-weight: bold;
           }
         }
       }

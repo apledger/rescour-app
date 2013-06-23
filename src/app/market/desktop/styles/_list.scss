@@ -1,5 +1,7 @@
 @import "compass/css3/transition";
 
+$wellBorderRadius: 5px;
+
 #MarketList {
   position: absolute;
   left: $filterWidth;
@@ -34,19 +36,18 @@ ul {
 
 .item-well {
   -webkit-transform: translate3d(0,0,0);
-  @include transition(opacity 0.35s ease);
   width: 100%;
   display: block;
   margin-bottom: 10px;
   position: relative;
   vertical-align: top;
   background-color: white;
-  @include opacity(100);
-  @include border-radius(5px);
-  border: 1px solid darken($light-gray, 10%);
   height: auto;
-  //@include box-shadow(0 0 2px rgba(0,0,0,0.3) 0 3px 5px rgba(0,0,0,0.2));
+  @include transition(opacity 0.35s ease);
+  @include opacity(100);
+  @include border-radius($wellBorderRadius);
   @include box-sizing(border-box);
+  @include box-shadows(0 0 2px rgba(0,0,0,0.3), 0 3px 5px rgba(0,0,0,0.2));
 
   &.item-hidden {
     @include transition(opacity 0.35s ease);
@@ -160,6 +161,8 @@ ul {
     background-color: $grayLighter;
     padding: 10px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    @include border-top-left-radius($wellBorderRadius);
+    @include border-top-right-radius($wellBorderRadius);
 
     .header-container {
       position: relative;
@@ -220,6 +223,8 @@ ul {
     background-color: $grayLighter;
     height: 30px;
     border-top: 1px solid rgba(0, 0, 0, 0.05);
+    @include border-bottom-left-radius($wellBorderRadius);
+    @include border-bottom-right-radius($wellBorderRadius);
 
     .user-options {
       position: relative;

@@ -6689,7 +6689,7 @@ a.label:hover, a.badge:hover {
   top: 0;
 }
 
-/* line 3, ../../src/app/market/desktop/styles/_list.scss */
+/* line 5, ../../src/app/market/desktop/styles/_list.scss */
 #MarketList {
   position: absolute;
   left: 245px;
@@ -6699,14 +6699,14 @@ a.label:hover, a.badge:hover {
   z-index: 1;
   display: inline-block;
   background: rgba(0, 0, 0, 0.2);
-  border-right: 1px solid #bbbbbb;
-  border-left: 1px solid #bbbbbb;
+  border-right: 1px solid #999999;
+  border-left: 1px solid #999999;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
 
-/* line 17, ../../src/app/market/desktop/styles/_list.scss */
+/* line 19, ../../src/app/market/desktop/styles/_list.scss */
 .list-status {
   position: relative;
   margin: 10px 0;
@@ -6719,41 +6719,43 @@ a.label:hover, a.badge:hover {
   color: #333333;
 }
 
-/* line 27, ../../src/app/market/desktop/styles/_list.scss */
+/* line 29, ../../src/app/market/desktop/styles/_list.scss */
 .market-list-wrap {
   padding: 10px;
 }
 
-/* line 31, ../../src/app/market/desktop/styles/_list.scss */
+/* line 33, ../../src/app/market/desktop/styles/_list.scss */
 ul {
   margin: 0;
 }
 
-/* line 35, ../../src/app/market/desktop/styles/_list.scss */
+/* line 37, ../../src/app/market/desktop/styles/_list.scss */
 .item-well {
   -webkit-transform: translate3d(0, 0, 0);
-  -webkit-transition: opacity 0.35s ease;
-  -moz-transition: opacity 0.35s ease;
-  -o-transition: opacity 0.35s ease;
-  transition: opacity 0.35s ease;
   width: 100%;
   display: block;
   margin-bottom: 10px;
   position: relative;
   vertical-align: top;
   background-color: white;
+  height: auto;
+  -webkit-transition: opacity 0.35s ease;
+  -moz-transition: opacity 0.35s ease;
+  -o-transition: opacity 0.35s ease;
+  transition: opacity 0.35s ease;
   opacity: 1;
   filter: alpha(opacity=100);
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
-  border: 1px solid #d4d4d4;
-  height: auto;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
+  -webkit-box-shadow: 0 0 2px rgba(0, 0, 0, 0.3), 0 3px 5px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 0 2px rgba(0, 0, 0, 0.3), 0 3px 5px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.3), 0 3px 5px rgba(0, 0, 0, 0.2);
 }
-/* line 51, ../../src/app/market/desktop/styles/_list.scss */
+/* line 52, ../../src/app/market/desktop/styles/_list.scss */
 .item-well.item-hidden {
   -webkit-transition: opacity 0.35s ease;
   -moz-transition: opacity 0.35s ease;
@@ -6762,11 +6764,11 @@ ul {
   opacity: 0.5;
   filter: alpha(opacity=50);
 }
-/* line 54, ../../src/app/market/desktop/styles/_list.scss */
+/* line 55, ../../src/app/market/desktop/styles/_list.scss */
 .item-well.item-hidden .preview {
   height: 0;
 }
-/* line 59, ../../src/app/market/desktop/styles/_list.scss */
+/* line 60, ../../src/app/market/desktop/styles/_list.scss */
 .item-well .preview {
   -webkit-transition: height 0.35s ease;
   -moz-transition: height 0.35s ease;
@@ -6783,7 +6785,7 @@ ul {
   overflow: hidden;
   z-index: 5;
 }
-/* line 73, ../../src/app/market/desktop/styles/_list.scss */
+/* line 74, ../../src/app/market/desktop/styles/_list.scss */
 .item-well .preview:hover .preview-mask {
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
@@ -6792,7 +6794,7 @@ ul {
   display: block;
   background: rgba(0, 0, 0, 0.5);
 }
-/* line 78, ../../src/app/market/desktop/styles/_list.scss */
+/* line 79, ../../src/app/market/desktop/styles/_list.scss */
 .item-well .preview:hover .preview-mask i {
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
@@ -6802,12 +6804,12 @@ ul {
   height: 75px;
   color: white;
 }
-/* line 85, ../../src/app/market/desktop/styles/_list.scss */
+/* line 86, ../../src/app/market/desktop/styles/_list.scss */
 .item-well .preview:hover .preview-caption {
   position: absolute;
   bottom: 0;
 }
-/* line 91, ../../src/app/market/desktop/styles/_list.scss */
+/* line 92, ../../src/app/market/desktop/styles/_list.scss */
 .item-well .preview .preview-caption {
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
@@ -6821,7 +6823,7 @@ ul {
   text-align: center;
   z-index: 6;
 }
-/* line 101, ../../src/app/market/desktop/styles/_list.scss */
+/* line 102, ../../src/app/market/desktop/styles/_list.scss */
 .item-well .preview .preview-caption h2 {
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
@@ -6832,25 +6834,25 @@ ul {
   line-height: 12px;
   font-weight: normal;
 }
-/* line 109, ../../src/app/market/desktop/styles/_list.scss */
+/* line 110, ../../src/app/market/desktop/styles/_list.scss */
 .item-well .preview .preview-caption p {
   color: white;
   margin: 15px 0;
   font-size: 10px;
 }
-/* line 115, ../../src/app/market/desktop/styles/_list.scss */
+/* line 116, ../../src/app/market/desktop/styles/_list.scss */
 .item-well .preview .preview-caption.caption-green {
   background: #468847;
 }
-/* line 119, ../../src/app/market/desktop/styles/_list.scss */
+/* line 120, ../../src/app/market/desktop/styles/_list.scss */
 .item-well .preview .preview-caption.caption-orange {
   background: #f66930;
 }
-/* line 123, ../../src/app/market/desktop/styles/_list.scss */
+/* line 124, ../../src/app/market/desktop/styles/_list.scss */
 .item-well .preview .preview-caption.caption-red {
   background: #9c3022;
 }
-/* line 128, ../../src/app/market/desktop/styles/_list.scss */
+/* line 129, ../../src/app/market/desktop/styles/_list.scss */
 .item-well .preview .preview-mask {
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
@@ -6865,7 +6867,7 @@ ul {
   right: 0;
   text-align: center;
 }
-/* line 139, ../../src/app/market/desktop/styles/_list.scss */
+/* line 140, ../../src/app/market/desktop/styles/_list.scss */
 .item-well .preview .preview-mask i {
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
@@ -6876,7 +6878,7 @@ ul {
   line-height: 30px;
   color: transparent;
 }
-/* line 148, ../../src/app/market/desktop/styles/_list.scss */
+/* line 149, ../../src/app/market/desktop/styles/_list.scss */
 .item-well .preview img {
   height: 100px;
   width: 100px;
@@ -6889,20 +6891,26 @@ ul {
   -moz-border-radius: 2px;
   border-radius: 2px;
 }
-/* line 158, ../../src/app/market/desktop/styles/_list.scss */
+/* line 159, ../../src/app/market/desktop/styles/_list.scss */
 .item-well .dimensions {
   position: relative;
   background-color: #eeeeee;
   padding: 10px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  -webkit-border-top-left-radius: 5px;
+  -moz-border-radius-topleft: 5px;
+  border-top-left-radius: 5px;
+  -webkit-border-top-right-radius: 5px;
+  -moz-border-radius-topright: 5px;
+  border-top-right-radius: 5px;
 }
-/* line 164, ../../src/app/market/desktop/styles/_list.scss */
+/* line 167, ../../src/app/market/desktop/styles/_list.scss */
 .item-well .dimensions .header-container {
   position: relative;
   display: inline-block;
   float: left;
 }
-/* line 169, ../../src/app/market/desktop/styles/_list.scss */
+/* line 172, ../../src/app/market/desktop/styles/_list.scss */
 .item-well .dimensions .header-container .title {
   display: block;
   font-size: 14px;
@@ -6910,7 +6918,7 @@ ul {
   color: #0088cc;
   cursor: pointer;
 }
-/* line 177, ../../src/app/market/desktop/styles/_list.scss */
+/* line 180, ../../src/app/market/desktop/styles/_list.scss */
 .item-well .dimensions .header-container .ranges {
   position: relative;
   display: block;
@@ -6921,7 +6929,7 @@ ul {
 .item-well .dimensions .header-container .ranges span {
   font-weight: bold;
 }
-/* line 184, ../../src/app/market/desktop/styles/_list.scss */
+/* line 187, ../../src/app/market/desktop/styles/_list.scss */
 .item-well .dimensions .location {
   font-size: 28px;
   position: relative;
@@ -6958,40 +6966,46 @@ ul {
 .item-well .dimensions .location:active, .item-well .dimensions .location.active {
   background-color: #3c7b49 \9;
 }
-/* line 198, ../../src/app/market/desktop/styles/_list.scss */
+/* line 201, ../../src/app/market/desktop/styles/_list.scss */
 .item-well .description {
   position: relative;
   height: auto;
   font-size: 14px;
   font-weight: normal;
 }
-/* line 204, ../../src/app/market/desktop/styles/_list.scss */
+/* line 207, ../../src/app/market/desktop/styles/_list.scss */
 .item-well .description .text-container {
   width: 235px;
   padding: 15px;
   max-height: 100px;
   overflow: hidden;
 }
-/* line 211, ../../src/app/market/desktop/styles/_list.scss */
+/* line 214, ../../src/app/market/desktop/styles/_list.scss */
 .item-well .description p {
   font-size: 13px;
 }
-/* line 216, ../../src/app/market/desktop/styles/_list.scss */
+/* line 219, ../../src/app/market/desktop/styles/_list.scss */
 .item-well .footer {
   position: relative;
   width: 100%;
   background-color: #eeeeee;
   height: 30px;
   border-top: 1px solid rgba(0, 0, 0, 0.05);
+  -webkit-border-bottom-left-radius: 5px;
+  -moz-border-radius-bottomleft: 5px;
+  border-bottom-left-radius: 5px;
+  -webkit-border-bottom-right-radius: 5px;
+  -moz-border-radius-bottomright: 5px;
+  border-bottom-right-radius: 5px;
 }
-/* line 224, ../../src/app/market/desktop/styles/_list.scss */
+/* line 229, ../../src/app/market/desktop/styles/_list.scss */
 .item-well .footer .user-options {
   position: relative;
   float: left;
   font-size: 16px;
   padding: 2px 10px;
 }
-/* line 230, ../../src/app/market/desktop/styles/_list.scss */
+/* line 235, ../../src/app/market/desktop/styles/_list.scss */
 .item-well .footer .user-options .footer-button {
   position: relative;
   float: left;
@@ -7001,11 +7015,11 @@ ul {
   font-weight: normal;
   margin-right: 15px;
 }
-/* line 239, ../../src/app/market/desktop/styles/_list.scss */
+/* line 244, ../../src/app/market/desktop/styles/_list.scss */
 .item-well .footer .user-options .footer-button:hover {
   color: #5f5f5f;
 }
-/* line 243, ../../src/app/market/desktop/styles/_list.scss */
+/* line 248, ../../src/app/market/desktop/styles/_list.scss */
 .item-well .footer .user-options .footer-button span {
   font-size: 12px;
 }
@@ -7018,9 +7032,8 @@ ul {
   overflow-y: auto;
   position: relative;
   -webkit-overflow-scrolling: touch;
-  z-index: 1000;
 }
-/* line 18, ../../src/app/market/desktop/styles/_market.scss */
+/* line 17, ../../src/app/market/desktop/styles/_market.scss */
 .scroll-container * {
   -webkit-transform: translate3d(0, 0, 0);
 }
@@ -7970,7 +7983,7 @@ input:focus, textarea:focus {
   box-sizing: border-box;
   position: relative;
   display: inline-block;
-  border-right: 1px solid #bbbbbb !important;
+  border-right: 1px solid #999999 !important;
   border-left: 0px solid transparent;
   border-top: none !important;
 }
@@ -8157,7 +8170,7 @@ input:focus, textarea:focus {
 /* line 88, ../../src/styles/_powers.scss */
 .powers .power.power-right {
   float: right;
-  border-left: 1px solid #bbbbbb !important;
+  border-left: 1px solid #999999 !important;
   border-right: none !important;
 }
 /* line 93, ../../src/styles/_powers.scss */
@@ -8187,24 +8200,19 @@ input:focus, textarea:focus {
 .powers .power:not(:first-child) {
   margin-left: -4px;
 }
-/* line 121, ../../src/styles/_powers.scss */
-.powers .power.open {
-  *z-index: 2000;
-  z-index: 2000;
-}
-/* line 127, ../../src/styles/_powers.scss */
+/* line 122, ../../src/styles/_powers.scss */
 .powers .power.open .power-title {
   color: #393939;
 }
-/* line 131, ../../src/styles/_powers.scss */
+/* line 126, ../../src/styles/_powers.scss */
 .powers .power.open .power-menu {
   display: block;
 }
-/* line 135, ../../src/styles/_powers.scss */
+/* line 130, ../../src/styles/_powers.scss */
 .powers .power.open .power-title::after {
   content: '\f106';
 }
-/* line 140, ../../src/styles/_powers.scss */
+/* line 135, ../../src/styles/_powers.scss */
 .powers .power .power-title {
   font-size: 12px;
   padding: 7px 14px;
@@ -8214,13 +8222,13 @@ input:focus, textarea:focus {
   color: #5f5f5f;
   text-align: center;
 }
-/* line 149, ../../src/styles/_powers.scss */
+/* line 144, ../../src/styles/_powers.scss */
 .powers .power .power-title i.power-logo {
   display: inline-block;
   height: 14px;
   width: 100px;
 }
-/* line 154, ../../src/styles/_powers.scss */
+/* line 149, ../../src/styles/_powers.scss */
 .powers .power .power-title i.power-logo::after {
   content: '';
   background: url("/img/logo-small.png") no-repeat center;
@@ -8231,7 +8239,7 @@ input:focus, textarea:focus {
   height: 20px;
   width: 100px;
 }
-/* line 166, ../../src/styles/_powers.scss */
+/* line 161, ../../src/styles/_powers.scss */
 .powers .power .power-title.power-icon-dropdown::after {
   font-family: FontAwesome;
   font-weight: normal;
@@ -8242,14 +8250,14 @@ input:focus, textarea:focus {
   content: '\f107';
   padding-left: 7px;
 }
-/* line 178, ../../src/styles/_powers.scss */
+/* line 173, ../../src/styles/_powers.scss */
 .powers .power .power-menu {
   position: absolute;
   display: none;
   top: 100%;
   background: white;
-  min-width: 160px;
-  border: 1px solid #bbbbbb;
+  min-width: 175px;
+  border: 1px solid #999999;
   z-index: 1000;
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
@@ -8259,44 +8267,43 @@ input:focus, textarea:focus {
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
   padding: 10px 0;
 }
-/* line 190, ../../src/styles/_powers.scss */
+/* line 185, ../../src/styles/_powers.scss */
 .powers .power .power-menu li {
-  padding: 5px 10px;
+  padding: 5px 15px;
 }
-/* line 193, ../../src/styles/_powers.scss */
+/* line 188, ../../src/styles/_powers.scss */
 .powers .power .power-menu li.active {
   background: #0088cc;
 }
-/* line 196, ../../src/styles/_powers.scss */
+/* line 191, ../../src/styles/_powers.scss */
 .powers .power .power-menu li.active i {
   font-weight: bold;
   color: white;
 }
-/* line 200, ../../src/styles/_powers.scss */
+/* line 195, ../../src/styles/_powers.scss */
 .powers .power .power-menu li.active a {
   font-weight: bold;
   color: white;
 }
-/* line 206, ../../src/styles/_powers.scss */
+/* line 201, ../../src/styles/_powers.scss */
 .powers .power .power-menu li a {
   text-decoration: none;
   color: black;
 }
-/* line 211, ../../src/styles/_powers.scss */
+/* line 206, ../../src/styles/_powers.scss */
 .powers .power .power-menu li i {
   color: #5f5f5f;
   font-size: 12px;
   margin-right: 5px;
 }
-/* line 217, ../../src/styles/_powers.scss */
+/* line 212, ../../src/styles/_powers.scss */
 .powers .power .power-menu li:hover {
   background: #0088cc;
   cursor: pointer;
 }
-/* line 221, ../../src/styles/_powers.scss */
+/* line 216, ../../src/styles/_powers.scss */
 .powers .power .power-menu li:hover a, .powers .power .power-menu li:hover i {
   color: white;
-  font-weight: bold;
 }
 
 /* line 15, ../../src/styles/main.scss */

@@ -1129,7 +1129,8 @@ angular.module('rescour.market', [])
                     backdrop: false,
                     keyboard: false,
                     backdropClick: true,
-                    dialogClass: 'property-details ' + BrowserDetect.platform,
+                    dialogClass: 'property-details',
+                    containerClass: 'map-wrap',
                     dialogFade: true,
                     backdropFade: false,
                     templateUrl: '/app/market/' + BrowserDetect.platform + '/views/partials/market-details.html?' + Date.now(),
@@ -1307,8 +1308,6 @@ angular.module('rescour.market', [])
                 if (scope.images.length > 0) {
                     scope.images[0].isActive = true;
                 }
-
-                console.log(scope.images);
 
                 viewerCtrl.setSlides(scope.images);
                 viewerCtrl.element = element;

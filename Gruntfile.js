@@ -308,6 +308,11 @@ module.exports = function (grunt) {
                     {expand: true, cwd: './src/', src: ['core/**'], dest: './dist/'}
                 ]
             },
+            components: {
+                files: [
+                    {expand: true, cwd: './src/', src: ['components/angular-ui-bootstrap-bower/**'], dest: './dist/'}
+                ]
+            },
             // Task is run when a watched style is modified.
             styles: {
                 files: [
@@ -410,6 +415,7 @@ module.exports = function (grunt) {
                 files: ['./src/app/**/*.js'],
                 tasks: ['copy:appjs' , 'livereload']
             },
+
             apphtml: {
                 files: ['./src/app/**/*.html'],
                 tasks: ['copy:apphtml' , 'livereload']
@@ -417,6 +423,10 @@ module.exports = function (grunt) {
             core: {
                 files: ['./src/core/**'],
                 tasks: ['copy:core' , 'livereload']
+            },
+            components: {
+                files: ['./src/components/angular-ui-bootstrap-bower/**'],
+                tasks: ['copy:components' , 'livereload']
             },
             images: {
                 files: ['./src/img/**'],

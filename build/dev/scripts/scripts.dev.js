@@ -36194,6 +36194,9 @@ dialogModule.provider("$dialog", function () {
                     this.modalEl.removeClass(options.triggerClass);
                 }
 
+                this.containerEl = options.containerClass ? $document.find('.' + options.containerClass) : body;
+                console.log(this.containerEl);
+
                 this.handledEscapeKey = function (e) {
                     if (e.which === 27) {
                         self.close();
@@ -36331,7 +36334,8 @@ dialogModule.provider("$dialog", function () {
             };
 
             Dialog.prototype._addElementsToDom = function () {
-                body.append(this.modalEl);
+//                body.append(this.modalEl);
+                this.containerEl.append(this.modalEl);
 
                 if (this.options.backdrop) {
                     if (activeBackdrops.value === 0) {
@@ -42526,7 +42530,8 @@ angular.module('rescour.market', [])
                     backdrop: false,
                     keyboard: false,
                     backdropClick: true,
-                    dialogClass: 'property-details ' + BrowserDetect.platform,
+                    dialogClass: 'property-details',
+                    containerClass: 'map-wrap',
                     dialogFade: true,
                     backdropFade: false,
                     templateUrl: '/app/market/' + BrowserDetect.platform + '/views/partials/market-details.html?' + Date.now(),
@@ -42704,8 +42709,6 @@ angular.module('rescour.market', [])
                 if (scope.images.length > 0) {
                     scope.images[0].isActive = true;
                 }
-
-                console.log(scope.images);
 
                 viewerCtrl.setSlides(scope.images);
                 viewerCtrl.element = element;

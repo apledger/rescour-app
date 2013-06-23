@@ -5,9 +5,9 @@
   top:0;
   width: $filterWidth;
   background-color: $light-gray;
-  border-right: 1px solid $light-gray;
   z-index: 2;
   display:inline-block;
+  @include box-sizing(border-box);
 
   .saved-search {
     position: relative;

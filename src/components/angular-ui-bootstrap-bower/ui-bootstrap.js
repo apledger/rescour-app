@@ -623,6 +623,9 @@ dialogModule.provider("$dialog", function () {
                     this.modalEl.removeClass(options.triggerClass);
                 }
 
+                this.containerEl = options.containerClass ? $document.find('.' + options.containerClass) : body;
+                console.log(this.containerEl);
+
                 this.handledEscapeKey = function (e) {
                     if (e.which === 27) {
                         self.close();
@@ -760,7 +763,8 @@ dialogModule.provider("$dialog", function () {
             };
 
             Dialog.prototype._addElementsToDom = function () {
-                body.append(this.modalEl);
+//                body.append(this.modalEl);
+                this.containerEl.append(this.modalEl);
 
                 if (this.options.backdrop) {
                     if (activeBackdrops.value === 0) {

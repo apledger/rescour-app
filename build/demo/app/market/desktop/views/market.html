@@ -1,51 +1,21 @@
 <header>
-    <a class="logo" href="/"></a>
-
-    <div class="navbar market-controls">
-        <ul class="nav" style="margin-left:15px;">
-            <li ng-class="{'active': toggle == 'all'}" tooltip="Display All" tooltip-placement="bottom">
-                <a ng-click="listAll()" href="javascript:"><i class="icon-list"></i></a>
-            </li>
-            <li ng-class="{'active': toggle == 'favorites'}" tooltip="My Favorites" tooltip-placement="bottom">
-                <a ng-click="listFavorites()" href="javascript:"><i class="icon-star"></i></a>
-            </li>
-            <li ng-class="{'active': toggle == 'hidden'}">
-                <a ng-click="listHidden()" href="javascript:" tooltip="My Hidden" tooltip-placement="bottom"><i
-                        class="icon-ban-circle"></i></a>
-            </li>
-            <li ng-class="{'active': toggle == 'notes'}">
-                <a ng-click="listNotes()" href="javascript:" tooltip="My Notes" tooltip-placement="bottom"><i
-                        class="icon-pencil"></i></a>
-            </li>
-            <li>
-                <form class="navbar-search">
-                    <input type="text" class="search-query input-medium" ng-model="searchText.title"
-                           placeholder="Search">
-                </form>
-            </li>
-        </ul>
-    </div>
-
-    <div class="navbar">
-        <ul class="nav pull-right" style="padding-top:4px">
-            <li><a href="/account/">My Account</a></li>
-            <li><a href="/logout">Logout</a></li>
-        </ul>
-    </div>
 </header>
 
 <div class="main-container" spinner="getActive().details.$spinner" spinner-size="large">
     <!--FILTERS BEGIN-->
     <div id="Filter" ng-controller="FilterController">
-        <div class="filter-container">
+        <div class="powers">
+            <div power="newPower" power-tooltip="Clear Search" power-tooltip-placement="right"></div>
+            <div power="loadPower"></div>
+        </div>
+        <div class="scroll-container">
+            <div class="filter-container">
             <div class="saved-search">
-                <!--Saved search dropdown-->
-                <!--Save search button-->
 
                 <div class="dropdown saved-dropdown">
 
                     <div class="btn-group">
-                        <button class="btn saved-dropdown" tooltip="Reset" tooltip-placement="bottom"
+                        <button class="btn saved-dropdown" tooltip="Refresh" tooltip-placement="bottom"
                                 ng-click="refreshSearch()">
                             <!--<i class="icon-refresh"></i>-->
                             {{attributes.title || "New Search"}}
@@ -56,16 +26,7 @@
                                 ng-click="openSaveDialog()">
                             <i class="icon-save"></i>
                         </button>
-                        <a class="btn dropdown-toggle"><i class="icon-caret-down"></i></a>
                     </div>
-
-                    <ul class="dropdown-menu">
-                        <li><a href="javascript:" ng-click="loadSearch()">New Search</a></li>
-                        <li class="divider"></li>
-                        <li ng-repeat="saved in savedSearches">
-                            <a href="javascript:" ng-click="loadSearch(saved)">{{saved.title}}</a>
-                        </li>
-                    </ul>
                 </div>
             </div>
 
@@ -98,29 +59,31 @@
                     </li>
                 </ul>
             </div>
-        </div>
+        </div></div>
     </div>
     <!--FILTERS END-->
 
     <!--LIST BEGIN-->
     <div id="MarketList" ng-controller="ListController">
         <div class="powers">
-            <div class="powers-menu">
-                <a href="javascript:">Showing {{toggle}}<i></i></a>
-                <ul class="powers-menu-list">
-                    <li><a ah-tap="listAll()" href="javascript:">All <i class="icon-list"></i></a></li>
-                    <li><a ah-tap="listFavorites()" href="javascript:">Favorites <i class="icon-star"></i></a></li>
-                    <li><a ah-tap="listHidden()" href="javascript:">Hidden <i class="icon-ban-circle"></i></a></li>
-                    <li><a ah-tap="listNotes()" href="javascript:">Notes <i class="icon-pencil"></i></a></li>
-                </ul>
+            <div power="reportPower" power-tooltip="Download Report" power-tooltip-placement="bottom"></div>
+            <div power="sortPower" power-tooltip="Sort" power-tooltip-placement="bottom"></div>
+            <div power="showPower" power-tooltip="Show" power-tooltip-placement="bottom"></div>
+            <div class="power-search">
+                <input type="text" ng-model="searchText.title"
+                   placeholder="Search">
             </div>
         </div>
-        <div class="market-list-scroll"
+
+        <div class="scroll-container"
              chunk="items | filter:searchText | limitVisible | orderBy:orderNA()">
             <!--Toggle favorites button-->
             <!--Item boxes display-->
             <div class="market-list-wrap">
-                <div id="item-{{item.id}}" class="item-well"
+                <div class="list-status">
+                    Displaying <strong>{{getVisibleLength()}}</strong> Results
+                </div>
+                <div class="item-well"
                      ng-class="{'item-hidden': item.hidden}"
                      ng-repeat="item in chunk"
                      spinner="item.$spinner">
@@ -135,9 +98,7 @@
                         </a>
 
                         <div class="header-container">
-                            <div class="title"><a href="javascript:" ng-click="showItemDetails(item, 'details')">{{item.title
-                                |
-                                ellipsis:25}}</a></div>
+                            <div class="title"><a href="javascript:" ng-click="showItemDetails(item, 'details')">{{item.title | ellipsis:25}}</a></div>
                             <div class="ranges">
                                 <span>{{item.getAttribute('numUnits')}}&nbsp;</span>Units.&nbsp;
                                 Built in<span>&nbsp;{{item.getAttribute('yearBuilt')}}</span>.
@@ -145,7 +106,7 @@
                         </div>
                     </div>
 
-                    <a ng-click="showItemDetails(item, 'pictures')" class="preview" ng-show="!item.hidden">
+                    <a href="javascript:" ng-click="showItemDetails(item, 'pictures')" class="preview" ng-show="!item.hidden">
                         <div class="preview-mask"><i class="icon-search"></i></div>
                         <img ng-src="{{item.thumbnail}}" alt="">
 
@@ -182,7 +143,7 @@
                             <!--Contact broker button-->
                             <div class="footer-button" ng-click="showItemDetails(item, 'contact')"
                                  tooltip="Contact Broker">
-                                <i class="icon-envelope-alt"></i>
+                                <i class="icon-envelope"></i>
 
                                 <span>{{item.getAttribute('broker')}}</span>
                             </div>
@@ -196,14 +157,13 @@
 
     <!--Map-->
     <div class="map-container desktop">
-        <div class="powers"></div>
+        <div class="powers">
+            <div power="mapPower"></div>
+        </div>
+
         <div class="map-wrap">
             <div map></div>
         </div>
     </div>
     <!--<div map></div>-->
-</div>
-
-<div id="Footer">
-    <p><a href="javascript:">Copyright 2012 REscour</a></p>
 </div>

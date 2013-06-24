@@ -1,7 +1,8 @@
 <div class="container-fluid">
+
 <div class="row-fluid">
 <div class="page-header clearfix">
-    <button class="btn pull-right" ah-tap="close()"><i class="icon-arrow-left"></i>&nbsp;Back to map</button>
+    <button class="btn pull-right" ng-click="close()"><i class="icon-arrow-left"></i>&nbsp;Back to map</button>
     <h2>{{current.title}}</h2>
     <h4>{{current.getAddress()}}</h4>
 </div>
@@ -68,6 +69,14 @@
                         {{current.details.acres}}
                     </td>
                 </tr>
+                <tr ng-show="current.details.price">
+                    <td>
+                        <strong>Price</strong>
+                    </td>
+                    <td>
+                        {{current.details.price}}
+                    </td>
+                </tr>
                 <tr>
                     <td>
                         <strong>Flyer</strong>
@@ -113,14 +122,14 @@
                         {{mix.units}}
                     </td>
                     <td>
-                        {{mix.sqft}} ft&sup2;
+                        {{mix.sqft}}
                     </td>
                     <td>
                         {{mix.rent && (mix.rent | currency) || ""}}
                         <!--{{mix.rent | currency}}-->
                     </td>
                     <td>
-                        {{mix.rentpsqft}}
+                        {{mix.rentpsqft && (mix.rentpsqft | currency) || ""}}
                     </td>
                 </tr>
                 </tbody>
@@ -148,14 +157,17 @@
 
 <div pane class="container-fluid picture-container" heading="{{panes[1].heading}}" active="panes[1].active">
     <div class="row-fluid">
-        <div class="span8 offset2" ng-show="current.getImages().length > 0">
-            <div carousel no-transition="true">
-                <div slide ng-repeat="slide in current.getImages()" active="slide.active">
-                    <img ng-src="{{slide.link}}" style="margin:auto;">
+        <div class="span10 offset1" ng-show="current.getImages().length > 0">
 
-                    <div class="counter">{{$index + 1}} of {{current.getImages().length}}</div>
-                </div>
-            </div>
+            <div img-viewer images="currentImages"></div>
+
+            <!--<div carousel no-transition="true">-->
+            <!--<div slide ng-repeat="slide in current.getImages()" active="slide.active">-->
+            <!--<img ng-src="{{slide.link}}" style="margin:auto;">-->
+
+            <!--<div class="counter">{{$index + 1}} of {{current.getImages().length}}</div>-->
+            <!--</div>-->
+            <!--</div>-->
         </div>
         <div class="span8 alert alert-info" ng-show="current.getImages().length == 0">
             <strong>Sorry!</strong> We don't have any images for this listing.
@@ -183,7 +195,7 @@
             </div>
         </div>
         <div class="form-actions">
-            <button class="btn btn-info" type="submit" ah-tap="sendEmail(newEmail)">Send</button>
+            <button class="btn btn-info" type="submit" ng-click="sendEmail(newEmail)">Send</button>
         </div>
     </form>
     <div class="alert" ng-show="!current.details.contacts || current.details.contacts.length == 0">
@@ -209,7 +221,7 @@
         </div>
 
         <div class="form-actions">
-            <button type="submit" class="btn btn-success" ah-tap="addComment(newComment)">
+            <button type="submit" class="btn btn-success" ng-click="addComment(newComment)">
                 Add Comment
             </button>
         </div>
@@ -222,7 +234,7 @@
             <form novalidate class="form-horizontal">
                 <legend></legend>
                 <div class="control-group" ng-repeat="finance in current.details.finances">
-                    <a href="javascript:" class="finance-delete" ah-tap="deleteFinance(finance)">
+                    <a href="javascript:" class="finance-delete" ng-click="deleteFinance(finance)">
                         <i class="icon-remove-sign"></i>
                     </a>
 
@@ -247,7 +259,7 @@
                     </div>
                 </div>
                 <div class="form-actions">
-                    <a href="javascript:" class="btn btn-success" ah-tap="addFinance()">Add Finance Note</a>
+                    <a href="javascript:" class="btn btn-success" ng-click="addFinance()">Add Finance Note</a>
                 </div>
             </form>
         </div>

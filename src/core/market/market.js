@@ -301,7 +301,9 @@ angular.module('rescour.market', [])
             };
 
             Item.prototype.getAttribute = function (name) {
-                if (this.attributes.discreet.hasOwnProperty(name)) {
+                if (this.hasOwnProperty(name)) {
+                    return this[name];
+                } else if (this.attributes.discreet.hasOwnProperty(name)) {
                     return this.attributes.discreet[name];
                 } else if (this.attributes.range.hasOwnProperty(name)) {
 //                    var parsed = parseInt(this.attributes.range[name], 10);
@@ -317,6 +319,8 @@ angular.module('rescour.market', [])
                 switch (this.getAttribute('propertyStatus')) {
                     case 'Marketing':
                         return 'status-marketing' + suffix;
+                    case 'Marketing - Past Due':
+                        return 'status-under' + suffix;
                     case 'Under Contract':
                         return 'status-under' + suffix;
                     case 'Under LOI':
@@ -1213,25 +1217,29 @@ angular.module('rescour.market', [])
                     var defer = $q.defer();
 
                     view.open().then(function (settings) {
-                        var path = $_api.path + '/reports/',
-                            config = angular.extend({
-                                transformRequest: function (data) {
-                                    return data;
-                                }
-                            }, $_api.config),
-                            body = JSON.stringify({
-                                ids: settings.ids,
-                                token: settings.token
-                            });
+                        if (settings) {
+                            var path = $_api.path + '/reports/',
+                                config = angular.extend({
+                                    transformRequest: function (data) {
+                                        return data;
+                                    }
+                                }, $_api.config),
+                                body = JSON.stringify({
+                                    ids: settings.ids,
+                                    token: settings.token
+                                });
 
-                        $http.post(path, body, config).then(
-                            function (response) {
-                                defer.resolve(response);
-                            },
-                            function (response) {
-                                defer.reject(response);
-                            }
-                        );
+                            $http.post(path, body, config).then(
+                                function (response) {
+                                    defer.resolve(response);
+                                },
+                                function (response) {
+                                    defer.reject(response);
+                                }
+                            );
+                        } else {
+                            defer.resolve();
+                        }
                     });
 
                     return defer.promise;

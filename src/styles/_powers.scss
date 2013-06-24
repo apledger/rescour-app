@@ -141,6 +141,10 @@ $lineSpacing: 14px;
       color: $gray;
       text-align: center;
 
+      i {
+        cursor: pointer;
+      }
+
       i.power-logo {
         display: inline-block;
         height: 14px;

@@ -13,6 +13,14 @@
         <div class="span12">
             <table class="table table-bordered">
                 <tbody>
+                <tr ng-show="current.getAttribute('datePosted')">
+                    <td>
+                        <strong>Date Posted</strong>
+                    </td>
+                    <td>
+                        {{current.getAttribute('datePosted')*1000 | date}}
+                    </td>
+                </tr>
                 <tr>
                     <td>
                         <strong>Property Status</strong>

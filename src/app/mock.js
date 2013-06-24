@@ -109,7 +109,7 @@ angular.module('rescour.app.mock', ['rescour.app', 'ngMockE2E'])
             'Capstone',
             'Brown Realty'
         ];
-        var statusMap = ['Marketing', 'Under Contract', 'Under LOI', 'Expired'];
+        var statusMap = ['Marketing', 'Under Contract', 'Under LOI', 'Expired', 'Marketing - Past Due', 'Sold'];
         var generateDetails = function (options) {
             var details = [
                 {
@@ -269,18 +269,6 @@ angular.module('rescour.app.mock', ['rescour.app', 'ngMockE2E'])
                     },
                     {
                         link: '/img/apartment-details-2.jpg',
-                        caption: 'This is the second picture'
-                    },
-                    {
-                        link: 'http://placehold.it/300x600.jpg',
-                        caption: 'This is the second picture'
-                    },
-                    {
-                        link: 'http://placehold.it/750x300.jpg',
-                        caption: 'This is the second picture'
-                    },
-                    {
-                        link: 'http://placehold.it/400x400.jpg',
                         caption: 'This is the second picture'
                     }
                 ],

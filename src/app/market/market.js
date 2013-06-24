@@ -220,13 +220,13 @@ angular.module('rescour.app')
     controller("ListController", ['$scope', 'PropertyDetails', 'Items', 'Reports',
         function ($scope, PropertyDetails, Items, Reports) {
             $scope.sortBy = {
-                predicate: 'datePosted',
+                predicate: '',
                 reverse: false
             };
 
             function sortBy() {
                 if ($scope.sortBy.predicate === this.key) {
-                    $scope.sortBy.reverse = !$scope.reverse;
+                    $scope.sortBy.reverse = !$scope.sortBy.reverse;
                 } else {
                     $scope.sortBy.reverse = false;
                     $scope.sortBy.predicate = this.key;

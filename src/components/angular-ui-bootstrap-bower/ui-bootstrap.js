@@ -1464,6 +1464,9 @@ angular.module('ui.bootstrap.tooltip', [])
                 element.bind('mouseleave', function () {
                     scope.$apply(hide);
                 });
+                scope.$on('destroyTooltips', function () {
+                    hide();
+                });
             }
         };
     }]);

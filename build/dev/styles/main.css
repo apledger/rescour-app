@@ -4606,7 +4606,7 @@ input[type="submit"].btn.btn-mini {
   margin-left: -1px;
 }
 
-/* line 210, ../../src/styles/_rescour_variables.scss */
+/* line 194, ../../src/styles/_rescour_variables.scss */
 .status-expired-gradient {
   color: white;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
@@ -4635,7 +4635,7 @@ input[type="submit"].btn.btn-mini {
   background-color: #5d1d14 \9;
 }
 
-/* line 214, ../../src/styles/_rescour_variables.scss */
+/* line 198, ../../src/styles/_rescour_variables.scss */
 .status-marketing-gradient {
   color: white;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
@@ -4664,7 +4664,7 @@ input[type="submit"].btn.btn-mini {
   background-color: #3c7b49 \9;
 }
 
-/* line 218, ../../src/styles/_rescour_variables.scss */
+/* line 202, ../../src/styles/_rescour_variables.scss */
 .status-under-gradient {
   color: white;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
@@ -4693,7 +4693,7 @@ input[type="submit"].btn.btn-mini {
   background-color: #d04209 \9;
 }
 
-/* line 222, ../../src/styles/_rescour_variables.scss */
+/* line 206, ../../src/styles/_rescour_variables.scss */
 .status-unknown-gradient {
   color: white;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
@@ -4722,22 +4722,22 @@ input[type="submit"].btn.btn-mini {
   background-color: #0d0d0d \9;
 }
 
-/* line 227, ../../src/styles/_rescour_variables.scss */
+/* line 211, ../../src/styles/_rescour_variables.scss */
 .status-expired-solid {
   background: #9c3022 !important;
 }
 
-/* line 231, ../../src/styles/_rescour_variables.scss */
+/* line 215, ../../src/styles/_rescour_variables.scss */
 .status-marketing-solid {
   background: #468847 !important;
 }
 
-/* line 235, ../../src/styles/_rescour_variables.scss */
+/* line 219, ../../src/styles/_rescour_variables.scss */
 .status-under-solid {
   background: #f66930 !important;
 }
 
-/* line 239, ../../src/styles/_rescour_variables.scss */
+/* line 223, ../../src/styles/_rescour_variables.scss */
 .status-unknown-solid {
   background: #333333 !important;
 }
@@ -5625,7 +5625,7 @@ a.label:hover, a.badge:hover {
   box-sizing: border-box;
 }
 
-/* line 210, ../../src/styles/_rescour_variables.scss */
+/* line 194, ../../src/styles/_rescour_variables.scss */
 .status-expired-gradient {
   color: white;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
@@ -5654,7 +5654,7 @@ a.label:hover, a.badge:hover {
   background-color: #5d1d14 \9;
 }
 
-/* line 214, ../../src/styles/_rescour_variables.scss */
+/* line 198, ../../src/styles/_rescour_variables.scss */
 .status-marketing-gradient {
   color: white;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
@@ -5683,7 +5683,7 @@ a.label:hover, a.badge:hover {
   background-color: #3c7b49 \9;
 }
 
-/* line 218, ../../src/styles/_rescour_variables.scss */
+/* line 202, ../../src/styles/_rescour_variables.scss */
 .status-under-gradient {
   color: white;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
@@ -5712,7 +5712,7 @@ a.label:hover, a.badge:hover {
   background-color: #d04209 \9;
 }
 
-/* line 222, ../../src/styles/_rescour_variables.scss */
+/* line 206, ../../src/styles/_rescour_variables.scss */
 .status-unknown-gradient {
   color: white;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
@@ -5741,22 +5741,22 @@ a.label:hover, a.badge:hover {
   background-color: #0d0d0d \9;
 }
 
-/* line 227, ../../src/styles/_rescour_variables.scss */
+/* line 211, ../../src/styles/_rescour_variables.scss */
 .status-expired-solid {
   background: #9c3022 !important;
 }
 
-/* line 231, ../../src/styles/_rescour_variables.scss */
+/* line 215, ../../src/styles/_rescour_variables.scss */
 .status-marketing-solid {
   background: #468847 !important;
 }
 
-/* line 235, ../../src/styles/_rescour_variables.scss */
+/* line 219, ../../src/styles/_rescour_variables.scss */
 .status-under-solid {
   background: #f66930 !important;
 }
 
-/* line 239, ../../src/styles/_rescour_variables.scss */
+/* line 223, ../../src/styles/_rescour_variables.scss */
 .status-unknown-solid {
   background: #333333 !important;
 }
@@ -5774,22 +5774,6 @@ a.label:hover, a.badge:hover {
   bottom: 0;
 }
 /* line 31, ../../src/styles/_rescour_variables.scss */
-.property-details.status-expired .nav-tabs > li {
-  background: #9c3022;
-}
-/* line 35, ../../src/styles/_rescour_variables.scss */
-.property-details.status-marketing .nav-tabs > li {
-  background: #468847;
-}
-/* line 39, ../../src/styles/_rescour_variables.scss */
-.property-details.status-under .nav-tabs > li {
-  background: #f66930;
-}
-/* line 43, ../../src/styles/_rescour_variables.scss */
-.property-details.status-unknown .nav-tabs > li {
-  background: #333333;
-}
-/* line 47, ../../src/styles/_rescour_variables.scss */
 .property-details .tabbable {
   -webkit-box-shadow: 0px 0px 1px 1px rgba(80, 84, 92, 0.09804), 0px 1px 2px 0px rgba(80, 84, 92, 0.49804);
   -moz-box-shadow: 0px 0px 1px 1px rgba(80, 84, 92, 0.09804), 0px 1px 2px 0px rgba(80, 84, 92, 0.49804);
@@ -5803,11 +5787,11 @@ a.label:hover, a.badge:hover {
   border-radius: 5px;
   background: white;
 }
-/* line 56, ../../src/styles/_rescour_variables.scss */
+/* line 40, ../../src/styles/_rescour_variables.scss */
 .property-details .tabbable .tab-content {
   overflow: visible;
 }
-/* line 60, ../../src/styles/_rescour_variables.scss */
+/* line 44, ../../src/styles/_rescour_variables.scss */
 .property-details .tabbable .nav-tabs {
   background-color: #f1f1f1;
   background-image: -moz-linear-gradient(top, #fbfbfb, #e1e1e1);
@@ -5825,11 +5809,11 @@ a.label:hover, a.badge:hover {
   -moz-border-radius-topright: 5px;
   border-top-right-radius: 5px;
 }
-/* line 66, ../../src/styles/_rescour_variables.scss */
+/* line 50, ../../src/styles/_rescour_variables.scss */
 .property-details .tabbable .nav-tabs > li {
   border-right: 1px solid #bbbbbb;
 }
-/* line 69, ../../src/styles/_rescour_variables.scss */
+/* line 53, ../../src/styles/_rescour_variables.scss */
 .property-details .tabbable .nav-tabs > li > a {
   background-color: #f1f1f1;
   background-image: -moz-linear-gradient(top, #fbfbfb, #e1e1e1);
@@ -5852,7 +5836,7 @@ a.label:hover, a.badge:hover {
   border-bottom: 1px solid #bbbbbb;
   text-shadow: white 2px 1px 0px;
 }
-/* line 82, ../../src/styles/_rescour_variables.scss */
+/* line 66, ../../src/styles/_rescour_variables.scss */
 .property-details .tabbable .nav-tabs > li > a:hover {
   background-color: #eeeeee;
   background-image: -moz-linear-gradient(top, #eeeeee, #eeeeee);
@@ -5863,7 +5847,7 @@ a.label:hover, a.badge:hover {
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ebebeb', endColorstr='#ebebeb', GradientType=0);
 }
-/* line 87, ../../src/styles/_rescour_variables.scss */
+/* line 71, ../../src/styles/_rescour_variables.scss */
 .property-details .tabbable .nav-tabs > .active > a, .property-details .tabbable .nav-tabs > .active > a:hover {
   -webkit-transform: translate(0, 5px);
   -moz-transform: translate(0, 5px);
@@ -5884,77 +5868,116 @@ a.label:hover, a.badge:hover {
   -o-transition: all 0.3s ease;
   transition: all 0.3s ease;
 }
-/* line 94, ../../src/styles/_rescour_variables.scss */
+/* line 78, ../../src/styles/_rescour_variables.scss */
 .property-details .tabbable .nav-tabs > li.active {
   border-right: 1px solid #bbbbbb;
 }
-/* line 96, ../../src/styles/_rescour_variables.scss */
+/* line 80, ../../src/styles/_rescour_variables.scss */
 .property-details .tabbable .nav-tabs > li.active:first-child {
   -webkit-border-top-left-radius: 5px;
   -moz-border-radius-topleft: 5px;
   border-top-left-radius: 5px;
   border-left: none;
 }
-/* line 105, ../../src/styles/_rescour_variables.scss */
+/* line 89, ../../src/styles/_rescour_variables.scss */
 .property-details .tab-content {
   margin-top: 5px;
 }
 /* line 15, ../../src/app/market/desktop/styles/_details.scss */
+.property-details blockquote, .property-details blockquote:hover {
+  -webkit-transition: border-color 0.2s ease;
+  -moz-transition: border-color 0.2s ease;
+  -o-transition: border-color 0.2s ease;
+  transition: border-color 0.2s ease;
+}
+/* line 20, ../../src/app/market/desktop/styles/_details.scss */
+.property-details.status-expired .nav-tabs > li {
+  background: #9c3022;
+}
+/* line 23, ../../src/app/market/desktop/styles/_details.scss */
+.property-details.status-expired blockquote:hover {
+  border-left-color: #9c3022;
+}
+/* line 29, ../../src/app/market/desktop/styles/_details.scss */
+.property-details.status-marketing .nav-tabs > li {
+  background: #468847;
+}
+/* line 32, ../../src/app/market/desktop/styles/_details.scss */
+.property-details.status-marketing blockquote:hover {
+  border-left-color: #468847;
+}
+/* line 38, ../../src/app/market/desktop/styles/_details.scss */
+.property-details.status-under .nav-tabs > li {
+  background: #f66930;
+}
+/* line 41, ../../src/app/market/desktop/styles/_details.scss */
+.property-details.status-under blockquote:hover {
+  border-left-color: #f66930;
+}
+/* line 47, ../../src/app/market/desktop/styles/_details.scss */
+.property-details.status-unknown .nav-tabs > li {
+  background: #333333;
+}
+/* line 50, ../../src/app/market/desktop/styles/_details.scss */
+.property-details.status-unknown blockquote:hover {
+  border-left-color: #333333;
+}
+/* line 55, ../../src/app/market/desktop/styles/_details.scss */
 .property-details .page-header {
   margin: 20px 20px 30px;
 }
-/* line 17, ../../src/app/market/desktop/styles/_details.scss */
+/* line 57, ../../src/app/market/desktop/styles/_details.scss */
 .property-details .page-header .btn {
   margin-top: 10px;
 }
-/* line 21, ../../src/app/market/desktop/styles/_details.scss */
+/* line 61, ../../src/app/market/desktop/styles/_details.scss */
 .property-details .page-header h4 {
   font-weight: normal;
 }
-/* line 27, ../../src/app/market/desktop/styles/_details.scss */
+/* line 67, ../../src/app/market/desktop/styles/_details.scss */
 .property-details .comment-alert span {
   float: right;
   font-size: 13px;
 }
-/* line 31, ../../src/app/market/desktop/styles/_details.scss */
+/* line 71, ../../src/app/market/desktop/styles/_details.scss */
 .property-details .comment-alert p {
   overflow-wrap: break-word;
 }
-/* line 36, ../../src/app/market/desktop/styles/_details.scss */
+/* line 76, ../../src/app/market/desktop/styles/_details.scss */
 .property-details .form-actions {
   background: none;
 }
 
-/* line 44, ../../src/app/market/desktop/styles/_details.scss */
+/* line 85, ../../src/app/market/desktop/styles/_details.scss */
 .picture-container {
   min-height: 420px;
   position: relative;
 }
-/* line 48, ../../src/app/market/desktop/styles/_details.scss */
+/* line 89, ../../src/app/market/desktop/styles/_details.scss */
 .picture-container table {
   margin: 0 auto;
   min-height: 400px;
 }
-/* line 52, ../../src/app/market/desktop/styles/_details.scss */
+/* line 93, ../../src/app/market/desktop/styles/_details.scss */
 .picture-container table td {
   vertical-align: center;
   text-align: center;
 }
-/* line 57, ../../src/app/market/desktop/styles/_details.scss */
+/* line 98, ../../src/app/market/desktop/styles/_details.scss */
 .picture-container table .viewer-inner {
   position: relative;
   height: 400px;
   width: 100%;
   text-align: center;
 }
-/* line 63, ../../src/app/market/desktop/styles/_details.scss */
+/* line 104, ../../src/app/market/desktop/styles/_details.scss */
 .picture-container table .viewer-inner img {
   position: relative;
   max-height: 400px !important;
   max-width: 100%;
   vertical-align: middle !important;
 }
-/* line 73, ../../src/app/market/desktop/styles/_details.scss */
+/* line 114, ../../src/app/market/desktop/styles/_details.scss */
 .picture-container .counter {
   position: absolute;
   top: 10px;
@@ -5973,12 +5996,12 @@ a.label:hover, a.badge:hover {
   border-radius: 23px;
   opacity: 0.7;
 }
-/* line 89, ../../src/app/market/desktop/styles/_details.scss */
+/* line 130, ../../src/app/market/desktop/styles/_details.scss */
 .picture-container .counter:hover {
   opacity: 0.8;
   cursor: default;
 }
-/* line 95, ../../src/app/market/desktop/styles/_details.scss */
+/* line 136, ../../src/app/market/desktop/styles/_details.scss */
 .picture-container .viewer-control {
   position: absolute;
   top: 0px;
@@ -5994,7 +6017,7 @@ a.label:hover, a.badge:hover {
   opacity: 0.75;
   filter: alpha(opacity=75);
 }
-/* line 107, ../../src/app/market/desktop/styles/_details.scss */
+/* line 148, ../../src/app/market/desktop/styles/_details.scss */
 .picture-container .viewer-control i {
   position: absolute;
   top: 50%;
@@ -6002,45 +6025,45 @@ a.label:hover, a.badge:hover {
   margin-top: -20px;
   margin-left: -6px;
 }
-/* line 115, ../../src/app/market/desktop/styles/_details.scss */
+/* line 156, ../../src/app/market/desktop/styles/_details.scss */
 .picture-container .viewer-control.left {
   left: 15px;
 }
-/* line 119, ../../src/app/market/desktop/styles/_details.scss */
+/* line 160, ../../src/app/market/desktop/styles/_details.scss */
 .picture-container .viewer-control.right {
   right: 15px;
 }
-/* line 124, ../../src/app/market/desktop/styles/_details.scss */
+/* line 165, ../../src/app/market/desktop/styles/_details.scss */
 .picture-container .viewer-control:hover {
   text-decoration: none;
   background: #5f5f5f;
   cursor: pointer;
 }
-/* line 129, ../../src/app/market/desktop/styles/_details.scss */
+/* line 170, ../../src/app/market/desktop/styles/_details.scss */
 .picture-container .viewer-control:hover i {
   color: white;
 }
 
-/* line 136, ../../src/app/market/desktop/styles/_details.scss */
+/* line 177, ../../src/app/market/desktop/styles/_details.scss */
 .contact-selected strong {
   color: #0088cc;
 }
 
-/* line 141, ../../src/app/market/desktop/styles/_details.scss */
+/* line 182, ../../src/app/market/desktop/styles/_details.scss */
 .well.contact {
   cursor: pointer;
 }
 
-/* line 146, ../../src/app/market/desktop/styles/_details.scss */
+/* line 187, ../../src/app/market/desktop/styles/_details.scss */
 .contact-form .controls {
   margin: 0 0 30px;
 }
-/* line 149, ../../src/app/market/desktop/styles/_details.scss */
+/* line 190, ../../src/app/market/desktop/styles/_details.scss */
 .contact-form .checkbox {
   cursor: pointer;
 }
 
-/* line 156, ../../src/app/market/desktop/styles/_details.scss */
+/* line 197, ../../src/app/market/desktop/styles/_details.scss */
 .finance-container .control-group .finance-delete {
   font-size: 16px;
   line-height: 30px;
@@ -6052,11 +6075,11 @@ a.label:hover, a.badge:hover {
   height: 30px;
   margin-right: 10px;
 }
-/* line 167, ../../src/app/market/desktop/styles/_details.scss */
+/* line 208, ../../src/app/market/desktop/styles/_details.scss */
 .finance-container .control-group .finance-delete:hover {
   color: #481610;
 }
-/* line 172, ../../src/app/market/desktop/styles/_details.scss */
+/* line 213, ../../src/app/market/desktop/styles/_details.scss */
 .finance-container .control-group:hover .finance-delete {
   color: #9c3022;
   -webkit-transition: all 0.4s ease-in;
@@ -6064,21 +6087,21 @@ a.label:hover, a.badge:hover {
   -o-transition: all 0.4s ease-in;
   transition: all 0.4s ease-in;
 }
-/* line 178, ../../src/app/market/desktop/styles/_details.scss */
+/* line 219, ../../src/app/market/desktop/styles/_details.scss */
 .finance-container .control-label {
   position: relative;
   text-align: left;
   padding-top: 0;
   width: auto;
 }
-/* line 185, ../../src/app/market/desktop/styles/_details.scss */
+/* line 226, ../../src/app/market/desktop/styles/_details.scss */
 .finance-container .control-spinner {
   display: inline-block;
   width: 10px;
   height: 10px;
   margin-left: 20px;
 }
-/* line 192, ../../src/app/market/desktop/styles/_details.scss */
+/* line 233, ../../src/app/market/desktop/styles/_details.scss */
 .finance-container .edit-label {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
@@ -6088,11 +6111,11 @@ a.label:hover, a.badge:hover {
   width: 150px;
   margin-right: 10px;
 }
-/* line 200, ../../src/app/market/desktop/styles/_details.scss */
+/* line 241, ../../src/app/market/desktop/styles/_details.scss */
 .finance-container .edit-label:hover {
   background: rgba(0, 0, 0, 0.1);
 }
-/* line 204, ../../src/app/market/desktop/styles/_details.scss */
+/* line 245, ../../src/app/market/desktop/styles/_details.scss */
 .finance-container .edit-label:focus {
   font-weight: normal;
   background-color: white !important;
@@ -6105,26 +6128,26 @@ a.label:hover, a.badge:hover {
   -o-transition: border linear 0.2s, box-shadow linear 0.2s;
   transition: border linear 0.2s, box-shadow linear 0.2s;
 }
-/* line 212, ../../src/app/market/desktop/styles/_details.scss */
+/* line 253, ../../src/app/market/desktop/styles/_details.scss */
 .finance-container .edit-label ~ i {
   position: absolute;
   top: 5px;
   right: 15px;
   color: transparent;
 }
-/* line 219, ../../src/app/market/desktop/styles/_details.scss */
+/* line 260, ../../src/app/market/desktop/styles/_details.scss */
 .finance-container .edit-label:hover ~ i {
   color: rgba(0, 0, 0, 0.55);
 }
-/* line 223, ../../src/app/market/desktop/styles/_details.scss */
+/* line 264, ../../src/app/market/desktop/styles/_details.scss */
 .finance-container .edit-label:focus ~ i {
   color: transparent;
 }
-/* line 228, ../../src/app/market/desktop/styles/_details.scss */
+/* line 269, ../../src/app/market/desktop/styles/_details.scss */
 .finance-container select {
   width: 60px;
 }
-/* line 232, ../../src/app/market/desktop/styles/_details.scss */
+/* line 273, ../../src/app/market/desktop/styles/_details.scss */
 .finance-container .form-actions {
   padding-left: 20px;
 }
@@ -7203,13 +7226,13 @@ ul {
   transition: all 1s ease;
   margin-top: 30px;
 }
-/* line 120, ../../src/styles/_rescour_variables.scss */
+/* line 104, ../../src/styles/_rescour_variables.scss */
 .plan-basic h2 {
   text-align: center;
   font-size: 32px;
   margin: 20px;
 }
-/* line 126, ../../src/styles/_rescour_variables.scss */
+/* line 110, ../../src/styles/_rescour_variables.scss */
 .plan-basic .price {
   position: relative;
   width: 100px;
@@ -7220,47 +7243,47 @@ ul {
   background-color: #3d773e;
   margin: 0 auto;
 }
-/* line 134, ../../src/styles/_rescour_variables.scss */
+/* line 118, ../../src/styles/_rescour_variables.scss */
 .plan-basic .price .amount {
   position: relative;
   line-height: 90px;
   text-align: center;
 }
-/* line 139, ../../src/styles/_rescour_variables.scss */
+/* line 123, ../../src/styles/_rescour_variables.scss */
 .plan-basic .price .amount .currency {
   position: absolute;
   top: -3px;
   left: 14px;
   font-size: 16px;
 }
-/* line 146, ../../src/styles/_rescour_variables.scss */
+/* line 130, ../../src/styles/_rescour_variables.scss */
 .plan-basic .price .amount .currency-amount {
   text-align: center;
   display: inline-block;
   font-size: 28px;
   font-weight: bold;
 }
-/* line 153, ../../src/styles/_rescour_variables.scss */
+/* line 137, ../../src/styles/_rescour_variables.scss */
 .plan-basic .price .amount .period {
   font-size: 14px;
   position: absolute;
   top: 23px;
   left: 30px;
 }
-/* line 162, ../../src/styles/_rescour_variables.scss */
+/* line 146, ../../src/styles/_rescour_variables.scss */
 .plan-basic ul {
   margin: 15px 0 0 0 !important;
   text-align: center;
 }
-/* line 166, ../../src/styles/_rescour_variables.scss */
+/* line 150, ../../src/styles/_rescour_variables.scss */
 .plan-basic ul li {
   padding: 3px;
 }
-/* line 169, ../../src/styles/_rescour_variables.scss */
+/* line 153, ../../src/styles/_rescour_variables.scss */
 .plan-basic ul li.plan-action {
   margin: 30px 0;
 }
-/* line 175, ../../src/styles/_rescour_variables.scss */
+/* line 159, ../../src/styles/_rescour_variables.scss */
 .plan-basic:hover {
   background-color: #7aba7b;
   border: 10px #58a959 solid;
@@ -7269,7 +7292,7 @@ ul {
   -o-transition: all 1s ease;
   transition: all 1s ease;
 }
-/* line 180, ../../src/styles/_rescour_variables.scss */
+/* line 164, ../../src/styles/_rescour_variables.scss */
 .plan-basic .plan-submit {
   color: white;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
@@ -7299,7 +7322,7 @@ ul {
 .plan-basic .plan-submit:active, .plan-basic .plan-submit.active {
   background-color: #122312 \9;
 }
-/* line 185, ../../src/styles/_rescour_variables.scss */
+/* line 169, ../../src/styles/_rescour_variables.scss */
 .plan-basic .plan-submit.plan-cancel {
   color: white;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
@@ -7342,13 +7365,13 @@ ul {
   transition: all 1s ease;
   margin-top: 30px;
 }
-/* line 120, ../../src/styles/_rescour_variables.scss */
+/* line 104, ../../src/styles/_rescour_variables.scss */
 .plan-group h2 {
   text-align: center;
   font-size: 32px;
   margin: 20px;
 }
-/* line 126, ../../src/styles/_rescour_variables.scss */
+/* line 110, ../../src/styles/_rescour_variables.scss */
 .plan-group .price {
   position: relative;
   width: 100px;
@@ -7359,47 +7382,47 @@ ul {
   background-color: #525252;
   margin: 0 auto;
 }
-/* line 134, ../../src/styles/_rescour_variables.scss */
+/* line 118, ../../src/styles/_rescour_variables.scss */
 .plan-group .price .amount {
   position: relative;
   line-height: 90px;
   text-align: center;
 }
-/* line 139, ../../src/styles/_rescour_variables.scss */
+/* line 123, ../../src/styles/_rescour_variables.scss */
 .plan-group .price .amount .currency {
   position: absolute;
   top: -3px;
   left: 14px;
   font-size: 16px;
 }
-/* line 146, ../../src/styles/_rescour_variables.scss */
+/* line 130, ../../src/styles/_rescour_variables.scss */
 .plan-group .price .amount .currency-amount {
   text-align: center;
   display: inline-block;
   font-size: 28px;
   font-weight: bold;
 }
-/* line 153, ../../src/styles/_rescour_variables.scss */
+/* line 137, ../../src/styles/_rescour_variables.scss */
 .plan-group .price .amount .period {
   font-size: 14px;
   position: absolute;
   top: 23px;
   left: 30px;
 }
-/* line 162, ../../src/styles/_rescour_variables.scss */
+/* line 146, ../../src/styles/_rescour_variables.scss */
 .plan-group ul {
   margin: 15px 0 0 0 !important;
   text-align: center;
 }
-/* line 166, ../../src/styles/_rescour_variables.scss */
+/* line 150, ../../src/styles/_rescour_variables.scss */
 .plan-group ul li {
   padding: 3px;
 }
-/* line 169, ../../src/styles/_rescour_variables.scss */
+/* line 153, ../../src/styles/_rescour_variables.scss */
 .plan-group ul li.plan-action {
   margin: 30px 0;
 }
-/* line 175, ../../src/styles/_rescour_variables.scss */
+/* line 159, ../../src/styles/_rescour_variables.scss */
 .plan-group:hover {
   background-color: #929292;
   border: 10px #797979 solid;
@@ -7408,7 +7431,7 @@ ul {
   -o-transition: all 1s ease;
   transition: all 1s ease;
 }
-/* line 180, ../../src/styles/_rescour_variables.scss */
+/* line 164, ../../src/styles/_rescour_variables.scss */
 .plan-group .plan-submit {
   color: white;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
@@ -7438,7 +7461,7 @@ ul {
 .plan-group .plan-submit:active, .plan-group .plan-submit.active {
   background-color: #131313 \9;
 }
-/* line 185, ../../src/styles/_rescour_variables.scss */
+/* line 169, ../../src/styles/_rescour_variables.scss */
 .plan-group .plan-submit.plan-cancel {
   color: white;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
@@ -7481,13 +7504,13 @@ ul {
   transition: all 1s ease;
   margin-top: 30px;
 }
-/* line 120, ../../src/styles/_rescour_variables.scss */
+/* line 104, ../../src/styles/_rescour_variables.scss */
 .plan-enterprise h2 {
   text-align: center;
   font-size: 32px;
   margin: 20px;
 }
-/* line 126, ../../src/styles/_rescour_variables.scss */
+/* line 110, ../../src/styles/_rescour_variables.scss */
 .plan-enterprise .price {
   position: relative;
   width: 100px;
@@ -7498,47 +7521,47 @@ ul {
   background-color: #525252;
   margin: 0 auto;
 }
-/* line 134, ../../src/styles/_rescour_variables.scss */
+/* line 118, ../../src/styles/_rescour_variables.scss */
 .plan-enterprise .price .amount {
   position: relative;
   line-height: 90px;
   text-align: center;
 }
-/* line 139, ../../src/styles/_rescour_variables.scss */
+/* line 123, ../../src/styles/_rescour_variables.scss */
 .plan-enterprise .price .amount .currency {
   position: absolute;
   top: -3px;
   left: 14px;
   font-size: 16px;
 }
-/* line 146, ../../src/styles/_rescour_variables.scss */
+/* line 130, ../../src/styles/_rescour_variables.scss */
 .plan-enterprise .price .amount .currency-amount {
   text-align: center;
   display: inline-block;
   font-size: 28px;
   font-weight: bold;
 }
-/* line 153, ../../src/styles/_rescour_variables.scss */
+/* line 137, ../../src/styles/_rescour_variables.scss */
 .plan-enterprise .price .amount .period {
   font-size: 14px;
   position: absolute;
   top: 23px;
   left: 30px;
 }
-/* line 162, ../../src/styles/_rescour_variables.scss */
+/* line 146, ../../src/styles/_rescour_variables.scss */
 .plan-enterprise ul {
   margin: 15px 0 0 0 !important;
   text-align: center;
 }
-/* line 166, ../../src/styles/_rescour_variables.scss */
+/* line 150, ../../src/styles/_rescour_variables.scss */
 .plan-enterprise ul li {
   padding: 3px;
 }
-/* line 169, ../../src/styles/_rescour_variables.scss */
+/* line 153, ../../src/styles/_rescour_variables.scss */
 .plan-enterprise ul li.plan-action {
   margin: 30px 0;
 }
-/* line 175, ../../src/styles/_rescour_variables.scss */
+/* line 159, ../../src/styles/_rescour_variables.scss */
 .plan-enterprise:hover {
   background-color: #929292;
   border: 10px #797979 solid;
@@ -7547,7 +7570,7 @@ ul {
   -o-transition: all 1s ease;
   transition: all 1s ease;
 }
-/* line 180, ../../src/styles/_rescour_variables.scss */
+/* line 164, ../../src/styles/_rescour_variables.scss */
 .plan-enterprise .plan-submit {
   color: white;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
@@ -7577,7 +7600,7 @@ ul {
 .plan-enterprise .plan-submit:active, .plan-enterprise .plan-submit.active {
   background-color: #131313 \9;
 }
-/* line 185, ../../src/styles/_rescour_variables.scss */
+/* line 169, ../../src/styles/_rescour_variables.scss */
 .plan-enterprise .plan-submit.plan-cancel {
   color: white;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
@@ -7620,13 +7643,13 @@ ul {
   transition: all 1s ease;
   margin-top: 30px;
 }
-/* line 120, ../../src/styles/_rescour_variables.scss */
+/* line 104, ../../src/styles/_rescour_variables.scss */
 .plan-unlimited h2 {
   text-align: center;
   font-size: 32px;
   margin: 20px;
 }
-/* line 126, ../../src/styles/_rescour_variables.scss */
+/* line 110, ../../src/styles/_rescour_variables.scss */
 .plan-unlimited .price {
   position: relative;
   width: 100px;
@@ -7637,47 +7660,47 @@ ul {
   background-color: #525252;
   margin: 0 auto;
 }
-/* line 134, ../../src/styles/_rescour_variables.scss */
+/* line 118, ../../src/styles/_rescour_variables.scss */
 .plan-unlimited .price .amount {
   position: relative;
   line-height: 90px;
   text-align: center;
 }
-/* line 139, ../../src/styles/_rescour_variables.scss */
+/* line 123, ../../src/styles/_rescour_variables.scss */
 .plan-unlimited .price .amount .currency {
   position: absolute;
   top: -3px;
   left: 14px;
   font-size: 16px;
 }
-/* line 146, ../../src/styles/_rescour_variables.scss */
+/* line 130, ../../src/styles/_rescour_variables.scss */
 .plan-unlimited .price .amount .currency-amount {
   text-align: center;
   display: inline-block;
   font-size: 28px;
   font-weight: bold;
 }
-/* line 153, ../../src/styles/_rescour_variables.scss */
+/* line 137, ../../src/styles/_rescour_variables.scss */
 .plan-unlimited .price .amount .period {
   font-size: 14px;
   position: absolute;
   top: 23px;
   left: 30px;
 }
-/* line 162, ../../src/styles/_rescour_variables.scss */
+/* line 146, ../../src/styles/_rescour_variables.scss */
 .plan-unlimited ul {
   margin: 15px 0 0 0 !important;
   text-align: center;
 }
-/* line 166, ../../src/styles/_rescour_variables.scss */
+/* line 150, ../../src/styles/_rescour_variables.scss */
 .plan-unlimited ul li {
   padding: 3px;
 }
-/* line 169, ../../src/styles/_rescour_variables.scss */
+/* line 153, ../../src/styles/_rescour_variables.scss */
 .plan-unlimited ul li.plan-action {
   margin: 30px 0;
 }
-/* line 175, ../../src/styles/_rescour_variables.scss */
+/* line 159, ../../src/styles/_rescour_variables.scss */
 .plan-unlimited:hover {
   background-color: #929292;
   border: 10px #797979 solid;
@@ -7686,7 +7709,7 @@ ul {
   -o-transition: all 1s ease;
   transition: all 1s ease;
 }
-/* line 180, ../../src/styles/_rescour_variables.scss */
+/* line 164, ../../src/styles/_rescour_variables.scss */
 .plan-unlimited .plan-submit {
   color: white;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
@@ -7716,7 +7739,7 @@ ul {
 .plan-unlimited .plan-submit:active, .plan-unlimited .plan-submit.active {
   background-color: #131313 \9;
 }
-/* line 185, ../../src/styles/_rescour_variables.scss */
+/* line 169, ../../src/styles/_rescour_variables.scss */
 .plan-unlimited .plan-submit.plan-cancel {
   color: white;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
@@ -7940,13 +7963,13 @@ input:focus, textarea:focus {
   display: inline;
 }
 
-/* line 41, ../../src/styles/_powers.scss */
+/* line 40, ../../src/styles/_powers.scss */
 .powers {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   width: 100%;
-  min-height: 36px;
+  min-height: 35px;
   position: relative;
   background-color: #eeeeee;
   background-image: -moz-linear-gradient(top, white, #d4d4d4);
@@ -7961,12 +7984,12 @@ input:focus, textarea:focus {
   box-shadow: inset 0 1px 4px rgba(255, 255, 255, 0.2);
   border-bottom: 1px solid #a2a2a2;
 }
-/* line 52, ../../src/styles/_powers.scss */
+/* line 50, ../../src/styles/_powers.scss */
 .powers .power-search {
   position: relative;
   display: inline-block;
 }
-/* line 56, ../../src/styles/_powers.scss */
+/* line 54, ../../src/styles/_powers.scss */
 .powers .power-search input {
   margin: 0;
   padding: 2px 7px;
@@ -7976,7 +7999,7 @@ input:focus, textarea:focus {
   -o-transition: all 0.2 ease-in;
   transition: all 0.2 ease-in;
 }
-/* line 64, ../../src/styles/_powers.scss */
+/* line 62, ../../src/styles/_powers.scss */
 .powers .power {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -7987,7 +8010,7 @@ input:focus, textarea:focus {
   border-left: 0px solid transparent;
   border-top: none !important;
 }
-/* line 72, ../../src/styles/_powers.scss */
+/* line 70, ../../src/styles/_powers.scss */
 .powers .power.green {
   background-color: #488c49;
   background-image: -moz-linear-gradient(top, #4f9950, #3d773e);
@@ -7999,40 +8022,39 @@ input:focus, textarea:focus {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#4d954e', endColorstr='#3c743c', GradientType=0);
   border-left: 1px solid #3a703b !important;
   border-right: 1px solid #3a703b !important;
-  border-bottom: 1px solid #3a703b !important;
 }
-/* line 11, ../../src/styles/_powers.scss */
+/* line 10, ../../src/styles/_powers.scss */
 .powers .power.green:hover, .powers .power.green:active {
   background: #4f9950;
 }
-/* line 14, ../../src/styles/_powers.scss */
+/* line 13, ../../src/styles/_powers.scss */
 .powers .power.green:hover .power-title, .powers .power.green:active .power-title {
   color: white;
 }
-/* line 17, ../../src/styles/_powers.scss */
+/* line 16, ../../src/styles/_powers.scss */
 .powers .power.green:hover .power-title i, .powers .power.green:active .power-title i {
   color: white;
 }
-/* line 23, ../../src/styles/_powers.scss */
+/* line 22, ../../src/styles/_powers.scss */
 .powers .power.green:active, .powers .power.green.open {
   background: #3d773e;
   -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
   -moz-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
 }
-/* line 27, ../../src/styles/_powers.scss */
+/* line 26, ../../src/styles/_powers.scss */
 .powers .power.green:active .power-title, .powers .power.green.open .power-title {
   color: white !important;
 }
-/* line 29, ../../src/styles/_powers.scss */
+/* line 28, ../../src/styles/_powers.scss */
 .powers .power.green:active .power-title i, .powers .power.green.open .power-title i {
   color: white;
 }
-/* line 35, ../../src/styles/_powers.scss */
+/* line 34, ../../src/styles/_powers.scss */
 .powers .power.green .power-title {
   color: white;
 }
-/* line 76, ../../src/styles/_powers.scss */
+/* line 74, ../../src/styles/_powers.scss */
 .powers .power.red {
   background-color: #a13123;
   background-image: -moz-linear-gradient(top, #b13627, #872a1d);
@@ -8044,40 +8066,39 @@ input:focus, textarea:focus {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ad3526', endColorstr='#83281d', GradientType=0);
   border-left: 1px solid #7f271c !important;
   border-right: 1px solid #7f271c !important;
-  border-bottom: 1px solid #7f271c !important;
 }
-/* line 11, ../../src/styles/_powers.scss */
+/* line 10, ../../src/styles/_powers.scss */
 .powers .power.red:hover, .powers .power.red:active {
   background: #b13627;
 }
-/* line 14, ../../src/styles/_powers.scss */
+/* line 13, ../../src/styles/_powers.scss */
 .powers .power.red:hover .power-title, .powers .power.red:active .power-title {
   color: white;
 }
-/* line 17, ../../src/styles/_powers.scss */
+/* line 16, ../../src/styles/_powers.scss */
 .powers .power.red:hover .power-title i, .powers .power.red:active .power-title i {
   color: white;
 }
-/* line 23, ../../src/styles/_powers.scss */
+/* line 22, ../../src/styles/_powers.scss */
 .powers .power.red:active, .powers .power.red.open {
   background: #872a1d;
   -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
   -moz-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
 }
-/* line 27, ../../src/styles/_powers.scss */
+/* line 26, ../../src/styles/_powers.scss */
 .powers .power.red:active .power-title, .powers .power.red.open .power-title {
   color: white !important;
 }
-/* line 29, ../../src/styles/_powers.scss */
+/* line 28, ../../src/styles/_powers.scss */
 .powers .power.red:active .power-title i, .powers .power.red.open .power-title i {
   color: white;
 }
-/* line 35, ../../src/styles/_powers.scss */
+/* line 34, ../../src/styles/_powers.scss */
 .powers .power.red .power-title {
   color: white;
 }
-/* line 80, ../../src/styles/_powers.scss */
+/* line 78, ../../src/styles/_powers.scss */
 .powers .power.orange {
   background-color: #f66d36;
   background-image: -moz-linear-gradient(top, #f77b48, #f55718);
@@ -8089,40 +8110,39 @@ input:focus, textarea:focus {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f77744', endColorstr='#f55413', GradientType=0);
   border-left: 1px solid #f5500e !important;
   border-right: 1px solid #f5500e !important;
-  border-bottom: 1px solid #f5500e !important;
 }
-/* line 11, ../../src/styles/_powers.scss */
+/* line 10, ../../src/styles/_powers.scss */
 .powers .power.orange:hover, .powers .power.orange:active {
   background: #f77b48;
 }
-/* line 14, ../../src/styles/_powers.scss */
+/* line 13, ../../src/styles/_powers.scss */
 .powers .power.orange:hover .power-title, .powers .power.orange:active .power-title {
   color: white;
 }
-/* line 17, ../../src/styles/_powers.scss */
+/* line 16, ../../src/styles/_powers.scss */
 .powers .power.orange:hover .power-title i, .powers .power.orange:active .power-title i {
   color: white;
 }
-/* line 23, ../../src/styles/_powers.scss */
+/* line 22, ../../src/styles/_powers.scss */
 .powers .power.orange:active, .powers .power.orange.open {
   background: #f55718;
   -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
   -moz-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
 }
-/* line 27, ../../src/styles/_powers.scss */
+/* line 26, ../../src/styles/_powers.scss */
 .powers .power.orange:active .power-title, .powers .power.orange.open .power-title {
   color: white !important;
 }
-/* line 29, ../../src/styles/_powers.scss */
+/* line 28, ../../src/styles/_powers.scss */
 .powers .power.orange:active .power-title i, .powers .power.orange.open .power-title i {
   color: white;
 }
-/* line 35, ../../src/styles/_powers.scss */
+/* line 34, ../../src/styles/_powers.scss */
 .powers .power.orange .power-title {
   color: white;
 }
-/* line 84, ../../src/styles/_powers.scss */
+/* line 82, ../../src/styles/_powers.scss */
 .powers .power.blue {
   background-color: #008cd2;
   background-image: -moz-linear-gradient(top, #0099e6, #0077b3);
@@ -8134,85 +8154,84 @@ input:focus, textarea:focus {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0096e0', endColorstr='#0074ad', GradientType=0);
   border-left: 1px solid #0070a8 !important;
   border-right: 1px solid #0070a8 !important;
-  border-bottom: 1px solid #0070a8 !important;
 }
-/* line 11, ../../src/styles/_powers.scss */
+/* line 10, ../../src/styles/_powers.scss */
 .powers .power.blue:hover, .powers .power.blue:active {
   background: #0099e6;
 }
-/* line 14, ../../src/styles/_powers.scss */
+/* line 13, ../../src/styles/_powers.scss */
 .powers .power.blue:hover .power-title, .powers .power.blue:active .power-title {
   color: white;
 }
-/* line 17, ../../src/styles/_powers.scss */
+/* line 16, ../../src/styles/_powers.scss */
 .powers .power.blue:hover .power-title i, .powers .power.blue:active .power-title i {
   color: white;
 }
-/* line 23, ../../src/styles/_powers.scss */
+/* line 22, ../../src/styles/_powers.scss */
 .powers .power.blue:active, .powers .power.blue.open {
   background: #0077b3;
   -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
   -moz-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
 }
-/* line 27, ../../src/styles/_powers.scss */
+/* line 26, ../../src/styles/_powers.scss */
 .powers .power.blue:active .power-title, .powers .power.blue.open .power-title {
   color: white !important;
 }
-/* line 29, ../../src/styles/_powers.scss */
+/* line 28, ../../src/styles/_powers.scss */
 .powers .power.blue:active .power-title i, .powers .power.blue.open .power-title i {
   color: white;
 }
-/* line 35, ../../src/styles/_powers.scss */
+/* line 34, ../../src/styles/_powers.scss */
 .powers .power.blue .power-title {
   color: white;
 }
-/* line 88, ../../src/styles/_powers.scss */
+/* line 86, ../../src/styles/_powers.scss */
 .powers .power.power-right {
   float: right;
   border-left: 1px solid #999999 !important;
   border-right: none !important;
 }
-/* line 93, ../../src/styles/_powers.scss */
+/* line 91, ../../src/styles/_powers.scss */
 .powers .power.power-right .power-menu {
   right: 0;
 }
-/* line 99, ../../src/styles/_powers.scss */
+/* line 97, ../../src/styles/_powers.scss */
 .powers .power.power-left .power-menu {
   left: 0;
 }
-/* line 104, ../../src/styles/_powers.scss */
+/* line 102, ../../src/styles/_powers.scss */
 .powers .power:hover {
   background: #fbfbfb;
 }
-/* line 107, ../../src/styles/_powers.scss */
+/* line 105, ../../src/styles/_powers.scss */
 .powers .power:hover .power-title {
   color: #393939;
 }
-/* line 112, ../../src/styles/_powers.scss */
+/* line 110, ../../src/styles/_powers.scss */
 .powers .power:active, .powers .power.open {
   background: #e1e1e1;
   -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
   -moz-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
 }
-/* line 117, ../../src/styles/_powers.scss */
+/* line 115, ../../src/styles/_powers.scss */
 .powers .power:not(:first-child) {
   margin-left: -4px;
 }
-/* line 122, ../../src/styles/_powers.scss */
+/* line 120, ../../src/styles/_powers.scss */
 .powers .power.open .power-title {
   color: #393939;
 }
-/* line 126, ../../src/styles/_powers.scss */
+/* line 124, ../../src/styles/_powers.scss */
 .powers .power.open .power-menu {
   display: block;
 }
-/* line 130, ../../src/styles/_powers.scss */
+/* line 128, ../../src/styles/_powers.scss */
 .powers .power.open .power-title::after {
   content: '\f106';
 }
-/* line 135, ../../src/styles/_powers.scss */
+/* line 133, ../../src/styles/_powers.scss */
 .powers .power .power-title {
   font-size: 12px;
   padding: 7px 14px;
@@ -8222,13 +8241,17 @@ input:focus, textarea:focus {
   color: #5f5f5f;
   text-align: center;
 }
-/* line 144, ../../src/styles/_powers.scss */
+/* line 142, ../../src/styles/_powers.scss */
+.powers .power .power-title i {
+  cursor: pointer;
+}
+/* line 146, ../../src/styles/_powers.scss */
 .powers .power .power-title i.power-logo {
   display: inline-block;
   height: 14px;
   width: 100px;
 }
-/* line 149, ../../src/styles/_powers.scss */
+/* line 151, ../../src/styles/_powers.scss */
 .powers .power .power-title i.power-logo::after {
   content: '';
   background: url("/img/logo-small.png") no-repeat center;
@@ -8239,7 +8262,7 @@ input:focus, textarea:focus {
   height: 20px;
   width: 100px;
 }
-/* line 161, ../../src/styles/_powers.scss */
+/* line 163, ../../src/styles/_powers.scss */
 .powers .power .power-title.power-icon-dropdown::after {
   font-family: FontAwesome;
   font-weight: normal;
@@ -8250,7 +8273,7 @@ input:focus, textarea:focus {
   content: '\f107';
   padding-left: 7px;
 }
-/* line 173, ../../src/styles/_powers.scss */
+/* line 175, ../../src/styles/_powers.scss */
 .powers .power .power-menu {
   position: absolute;
   display: none;
@@ -8267,41 +8290,41 @@ input:focus, textarea:focus {
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
   padding: 10px 0;
 }
-/* line 185, ../../src/styles/_powers.scss */
+/* line 187, ../../src/styles/_powers.scss */
 .powers .power .power-menu li {
   padding: 5px 15px;
 }
-/* line 188, ../../src/styles/_powers.scss */
+/* line 190, ../../src/styles/_powers.scss */
 .powers .power .power-menu li.active {
   background: #0088cc;
 }
-/* line 191, ../../src/styles/_powers.scss */
+/* line 193, ../../src/styles/_powers.scss */
 .powers .power .power-menu li.active i {
   font-weight: bold;
   color: white;
 }
-/* line 195, ../../src/styles/_powers.scss */
+/* line 197, ../../src/styles/_powers.scss */
 .powers .power .power-menu li.active a {
   font-weight: bold;
   color: white;
 }
-/* line 201, ../../src/styles/_powers.scss */
+/* line 203, ../../src/styles/_powers.scss */
 .powers .power .power-menu li a {
   text-decoration: none;
   color: black;
 }
-/* line 206, ../../src/styles/_powers.scss */
+/* line 208, ../../src/styles/_powers.scss */
 .powers .power .power-menu li i {
   color: #5f5f5f;
   font-size: 12px;
   margin-right: 5px;
 }
-/* line 212, ../../src/styles/_powers.scss */
+/* line 214, ../../src/styles/_powers.scss */
 .powers .power .power-menu li:hover {
   background: #0088cc;
   cursor: pointer;
 }
-/* line 216, ../../src/styles/_powers.scss */
+/* line 218, ../../src/styles/_powers.scss */
 .powers .power .power-menu li:hover a, .powers .power .power-menu li:hover i {
   color: white;
 }

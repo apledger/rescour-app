@@ -6,7 +6,7 @@
     <ul class="power-menu">
         <li ng-repeat="option in power.getOptions() | orderBy:predicate" ng-click="selectOption(option)"
             ng-class="{'active': (option.isSelected && (power.toggle || option.selectable))}">
-            <i class="{{option.icon}}"></i>
+            <i ng-class="option.icon"></i>
             <a href="javascript:">{{option.title}}</a>
         </li>
     </ul>

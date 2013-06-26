@@ -12,6 +12,46 @@ $detailsHeaderColor: $light-gray;
   bottom: 0;
   @include rescourTabs;
 
+  blockquote, blockquote:hover {
+    @include transition(border-color 0.2s ease);
+  }
+
+  &.status-expired {
+    .nav-tabs > li {
+      background: $red;
+    }
+    blockquote:hover {
+      border-left-color: $red;
+    }
+  }
+
+  &.status-marketing {
+    .nav-tabs > li {
+      background: $green;
+    }
+    blockquote:hover {
+      border-left-color: $green;
+    }
+  }
+
+  &.status-under {
+    .nav-tabs > li {
+      background: $orange;
+    }
+    blockquote:hover {
+      border-left-color: $orange;
+    }
+  }
+
+  &.status-unknown {
+    .nav-tabs > li {
+      background: $grayDark;
+    }
+    blockquote:hover {
+      border-left-color: $grayDark;
+    }
+  }
+
   .page-header {
     margin: 20px 20px 30px;
     .btn {
@@ -36,6 +76,7 @@ $detailsHeaderColor: $light-gray;
   .form-actions {
     background: none;
   }
+
 }
 
 

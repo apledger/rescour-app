@@ -37035,6 +37035,9 @@ angular.module('ui.bootstrap.tooltip', [])
                 element.bind('mouseleave', function () {
                     scope.$apply(hide);
                 });
+                scope.$on('destroyTooltips', function () {
+                    hide();
+                });
             }
         };
     }]);
@@ -41592,7 +41595,6 @@ angular.module('rescour.market', [])
                         defer.reject(response);
                         console.log(e.message);
                     }
-
                 }, function (response) {
                     self.details.$spinner = false;
                     defer.reject(response);
@@ -41702,7 +41704,9 @@ angular.module('rescour.market', [])
             };
 
             Item.prototype.getAttribute = function (name) {
-                if (this.attributes.discreet.hasOwnProperty(name)) {
+                if (this.hasOwnProperty(name)) {
+                    return this[name];
+                } else if (this.attributes.discreet.hasOwnProperty(name)) {
                     return this.attributes.discreet[name];
                 } else if (this.attributes.range.hasOwnProperty(name)) {
 //                    var parsed = parseInt(this.attributes.range[name], 10);
@@ -41718,6 +41722,8 @@ angular.module('rescour.market', [])
                 switch (this.getAttribute('propertyStatus')) {
                     case 'Marketing':
                         return 'status-marketing' + suffix;
+                    case 'Marketing - Past Due':
+                        return 'status-under' + suffix;
                     case 'Under Contract':
                         return 'status-under' + suffix;
                     case 'Under LOI':
@@ -42614,25 +42620,29 @@ angular.module('rescour.market', [])
                     var defer = $q.defer();
 
                     view.open().then(function (settings) {
-                        var path = $_api.path + '/reports/',
-                            config = angular.extend({
-                                transformRequest: function (data) {
-                                    return data;
-                                }
-                            }, $_api.config),
-                            body = JSON.stringify({
-                                ids: settings.ids,
-                                token: settings.token
-                            });
+                        if (settings) {
+                            var path = $_api.path + '/reports/',
+                                config = angular.extend({
+                                    transformRequest: function (data) {
+                                        return data;
+                                    }
+                                }, $_api.config),
+                                body = JSON.stringify({
+                                    ids: settings.ids,
+                                    token: settings.token
+                                });
 
-                        $http.post(path, body, config).then(
-                            function (response) {
-                                defer.resolve(response);
-                            },
-                            function (response) {
-                                defer.reject(response);
-                            }
-                        );
+                            $http.post(path, body, config).then(
+                                function (response) {
+                                    defer.resolve(response);
+                                },
+                                function (response) {
+                                    defer.reject(response);
+                                }
+                            );
+                        } else {
+                            defer.resolve();
+                        }
                     });
 
                     return defer.promise;
@@ -43236,6 +43246,7 @@ angular.module('rescour.powers', [])
                     _power.open = function () {
                         scope.$apply(function () {
                             _power.isOpen = true;
+                            scope.$broadcast('destroyTooltips');
                         });
                         $document.bind('click', _power.close);
                     };
@@ -43796,7 +43807,6 @@ angular.module('rescour.app')
             $scope.browser = BrowserDetect;
             $scope.mapPower = {
                 float: 'right',
-//                title: User.profile.email,
                 icon: 'power-logo',
                 options: {
                     'My Account': {
@@ -43964,32 +43974,49 @@ angular.module('rescour.app')
     .
     controller("ListController", ['$scope', 'PropertyDetails', 'Items', 'Reports',
         function ($scope, PropertyDetails, Items, Reports) {
-            $scope.sortBy = "yearBuilt";
+            $scope.sortBy = {
+                predicate: '',
+                reverse: false
+            };
+
+            function sortBy() {
+                if ($scope.sortBy.predicate === this.key) {
+                    $scope.sortBy.reverse = !$scope.sortBy.reverse;
+                } else {
+                    $scope.sortBy.reverse = false;
+                    $scope.sortBy.predicate = this.key;
+
+                    angular.forEach($scope.sortPower.options, function(value, key){
+                      value.icon = 'icon-long-arrow-down'
+                    });
+                }
+
+                $scope.sortPower.icon = this.icon = $scope.sortBy.reverse ? 'icon-long-arrow-up' : 'icon-long-arrow-down';
+            };
 
             $scope.sortPower = {
-                toggle: 'yearBuilt',
-                icon: 'icon-sort-by-order',
+                toggle: true,
+                icon: 'icon-long-arrow-down',
                 options: {
+                    datePosted: {
+                        action: sortBy,
+                        icon: 'icon-long-arrow-down',
+                        title: 'Date Posted'
+                    },
+                    callForOffers: {
+                        action: sortBy,
+                        icon: 'icon-long-arrow-down',
+                        title: 'Call for Offers'
+                    },
                     yearBuilt: {
-                        action: function () {
-                            $scope.sortBy = this.key;
-                        },
-                        icon: 'icon-calendar',
-                        title: 'Year'
+                        action: sortBy,
+                        icon: 'icon-long-arrow-down',
+                        title: 'Year Built'
                     },
                     numUnits: {
-                        action: function () {
-                            $scope.sortBy = this.key;
-                        },
-                        icon: 'icon-building',
-                        title: 'Units'
-                    },
-                    title: {
-                        action: function () {
-                            $scope.sortBy = this.key;
-                        },
-                        icon: 'icon-sort-by-alphabet',
-                        title: 'Title'
+                        action: sortBy,
+                        icon: 'icon-long-arrow-down',
+                        title: 'Number of Units'
                     }
                 }
             };
@@ -44004,6 +44031,11 @@ angular.module('rescour.app')
                 }
             };
 
+            function show () {
+                Items.render(this.key);
+                $scope.showPower.icon = this.icon;
+            };
+
             $scope.showPower = {
                 toggle: 'all',
                 icon: 'icon-list',
@@ -44013,34 +44045,22 @@ angular.module('rescour.app')
                 },
                 options: {
                     all: {
-                        action: function () {
-                            Items.render(this.key);
-                            $scope.showPower.icon = this.icon;
-                        },
+                        action: show,
                         icon: 'icon-list',
                         title: 'All'
                     },
                     'favorites': {
-                        action: function () {
-                            Items.render(this.key);
-                            $scope.showPower.icon = this.icon;
-                        },
+                        action: show,
                         icon: 'icon-star',
                         title: 'Favorites'
                     },
                     'hidden': {
-                        action: function () {
-                            Items.render(this.key);
-                            $scope.showPower.icon = this.icon;
-                        },
+                        action: show,
                         icon: 'icon-ban-circle',
                         title: 'Hidden'
                     },
                     'notes': {
-                        action: function () {
-                            Items.render(this.key);
-                            $scope.showPower.icon = this.icon;
-                        },
+                        action: show,
                         icon: 'icon-pencil',
                         title: 'Notes'
                     }
@@ -44056,21 +44076,16 @@ angular.module('rescour.app')
             };
 
             $scope.orderNA = function () {
-                if ($scope.sortBy === "numUnits" || $scope.sortBy === "yearBuilt") {
-                    return function (object) {
-                        if (object.attributes.range.yearBuilt === 'NA' && object.attributes.range.numUnits === 'NA') {
-                            return 0
-                        } else if (object.attributes.range.yearBuilt === 'NA' || object.attributes.range.numUnits === 'NA') {
-                            return -1;
-                        } else if (object.attributes.range[$scope.sortBy]) {
-                            return -object.attributes.range[$scope.sortBy];
-                        }
-                    };
-                } else {
-                    return function (object) {
-                        return object[$scope.sortBy];
+                return function (object) {
+                    var _attr = object.getAttribute($scope.sortBy.predicate);
+                    if (_attr && _attr !== 'NA') {
+                        return -_attr;
+                    } else if (_attr === 'NA') {
+                        return 9999 * ($scope.sortBy.reverse ? -1 : 1);
+                    } else {
+                        return 0;
                     }
-                }
+                };
             };
 
             $scope.toggleFavorites = function (item) {

@@ -191,7 +191,6 @@ angular.module('rescour.market', [])
                         defer.reject(response);
                         console.log(e.message);
                     }
-
                 }, function (response) {
                     self.details.$spinner = false;
                     defer.reject(response);

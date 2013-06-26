@@ -72,6 +72,7 @@ angular.module('rescour.powers', [])
                     _power.open = function () {
                         scope.$apply(function () {
                             _power.isOpen = true;
+                            scope.$broadcast('destroyTooltips');
                         });
                         $document.bind('click', _power.close);
                     };

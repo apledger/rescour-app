@@ -28,22 +28,6 @@ $borderGray: #999;
 
 @mixin rescourTabs {
 
-  &.status-expired .nav-tabs > li {
-    background: $red;
-  }
-
-  &.status-marketing .nav-tabs > li {
-    background: $green;
-  }
-
-  &.status-under .nav-tabs > li {
-    background: $orange;
-  }
-
-  &.status-unknown .nav-tabs > li {
-    background: $grayDark;
-  }
-
   .tabbable {
     @include rescourBoxShadow;
     background-clip: border-box;

@@ -6,7 +6,6 @@ $lineSpacing: 14px;
   @include gradient-vertical(lighten($powerBg, 5%), darken($powerBg, 5%));
   border-left: 1px solid darken($powerBg, 7%) !important;
   border-right: 1px solid darken($powerBg, 7%) !important;
-  border-bottom: 1px solid darken($powerBg, 7%) !important;
 
   &:hover, &:active, {
     background: lighten($powerBg, 5%);
@@ -41,9 +40,8 @@ $lineSpacing: 14px;
 .powers {
   @include box-sizing(border-box);
   width: 100%;
-  min-height: 36px;
+  min-height: 35px;
   position: relative;
-  //@include gradient-vertical(darken($powersBg, 10%), lighten($powersBg, 10%));
   @include gradient-vertical(lighten($powersBg, 10%), darken($powersBg, 10%));
   @include box-shadow(inset 0 1px 4px rgba(255, 255, 255, 0.2));
   border-bottom: 1px solid darken($powersBg, 30%);

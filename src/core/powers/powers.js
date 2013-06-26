@@ -27,11 +27,11 @@ angular.module('rescour.powers', [])
         };
 
         this.open = function (power) {
-            $rootScope.$broadcast('Powers.close');
+            $rootScope.$broadcast('destroyPowers');
             power.open();
         };
 
-        $scope.$on('Powers.close', function () {
+        $scope.$on('destroyPowers', function () {
             angular.forEach(powers, function (value, key) {
                 if (value.power.isOpen) {
                     value.power.close();
@@ -91,14 +91,17 @@ angular.module('rescour.powers', [])
                     };
 
                     element.bind('click', function (e) {
-                        if (!_power.isOpen && _power.options) {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            PowersController.open(_power);
-                        } else if (_power.action) {
-                            scope.$apply(function () {
-                                _power.action();
-                            });
+                        console.log(_power);
+                        if (!_power.isDisabled) {
+                            if (!_power.isOpen && _power.options) {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                PowersController.open(_power);
+                            } else if (_power.action) {
+                                scope.$apply(function () {
+                                    _power.action();
+                                });
+                            }
                         }
                     });
 

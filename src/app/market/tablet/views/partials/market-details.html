@@ -13,6 +13,14 @@
         <div class="span12">
             <table class="table table-bordered">
                 <tbody>
+                <tr ng-hide="current.getAttribute('datePosted') == 'Not Available'">
+                    <td>
+                        <strong>Date Posted</strong>
+                    </td>
+                    <td>
+                        {{current.getAttribute('datePosted')*1000 | date}}
+                    </td>
+                </tr>
                 <tr>
                     <td>
                         <strong>Property Status</strong>
@@ -45,12 +53,12 @@
                         {{current.getAttribute('numUnits')}}
                     </td>
                 </tr>
-                <tr>
+                <tr ng-hide="current.getAttribute('callForOffers') == 'NA'">
                     <td>
                         <strong>Call for Offers</strong>
                     </td>
                     <td>
-                        {{current.details.callForOffers | date}}
+                        {{current.getAttribute('callForOffers')*1000 | date}}
                     </td>
                 </tr>
                 <tr>
@@ -85,6 +93,24 @@
                         <a ng-show="current.details.flyer" target="_blank" ng-href="{{current.details.flyer}}">View</a>
                     </td>
                 </tr>
+                <tr ng-show="current.details.site">
+                    <td>
+                        <strong>Additional Documentation</strong>
+                    </td>
+                    <td>
+                        <a ng-show="current.details.site" target="_blank" ng-href="{{current.details.site}}">View</a>
+                    </td>
+                </tr>
+                <tr ng-show="current.details.portfolio && current.details.portfolio.length > 0">
+                    <td>
+                        <strong>Portfolio</strong>
+                    </td>
+                    <td>
+                        <ul>
+                            <li ng-repeat="listing in current.details.portfolio">{{listing.title}}</li>
+                        </ul>
+                    </td>
+                </tr>
                 </tbody>
             </table>
         </div>
@@ -96,6 +122,20 @@
             <p class="lead">Description</p>
 
             <p>{{current.description}}</p>
+        </div>
+    </div>
+
+    <div class="row-fluid" ng-show="current.details.comps && current.details.comps.length > 0">
+        <div class="span12">
+            <div class="page-header">
+            </div>
+            <p class="lead">Comps</p>
+
+            <blockquote ng-repeat="comp in current.details.comps">
+                <p ng-show="comp.title"><strong>{{comp.title}}</strong></p>
+                <p ng-show="comp.body">{{comp.body}}</p>
+                <small><cite><a ng-href="{{comp.link}}" target="_blank">View Source</a></cite></small>
+            </blockquote>
         </div>
     </div>
 

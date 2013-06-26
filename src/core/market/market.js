@@ -427,7 +427,7 @@ angular.module('rescour.market', [])
             // Attributes Constructor
             function Attributes() {
                 var defaults = angular.extend({
-                        title: "",
+                        title: "New Search",
                         discreet: {},
                         range: {},
                         visibleIds: []

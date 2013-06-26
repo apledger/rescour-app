@@ -2,20 +2,65 @@
   position: absolute;
   left: 0;
   bottom: 0;
-  top:0;
+  top: 0;
   width: $filterWidth;
   background-color: $light-gray;
   z-index: 2;
-  display:inline-block;
+  display: inline-block;
   @include box-sizing(border-box);
 
   .saved-search {
     position: relative;
     display: block;
-    height: 25px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    margin-left: 15px;
+    padding: 10px 15px;
+    width: 100%;
+    @include box-sizing(border-box);
+
+    input {
+      display: inline-block;
+      width: 100%;
+      margin-bottom: 0 !important;
+      border: none;
+      background: $grayLight;
+      font-size: 12px;
+      font-weight: bold;
+      color: $white;
+      padding: 20px 90px 20px 15px;
+      @include box-shadow(none !important);
+      @include box-sizing(border-box);
+
+      &:focus {
+        background: $white;
+      }
+
+      &:hover:not(:focus) {
+        background: lighten($grayLight, 10%);
+      }
+    }
+  }
+
+  .saved-search-btn-toolbar {
+    display: inline-block;
+    position: absolute;
+    top: 15px;
+    right: 20px;
+  }
+
+  .saved-search-btn {
+    display: inline-block;
+    padding: 5px 10px;
+    background: $grayLighter;
+    @include border-radius(3px);
+    color: $gray;
+
+    &, i {
+      cursor: pointer;
+    }
+
+    &:hover {
+      background-color: $green;
+      color: $white;
+    }
   }
 
   .saved-dropdown {
@@ -37,12 +82,11 @@
 
   .filter-container {
     @include box-sizing(border-box);
-    display:block;
+    display: block;
     overflow: hidden;
     overflow-y: auto;
     height: 100%;
     padding-top: 10px;
-
   }
 
   .nav {

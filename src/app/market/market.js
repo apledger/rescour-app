@@ -114,17 +114,61 @@ angular.module('rescour.app')
     .controller("FilterController", ['$scope', 'Items', 'Attributes', 'SavedSearch', '$dialog',
         function ($scope, Items, Attributes, SavedSearch, $dialog) {
             $scope.selectedSearch = null;
-            $scope.loadPower = {
-                title: 'Load',
-                options: {}
+            $scope.filePower = {
+                icon: 'icon-folder-close',
+                options: {
+                    save: {
+                        icon: 'icon-save',
+                        action: function () {
+                            $scope.loadSearch();
+                        },
+                        title: 'Save'
+                    },
+                    remove: {
+                        icon: 'icon-trash',
+                        action: function () {
+                            $scope.loadSearch();
+                        },
+                        title: 'Delete'
+                    }
+                }
             };
 
+            $scope.loadPower = {
+                icon: 'icon-folder-open',
+                options: {
+                }
+            };
+
+//            $scope.loadPower = {
+//                title: 'Untitled Search',
+//                options: {
+//                    newSearch: {
+//                        icon: 'icon-file-text',
+//                        action: function () {
+//                            $scope.loadSearch();
+//                        },
+//                        title: 'New Search'
+//                    }
+//                }
+//            };
+
             $scope.newPower = {
-                icon: 'icon-refresh',
+                icon: 'icon-file-text',
                 action: function () {
                     $scope.loadSearch();
                 },
                 color: 'blue'
+            };
+
+            $scope.savePower = {
+                icon: 'icon-save',
+                isDisabled: !$scope.attributes.modified,
+                float: 'right',
+                action: function () {
+                    $scope.loadSearch();
+                },
+                color: 'green'
             };
 
             var updateLoadPower = function () {
@@ -206,6 +250,7 @@ angular.module('rescour.app')
                 $scope.filter();
                 $scope.selectedSearch = search;
                 $scope.attributes.modified = false;
+//                $scope.loadPower.title = $scope.attributes.title
             };
 
             $scope.hide = function (item) {

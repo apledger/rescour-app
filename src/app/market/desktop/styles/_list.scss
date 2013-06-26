@@ -10,7 +10,8 @@ $wellBorderRadius: 5px;
   width: $marketWidth;
   z-index: 1;
   display: inline-block;
-  background: rgba(0, 0, 0, 0.20);
+  //background: rgba(0, 0, 0, 0.20);
+  background: lighten($grayLight, 10%);
   border-right: 1px solid $borderGray;
   border-left: 1px solid $borderGray;
   @include box-sizing(border-box);
@@ -19,7 +20,7 @@ $wellBorderRadius: 5px;
 .list-status{
   position:relative;
   margin: 10px 0;
-  padding: 5px;
+  padding: 10px;
   text-align: center;
   background: $grayLighter;
   @include border-radius(2px);

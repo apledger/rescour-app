@@ -83,6 +83,18 @@ $lineSpacing: 14px;
       @include powerBg($blue);
     }
 
+    &.disabled, &.disabled:hover {
+      cursor: default;
+      background-color: darken($white, 10%);
+      background-image: none;
+      @include opacity(65);
+      @include box-shadow(none);
+
+      i {
+        color: $black;
+      }
+    }
+
     &.power-right {
       float: right;
       border-left: 1px solid $borderGray !important;

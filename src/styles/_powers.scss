@@ -2,7 +2,7 @@ $powersBg: $grayLighter;
 $lineSpacing: 14px;
 //$powersBg: $red;
 
-@mixin powerBg($powerBg) {
+@mixin powerBg($powerBg, $titleColor: $white) {
   @include gradient-vertical(lighten($powerBg, 5%), darken($powerBg, 5%));
   border-left: 1px solid darken($powerBg, 7%) !important;
   border-right: 1px solid darken($powerBg, 7%) !important;
@@ -11,10 +11,10 @@ $lineSpacing: 14px;
     background: lighten($powerBg, 5%);
 
     .power-title {
-      color: lighten($white, 5%);
+      color: lighten($titleColor, 5%);
 
       i {
-        color: lighten($white, 5%);
+        color: lighten($titleColor, 5%);
       }
     }
   }
@@ -24,23 +24,22 @@ $lineSpacing: 14px;
     @include box-shadow(inset 0 1px 2px rgba(0, 0, 0, 0.2));
 
     .power-title {
-      color: $white !important;
+      color: $titleColor !important;
       i {
-        color: $white;
+        color: $titleColor;
       }
     }
   }
 
   .power-title {
-    color: $white;
+    color: $titleColor;
   }
-
 }
 
 .powers {
   @include box-sizing(border-box);
   width: 100%;
-  min-height: 35px;
+  min-height: 41px;
   position: relative;
   @include gradient-vertical(lighten($powersBg, 10%), darken($powersBg, 10%));
   @include box-shadow(inset 0 1px 4px rgba(255, 255, 255, 0.2));
@@ -53,7 +52,7 @@ $lineSpacing: 14px;
 
     input {
       margin: 0;
-      padding: 2px 7px;
+      padding: 5px 9px;
       margin-bottom: 1px;
       @include transition(all 0.2 ease-in);
     }
@@ -66,6 +65,7 @@ $lineSpacing: 14px;
     border-right: 1px solid $borderGray !important;
     border-left: 0px solid transparent;
     border-top: none !important;
+    cursor: pointer;
 
     &.green {
       @include powerBg($green);
@@ -83,16 +83,11 @@ $lineSpacing: 14px;
       @include powerBg($blue);
     }
 
-    &.disabled, &.disabled:hover {
-      cursor: default;
-      background-color: darken($white, 10%);
-      background-image: none;
-      @include opacity(65);
-      @include box-shadow(none);
-
-      i {
-        color: $black;
-      }
+    &.power-logo {
+      width: 100%;
+      height: 100%;
+      border-right: none !important;
+      padding: 7px 60px 4px;
     }
 
     &.power-right {
@@ -144,7 +139,7 @@ $lineSpacing: 14px;
 
     .power-title {
       font-size: 12px;
-      padding: $lineSpacing/2 $lineSpacing;
+      padding: 10px 15px;
       cursor: pointer;
       font-weight: bold;
       text-transform: uppercase;
@@ -152,24 +147,8 @@ $lineSpacing: 14px;
       text-align: center;
 
       i {
+        font-size: 13px;
         cursor: pointer;
-      }
-
-      i.power-logo {
-        display: inline-block;
-        height: 14px;
-        width: 100px;
-
-        &::after {
-          content: '';
-          background: url('/img/logo-small.png') no-repeat center;
-          display: inline-block;
-          position: absolute;
-          top: 8px;
-          left: 15px;
-          height: 20px;
-          width: 100px;
-        }
       }
 
       &.power-icon-dropdown::after {
@@ -180,7 +159,7 @@ $lineSpacing: 14px;
         -webkit-font-smoothing: antialiased;
         display: inline;
         content: '\f107';
-        padding-left: $lineSpacing/2;
+        padding-left: 7px;
       }
     }
 

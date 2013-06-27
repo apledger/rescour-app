@@ -52,7 +52,7 @@ angular.module('rescour.app')
             $scope.browser = BrowserDetect;
             $scope.mapPower = {
                 float: 'right',
-                icon: 'power-logo',
+                title: User.profile.email,
                 options: {
                     'My Account': {
                         title: 'My Account',
@@ -114,77 +114,17 @@ angular.module('rescour.app')
     .controller("FilterController", ['$scope', 'Items', 'Attributes', 'SavedSearch', '$dialog',
         function ($scope, Items, Attributes, SavedSearch, $dialog) {
             $scope.selectedSearch = null;
-            $scope.filePower = {
-                icon: 'icon-folder-close',
-                options: {
-                    save: {
-                        icon: 'icon-save',
-                        action: function () {
-                            $scope.loadSearch();
-                        },
-                        title: 'Save'
-                    },
-                    remove: {
-                        icon: 'icon-trash',
-                        action: function () {
-                            $scope.loadSearch();
-                        },
-                        title: 'Delete'
-                    }
+
+            $scope.logoPower = {
+                icon: 'power-logo',
+                action: function () {
+                    $scope.refreshSearch();
                 }
             };
-
-            $scope.loadPower = {
-                icon: 'icon-folder-open',
-                options: {
-                }
-            };
-
-//            $scope.loadPower = {
-//                title: 'Untitled Search',
-//                options: {
-//                    newSearch: {
-//                        icon: 'icon-file-text',
-//                        action: function () {
-//                            $scope.loadSearch();
-//                        },
-//                        title: 'New Search'
-//                    }
-//                }
-//            };
-
-            $scope.newPower = {
-                icon: 'icon-file-text',
-                action: function () {
-                    $scope.loadSearch();
-                },
-                color: 'blue'
-            };
-
-            $scope.savePower = {
-                icon: 'icon-save',
-                isDisabled: !$scope.attributes.modified,
-                float: 'right',
-                action: function () {
-                    $scope.loadSearch();
-                },
-                color: 'green'
-            };
-
-            var updateLoadPower = function () {
-                angular.forEach($scope.savedSearches, function (value) {
-                    $scope.loadPower.options[value.title] = {
-                        action: function () {
-                            $scope.loadSearch(value);
-                        },
-                        title: value.title
-                    }
-                });
-            }
 
             SavedSearch.query().then(function (savedSearches) {
                 $scope.savedSearches = savedSearches;
-                updateLoadPower();
+                console.log($scope.savedSearches);
             });
 
             $scope.openSaveDialog = function () {
@@ -226,7 +166,7 @@ angular.module('rescour.app')
                     }
                     $scope.selectedSearch = _search;
                     $scope.attributes.modified = false;
-                    updateLoadPower();
+//                    updateLoadPower();
                 }, function (response) {
                     $scope.savedSearches = SavedSearch.query();
                     throw new Error("Could not save search: " + response.error);
@@ -276,8 +216,8 @@ angular.module('rescour.app')
                     $scope.sortBy.reverse = false;
                     $scope.sortBy.predicate = this.key;
 
-                    angular.forEach($scope.sortPower.options, function(value, key){
-                      value.icon = 'icon-long-arrow-down'
+                    angular.forEach($scope.sortPower.options, function (value, key) {
+                        value.icon = 'icon-long-arrow-down'
                     });
                 }
 
@@ -321,7 +261,7 @@ angular.module('rescour.app')
                 }
             };
 
-            function show () {
+            function show() {
                 Items.render(this.key);
                 $scope.showPower.icon = this.icon;
             };
@@ -481,5 +421,86 @@ angular.module('rescour.app')
 
             $scope.deleteFinance = function (finance) {
                 $scope.current.deleteFinance(finance);
+            };
+        }])
+    .directive('savedSearchInput', ['$timeout',
+        function ($timeout) {
+            return {
+                require: 'ngModel',
+                link: function (scope, element, attrs, modelCtrl) {
+                    var modelPlaceholder = 'My Searches',
+                        modelIgnore = 'Untitled Search',
+                        modelPrevious = modelPlaceholder;
+
+
+                    function checkEmpty() {
+                        if (!modelCtrl.$viewValue) {
+                            modelCtrl.$viewValue = modelPrevious;
+                            modelCtrl.$render();
+                        }
+                    }
+
+                    element.bind('focus', function (e) {
+                        scope.$apply(function () {
+                            if (modelCtrl.$viewValue === modelPlaceholder || modelCtrl.$viewValue === modelIgnore) {
+                                modelPrevious = modelCtrl.$viewValue;
+                                modelCtrl.$viewValue = '';
+                                modelCtrl.$render();
+                            }
+                        });
+                    });
+
+                    element.bind('blur', function (e) {
+                        scope.$apply(checkEmpty);
+                    });
+
+                    $timeout(checkEmpty, 0);
+                }
+            };
+        }])
+    .directive('inputDropdown', ['$document',
+        function ($document) {
+            return {
+                restrict: 'C',
+                link: function (scope, element, attrs) {
+                    var ddBtn = element.find('.input-dropdown-btn');
+                    var ddMenu = element.find('.input-dropdown-menu');
+
+                    scope.$on('destroyDropdowns', close);
+
+                    function open(e) {
+                        if (e) {
+                            e.stopPropagation();
+                            e.preventDefault();
+                        }
+
+                        scope.$broadcast('destroyDropdowns');
+                        scope.$broadcast('destroyTooltips');
+
+                        console.log(scope);
+                        scope.$apply(function () {
+                            if (!scope.isOpen) {
+                                ddMenu.show();
+                                scope.isOpen = true;
+                                $document.bind('click', close);
+                            } else {
+                                close();
+                            }
+                        });
+                    }
+
+                    function close(e) {
+                        scope.$apply(function () {
+                            if (scope.isOpen) {
+                                ddMenu.hide();
+                                $document.unbind('click', close);
+                                scope.isOpen = false;
+                            }
+                        });
+                    }
+
+                    console.log(ddBtn);
+                    ddBtn.bind('click', open);
+                }
             };
         }]);

@@ -211,7 +211,7 @@ angular.module('rescour.utility', [])
 
                 element.bind('scroll', function () {
                     // Check if within bottom of scrollable div
-                    if ((raw.scrollTop + raw.offsetHeight)*1.05 >= raw.scrollHeight) {
+                    if ((raw.scrollTop + raw.offsetHeight) * 1.05 >= raw.scrollHeight) {
                         // increase chunkSize and re-filter
                         scope.$apply(function () {
                             // take next limit
@@ -495,56 +495,4 @@ angular.module('rescour.utility', [])
                 }, 0);
             }
         };
-    }])
-    .directive('dropdownToggle',
-        ['$document', '$location', '$window', function ($document, $location, $window) {
-            var openElement = null, close;
-            return {
-                restrict: 'CA',
-                link: function (scope, element, attrs) {
-                    scope.$watch(function dropdownTogglePathWatch() {
-                        return $location.path();
-                    }, function dropdownTogglePathWatchAction() {
-                        if (close) {
-                            close();
-                        }
-                    });
-
-                    element.parent().bind('click', function (event) {
-                        if (close) {
-                            close();
-                        }
-                    });
-
-                    element.bind('click', function (event) {
-                        event.preventDefault();
-                        event.stopPropagation();
-
-                        var iWasOpen = false;
-
-                        if (openElement) {
-                            iWasOpen = openElement === element;
-                            close();
-                        }
-
-                        if (!iWasOpen) {
-                            element.parent().parent().addClass('open');
-                            openElement = element;
-
-                            close = function (event) {
-                                if (event) {
-                                    event.preventDefault();
-                                    event.stopPropagation();
-                                }
-                                $document.unbind('click', close);
-                                element.parent().parent().removeClass('open');
-                                close = null;
-                                openElement = null;
-                            };
-
-                            $document.bind('click', close);
-                        }
-                    });
-                }
-            };
-        }]);
+    }]);

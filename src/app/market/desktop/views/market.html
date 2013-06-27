@@ -5,22 +5,33 @@
     <!--FILTERS BEGIN-->
     <div id="Filter" ng-controller="FilterController">
         <div class="powers">
-            <div power="newPower" power-tooltip="New Search" power-tooltip-placement="right"></div>
-            <div power="filePower" power-tooltip="File"></div>
-            <div power="loadPower" power-tooltip="Load Search"></div>
+            <!--<div power="logoPower" power-tooltip="Refresh"></div>-->
+            <div class="power power-logo">
+                <img src="/img/logo-small.png" alt="REscour"/>
+            </div>
         </div>
         <div class="scroll-container">
             <div class="filter-container">
                 <div class="saved-search">
-                    <input type="text" placeholder="Untitled" ng-model="attributes.title"/>
 
-                    <div class="saved-search-btn-toolbar">
+                    <div class="input-dropdown">
+                        <input tooltip="Click to Edit" tooltip-placement="bottom" type="text" placeholder="Untitled"
+                               ng-model="attributes.title" saved-search-input/>
+
+                        <div class="input-dropdown-btn"><i class="icon-caret-down"></i></div>
+                        <ul class="input-dropdown-menu">
+                            <li ng-click="loadSearch()"><i class="icon-file-text"></i><a href="javascript:">New
+                                Search</a></li>
+                            <div class="divider"></div>
+                            <li ng-repeat="search in savedSearches" ng-click="loadSearch(search)"><a href="javascript:">{{search.title}}</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="saved-search-dropdown">
                         <!--<div class="saved-search-btn" ng-class="{'disabled': !attributes.modified}"  ng-click="openSaveDialog()"><i class="icon-save"></i></div>-->
                         <!--<div class="saved-search-btn" ng-click="refreshSearch()"><i class="icon-trash"></i></div>-->
-                        <!--<div dropdown class="saved-search-btn"><i class="icon-caret-down"></i></div>-->
-                        <!--<ul class="saved-search-dropdown">-->
 
-                        <!--</ul>-->
                     </div>
 
 

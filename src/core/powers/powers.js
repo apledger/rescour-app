@@ -27,11 +27,11 @@ angular.module('rescour.powers', [])
         };
 
         this.open = function (power) {
-            $rootScope.$broadcast('destroyPowers');
+            $rootScope.$broadcast('destroyDropdowns');
             power.open();
         };
 
-        $scope.$on('destroyPowers', function () {
+        $scope.$on('destroyDropdowns', function () {
             angular.forEach(powers, function (value, key) {
                 if (value.power.isOpen) {
                     value.power.close();
@@ -91,7 +91,6 @@ angular.module('rescour.powers', [])
                     };
 
                     element.bind('click', function (e) {
-                        console.log(_power);
                         if (!_power.isDisabled) {
                             if (!_power.isOpen && _power.options) {
                                 e.preventDefault();

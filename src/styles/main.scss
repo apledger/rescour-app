@@ -11,6 +11,7 @@
 @import "ngform";
 //@import "core/powers/powers";
 @import "powers";
+@import "input_dropdown";
 
 .loading-background {
   position: absolute; left: 0px; top: 0px; bottom:0px; right: 0px; background: $light-gray; z-index: 5;

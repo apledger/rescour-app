@@ -5,17 +5,15 @@
     <!--FILTERS BEGIN-->
     <div id="Filter" ng-controller="FilterController">
         <div class="powers">
-            <!--<div power="logoPower" power-tooltip="Refresh"></div>-->
-            <div class="power power-logo">
+            <div class="power power-logo" ng-click="refreshSearch()">
                 <img src="/img/logo-small.png" alt="REscour"/>
             </div>
         </div>
         <div class="scroll-container">
             <div class="filter-container">
                 <div class="saved-search">
-
                     <div class="input-dropdown">
-                        <input tooltip="Click to Edit" tooltip-placement="bottom" type="text" placeholder="Untitled"
+                        <input tooltip="Click to Edit" tooltip-placement="bottom" type="text" placeholder="Untitled Search"
                                ng-model="attributes.title" saved-search-input/>
 
                         <div class="input-dropdown-btn"><i class="icon-caret-down"></i></div>
@@ -27,30 +25,6 @@
                             </li>
                         </ul>
                     </div>
-
-                    <div class="saved-search-dropdown">
-                        <!--<div class="saved-search-btn" ng-class="{'disabled': !attributes.modified}"  ng-click="openSaveDialog()"><i class="icon-save"></i></div>-->
-                        <!--<div class="saved-search-btn" ng-click="refreshSearch()"><i class="icon-trash"></i></div>-->
-
-                    </div>
-
-
-                    <!--<div class="dropdown saved-dropdown">-->
-
-                    <!--<div class="btn-group">-->
-                    <!--<button class="btn saved-dropdown" tooltip="Refresh" tooltip-placement="bottom"-->
-                    <!--ng-click="refreshSearch()">-->
-                    <!--&lt;!&ndash;<i class="icon-refresh"></i>&ndash;&gt;-->
-                    <!--{{attributes.title || "New Search"}}-->
-                    <!--</button>-->
-                    <!--<button class="btn btn-search-save"-->
-                    <!--ng-class="{'disabled': !attributes.modified, 'btn-success': attributes.modified}"-->
-                    <!--tooltip="Save" tooltip-placement="bottom"-->
-                    <!--ng-click="openSaveDialog()">-->
-                    <!--<i class="icon-save"></i>-->
-                    <!--</button>-->
-                    <!--</div>-->
-                    <!--</div>-->
                 </div>
 
                 <!--Range sliders-->

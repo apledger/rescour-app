@@ -115,16 +115,8 @@ angular.module('rescour.app')
         function ($scope, Items, Attributes, SavedSearch, $dialog) {
             $scope.selectedSearch = null;
 
-            $scope.logoPower = {
-                icon: 'power-logo',
-                action: function () {
-                    $scope.refreshSearch();
-                }
-            };
-
             SavedSearch.query().then(function (savedSearches) {
                 $scope.savedSearches = savedSearches;
-                console.log($scope.savedSearches);
             });
 
             $scope.openSaveDialog = function () {
@@ -185,6 +177,10 @@ angular.module('rescour.app')
             };
 
             $scope.loadSearch = function (search) {
+                search = search || {
+                    title: 'Untitled Search'
+                };
+
                 Attributes.load(search);
                 $scope.$broadcast('rangesDefined');
                 $scope.filter();
@@ -423,14 +419,16 @@ angular.module('rescour.app')
                 $scope.current.deleteFinance(finance);
             };
         }])
-    .directive('savedSearchInput', ['$timeout',
-        function ($timeout) {
+    .directive('savedSearchInput', ['$timeout', '$document',
+        function ($timeout, $document) {
             return {
                 require: 'ngModel',
                 link: function (scope, element, attrs, modelCtrl) {
                     var modelPlaceholder = 'My Searches',
                         modelIgnore = 'Untitled Search',
-                        modelPrevious = modelPlaceholder;
+                        ttFocusText = 'Enter to Save',
+                        modelPrevious = modelPlaceholder,
+                        ttOriginalText = attrs.tooltip;
 
 
                     function checkEmpty() {
@@ -442,6 +440,8 @@ angular.module('rescour.app')
 
                     element.bind('focus', function (e) {
                         scope.$apply(function () {
+                            attrs.$set('tooltip', ttFocusText);
+
                             if (modelCtrl.$viewValue === modelPlaceholder || modelCtrl.$viewValue === modelIgnore) {
                                 modelPrevious = modelCtrl.$viewValue;
                                 modelCtrl.$viewValue = '';
@@ -451,7 +451,10 @@ angular.module('rescour.app')
                     });
 
                     element.bind('blur', function (e) {
+                        attrs.$set('tooltip', ttOriginalText);
                         scope.$apply(checkEmpty);
+
+                        // TODO: bind enter to save
                     });
 
                     $timeout(checkEmpty, 0);
@@ -477,29 +480,29 @@ angular.module('rescour.app')
                         scope.$broadcast('destroyDropdowns');
                         scope.$broadcast('destroyTooltips');
 
-                        console.log(scope);
-                        scope.$apply(function () {
-                            if (!scope.isOpen) {
+                        if (!scope.isOpen) {
+                            scope.$apply(function () {
                                 ddMenu.show();
                                 scope.isOpen = true;
                                 $document.bind('click', close);
-                            } else {
-                                close();
-                            }
-                        });
+                                ddBtn.unbind('click', open);
+                            });
+                        } else {
+                            close();
+                        }
                     }
 
                     function close(e) {
                         scope.$apply(function () {
                             if (scope.isOpen) {
                                 ddMenu.hide();
-                                $document.unbind('click', close);
                                 scope.isOpen = false;
+                                $document.unbind('click', close);
+                                ddBtn.bind('click', open);
                             }
                         });
                     }
 
-                    console.log(ddBtn);
                     ddBtn.bind('click', open);
                 }
             };

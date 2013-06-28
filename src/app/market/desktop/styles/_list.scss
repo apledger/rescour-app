@@ -113,18 +113,6 @@ ul {
         margin: 15px 0;
         font-size: 10px;
       }
-
-      &.caption-green {
-        background: $green;
-      }
-
-      &.caption-orange {
-        background: $orange;
-      }
-
-      &.caption-red {
-        background: $red;
-      }
     }
 
     .preview-mask {
@@ -195,7 +183,22 @@ ul {
       padding: 5px;
       text-shadow: #666 0 -1px 0;
       cursor: pointer;
-      @include buttonBackground($btnSuccessBackground, $btnSuccessBackgroundHighlight);
+      //
+      //&.status-marketing {
+      //  @include buttonBackground($btnSuccessBackground, $btnSuccessBackgroundHighlight);
+      //}
+      //
+      //&.status-expired {
+      //  @include buttonBackground(lighten($red, 5%), darken($red, 5%));
+      //}
+      //
+      //&.status-under {
+      //  @include buttonBackground(lighten($orange, 5%), darken($orange, 5%));
+      //}
+      //
+      //&.status-unknown {
+      //  @include buttonBackground(lighten($gray, 5%), darken($orange, 5%));
+      //}
     }
   }
 

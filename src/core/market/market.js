@@ -1140,6 +1140,7 @@ angular.module('rescour.market', [])
                         view.close();
                     } else {
                         Items.setActive(item);
+                        view.setConditionalClass(item.getStatusClass());
                         view
                             .open()
                             .then(function () {

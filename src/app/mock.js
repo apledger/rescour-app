@@ -455,6 +455,10 @@ angular.module('rescour.app.mock', ['rescour.app', 'ngMockE2E'])
             return [200, { id: _saved.id }, {}];
         });
 
+        $httpBackend.whenPOST('/reports/').respond(function (method, url, data, headers) {
+            return [200, { status: 'success' }, {}];
+        });
+
         $httpBackend.whenPUT(/\/search\/[0-9]+/).respond(function (method, url, data, headers) {
             var _data = angular.fromJson(data),
                 _id = url.split("/")[2],

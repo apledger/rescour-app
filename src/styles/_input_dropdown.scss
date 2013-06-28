@@ -14,7 +14,7 @@
     height: 100%;
     padding: 10px 15px;
     cursor: pointer;
-    @include box-sizing(border-box);
+    //@include box-sizing(border-box);
     @include border-radius(4px);
 
     &.input-overlay-blue {
@@ -73,7 +73,7 @@
     color: $white;
     padding: 20px 50px 20px 15px;
     @include box-shadow(none !important);
-    @include box-sizing(border-box);
+    //@include box-sizing(border-box);
     z-index: 1;
 
     &:focus {

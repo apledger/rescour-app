@@ -6175,7 +6175,7 @@ a.label:hover, a.badge:hover {
 }
 /* line 21, ../../src/app/market/desktop/styles/_filter.scss */
 #Filter .slider {
-  width: 206px;
+  width: 200px;
 }
 /* line 25, ../../src/app/market/desktop/styles/_filter.scss */
 #Filter .ui-widget-header {
@@ -8436,6 +8436,7 @@ input:focus, textarea:focus {
   padding-left: 15px;
   padding-right: 40px;
   height: 40px;
+  line-height: 40px;
   -webkit-box-shadow: none !important;
   -moz-box-shadow: none !important;
   box-shadow: none !important;
@@ -8444,15 +8445,15 @@ input:focus, textarea:focus {
   box-sizing: border-box !important;
   z-index: 1;
 }
-/* line 80, ../../src/styles/_input_dropdown.scss */
+/* line 81, ../../src/styles/_input_dropdown.scss */
 .input-dropdown > input:focus {
   background: white !important;
 }
-/* line 84, ../../src/styles/_input_dropdown.scss */
+/* line 85, ../../src/styles/_input_dropdown.scss */
 .input-dropdown > input:hover:not(:focus) {
   background: #b3b3b3;
 }
-/* line 89, ../../src/styles/_input_dropdown.scss */
+/* line 90, ../../src/styles/_input_dropdown.scss */
 .input-dropdown > .input-dropdown-btn {
   display: inline-block;
   position: absolute;
@@ -8473,11 +8474,11 @@ input:focus, textarea:focus {
   color: #5f5f5f;
   z-index: 3;
 }
-/* line 100, ../../src/styles/_input_dropdown.scss */
+/* line 101, ../../src/styles/_input_dropdown.scss */
 .input-dropdown > .input-dropdown-btn, .input-dropdown > .input-dropdown-btn i {
   cursor: pointer;
 }
-/* line 104, ../../src/styles/_input_dropdown.scss */
+/* line 105, ../../src/styles/_input_dropdown.scss */
 .input-dropdown > .input-dropdown-btn:hover {
   background-color: #eeeeee;
   background-image: -moz-linear-gradient(top, #eeeeee, #eeeeee);
@@ -8488,7 +8489,7 @@ input:focus, textarea:focus {
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ebebeb', endColorstr='#ebebeb', GradientType=0);
 }
-/* line 108, ../../src/styles/_input_dropdown.scss */
+/* line 109, ../../src/styles/_input_dropdown.scss */
 .input-dropdown > .input-dropdown-btn:active {
   -webkit-box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.2);
   -moz-box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.2);
@@ -8502,7 +8503,7 @@ input:focus, textarea:focus {
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#dfdfdf', endColorstr='#dfdfdf', GradientType=0);
 }
-/* line 114, ../../src/styles/_input_dropdown.scss */
+/* line 115, ../../src/styles/_input_dropdown.scss */
 .input-dropdown > .input-dropdown-menu {
   position: absolute;
   display: block;
@@ -8520,7 +8521,7 @@ input:focus, textarea:focus {
   right: 0;
   display: none;
 }
-/* line 127, ../../src/styles/_input_dropdown.scss */
+/* line 128, ../../src/styles/_input_dropdown.scss */
 .input-dropdown > .input-dropdown-menu .divider {
   *width: 100%;
   height: 1px;
@@ -8530,42 +8531,42 @@ input:focus, textarea:focus {
   background-color: white;
   border-bottom: 1px solid #eeeeee;
 }
-/* line 131, ../../src/styles/_input_dropdown.scss */
+/* line 132, ../../src/styles/_input_dropdown.scss */
 .input-dropdown > .input-dropdown-menu li {
   padding: 5px 15px;
   word-wrap: break-word;
 }
-/* line 135, ../../src/styles/_input_dropdown.scss */
+/* line 136, ../../src/styles/_input_dropdown.scss */
 .input-dropdown > .input-dropdown-menu li a {
   text-decoration: none;
   color: black;
 }
-/* line 140, ../../src/styles/_input_dropdown.scss */
+/* line 141, ../../src/styles/_input_dropdown.scss */
 .input-dropdown > .input-dropdown-menu li i {
   color: #5f5f5f;
   font-size: 12px;
   margin-right: 10px;
 }
-/* line 147, ../../src/styles/_input_dropdown.scss */
+/* line 148, ../../src/styles/_input_dropdown.scss */
 .input-dropdown > .input-dropdown-menu li.active {
   background: #0088cc;
 }
-/* line 150, ../../src/styles/_input_dropdown.scss */
+/* line 151, ../../src/styles/_input_dropdown.scss */
 .input-dropdown > .input-dropdown-menu li.active i {
   font-weight: bold;
   color: white;
 }
-/* line 154, ../../src/styles/_input_dropdown.scss */
+/* line 155, ../../src/styles/_input_dropdown.scss */
 .input-dropdown > .input-dropdown-menu li.active a {
   font-weight: bold;
   color: white;
 }
-/* line 160, ../../src/styles/_input_dropdown.scss */
+/* line 161, ../../src/styles/_input_dropdown.scss */
 .input-dropdown > .input-dropdown-menu li:hover {
   background: #0088cc;
   cursor: pointer;
 }
-/* line 164, ../../src/styles/_input_dropdown.scss */
+/* line 165, ../../src/styles/_input_dropdown.scss */
 .input-dropdown > .input-dropdown-menu li:hover a, .input-dropdown > .input-dropdown-menu li:hover i {
   color: white;
 }

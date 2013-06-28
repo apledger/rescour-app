@@ -5,61 +5,76 @@
     <!--FILTERS BEGIN-->
     <div id="Filter" ng-controller="FilterController">
         <div class="powers">
-            <div power="newPower" power-tooltip="Clear Search" power-tooltip-placement="right"></div>
-            <div power="loadPower"></div>
+            <a class="power power-logo" href="https://app.rescour.com">
+                <img src="/img/logo-small.png" alt="REscour"/>
+            </a>
         </div>
         <div class="scroll-container">
             <div class="filter-container">
-            <div class="saved-search">
+                <div class="saved-search">
+                    <div class="input-dropdown">
+                        <div class="input-overlay input-overlay-blue" ng-show="attributes.modified">
+                            <div class="action-btn" ng-click="saveSearch()">
+                                Click to Save
+                            </div>
+                            <div class="left-btn" ng-click="refreshSearch()">
+                                <i class="icon-remove"></i>
+                            </div>
+                        </div>
 
-                <div class="dropdown saved-dropdown">
+                        <div class="input-overlay input-overlay-gray" ng-hide="selectedSearch || attributes.modified">
+                            <div class="action-btn">
+                                My Searches
+                            </div>
+                        </div>
 
-                    <div class="btn-group">
-                        <button class="btn saved-dropdown" tooltip="Refresh" tooltip-placement="bottom"
-                                ng-click="refreshSearch()">
-                            <!--<i class="icon-refresh"></i>-->
-                            {{attributes.title || "New Search"}}
-                        </button>
-                        <button class="btn btn-search-save"
-                                ng-class="{'disabled': !attributes.modified, 'btn-success': attributes.modified}"
-                                tooltip="Save" tooltip-placement="bottom"
-                                ng-click="openSaveDialog()">
-                            <i class="icon-save"></i>
-                        </button>
+                        <input tooltip="Click to Edit" tooltip-placement="bottom" type="text" placeholder="Untitled Search"
+                               ng-model="attributes.title" saved-search-input="saveSearch()" ng-readonly="attributes.readonly"/>
+
+                        <div class="input-dropdown-btn"><i class="icon-caret-down"></i></div>
+                        <ul class="input-dropdown-menu">
+                            <li ng-click="loadSearch()"><i class="icon-file-text"></i><a href="javascript:">New
+                                Search</a></li>
+                            <div class="divider"></div>
+                            <li ng-repeat="search in savedSearches | orderBy: 'title'" ng-click="loadSearch(search)"><a href="javascript:">{{search.title}}</a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
-            </div>
 
-            <!--Range sliders-->
-            <ul class="nav nav-list" ng-repeat="range in attributes.toArray().range | orderBy:orderByWeight()" slider>
-                <li class="nav-header" ng-click="sortBy(range)">
-                    {{range.title}} &nbsp;
-                    <sort-arrow></sort-arrow>
-                    <div style="float:right;">{{range.lowSelected}} - {{range.highSelected | checkBounds:range.bound}}
+                <!--Range sliders-->
+                <ul class="nav nav-list" ng-repeat="range in attributes.toArray().range | orderBy:orderByWeight()"
+                    slider>
+                    <li class="nav-header" ng-click="sortBy(range)">
+                        {{range.title}} &nbsp;
+                        <sort-arrow></sort-arrow>
+                        <div style="float:right;">{{range.lowSelected}} - {{range.highSelected |
+                            checkBounds:range.bound}}
+                        </div>
+                    </li>
+                    <div class="slider"></div>
+                </ul>
+
+                <!--Discreet Filters-->
+                <div ng-repeat="discreet in attributes.toArray().discreet | orderBy:orderByWeight()">
+                    <div class="nav-header" ng-click="discreet.collapse = !discreet.collapse">
+                        {{discreet.title}} &nbsp;
+                        <i ng-class="{'icon-chevron-up': !discreet.collapse, 'icon-chevron-down': discreet.collapse}"
+                           style="float:right;"></i>
                     </div>
-                </li>
-                <div class="slider"></div>
-            </ul>
 
-            <!--Discreet Filters-->
-            <div ng-repeat="discreet in attributes.toArray().discreet | orderBy:orderByWeight()">
-                <div class="nav-header" ng-click="discreet.collapse = !discreet.collapse">
-                    {{discreet.title}} &nbsp;
-                    <i ng-class="{'icon-chevron-up': !discreet.collapse, 'icon-chevron-down': discreet.collapse}"
-                       style="float:right;"></i>
-                </div>
-
-                <ul class="nav nav-list" collapse="discreet.collapse">
-                    <li ng-class="{'active': value.isSelected }" ng-repeat="value in discreet.values">
-                        <a ng-click="toggleDiscreet(value)" href="javascript:">
-                            {{value.title | ellipsis:26}}
+                    <ul class="nav nav-list" collapse="discreet.collapse">
+                        <li ng-class="{'active': value.isSelected }" ng-repeat="value in discreet.values">
+                            <a ng-click="toggleDiscreet(value)" href="javascript:">
+                                {{value.title | ellipsis:26}}
                         <span ng-show="value" class="badge {{value.badge}}"
                               style="float:right;">{{value.predict}}</span>
-                        </a>
-                    </li>
-                </ul>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
-        </div></div>
+        </div>
     </div>
     <!--FILTERS END-->
 
@@ -71,17 +86,17 @@
             <div power="showPower" power-tooltip="Show" power-tooltip-placement="bottom"></div>
             <div class="power-search">
                 <input type="text" ng-model="searchText.title"
-                   placeholder="Search">
+                       placeholder="Search">
             </div>
         </div>
 
         <div class="scroll-container"
-             chunk="items | filter:searchText | limitVisible | orderBy:orderNA()">
+             chunk="filteredItems = (items | filter:searchText | limitVisible | orderBy:orderNA():sortBy.reverse)">
             <!--Toggle favorites button-->
             <!--Item boxes display-->
             <div class="market-list-wrap">
                 <div class="list-status">
-                    Displaying <strong>{{getVisibleLength()}}</strong> Results
+                    Displaying <strong>{{filteredItems.length}}</strong> Results
                 </div>
                 <div class="item-well"
                      ng-class="{'item-hidden': item.hidden}"
@@ -98,7 +113,8 @@
                         </a>
 
                         <div class="header-container">
-                            <div class="title"><a href="javascript:" ng-click="showItemDetails(item, 'details')">{{item.title | ellipsis:25}}</a></div>
+                            <div class="title"><a href="javascript:" ng-click="showItemDetails(item, 'details')">{{item.title
+                                | ellipsis:25}}</a></div>
                             <div class="ranges">
                                 <span>{{item.getAttribute('numUnits')}}&nbsp;</span>Units.&nbsp;
                                 Built in<span>&nbsp;{{item.getAttribute('yearBuilt')}}</span>.
@@ -106,7 +122,8 @@
                         </div>
                     </div>
 
-                    <a href="javascript:" ng-click="showItemDetails(item, 'pictures')" class="preview" ng-show="!item.hidden">
+                    <a href="javascript:" ng-click="showItemDetails(item, 'pictures')" class="preview"
+                       ng-show="!item.hidden">
                         <div class="preview-mask"><i class="icon-search"></i></div>
                         <img ng-src="{{item.thumbnail}}" alt="">
 

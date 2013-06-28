@@ -73,6 +73,7 @@
     padding-left: 15px;
     padding-right: 40px;
     height: 40px;
+    line-height: 40px;
     @include box-shadow(none !important);
     @include box-sizing(border-box !important);
     z-index: 1;

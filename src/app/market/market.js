@@ -59,19 +59,25 @@ angular.module('rescour.app')
                         title: 'My Account',
                         icon: 'icon-user',
                         action: function () {
-                            $location.path('/account/');
+                            if (PropertyDetails.isOpen()) {
+                                PropertyDetails.close()
+                            }
+                            $location.path('/account/').search('id', null).hash(null);
                         }
                     },
                     'Logout': {
                         title: 'Logout',
                         icon: 'icon-power-off',
                         action: function () {
-
-                            $location.path('/logout');
+                            if (PropertyDetails.isOpen()) {
+                                PropertyDetails.close()
+                            }
+                            $location.path('/logout').search('id', null).hash(null);
                         }
                     }
                 }
             };
+
 
             function openDetails(id) {
                 if (angular.isObject(Items.items[id])) {

@@ -757,13 +757,18 @@ dialogModule.provider("$dialog", function () {
             Dialog.prototype._onCloseComplete = function (result) {
                 this._removeElementsFromDom();
                 this._unbindEvents();
-
+                console.log("closing");
                 this.deferred.resolve(result);
             };
 
             Dialog.prototype._addElementsToDom = function () {
-//                body.append(this.modalEl);
-                this.containerEl.append(this.modalEl);
+                if (this.containerEl) {
+                    console.log("container append");
+                    this.containerEl.append(this.modalEl);
+                } else {
+                    console.log("body append");
+                    body.append(this.modalEl);
+                }
 
                 if (this.options.backdrop) {
                     if (activeBackdrops.value === 0) {

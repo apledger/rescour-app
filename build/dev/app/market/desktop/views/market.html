@@ -17,8 +17,8 @@
                             <div class="action-btn" ng-click="saveSearch()">
                                 Click to Save
                             </div>
-                            <div class="left-btn">
-                                <i class="icon-remove" ng-click="refreshSearch()"></i>
+                            <div class="left-btn" ng-click="refreshSearch()">
+                                <i class="icon-remove"></i>
                             </div>
                         </div>
 
@@ -36,7 +36,7 @@
                             <li ng-click="loadSearch()"><i class="icon-file-text"></i><a href="javascript:">New
                                 Search</a></li>
                             <div class="divider"></div>
-                            <li ng-repeat="search in savedSearches" ng-click="loadSearch(search)"><a href="javascript:">{{search.title}}</a>
+                            <li ng-repeat="search in savedSearches | orderBy: 'title'" ng-click="loadSearch(search)" ng-class="{'active': search.isSelected}"><a href="javascript:">{{search.title}}</a>
                             </li>
                         </ul>
                     </div>
@@ -91,12 +91,12 @@
         </div>
 
         <div class="scroll-container"
-             chunk="items | filter:searchText | limitVisible | orderBy:orderNA():sortBy.reverse">
+             chunk="filteredItems = (items | filter:searchText | limitVisible | orderBy:orderNA():sortBy.reverse)">
             <!--Toggle favorites button-->
             <!--Item boxes display-->
             <div class="market-list-wrap">
                 <div class="list-status">
-                    Displaying <strong>{{getVisibleLength()}}</strong> Results
+                    Displaying <strong>{{filteredItems.length}}</strong> Results
                 </div>
                 <div class="item-well"
                      ng-class="{'item-hidden': item.hidden}"

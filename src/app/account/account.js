@@ -38,9 +38,8 @@ angular.module('rescour.app')
                     }
                 });
         }])
-    .controller('AccountController', ['$scope', 'loadUser', '$_api', '$http', 'User', '$routeParams', '$rootScope', '$location', 'loadBilling',
-        function ($scope, loadUser, $_api, $http, User, $routeParams, $rootScope, $location, loadBilling) {
-
+    .controller('AccountController', ['$scope', 'loadUser', '$_api', '$http', 'User', '$routeParams', '$rootScope', '$location', 'PropertyDetails',
+        function ($scope, loadUser, $_api, $http, User, $routeParams, $rootScope, $location, PropertyDetails) {
             $scope.user = User;
 
             $scope.selectSubview = function (subview) {
@@ -64,8 +63,7 @@ angular.module('rescour.app')
                 }
             };
             $scope.accountPower = {
-//                title: User.profile.email,
-                icon: 'power-logo',
+                title: User.profile.email,
                 float: 'right',
                 options: {
                     back: {
@@ -82,13 +80,6 @@ angular.module('rescour.app')
                             $location.path('/logout');
                         }
                     }
-                }
-            };
-
-            $scope.backPower = {
-                title: 'Back to Application',
-                action: function () {
-                    $location.path('/');
                 }
             };
 

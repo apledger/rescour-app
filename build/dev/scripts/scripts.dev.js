@@ -36195,7 +36195,6 @@ dialogModule.provider("$dialog", function () {
                 }
 
                 this.containerEl = options.containerClass ? $document.find('.' + options.containerClass) : body;
-                console.log(this.containerEl);
 
                 this.handledEscapeKey = function (e) {
                     if (e.which === 27) {
@@ -36329,13 +36328,18 @@ dialogModule.provider("$dialog", function () {
             Dialog.prototype._onCloseComplete = function (result) {
                 this._removeElementsFromDom();
                 this._unbindEvents();
-
+                console.log("closing");
                 this.deferred.resolve(result);
             };
 
             Dialog.prototype._addElementsToDom = function () {
-//                body.append(this.modalEl);
-                this.containerEl.append(this.modalEl);
+                if (this.containerEl) {
+                    console.log("container append");
+                    this.containerEl.append(this.modalEl);
+                } else {
+                    console.log("body append");
+                    body.append(this.modalEl);
+                }
 
                 if (this.options.backdrop) {
                     if (activeBackdrops.value === 0) {
@@ -42489,7 +42493,11 @@ angular.module('rescour.market', [])
                             var item = Items.getActive() || {};
                             if (!item.hasOwnProperty('details') || _.isEmpty(item.details)) {
                                 item.getDetails().then(function (_item) {
+                                    console.log("about to resolve", _item);
                                     deferred.resolve(_item);
+                                }, function () {
+                                    console.log("error");
+                                    deferred.reject();
                                 });
                             } else {
                                 deferred.resolve(item);
@@ -42511,7 +42519,6 @@ angular.module('rescour.market', [])
                         view.close();
                     } else {
                         Items.setActive(item);
-                        view.setConditionalClass(item.getStatusClass());
                         view
                             .open()
                             .then(function () {
@@ -42588,23 +42595,6 @@ angular.module('rescour.market', [])
                     return defer.promise;
                 }
             }
-        }])
-    .controller('ReportsDialogController', ['$scope', 'dialog', 'Items', 'User',
-        function ($scope, dialog, Items, User) {
-            $scope.userEmail = User.profile.email;
-            $scope.reportLength = Items.visibleIds.length;
-            $scope.reportSettings = {};
-
-            $scope.close = function () {
-                dialog.close();
-            };
-
-            $scope.save = function (settings) {
-                dialog.close({
-                    ids: Items.visibleIds,
-                    token: User.profile.token
-                });
-            };
         }])
     .directive('slider', function () {
         return {
@@ -43388,9 +43378,8 @@ angular.module('rescour.app')
                     }
                 });
         }])
-    .controller('AccountController', ['$scope', 'loadUser', '$_api', '$http', 'User', '$routeParams', '$rootScope', '$location', 'loadBilling',
-        function ($scope, loadUser, $_api, $http, User, $routeParams, $rootScope, $location, loadBilling) {
-
+    .controller('AccountController', ['$scope', 'loadUser', '$_api', '$http', 'User', '$routeParams', '$rootScope', '$location', 'PropertyDetails',
+        function ($scope, loadUser, $_api, $http, User, $routeParams, $rootScope, $location, PropertyDetails) {
             $scope.user = User;
 
             $scope.selectSubview = function (subview) {
@@ -43414,8 +43403,7 @@ angular.module('rescour.app')
                 }
             };
             $scope.accountPower = {
-//                title: User.profile.email,
-                icon: 'power-logo',
+                title: User.profile.email,
                 float: 'right',
                 options: {
                     back: {
@@ -43432,13 +43420,6 @@ angular.module('rescour.app')
                             $location.path('/logout');
                         }
                     }
-                }
-            };
-
-            $scope.backPower = {
-                title: 'Back to Application',
-                action: function () {
-                    $location.path('/');
                 }
             };
 
@@ -43747,6 +43728,7 @@ angular.module('rescour.app')
             $scope.toggle = 'all';
             $scope.getActive = Items.getActive;
             $scope.browser = BrowserDetect;
+            $scope.searchText = {};
             $scope.mapPower = {
                 float: 'right',
                 title: User.profile.email,
@@ -43755,19 +43737,25 @@ angular.module('rescour.app')
                         title: 'My Account',
                         icon: 'icon-user',
                         action: function () {
-                            $location.path('/account/');
+                            if (PropertyDetails.isOpen()) {
+                                PropertyDetails.close()
+                            }
+                            $location.path('/account/').search('id', null).hash(null);
                         }
                     },
                     'Logout': {
                         title: 'Logout',
                         icon: 'icon-power-off',
                         action: function () {
-
-                            $location.path('/logout');
+                            if (PropertyDetails.isOpen()) {
+                                PropertyDetails.close()
+                            }
+                            $location.path('/logout').search('id', null).hash(null);
                         }
                     }
                 }
             };
+
 
             function openDetails(id) {
                 if (angular.isObject(Items.items[id])) {
@@ -43802,6 +43790,7 @@ angular.module('rescour.app')
             };
 
             $scope.filter = function () {
+                $scope.searchText = {};
                 Attributes.apply();
                 Items.render();
                 Attributes.predict();
@@ -43852,6 +43841,7 @@ angular.module('rescour.app')
                                 _search.$save().then(function (response) {
                                     $scope.attributes.id = response.id;
                                     $scope.selectedSearch = _search;
+                                    $scope.selectedSearch.isSelected = true;
                                     $scope.attributes.modified = false;
                                     $scope.savedSearches.push(_search);
                                 });
@@ -43870,6 +43860,7 @@ angular.module('rescour.app')
                             return val.id === _old.id ? _search : val;
                         });
                         $scope.selectedSearch = _search;
+                        $scope.selectedSearch.isSelected = true;
                         $scope.attributes.modified = false;
                     }, function (response) {
                         $scope.savedSearches = SavedSearch.query();
@@ -43884,9 +43875,13 @@ angular.module('rescour.app')
             };
 
             $scope.refreshSearch = function () {
-                $scope.loadSearch(_.find($scope.savedSearches, function (saved) {
-                    return saved.id === $scope.attributes.id;
-                }));
+                if ($scope.selectedSearch) {
+                    $scope.loadSearch(_.find($scope.savedSearches, function (saved) {
+                        return saved.id === $scope.attributes.id;
+                    }));
+                } else {
+                    $scope.loadSearch();
+                }
             };
 
             $scope.loadSearch = function (search) {
@@ -43898,6 +43893,7 @@ angular.module('rescour.app')
                 $scope.$broadcast('rangesDefined');
                 $scope.filter();
                 $scope.selectedSearch = search;
+                $scope.selectedSearch.isSelected = true;
                 $scope.attributes.modified = false;
             };
 
@@ -43975,8 +43971,10 @@ angular.module('rescour.app')
                 icon: 'icon-download-alt',
                 color: 'blue',
                 action: function () {
+                    Items.reportItems = $scope.filteredItems;
                     Reports.openDialog()
                         .then(function (response) {
+
                         });
                 }
             };
@@ -44141,6 +44139,42 @@ angular.module('rescour.app')
 
             $scope.deleteFinance = function (finance) {
                 $scope.current.deleteFinance(finance);
+            };
+        }])
+    .controller('ReportsDialogController', ['$scope', 'dialog', 'Items', 'User',
+        function ($scope, dialog, Items, User) {
+            $scope.userEmail = User.profile.email;
+            $scope.reportItems = _.map(Items.reportItems,
+                function (item) {
+                    return {
+                        id: item.id,
+                        title: item.title,
+                        isSelected: true
+                    }
+                });
+
+            $scope.reportSettings = {};
+
+            $scope.reportLength = function () {
+                $scope.selectedItems = _.reject($scope.reportItems, function (item) {
+                    return !item.isSelected;
+                });
+                return $scope.selectedItems.length;
+            };
+
+            $scope.close = function () {
+                dialog.close();
+            };
+
+            $scope.save = function (settings) {
+                var _ids = _.map($scope.selectedItems, function (item) {
+                    return item.id;
+                });
+
+                dialog.close({
+                    ids: _ids,
+                    token: User.profile.token
+                });
             };
         }])
     .directive('savedSearchInput', ['$timeout', '$document', '$parse',

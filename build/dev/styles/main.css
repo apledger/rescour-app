@@ -6171,21 +6171,18 @@ a.label:hover, a.badge:hover {
   position: relative;
   display: block;
   padding: 10px 15px;
-  width: 100%;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
+  z-index: 2;
 }
-/* line 20, ../../src/app/market/desktop/styles/_filter.scss */
+/* line 21, ../../src/app/market/desktop/styles/_filter.scss */
 #Filter .slider {
   width: 206px;
 }
-/* line 24, ../../src/app/market/desktop/styles/_filter.scss */
+/* line 25, ../../src/app/market/desktop/styles/_filter.scss */
 #Filter .ui-widget-header {
   background: none !important;
   background-color: #9c3022 !important;
 }
-/* line 29, ../../src/app/market/desktop/styles/_filter.scss */
+/* line 30, ../../src/app/market/desktop/styles/_filter.scss */
 #Filter .filter-container {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -6196,21 +6193,21 @@ a.label:hover, a.badge:hover {
   height: 100%;
   padding-top: 10px;
 }
-/* line 38, ../../src/app/market/desktop/styles/_filter.scss */
+/* line 39, ../../src/app/market/desktop/styles/_filter.scss */
 #Filter .nav {
   margin-left: 0;
   margin-bottom: 20px;
   list-style: none;
 }
-/* line 43, ../../src/app/market/desktop/styles/_filter.scss */
+/* line 44, ../../src/app/market/desktop/styles/_filter.scss */
 #Filter .nav > li > a {
   display: block;
 }
-/* line 46, ../../src/app/market/desktop/styles/_filter.scss */
+/* line 47, ../../src/app/market/desktop/styles/_filter.scss */
 #Filter .nav > li > a:hover {
   text-decoration: none;
 }
-/* line 49, ../../src/app/market/desktop/styles/_filter.scss */
+/* line 50, ../../src/app/market/desktop/styles/_filter.scss */
 #Filter .nav-header {
   display: block;
   padding: 5px 15px 10px 15px;
@@ -6226,40 +6223,40 @@ a.label:hover, a.badge:hover {
 #Filter .nav-header span {
   font-weight: bold;
 }
-/* line 58, ../../src/app/market/desktop/styles/_filter.scss */
+/* line 59, ../../src/app/market/desktop/styles/_filter.scss */
 #Filter .nav-header:hover, #Filter .nav-header:active {
   color: #9f9f9f;
 }
-/* line 62, ../../src/app/market/desktop/styles/_filter.scss */
+/* line 63, ../../src/app/market/desktop/styles/_filter.scss */
 #Filter .nav-list {
   padding-left: 15px;
   padding-right: 15px;
   margin-bottom: 10px;
   clear: both;
 }
-/* line 69, ../../src/app/market/desktop/styles/_filter.scss */
+/* line 70, ../../src/app/market/desktop/styles/_filter.scss */
 #Filter .nav-list > li > a,
 #Filter .nav-list .nav-header {
   margin-left: -15px;
   margin-right: -15px;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 }
-/* line 74, ../../src/app/market/desktop/styles/_filter.scss */
+/* line 75, ../../src/app/market/desktop/styles/_filter.scss */
 #Filter .nav-list > li > a {
   padding: 3px 15px;
 }
-/* line 78, ../../src/app/market/desktop/styles/_filter.scss */
+/* line 79, ../../src/app/market/desktop/styles/_filter.scss */
 #Filter .nav-list > .active > a,
 #Filter .nav-list > .active > a:hover {
   color: white;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
   background-color: #0088cc;
 }
-/* line 83, ../../src/app/market/desktop/styles/_filter.scss */
+/* line 84, ../../src/app/market/desktop/styles/_filter.scss */
 #Filter .nav-list [class^="icon-"] {
   margin-right: 2px;
 }
-/* line 87, ../../src/app/market/desktop/styles/_filter.scss */
+/* line 88, ../../src/app/market/desktop/styles/_filter.scss */
 #Filter .label,
 #Filter .badge {
   font-size: 12px;
@@ -6271,33 +6268,33 @@ a.label:hover, a.badge:hover {
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
   background-color: #333333;
 }
-/* line 97, ../../src/app/market/desktop/styles/_filter.scss */
+/* line 98, ../../src/app/market/desktop/styles/_filter.scss */
 #Filter .label {
   padding: 1px 4px 2px;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
 }
-/* line 101, ../../src/app/market/desktop/styles/_filter.scss */
+/* line 102, ../../src/app/market/desktop/styles/_filter.scss */
 #Filter .badge {
   padding: 1px 9px 2px;
   -webkit-border-radius: 9px;
   -moz-border-radius: 9px;
   border-radius: 9px;
 }
-/* line 106, ../../src/app/market/desktop/styles/_filter.scss */
+/* line 107, ../../src/app/market/desktop/styles/_filter.scss */
 #Filter a.label:hover,
 #Filter a.badge:hover {
   color: white;
   text-decoration: none;
   cursor: pointer;
 }
-/* line 112, ../../src/app/market/desktop/styles/_filter.scss */
+/* line 113, ../../src/app/market/desktop/styles/_filter.scss */
 #Filter .label-success,
 #Filter .badge-success {
   background-color: #468847;
 }
-/* line 117, ../../src/app/market/desktop/styles/_filter.scss */
+/* line 118, ../../src/app/market/desktop/styles/_filter.scss */
 #Filter .label-info,
 #Filter .badge-info {
   background-color: #0088cc;
@@ -8204,7 +8201,7 @@ input:focus, textarea:focus {
 .powers .power.power-logo {
   height: 100%;
   border-right: none !important;
-  padding: 7px 60px 4px;
+  padding: 7px 63px 4px;
 }
 /* line 92, ../../src/styles/_powers.scss */
 .powers .power.power-right {
@@ -8335,9 +8332,7 @@ input:focus, textarea:focus {
 
 /* line 1, ../../src/styles/_input_dropdown.scss */
 .input-dropdown {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
+  position: relative;
 }
 /* line 4, ../../src/styles/_input_dropdown.scss */
 .input-dropdown .input-overlay {
@@ -8356,6 +8351,9 @@ input:focus, textarea:focus {
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
 /* line 20, ../../src/styles/_input_dropdown.scss */
 .input-dropdown .input-overlay.input-overlay-blue {
@@ -8440,6 +8438,9 @@ input:focus, textarea:focus {
   -webkit-box-shadow: none !important;
   -moz-box-shadow: none !important;
   box-shadow: none !important;
+  -webkit-box-sizing: border-box !important;
+  -moz-box-sizing: border-box !important;
+  box-sizing: border-box !important;
   z-index: 1;
 }
 /* line 79, ../../src/styles/_input_dropdown.scss */

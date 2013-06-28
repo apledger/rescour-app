@@ -1,5 +1,5 @@
 .input-dropdown {
-  @include box-sizing(border-box);
+  position: relative;
 
   .input-overlay {
     width: 100%;
@@ -14,8 +14,8 @@
     height: 100%;
     padding: 10px 15px;
     cursor: pointer;
-    //@include box-sizing(border-box);
     @include border-radius(4px);
+    @include box-sizing(border-box);
 
     &.input-overlay-blue {
       background: $blue;
@@ -73,7 +73,7 @@
     color: $white;
     padding: 20px 50px 20px 15px;
     @include box-shadow(none !important);
-    //@include box-sizing(border-box);
+    @include box-sizing(border-box !important);
     z-index: 1;
 
     &:focus {

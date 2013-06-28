@@ -5,9 +5,9 @@
     <!--LIST BEGIN-->
     <div id="MarketList" class="tablet" ng-controller="ListController">
         <div class="powers">
-            <div power="reportPower" power-tooltip="Download Report" power-tooltip-placement="bottom"></div>
-            <div power="sortPower" power-tooltip="Sort" power-tooltip-placement="bottom"></div>
-            <div power="showPower" power-tooltip="Show" power-tooltip-placement="bottom"></div>
+            <div power="reportPower"></div>
+            <div power="sortPower"></div>
+            <div power="showPower"></div>
             <div class="power-search">
                 <input type="text" ng-model="searchText.title"
                        placeholder="Search">
@@ -16,7 +16,7 @@
 
         <div class="scroll-container"
              chunk="filteredItems = (items | filter:searchText | limitVisible | orderBy:orderNA():sortBy.reverse)"
-             chunk-size="5" >
+             chunk-size="5">
             <!--Toggle favorites button-->
             <!--Item boxes display-->
             <div class="market-list-wrap">
@@ -33,7 +33,7 @@
                     <div class="dimensions clearfix">
                         <!--Location Button-->
                         <a href="javascript:" class="btn location" ng-class="{'disabled': !item.location}"
-                           ah-tap="panTo(item)" tooltip="Show on Map">
+                           ah-tap="panTo(item)">
                             <i class="icon-map-marker"></i>
                         </a>
 
@@ -68,23 +68,23 @@
                     <div class="footer">
                         <div class="user-options">
                             <!--Toggle favorite button-->
-                            <div class="footer-button" tooltip="Add to Favorites" ah-tap="toggleFavorites(item)">
+                            <div class="footer-button" ah-tap="toggleFavorites(item)">
                                 <i class="icon-star" ng-class="{'yellow': item.favorites}"></i>
                             </div>
 
                             <!--Toggle hidden button-->
-                            <div class="footer-button" tooltip="Hide" ah-tap="toggleHidden(item)">
+                            <div class="footer-button" ah-tap="toggleHidden(item)">
                                 <i class="icon-ban-circle" ng-class="{'red': item.hidden}"></i>
                             </div>
 
-                            <div class="footer-button" tooltip="Take Notes"
+                            <div class="footer-button"
                                  ah-tap="showItemDetails(item, 'comments')">
                                 <i class="icon-pencil"></i>
                             </div>
 
                             <!--Contact broker button-->
                             <div class="footer-button" ah-tap="showItemDetails(item, 'contact')"
-                                 tooltip="Contact Broker">
+                                    >
                                 <i class="icon-envelope"></i>
 
                                 <span>{{item.getAttribute('broker')}}</span>

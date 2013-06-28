@@ -13,8 +13,9 @@
     position: relative;
     display: block;
     padding: 10px 15px;
-    width: 100%;
-    @include box-sizing(border-box);
+    //width: 100%;
+    z-index: 2;
+    //@include box-sizing(border-box);
   }
 
   .slider {

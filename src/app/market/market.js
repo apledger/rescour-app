@@ -115,6 +115,10 @@ angular.module('rescour.app')
         function ($scope, Items, Attributes, SavedSearch, $dialog) {
             $scope.selectedSearch = null;
 
+            $scope.$watch('attributes.title', function (newVal, oldVal) {
+                $scope.attributes.modified = true;
+            });
+
             SavedSearch.query().then(function (savedSearches) {
                 $scope.savedSearches = savedSearches;
             });
@@ -146,23 +150,28 @@ angular.module('rescour.app')
                 var _search = new SavedSearch($scope.attributes),
                     _old = _.findWhere($scope.savedSearches, {id: $scope.attributes.id});
 
-                _search.$save().then(function (response) {
-                    if (!_old) {
-                        $scope.savedSearches.push(_search);
-                        $scope.attributes.id = response.id;
+                if ($scope.attributes.modified) {
+                    console.log("modified");
+                    _search.$save().then(function (response) {
+                        if (!_old) {
+                            $scope.savedSearches.push(_search);
+                            $scope.attributes.id = response.id;
 
-                    } else {
-                        $scope.savedSearches = _.map($scope.savedSearches, function (val) {
-                            return val.id === _old.id ? _search : val;
-                        });
-                    }
-                    $scope.selectedSearch = _search;
-                    $scope.attributes.modified = false;
-//                    updateLoadPower();
-                }, function (response) {
-                    $scope.savedSearches = SavedSearch.query();
-                    throw new Error("Could not save search: " + response.error);
-                });
+                        } else {
+                            $scope.savedSearches = _.map($scope.savedSearches, function (val) {
+                                return val.id === _old.id ? _search : val;
+                            });
+                        }
+                        $scope.selectedSearch = _search;
+                        $scope.attributes.modified = false;
+    //                    updateLoadPower();
+                    }, function (response) {
+                        $scope.savedSearches = SavedSearch.query();
+                        throw new Error("Could not save search: " + response.error);
+                    });
+                } else {
+                    console.log("not modified");
+                }
             };
 
             $scope.toggleDiscreet = function (value) {
@@ -419,8 +428,8 @@ angular.module('rescour.app')
                 $scope.current.deleteFinance(finance);
             };
         }])
-    .directive('savedSearchInput', ['$timeout', '$document',
-        function ($timeout, $document) {
+    .directive('savedSearchInput', ['$timeout', '$document', '$parse',
+        function ($timeout, $document, $parse) {
             return {
                 require: 'ngModel',
                 link: function (scope, element, attrs, modelCtrl) {
@@ -430,13 +439,45 @@ angular.module('rescour.app')
                         modelPrevious = modelPlaceholder,
                         ttOriginalText = attrs.tooltip;
 
-
                     function checkEmpty() {
                         if (!modelCtrl.$viewValue) {
                             modelCtrl.$viewValue = modelPrevious;
                             modelCtrl.$render();
                         }
                     }
+
+                    // TODO: Figure out how to set read only properlly
+
+                    // TODO: Solve problem of as they start typing, it goes into first block and sets read only
+                    // TODO: Figure out what the difference is on that use case of modified
+                    
+                    scope.$watch('attributes.modified', function (newVal, oldVal) {
+                        console.log(newVal);
+                        if (newVal && scope.attributes.title && scope.attributes.title !== modelIgnore) {
+                            scope.attributes.readonly = true;
+                            attrs.$set('tooltip', 'Click to Save');
+                            element.css({
+                                'background-color': '#468847',
+                                'cursor': 'pointer'
+                            });
+                            element.attr('readonly', 'true');
+                            element.bind('click', function (e) {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                scope.saveSearch();
+                                element.unbind('click');
+                            });
+                        } else {
+                            scope.attributes.readonly = false;
+                            attrs.$set('tooltip', ttOriginalText);
+//                            element.removeAttr('readonly');
+                            element.css({
+                                'background-color': '#999999',
+                                'cursor': 'text'
+                            });
+                        }
+
+                    });
 
                     element.bind('focus', function (e) {
                         scope.$apply(function () {
@@ -447,14 +488,23 @@ angular.module('rescour.app')
                                 modelCtrl.$viewValue = '';
                                 modelCtrl.$render();
                             }
+
+                            element.bind('keydown', function (e) {
+                                // If enter key
+                                if (e.which === 13) {
+                                    element.blur();
+                                }
+                            });
                         });
                     });
 
                     element.bind('blur', function (e) {
                         attrs.$set('tooltip', ttOriginalText);
                         scope.$apply(checkEmpty);
-
+                        scope.attributes.modified = false;
+                        scope.saveSearch();
                         // TODO: bind enter to save
+
                     });
 
                     $timeout(checkEmpty, 0);

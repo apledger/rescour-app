@@ -757,16 +757,13 @@ dialogModule.provider("$dialog", function () {
             Dialog.prototype._onCloseComplete = function (result) {
                 this._removeElementsFromDom();
                 this._unbindEvents();
-                console.log("closing");
                 this.deferred.resolve(result);
             };
 
             Dialog.prototype._addElementsToDom = function () {
                 if (this.containerEl) {
-                    console.log("container append");
                     this.containerEl.append(this.modalEl);
                 } else {
-                    console.log("body append");
                     body.append(this.modalEl);
                 }
 

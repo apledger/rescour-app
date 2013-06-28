@@ -638,6 +638,7 @@ angular.module('rescour.market', [])
                         }
                     }
                 }
+                console.log(this);
             };
 
             Attributes.prototype.toArray = function () {
@@ -748,17 +749,13 @@ angular.module('rescour.market', [])
                     }
                 }
 
-                for (var rangeID in self.discreet) {
-                    if (self.discreet.hasOwnProperty(rangeID)) {
-                        _discreet = self.discreet[rangeID];
+                for (var discreetID in self.discreet) {
+                    if (self.discreet.hasOwnProperty(discreetID)) {
+                        _discreet = self.discreet[discreetID];
                         if (_discreet.visibleIds.length === 0) {
                             continue;
                         }
-                        if (intersectArray.length === 0) {
-                            intersectArray = _discreet.visibleIds;
-                        } else {
-                            intersectArray = _.intersection(intersectArray, _discreet.visibleIds);
-                        }
+                        intersectArray = _.intersection(intersectArray, _discreet.visibleIds);
                     }
                 }
                 return intersectArray;

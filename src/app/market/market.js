@@ -78,7 +78,6 @@ angular.module('rescour.app')
                 }
             };
 
-
             function openDetails(id) {
                 if (angular.isObject(Items.items[id])) {
                     PropertyDetails.open(Items.items[id]).selectPane($location.hash());

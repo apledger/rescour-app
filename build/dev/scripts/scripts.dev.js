@@ -41065,7 +41065,7 @@ angular.module('rescour.utility', [])
 
                 element.bind('scroll', function () {
                     // Check if within bottom of scrollable div
-                    if ((raw.scrollTop + raw.offsetHeight)*1.05 >= raw.scrollHeight) {
+                    if ((raw.scrollTop + raw.offsetHeight) * 1.05 >= raw.scrollHeight) {
                         // increase chunkSize and re-filter
                         scope.$apply(function () {
                             // take next limit
@@ -41349,59 +41349,7 @@ angular.module('rescour.utility', [])
                 }, 0);
             }
         };
-    }])
-    .directive('dropdownToggle',
-        ['$document', '$location', '$window', function ($document, $location, $window) {
-            var openElement = null, close;
-            return {
-                restrict: 'CA',
-                link: function (scope, element, attrs) {
-                    scope.$watch(function dropdownTogglePathWatch() {
-                        return $location.path();
-                    }, function dropdownTogglePathWatchAction() {
-                        if (close) {
-                            close();
-                        }
-                    });
-
-                    element.parent().bind('click', function (event) {
-                        if (close) {
-                            close();
-                        }
-                    });
-
-                    element.bind('click', function (event) {
-                        event.preventDefault();
-                        event.stopPropagation();
-
-                        var iWasOpen = false;
-
-                        if (openElement) {
-                            iWasOpen = openElement === element;
-                            close();
-                        }
-
-                        if (!iWasOpen) {
-                            element.parent().parent().addClass('open');
-                            openElement = element;
-
-                            close = function (event) {
-                                if (event) {
-                                    event.preventDefault();
-                                    event.stopPropagation();
-                                }
-                                $document.unbind('click', close);
-                                element.parent().parent().removeClass('open');
-                                close = null;
-                                openElement = null;
-                            };
-
-                            $document.bind('click', close);
-                        }
-                    });
-                }
-            };
-        }]);
+    }]);
 /**
  * Created with JetBrains WebStorm.
  * User: apledger
@@ -41831,7 +41779,7 @@ angular.module('rescour.market', [])
             // Attributes Constructor
             function Attributes() {
                 var defaults = angular.extend({
-                        title: "",
+                        title: '',
                         discreet: {},
                         range: {},
                         visibleIds: []
@@ -41974,74 +41922,60 @@ angular.module('rescour.market', [])
 
             Attributes.prototype.load = function (search) {
                 var self = this;
-                if (search) {
-                    this.id = search.id || undefined;
-                    this.title = search.title || undefined;
-                    // error handling here
-                    for (var rangeID in search.range) {
-                        try {
-                            // Check if range attribute exists
-                            if (_.has(self.range, rangeID)) {
-                                var withinLowBound = (search.range[rangeID].lowSelected >= self.range[rangeID].low),
-                                    withinHighBound = (search.range[rangeID].highSelected <= self.range[rangeID].high);
-                                // Then check if the selected on the save is still within bounds
-                                if (withinLowBound && withinHighBound) {
-                                    self.range[rangeID].lowSelected = search.range[rangeID].lowSelected;
-                                    self.range[rangeID].highSelected = search.range[rangeID].highSelected;
-                                } else if (!withinLowBound && withinHighBound) {
-                                    self.range[rangeID].lowSelected = self.range[rangeID].low;
-                                    self.range[rangeID].highSelected = search.range[rangeID].highSelected;
-                                } else if (withinLowBound && !withinHighBound) {
-                                    self.range[rangeID].lowSelected = search.range[rangeID].lowSelected;
-                                    self.range[rangeID].highSelected = self.range[rangeID].high;
-                                } else {
-                                    self.range[rangeID].lowSelected = self.range[rangeID].low;
-                                    self.range[rangeID].highSelected = self.range[rangeID].high;
-                                }
-                            } else {
-                                throw new Error(rangeID + " not found in range");
-                            }
-                        } catch (e) {
-                            console.log(e.message);
-                        }
-                    }
 
-                    for (var discreetID in search.discreet) {
-                        try {
-                            // Check if discreet attribute exists on current attributes
-                            if (_.has(self.discreet, discreetID)) {
-                                for (var attrID in search.discreet[discreetID].values) {
-                                    // If the saved search attribute exists
-                                    if (_.has(self.discreet[discreetID].values, attrID)) {
-                                        // Check to see if marked as true
-                                        if (search.discreet[discreetID].values[attrID].isSelected && !self.discreet[discreetID].values[attrID].isSelected) {
-                                            self.discreet[discreetID].values[attrID].isSelected = true;
-                                            self.discreet[discreetID].selected++;
-                                        } else if (!search.discreet[discreetID].values[attrID].isSelected && self.discreet[discreetID].values[attrID].isSelected) {
-                                            self.discreet[discreetID].values[attrID].isSelected = false;
-                                            self.discreet[discreetID].selected--;
-                                        }
-                                    }
-                                }
-                            } else {
-                                throw new Error(discreetID + " not found in discreet");
-                            }
-                        } catch (e) {
-                            console.log(e.message);
+                var _search = angular.extend({
+                    title: '',
+                    discreet: {},
+                    range: {}
+                }, search);
+
+                self.id = _search.id || undefined;
+                self.title = _search.title || '';
+
+                for (var rangeID in self.range) {
+                    // Check if range attribute exists
+                    if (_search.range.hasOwnProperty(rangeID)) {
+                        var withinLowBound = (_search.range[rangeID].lowSelected >= self.range[rangeID].low),
+                            withinHighBound = (_search.range[rangeID].highSelected <= self.range[rangeID].high);
+                        // Then check if the selected on the save is still within bounds
+                        if (withinLowBound && withinHighBound) {
+                            self.range[rangeID].lowSelected = _search.range[rangeID].lowSelected;
+                            self.range[rangeID].highSelected = _search.range[rangeID].highSelected;
+                        } else if (!withinLowBound && withinHighBound) {
+                            self.range[rangeID].lowSelected = self.range[rangeID].low;
+                            self.range[rangeID].highSelected = _search.range[rangeID].highSelected;
+                        } else if (withinLowBound && !withinHighBound) {
+                            self.range[rangeID].lowSelected = _search.range[rangeID].lowSelected;
+                            self.range[rangeID].highSelected = self.range[rangeID].high;
+                        } else {
+                            self.range[rangeID].lowSelected = self.range[rangeID].low;
+                            self.range[rangeID].highSelected = self.range[rangeID].high;
                         }
-                    }
-                } else {
-                    this.id = undefined;
-                    this.title = undefined;
-                    // error handling here
-                    for (var rangeID in self.range) {
+                    } else {
                         if (self.range.hasOwnProperty(rangeID)) {
                             self.range[rangeID].lowSelected = self.range[rangeID].low;
                             self.range[rangeID].highSelected = self.range[rangeID].high;
                         }
                     }
+                }
 
-                    for (var discreetID in self.discreet) {
+                for (var discreetID in self.discreet) {
+                    // Check if discreet attribute exists on current attributes
+                    if (_search.discreet.hasOwnProperty(discreetID)) {
+                        for (var attrID in _search.discreet[discreetID].values) {
+                            // If the saved search attribute exists
+                            if (self.discreet[discreetID].values.hasOwnProperty(attrID)) {
+                                // Check to see if marked as true
+                                if (_search.discreet[discreetID].values[attrID].isSelected && !self.discreet[discreetID].values[attrID].isSelected) {
+                                    self.discreet[discreetID].values[attrID].isSelected = true;
+                                    self.discreet[discreetID].selected++;
+                                } else if (!_search.discreet[discreetID].values[attrID].isSelected && self.discreet[discreetID].values[attrID].isSelected) {
+                                    self.discreet[discreetID].values[attrID].isSelected = false;
+                                    self.discreet[discreetID].selected--;
+                                }
+                            }
+                        }
+                    } else {
                         if (self.discreet.hasOwnProperty(discreetID)) {
                             for (var attrID in self.discreet[discreetID].values) {
                                 // If the saved search attribute exists
@@ -42309,20 +42243,6 @@ angular.module('rescour.market', [])
             };
 
             return SavedSearch;
-        }])
-    .controller('SaveSearchDialogController', ['$scope', 'dialog',
-        function ($scope, dialog) {
-            $scope.searchSettings = {};
-            $scope.close = function () {
-                dialog.close();
-            };
-
-            $scope.save = function (settings) {
-                dialog.close({
-                    action: 'save',
-                    settings: settings
-                });
-            };
         }])
     .factory('Comment', ['$_api', '$q', '$http', 'User',
         function ($_api, $q, $http, User) {
@@ -43201,11 +43121,11 @@ angular.module('rescour.powers', [])
         };
 
         this.open = function (power) {
-            $rootScope.$broadcast('Powers.close');
+            $rootScope.$broadcast('destroyDropdowns');
             power.open();
         };
 
-        $scope.$on('Powers.close', function () {
+        $scope.$on('destroyDropdowns', function () {
             angular.forEach(powers, function (value, key) {
                 if (value.power.isOpen) {
                     value.power.close();
@@ -43265,14 +43185,16 @@ angular.module('rescour.powers', [])
                     };
 
                     element.bind('click', function (e) {
-                        if (!_power.isOpen && _power.options) {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            PowersController.open(_power);
-                        } else if (_power.action) {
-                            scope.$apply(function () {
-                                _power.action();
-                            });
+                        if (!_power.isDisabled) {
+                            if (!_power.isOpen && _power.options) {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                PowersController.open(_power);
+                            } else if (_power.action) {
+                                scope.$apply(function () {
+                                    _power.action();
+                                });
+                            }
                         }
                     });
 
@@ -43807,7 +43729,7 @@ angular.module('rescour.app')
             $scope.browser = BrowserDetect;
             $scope.mapPower = {
                 float: 'right',
-                icon: 'power-logo',
+                title: User.profile.email,
                 options: {
                     'My Account': {
                         title: 'My Account',
@@ -43869,33 +43791,10 @@ angular.module('rescour.app')
     .controller("FilterController", ['$scope', 'Items', 'Attributes', 'SavedSearch', '$dialog',
         function ($scope, Items, Attributes, SavedSearch, $dialog) {
             $scope.selectedSearch = null;
-            $scope.loadPower = {
-                title: 'Load',
-                options: {}
-            };
-
-            $scope.newPower = {
-                icon: 'icon-refresh',
-                action: function () {
-                    $scope.loadSearch();
-                },
-                color: 'blue'
-            };
-
-            var updateLoadPower = function () {
-                angular.forEach($scope.savedSearches, function (value) {
-                    $scope.loadPower.options[value.title] = {
-                        action: function () {
-                            $scope.loadSearch(value);
-                        },
-                        title: value.title
-                    }
-                });
-            }
+            $scope.attributes = Attributes;
 
             SavedSearch.query().then(function (savedSearches) {
                 $scope.savedSearches = savedSearches;
-                updateLoadPower();
             });
 
             $scope.openSaveDialog = function () {
@@ -43919,29 +43818,44 @@ angular.module('rescour.app')
                 };
             };
 
-            $scope.saveSearch = function (settings) {
-                angular.extend($scope.attributes, settings);
+            $scope.saveSearch = function () {
 
-                var _search = new SavedSearch($scope.attributes),
-                    _old = _.findWhere($scope.savedSearches, {id: $scope.attributes.id});
-
-                _search.$save().then(function (response) {
-                    if (!_old) {
-                        $scope.savedSearches.push(_search);
-                        $scope.attributes.id = response.id;
-
-                    } else {
+                if (!$scope.attributes.id) {
+                    // If no id, then it is a new search
+                    SavedSearch.dialog
+                        .open()
+                        .then(function (settings) {
+                            if (settings) {
+                                // Creating in dialog cb so attributes will have finished being edited
+                                var _search = new SavedSearch(angular.extend({}, settings, $scope.attributes));
+                                console.log(_search);
+                                _search.$save().then(function (response) {
+                                    $scope.attributes.id = response.id;
+                                    $scope.selectedSearch = _search;
+                                    $scope.attributes.modified = false;
+                                    $scope.savedSearches.push(_search);
+                                });
+                            }
+                        }, function (response) {
+                            $scope.savedSearches = SavedSearch.query();
+                            throw new Error("Could not save search: " + response.error);
+                        });
+                } else {
+                    // If there is an id, need to update
+                    var _search = new SavedSearch($scope.attributes);
+                    _search.$save().then(function (response) {
+                        var _old = _.findWhere($scope.savedSearches, {id: $scope.attributes.id})
+                        // Since we do not requery, need to update local saved search collection
                         $scope.savedSearches = _.map($scope.savedSearches, function (val) {
                             return val.id === _old.id ? _search : val;
                         });
-                    }
-                    $scope.selectedSearch = _search;
-                    $scope.attributes.modified = false;
-                    updateLoadPower();
-                }, function (response) {
-                    $scope.savedSearches = SavedSearch.query();
-                    throw new Error("Could not save search: " + response.error);
-                });
+                        $scope.selectedSearch = _search;
+                        $scope.attributes.modified = false;
+                    }, function (response) {
+                        $scope.savedSearches = SavedSearch.query();
+                        throw new Error("Could not save search: " + response.error);
+                    });
+                }
             };
 
             $scope.toggleDiscreet = function (value) {
@@ -43956,6 +43870,10 @@ angular.module('rescour.app')
             };
 
             $scope.loadSearch = function (search) {
+                search = search || {
+                    title: 'Untitled Search'
+                };
+
                 Attributes.load(search);
                 $scope.$broadcast('rangesDefined');
                 $scope.filter();
@@ -43971,8 +43889,20 @@ angular.module('rescour.app')
                 item.isFavorite = !item.isFavorite;
             };
         }])
-    .
-    controller("ListController", ['$scope', 'PropertyDetails', 'Items', 'Reports',
+
+    .controller('SaveSearchDialogController', ['$scope', 'dialog', 'Attributes',
+        function ($scope, dialog, Attributes) {
+            $scope.attributes = Attributes;
+            $scope.searchSettings = {};
+            $scope.close = function () {
+                dialog.close();
+            };
+
+            $scope.save = function () {
+                dialog.close($scope.searchSettings);
+            };
+        }])
+    .controller("ListController", ['$scope', 'PropertyDetails', 'Items', 'Reports',
         function ($scope, PropertyDetails, Items, Reports) {
             $scope.sortBy = {
                 predicate: '',
@@ -43986,8 +43916,8 @@ angular.module('rescour.app')
                     $scope.sortBy.reverse = false;
                     $scope.sortBy.predicate = this.key;
 
-                    angular.forEach($scope.sortPower.options, function(value, key){
-                      value.icon = 'icon-long-arrow-down'
+                    angular.forEach($scope.sortPower.options, function (value, key) {
+                        value.icon = 'icon-long-arrow-down'
                     });
                 }
 
@@ -44031,7 +43961,7 @@ angular.module('rescour.app')
                 }
             };
 
-            function show () {
+            function show() {
                 Items.render(this.key);
                 $scope.showPower.icon = this.icon;
             };
@@ -44191,6 +44121,93 @@ angular.module('rescour.app')
 
             $scope.deleteFinance = function (finance) {
                 $scope.current.deleteFinance(finance);
+            };
+        }])
+    .directive('savedSearchInput', ['$timeout', '$document', '$parse',
+        function ($timeout, $document, $parse) {
+            return {
+                require: 'ngModel',
+                link: function (scope, element, attrs, modelCtrl) {
+                    var modelPlaceholder = 'My Searches',
+                        modelIgnore = 'Untitled Search',
+                        modelPrevious = modelPlaceholder,
+                        prevAttributeTitle;
+
+                    function checkEmpty() {
+                        if (!modelCtrl.$viewValue) {
+                            modelCtrl.$viewValue = modelPrevious;
+                            modelCtrl.$render();
+                        }
+                    }
+
+                    element.bind('focus', function (e) {
+                        scope.$apply(function () {
+                            prevAttributeTitle = scope.attributes.title;
+                            if (modelCtrl.$viewValue === modelPlaceholder || modelCtrl.$viewValue === modelIgnore) {
+                                modelPrevious = modelCtrl.$viewValue;
+                                modelCtrl.$viewValue = '';
+                                modelCtrl.$render();
+                            }
+                        });
+                    });
+
+                    element.bind('blur', function (e) {
+                        scope.$apply(function () {
+                            if (prevAttributeTitle !== scope.attributes.title) {
+                                scope.attributes.modified = true;
+                            }
+                            checkEmpty();
+                        });
+                    });
+
+                    $timeout(checkEmpty, 0);
+                }
+            };
+        }])
+    .directive('inputDropdown', ['$document',
+        function ($document) {
+            return {
+                restrict: 'C',
+                link: function (scope, element, attrs) {
+                    var ddBtn = element.find('.input-dropdown-btn');
+                    var ddMenu = element.find('.input-dropdown-menu');
+
+                    scope.$on('destroyDropdowns', close);
+
+                    function open(e) {
+                        if (e) {
+                            e.stopPropagation();
+                            e.preventDefault();
+                        }
+
+                        scope.$broadcast('destroyDropdowns');
+                        scope.$broadcast('destroyTooltips');
+
+                        if (!scope.isOpen) {
+                            scope.$apply(function () {
+                                ddMenu.show();
+                                scope.isOpen = true;
+                                $document.bind('click', close);
+                                ddBtn.unbind('click', open);
+                            });
+                        } else {
+                            close();
+                        }
+                    }
+
+                    function close(e) {
+                        scope.$apply(function () {
+                            if (scope.isOpen) {
+                                ddMenu.hide();
+                                scope.isOpen = false;
+                                $document.unbind('click', close);
+                                ddBtn.bind('click', open);
+                            }
+                        });
+                    }
+
+                    ddBtn.bind('click', open);
+                }
             };
         }]);
 

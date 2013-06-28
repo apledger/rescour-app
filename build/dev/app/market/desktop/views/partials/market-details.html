@@ -132,13 +132,9 @@
             <p class="lead">Comps</p>
 
             <blockquote ng-repeat="comp in current.details.comps">
-                <p>{{comp.body}}</p>
-                <small>{{comp.title + ","}} <cite><a ng-href="{{comp.link}}" target="_blank">View Source</a></cite></small>
-            </blockquote>
-
-            <blockquote ng-repeat="comp in current.details.comps">
-                <a ng-href="{{comp.link}}" target="_blank">{{comp.title}}</a>
-                <small>{{comp.body}}<cite></cite></small>
+                <p ng-show="comp.title"><strong>{{comp.title}}</strong></p>
+                <p ng-show="comp.body">{{comp.body}}</p>
+                <small><cite><a ng-href="{{comp.link}}" target="_blank">View Source</a></cite></small>
             </blockquote>
         </div>
     </div>

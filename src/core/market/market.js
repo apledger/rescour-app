@@ -1217,23 +1217,6 @@ angular.module('rescour.market', [])
                 }
             }
         }])
-    .controller('ReportsDialogController', ['$scope', 'dialog', 'Items', 'User',
-        function ($scope, dialog, Items, User) {
-            $scope.userEmail = User.profile.email;
-            $scope.reportLength = Items.visibleIds.length;
-            $scope.reportSettings = {};
-
-            $scope.close = function () {
-                dialog.close();
-            };
-
-            $scope.save = function (settings) {
-                dialog.close({
-                    ids: Items.visibleIds,
-                    token: User.profile.token
-                });
-            };
-        }])
     .directive('slider', function () {
         return {
             restrict: 'A',

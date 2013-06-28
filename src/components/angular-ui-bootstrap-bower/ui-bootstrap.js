@@ -624,7 +624,6 @@ dialogModule.provider("$dialog", function () {
                 }
 
                 this.containerEl = options.containerClass ? $document.find('.' + options.containerClass) : body;
-                console.log(this.containerEl);
 
                 this.handledEscapeKey = function (e) {
                     if (e.which === 27) {

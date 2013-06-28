@@ -50,6 +50,7 @@ angular.module('rescour.app')
             $scope.toggle = 'all';
             $scope.getActive = Items.getActive;
             $scope.browser = BrowserDetect;
+            $scope.searchText = {};
             $scope.mapPower = {
                 float: 'right',
                 title: User.profile.email,
@@ -105,6 +106,7 @@ angular.module('rescour.app')
             };
 
             $scope.filter = function () {
+                $scope.searchText = {};
                 Attributes.apply();
                 Items.render();
                 Attributes.predict();
@@ -155,6 +157,7 @@ angular.module('rescour.app')
                                 _search.$save().then(function (response) {
                                     $scope.attributes.id = response.id;
                                     $scope.selectedSearch = _search;
+                                    $scope.selectedSearch.isSelected = true;
                                     $scope.attributes.modified = false;
                                     $scope.savedSearches.push(_search);
                                 });
@@ -173,6 +176,7 @@ angular.module('rescour.app')
                             return val.id === _old.id ? _search : val;
                         });
                         $scope.selectedSearch = _search;
+                        $scope.selectedSearch.isSelected = true;
                         $scope.attributes.modified = false;
                     }, function (response) {
                         $scope.savedSearches = SavedSearch.query();
@@ -187,7 +191,6 @@ angular.module('rescour.app')
             };
 
             $scope.refreshSearch = function () {
-
                 if ($scope.selectedSearch) {
                     $scope.loadSearch(_.find($scope.savedSearches, function (saved) {
                         return saved.id === $scope.attributes.id;
@@ -206,6 +209,7 @@ angular.module('rescour.app')
                 $scope.$broadcast('rangesDefined');
                 $scope.filter();
                 $scope.selectedSearch = search;
+                $scope.selectedSearch.isSelected = true;
                 $scope.attributes.modified = false;
             };
 
@@ -283,8 +287,10 @@ angular.module('rescour.app')
                 icon: 'icon-download-alt',
                 color: 'blue',
                 action: function () {
+                    Items.reportItems = $scope.filteredItems;
                     Reports.openDialog()
                         .then(function (response) {
+
                         });
                 }
             };
@@ -449,6 +455,42 @@ angular.module('rescour.app')
 
             $scope.deleteFinance = function (finance) {
                 $scope.current.deleteFinance(finance);
+            };
+        }])
+    .controller('ReportsDialogController', ['$scope', 'dialog', 'Items', 'User',
+        function ($scope, dialog, Items, User) {
+            $scope.userEmail = User.profile.email;
+            $scope.reportItems = _.map(Items.reportItems,
+                function (item) {
+                    return {
+                        id: item.id,
+                        title: item.title,
+                        isSelected: true
+                    }
+                });
+
+            $scope.reportSettings = {};
+
+            $scope.reportLength = function () {
+                $scope.selectedItems = _.reject($scope.reportItems, function (item) {
+                    return !item.isSelected;
+                });
+                return $scope.selectedItems.length;
+            };
+
+            $scope.close = function () {
+                dialog.close();
+            };
+
+            $scope.save = function (settings) {
+                var _ids = _.map($scope.selectedItems, function (item) {
+                    return item.id;
+                });
+
+                dialog.close({
+                    ids: _ids,
+                    token: User.profile.token
+                });
             };
         }])
     .directive('savedSearchInput', ['$timeout', '$document', '$parse',

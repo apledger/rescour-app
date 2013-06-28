@@ -36,7 +36,7 @@
                             <li ng-click="loadSearch()"><i class="icon-file-text"></i><a href="javascript:">New
                                 Search</a></li>
                             <div class="divider"></div>
-                            <li ng-repeat="search in savedSearches | orderBy: 'title'" ng-click="loadSearch(search)"><a href="javascript:">{{search.title}}</a>
+                            <li ng-repeat="search in savedSearches | orderBy: 'title'" ng-click="loadSearch(search)" ng-class="{'active': search.isSelected}"><a href="javascript:">{{search.title}}</a>
                             </li>
                         </ul>
                     </div>

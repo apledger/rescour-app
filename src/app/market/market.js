@@ -187,9 +187,14 @@ angular.module('rescour.app')
             };
 
             $scope.refreshSearch = function () {
-                $scope.loadSearch(_.find($scope.savedSearches, function (saved) {
-                    return saved.id === $scope.attributes.id;
-                }));
+
+                if ($scope.selectedSearch) {
+                    $scope.loadSearch(_.find($scope.savedSearches, function (saved) {
+                        return saved.id === $scope.attributes.id;
+                    }));
+                } else {
+                    $scope.loadSearch();
+                }
             };
 
             $scope.loadSearch = function (search) {

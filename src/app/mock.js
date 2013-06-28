@@ -208,6 +208,10 @@ angular.module('rescour.app.mock', ['rescour.app', 'ngMockE2E'])
         var items = {},
             itemDetails = {};
 
+        function randomDate(start, end) {
+            return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()))
+        }
+
         for (var k = 0; k < NUM_ITEMS; k++) {
             var randomCity = regionMap[parseInt((Math.random() * regionMap.length), 10)],
                 randomBroker = brokerMap[parseInt((Math.random() * brokerMap.length), 10)],
@@ -248,7 +252,9 @@ angular.module('rescour.app.mock', ['rescour.app', 'ngMockE2E'])
                     },
                     range: {
                         yearBuilt: randomYear,
-                        numUnits: randomUnits
+                        numUnits: randomUnits,
+                        callForOffers: randomDate(new Date(2013, 0, 1), new Date()).getTime() / 1000,
+                        datePosted: randomDate(new Date(2013, 0, 1), new Date()).getTime() / 1000
                     }
                 }
             };
@@ -256,7 +262,6 @@ angular.module('rescour.app.mock', ['rescour.app', 'ngMockE2E'])
             itemDetails[k] = {
                 comments: [],
                 finances: [],
-                callForOffers: "2013-04-12T04:00:00.000Z",
                 tourDates: [
                     {date: '2013-03-19T04:00:00.000Z'},
                     {date: '2013-03-26T04:00:00.000Z'},
@@ -308,7 +313,7 @@ angular.module('rescour.app.mock', ['rescour.app', 'ngMockE2E'])
                     }
                 ]
             };
-        }
+        };
 
         var fakeUser = {
             company: "Fake Company",
@@ -320,7 +325,7 @@ angular.module('rescour.app.mock', ['rescour.app', 'ngMockE2E'])
             phone: "123-456-6754",
             username: "bob@fakecompany.com",
             roles: ['staff']
-        }
+        };
 
         var fakeCustomer = {
             "id": "ch_1a3rxiEot611Pd",

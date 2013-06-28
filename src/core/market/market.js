@@ -638,7 +638,6 @@ angular.module('rescour.market', [])
                         }
                     }
                 }
-                console.log(this);
             };
 
             Attributes.prototype.toArray = function () {
@@ -1114,10 +1113,8 @@ angular.module('rescour.market', [])
                             var item = Items.getActive() || {};
                             if (!item.hasOwnProperty('details') || _.isEmpty(item.details)) {
                                 item.getDetails().then(function (_item) {
-                                    console.log("about to resolve", _item);
                                     deferred.resolve(_item);
                                 }, function () {
-                                    console.log("error");
                                     deferred.reject();
                                 });
                             } else {

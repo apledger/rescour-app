@@ -8393,13 +8393,12 @@ input:focus, textarea:focus {
   -moz-border-radius: 3px;
   border-radius: 3px;
   color: #5f5f5f;
-  z-index: 3;
 }
-/* line 50, ../../src/styles/_input_dropdown.scss */
+/* line 49, ../../src/styles/_input_dropdown.scss */
 .input-dropdown .input-overlay .left-btn, .input-dropdown .input-overlay .left-btn i {
   cursor: pointer;
 }
-/* line 54, ../../src/styles/_input_dropdown.scss */
+/* line 53, ../../src/styles/_input_dropdown.scss */
 .input-dropdown .input-overlay .left-btn:hover {
   background-color: #eeeeee;
   background-image: -moz-linear-gradient(top, #eeeeee, #eeeeee);
@@ -8410,7 +8409,7 @@ input:focus, textarea:focus {
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ebebeb', endColorstr='#ebebeb', GradientType=0);
 }
-/* line 58, ../../src/styles/_input_dropdown.scss */
+/* line 57, ../../src/styles/_input_dropdown.scss */
 .input-dropdown .input-overlay .left-btn:active {
   -webkit-box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.2);
   -moz-box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.2);
@@ -8424,7 +8423,7 @@ input:focus, textarea:focus {
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#dfdfdf', endColorstr='#dfdfdf', GradientType=0);
 }
-/* line 65, ../../src/styles/_input_dropdown.scss */
+/* line 64, ../../src/styles/_input_dropdown.scss */
 .input-dropdown > input {
   display: inline-block;
   width: 100%;
@@ -8434,8 +8433,9 @@ input:focus, textarea:focus {
   font-size: 12px;
   font-weight: bold;
   color: white;
-  padding: 10px 40px 10px 15px;
-  height: 100%;
+  padding-left: 15px;
+  padding-right: 40px;
+  height: 40px;
   -webkit-box-shadow: none !important;
   -moz-box-shadow: none !important;
   box-shadow: none !important;

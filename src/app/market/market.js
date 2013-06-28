@@ -143,7 +143,6 @@ angular.module('rescour.app')
 
             $scope.saveSearch = function () {
 
-
                 if (!$scope.attributes.id) {
                     // If no id, then it is a new search
                     SavedSearch.dialog
@@ -454,9 +453,8 @@ angular.module('rescour.app')
                 link: function (scope, element, attrs, modelCtrl) {
                     var modelPlaceholder = 'My Searches',
                         modelIgnore = 'Untitled Search',
-                        ttFocusText = 'Enter to Save',
                         modelPrevious = modelPlaceholder,
-                        ttOriginalText = attrs.tooltip;
+                        prevAttributeTitle;
 
                     function checkEmpty() {
                         if (!modelCtrl.$viewValue) {
@@ -465,61 +463,24 @@ angular.module('rescour.app')
                         }
                     }
 
-                    // TODO: Figure out how to set read only properlly
-
-                    // TODO: Solve problem of as they start typing, it goes into first block and sets read only
-                    // TODO: Figure out what the difference is on that use case of modified
-//
-//                    scope.$watch('attributes.modified', function (newVal, oldVal) {
-//                        console.log(newVal);
-//                        if (newVal && scope.attributes.title && scope.attributes.title !== modelIgnore) {
-//                            scope.attributes.readonly = true;
-//                            attrs.$set('tooltip', 'Click to Save');
-//                            element.css({
-//                                'background-color': '#468847',
-//                                'cursor': 'pointer'
-//                            });
-//                            element.attr('readonly', 'true');
-//                            element.bind('click', function (e) {
-//                                e.preventDefault();
-//                                e.stopPropagation();
-//                                scope.saveSearch();
-//                                element.unbind('click');
-//                            });
-//                        } else {
-//                            scope.attributes.readonly = false;
-//                            attrs.$set('tooltip', ttOriginalText);
-////                            element.removeAttr('readonly');
-//                            element.css({
-//                                'background-color': '#999999',
-//                                'cursor': 'text'
-//                            });
-//                        }
-//                    });
-
                     element.bind('focus', function (e) {
                         scope.$apply(function () {
-                            attrs.$set('tooltip', ttFocusText);
-
+                            prevAttributeTitle = scope.attributes.title;
                             if (modelCtrl.$viewValue === modelPlaceholder || modelCtrl.$viewValue === modelIgnore) {
                                 modelPrevious = modelCtrl.$viewValue;
                                 modelCtrl.$viewValue = '';
                                 modelCtrl.$render();
                             }
-
-                            element.bind('keydown', function (e) {
-                                // If enter key
-                                if (e.which === 13) {
-                                    element.blur();
-                                }
-                            });
                         });
                     });
 
                     element.bind('blur', function (e) {
-                        attrs.$set('tooltip', ttOriginalText);
-                        scope.$apply(checkEmpty);
-                        scope.saveSearch();
+                        scope.$apply(function () {
+                            if (prevAttributeTitle !== scope.attributes.title) {
+                                scope.attributes.modified = true;
+                            }
+                            checkEmpty();
+                        });
                     });
 
                     $timeout(checkEmpty, 0);

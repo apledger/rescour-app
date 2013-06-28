@@ -6160,152 +6160,32 @@ a.label:hover, a.badge:hover {
   top: 0;
   width: 245px;
   background-color: #eeeeee;
-  z-index: 2;
   display: inline-block;
+  z-index: 1;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-/* line 14, ../../src/app/market/desktop/styles/_filter.scss */
+/* line 12, ../../src/app/market/desktop/styles/_filter.scss */
 #Filter .saved-search {
   position: relative;
   display: block;
   padding: 10px 15px;
   width: 100%;
-  z-index: 2;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-/* line 23, ../../src/app/market/desktop/styles/_filter.scss */
-#Filter .saved-search-dropdown-btn {
-  display: inline-block;
-  position: absolute;
-  top: 15px;
-  right: 20px;
-  padding: 5px 10px;
-  background-color: #f1f1f1;
-  background-image: -moz-linear-gradient(top, #fbfbfb, #e1e1e1);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#fbfbfb), to(#e1e1e1));
-  background-image: -webkit-linear-gradient(top, #fbfbfb, #e1e1e1);
-  background-image: -o-linear-gradient(top, #fbfbfb, #e1e1e1);
-  background-image: linear-gradient(to bottom, #fbfbfb, #e1e1e1);
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f8f8f8', endColorstr='#dfdfdf', GradientType=0);
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-  color: #5f5f5f;
-}
-/* line 33, ../../src/app/market/desktop/styles/_filter.scss */
-#Filter .saved-search-dropdown-btn, #Filter .saved-search-dropdown-btn i {
-  cursor: pointer;
-}
-/* line 37, ../../src/app/market/desktop/styles/_filter.scss */
-#Filter .saved-search-dropdown-btn:hover {
-  background-color: #eeeeee;
-  background-image: -moz-linear-gradient(top, #eeeeee, #eeeeee);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#eeeeee), to(#eeeeee));
-  background-image: -webkit-linear-gradient(top, #eeeeee, #eeeeee);
-  background-image: -o-linear-gradient(top, #eeeeee, #eeeeee);
-  background-image: linear-gradient(to bottom, #eeeeee, #eeeeee);
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ebebeb', endColorstr='#ebebeb', GradientType=0);
-}
-/* line 41, ../../src/app/market/desktop/styles/_filter.scss */
-#Filter .saved-search-dropdown-btn:active {
-  -webkit-box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.2);
-  -moz-box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.2);
-  box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.2);
-  background-color: #e1e1e1;
-  background-image: -moz-linear-gradient(top, #e1e1e1, #e1e1e1);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#e1e1e1), to(#e1e1e1));
-  background-image: -webkit-linear-gradient(top, #e1e1e1, #e1e1e1);
-  background-image: -o-linear-gradient(top, #e1e1e1, #e1e1e1);
-  background-image: linear-gradient(to bottom, #e1e1e1, #e1e1e1);
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#dfdfdf', endColorstr='#dfdfdf', GradientType=0);
-}
-/* line 47, ../../src/app/market/desktop/styles/_filter.scss */
-#Filter .saved-search-dropdown-menu {
-  position: absolute;
-  display: block;
-  top: 100%;
-  background: white;
-  min-width: 195px;
-  border: 1px solid #999999;
-  z-index: 1000;
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
-  border-radius: 2px;
-  -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
-  -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
-  padding: 10px 0;
-  right: 0;
-}
-/* line 60, ../../src/app/market/desktop/styles/_filter.scss */
-#Filter .saved-search-dropdown-menu .divider {
-  *width: 100%;
-  height: 1px;
-  margin: 9px 1px;
-  *margin: -5px 0 5px;
-  overflow: hidden;
-  background-color: white;
-  border-bottom: 1px solid #eeeeee;
-}
-/* line 64, ../../src/app/market/desktop/styles/_filter.scss */
-#Filter .saved-search-dropdown-menu li {
-  padding: 5px 15px;
-}
-/* line 67, ../../src/app/market/desktop/styles/_filter.scss */
-#Filter .saved-search-dropdown-menu li a {
-  text-decoration: none;
-  color: black;
-}
-/* line 72, ../../src/app/market/desktop/styles/_filter.scss */
-#Filter .saved-search-dropdown-menu li i {
-  color: #5f5f5f;
-  font-size: 12px;
-  margin-right: 10px;
-}
-/* line 79, ../../src/app/market/desktop/styles/_filter.scss */
-#Filter .saved-search-dropdown-menu li.active {
-  background: #0088cc;
-}
-/* line 82, ../../src/app/market/desktop/styles/_filter.scss */
-#Filter .saved-search-dropdown-menu li.active i {
-  font-weight: bold;
-  color: white;
-}
-/* line 86, ../../src/app/market/desktop/styles/_filter.scss */
-#Filter .saved-search-dropdown-menu li.active a {
-  font-weight: bold;
-  color: white;
-}
-/* line 92, ../../src/app/market/desktop/styles/_filter.scss */
-#Filter .saved-search-dropdown-menu li:hover {
-  background: #0088cc;
-  cursor: pointer;
-}
-/* line 96, ../../src/app/market/desktop/styles/_filter.scss */
-#Filter .saved-search-dropdown-menu li:hover a, #Filter .saved-search-dropdown-menu li:hover i {
-  color: white;
-}
-/* line 103, ../../src/app/market/desktop/styles/_filter.scss */
-#Filter .btn-search-save {
-  z-index: 1;
-}
-/* line 107, ../../src/app/market/desktop/styles/_filter.scss */
+/* line 20, ../../src/app/market/desktop/styles/_filter.scss */
 #Filter .slider {
   width: 206px;
 }
-/* line 111, ../../src/app/market/desktop/styles/_filter.scss */
+/* line 24, ../../src/app/market/desktop/styles/_filter.scss */
 #Filter .ui-widget-header {
   background: none !important;
   background-color: #9c3022 !important;
 }
-/* line 116, ../../src/app/market/desktop/styles/_filter.scss */
+/* line 29, ../../src/app/market/desktop/styles/_filter.scss */
 #Filter .filter-container {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -6316,21 +6196,21 @@ a.label:hover, a.badge:hover {
   height: 100%;
   padding-top: 10px;
 }
-/* line 125, ../../src/app/market/desktop/styles/_filter.scss */
+/* line 38, ../../src/app/market/desktop/styles/_filter.scss */
 #Filter .nav {
   margin-left: 0;
   margin-bottom: 20px;
   list-style: none;
 }
-/* line 130, ../../src/app/market/desktop/styles/_filter.scss */
+/* line 43, ../../src/app/market/desktop/styles/_filter.scss */
 #Filter .nav > li > a {
   display: block;
 }
-/* line 133, ../../src/app/market/desktop/styles/_filter.scss */
+/* line 46, ../../src/app/market/desktop/styles/_filter.scss */
 #Filter .nav > li > a:hover {
   text-decoration: none;
 }
-/* line 136, ../../src/app/market/desktop/styles/_filter.scss */
+/* line 49, ../../src/app/market/desktop/styles/_filter.scss */
 #Filter .nav-header {
   display: block;
   padding: 5px 15px 10px 15px;
@@ -6346,40 +6226,40 @@ a.label:hover, a.badge:hover {
 #Filter .nav-header span {
   font-weight: bold;
 }
-/* line 145, ../../src/app/market/desktop/styles/_filter.scss */
+/* line 58, ../../src/app/market/desktop/styles/_filter.scss */
 #Filter .nav-header:hover, #Filter .nav-header:active {
   color: #9f9f9f;
 }
-/* line 149, ../../src/app/market/desktop/styles/_filter.scss */
+/* line 62, ../../src/app/market/desktop/styles/_filter.scss */
 #Filter .nav-list {
   padding-left: 15px;
   padding-right: 15px;
   margin-bottom: 10px;
   clear: both;
 }
-/* line 156, ../../src/app/market/desktop/styles/_filter.scss */
+/* line 69, ../../src/app/market/desktop/styles/_filter.scss */
 #Filter .nav-list > li > a,
 #Filter .nav-list .nav-header {
   margin-left: -15px;
   margin-right: -15px;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 }
-/* line 161, ../../src/app/market/desktop/styles/_filter.scss */
+/* line 74, ../../src/app/market/desktop/styles/_filter.scss */
 #Filter .nav-list > li > a {
   padding: 3px 15px;
 }
-/* line 165, ../../src/app/market/desktop/styles/_filter.scss */
+/* line 78, ../../src/app/market/desktop/styles/_filter.scss */
 #Filter .nav-list > .active > a,
 #Filter .nav-list > .active > a:hover {
   color: white;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
   background-color: #0088cc;
 }
-/* line 170, ../../src/app/market/desktop/styles/_filter.scss */
+/* line 83, ../../src/app/market/desktop/styles/_filter.scss */
 #Filter .nav-list [class^="icon-"] {
   margin-right: 2px;
 }
-/* line 174, ../../src/app/market/desktop/styles/_filter.scss */
+/* line 87, ../../src/app/market/desktop/styles/_filter.scss */
 #Filter .label,
 #Filter .badge {
   font-size: 12px;
@@ -6391,33 +6271,33 @@ a.label:hover, a.badge:hover {
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
   background-color: #333333;
 }
-/* line 184, ../../src/app/market/desktop/styles/_filter.scss */
+/* line 97, ../../src/app/market/desktop/styles/_filter.scss */
 #Filter .label {
   padding: 1px 4px 2px;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
 }
-/* line 188, ../../src/app/market/desktop/styles/_filter.scss */
+/* line 101, ../../src/app/market/desktop/styles/_filter.scss */
 #Filter .badge {
   padding: 1px 9px 2px;
   -webkit-border-radius: 9px;
   -moz-border-radius: 9px;
   border-radius: 9px;
 }
-/* line 193, ../../src/app/market/desktop/styles/_filter.scss */
+/* line 106, ../../src/app/market/desktop/styles/_filter.scss */
 #Filter a.label:hover,
 #Filter a.badge:hover {
   color: white;
   text-decoration: none;
   cursor: pointer;
 }
-/* line 199, ../../src/app/market/desktop/styles/_filter.scss */
+/* line 112, ../../src/app/market/desktop/styles/_filter.scss */
 #Filter .label-success,
 #Filter .badge-success {
   background-color: #468847;
 }
-/* line 204, ../../src/app/market/desktop/styles/_filter.scss */
+/* line 117, ../../src/app/market/desktop/styles/_filter.scss */
 #Filter .label-info,
 #Filter .badge-info {
   background-color: #0088cc;
@@ -8453,22 +8333,13 @@ input:focus, textarea:focus {
   color: white;
 }
 
-/* line 2, ../../src/styles/_input_dropdown.scss */
-.input-dropdown h4 {
-  display: inline-block;
-  width: 100%;
-  margin: 0 !important;
-  border: none;
-  background: #999999;
-  font-size: 12px;
-  font-weight: bold;
-  color: white;
-  padding: 20px 50px 20px 15px;
+/* line 1, ../../src/styles/_input_dropdown.scss */
+.input-dropdown {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-/* line 15, ../../src/styles/_input_dropdown.scss */
+/* line 4, ../../src/styles/_input_dropdown.scss */
 .input-dropdown .input-overlay {
   width: 100%;
   position: absolute;
@@ -8489,26 +8360,26 @@ input:focus, textarea:focus {
   -moz-border-radius: 4px;
   border-radius: 4px;
 }
-/* line 31, ../../src/styles/_input_dropdown.scss */
+/* line 20, ../../src/styles/_input_dropdown.scss */
 .input-dropdown .input-overlay.input-overlay-blue {
   background: #0088cc;
   text-align: center;
 }
-/* line 35, ../../src/styles/_input_dropdown.scss */
+/* line 24, ../../src/styles/_input_dropdown.scss */
 .input-dropdown .input-overlay.input-overlay-blue:hover {
   background: #0099e6;
 }
-/* line 40, ../../src/styles/_input_dropdown.scss */
+/* line 29, ../../src/styles/_input_dropdown.scss */
 .input-dropdown .input-overlay.input-overlay-gray {
   background: #999999;
   cursor: default;
 }
-/* line 45, ../../src/styles/_input_dropdown.scss */
+/* line 34, ../../src/styles/_input_dropdown.scss */
 .input-dropdown .input-overlay .left-btn + .action-btn {
   margin: 0 auto;
   text-align: center;
 }
-/* line 50, ../../src/styles/_input_dropdown.scss */
+/* line 39, ../../src/styles/_input_dropdown.scss */
 .input-dropdown .input-overlay .left-btn {
   display: inline-block;
   position: absolute;
@@ -8529,11 +8400,11 @@ input:focus, textarea:focus {
   color: #5f5f5f;
   z-index: 3;
 }
-/* line 61, ../../src/styles/_input_dropdown.scss */
+/* line 50, ../../src/styles/_input_dropdown.scss */
 .input-dropdown .input-overlay .left-btn, .input-dropdown .input-overlay .left-btn i {
   cursor: pointer;
 }
-/* line 65, ../../src/styles/_input_dropdown.scss */
+/* line 54, ../../src/styles/_input_dropdown.scss */
 .input-dropdown .input-overlay .left-btn:hover {
   background-color: #eeeeee;
   background-image: -moz-linear-gradient(top, #eeeeee, #eeeeee);
@@ -8544,7 +8415,7 @@ input:focus, textarea:focus {
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ebebeb', endColorstr='#ebebeb', GradientType=0);
 }
-/* line 69, ../../src/styles/_input_dropdown.scss */
+/* line 58, ../../src/styles/_input_dropdown.scss */
 .input-dropdown .input-overlay .left-btn:active {
   -webkit-box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.2);
   -moz-box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.2);
@@ -8558,7 +8429,7 @@ input:focus, textarea:focus {
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#dfdfdf', endColorstr='#dfdfdf', GradientType=0);
 }
-/* line 76, ../../src/styles/_input_dropdown.scss */
+/* line 65, ../../src/styles/_input_dropdown.scss */
 .input-dropdown > input {
   display: inline-block;
   width: 100%;
@@ -8577,15 +8448,15 @@ input:focus, textarea:focus {
   box-sizing: border-box;
   z-index: 1;
 }
-/* line 90, ../../src/styles/_input_dropdown.scss */
+/* line 79, ../../src/styles/_input_dropdown.scss */
 .input-dropdown > input:focus {
   background: white !important;
 }
-/* line 94, ../../src/styles/_input_dropdown.scss */
+/* line 83, ../../src/styles/_input_dropdown.scss */
 .input-dropdown > input:hover:not(:focus) {
   background: #b3b3b3;
 }
-/* line 99, ../../src/styles/_input_dropdown.scss */
+/* line 88, ../../src/styles/_input_dropdown.scss */
 .input-dropdown > .input-dropdown-btn {
   display: inline-block;
   position: absolute;
@@ -8606,11 +8477,11 @@ input:focus, textarea:focus {
   color: #5f5f5f;
   z-index: 3;
 }
-/* line 110, ../../src/styles/_input_dropdown.scss */
+/* line 99, ../../src/styles/_input_dropdown.scss */
 .input-dropdown > .input-dropdown-btn, .input-dropdown > .input-dropdown-btn i {
   cursor: pointer;
 }
-/* line 114, ../../src/styles/_input_dropdown.scss */
+/* line 103, ../../src/styles/_input_dropdown.scss */
 .input-dropdown > .input-dropdown-btn:hover {
   background-color: #eeeeee;
   background-image: -moz-linear-gradient(top, #eeeeee, #eeeeee);
@@ -8621,7 +8492,7 @@ input:focus, textarea:focus {
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ebebeb', endColorstr='#ebebeb', GradientType=0);
 }
-/* line 118, ../../src/styles/_input_dropdown.scss */
+/* line 107, ../../src/styles/_input_dropdown.scss */
 .input-dropdown > .input-dropdown-btn:active {
   -webkit-box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.2);
   -moz-box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.2);
@@ -8635,7 +8506,7 @@ input:focus, textarea:focus {
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#dfdfdf', endColorstr='#dfdfdf', GradientType=0);
 }
-/* line 124, ../../src/styles/_input_dropdown.scss */
+/* line 113, ../../src/styles/_input_dropdown.scss */
 .input-dropdown > .input-dropdown-menu {
   position: absolute;
   display: block;
@@ -8653,7 +8524,7 @@ input:focus, textarea:focus {
   right: 0;
   display: none;
 }
-/* line 137, ../../src/styles/_input_dropdown.scss */
+/* line 126, ../../src/styles/_input_dropdown.scss */
 .input-dropdown > .input-dropdown-menu .divider {
   *width: 100%;
   height: 1px;
@@ -8663,42 +8534,42 @@ input:focus, textarea:focus {
   background-color: white;
   border-bottom: 1px solid #eeeeee;
 }
-/* line 141, ../../src/styles/_input_dropdown.scss */
+/* line 130, ../../src/styles/_input_dropdown.scss */
 .input-dropdown > .input-dropdown-menu li {
   padding: 5px 15px;
   word-wrap: break-word;
 }
-/* line 145, ../../src/styles/_input_dropdown.scss */
+/* line 134, ../../src/styles/_input_dropdown.scss */
 .input-dropdown > .input-dropdown-menu li a {
   text-decoration: none;
   color: black;
 }
-/* line 150, ../../src/styles/_input_dropdown.scss */
+/* line 139, ../../src/styles/_input_dropdown.scss */
 .input-dropdown > .input-dropdown-menu li i {
   color: #5f5f5f;
   font-size: 12px;
   margin-right: 10px;
 }
-/* line 157, ../../src/styles/_input_dropdown.scss */
+/* line 146, ../../src/styles/_input_dropdown.scss */
 .input-dropdown > .input-dropdown-menu li.active {
   background: #0088cc;
 }
-/* line 160, ../../src/styles/_input_dropdown.scss */
+/* line 149, ../../src/styles/_input_dropdown.scss */
 .input-dropdown > .input-dropdown-menu li.active i {
   font-weight: bold;
   color: white;
 }
-/* line 164, ../../src/styles/_input_dropdown.scss */
+/* line 153, ../../src/styles/_input_dropdown.scss */
 .input-dropdown > .input-dropdown-menu li.active a {
   font-weight: bold;
   color: white;
 }
-/* line 170, ../../src/styles/_input_dropdown.scss */
+/* line 159, ../../src/styles/_input_dropdown.scss */
 .input-dropdown > .input-dropdown-menu li:hover {
   background: #0088cc;
   cursor: pointer;
 }
-/* line 174, ../../src/styles/_input_dropdown.scss */
+/* line 163, ../../src/styles/_input_dropdown.scss */
 .input-dropdown > .input-dropdown-menu li:hover a, .input-dropdown > .input-dropdown-menu li:hover i {
   color: white;
 }

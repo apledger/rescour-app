@@ -1,16 +1,5 @@
 .input-dropdown {
-  h4 {
-    display: inline-block;
-    width: 100%;
-    margin: 0 !important;
-    border: none;
-    background: $grayLight;
-    font-size: 12px;
-    font-weight: bold;
-    color: $white;
-    padding: 20px 50px 20px 15px;
-    @include box-sizing(border-box);
-  }
+  @include box-sizing(border-box);
 
   .input-overlay {
     width: 100%;

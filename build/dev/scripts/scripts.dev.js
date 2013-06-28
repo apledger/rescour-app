@@ -41349,7 +41349,27 @@ angular.module('rescour.utility', [])
                 }, 0);
             }
         };
-    }]);
+    }])
+    .directive('modelIgnore', function () {
+        return {
+            require: 'ngModel',
+            link: function (scope, element, attrs, modelCtrl) {
+                var modelIgnore = attrs.modelIgnore;
+
+                modelCtrl.$parsers.push(function (viewVal) {
+                    if (viewVal !== modelIgnore) {
+                        return viewVal;
+                    } else {
+                        return '';
+                    }
+                });
+
+                modelCtrl.$render = function () {
+                    element.val(modelCtrl.$modelValue !== modelIgnore ? modelCtrl.$modelValue : '')
+                };
+            }
+        };
+    });
 /**
  * Created with JetBrains WebStorm.
  * User: apledger
@@ -44128,9 +44148,8 @@ angular.module('rescour.app')
             return {
                 require: 'ngModel',
                 link: function (scope, element, attrs, modelCtrl) {
-                    var modelPlaceholder = 'My Searches',
-                        modelIgnore = 'Untitled Search',
-                        modelPrevious = modelPlaceholder,
+                    var modelIgnore = 'Untitled Search',
+                        modelPrevious = modelIgnore,
                         prevAttributeTitle;
 
                     function checkEmpty() {
@@ -44143,11 +44162,17 @@ angular.module('rescour.app')
                     element.bind('focus', function (e) {
                         scope.$apply(function () {
                             prevAttributeTitle = scope.attributes.title;
-                            if (modelCtrl.$viewValue === modelPlaceholder || modelCtrl.$viewValue === modelIgnore) {
+                            if (modelCtrl.$viewValue === modelIgnore) {
                                 modelPrevious = modelCtrl.$viewValue;
                                 modelCtrl.$viewValue = '';
                                 modelCtrl.$render();
                             }
+
+                            element.bind('keydown', function (e) {
+                                if (e.which === 13 || e.which === 9) {
+                                    element.blur();
+                                }
+                            });
                         });
                     });
 

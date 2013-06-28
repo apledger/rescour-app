@@ -13,14 +13,21 @@
             <div class="filter-container">
                 <div class="saved-search">
                     <div class="input-dropdown">
-                        <div class="click-to-save" ng-show="attributes.modified">
+                        <div class="input-overlay input-overlay-blue" ng-show="attributes.modified">
                             <div class="action-btn" ng-click="saveSearch()">
                                 Click to Save
                             </div>
                             <div class="left-btn">
-                                <i class="icon-refresh" ng-click="refreshSearch()"></i>
+                                <i class="icon-remove" ng-click="refreshSearch()"></i>
                             </div>
                         </div>
+
+                        <div class="input-overlay input-overlay-gray" ng-hide="selectedSearch || attributes.modified">
+                            <div class="action-btn">
+                                My Searches
+                            </div>
+                        </div>
+
                         <input tooltip="Click to Edit" tooltip-placement="bottom" type="text" placeholder="Untitled Search"
                                ng-model="attributes.title" saved-search-input="saveSearch()" ng-readonly="attributes.readonly"/>
 

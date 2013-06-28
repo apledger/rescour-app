@@ -495,4 +495,24 @@ angular.module('rescour.utility', [])
                 }, 0);
             }
         };
-    }]);
+    }])
+    .directive('modelIgnore', function () {
+        return {
+            require: 'ngModel',
+            link: function (scope, element, attrs, modelCtrl) {
+                var modelIgnore = attrs.modelIgnore;
+
+                modelCtrl.$parsers.push(function (viewVal) {
+                    if (viewVal !== modelIgnore) {
+                        return viewVal;
+                    } else {
+                        return '';
+                    }
+                });
+
+                modelCtrl.$render = function () {
+                    element.val(modelCtrl.$modelValue !== modelIgnore ? modelCtrl.$modelValue : '')
+                };
+            }
+        };
+    });

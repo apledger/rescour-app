@@ -45,7 +45,6 @@
       @include gradient-vertical(lighten($grayLighter, 5%), darken($grayLighter, 5%));
       @include border-radius(3px);
       color: $gray;
-      z-index: 3;
 
       &, i {
         cursor: pointer;
@@ -71,8 +70,9 @@
     font-size: 12px;
     font-weight: bold;
     color: $white;
-    padding: 10px 40px 10px 15px;
-    height: 100%;
+    padding-left: 15px;
+    padding-right: 40px;
+    height: 40px;
     @include box-shadow(none !important);
     @include box-sizing(border-box !important);
     z-index: 1;

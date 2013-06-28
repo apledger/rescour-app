@@ -5,7 +5,7 @@
     <!--FILTERS BEGIN-->
     <div id="Filter" ng-controller="FilterController">
         <div class="powers">
-            <div class="power power-logo" ng-click="refreshSearch()">
+            <div class="power power-logo" ng-click="loadSearch()">
                 <img src="/img/logo-small.png" alt="REscour"/>
             </div>
         </div>
@@ -13,6 +13,14 @@
             <div class="filter-container">
                 <div class="saved-search">
                     <div class="input-dropdown">
+                        <div class="click-to-save" ng-show="attributes.modified">
+                            <div class="action-btn" ng-click="saveSearch()">
+                                Click to Save
+                            </div>
+                            <div class="left-btn">
+                                <i class="icon-refresh" ng-click="refreshSearch()"></i>
+                            </div>
+                        </div>
                         <input tooltip="Click to Edit" tooltip-placement="bottom" type="text" placeholder="Untitled Search"
                                ng-model="attributes.title" saved-search-input="saveSearch()" ng-readonly="attributes.readonly"/>
 

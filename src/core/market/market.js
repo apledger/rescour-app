@@ -570,89 +570,6 @@ angular.module('rescour.market', [])
 
             Attributes.prototype.load = function (search) {
                 var self = this;
-//                if (search) {
-//                    this.id = search.id || undefined;
-//                    this.title = search.title || undefined;
-                    // error handling here
-//                    for (var rangeID in search.range) {
-//                        try {
-//                            // Check if range attribute exists
-//                            if (_.has(self.range, rangeID)) {
-//                                var withinLowBound = (search.range[rangeID].lowSelected >= self.range[rangeID].low),
-//                                    withinHighBound = (search.range[rangeID].highSelected <= self.range[rangeID].high);
-//                                // Then check if the selected on the save is still within bounds
-//                                if (withinLowBound && withinHighBound) {
-//                                    self.range[rangeID].lowSelected = search.range[rangeID].lowSelected;
-//                                    self.range[rangeID].highSelected = search.range[rangeID].highSelected;
-//                                } else if (!withinLowBound && withinHighBound) {
-//                                    self.range[rangeID].lowSelected = self.range[rangeID].low;
-//                                    self.range[rangeID].highSelected = search.range[rangeID].highSelected;
-//                                } else if (withinLowBound && !withinHighBound) {
-//                                    self.range[rangeID].lowSelected = search.range[rangeID].lowSelected;
-//                                    self.range[rangeID].highSelected = self.range[rangeID].high;
-//                                } else {
-//                                    self.range[rangeID].lowSelected = self.range[rangeID].low;
-//                                    self.range[rangeID].highSelected = self.range[rangeID].high;
-//                                }
-//                            } else {
-//                                throw new Error(rangeID + " not found in range");
-//                            }
-//                        } catch (e) {
-//                            console.log(e.message);
-//                        }
-//                    }
-
-
-//                    for (var discreetID in search.discreet) {
-//                        try {
-//                            // Check if discreet attribute exists on current attributes
-//                            if (_.has(self.discreet, discreetID)) {
-//                                for (var attrID in search.discreet[discreetID].values) {
-//                                    // If the saved search attribute exists
-//                                    if (_.has(self.discreet[discreetID].values, attrID)) {
-//                                        // Check to see if marked as true
-//                                        if (search.discreet[discreetID].values[attrID].isSelected && !self.discreet[discreetID].values[attrID].isSelected) {
-//                                            self.discreet[discreetID].values[attrID].isSelected = true;
-//                                            self.discreet[discreetID].selected++;
-//                                        } else if (!search.discreet[discreetID].values[attrID].isSelected && self.discreet[discreetID].values[attrID].isSelected) {
-//                                            self.discreet[discreetID].values[attrID].isSelected = false;
-//                                            self.discreet[discreetID].selected--;
-//                                        }
-//                                    }
-//                                }
-//                            } else {
-//                                throw new Error(discreetID + " not found in discreet");
-//                            }
-//                        } catch (e) {
-//                            console.log(e.message);
-//                        }
-//                    }
-//                } else {
-//                    this.id = undefined;
-//                    this.title = undefined;
-//                    // error handling here
-//                    for (var rangeID in self.range) {
-//                        if (self.range.hasOwnProperty(rangeID)) {
-//                            self.range[rangeID].lowSelected = self.range[rangeID].low;
-//                            self.range[rangeID].highSelected = self.range[rangeID].high;
-//                        }
-//                    }
-//
-//                    for (var discreetID in self.discreet) {
-//                        if (self.discreet.hasOwnProperty(discreetID)) {
-//                            for (var attrID in self.discreet[discreetID].values) {
-//                                // If the saved search attribute exists
-//                                if (self.discreet[discreetID].values.hasOwnProperty(attrID)) {
-//                                    // Check to see if marked as true
-//                                    if (self.discreet[discreetID].values[attrID].isSelected) {
-//                                        self.discreet[discreetID].values[attrID].isSelected = false;
-//                                        self.discreet[discreetID].selected--;
-//                                    }
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
 
                 var _search = angular.extend({
                     title: '',
@@ -974,20 +891,6 @@ angular.module('rescour.market', [])
             };
 
             return SavedSearch;
-        }])
-    .controller('SaveSearchDialogController', ['$scope', 'dialog',
-        function ($scope, dialog) {
-            $scope.searchSettings = {};
-            $scope.close = function () {
-                dialog.close();
-            };
-
-            $scope.save = function (settings) {
-                dialog.close({
-                    action: 'save',
-                    settings: settings
-                });
-            };
         }])
     .factory('Comment', ['$_api', '$q', '$http', 'User',
         function ($_api, $q, $http, User) {

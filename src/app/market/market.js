@@ -114,10 +114,7 @@ angular.module('rescour.app')
     .controller("FilterController", ['$scope', 'Items', 'Attributes', 'SavedSearch', '$dialog',
         function ($scope, Items, Attributes, SavedSearch, $dialog) {
             $scope.selectedSearch = null;
-
-            $scope.$watch('attributes.title', function (newVal, oldVal) {
-                $scope.attributes.modified = true;
-            });
+            $scope.attributes = Attributes;
 
             SavedSearch.query().then(function (savedSearches) {
                 $scope.savedSearches = savedSearches;
@@ -144,33 +141,44 @@ angular.module('rescour.app')
                 };
             };
 
-            $scope.saveSearch = function (settings) {
-                angular.extend($scope.attributes, settings);
+            $scope.saveSearch = function () {
 
-                var _search = new SavedSearch($scope.attributes),
-                    _old = _.findWhere($scope.savedSearches, {id: $scope.attributes.id});
 
-                if ($scope.attributes.modified) {
-                    console.log("modified");
+                if (!$scope.attributes.id) {
+                    // If no id, then it is a new search
+                    SavedSearch.dialog
+                        .open()
+                        .then(function (settings) {
+                            if (settings) {
+                                // Creating in dialog cb so attributes will have finished being edited
+                                var _search = new SavedSearch(angular.extend({}, settings, $scope.attributes));
+                                console.log(_search);
+                                _search.$save().then(function (response) {
+                                    $scope.attributes.id = response.id;
+                                    $scope.selectedSearch = _search;
+                                    $scope.attributes.modified = false;
+                                    $scope.savedSearches.push(_search);
+                                });
+                            }
+                        }, function (response) {
+                            $scope.savedSearches = SavedSearch.query();
+                            throw new Error("Could not save search: " + response.error);
+                        });
+                } else {
+                    // If there is an id, need to update
+                    var _search = new SavedSearch($scope.attributes);
                     _search.$save().then(function (response) {
-                        if (!_old) {
-                            $scope.savedSearches.push(_search);
-                            $scope.attributes.id = response.id;
-
-                        } else {
-                            $scope.savedSearches = _.map($scope.savedSearches, function (val) {
-                                return val.id === _old.id ? _search : val;
-                            });
-                        }
+                        var _old = _.findWhere($scope.savedSearches, {id: $scope.attributes.id})
+                        // Since we do not requery, need to update local saved search collection
+                        $scope.savedSearches = _.map($scope.savedSearches, function (val) {
+                            return val.id === _old.id ? _search : val;
+                        });
                         $scope.selectedSearch = _search;
                         $scope.attributes.modified = false;
-    //                    updateLoadPower();
                     }, function (response) {
                         $scope.savedSearches = SavedSearch.query();
                         throw new Error("Could not save search: " + response.error);
                     });
-                } else {
-                    console.log("not modified");
                 }
             };
 
@@ -195,7 +203,6 @@ angular.module('rescour.app')
                 $scope.filter();
                 $scope.selectedSearch = search;
                 $scope.attributes.modified = false;
-//                $scope.loadPower.title = $scope.attributes.title
             };
 
             $scope.hide = function (item) {
@@ -206,8 +213,20 @@ angular.module('rescour.app')
                 item.isFavorite = !item.isFavorite;
             };
         }])
-    .
-    controller("ListController", ['$scope', 'PropertyDetails', 'Items', 'Reports',
+
+    .controller('SaveSearchDialogController', ['$scope', 'dialog', 'Attributes',
+        function ($scope, dialog, Attributes) {
+            $scope.attributes = Attributes;
+            $scope.searchSettings = {};
+            $scope.close = function () {
+                dialog.close();
+            };
+
+            $scope.save = function () {
+                dialog.close($scope.searchSettings);
+            };
+        }])
+    .controller("ListController", ['$scope', 'PropertyDetails', 'Items', 'Reports',
         function ($scope, PropertyDetails, Items, Reports) {
             $scope.sortBy = {
                 predicate: '',
@@ -450,34 +469,33 @@ angular.module('rescour.app')
 
                     // TODO: Solve problem of as they start typing, it goes into first block and sets read only
                     // TODO: Figure out what the difference is on that use case of modified
-                    
-                    scope.$watch('attributes.modified', function (newVal, oldVal) {
-                        console.log(newVal);
-                        if (newVal && scope.attributes.title && scope.attributes.title !== modelIgnore) {
-                            scope.attributes.readonly = true;
-                            attrs.$set('tooltip', 'Click to Save');
-                            element.css({
-                                'background-color': '#468847',
-                                'cursor': 'pointer'
-                            });
-                            element.attr('readonly', 'true');
-                            element.bind('click', function (e) {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                scope.saveSearch();
-                                element.unbind('click');
-                            });
-                        } else {
-                            scope.attributes.readonly = false;
-                            attrs.$set('tooltip', ttOriginalText);
-//                            element.removeAttr('readonly');
-                            element.css({
-                                'background-color': '#999999',
-                                'cursor': 'text'
-                            });
-                        }
-
-                    });
+//
+//                    scope.$watch('attributes.modified', function (newVal, oldVal) {
+//                        console.log(newVal);
+//                        if (newVal && scope.attributes.title && scope.attributes.title !== modelIgnore) {
+//                            scope.attributes.readonly = true;
+//                            attrs.$set('tooltip', 'Click to Save');
+//                            element.css({
+//                                'background-color': '#468847',
+//                                'cursor': 'pointer'
+//                            });
+//                            element.attr('readonly', 'true');
+//                            element.bind('click', function (e) {
+//                                e.preventDefault();
+//                                e.stopPropagation();
+//                                scope.saveSearch();
+//                                element.unbind('click');
+//                            });
+//                        } else {
+//                            scope.attributes.readonly = false;
+//                            attrs.$set('tooltip', ttOriginalText);
+////                            element.removeAttr('readonly');
+//                            element.css({
+//                                'background-color': '#999999',
+//                                'cursor': 'text'
+//                            });
+//                        }
+//                    });
 
                     element.bind('focus', function (e) {
                         scope.$apply(function () {
@@ -501,10 +519,7 @@ angular.module('rescour.app')
                     element.bind('blur', function (e) {
                         attrs.$set('tooltip', ttOriginalText);
                         scope.$apply(checkEmpty);
-                        scope.attributes.modified = false;
                         scope.saveSearch();
-                        // TODO: bind enter to save
-
                     });
 
                     $timeout(checkEmpty, 0);

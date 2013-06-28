@@ -7,7 +7,7 @@
         <div class="control-group" ng-class="{'success': formSaveSearchDialog.$valid}">
             <div class="control-label">Search Name:</div>
             <div class="controls">
-                <input type="text" required autofocus autoselect ng-model="searchSettings.title">
+                <input type="text" required autofocus autoselect ng-model="attributes.title">
                 <span class="help help-inline">
                     <span class="help-error"><i class="icon-exclamation-sign"></i></span>
                     <span class="help-success"><i class="icon-ok-sign"></i></span>
@@ -18,5 +18,5 @@
 </div>
 <div class="modal-footer">
     <button class="btn" ng-click="close()">Close</button>
-    <button class="btn btn-primary" ng-click="save(searchSettings)">Save changes</button>
+    <button class="btn btn-primary" ng-click="save()">Save changes</button>
 </div>

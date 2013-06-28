@@ -11,6 +11,59 @@
     padding: 20px 50px 20px 15px;
     @include box-sizing(border-box);
   }
+
+  .click-to-save {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: none;
+    font-size: 12px;
+    font-weight: bold;
+    color: $white;
+    z-index: 2;
+    text-align: center;
+    height: 100%;
+    padding: 10px;
+    cursor: pointer;
+    @include box-sizing(border-box);
+    background: $blue;
+
+    &:hover {
+      background: lighten($blue, 5%);
+    }
+
+    .action-btn {
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .left-btn {
+      display: inline-block;
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      padding: 5px 10px;
+      @include gradient-vertical(lighten($grayLighter, 5%), darken($grayLighter,5%));
+      @include border-radius(3px);
+      color: $gray;
+      z-index: 3;
+
+      &, i {
+        cursor: pointer;
+      }
+
+      &:hover {
+        @include gradient-vertical($grayLighter, $grayLighter);
+      }
+
+      &:active {
+        @include box-shadow(inset 0px 1px 2px rgba(0,0,0,0.2));
+        @include gradient-vertical(darken($grayLighter, 5%), darken($grayLighter, 5%));
+      }
+    }
+  }
+
   & > input {
     display: inline-block;
     width: 100%;
@@ -23,6 +76,7 @@
     padding: 20px 50px 20px 15px;
     @include box-shadow(none !important);
     @include box-sizing(border-box);
+    z-index: 1;
 
     &:focus {
       background: $white !important;
@@ -42,6 +96,7 @@
     @include gradient-vertical(lighten($grayLighter, 5%), darken($grayLighter,5%));
     @include border-radius(3px);
     color: $gray;
+    z-index: 3;
 
     &, i {
       cursor: pointer;

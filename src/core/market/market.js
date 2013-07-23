@@ -764,16 +764,6 @@ angular.module('rescour.market', [])
         }])
     .factory('SavedSearch', ['$_api', '$http', '$q', '$dialog',
         function ($_api, $http, $q, $dialog) {
-            var dialog = $dialog.dialog({
-                backdrop: true,
-                keyboard: true,
-                backdropClick: true,
-                dialogFade: true,
-                backdropFade: true,
-                templateUrl: '/app/market/desktop/views/partials/saved-search-dialog.html?' + Date.now(),
-                controller: "SaveSearchDialogController"
-            });
-
             var SavedSearch = function (data, id) {
                 var self = this;
                 this.title = data.title || undefined;
@@ -813,8 +803,6 @@ angular.module('rescour.market', [])
                 }
             };
 
-            SavedSearch.dialog = dialog;
-
             SavedSearch.query = function () {
                 var defer = $q.defer(),
                     self = this,
@@ -843,7 +831,7 @@ angular.module('rescour.market', [])
                 );
 
                 return defer.promise;
-            }
+            };
 
             SavedSearch.prototype.$save = function () {
                 var defer = $q.defer(),
@@ -863,7 +851,7 @@ angular.module('rescour.market', [])
                     });
                 }
                 return defer.promise;
-            }
+            };
 
             SavedSearch.prototype.$save = function () {
                 var defer = $q.defer(),
@@ -1086,134 +1074,6 @@ angular.module('rescour.market', [])
             };
 
             return Finance;
-        }])
-    .factory('PropertyDetails', ['$dialog', '$q', 'Items', 'BrowserDetect',
-        function ($dialog, $q, Items, BrowserDetect) {
-            var panes = [
-                    {heading: "Details", active: true},
-                    {heading: "Pictures", active: false},
-                    {heading: "Contact", active: false},
-                    {heading: "Comments", active: false},
-                    {heading: "Finances", active: false}
-                ],
-                view = $dialog.dialog({
-                    backdrop: false,
-                    keyboard: false,
-                    backdropClick: true,
-                    dialogClass: 'property-details',
-                    containerClass: 'map-wrap',
-                    dialogFade: true,
-                    backdropFade: false,
-                    templateUrl: '/app/market/' + BrowserDetect.platform + '/views/partials/market-details.html?' + Date.now(),
-                    controller: "DetailsController",
-                    resolve: {
-                        activeItem: function (Items, $q, $location) {
-                            var deferred = $q.defer();
-
-                            var item = Items.getActive() || {};
-                            if (!item.hasOwnProperty('details') || _.isEmpty(item.details)) {
-                                item.getDetails().then(function (_item) {
-                                    deferred.resolve(_item);
-                                }, function () {
-                                    deferred.reject();
-                                });
-                            } else {
-                                deferred.resolve(item);
-                            }
-
-                            return deferred.promise;
-                        }
-                    }
-                });
-
-            return {
-                isOpen: function () {
-                    return view.isOpen();
-                },
-                open: function (item, resolveCb) {
-                    if (!item && !view.isOpen()) {
-                        Items.setActive(null);
-                    } else if (!item && view.isOpen()) {
-                        view.close();
-                    } else {
-                        Items.setActive(item);
-                        view.setConditionalClass(item.getStatusClass());
-                        view
-                            .open()
-                            .then(function () {
-                                Items.setActive(null);
-                            })
-                            .then(resolveCb);
-                    }
-
-                    return this;
-                },
-                close: function (result) {
-                    view.close();
-                    return this;
-                },
-                panes: panes,
-                selectPane: function (paneHeading) {
-                    paneHeading = (paneHeading && _.find(panes, function (val) {
-                        return val.heading.toLowerCase() === paneHeading.toLowerCase();
-                    })) ? paneHeading : panes[0].heading;
-
-                    angular.forEach(panes, function (pane) {
-                        if (pane.heading.toLowerCase() === paneHeading.toLowerCase()) {
-                            pane.active = true;
-                        } else {
-                            pane.active = false;
-                        }
-                    });
-                    return this;
-                }
-            };
-        }])
-    .factory('Reports', ['$http', '$q', '$dialog', 'BrowserDetect', '$_api',
-        function ($http, $q, $dialog, BrowserDetect, $_api) {
-            var view = $dialog.dialog({
-                backdrop: true,
-                keyboard: true,
-                backdropClick: true,
-                dialogFade: true,
-                backdropFade: true,
-                templateUrl: '/app/market/' + BrowserDetect.platform + '/views/partials/reports-dialog.html?' + Date.now(),
-                controller: "ReportsDialogController"
-            });
-
-            return {
-                openDialog: function () {
-                    var defer = $q.defer();
-
-                    view.open().then(function (settings) {
-                        if (settings) {
-                            var path = $_api.path + '/reports/',
-                                config = angular.extend({
-                                    transformRequest: function (data) {
-                                        return data;
-                                    }
-                                }, $_api.config),
-                                body = JSON.stringify({
-                                    ids: settings.ids,
-                                    token: settings.token
-                                });
-
-                            $http.post(path, body, config).then(
-                                function (response) {
-                                    defer.resolve(response);
-                                },
-                                function (response) {
-                                    defer.reject(response);
-                                }
-                            );
-                        } else {
-                            defer.resolve();
-                        }
-                    });
-
-                    return defer.promise;
-                }
-            }
         }])
     .directive('slider', function () {
         return {

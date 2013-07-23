@@ -17,7 +17,6 @@ angular.module('rescour.app',
             'rescour.user',
             'rescour.utility',
             'rescour.market',
-            'rescour.market.map',
             'rescour.browserDetect',
             'rescour.powers',
             'ahTouch'

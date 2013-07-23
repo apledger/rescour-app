@@ -38,8 +38,8 @@ angular.module('rescour.app')
                     }
                 });
         }])
-    .controller('AccountController', ['$scope', 'loadUser', '$_api', '$http', 'User', '$routeParams', '$rootScope', '$location', 'PropertyDetails',
-        function ($scope, loadUser, $_api, $http, User, $routeParams, $rootScope, $location, PropertyDetails) {
+    .controller('AccountController', ['$scope', 'loadUser', '$_api', '$http', 'User', '$routeParams', '$rootScope', '$location',
+        function ($scope, loadUser, $_api, $http, User, $routeParams, $rootScope, $location) {
             $scope.user = User;
 
             $scope.selectSubview = function (subview) {

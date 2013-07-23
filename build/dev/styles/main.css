@@ -6853,19 +6853,7 @@ ul {
   margin: 15px 0;
   font-size: 10px;
 }
-/* line 117, ../../src/app/market/desktop/styles/_list.scss */
-.item-well .preview .preview-caption.caption-green {
-  background: #468847;
-}
-/* line 121, ../../src/app/market/desktop/styles/_list.scss */
-.item-well .preview .preview-caption.caption-orange {
-  background: #f66930;
-}
-/* line 125, ../../src/app/market/desktop/styles/_list.scss */
-.item-well .preview .preview-caption.caption-red {
-  background: #9c3022;
-}
-/* line 130, ../../src/app/market/desktop/styles/_list.scss */
+/* line 118, ../../src/app/market/desktop/styles/_list.scss */
 .item-well .preview .preview-mask {
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
@@ -6880,7 +6868,7 @@ ul {
   right: 0;
   text-align: center;
 }
-/* line 141, ../../src/app/market/desktop/styles/_list.scss */
+/* line 129, ../../src/app/market/desktop/styles/_list.scss */
 .item-well .preview .preview-mask i {
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
@@ -6891,7 +6879,7 @@ ul {
   line-height: 30px;
   color: transparent;
 }
-/* line 150, ../../src/app/market/desktop/styles/_list.scss */
+/* line 138, ../../src/app/market/desktop/styles/_list.scss */
 .item-well .preview img {
   height: 100px;
   width: 100px;
@@ -6904,7 +6892,7 @@ ul {
   -moz-border-radius: 2px;
   border-radius: 2px;
 }
-/* line 160, ../../src/app/market/desktop/styles/_list.scss */
+/* line 148, ../../src/app/market/desktop/styles/_list.scss */
 .item-well .dimensions {
   position: relative;
   background-color: #eeeeee;
@@ -6917,13 +6905,13 @@ ul {
   -moz-border-radius-topright: 5px;
   border-top-right-radius: 5px;
 }
-/* line 168, ../../src/app/market/desktop/styles/_list.scss */
+/* line 156, ../../src/app/market/desktop/styles/_list.scss */
 .item-well .dimensions .header-container {
   position: relative;
   display: inline-block;
   float: left;
 }
-/* line 173, ../../src/app/market/desktop/styles/_list.scss */
+/* line 161, ../../src/app/market/desktop/styles/_list.scss */
 .item-well .dimensions .header-container .title {
   display: block;
   font-size: 14px;
@@ -6931,7 +6919,7 @@ ul {
   color: #0088cc;
   cursor: pointer;
 }
-/* line 181, ../../src/app/market/desktop/styles/_list.scss */
+/* line 169, ../../src/app/market/desktop/styles/_list.scss */
 .item-well .dimensions .header-container .ranges {
   position: relative;
   display: block;
@@ -6942,7 +6930,7 @@ ul {
 .item-well .dimensions .header-container .ranges span {
   font-weight: bold;
 }
-/* line 188, ../../src/app/market/desktop/styles/_list.scss */
+/* line 176, ../../src/app/market/desktop/styles/_list.scss */
 .item-well .dimensions .location {
   font-size: 28px;
   position: relative;
@@ -6953,51 +6941,26 @@ ul {
   padding: 5px;
   text-shadow: #666666 0 -1px 0;
   cursor: pointer;
-  color: white;
-  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-  background-color: #5dac6d;
-  background-image: -moz-linear-gradient(top, #68b577, #4d9e5d);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#68b577), to(#4d9e5d));
-  background-image: -webkit-linear-gradient(top, #68b577, #4d9e5d);
-  background-image: -o-linear-gradient(top, #68b577, #4d9e5d);
-  background-image: linear-gradient(to bottom, #68b577, #4d9e5d);
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#65b474', endColorstr='#4b9a5b', GradientType=0);
-  border-color: #4d9e5d #4d9e5d #346a3f;
-  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  *background-color: #4d9e5d;
-  /* Darken IE7 buttons by default so they stand out more given they won't have borders */
-  filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
 }
-/* line 496, ../../src/styles/compass_twitter_bootstrap/_mixins.scss */
-.item-well .dimensions .location:hover, .item-well .dimensions .location:active, .item-well .dimensions .location.active, .item-well .dimensions .location.disabled, .item-well .dimensions .location[disabled] {
-  color: white;
-  background-color: #4d9e5d;
-  *background-color: #458c53;
-}
-/* line 504, ../../src/styles/compass_twitter_bootstrap/_mixins.scss */
-.item-well .dimensions .location:active, .item-well .dimensions .location.active {
-  background-color: #3c7b49 \9;
-}
-/* line 202, ../../src/app/market/desktop/styles/_list.scss */
+/* line 205, ../../src/app/market/desktop/styles/_list.scss */
 .item-well .description {
   position: relative;
   height: auto;
   font-size: 14px;
   font-weight: normal;
 }
-/* line 208, ../../src/app/market/desktop/styles/_list.scss */
+/* line 211, ../../src/app/market/desktop/styles/_list.scss */
 .item-well .description .text-container {
   width: 235px;
   padding: 15px;
   max-height: 100px;
   overflow: hidden;
 }
-/* line 215, ../../src/app/market/desktop/styles/_list.scss */
+/* line 218, ../../src/app/market/desktop/styles/_list.scss */
 .item-well .description p {
   font-size: 13px;
 }
-/* line 220, ../../src/app/market/desktop/styles/_list.scss */
+/* line 223, ../../src/app/market/desktop/styles/_list.scss */
 .item-well .footer {
   position: relative;
   width: 100%;
@@ -7011,14 +6974,14 @@ ul {
   -moz-border-radius-bottomright: 5px;
   border-bottom-right-radius: 5px;
 }
-/* line 230, ../../src/app/market/desktop/styles/_list.scss */
+/* line 233, ../../src/app/market/desktop/styles/_list.scss */
 .item-well .footer .user-options {
   position: relative;
   float: left;
   font-size: 16px;
   padding: 2px 10px;
 }
-/* line 236, ../../src/app/market/desktop/styles/_list.scss */
+/* line 239, ../../src/app/market/desktop/styles/_list.scss */
 .item-well .footer .user-options .footer-button {
   position: relative;
   float: left;
@@ -7028,11 +6991,11 @@ ul {
   font-weight: normal;
   margin-right: 15px;
 }
-/* line 245, ../../src/app/market/desktop/styles/_list.scss */
+/* line 248, ../../src/app/market/desktop/styles/_list.scss */
 .item-well .footer .user-options .footer-button:hover {
   color: #5f5f5f;
 }
-/* line 249, ../../src/app/market/desktop/styles/_list.scss */
+/* line 252, ../../src/app/market/desktop/styles/_list.scss */
 .item-well .footer .user-options .footer-button span {
   font-size: 12px;
 }
@@ -7069,6 +7032,42 @@ ul {
   left: 0;
   bottom: 0;
   right: 0;
+}
+
+/* line 41, ../../src/app/market/desktop/styles/_market.scss */
+.feedback-tab {
+  width: 35px;
+  height: 140px;
+  position: fixed;
+  right: 0;
+  top: 60%;
+  z-index: 1;
+  background: url(/img/feedback-tab.png);
+  -webkit-transition: -webkit-transform 0.3s;
+  -moz-transition: -moz-transform 0.3s;
+  -o-transition: -o-transform 0.3s;
+  transition: transform 0.3s;
+  cursor: pointer;
+}
+/* line 52, ../../src/app/market/desktop/styles/_market.scss */
+.feedback-tab:active {
+  -webkit-transform: translate3d(2px, 0, 0);
+  -moz-transform: translate3d(2px, 0, 0);
+  -o-transform: translate3d(2px, 0, 0);
+  transform: translate3d(2px, 0, 0);
+  -webkit-transition: -webkit-transform 0.05s;
+  -moz-transition: -moz-transform 0.05s;
+  -o-transition: -o-transform 0.05s;
+  transition: transform 0.05s;
+}
+
+/* line 59, ../../src/app/market/desktop/styles/_market.scss */
+.feedback-modal textarea {
+  width: 100%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  margin-right: 10px;
 }
 
 /* line 1, ../../src/app/market/tablet/styles/_map.scss */

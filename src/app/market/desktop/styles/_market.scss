@@ -38,3 +38,27 @@
   }
 }
 
+.feedback-tab {
+  width: 35px;
+  height: 140px;
+  position: fixed;
+  right: 0;
+  top: 60%;
+  z-index: 1;
+  background: url(/img/feedback-tab.png);
+  @include transition(transform 0.3s);
+  cursor: pointer;
+
+  &:active {
+    @include translate3d(2px, 0, 0);
+    @include transition(transform 0.05s);
+  }
+}
+
+.feedback-modal {
+  textarea {
+    width: 100%;
+    @include box-sizing(border-box);
+    margin-right: 10px;
+  }
+}

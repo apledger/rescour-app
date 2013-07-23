@@ -17,7 +17,6 @@ require(
                     'core/market/leaflet-google',
                     'core/user/user',
                     'core/utility/utility',
-                    'core/market/map',
                     'core/market/market',
                     'core/auth/auth',
                     'core/browser-detect/browser-detect',
@@ -51,14 +50,6 @@ require(
             },
             'app/login/login': {
                 deps: ['app/app']
-            },
-            'core/market/map': {
-                deps: [
-                    'core/market/market',
-                    'core/market/leaflet-google',
-                    'components/leaflet.markerclusterer/dist/leaflet.markercluster',
-                    'components/angular-ui-bootstrap-bower/ui-bootstrap'
-                ]
             },
             'core/user/user': {
                 deps: ['components/angular-cookies/angular-cookies']

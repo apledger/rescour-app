@@ -110,6 +110,7 @@
         @include border-top-left-radius(5px);
         @include border-bottom-left-radius(0);
         @include border-bottom-right-radius(0);
+        //@include buttonBackground(lighten());
         cursor: pointer;
       }
     }

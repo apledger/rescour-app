@@ -23,7 +23,7 @@ $white:                 #fff !default;
 $blue:                  #049cdb !default;
 $blueLight:             #00a8db !default;
 $blueDark:              #0064cd !default;
-$green:                 #57AD68 !default;
+$green:                 #468847 !default;
 $red:                   #9c3022 !default;
 $yellow:                #ffc40d !default;
 $orange:                #f66930 !default;
@@ -79,16 +79,16 @@ $btnPrimaryBackgroundHighlight:     adjust-hue($btnPrimaryBackground, 20%) !defa
 $btnInfoBackground:                 #5bc0de !default;
 $btnInfoBackgroundHighlight:        #2f96b4 !default;
 
-$btnSuccessBackground:              lighten($green, 5%) !default;
+$btnSuccessBackground:              $green !default;
 $btnSuccessBackgroundHighlight:     darken($green, 5%)  !default;
 
-$btnWarningBackground:              lighten($orange, 5%) !default;
+$btnWarningBackground:              $orange !default;
 $btnWarningBackgroundHighlight:     darken($orange, 5%) !default;
 
-$btnDangerBackground:               lighten($red, 5%) !default;
+$btnDangerBackground:               $red !default;
 $btnDangerBackgroundHighlight:      darken($red, 5%) !default;
 
-$btnInverseBackground:              lighten($grayDark, 5%) !default;
+$btnInverseBackground:              $grayDark !default;
 $btnInverseBackgroundHighlight:     darken($grayDark, 5%) !default;
 
 

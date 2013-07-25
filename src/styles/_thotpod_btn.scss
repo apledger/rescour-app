@@ -1,0 +1,166 @@
+//$color1: #478173;
+//$color2: #FF4040;
+//$color3: #52be8b;
+//$color4: #e9744d;
+//$t1: #FBB829;
+//$t2: #FFCC00;
+
+/* Change this to $color1, $color2, $color3 to try different schemes */
+//$baseColor: $color1;
+//$supportColor: adjust-hue($baseColor, 30);
+//$baseAccentColor: adjust-hue($baseColor, 180);
+//$supportAccentColor: adjust-hue($supportColor, 180);
+
+//$baseFontSize: 14px;
+//$baseLineHeight: $baseFontSize*1.5;
+//$iconClose: "\00D7";
+//$bgColor: #CCC;
+$btnBorderRadius: 5px;
+
+@mixin gloss($glossBr: $btnBorderRadius) {
+  &::after {
+    content: "";
+    width: 100%;
+    height: 60%;
+    top: 0;
+    left: 0;
+    position: absolute;
+    opacity: 0.9;
+    @include background-image(linear-gradient(rgba(255,255,255,0.55), rgba(255,255,255,0.1)));
+    @include border-radius($glossBr);
+    @include transition(opacity 0.1s ease);
+  }
+}
+
+@mixin tpBtnBg($color, $fontColor: $white) {
+  color: $fontColor;
+  background: $color;
+  border: 1px solid $color;
+  text-shadow: 0 -1px 1px darken($color, 25%);
+  @include gloss();
+  @include box-shadow(#{0px 2px 1px darken($color,10%), inset 0 1px 3px rgba(255, 255, 255, 0.3)});
+
+  &:hover:not(:active) {
+    background: lighten($color, 5%);
+    color: $fontColor;
+  }
+
+  &:active {
+    color: $fontColor;
+    background: $color;
+    @include box-shadow(#{0px 1px 1px darken($color,10%), inset 0 2px 4px rgba(0,0,0,0.3)});
+
+    &::after {
+      opacity: 0.3;
+      @include transition(opacity 0.1s ease);
+    }
+  }
+}
+
+@mixin tpBtnAnimation($color) {
+  &:hover {
+    color: white;
+    text-decoration: none;
+    @include translate3d(0, -1px, 0);
+    @include transition(all 0.1s ease);
+
+    &:not(:active) {
+      @include box-shadow(0px 3px 1px darken($color,10%));
+    }
+  }
+
+  &:active {
+    @include translate3d(0, 1px, 0);
+    @include transition(all 0.1s ease);
+  }
+}
+
+@mixin tpBtn($color: $baseColor, $fontColor: $white) {
+  position: relative;
+  display: inline-block;
+  font-size: $baseFontSize;
+  *border: 0;
+  line-height: $baseLineHeight;
+  text-align: center;
+  padding: 0.5em 2em;
+  cursor: pointer;
+  @include border-radius($btnBorderRadius);
+  @include box-sizing(border-box);
+  @include transition(all 0.1s);
+  @include tpBtnBg($color);
+  @include tpBtnAnimation($color);
+}
+
+
+.btn {
+  @include tpBtn($btnPrimaryBackground);
+
+  &.btn-small {
+    font-size: $baseFontSize + 2px;
+    line-height: $baseLineHeight - 2px;
+  }
+
+  &.btn-large {
+    font-size:  $baseFontSize + 2px;
+    line-height: normal;
+  }
+
+  &.btn-primary {
+    @include tpBtnBg($btnPrimaryBackground);
+    @include tpBtnAnimation($btnPrimaryBackground);
+  }
+
+  &.btn-warning {
+    @include tpBtnBg($btnWarningBackground);
+    @include tpBtnAnimation($btnWarningBackground);
+  }
+  // Danger and error appear as red
+  &.btn-danger {
+    @include tpBtnBg($btnDangerBackground);
+    @include tpBtnAnimation($btnDangerBackground);
+  }
+  // Success appears as green
+  &.btn-success {
+    @include tpBtnBg($btnSuccessBackground);
+    @include tpBtnAnimation($btnSuccessBackground);
+  }
+  // Info appears as a neutral blue
+  &.btn-info {
+    @include tpBtnBg($btnInfoBackground);
+    @include tpBtnAnimation($btnInfoBackground);
+  }
+  // Inverse appears as dark gray
+  &.btn-inverse {
+    @include tpBtnBg($btnInverseBackground);
+    @include tpBtnAnimation($btnInverseBackground);
+  }
+}
+
+// Cross-browser Jank
+// --------------------------------------------------
+
+button.btn,
+input[type="submit"].btn {
+
+  // Firefox 3.6 only I believe
+  &::-moz-focus-inner {
+    padding: 0;
+    border: 0;
+  }
+
+  // IE7 has some default padding on button controls
+  *padding-top: 3px;
+  *padding-bottom: 3px;
+  &.btn-large {
+    *padding-top: 7px;
+    *padding-bottom: 7px;
+  }
+  &.btn-small {
+    *padding-top: 3px;
+    *padding-bottom: 3px;
+  }
+  &.btn-mini {
+    *padding-top: 1px;
+    *padding-bottom: 1px;
+  }
+}

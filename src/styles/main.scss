@@ -12,6 +12,7 @@
 //@import "core/powers/powers";
 @import "powers";
 @import "input_dropdown";
+@import "thotpod_btn";
 
 .loading-background {
   position: absolute; left: 0px; top: 0px; bottom:0px; right: 0px; background: $light-gray; z-index: 5;
@@ -132,4 +133,38 @@ body {
 
 ::-webkit-scrollbar-corner, ::-webkit-scrollbar-corner {
   display: none;
+}
+
+
+.status-expired-gradient {
+  @include tpBtnBg($btnDangerBackground);
+}
+
+.status-marketing-gradient {
+  @include tpBtnBg($btnSuccessBackground);
+}
+
+.status-under-gradient {
+  @include tpBtnBg($btnWarningBackground);
+}
+
+.status-unknown-gradient {
+  @include tpBtnBg($btnInverseBackground);
+}
+
+
+.status-expired-solid {
+  background: $red !important;
+}
+
+.status-marketing-solid {
+  background: $green !important;
+}
+
+.status-under-solid {
+  background: $orange !important;
+}
+
+.status-unknown-solid {
+  background: $grayDark !important;
 }

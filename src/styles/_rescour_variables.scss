@@ -191,36 +191,4 @@ $borderGray: #999;
   }
 }
 
-.status-expired-gradient {
-  @include buttonBackground($btnDangerBackground, $btnDangerBackgroundHighlight);
-}
-
-.status-marketing-gradient {
-  @include buttonBackground($btnSuccessBackground, $btnSuccessBackgroundHighlight);
-}
-
-.status-under-gradient {
-  @include buttonBackground($btnWarningBackground, $btnWarningBackgroundHighlight);
-}
-
-.status-unknown-gradient {
-  @include buttonBackground($btnInverseBackground, $btnInverseBackgroundHighlight);
-}
-
-
-.status-expired-solid {
-  background: $red !important;
-}
-
-.status-marketing-solid {
-  background: $green !important;
-}
-
-.status-under-solid {
-  background: $orange !important;
-}
-
-.status-unknown-solid {
-  background: $grayDark !important;
-}
 

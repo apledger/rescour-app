@@ -44222,7 +44222,7 @@ angular.module('rescour.app')
                         }),
                         'status-unknown': new RescourIcon({
                             iconUrl: 'img/marker-icon-black.png'
-                        }),
+                        })
                     };
 
                     var googleLayer = new L.Google('ROADMAP');
@@ -44240,8 +44240,8 @@ angular.module('rescour.app')
                     function popupTemplate(item) {
                         scope.item = item;
 
-                        var popupTempl = "<div><div class=\"btn popup-striped-container popup-header " + item.getStatusClass('gradient') + "\">" +
-                            "<h4 ng-click=\"showItemDetails(item)\">" + item.title + "</h4>" +
+                        var popupTempl = "<div><div class=\"popup-striped-container popup-header " + item.getStatusClass('gradient') + "\" ng-click=\"showItemDetails(item)\">" +
+                            "<h4>" + item.title + "</h4>" +
                             "</div>" +
                             "<div class=\"popup-main-container clearfix\">" +
                             "<div class=\"preview\" ng-click=\"showPictures(item)\"><div class=\"preview-mask\"><i class=\"icon-search\"></i></i></div>" +

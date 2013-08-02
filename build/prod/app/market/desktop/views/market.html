@@ -29,8 +29,9 @@
                         </div>
 
                         <input tooltip="Click to Edit" tooltip-placement="bottom" type="text" placeholder="Untitled Search"
-                               ng-model="attributes.title" saved-search-input="saveSearch()" ng-readonly="attributes.readonly"/>
+                               ng-model="attributes.title" saved-search-input ng-readonly="attributes.readonly"/>
 
+                        <!--Dropdown Menu-->
                         <div class="input-dropdown-btn"><i class="icon-caret-down"></i></div>
                         <ul class="input-dropdown-menu">
                             <li ng-click="loadSearch()"><i class="icon-file-text"></i><a href="javascript:">New
@@ -181,6 +182,9 @@
         <div class="map-wrap">
             <div map></div>
         </div>
+    </div>
+
+    <div class="feedback-tab" ng-click="openFeedbackDialog()">
     </div>
     <!--<div map></div>-->
 </div>

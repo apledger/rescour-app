@@ -1,20 +1,3 @@
-//$color1: #478173;
-//$color2: #FF4040;
-//$color3: #52be8b;
-//$color4: #e9744d;
-//$t1: #FBB829;
-//$t2: #FFCC00;
-
-/* Change this to $color1, $color2, $color3 to try different schemes */
-//$baseColor: $color1;
-//$supportColor: adjust-hue($baseColor, 30);
-//$baseAccentColor: adjust-hue($baseColor, 180);
-//$supportAccentColor: adjust-hue($supportColor, 180);
-
-//$baseFontSize: 14px;
-//$baseLineHeight: $baseFontSize*1.5;
-//$iconClose: "\00D7";
-//$bgColor: #CCC;
 $btnBorderRadius: 5px;
 
 @mixin gloss($glossBr: $btnBorderRadius) {

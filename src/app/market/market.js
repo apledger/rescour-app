@@ -347,8 +347,8 @@ angular.module('rescour.app')
                 dialog.close($scope.searchSettings);
             };
         }])
-    .controller("ListController", ['$scope', 'Items', '$q', '$dialog', 'BrowserDetect',
-        function ($scope, Items, $q, $dialog, BrowserDetect) {
+    .controller("ListController", ['$scope', 'Items', '$q', '$dialog', 'BrowserDetect', '$_api', '$http',
+        function ($scope, Items, $q, $dialog, BrowserDetect, $_api, $http) {
             $scope.sortBy = {
                 predicate: '',
                 reverse: false
@@ -430,6 +430,7 @@ angular.module('rescour.app')
 
                                 $http.post(path, body, config).then(
                                     function (response) {
+                                        console.log(response);
                                         defer.resolve(response);
                                     },
                                     function (response) {

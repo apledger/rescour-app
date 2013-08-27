@@ -3,5 +3,6 @@
 /dist/
 !src/
 /node_modules/
+.tmp/
 /tmp/
 /.tmp/

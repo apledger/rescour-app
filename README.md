@@ -4,9 +4,10 @@ app
 Requirements:
 - Ruby
 - SASS/SCSS
-- Gruntcl
-- Node / NPM
+- grunt-cli
+- node / npm
 
 1. Clone repo
 2. npm install
-3. grunt (dev/local)
+3. from /src -> bower install
+4. grunt (dev/local)

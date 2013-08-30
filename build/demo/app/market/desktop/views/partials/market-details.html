@@ -7,8 +7,8 @@
     <h4>{{current.getAddress()}}</h4>
 </div>
 <div class="span12">
-<div tabs ng-cloak>
-<div pane class="container-fluid" select-fn="selectPane(panes[0])" heading="{{panes[0].heading}}" active="panes[0].active">
+<div tabs="" ng-cloak="">
+<div pane="" class="container-fluid" select-fn="selectPane(panes[0])" heading="{{panes[0].heading}}" active="panes[0].active">
     <div class="row-fluid">
         <div class="span12">
             <table class="table table-bordered">
@@ -195,11 +195,11 @@
     </div>
 </div>
 
-<div pane class="container-fluid picture-container" heading="{{panes[1].heading}}" active="panes[1].active">
+<div pane="" class="container-fluid picture-container" heading="{{panes[1].heading}}" active="panes[1].active">
     <div class="row-fluid">
         <div class="span10 offset1" ng-show="current.getImages().length > 0">
 
-            <div img-viewer images="currentImages"></div>
+            <div img-viewer="" images="currentImages"></div>
 
             <!--<div carousel no-transition="true">-->
                 <!--<div slide ng-repeat="slide in current.getImages()" active="slide.active">-->
@@ -215,14 +215,13 @@
     </div>
 </div>
 
-<div pane class="container-fluid" heading="{{panes[2].heading}}" active="panes[2].active">
-    <div alert type="alert.type" fade-after="2000" ng-repeat="alert in contactAlerts">{{alert.msg}}</div>
+<div pane="" class="container-fluid" heading="{{panes[2].heading}}" active="panes[2].active">
+    <div alert="" type="alert.type" fade-after="2000" ng-repeat="alert in contactAlerts">{{alert.msg}}</div>
     <form class="contact-form" ng-show="current.details.contacts.length > 0">
         <div class="control-group">
             <div class="control-label">To:</div>
             <div class="controls">
-                <label class="checkbox" ng-class="{'contact-selected': contact.selected}"
-                       ng-repeat="contact in current.details.contacts">
+                <label class="checkbox" ng-class="{'contact-selected': contact.selected}" ng-repeat="contact in current.details.contacts">
                     <input type="checkbox" ng-model="contact.selected">
                     <strong>{{contact.name}}</strong> - <em>{{contact.phone}}</em> - {{contact.email}}
                 </label>
@@ -235,7 +234,7 @@
             </div>
         </div>
         <div class="form-actions">
-            <button class="btn btn-info" type="submit" ng-click="sendEmail(newEmail)">Send</button>
+            <button class="btn" type="submit" ng-click="sendEmail(newEmail)">Send</button>
         </div>
     </form>
     <div class="alert" ng-show="!current.details.contacts || current.details.contacts.length == 0">
@@ -244,7 +243,7 @@
     </div>
 </div>
 
-<div pane class="container-fluid" heading="{{panes[3].heading}}" active="panes[3].active">
+<div pane="" class="container-fluid" heading="{{panes[3].heading}}" active="panes[3].active">
     <div ng-repeat="comment in current.details.comments">
         <div class="alert alert-info comment-alert" spinner="comment.$spinner">
             <h5>{{comment.userEmail}} <span>{{comment.timestamp | date}}</span></h5>
@@ -252,26 +251,26 @@
             <p>{{comment.text}}</p>
         </div>
     </div>
-    <form name="formNewComment" novalidate>
+    <form name="formNewComment" novalidate="">
         <div class="control-group">
             <div class="control-label">Comment:</div>
             <div class="controls">
-                <textarea rows="6" name="text" class="span12" required ng-model="newComment.text"></textarea>
+                <textarea rows="6" name="text" class="span12" required="" ng-model="newComment.text"></textarea>
             </div>
         </div>
 
         <div class="form-actions">
-            <button type="submit" class="btn btn-success" ng-click="addComment(newComment)">
+            <button type="submit" class="btn" ng-click="addComment(newComment)">
                 Add Comment
             </button>
         </div>
     </form>
 </div>
 
-<div pane class="container-fluid finance-container" heading="{{panes[4].heading}}" active="panes[4].active">
+<div pane="" class="container-fluid finance-container" heading="{{panes[4].heading}}" active="panes[4].active">
     <div class="row-fluid">
         <div class="span12">
-            <form novalidate class="form-horizontal">
+            <form novalidate="" class="form-horizontal">
                 <legend></legend>
                 <div class="control-group" ng-repeat="finance in current.details.finances">
                     <a href="javascript:" class="finance-delete" ng-click="deleteFinance(finance)">
@@ -279,27 +278,20 @@
                     </a>
 
                     <div class="control-label">
-                        <input placeholder="Click to edit" name="name"
-                               class="edit-label"
-                               type="text" ng-model="finance.name"
-                               typeahead-select="field for field in financeFields | filter:$viewValue">
+                        <input placeholder="Click to edit" name="name" class="edit-label" type="text" ng-model="finance.name" typeahead-select="field for field in financeFields | filter:$viewValue">
                         <i class="icon-pencil"></i>
 
                     </div>
 
                     <div class="controls">
-                        <input placeholder="Value" type="text" format-input="{{finance.valueFormat}}" name="value"
-                               ng-blur="saveFinance(finance)" ng-model="finance.value"
-                               class="input-large">
-                        <select ng-options="format.valueFormat as format.icon for format in valueFormats"
-                                class="finance-class"
-                                ng-model="finance.valueFormat" ng-change="saveFinance(finance)"></select>
+                        <input placeholder="Value" type="text" format-input="{{finance.valueFormat}}" name="value" ng-blur="saveFinance(finance)" ng-model="finance.value" class="input-large">
+                        <select ng-options="format.valueFormat as format.icon for format in valueFormats" class="finance-class" ng-model="finance.valueFormat" ng-change="saveFinance(finance)"></select>
 
                         <div class="control-spinner" spinner="finance.$spinner"></div>
                     </div>
                 </div>
                 <div class="form-actions">
-                    <a href="javascript:" class="btn btn-success" ng-click="addFinance()">Add Finance Note</a>
+                    <a href="javascript:" class="btn" ng-click="addFinance()">Add Finance Note</a>
                 </div>
             </form>
         </div>

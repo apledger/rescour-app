@@ -21,11 +21,11 @@ require(
                     'core/auth/auth',
                     'core/browser-detect/browser-detect',
                     'core/powers/powers',
-                <% if (environment === 'dev') { %>
+                <% if (config.environment === 'dev') { %>
                     'core/config/dev'
-                <% } else if (environment === 'demo') { %>
+                <% } else if (config.environment === 'demo') { %>
                     'core/config/local'
-                <% } else if (environment === 'prod') { %>
+                <% } else if (config.environment === 'prod') { %>
                     'core/config/prod'
                 <% } %>
                 ]
@@ -67,7 +67,7 @@ require(
         'app/market/market',
         'app/login/login',
     ]
-    <% if (environment === 'dev' || environment === 'prod') { %>
+    <% if (config.environment === 'dev' || config.environment === 'prod') { %>
     ,function (require) {
         return require(['app/bootstrap']);
     }

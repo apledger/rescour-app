@@ -12,19 +12,28 @@ basePath = '../.tmp';
 files = [
     JASMINE,
     JASMINE_ADAPTER,
-    'components/angular/angular.js',
-    'components/angular-mocks/angular-mocks.js',
-    'components/angular-cookies/angular-cookies.js',
-    'components/underscore/underscore.js',
+    'components/leaflet/dist/leaflet.js',
     'components/jquery/jquery.js',
+    'components/jquery-ui/jquery-ui.js',
+    'components/angular/angular.js',
+    'components/angular-cookies/angular-cookies.js',
+    'components/angular-mocks/angular-mocks.js',
+    'app-config/local.js',
+    'components/underscore/underscore.js',
     'components/angular-ui-bootstrap-bower/ui-bootstrap.js',
+    'components/leaflet.markerclusterer/dist/leaflet.markercluster.js',
+    'components/spin.js/dist/spin.js',
+    'components/hammerjs/dist/hammer.js',
+    'components/angular-hammerjs/angular-hammer.js',
     'core/**/*.js',
-    'app-config/**/*.js',
+    'app/app.js',
     'app/**/*.js',
     'app/**/*.unit.js'
 ];
 
-exclude = [];
+exclude = [
+    'app/bootstrap.js'
+];
 //
 // test results reporter to use
 // possible values: dots || progress || growl

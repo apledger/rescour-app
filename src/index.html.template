@@ -80,20 +80,6 @@
 <script src="/components/angular/angular.js"></script>
 <script src="/components/angular-cookies/angular-cookies.js"></script>
 
-<% if (config.environment === 'dev') { %>
-    <script src="/scripts/scripts.dev.js"></script>
-<% } else if (config.environment === 'prod') { %>
-    <script src="/scripts/scripts.min.js"></script>
-<% } else if (config.environment === 'demo') { %>
-    <script src="/scripts/scripts.demo.js"></script>
-    <script src="/core/config/local.js"></script>
-<% } else if (config.environment === 'local') { %>
-    <script src="/components/angular-mocks/angular-mocks.js"></script>
-    <script src="/core/config/local.js"></script>
-<% } else if (config.environment === 'localDev') { %>
-    <script src="/core/config/local-dev.js"></script>
-<% } %>
-
 <script src="/components/underscore/underscore.js"></script>
 <script src="/components/angular-ui-bootstrap-bower/ui-bootstrap.js"></script>
 <script src="/components/leaflet.markerclusterer/dist/leaflet.markercluster.js"></script>
@@ -107,19 +93,37 @@
 <script src="/core/utility/utility.js"></script>
 <script src="/core/browser-detect/browser-detect.js"></script>
 <script src="/core/powers/powers.js"></script>
+
+<% if (config.environment == 'local') { %>
+    <script src="/components/angular-mocks/angular-mocks.js"></script>
+    <script src="/app-config/local.js"></script>
+<% } else if (config.environment == 'localDev') { %>
+    <script src="/app-config/local-dev.js"></script>
+<% } else if (config.environment == 'demo') { %>
+    <script src="/app-config/local.js"></script>
+<% } else if (config.environment == 'dev') { %>
+    <script src="/app-config/dev.js"></script>
+<% } else if (config.environment == 'prod') { %>
+    <script src="/app-config/prod.js"></script>
+<% } %>
+
 <script src="/app/app.js"></script>
 <script src="/app/account/account.js"></script>
 <script src="/app/login/login.js"></script>
 <script src="/app/market/market.js"></script>
 
-<% if (config.environment === 'local') { %>
+<% if (config.environment == 'local') { %>
     <script src="/app/mock.js"></script>
+    <script src="http://localhost:35729/livereload.js"></script>
+<% } else if (config.environment == 'localDev') { %>
+    <script src="/app/bootstrap.js"></script>
+    <script src="http://localhost:35729/livereload.js"></script>
 <% } else if (config.environment == 'demo') { %>
-
-<% } else { %>
+<% } else if (config.environment == 'dev') { %>
+    <script src="/app/bootstrap.js"></script>
+<% } else if (config.environment == 'prod') { %>
     <script src="/app/bootstrap.js"></script>
 <% } %>
-
 <!-- endbuild -->
 
 <% if (config.environment === 'prod') { %>

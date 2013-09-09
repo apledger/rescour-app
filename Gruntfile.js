@@ -299,7 +299,8 @@ module.exports = function (grunt) {
                         'app-config/**/*',
                         'core/**/*',
                         'img/**/*',
-                        '*.html*'
+                        '*.html*',
+                        '!app/bootstrap.js'
                     ]
                 }]
             },
@@ -357,7 +358,8 @@ module.exports = function (grunt) {
                         src: [
                             '<%= yeoman.app %>/*.{ico,txt}',
                             '<%= yeoman.app %>/img/{,*/}*.{gif,webp}',
-                            '<%= yeoman.app %>/styles/fonts/*'
+                            '<%= yeoman.app %>/styles/fonts/*',
+                            '<%= yeoman.app %>/components/*'
                         ]
                     },
                     {
@@ -392,7 +394,8 @@ module.exports = function (grunt) {
                         src: [
                             '<%= yeoman.app %>/*.{ico,txt}',
                             '<%= yeoman.app %>/img/{,*/}*.{gif,webp}',
-                            '<%= yeoman.app %>/styles/fonts/*'
+                            '<%= yeoman.app %>/styles/fonts/*',
+                            '<%= yeoman.app %>/components/*'
                         ]
                     },
                     {
@@ -427,7 +430,8 @@ module.exports = function (grunt) {
                         src: [
                             '<%= yeoman.app %>/*.{ico,txt}',
                             '<%= yeoman.app %>/img/{,*/}*.{gif,webp}',
-                            '<%= yeoman.app %>/styles/fonts/*'
+                            '<%= yeoman.app %>/styles/fonts/*',
+                            '<%= yeoman.app %>/components/*'
                         ]
                     },
                     {
@@ -807,7 +811,7 @@ module.exports = function (grunt) {
     grunt.registerTask('test', [
         'clean:local',
         'copy:local',
-        'template:demo',
+        'template:local',
         'clean:template',
         'karma:unit'
     ]);

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" xmlns:ng="http://angularjs.org" xmlns:app="ignored"> <![endif]-->
+<!--[if IE 7]> <html class="no-js lt-ie9 lt-ie8" xmlns:ng="http://angularjs.org" xmlns:app="ignored"> <![endif]-->
+<!--[if IE 8]> <html class="no-js lt-ie9" xmlns:ng="http://angularjs.org" xmlns:app="ignored"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" xmlns:ng="http://angularjs.org" xmlns:app="ignored"> <!--<![endif]-->
+<head>
+    <script type="text/javascript" src="https://use.typekit.net/wrn8cey.js"></script>
+    <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>REScour | Multi Family Institutional Listing Service</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="expires" content="-1">
+    <meta http-equiv="pragma" content="no-cache">
+    <link rel="stylesheet" href="/components/leaflet/dist/leaflet.css">
+    <link rel="stylesheet" href="/components/font-awesome/css/font-awesome.min.css">
+    <link type="text/css" href="/components/jquery-ui/themes/ui-lightness/jquery-ui.css" rel="Stylesheet">
+    <link rel="stylesheet" href="styles/75a17b51.main.css">
+    <link rel="icon" type="image/png" href="/img/favicon.png">
+
+    <!-- ClickJacking Defense begin (https://www.owasp.org/index.php/Clickjacking_Defense_Cheat_Sheet) -->
+    <style id="antiClickjack">
+        body {
+            display: none !important;
+        }
+    </style>
+
+    <script>
+        (function (win) {
+            if (win.top === win.self) {
+                var antiClickjack = win.document.getElementById('antiClickjack');
+
+                antiClickjack.parentNode.removeChild(antiClickjack);
+            } else {
+                win.top.location = win.self.location;
+            }
+        }(window));
+    </script>
+    <!-- ClickJacking Defense end -->
+</head>
+<body ng-controller="AppController">
+<div class="loading-background" ng-show="loading || failure" ng-cloak="">
+    <div ng-show="loading" class="loading-container" spinner-size="large" spinner="loading">
+        <img src="/img/logo-medium.png" width="200" alt="">
+    </div>
+    <div ng-show="failure" class="loading-container">
+        <h4>OOPS!</h4>
+        <i class="failure-icon icon-exclamation-sign icon-4x"></i>
+        <p>Well, this is embarassing.  It seems the content you have requested cannot be loaded.  Our team has been notified and we encourage you to try again later.</p>
+    </div>
+</div>
+
+<!--[if lt IE 9]>
+<script src="/components/es5-shim/es5-shim.min.js"></script>
+<script src="/components/json3/lib/json3.min.js"></script>
+<![endif]-->
+
+<div ng-view=""></div>
+
+<div class="main-footer">
+    <ul>
+        <li>&copy; REscour 2013</li>
+        <li><a href="https://www.rescour.com" target="_blank">Home</a></li>
+        <li><a href="https://www.rescour.com/about" target="_blank">Privacy</a></li>
+        <li><a href="https://www.rescour.com/about" target="_blank">Terms</a></li>
+    </ul>
+</div>
+
+<script src="https://maps.google.com/maps/api/js?v=3.2&sensor=false"></script>
+<script type="text/javascript" src="/components/leaflet/dist/leaflet.js"></script>
+<script src="https://checkout.stripe.com/v2/checkout.js"></script>
+
+<script src="scripts/b8eaf3cc.scripts.js"></script>
+
+
+</body>
+</html>

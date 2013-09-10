@@ -1,7 +1,11 @@
 .idea
-.sass-cache/
-/dist/
-!src/
-/node_modules/
+.sass-cache
+app/components
+node_modules
 .tmp/
-/tmp/
+tmp
+dist
+build
+.editorconfig
+.gitattributes
+libpeerconnection.log

@@ -15,10 +15,10 @@
     <meta http-equiv="expires" content="-1" />
     <meta http-equiv="pragma" content="no-cache" />
     <link rel="stylesheet" href="/components/leaflet/dist/leaflet.css" />
-    <!-- build:css styles/main.css -->
-    <link type="text/css" href="/components/jquery-ui/themes/ui-lightness/jquery-ui.css" rel="Stylesheet"/>
-    <link rel="stylesheet" href="/styles/main.css"/>
     <link rel="stylesheet" href="/components/font-awesome/css/font-awesome.min.css">
+    <link type="text/css" href="/components/jquery-ui/themes/ui-lightness/jquery-ui.css" rel="Stylesheet"/>
+    <!-- build:css styles/main.css -->
+    <link rel="stylesheet" href="/styles/main.css"/>
     <!-- endbuild -->
     <link rel="icon" type="image/png" href="/img/favicon.png">
 

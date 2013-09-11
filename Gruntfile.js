@@ -560,6 +560,7 @@ module.exports = function (grunt) {
                         src: [
                             'app/**/*.html',
                             'template/**/*.html',
+                            'core/**/*.html',
                             '!components/**/*.html'
                         ],
                         dest: '<%= yeoman.dist%>/demo'
@@ -582,6 +583,7 @@ module.exports = function (grunt) {
                         src: [
                             'app/**/*.html',
                             'template/**/*.html',
+                            'core/**/*.html',
                             '!components/**/*.html'
                         ],
                         dest: '<%= yeoman.dist%>/dev'
@@ -604,6 +606,7 @@ module.exports = function (grunt) {
                         src: [
                             'app/**/*.html',
                             'template/**/*.html',
+                            'core/**/*.html',
                             '!components/**/*.html'
                         ],
                         dest: '<%= yeoman.dist%>/prod'

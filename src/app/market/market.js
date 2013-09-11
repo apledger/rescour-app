@@ -51,7 +51,8 @@ angular.module('rescour.app')
     .controller('MarketController', ['$scope', 'Items', 'Attributes', '$timeout', '$routeParams', '$location', 'BrowserDetect', 'User', '$dialog', 'Market',
         function ($scope, Items, Attributes, $timeout, $routeParams, $location, BrowserDetect, User, $dialog, Market) {
 //            $scope.items = Items.toArray();
-            $scope.items = Market.getItems();
+//            $scope.items = Market.getItems();
+            $scope.items = Market.visibleItems;
 //            $scope.attributes = Attributes;
             $scope.attributes = Market.getDimensions();
             console.log($scope.attributes);
@@ -224,7 +225,13 @@ angular.module('rescour.app')
 
             $scope.openFeedbackDialog = function () {
                 $scope.feedbackDialog.open();
-            }
+            };
+
+            $scope.toggleDiscreet = function (discreet, discreetValue) {
+                $scope.items = Market.apply(discreet, discreetValue);
+                Market.predict();
+                $scope.$broadcast('UpdateMap', $scope.items);
+            };
         }])
     .controller("FilterController", ['$scope', 'Items', 'Attributes', 'SavedSearch', '$dialog', 'Market',
         function ($scope, Items, Attributes, SavedSearch, $dialog, Market) {
@@ -310,9 +317,6 @@ angular.module('rescour.app')
 //                $scope.filter();
 //            };
 
-            $scope.toggleDiscreet = function (discreet, discreetValue) {
-                Market.apply(discreet, discreetValue);
-            };
 
             $scope.refreshSearch = function () {
                 if ($scope.selectedSearch) {
@@ -887,17 +891,14 @@ angular.module('rescour.app')
                             }
                         });
                     }
-
-                    scope.$watch(function () {
-                        return Market.visibleIds;
-                    }, function () {
+                    scope.$on('UpdateMap', function (e, visibleItems) {
                         // Markers plugin says better performance to clear all markers and recreate
                         markers.clearLayers();
                         // Zoom out
                         map.setView(defaultLatLng, defaultZoom);
 
                         // Loop through each item
-                        _.each(items, function (item) {
+                        _.each(visibleItems, function (item) {
                             // Check visibility
                             if (item.isVisible && item.location) {
                                 // Initialize new marker at location
@@ -908,6 +909,27 @@ angular.module('rescour.app')
                         // Add marker groups
                         map.addLayer(markers);
                     });
+
+//                    scope.$watch(function () {
+//                        return Market.visibleIds;
+//                    }, function () {
+//                        // Markers plugin says better performance to clear all markers and recreate
+//                        markers.clearLayers();
+//                        // Zoom out
+//                        map.setView(defaultLatLng, defaultZoom);
+//
+//                        // Loop through each item
+//                        _.each(items, function (item) {
+//                            // Check visibility
+//                            if (item.isVisible && item.location) {
+//                                // Initialize new marker at location
+//                                // Add marker to marker group
+//                                markers.addLayer(item.marker);
+//                            }
+//                        });
+//                        // Add marker groups
+//                        map.addLayer(markers);
+//                    });
 
                     scope.$on('CenterMap', function (event, item) {
                         if (item.marker) {

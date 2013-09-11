@@ -40,6 +40,7 @@ angular.module('rescour.marketplace', ['rescour.config'])
             this.dimensions = {};
             this.items = {};
             this.visibleIds = [];
+            this.visibleItems = [];
 
             this.getActive = function () {
                 return activeItem;
@@ -165,6 +166,7 @@ angular.module('rescour.marketplace', ['rescour.config'])
                     }
                 }
                 this.apply();
+                this.predict();
                 console.log(this.items);
                 console.log(this.dimensions);
                 return this.items;
@@ -193,8 +195,8 @@ angular.module('rescour.marketplace', ['rescour.config'])
                     items = this.items;
 
                 this.visibleIds = [];
+                this.visibleItems = [];
                 dimensions.visibleIds = [];
-                dimensions.excludedRangeIds = 0;
 
                 // apply is called on init, so we have to check whether args are passed in
                 if (discreet && value) {
@@ -217,11 +219,11 @@ angular.module('rescour.marketplace', ['rescour.config'])
                             var _discreet = dimensions.discreet[attrId],
                                 union = 0;
 
+//                            _discreet.excludedRangeIds = [];
                             for (var valueId in _discreet.values) {
                                 if (_discreet.values.hasOwnProperty(valueId)) {
                                     var _value = _discreet.values[valueId];
 
-                                    _value.excludedRangeIds = [];
                                     if (_value.isSelected || _discreet.selected === 0) {
                                         union = union | _value.ids[i];
                                     }
@@ -246,24 +248,23 @@ angular.module('rescour.marketplace', ['rescour.config'])
                                         if ((_currItemAttr >= _rangeAttr.lowSelected &&
                                             _currItemAttr <= _rangeAttr.highSelected) || _currItemAttr === 'NA') {
                                             _currItem.isVisible = !!(1 & bitSet[i]);
-
-                                            if (_currItem.isVisible) {
-                                                dimensions.visibleIds = setBit(itemIndex, dimensions.visibleIds);
-                                                this.visibleIds.push(dimensions.idMap[itemIndex]);
-                                            }
                                         } else {
                                             _currItem.isVisible = false;
-
                                             for (var _discreetKey in dimensions.discreet) {
                                                 if (dimensions.discreet.hasOwnProperty(_discreetKey)) {
-                                                    var _discreetAttr = dimensions.discreet[_discreetKey];
-
-                                                    _discreetAttr.excludedRangeIds = setBit(itemIndex, _discreetAttr.excludedRangeIds)
+                                                    var _discreetAttr = dimensions.discreet[_discreetKey],
+                                                        _mask = ~(1 << p);
+                                                    _discreetAttr.visibleIds[i] = _discreetAttr.visibleIds[i] & _mask;
                                                 }
                                             }
                                             break;
                                         }
                                     }
+                                }
+                                if (_currItem.isVisible) {
+                                    dimensions.visibleIds = setBit(itemIndex, dimensions.visibleIds);
+                                    this.visibleIds.push(dimensions.idMap[itemIndex]);
+                                    this.visibleItems.push(_currItem);
                                 }
                             } else {
                                 _currItem.isVisible = !!(1 & bitSet[i]);
@@ -278,7 +279,7 @@ angular.module('rescour.marketplace', ['rescour.config'])
                     }
                 }
 
-                this.predict();
+                return this.visibleItems;
             };
 
             this.predict = function () {
@@ -304,7 +305,7 @@ angular.module('rescour.marketplace', ['rescour.config'])
 
                                     for (var i = 0; i < BIT_SET_LENGTH; i++) {
 //                                        predictBitSet[i] = _discreet.visibleIds[i] | _value.ids[i];
-                                        var predictedUnion = (_discreet.visibleIds[i] | _value.ids[i]) & ~_discreet.excludedRangeIds[i];
+                                        var predictedUnion = _discreet.visibleIds[i] | _value.ids[i];
                                         predictBitSet.push(~0);
 
                                         // using that individual predictedUnion, intersect across, add predict value into predictLength
@@ -317,15 +318,15 @@ angular.module('rescour.marketplace', ['rescour.config'])
                                                 if (predictAttrId === attrId) {
                                                     predictBitSet[i] = predictBitSet[i] & predictedUnion;
                                                 } else {
-                                                    predictBitSet[i] = predictBitSet[i] & _predictDiscreet.visibleIds[i] & ~_predictDiscreet.excludedRangeIds[i];
+                                                    predictBitSet[i] = predictBitSet[i] & _predictDiscreet.visibleIds[i];
                                                 }
                                             }
                                         }
 
                                         // add length from intersected first int
-                                        predictLength += popcount(predictBitSet[i] & _value.ids[i] & ~_value.excludedRangeIds[i]);
+                                        predictLength += popcount(predictBitSet[i] & _value.ids[i]);
                                     }
-                                    _value.predict = predictLength - dimensions.excludedRangeIds;
+                                    _value.predict = predictLength;
                                 } else {
                                     _value.predict = 0;
 
@@ -355,8 +356,7 @@ angular.module('rescour.marketplace', ['rescour.config'])
                     discreetDefaults = {
                         values: {},
                         selected: 0,
-                        visibleIds: [],
-                        excludedRangeIds: []
+                        visibleIds: []
                     },
                     rangeDefaults = {
                         ids: [],
@@ -531,6 +531,7 @@ angular.module('rescour.marketplace', ['rescour.config'])
                         stop: function (event, ui) {
                             scope.$apply(function () {
                                 Market.apply();
+                                Market.predict();
                             });
 
                             // WHY THE FUCK DO I NEED TO CALL THIS TWICE??

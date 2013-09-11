@@ -1,7 +1,11 @@
+.DS_Store
 .idea
-.sass-cache/
-/dist/
-!src/
-/node_modules/
-/tmp/
-/.tmp/
+.sass-cache
+.tmp
+log
+node_modules
+tmp
+/dist
+.editorconfig
+.gitattributes
+libpeerconnection.log

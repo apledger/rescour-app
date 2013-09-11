@@ -4,9 +4,8 @@
 .tmp
 log
 node_modules
-app/components
 tmp
-dist
+/dist
 .editorconfig
 .gitattributes
 libpeerconnection.log

@@ -1,9 +1,0 @@
-{
-  "name": "leaflet.markerclusterer",
-  "version": "0.0.0",
-  "commit": "e0846ced2d490a7c08ba909da3222037a815a198",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/Leaflet/Leaflet.markercluster.git"
-  }
-}

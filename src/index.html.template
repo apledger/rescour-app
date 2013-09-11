@@ -15,9 +15,11 @@
     <meta http-equiv="expires" content="-1" />
     <meta http-equiv="pragma" content="no-cache" />
     <link rel="stylesheet" href="/components/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="/components/font-awesome/css/font-awesome.min.css">
     <link type="text/css" href="/components/jquery-ui/themes/ui-lightness/jquery-ui.css" rel="Stylesheet"/>
-    <link rel="stylesheet" href="/styles/main.css?v=<%= hash('./tmp/styles/main.css') %>"/>
-    <link rel="stylesheet" href="/components/font-awesome/css/font-awesome.min.css?v=<%= hash('./tmp/styles/main.css') %>">
+    <!-- build:css styles/main.css -->
+    <link rel="stylesheet" href="/styles/main.css"/>
+    <!-- endbuild -->
     <link rel="icon" type="image/png" href="/img/favicon.png">
 
     <!-- ClickJacking Defense begin (https://www.owasp.org/index.php/Clickjacking_Defense_Cheat_Sheet) -->
@@ -72,17 +74,12 @@
 <script type="text/javascript" src="/components/leaflet/dist/leaflet.js"></script>
 <script src="https://checkout.stripe.com/v2/checkout.js"></script>
 
-<% if (environment === 'dev') { %>
-<script src="/scripts/scripts.dev.js?v=<%= hash('./tmp/scripts/scripts.dev.js') %>"></script>
-<% } else if (environment === 'prod') { %>
-<script src="/scripts/scripts.min.js?v=<%= hash('./tmp/scripts/scripts.min.js') %>"></script>
-<% } else if (environment === 'demo') { %>
-<script src="/scripts/scripts.demo.js?v=<%= hash('./tmp/scripts/scripts.demo.js') %>"></script>
-<% } else if (environment === 'localDev' || environment === 'local') { %>
+<!-- build:js scripts/scripts.js -->
 <script src="/components/jquery/jquery.js"></script>
 <script src="/components/jquery-ui/jquery-ui.js"></script>
 <script src="/components/angular/angular.js"></script>
 <script src="/components/angular-cookies/angular-cookies.js"></script>
+
 <script src="/components/underscore/underscore.js"></script>
 <script src="/components/angular-ui-bootstrap-bower/ui-bootstrap.js"></script>
 <script src="/components/leaflet.markerclusterer/dist/leaflet.markercluster.js"></script>
@@ -96,24 +93,40 @@
 <script src="/core/utility/utility.js"></script>
 <script src="/core/browser-detect/browser-detect.js"></script>
 <script src="/core/powers/powers.js"></script>
+
+<% if (config.environment == 'local') { %>
+    <script src="/components/angular-mocks/angular-mocks.js"></script>
+    <script src="/app-config/local.js"></script>
+<% } else if (config.environment == 'localDev') { %>
+    <script src="/app-config/local-dev.js"></script>
+<% } else if (config.environment == 'demo') { %>
+    <script src="/app-config/local.js"></script>
+<% } else if (config.environment == 'dev') { %>
+    <script src="/app-config/dev.js"></script>
+<% } else if (config.environment == 'prod') { %>
+    <script src="/app-config/prod.js"></script>
+<% } %>
+
 <script src="/app/app.js"></script>
 <script src="/app/account/account.js"></script>
 <script src="/app/login/login.js"></script>
 <script src="/app/market/market.js"></script>
+
+<% if (config.environment == 'local') { %>
+    <script src="/app/mock.js"></script>
+    <script src="http://localhost:35729/livereload.js"></script>
+<% } else if (config.environment == 'localDev') { %>
+    <script src="/app/bootstrap.js"></script>
+    <script src="http://localhost:35729/livereload.js"></script>
+<% } else if (config.environment == 'demo') { %>
+<% } else if (config.environment == 'dev') { %>
+    <script src="/app/bootstrap.js"></script>
+<% } else if (config.environment == 'prod') { %>
+    <script src="/app/bootstrap.js"></script>
 <% } %>
+<!-- endbuild -->
 
-<% if (environment === 'local') { %>
-<script src="/core/config/local.js"></script>
-<script src="/components/angular-mocks/angular-mocks.js"></script>
-<script src="/app/mock.js"></script>
-<% } else if (environment === 'localDev') { %>
-<script src="/core/config/local-dev.js"></script>
-<script src="/app/bootstrap.js"></script>
-<% } %>
-
-
-
-<% if (environment === 'prod') { %>
+<% if (config.environment === 'prod') { %>
 <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

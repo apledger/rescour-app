@@ -8,8 +8,7 @@
 
     <form name="formReportDialog" class="form-horizontal report-form">
         <div class="report-select-container">
-            <label class="checkbox" ng-class="{'checkbox-selected': item.isSelected}"
-               ng-repeat="item in reportItems">
+            <label class="checkbox" ng-class="{'checkbox-selected': item.isSelected}" ng-repeat="item in reportItems">
             <input type="checkbox" ng-checked="item.isSelected" ng-model="item.isSelected">
             <strong>{{item.title}}</strong>
         </label></div>

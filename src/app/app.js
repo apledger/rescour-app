@@ -49,6 +49,4 @@ angular.module('rescour.app',
                 $scope.loading = false;
                 $scope.failure = true;
             });
-        }]);
-
-
+        }])

@@ -6,7 +6,7 @@
  * File: /app/mock.js
  */
 
-angular.module('rescour.app.mock', ['rescour.app', 'ngMockE2E'])
+angular.module('rescour.mock', ['rescour.app', 'ngMockE2E'])
 // Dummy Calls
     .run(['$httpBackend', '$timeout', function ($httpBackend, $timeout) {
         var NUM_ITEMS = 200;
@@ -494,7 +494,7 @@ angular.module('rescour.app.mock', ['rescour.app', 'ngMockE2E'])
         $httpBackend.whenGET(/template\//).passThrough();
     }]);
 
-angular.bootstrap(document, ['rescour.app.mock']);
+angular.bootstrap(document, ['rescour.mock']);
 
 
 

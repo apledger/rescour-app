@@ -16,17 +16,22 @@ angular.module('rescour.app')
                     controller: 'MarketController',
                     reloadOnSearch: false,
                     resolve: {
-                        loadItems: function ($q, $_api, Items, $rootScope, Item) {
+                        loadItems: function ($q, $_api, Items, $rootScope, Item, Market, $dimensions) {
                             var defer = $q.defer();
-                            Item.query().then(function (result) {
-                                if (angular.equals(result, [])) {
-                                    defer.reject("Failed to contact server");
-                                } else {
-                                    Items.initialize(result.data.resources);
-                                    defer.resolve();
-                                }
-                            }, function (response) {
-                                defer.reject(response);
+//                            Item.query().then(function (result) {
+//                                if (angular.equals(result, [])) {
+//                                    defer.reject("Failed to contact server");
+//                                } else {
+//                                    Items.initialize(result.data.resources);
+//                                    defer.resolve();
+//                                }
+//                            }, function (response) {
+//                                defer.reject(response);
+//                            });
+
+                            Item.query().then(function (results) {
+                                Market.initialize(results.data.resources, $dimensions, Item);
+                                defer.resolve();
                             });
 
                             return defer.promise;
@@ -43,10 +48,13 @@ angular.module('rescour.app')
                     }
                 });
         }])
-    .controller('MarketController', ['$scope', 'Items', 'Attributes', '$timeout', '$routeParams', '$location', 'BrowserDetect', 'User', '$dialog',
-        function ($scope, Items, Attributes, $timeout, $routeParams, $location, BrowserDetect, User, $dialog) {
-            $scope.items = Items.toArray();
-            $scope.attributes = Attributes;
+    .controller('MarketController', ['$scope', 'Items', 'Attributes', '$timeout', '$routeParams', '$location', 'BrowserDetect', 'User', '$dialog', 'Market',
+        function ($scope, Items, Attributes, $timeout, $routeParams, $location, BrowserDetect, User, $dialog, Market) {
+//            $scope.items = Items.toArray();
+            $scope.items = Market.getItems();
+//            $scope.attributes = Attributes;
+            $scope.attributes = Market.getDimensions();
+            console.log($scope.attributes);
             $scope.toggle = 'all';
             $scope.getActive = Items.getActive;
             $scope.browser = BrowserDetect;
@@ -218,10 +226,9 @@ angular.module('rescour.app')
                 $scope.feedbackDialog.open();
             }
         }])
-    .controller("FilterController", ['$scope', 'Items', 'Attributes', 'SavedSearch', '$dialog',
-        function ($scope, Items, Attributes, SavedSearch, $dialog) {
+    .controller("FilterController", ['$scope', 'Items', 'Attributes', 'SavedSearch', '$dialog', 'Market',
+        function ($scope, Items, Attributes, SavedSearch, $dialog, Market) {
             $scope.selectedSearch = null;
-            $scope.attributes = Attributes;
             $scope.savedSearchDialog = $dialog.dialog({
                 backdrop: true,
                 keyboard: true,
@@ -298,9 +305,13 @@ angular.module('rescour.app')
                 }
             };
 
-            $scope.toggleDiscreet = function (value) {
-                value.isSelected = !value.isSelected;
-                $scope.filter();
+//            $scope.toggleDiscreet = function (value) {
+//                value.isSelected = !value.isSelected;
+//                $scope.filter();
+//            };
+
+            $scope.toggleDiscreet = function (discreet, discreetValue) {
+                Market.apply(discreet, discreetValue);
             };
 
             $scope.refreshSearch = function () {
@@ -774,8 +785,8 @@ angular.module('rescour.app')
                 }
             };
         }])
-    .directive('map', ['Items', '$compile', '$location', 'BrowserDetect',
-        function (Items, $compile, $location, BrowserDetect) {
+    .directive('map', ['Items', '$compile', '$location', 'BrowserDetect', 'Market',
+        function (Items, $compile, $location, BrowserDetect, Market) {
             return {
                 restrict: "A",
                 transclude: true,
@@ -817,6 +828,8 @@ angular.module('rescour.app')
                         })
                     };
 
+                    var items = Market.getItems();
+
                     var googleLayer = new L.Google('ROADMAP');
                     map.addLayer(googleLayer);
                     map.addControl(new L.Control.Zoom({ position: 'topright' }));
@@ -854,7 +867,7 @@ angular.module('rescour.app')
                     }
 
                     function initMarkers() {
-                        angular.forEach(Items.items, function (item) {
+                        angular.forEach(items, function (item) {
                             if (item.location) {
                                 item.marker = new L.Marker(new L.LatLng(item.location[0], item.location[1]), { title: item.title, icon: icons[item.getStatusClass()] });
                                 item.marker.on("click", function (e) {
@@ -876,7 +889,7 @@ angular.module('rescour.app')
                     }
 
                     scope.$watch(function () {
-                        return Items.visibleIds;
+                        return Market.visibleIds;
                     }, function () {
                         // Markers plugin says better performance to clear all markers and recreate
                         markers.clearLayers();
@@ -884,7 +897,7 @@ angular.module('rescour.app')
                         map.setView(defaultLatLng, defaultZoom);
 
                         // Loop through each item
-                        _.each(Items.items, function (item) {
+                        _.each(items, function (item) {
                             // Check visibility
                             if (item.isVisible && item.location) {
                                 // Initialize new marker at location

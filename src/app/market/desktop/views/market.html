@@ -46,7 +46,7 @@
                 </div>
 
                 <!--Range sliders-->
-                <ul class="nav nav-list" ng-repeat="range in attributes.range | orderBy:orderByWeight()">
+                <ul class="nav nav-list" ng-repeat="range in attributes.range | orderBy:orderByWeight() | filter:isNotHidden">
                     <li class="nav-header" ng-click="sortBy(range)">
                         {{range.title}} &nbsp;
                         <sort-arrow></sort-arrow>
@@ -67,7 +67,7 @@
 
                     <ul class="nav nav-list" collapse="discreet.collapse">
                         <li ng-class="{'active': value.isSelected }" ng-repeat="value in discreet.values">
-                            <a ng-click="toggleDiscreet(discreet, value)" href="javascript:">
+                            <a ng-click="filter(discreet, value)" href="javascript:">
                                 {{value.title | ellipsis:26}}
                         <span ng-show="value" class="badge {{value.badge}}"
                               style="float:right;">{{value.predict}}</span>
@@ -93,7 +93,7 @@
         </div>
 
         <div class="scroll-container"
-             chunk="filteredItems = (items | filter:searchText)">
+             chunk="filteredItems = (items | filter:searchText | limitVisible)">
             <!--chunk="filteredItems = (items | filter:searchText | orderBy:orderNA():sortBy.reverse)">-->
             <!--Toggle favorites button-->
             <!--Item boxes display-->

@@ -9,7 +9,7 @@
 angular.module('rescour.app.mock', ['rescour.app', 'ngMockE2E'])
 // Dummy Calls
     .run(['$httpBackend', '$timeout', function ($httpBackend, $timeout) {
-        var NUM_ITEMS = 1000;
+        var NUM_ITEMS = 100;
 
         var saved = {};
 

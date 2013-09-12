@@ -18,16 +18,6 @@ angular.module('rescour.app')
                     resolve: {
                         loadItems: function ($q, $_api, Items, $rootScope, Item, Market, $dimensions) {
                             var defer = $q.defer();
-//                            Item.query().then(function (result) {
-//                                if (angular.equals(result, [])) {
-//                                    defer.reject("Failed to contact server");
-//                                } else {
-//                                    Items.initialize(result.data.resources);
-//                                    defer.resolve();
-//                                }
-//                            }, function (response) {
-//                                defer.reject(response);
-//                            });
 
                             Item.query().then(function (results) {
                                 Market.initialize(results.data.resources, $dimensions, Item);
@@ -50,16 +40,15 @@ angular.module('rescour.app')
         }])
     .controller('MarketController', ['$scope', 'Items', 'Attributes', '$timeout', '$routeParams', '$location', 'BrowserDetect', 'User', '$dialog', 'Market',
         function ($scope, Items, Attributes, $timeout, $routeParams, $location, BrowserDetect, User, $dialog, Market) {
-//            $scope.items = Items.toArray();
-//            $scope.items = Market.getItems();
             $scope.items = Market.visibleItems;
-//            $scope.attributes = Attributes;
             $scope.attributes = Market.getDimensions();
             console.log($scope.attributes);
             $scope.toggle = 'all';
             $scope.getActive = Items.getActive;
             $scope.browser = BrowserDetect;
             $scope.searchText = {};
+
+
 
             $scope.feedbackDialog = $dialog.dialog({
                 backdrop: true,
@@ -97,287 +86,6 @@ angular.module('rescour.app')
                     }
                 }
             };
-
-            $scope.propertyDetails = (function () {
-                var panes = [
-                        {heading: "Details", active: true},
-                        {heading: "Pictures", active: false},
-                        {heading: "Contact", active: false},
-                        {heading: "Comments", active: false},
-                        {heading: "Finances", active: false}
-                    ],
-                    view = $dialog.dialog({
-                        backdrop: false,
-                        keyboard: false,
-                        backdropClick: true,
-                        dialogClass: 'property-details',
-                        containerClass: 'map-wrap',
-                        dialogFade: true,
-                        backdropFade: false,
-                        templateUrl: '/app/market/' + BrowserDetect.platform + '/views/partials/market-details.html?' + Date.now(),
-                        controller: "DetailsController",
-                        resolve: {
-                            activeItem: function (Items, $q, $location) {
-                                var deferred = $q.defer();
-
-                                var item = Items.getActive() || {};
-                                if (!item.hasOwnProperty('details') || _.isEmpty(item.details)) {
-                                    item.getDetails().then(function (_item) {
-                                        deferred.resolve(_item);
-                                    }, function () {
-                                        deferred.reject();
-                                    });
-                                } else {
-                                    deferred.resolve(item);
-                                }
-
-                                return deferred.promise;
-                            },
-                            panes: function () {
-                                return panes;
-                            }
-                        }
-                    });
-
-                return {
-                    isOpen: function () {
-                        return view.isOpen();
-                    },
-                    open: function (item, resolveCb) {
-                        if (!item && !view.isOpen()) {
-                            Items.setActive(null);
-                        } else if (!item && view.isOpen()) {
-                            view.close();
-                        } else {
-                            Items.setActive(item);
-                            view.setConditionalClass(item.getStatusClass());
-                            view
-                                .open()
-                                .then(function () {
-                                    Items.setActive(null);
-                                })
-                                .then(resolveCb);
-                        }
-
-                        return this;
-                    },
-                    close: function (result) {
-                        view.close();
-                        return this;
-                    },
-                    panes: panes,
-                    selectPane: function (paneHeading) {
-                        paneHeading = (paneHeading && _.find(panes, function (val) {
-                            return val.heading.toLowerCase() === paneHeading.toLowerCase();
-                        })) ? paneHeading : panes[0].heading;
-
-                        angular.forEach(panes, function (pane) {
-                            if (pane.heading.toLowerCase() === paneHeading.toLowerCase()) {
-                                pane.active = true;
-                            } else {
-                                pane.active = false;
-                            }
-                        });
-                        return this;
-                    }
-                };
-            })();
-
-            function openDetails(id) {
-                if (angular.isObject(Items.items[id])) {
-                    $scope.propertyDetails.open(Items.items[id]).selectPane($location.hash());
-                } else {
-                    $scope.propertyDetails.isOpen ? $scope.propertyDetails.close() : null;
-                    $location.search('id', null).hash(null);
-                }
-            }
-
-            if ($location.search().id) {
-                openDetails($location.search().id);
-            }
-
-            $scope.$on('$locationChangeSuccess', function (e, newLocation, oldLocation) {
-                openDetails($location.search().id);
-            });
-
-            $scope.showItemDetails = function (item, pane) {
-                $location.search('id', item.id).hash(pane);
-            };
-
-            $scope.centerMap = function (item) {
-                if ($scope.propertyDetails.isOpen()) {
-                    $location.search('id', null).hash(null);
-                }
-                $scope.$broadcast('CenterMap', item);
-            };
-
-            $scope.render = function (subset) {
-                Items.render(subset);
-            };
-
-            $scope.filter = function () {
-                $scope.searchText = {};
-                Attributes.apply();
-                Items.render();
-                Attributes.predict();
-                $scope.attributes.modified = true;
-            };
-
-            $scope.openFeedbackDialog = function () {
-                $scope.feedbackDialog.open();
-            };
-
-            $scope.toggleDiscreet = function (discreet, discreetValue) {
-                $scope.items = Market.apply(discreet, discreetValue);
-                Market.predict();
-                $scope.$broadcast('UpdateMap', $scope.items);
-            };
-        }])
-    .controller("FilterController", ['$scope', 'Items', 'Attributes', 'SavedSearch', '$dialog', 'Market',
-        function ($scope, Items, Attributes, SavedSearch, $dialog, Market) {
-            $scope.selectedSearch = null;
-            $scope.savedSearchDialog = $dialog.dialog({
-                backdrop: true,
-                keyboard: true,
-                backdropClick: true,
-                dialogFade: true,
-                backdropFade: true,
-                templateUrl: '/app/market/desktop/views/partials/saved-search-dialog.html?' + Date.now(),
-                controller: "SaveSearchDialogController"
-            });
-
-            SavedSearch.query().then(function (savedSearches) {
-                $scope.savedSearches = savedSearches;
-            });
-
-            $scope.openSaveDialog = function () {
-                // If its a new search open the dialog
-                if ($scope.attributes.modified) {
-                    if (!$scope.selectedSearch) {
-                        $scope.savedSearchDialog
-                            .open()
-                            .then(function (result) {
-                                result ? (result.action === 'save' ? $scope.saveSearch(result.settings) : null) : null;
-                            });
-                    } else {
-                        $scope.saveSearch();
-                    }
-                }
-            };
-
-            $scope.orderByWeight = function () {
-                return function (object) {
-                    return object.weight;
-                };
-            };
-
-            $scope.saveSearch = function () {
-
-                if (!$scope.attributes.id) {
-                    // If no id, then it is a new search
-                    $scope.savedSearchDialog
-                        .open()
-                        .then(function (settings) {
-                            if (settings) {
-                                // Creating in dialog cb so attributes will have finished being edited
-                                var _search = new SavedSearch(angular.extend({}, settings, $scope.attributes));
-                                _search.$save().then(function (response) {
-                                    $scope.attributes.id = response.id;
-                                    $scope.selectedSearch = _search;
-                                    $scope.selectedSearch.isSelected = true;
-                                    $scope.attributes.modified = false;
-                                    $scope.savedSearches.push(_search);
-                                });
-                            }
-                        }, function (response) {
-                            $scope.savedSearches = SavedSearch.query();
-                            throw new Error("Could not save search: " + response.error);
-                        });
-                } else {
-                    // If there is an id, need to update
-                    var _search = new SavedSearch($scope.attributes);
-                    _search.$save().then(function (response) {
-                        var _old = _.findWhere($scope.savedSearches, {id: $scope.attributes.id})
-                        // Since we do not requery, need to update local saved search collection
-                        $scope.savedSearches = _.map($scope.savedSearches, function (val) {
-                            return val.id === _old.id ? _search : val;
-                        });
-                        $scope.selectedSearch = _search;
-                        $scope.selectedSearch.isSelected = true;
-                        $scope.attributes.modified = false;
-                    }, function (response) {
-                        $scope.savedSearches = SavedSearch.query();
-                        throw new Error("Could not save search: " + response.error);
-                    });
-                }
-            };
-
-//            $scope.toggleDiscreet = function (value) {
-//                value.isSelected = !value.isSelected;
-//                $scope.filter();
-//            };
-
-
-            $scope.refreshSearch = function () {
-                if ($scope.selectedSearch) {
-                    $scope.loadSearch(_.find($scope.savedSearches, function (saved) {
-                        return saved.id === $scope.attributes.id;
-                    }));
-                } else {
-                    $scope.loadSearch();
-                }
-            };
-
-            $scope.loadSearch = function (search) {
-                search = search || {
-                    title: 'Untitled Search'
-                };
-
-                Attributes.load(search);
-                $scope.$broadcast('rangesDefined');
-                $scope.filter();
-                $scope.selectedSearch = search;
-                $scope.selectedSearch.isSelected = true;
-                $scope.attributes.modified = false;
-            };
-
-            $scope.hide = function (item) {
-                item.isHidden = !item.isHidden;
-            };
-
-            $scope.favorite = function (item) {
-                item.isFavorite = !item.isFavorite;
-            };
-        }])
-
-    .controller('SaveSearchDialogController', ['$scope', 'dialog', 'Attributes',
-        function ($scope, dialog, Attributes) {
-            $scope.attributes = Attributes;
-            $scope.searchSettings = {};
-            $scope.close = function () {
-                dialog.close();
-            };
-
-            $scope.save = function () {
-                dialog.close($scope.searchSettings);
-            };
-        }])
-    .controller("ListController", ['$scope', 'Items', '$q', '$dialog', 'BrowserDetect', '$_api', '$http',
-        function ($scope, Items, $q, $dialog, BrowserDetect, $_api, $http) {
-            $scope.sortBy = {
-                predicate: '',
-                reverse: false
-            };
-
-            $scope.reportDialog = $dialog.dialog({
-                backdrop: true,
-                keyboard: true,
-                backdropClick: true,
-                dialogFade: true,
-                backdropFade: true,
-                templateUrl: '/app/market/' + BrowserDetect.platform + '/views/partials/reports-dialog.html?' + Date.now(),
-                controller: "ReportsDialogController"
-            });
 
             function sortBy() {
                 if ($scope.sortBy.predicate === this.key) {
@@ -459,8 +167,10 @@ angular.module('rescour.app')
                 }
             };
 
-            function show() {
-                Items.render(this.key);
+            function show () {
+                Market.subset = this.key;
+                $scope.items = Market.apply();
+                Market.predict();
                 $scope.showPower.icon = this.icon;
             };
 
@@ -477,23 +187,299 @@ angular.module('rescour.app')
                         icon: 'icon-list',
                         title: 'All'
                     },
-                    'favorites': {
+                    favorites: {
                         action: show,
                         icon: 'icon-star',
                         title: 'Favorites'
                     },
-                    'hidden': {
+                    hidden: {
                         action: show,
                         icon: 'icon-ban-circle',
                         title: 'Hidden'
                     },
-                    'notes': {
+                   notes: {
                         action: show,
                         icon: 'icon-pencil',
                         title: 'Notes'
                     }
                 }
             };
+
+            $scope.propertyDetails = (function () {
+                var panes = [
+                        {heading: "Details", active: true},
+                        {heading: "Pictures", active: false},
+                        {heading: "Contact", active: false},
+                        {heading: "Comments", active: false},
+                        {heading: "Finances", active: false}
+                    ],
+                    view = $dialog.dialog({
+                        backdrop: false,
+                        keyboard: false,
+                        backdropClick: true,
+                        dialogClass: 'property-details',
+                        containerClass: 'map-wrap',
+                        dialogFade: true,
+                        backdropFade: false,
+                        templateUrl: '/app/market/' + BrowserDetect.platform + '/views/partials/market-details.html?' + Date.now(),
+                        controller: "DetailsController",
+                        resolve: {
+                            activeItem: function (Items, $q, $location) {
+                                var deferred = $q.defer();
+
+                                var item = Market.getActive() || {};
+                                if (!item.hasOwnProperty('details') || _.isEmpty(item.details)) {
+                                    item.getDetails().then(function (_item) {
+                                        deferred.resolve(_item);
+                                    }, function () {
+                                        deferred.reject();
+                                    });
+                                } else {
+                                    deferred.resolve(item);
+                                }
+
+                                return deferred.promise;
+                            },
+                            panes: function () {
+                                return panes;
+                            }
+                        }
+                    });
+
+                return {
+                    isOpen: function () {
+                        return view.isOpen();
+                    },
+                    open: function (item, resolveCb) {
+                        if (!item && !view.isOpen()) {
+                            Market.setActive(null);
+                        } else if (!item && view.isOpen()) {
+                            view.close();
+                        } else {
+                            Market.setActive(item);
+                            view.setConditionalClass(item.getStatusClass());
+                            view
+                                .open()
+                                .then(function () {
+                                    Market.setActive(null);
+                                })
+                                .then(resolveCb);
+                        }
+
+                        return this;
+                    },
+                    close: function (result) {
+                        view.close();
+                        return this;
+                    },
+                    panes: panes,
+                    selectPane: function (paneHeading) {
+                        paneHeading = (paneHeading && _.find(panes, function (val) {
+                            return val.heading.toLowerCase() === paneHeading.toLowerCase();
+                        })) ? paneHeading : panes[0].heading;
+
+                        angular.forEach(panes, function (pane) {
+                            if (pane.heading.toLowerCase() === paneHeading.toLowerCase()) {
+                                pane.active = true;
+                            } else {
+                                pane.active = false;
+                            }
+                        });
+                        return this;
+                    }
+                };
+            })();
+
+            function openDetails(id) {
+                if (angular.isObject(Market.items[id])) {
+                    $scope.propertyDetails.open(Market.items[id]).selectPane($location.hash());
+                } else {
+                    $scope.propertyDetails.isOpen ? $scope.propertyDetails.close() : null;
+                    $location.search('id', null).hash(null);
+                }
+            }
+
+            if ($location.search().id) {
+                openDetails($location.search().id);
+            }
+
+            $scope.$on('$locationChangeSuccess', function (e, newLocation, oldLocation) {
+                openDetails($location.search().id);
+            });
+
+            $scope.showItemDetails = function (item, pane) {
+                $location.search('id', item.id).hash(pane);
+            };
+
+            $scope.centerMap = function (item) {
+                if ($scope.propertyDetails.isOpen()) {
+                    $location.search('id', null).hash(null);
+                }
+                $scope.$broadcast('CenterMap', item);
+            };
+
+            $scope.filter = function (discreet, discreetValue) {
+                $scope.searchText = {};
+                $scope.items = Market.apply(discreet, discreetValue);
+                Market.predict();
+                $scope.$broadcast('UpdateMap', $scope.items);
+                $scope.attributes.modified = true;
+            };
+
+            $scope.openFeedbackDialog = function () {
+                $scope.feedbackDialog.open();
+            };
+        }])
+    .controller("FilterController", ['$scope', 'Items', 'Attributes', 'SavedSearch', '$dialog', 'Market',
+        function ($scope, Items, Attributes, SavedSearch, $dialog, Market) {
+            $scope.selectedSearch = null;
+            $scope.savedSearchDialog = $dialog.dialog({
+                backdrop: true,
+                keyboard: true,
+                backdropClick: true,
+                dialogFade: true,
+                backdropFade: true,
+                templateUrl: '/app/market/desktop/views/partials/saved-search-dialog.html?' + Date.now(),
+                controller: "SaveSearchDialogController"
+            });
+
+            SavedSearch.query().then(function (savedSearches) {
+                $scope.savedSearches = savedSearches;
+            });
+
+            $scope.isNotHidden = function (range) {
+                return !range.hidden;
+            };
+
+            $scope.orderByWeight = function () {
+                return function (object) {
+                    return object.weight;
+                };
+            };
+
+            $scope.openSaveDialog = function () {
+                // If its a new search open the dialog
+                if ($scope.attributes.modified) {
+                    if (!$scope.selectedSearch) {
+                        $scope.savedSearchDialog
+                            .open()
+                            .then(function (result) {
+                                result ? (result.action === 'save' ? $scope.saveSearch(result.settings) : null) : null;
+                            });
+                    } else {
+                        $scope.saveSearch();
+                    }
+                }
+            };
+
+            $scope.saveSearch = function () {
+
+                if (!$scope.attributes.id) {
+                    // If no id, then it is a new search
+                    $scope.savedSearchDialog
+                        .open()
+                        .then(function (settings) {
+                            if (settings) {
+                                // Creating in dialog cb so attributes will have finished being edited
+                                var _search = new SavedSearch(angular.extend({}, settings, $scope.attributes));
+                                _search.$save().then(function (response) {
+                                    $scope.attributes.id = response.id;
+                                    $scope.selectedSearch = _search;
+                                    $scope.selectedSearch.isSelected = true;
+                                    $scope.attributes.modified = false;
+                                    $scope.savedSearches.push(_search);
+                                });
+                            }
+                        }, function (response) {
+                            $scope.savedSearches = SavedSearch.query();
+                            throw new Error("Could not save search: " + response.error);
+                        });
+                } else {
+                    // If there is an id, need to update
+                    var _search = new SavedSearch($scope.attributes);
+                    _search.$save().then(function (response) {
+                        var _old = _.findWhere($scope.savedSearches, {id: $scope.attributes.id})
+                        // Since we do not requery, need to update local saved search collection
+                        $scope.savedSearches = _.map($scope.savedSearches, function (val) {
+                            return val.id === _old.id ? _search : val;
+                        });
+                        $scope.selectedSearch = _search;
+                        $scope.selectedSearch.isSelected = true;
+                        $scope.attributes.modified = false;
+                    }, function (response) {
+                        $scope.savedSearches = SavedSearch.query();
+                        throw new Error("Could not save search: " + response.error);
+                    });
+                }
+            };
+
+//            $scope.toggleDiscreet = function (value) {
+//                value.isSelected = !value.isSelected;
+//                $scope.filter();
+//            };
+
+            $scope.refreshSearch = function () {
+                if ($scope.selectedSearch) {
+                    $scope.loadSearch(_.find($scope.savedSearches, function (saved) {
+                        return saved.id === $scope.attributes.id;
+                    }));
+                } else {
+                    $scope.loadSearch();
+                }
+            };
+
+            $scope.loadSearch = function (search) {
+                search = search || {
+                    title: 'Untitled Search'
+                };
+
+                Attributes.load(search);
+                $scope.$broadcast('rangesDefined');
+                $scope.filter();
+                $scope.selectedSearch = search;
+                $scope.selectedSearch.isSelected = true;
+                $scope.attributes.modified = false;
+            };
+
+            $scope.hide = function (item) {
+                item.isHidden = !item.isHidden;
+            };
+
+            $scope.favorite = function (item) {
+                item.isFavorite = !item.isFavorite;
+            };
+        }])
+
+    .controller('SaveSearchDialogController', ['$scope', 'dialog', 'Attributes',
+        function ($scope, dialog, Attributes) {
+            $scope.attributes = Attributes;
+            $scope.searchSettings = {};
+            $scope.close = function () {
+                dialog.close();
+            };
+
+            $scope.save = function () {
+                dialog.close($scope.searchSettings);
+            };
+        }])
+    .controller("ListController", ['$scope', 'Items', '$q', '$dialog', 'BrowserDetect', '$_api', '$http', 'Market',
+        function ($scope, Items, $q, $dialog, BrowserDetect, $_api, $http, Market) {
+            $scope.sortBy = {
+                predicate: '',
+                reverse: false
+            };
+
+            $scope.reportDialog = $dialog.dialog({
+                backdrop: true,
+                keyboard: true,
+                backdropClick: true,
+                dialogFade: true,
+                backdropFade: true,
+                templateUrl: '/app/market/' + BrowserDetect.platform + '/views/partials/reports-dialog.html?' + Date.now(),
+                controller: "ReportsDialogController"
+            });
+
+
 
             $scope.panTo = function (item) {
                 $scope.centerMap(item);
@@ -674,20 +660,24 @@ angular.module('rescour.app')
 
                     $http.post(path, body, config).then(
                         function (response) {
-                            $scope.alerts = [{
-                                type: 'success',
-                                text: 'Thank you for your feedback!'
-                            }];
+                            $scope.alerts = [
+                                {
+                                    type: 'success',
+                                    text: 'Thank you for your feedback!'
+                                }
+                            ];
 
                             $timeout(function () {
                                 dialog.close();
                             }, 1000);
                         },
                         function (response) {
-                            $scope.alerts = [{
-                                type: 'success',
-                                text: 'Thank you for your feedback!'
-                            }];
+                            $scope.alerts = [
+                                {
+                                    type: 'success',
+                                    text: 'Thank you for your feedback!'
+                                }
+                            ];
                         }
                     );
                 }
@@ -832,7 +822,7 @@ angular.module('rescour.app')
                         })
                     };
 
-                    var items = Market.getItems();
+                    var items = Market.visibleItems;
 
                     var googleLayer = new L.Google('ROADMAP');
                     map.addLayer(googleLayer);
@@ -891,6 +881,7 @@ angular.module('rescour.app')
                             }
                         });
                     }
+
 //                    scope.$on('UpdateMap', function (e, visibleItems) {
 //                        // Markers plugin says better performance to clear all markers and recreate
 //                        markers.clearLayers();
@@ -943,4 +934,40 @@ angular.module('rescour.app')
                     initMarkers();
                 }
             };
-        }]);
+        }])
+    .directive('slider', ['Market', function (Market) {
+        return {
+            restrict: 'A',
+            link: function (scope, element, attr) {
+                function setupSlider() {
+                    $(element).slider({
+                        range: true,
+                        min: 0,
+                        max: 100,
+                        // Calculate percentages based off what the low selected and high selected are
+                        values: [
+                            parseInt((((scope.range.lowSelected - scope.range.low) / (scope.range.high - scope.range.low)) * 100), 10),
+                            parseInt((((scope.range.highSelected - scope.range.low) / (scope.range.high - scope.range.low)) * 100), 10)
+                        ],
+                        step: 1,
+                        slide: function (event, ui) {
+                            scope.$apply(function () {
+                                scope.range.lowSelected = (((ui.values[0] / 100) * (scope.range.high - scope.range.low)) + scope.range.low);
+                                scope.range.highSelected = (((ui.values[1] / 100) * (scope.range.high - scope.range.low)) + scope.range.low);
+                            });
+                        },
+                        stop: function (event, ui) {
+                            scope.$apply(function () {
+                                $scope.filter();
+                            });
+
+                            // WHY THE FUCK DO I NEED TO CALL THIS TWICE??
+                            scope.$apply();
+                        }
+                    });
+                }
+
+                setupSlider();
+            }
+        };
+    }]);

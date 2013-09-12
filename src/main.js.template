@@ -5,6 +5,7 @@ require(
             'app/app': {
                 deps: [
                     'components/angular/angular',
+                    'components/angular-ui/build/angular-ui',
                     'components/angular-cookies/angular-cookies',
                     'components/underscore/underscore',
                     'components/angular-ui-bootstrap-bower/ui-bootstrap',
@@ -30,6 +31,9 @@ require(
                     'core/config/prod'
                 <% } %>
                 ]
+            },
+            'components/angular-ui/build/angular-ui': {
+                deps: ['components/angular/angular']
             },
             'components/angular-cookies/angular-cookies': {
                 deps: ['components/angular/angular']
@@ -66,6 +70,7 @@ require(
     [
         'require',
         'components/jquery-ui/jquery-ui',
+        'components/angular-ui/build/angular-ui'
         'components/angular-ui-bootstrap-bower/ui-bootstrap',
         'app/account/account',
         'app/market/market',

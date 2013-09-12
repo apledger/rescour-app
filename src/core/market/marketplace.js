@@ -41,6 +41,7 @@ angular.module('rescour.marketplace', ['rescour.config'])
             this.items = {};
             this.visibleIds = [];
             this.visibleItems = [];
+            this.subsetIds = [];
 
             this.getActive = function () {
                 return activeItem;
@@ -64,14 +65,6 @@ angular.module('rescour.marketplace', ['rescour.config'])
                 }
 
                 return activeItem;
-            };
-
-            this.items = {};
-
-            this.getItems = function () {
-                return _.map(this.items, function (val) {
-                    return val;
-                });
             };
 
             this.getDimensions = function () {
@@ -171,28 +164,11 @@ angular.module('rescour.marketplace', ['rescour.config'])
                 return this.items;
             };
 
-            this.render = function (subset) {
-                var self = this,
-                    dimensions = this.dimensions;
-                self.visibleIds = [];
-                self.subset = subset || self.subset;
-
-                for (var id in this.items) {
-                    if (this.items.hasOwnProperty(id)) {
-                        if (!self.subset || self.subset === 'all') {
-                            this.items[id].isVisible = _.contains(dimensions.visibleIds, id) && !this.items[id].hidden;
-                        } else {
-                            this.items[id].isVisible = _.contains(dimensions.visibleIds, id) && this.items[id][self.subset];
-                        }
-                        this.items[id].isVisible ? self.visibleIds.push(id) : null;
-                    }
-                }
-            };
-
             this.apply = function (discreet, value) {
                 var dimensions = this.dimensions,
                     items = this.items;
 
+                this.subsetIds = [];
                 this.visibleIds = [];
                 this.visibleItems = [];
                 dimensions.visibleIds = [];
@@ -234,6 +210,8 @@ angular.module('rescour.marketplace', ['rescour.config'])
                         if (dimensions.idMap[itemIndex]) {
                             var _currItem = items[dimensions.idMap[itemIndex]];
                             if (!_.isEmpty(dimensions.range)) {
+
+                                // Check to see if within range
                                 for (var _rangeKey in dimensions.range) {
                                     if (dimensions.range.hasOwnProperty(_rangeKey)) {
                                         var _rangeAttr = dimensions.range[_rangeKey],
@@ -255,16 +233,33 @@ angular.module('rescour.marketplace', ['rescour.config'])
                                         }
                                     }
                                 }
+
+                                // check if within subset
+                                if (!this.subset || this.subset === 'all') {
+                                    _currItem.isVisible = _currItem.isVisible && !_currItem.hidden;
+                                    if (!_currItem.hidden) {
+                                        this.subsetIds = setBit(itemIndex, this.subsetIds);
+                                    }
+                                } else {
+                                    _currItem.isVisible = _currItem.isVisible && _currItem[this.subset];
+                                    if (_currItem[this.subset]) {
+                                        this.subsetIds = setBit(itemIndex, this.subsetIds);
+                                    }
+                                }
+
                                 if (_currItem.isVisible) {
                                     dimensions.visibleIds = setBit(itemIndex, dimensions.visibleIds);
                                     this.visibleIds.push(dimensions.idMap[itemIndex]);
                                     this.visibleItems.push(_currItem);
+
                                 }
                             } else {
                                 _currItem.isVisible = !!(1 & bitSet[i]);
 
                                 if (_currItem.isVisible) {
+                                    dimensions.visibleIds = setBit(itemIndex, dimensions.visibleIds);
                                     this.visibleIds.push(dimensions.idMap[itemIndex]);
+                                    this.visibleItems.push(_currItem);
                                 }
                             }
                         }
@@ -308,17 +303,23 @@ angular.module('rescour.marketplace', ['rescour.config'])
                                             }
                                         }
 
-                                        // add length from intersected first int
-                                        predictLength += popcount(predictBitSet[i] & _value.ids[i]);
+                                        // add length from intersected first int]
+                                        predictLength += popcount(predictBitSet[i] & _value.ids[i] & this.subsetIds[i]);
                                     }
-                                    _value.badge = _value.predict ? 'badge-success': '';
-                                    _value.predict = "+" + predictLength;
+                                    if (predictLength) {
+                                        _value.badge = 'badge-success';
+                                        _value.predict = "+" + predictLength;
+                                    } else {
+                                        _value.badge = null;
+                                        _value.predict = 0;
+                                    }
                                 } else {
                                     _value.predict = 0;
 
                                     for (var i = 0; i < BIT_SET_LENGTH; i++) {
                                         _value.predict += popcount(dimensions.visibleIds[i] & _value.ids[i]);
                                     }
+
                                     _value.badge = _value.predict ? 'badge-info': '';
                                 }
                             }
@@ -488,43 +489,6 @@ angular.module('rescour.marketplace', ['rescour.config'])
             };
 
             return Dimensions;
-        }])
-    .directive('slider', ['Market', function (Market) {
-        return {
-            restrict: 'A',
-            link: function (scope, element, attr) {
-                function setupSlider() {
-                    $(element).slider({
-                        range: true,
-                        min: 0,
-                        max: 100,
-                        // Calculate percentages based off what the low selected and high selected are
-                        values: [
-                            parseInt((((scope.range.lowSelected - scope.range.low) / (scope.range.high - scope.range.low)) * 100), 10),
-                            parseInt((((scope.range.highSelected - scope.range.low) / (scope.range.high - scope.range.low)) * 100), 10)
-                        ],
-                        step: 1,
-                        slide: function (event, ui) {
-                            scope.$apply(function () {
-                                scope.range.lowSelected = parseInt((((ui.values[0] / 100) * (scope.range.high - scope.range.low)) + scope.range.low), 10);
-                                scope.range.highSelected = parseInt((((ui.values[1] / 100) * (scope.range.high - scope.range.low)) + scope.range.low), 10);
-                            });
-                        },
-                        stop: function (event, ui) {
-                            scope.$apply(function () {
-                                Market.apply();
-                                Market.predict();
-                            });
-
-                            // WHY THE FUCK DO I NEED TO CALL THIS TWICE??
-                            scope.$apply();
-                        }
-                    });
-                }
-
-                setupSlider();
-            }
-        };
-    }]);
+        }]);
 
 

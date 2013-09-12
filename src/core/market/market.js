@@ -37,6 +37,16 @@ angular.module('rescour.market', [])
             'yearBuilt': {
                 title: 'Year Built',
                 weight: 9
+            },
+            'latitude': {
+                title: 'Latitude',
+                weight: 9,
+                hidden: true
+            },
+            'longitude': {
+                title: 'Longitude',
+                weight: 9,
+                hidden: true
             }
         }
     })
@@ -80,6 +90,10 @@ angular.module('rescour.market', [])
                         self.attributes.range[key] = 'NA'
                     }
                 });
+
+                this.attributes.range.latitude = data.address.latitude || 'NA';
+                this.attributes.range.longitude = data.address.longitude || 'NA';
+
 
                 // Populate Attributes id stacks during construction of each item object
 //                this._mapAttributes();

@@ -72,7 +72,6 @@ angular.module('rescour.app')
                 $scope.showPower.icon = this.icon;
             };
 
-
             function openDetails(id) {
                 if (angular.isObject(Market.items[id])) {
                     $scope.propertyDetails.open(Market.items[id]).selectPane($location.hash());
@@ -104,16 +103,6 @@ angular.module('rescour.app')
                 backdropFade: true,
                 templateUrl: '/app/market/desktop/views/partials/feedback-dialog.html?' + Date.now(),
                 controller: "FeedbackDialogController"
-            });
-
-            $scope.reportDialog = $dialog.dialog({
-                backdrop: true,
-                keyboard: true,
-                backdropClick: true,
-                dialogFade: true,
-                backdropFade: true,
-                templateUrl: '/app/market/' + BrowserDetect.platform + '/views/partials/reports-dialog.html?' + Date.now(),
-                controller: "ReportsDialogController"
             });
 
             $scope.propertyDetails = (function () {
@@ -255,25 +244,6 @@ angular.module('rescour.app')
                 }
             };
 
-            $scope.reportPower = {
-                icon: 'icon-download-alt',
-                color: 'blue',
-                action: function () {
-                    // filteredItems set inside the HTML
-                    Reports.setItems($scope.filteredItems);
-                    $scope.reportDialog
-                        .open()
-                        .then(function (settings) {
-
-                            if (settings) {
-
-                            } else {
-                                defer.resolve();
-                            }
-                        });
-                }
-            };
-
             $scope.showPower = {
                 toggle: 'all',
                 icon: 'icon-list',
@@ -325,7 +295,6 @@ angular.module('rescour.app')
                 $scope.$broadcast('CenterMap', item);
             };
 
-
             $scope.filter = function (discreet, discreetValue) {
                 $scope.searchText = {};
                 $scope.items = Market.apply(discreet, discreetValue);
@@ -347,7 +316,6 @@ angular.module('rescour.app')
         }])
     .controller("FilterController", ['$scope', 'SavedSearch', '$dialog', 'Market',
         function ($scope, SavedSearch, $dialog, Market) {
-
 
             $scope.isNotHidden = function (range) {
                 return !range.hidden;
@@ -434,22 +402,6 @@ angular.module('rescour.app')
                 $scope.selectedSearch = search;
                 $scope.selectedSearch.isSelected = true;
             };
-
-            $scope.hide = function (item) {
-                item.isHidden = !item.isHidden;
-            };
-
-//            $scope.favorite = function (item) {
-//                item.isFavorite = !item.isFavorite;
-//            };
-
-            $scope.toggleFavorites = function (item) {
-                item.toggleFavorites();
-            };
-
-            $scope.toggleHidden = function (item) {
-                item.toggleHidden();
-            };
         }])
 
     .controller('SaveSearchDialogController', ['$scope', 'dialog', 'Market',
@@ -464,8 +416,8 @@ angular.module('rescour.app')
                 dialog.close($scope.searchSettings);
             };
         }])
-    .controller("ListController", ['$scope', '$q', '$dialog', 'BrowserDetect', '$_api', '$http', 'Market',
-        function ($scope, $q, $dialog, BrowserDetect, $_api, $http, Market) {
+    .controller("ListController", ['$scope', '$q', '$dialog', 'BrowserDetect', 'Reports',
+        function ($scope, $q, $dialog, BrowserDetect, Reports) {
             $scope.sortBy = {
                 predicate: '',
                 reverse: false
@@ -488,6 +440,33 @@ angular.module('rescour.app')
                 };
             };
 
+            $scope.toggleFavorites = function (item) {
+                item.toggleFavorites();
+            };
+
+            $scope.toggleHidden = function (item) {
+                item.toggleHidden();
+            };
+
+            $scope.reportDialog = $dialog.dialog({
+                backdrop: true,
+                keyboard: true,
+                backdropClick: true,
+                dialogFade: true,
+                backdropFade: true,
+                templateUrl: '/app/market/' + BrowserDetect.platform + '/views/partials/reports-dialog.html?' + Date.now(),
+                controller: "ReportsDialogController"
+            });
+
+            $scope.reportPower = {
+                icon: 'icon-download-alt',
+                color: 'blue',
+                action: function () {
+                    // filteredItems set inside the HTML
+                    Reports.setItems($scope.filteredItems);
+                    $scope.reportDialog.open();
+                }
+            };
         }])
     .controller("DetailsController", ['$scope', '$http', '$_api', '$timeout', 'activeItem', '$location', 'Finance', 'panes',
         function ($scope, $http, $_api, $timeout, activeItem, $location, Finance, panes) {
@@ -597,6 +576,7 @@ angular.module('rescour.app')
                         isSelected: true
                     }
                 });
+            
 
             $scope.reportSettings = {};
 
@@ -616,10 +596,16 @@ angular.module('rescour.app')
                     return item.id;
                 });
 
-                dialog.close({
-                    ids: _ids,
-                    token: User.profile.token
-                });
+                Reports.send({ids: _ids, token: User.profile.token})
+                    .then(function () {
+                        dialog.close({
+                            status: "success"
+                        });
+                    }, function () {
+                        dialog.close({
+                            status: "fail"
+                        });
+                    });
             };
         }])
     .controller('FeedbackDialogController', ['$scope', '$http', 'dialog', '$timeout', '$_api',
@@ -865,7 +851,7 @@ angular.module('rescour.app')
                         map.addLayer(markers);
                     }
 
-                    function renderFromBounds () {
+                    function renderFromBounds() {
                         scope.$apply(function () {
                             markers.clearLayers();
                             var bounds = map.getBounds();
@@ -888,6 +874,7 @@ angular.module('rescour.app')
 //                            map.addLayer(markers);
                         })
                     }
+
                     map.on('dragend', renderFromBounds);
                     map.on('zoomend', renderFromBounds);
 //                    scope.$on('UpdateMap', function (e, visibleItems) {

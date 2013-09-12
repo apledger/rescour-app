@@ -72,39 +72,6 @@ angular.module('rescour.app')
                 $scope.showPower.icon = this.icon;
             };
 
-            function openDetails(id) {
-                if (angular.isObject(Market.items[id])) {
-                    $scope.propertyDetails.open(Market.items[id]).selectPane($location.hash());
-                } else {
-                    $scope.propertyDetails.isOpen ? $scope.propertyDetails.close() : null;
-                    $location.search('id', null).hash(null);
-                }
-            }
-
-            if ($location.search().id) {
-                openDetails($location.search().id);
-            }
-
-            $scope.savedSearchDialog = $dialog.dialog({
-                backdrop: true,
-                keyboard: true,
-                backdropClick: true,
-                dialogFade: true,
-                backdropFade: true,
-                templateUrl: '/app/market/desktop/views/partials/saved-search-dialog.html?' + Date.now(),
-                controller: "SaveSearchDialogController"
-            });
-
-            $scope.feedbackDialog = $dialog.dialog({
-                backdrop: true,
-                keyboard: true,
-                backdropClick: true,
-                dialogFade: true,
-                backdropFade: true,
-                templateUrl: '/app/market/desktop/views/partials/feedback-dialog.html?' + Date.now(),
-                controller: "FeedbackDialogController"
-            });
-
             $scope.propertyDetails = (function () {
                 var panes = [
                         {heading: "Details", active: true},
@@ -189,6 +156,39 @@ angular.module('rescour.app')
                     }
                 };
             })();
+
+            function openDetails(id) {
+                if (angular.isObject(Market.items[id])) {
+                    $scope.propertyDetails.open(Market.items[id]).selectPane($location.hash());
+                } else {
+                    $scope.propertyDetails.isOpen ? $scope.propertyDetails.close() : null;
+                    $location.search('id', null).hash(null);
+                }
+            }
+
+            if ($location.search().id) {
+                openDetails($location.search().id);
+            }
+
+            $scope.savedSearchDialog = $dialog.dialog({
+                backdrop: true,
+                keyboard: true,
+                backdropClick: true,
+                dialogFade: true,
+                backdropFade: true,
+                templateUrl: '/app/market/desktop/views/partials/saved-search-dialog.html?' + Date.now(),
+                controller: "SaveSearchDialogController"
+            });
+
+            $scope.feedbackDialog = $dialog.dialog({
+                backdrop: true,
+                keyboard: true,
+                backdropClick: true,
+                dialogFade: true,
+                backdropFade: true,
+                templateUrl: '/app/market/desktop/views/partials/feedback-dialog.html?' + Date.now(),
+                controller: "FeedbackDialogController"
+            });
 
             $scope.mapPower = {
                 float: 'right',

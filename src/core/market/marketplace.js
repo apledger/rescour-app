@@ -18,15 +18,15 @@ function setBit(idPos, bitSet) {
 }
 
 function popcount(x) {
-    var m1 = 0x55555555; //binary: 0101...
-    var m2 = 0x33333333; //binary: 00110011..
-    var m4 = 0x0f0f0f0f; //binary:  4 zeros,  4 ones ...
+    var m1 = 0x55555555;
+    var m2 = 0x33333333;
+    var m4 = 0x0f0f0f0f;
 
-    x -= (x >> 1) & m1;             //put count of each 2 bits into those 2 bits
-    x = (x & m2) + ((x >> 2) & m2); //put count of each 4 bits into those 4 bits
-    x = (x + (x >> 4)) & m4;        //put count of each 8 bits into those 8 bits
-    x += x >> 8;  //put count of each 16 bits into their lowest 8 bits
-    x += x >> 16;  //put count of each 32 bits into their lowest 8 bits
+    x -= (x >> 1) & m1;
+    x = (x & m2) + ((x >> 2) & m2);
+    x = (x + (x >> 4)) & m4;
+    x += x >> 8;
+    x += x >> 16;
     return x & 0x7f;
 }
 
@@ -159,7 +159,6 @@ angular.module('rescour.marketplace', ['rescour.config'])
                                 }
                             }
                             idPosition += 1;
-//                            self.dimensions.visibleIds.push(model.id);
                         } catch (e) {
                             console.log(e.message);
                         }
@@ -198,19 +197,15 @@ angular.module('rescour.marketplace', ['rescour.config'])
                 this.visibleItems = [];
                 dimensions.visibleIds = [];
 
-                // apply is called on init, so we have to check whether args are passed in
                 if (discreet && value) {
                     value.isSelected = !value.isSelected;
                     value.isSelected ? discreet.selected++ : discreet.selected--;
                 }
 
-                // determines how many integers we need to store n bits, if n is number of items
                 var BIT_SET_LENGTH = Math.ceil(dimensions.idMap.length / 32),
                     bitSet = [],
                     i;
 
-                // each integer is first flattened into a single integer within each discreet category
-                // by taking the union of all sets. Each of those flattened integers are
                 for (i = 0; i < BIT_SET_LENGTH; i++) {
                     bitSet.push(~0);
 
@@ -235,7 +230,6 @@ angular.module('rescour.marketplace', ['rescour.config'])
                     }
 
                     for (var p = 0; p < 32; p++) {
-                        // index is (i * 32) + whatever bit number is flipped
                         var itemIndex = (i * 32) + p;
                         if (dimensions.idMap[itemIndex]) {
                             var _currItem = items[dimensions.idMap[itemIndex]];
@@ -285,10 +279,8 @@ angular.module('rescour.marketplace', ['rescour.config'])
             this.predict = function () {
                 var dimensions = this.dimensions;
 
-                // determines how many integers we need to store n bits, if n is number of items
                 var BIT_SET_LENGTH = Math.ceil(dimensions.idMap.length / 32);
 
-                console.log("start", dimensions);
                 for (var attrId in dimensions.discreet) {
                     if (dimensions.discreet.hasOwnProperty(attrId)) {
                         var _discreet = dimensions.discreet[attrId];
@@ -297,24 +289,17 @@ angular.module('rescour.marketplace', ['rescour.config'])
                             if (_discreet.values.hasOwnProperty(valueId)) {
                                 var _value = _discreet.values[valueId];
 
-                                // If value is selected intersect with visible section
                                 if (!_value.isSelected && _discreet.selected > 0) {
-                                    // what would the values be if it were selected
                                     var predictLength = 0,
                                         predictBitSet = [];
 
                                     for (var i = 0; i < BIT_SET_LENGTH; i++) {
-//                                        predictBitSet[i] = _discreet.visibleIds[i] | _value.ids[i];
                                         var predictedUnion = _discreet.visibleIds[i] | _value.ids[i];
                                         predictBitSet.push(~0);
 
-                                        // using that individual predictedUnion, intersect across, add predict value into predictLength
-
                                         for (var predictAttrId in dimensions.discreet) {
-                                            // Dont intersect with self
                                             if (dimensions.discreet.hasOwnProperty(predictAttrId)) {
                                                 var _predictDiscreet = dimensions.discreet[predictAttrId];
-
                                                 if (predictAttrId === attrId) {
                                                     predictBitSet[i] = predictBitSet[i] & predictedUnion;
                                                 } else {
@@ -326,20 +311,20 @@ angular.module('rescour.marketplace', ['rescour.config'])
                                         // add length from intersected first int
                                         predictLength += popcount(predictBitSet[i] & _value.ids[i]);
                                     }
-                                    _value.predict = predictLength;
+                                    _value.badge = _value.predict ? 'badge-success': '';
+                                    _value.predict = "+" + predictLength;
                                 } else {
                                     _value.predict = 0;
 
                                     for (var i = 0; i < BIT_SET_LENGTH; i++) {
                                         _value.predict += popcount(dimensions.visibleIds[i] & _value.ids[i]);
                                     }
+                                    _value.badge = _value.predict ? 'badge-info': '';
                                 }
-
                             }
                         }
                     }
                 }
-                console.log("end", dimensions);
             }
         }])
     .factory('Dimensions', ['$timeout',
@@ -396,9 +381,6 @@ angular.module('rescour.marketplace', ['rescour.config'])
                     value = value || "Unknown";
 
                     if (_discreet.values.hasOwnProperty(value)) {
-//                        if (_discreet.values[value].ids.length < this.idMap.length / 32) {
-//                            _discreet.values[value].ids.push(0);
-//                        }
                         _discreet.values[value].ids = setBit(idPosition, _discreet.values[value].ids);
                     } else {
                         _discreet.values[value] = {

@@ -891,24 +891,24 @@ angular.module('rescour.app')
                             }
                         });
                     }
-                    scope.$on('UpdateMap', function (e, visibleItems) {
-                        // Markers plugin says better performance to clear all markers and recreate
-                        markers.clearLayers();
-                        // Zoom out
-                        map.setView(defaultLatLng, defaultZoom);
-
-                        // Loop through each item
-                        _.each(visibleItems, function (item) {
-                            // Check visibility
-                            if (item.isVisible && item.location) {
-                                // Initialize new marker at location
-                                // Add marker to marker group
-                                markers.addLayer(item.marker);
-                            }
-                        });
-                        // Add marker groups
-                        map.addLayer(markers);
-                    });
+//                    scope.$on('UpdateMap', function (e, visibleItems) {
+//                        // Markers plugin says better performance to clear all markers and recreate
+//                        markers.clearLayers();
+//                        // Zoom out
+//                        map.setView(defaultLatLng, defaultZoom);
+//
+//                        // Loop through each item
+//                        _.each(visibleItems, function (item) {
+//                            // Check visibility
+//                            if (item.isVisible && item.location) {
+//                                // Initialize new marker at location
+//                                // Add marker to marker group
+//                                markers.addLayer(item.marker);
+//                            }
+//                        });
+//                        // Add marker groups
+//                        map.addLayer(markers);
+//                    });
 
 //                    scope.$watch(function () {
 //                        return Market.visibleIds;

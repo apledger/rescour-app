@@ -43,6 +43,7 @@ angular.module('rescour.marketplace', ['rescour.config'])
             this.visibleItems = [];
             this.subsetIds = [];
 
+
             this.getActive = function () {
                 return activeItem;
             };
@@ -68,7 +69,7 @@ angular.module('rescour.marketplace', ['rescour.config'])
             };
 
             this.getDimensions = function () {
-                return this.dimensions.toArray();
+                return this.dimensions;
             };
 
             this.initialize = function (models, dimensions, Model) {
@@ -327,6 +328,12 @@ angular.module('rescour.marketplace', ['rescour.config'])
                     }
                 }
             }
+
+            this.load = function (search) {
+                this.dimensions.load(search);
+
+                return this;
+            }
         }])
     .factory('Dimensions', ['$timeout',
         function ($timeout) {
@@ -412,6 +419,7 @@ angular.module('rescour.marketplace', ['rescour.config'])
                     if (_search.range.hasOwnProperty(rangeID)) {
                         var withinLowBound = (_search.range[rangeID].lowSelected >= self.range[rangeID].low),
                             withinHighBound = (_search.range[rangeID].highSelected <= self.range[rangeID].high);
+
                         // Then check if the selected on the save is still within bounds
                         if (withinLowBound && withinHighBound) {
                             self.range[rangeID].lowSelected = _search.range[rangeID].lowSelected;
@@ -477,6 +485,18 @@ angular.module('rescour.marketplace', ['rescour.config'])
                     })
                 });
                 return dimensionsArr;
+            };
+
+            Dimensions.prototype.getDiscreet = function () {
+                return  _.map(this.discreet, function (val) {
+                    return val
+                });
+            };
+
+            Dimensions.prototype.getRange = function () {
+                return _.map(this.range, function (val) {
+                    return val
+                })
             };
 
             Dimensions.prototype.reset = function () {

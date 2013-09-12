@@ -38,7 +38,7 @@
                             <li ng-click="loadSearch()"><i class="icon-file-text"></i><a href="javascript:">New
                                 Search</a></li>
                             <div class="divider"></div>
-                            <li ng-repeat="search in savedSearches | orderBy: 'title'" ng-click="loadSearch(search)"><a
+                            <li ng-repeat="search in savedSearches | orderBy: 'title'" ng-class="{'active': (selectedSearch.id == attributes.id) && attributes.id}" ng-click="loadSearch(search)"><a
                                     href="javascript:">{{search.title}}</a>
                             </li>
                         </ul>
@@ -46,7 +46,7 @@
                 </div>
 
                 <!--Range sliders-->
-                <ul class="nav nav-list" ng-repeat="range in attributes.range | orderBy:orderByWeight() | filter:isNotHidden">
+                <ul class="nav nav-list" ng-repeat="range in attributes.getRange() | orderBy:orderByWeight() | filter:isNotHidden">
                     <li class="nav-header" ng-click="sortBy(range)">
                         {{range.title}} &nbsp;
                         <sort-arrow></sort-arrow>
@@ -58,7 +58,7 @@
                 </ul>
 
                 <!--Discreet Filters-->
-                <div ng-repeat="discreet in attributes.discreet | orderBy:orderByWeight()">
+                <div ng-repeat="discreet in attributes.getDiscreet() | orderBy:orderByWeight()">
                     <div class="nav-header" ng-click="discreet.collapse = !discreet.collapse">
                         {{discreet.title}} &nbsp;
                         <i ng-class="{'icon-chevron-up': !discreet.collapse, 'icon-chevron-down': discreet.collapse}"
@@ -101,14 +101,7 @@
                 <div class="list-status">
                     Displaying <strong>{{filteredItems.length}}</strong> Results
                 </div>
-                <!--<div class="item-well"-->
-                <!--ng-class="{'item-hidden': item.hidden}"-->
-                <!--ng-repeat="item in chunk"-->
-                <!--spinner="item.$spinner">-->
-                <!--&lt;!&ndash;Thumbnail preview button&ndash;&gt;-->
-                <!--{{ item.title }}-->
 
-                <!--</div>-->
                 <div class="item-well"
                      ng-class="{'item-hidden': item.hidden}"
                      ng-repeat="item in chunk"

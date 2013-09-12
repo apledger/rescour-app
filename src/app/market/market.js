@@ -299,7 +299,7 @@ angular.module('rescour.app')
                 $scope.searchText = {};
                 $scope.items = Market.apply(discreet, discreetValue);
                 Market.predict();
-                $scope.$broadcast('UpdateMap', $scope.items);
+                $scope.$broadcast('UpdateMap');
                 $scope.attributes.modified = true;
             };
 
@@ -866,25 +866,22 @@ angular.module('rescour.app')
                             for (var i = scope.items.length - 1; i >= 0; i--) {
                                 var _item = scope.items[i];
                                 if (_item.isVisible && _item.location) {
-//                                    markers.addLayer(_item.marker);
                                     map.addLayer(_item.marker);
                                 }
                             }
-
-//                            map.addLayer(markers);
-                        })
+                        });
                     }
 
                     map.on('dragend', renderFromBounds);
                     map.on('zoomend', renderFromBounds);
-//                    scope.$on('UpdateMap', function (e, visibleItems) {
+//                    scope.$on('UpdateMap', function (e) {
 //                        // Markers plugin says better performance to clear all markers and recreate
 //                        markers.clearLayers();
 //                        // Zoom out
-//                        map.setView(defaultLatLng, defaultZoom);
+////                        map.setView(defaultLatLng, defaultZoom);
 //
 //                        // Loop through each item
-//                        _.each(visibleItems, function (item) {
+//                        _.each(scope.items, function (item) {
 //                            // Check visibility
 //                            if (item.isVisible && item.location) {
 //                                // Initialize new marker at location

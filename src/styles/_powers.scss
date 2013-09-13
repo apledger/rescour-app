@@ -3,8 +3,8 @@ $lineSpacing: 14px;
 //$powersBg: $red;
 
 @mixin powerBg($powerBg, $titleColor: $white) {
-  //@include gradient-vertical(lighten($powerBg, 5%), darken($powerBg, 5%));
-  background: $powerBg;
+  @include gradient-vertical(lighten($powerBg, 5%), darken($powerBg, 5%));
+  //background: $powerBg;
   border-left: 1px solid darken($powerBg, 7%) !important;
   border-right: 1px solid darken($powerBg, 7%) !important;
 

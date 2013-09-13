@@ -4077,32 +4077,60 @@ angular.module('rescour.app')
 
                     };
 
-                    var resetControl = L.control({position: 'topleft'});
+                    function resetView() {
+                        map.setView(defaultLatLng, defaultZoom);
+                    }
 
-                    resetControl.onAdd = function (map) {
-                        this.isVisible = true;
-                        this._div = L.DomUtil.create('div', 'reset-control'); // create a div with a class "info"
-                        this.update();
-                        return this._div;
-                    };
+                    var resetControl = L.Control.extend({
+                        options: {
+                            position: 'topleft'
+                        },
+                        onAdd: function (map) {
+                            var zoomName = 'leaflet-control-zoom',
+                                container = L.DomUtil.create('div', zoomName + ' leaflet-bar');
 
-                    resetControl.onRemove = function (map) {
-                        this.isVisible = false;
-                    };
+                            this._map = map;
 
-                    // method that we will use to update the control based on feature properties passed
-                    resetControl.update = function (props) {
-                        this._div.innerHTML = props ?
-                            '<h5>' + props.name + ' Listings: ' + props.density + '</h5>' :
-                            '<h5> Select a State </h5>'
+                            this._zoomOutButton = this._createButton(
+                                '-', 'Zoom out', zoomName + '-out', container, this._zoomOut, this);
 
-                    };
+                            this.isVisible = true;
+
+                            return container;
+                        },
+
+                        _zoomOut: function (e) {
+                            this._map.zoomOut(e.shiftKey ? 3 : 1);
+                        },
+
+                        _createButton: function (html, title, className, container, fn, context) {
+                            var link = L.DomUtil.create('a', className, container);
+                            link.innerHTML = html;
+                            link.href = '#';
+                            link.title = title;
+
+                            var stop = L.DomEvent.stopPropagation;
+
+                            L.DomEvent
+                                .on(link, 'click', stop)
+                                .on(link, 'mousedown', stop)
+                                .on(link, 'dblclick', stop)
+                                .on(link, 'click', L.DomEvent.preventDefault)
+                                .on(link, 'click', fn, context);
+
+                            return link;
+                        },
+
+                        onRemove: function (map) {
+                            this.isVisible = false;
+                        }
+                    });
 
                     var legend = L.control({position: 'bottomleft'});
 
                     legend.onAdd = function (map) {
                         var div = L.DomUtil.create('div', 'info legend'),
-                            grades = [0, 25, 50, 100, 200, 500, 1000],
+                            grades = [0, 1, 25, 50, 100, 200, 500, 1000],
                             labels = [];
 
                         this.isVisible = true;
@@ -4124,6 +4152,7 @@ angular.module('rescour.app')
 
                     function initGeoJsonLayer() {
                         clearLayers();
+                        resetBounds();
 
                         function highlightFeature(e) {
                             var layer = e.target;
@@ -4234,25 +4263,46 @@ angular.module('rescour.app')
                         }
                     }
 
-                    function renderFromBounds() {
-                        clearLayers();
-
+                    function applyBounds() {
                         var bounds = map.getBounds();
-                        Market.dimensions.range.latitude.highSelected = bounds._northEast.lat;
-                        Market.dimensions.range.longitude.highSelected = bounds._northEast.lng;
-                        Market.dimensions.range.latitude.lowSelected = bounds._southWest.lng;
-                        Market.dimensions.range.longitude.lowSelected = bounds._southWest.lng;
+                        var _lat = Market.dimensions.range.latitude,
+                            _lng = Market.dimensions.range.longitude;
+
+                        _lat.highSelected = bounds._northEast.lat;
+                        _lng.highSelected = bounds._northEast.lng;
+                        _lat.lowSelected = bounds._southWest.lat;
+                        _lng.lowSelected = bounds._southWest.lng;
 
                         scope.render();
+                    }
 
+                    function resetBounds () {
+                        var bounds = map.getBounds();
+                        var _lat = Market.dimensions.range.latitude,
+                            _lng = Market.dimensions.range.longitude;
+
+                        _lat.highSelected =  _lat.high;
+                        _lng.highSelected =  _lng.high;
+                        _lat.lowSelected = _lat.low;
+                        _lng.lowSelected = _lng.low;
+
+                        scope.render();
+                    }
+
+                    function renderMarkerCluster() {
                         for (var i = scope.items.length - 1; i >= 0; i--) {
                             var _item = scope.items[i];
                             if (_item.isVisible && _item.location) {
                                 markers.addLayer(_item.marker);
                             }
                         }
-
                         map.addLayer(markers);
+                    }
+
+                    function renderFromBounds() {
+                        clearLayers();
+                        applyBounds();
+                        renderMarkerCluster();
                     }
 
                     function renderMap(e) {
@@ -4273,19 +4323,18 @@ angular.module('rescour.app')
                     scope.$on('UpdateMap', renderMap);
 
                     scope.$on('CenterMap', function (event, item) {
-                        map.off('moveend', moveEventHandler);
-
                         if (item.marker) {
-                            map.setView(item.location, 11);
+                            map.off('moveend', moveEventHandler);
 
-                            renderFromBounds();
+                            if (map.getZoom() < 6) {
+                                renderFromBounds();
+                            }
+
+                            map.on('moveend', moveEventHandler);
                             markers.zoomToShowLayer(item.marker, function () {
                                 item.marker.bindPopup(popupTemplate(item), {closeButton: false, minWidth: 325}).openPopup();
                             });
-
                         }
-
-                        map.on('moveend', moveEventHandler);
                     });
 
                     initGeoJsonLayer();

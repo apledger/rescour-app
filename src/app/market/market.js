@@ -70,6 +70,7 @@ angular.module('rescour.app')
                 Market.subset = this.key;
                 $scope.render();
                 $scope.showPower.icon = this.icon;
+                $scope.$broadcast('UpdateMap');
             };
 
             $scope.propertyDetails = (function () {

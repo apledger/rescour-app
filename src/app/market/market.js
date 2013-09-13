@@ -16,17 +16,12 @@ angular.module('rescour.app')
                     controller: 'MarketController',
                     reloadOnSearch: false,
                     resolve: {
-                        loadItems: function ($q, $_api, Items, $rootScope, Item) {
+                        loadItems: function ($q, $_api, $rootScope, Item, Market, $dimensions) {
                             var defer = $q.defer();
-                            Item.query().then(function (result) {
-                                if (angular.equals(result, [])) {
-                                    defer.reject("Failed to contact server");
-                                } else {
-                                    Items.initialize(result.data.resources);
-                                    defer.resolve();
-                                }
-                            }, function (response) {
-                                defer.reject(response);
+
+                            Item.query().then(function (results) {
+                                Market.initialize(results.data.resources, $dimensions, Item);
+                                defer.resolve();
                             });
 
                             return defer.promise;
@@ -43,14 +38,147 @@ angular.module('rescour.app')
                     }
                 });
         }])
-    .controller('MarketController', ['$scope', 'Items', 'Attributes', '$timeout', '$routeParams', '$location', 'BrowserDetect', 'User', '$dialog',
-        function ($scope, Items, Attributes, $timeout, $routeParams, $location, BrowserDetect, User, $dialog) {
-            $scope.items = Items.toArray();
-            $scope.attributes = Attributes;
+    .controller('MarketController', ['$scope', '$timeout', '$routeParams', '$location', 'BrowserDetect', 'User', '$dialog', 'Market', 'Reports', 'SavedSearch',
+        function ($scope, $timeout, $routeParams, $location, BrowserDetect, User, $dialog, Market, Reports, SavedSearch) {
+            $scope.items = Market.visibleItems;
+            $scope.attributes = Market.getDimensions();
             $scope.toggle = 'all';
-            $scope.getActive = Items.getActive;
+            $scope.getActive = Market.getActive;
             $scope.browser = BrowserDetect;
             $scope.searchText = {};
+            $scope.selectedSearch = null;
+            SavedSearch.query().then(function (savedSearches) {
+                $scope.savedSearches = savedSearches;
+            });
+
+            function sortBy() {
+                if ($scope.sortBy.predicate === this.key) {
+                    $scope.sortBy.reverse = !$scope.sortBy.reverse;
+                } else {
+                    $scope.sortBy.reverse = false;
+                    $scope.sortBy.predicate = this.key;
+
+                    angular.forEach($scope.sortPower.options, function (value, key) {
+                        value.icon = 'icon-long-arrow-down'
+                    });
+                }
+
+                $scope.sortPower.icon = this.icon = $scope.sortBy.reverse ? 'icon-long-arrow-up' : 'icon-long-arrow-down';
+            };
+
+            function show() {
+                Market.subset = this.key;
+                $scope.render();
+                $scope.showPower.icon = this.icon;
+            };
+
+            $scope.propertyDetails = (function () {
+                var panes = [
+                        {heading: "Details", active: true},
+                        {heading: "Pictures", active: false},
+                        {heading: "Contact", active: false},
+                        {heading: "Comments", active: false},
+                        {heading: "Finances", active: false}
+                    ],
+                    view = $dialog.dialog({
+                        backdrop: false,
+                        keyboard: false,
+                        backdropClick: true,
+                        dialogClass: 'property-details',
+                        containerClass: 'map-wrap',
+                        dialogFade: true,
+                        backdropFade: false,
+                        templateUrl: '/app/market/' + BrowserDetect.platform + '/views/partials/market-details.html?' + Date.now(),
+                        controller: "DetailsController",
+                        resolve: {
+                            activeItem: function ($q, Market) {
+                                var deferred = $q.defer();
+
+                                var item = Market.getActive() || {};
+                                if (!item.hasOwnProperty('details') || _.isEmpty(item.details)) {
+                                    item.getDetails().then(function (_item) {
+                                        deferred.resolve(_item);
+                                    }, function () {
+                                        deferred.reject();
+                                    });
+                                } else {
+                                    deferred.resolve(item);
+                                }
+
+                                return deferred.promise;
+                            },
+                            panes: function () {
+                                return panes;
+                            }
+                        }
+                    });
+
+                return {
+                    isOpen: function () {
+                        return view.isOpen();
+                    },
+                    open: function (item, resolveCb) {
+                        if (!item && !view.isOpen()) {
+                            Market.setActive(null);
+                        } else if (!item && view.isOpen()) {
+                            view.close();
+                        } else {
+                            Market.setActive(item);
+                            view.setConditionalClass(item.getStatusClass());
+                            view
+                                .open()
+                                .then(function () {
+                                    Market.setActive(null);
+                                })
+                                .then(resolveCb);
+                        }
+
+                        return this;
+                    },
+                    close: function (result) {
+                        view.close();
+                        return this;
+                    },
+                    panes: panes,
+                    selectPane: function (paneHeading) {
+                        paneHeading = (paneHeading && _.find(panes, function (val) {
+                            return val.heading.toLowerCase() === paneHeading.toLowerCase();
+                        })) ? paneHeading : panes[0].heading;
+
+                        angular.forEach(panes, function (pane) {
+                            if (pane.heading.toLowerCase() === paneHeading.toLowerCase()) {
+                                pane.active = true;
+                            } else {
+                                pane.active = false;
+                            }
+                        });
+                        return this;
+                    }
+                };
+            })();
+
+            function openDetails(id) {
+                if (angular.isObject(Market.items[id])) {
+                    $scope.propertyDetails.open(Market.items[id]).selectPane($location.hash());
+                } else {
+                    $scope.propertyDetails.isOpen ? $scope.propertyDetails.close() : null;
+                    $location.search('id', null).hash(null);
+                }
+            }
+
+            if ($location.search().id) {
+                openDetails($location.search().id);
+            }
+
+            $scope.savedSearchDialog = $dialog.dialog({
+                backdrop: true,
+                keyboard: true,
+                backdropClick: true,
+                dialogFade: true,
+                backdropFade: true,
+                templateUrl: '/app/market/desktop/views/partials/saved-search-dialog.html?' + Date.now(),
+                controller: "SaveSearchDialogController"
+            });
 
             $scope.feedbackDialog = $dialog.dialog({
                 backdrop: true,
@@ -89,103 +217,68 @@ angular.module('rescour.app')
                 }
             };
 
-            $scope.propertyDetails = (function () {
-                var panes = [
-                        {heading: "Details", active: true},
-                        {heading: "Pictures", active: false},
-                        {heading: "Contact", active: false},
-                        {heading: "Comments", active: false},
-                        {heading: "Finances", active: false}
-                    ],
-                    view = $dialog.dialog({
-                        backdrop: false,
-                        keyboard: false,
-                        backdropClick: true,
-                        dialogClass: 'property-details',
-                        containerClass: 'map-wrap',
-                        dialogFade: true,
-                        backdropFade: false,
-                        templateUrl: '/app/market/' + BrowserDetect.platform + '/views/partials/market-details.html?' + Date.now(),
-                        controller: "DetailsController",
-                        resolve: {
-                            activeItem: function (Items, $q, $location) {
-                                var deferred = $q.defer();
-
-                                var item = Items.getActive() || {};
-                                if (!item.hasOwnProperty('details') || _.isEmpty(item.details)) {
-                                    item.getDetails().then(function (_item) {
-                                        deferred.resolve(_item);
-                                    }, function () {
-                                        deferred.reject();
-                                    });
-                                } else {
-                                    deferred.resolve(item);
-                                }
-
-                                return deferred.promise;
-                            },
-                            panes: function () {
-                                return panes;
-                            }
-                        }
-                    });
-
-                return {
-                    isOpen: function () {
-                        return view.isOpen();
+            $scope.sortPower = {
+                toggle: true,
+                icon: 'icon-long-arrow-down',
+                options: {
+                    datePosted: {
+                        action: sortBy,
+                        icon: 'icon-long-arrow-down',
+                        title: 'Date Posted'
                     },
-                    open: function (item, resolveCb) {
-                        if (!item && !view.isOpen()) {
-                            Items.setActive(null);
-                        } else if (!item && view.isOpen()) {
-                            view.close();
-                        } else {
-                            Items.setActive(item);
-                            view.setConditionalClass(item.getStatusClass());
-                            view
-                                .open()
-                                .then(function () {
-                                    Items.setActive(null);
-                                })
-                                .then(resolveCb);
-                        }
-
-                        return this;
+                    callForOffers: {
+                        action: sortBy,
+                        icon: 'icon-long-arrow-down',
+                        title: 'Call for Offers'
                     },
-                    close: function (result) {
-                        view.close();
-                        return this;
+                    yearBuilt: {
+                        action: sortBy,
+                        icon: 'icon-long-arrow-down',
+                        title: 'Year Built'
                     },
-                    panes: panes,
-                    selectPane: function (paneHeading) {
-                        paneHeading = (paneHeading && _.find(panes, function (val) {
-                            return val.heading.toLowerCase() === paneHeading.toLowerCase();
-                        })) ? paneHeading : panes[0].heading;
-
-                        angular.forEach(panes, function (pane) {
-                            if (pane.heading.toLowerCase() === paneHeading.toLowerCase()) {
-                                pane.active = true;
-                            } else {
-                                pane.active = false;
-                            }
-                        });
-                        return this;
+                    numUnits: {
+                        action: sortBy,
+                        icon: 'icon-long-arrow-down',
+                        title: 'Number of Units'
                     }
-                };
-            })();
-
-            function openDetails(id) {
-                if (angular.isObject(Items.items[id])) {
-                    $scope.propertyDetails.open(Items.items[id]).selectPane($location.hash());
-                } else {
-                    $scope.propertyDetails.isOpen ? $scope.propertyDetails.close() : null;
-                    $location.search('id', null).hash(null);
                 }
-            }
+            };
 
-            if ($location.search().id) {
-                openDetails($location.search().id);
-            }
+            $scope.showPower = {
+                toggle: 'all',
+                icon: 'icon-list',
+                tooltip: {
+                    text: 'Show',
+                    placement: 'bottom'
+                },
+                options: {
+                    all: {
+                        action: show,
+                        icon: 'icon-list',
+                        title: 'All'
+                    },
+                    favorites: {
+                        action: show,
+                        icon: 'icon-star',
+                        title: 'Favorites'
+                    },
+                    hidden: {
+                        action: show,
+                        icon: 'icon-ban-circle',
+                        title: 'Hidden'
+                    },
+                    notes: {
+                        action: show,
+                        icon: 'icon-pencil',
+                        title: 'Notes'
+                    }
+                }
+            };
+
+            $scope.render = function () {
+                $scope.items = Market.apply();
+                Market.predict();
+            };
 
             $scope.$on('$locationChangeSuccess', function (e, newLocation, oldLocation) {
                 openDetails($location.search().id);
@@ -202,39 +295,37 @@ angular.module('rescour.app')
                 $scope.$broadcast('CenterMap', item);
             };
 
-            $scope.render = function (subset) {
-                Items.render(subset);
-            };
-
-            $scope.filter = function () {
+            $scope.filter = function (discreet, discreetValue) {
                 $scope.searchText = {};
-                Attributes.apply();
-                Items.render();
-                Attributes.predict();
+                $scope.items = Market.apply(discreet, discreetValue);
+                Market.predict();
+                $scope.$broadcast('UpdateMap');
                 $scope.attributes.modified = true;
             };
 
             $scope.openFeedbackDialog = function () {
                 $scope.feedbackDialog.open();
-            }
-        }])
-    .controller("FilterController", ['$scope', 'Items', 'Attributes', 'SavedSearch', '$dialog',
-        function ($scope, Items, Attributes, SavedSearch, $dialog) {
-            $scope.selectedSearch = null;
-            $scope.attributes = Attributes;
-            $scope.savedSearchDialog = $dialog.dialog({
-                backdrop: true,
-                keyboard: true,
-                backdropClick: true,
-                dialogFade: true,
-                backdropFade: true,
-                templateUrl: '/app/market/desktop/views/partials/saved-search-dialog.html?' + Date.now(),
-                controller: "SaveSearchDialogController"
-            });
+            };
 
-            SavedSearch.query().then(function (savedSearches) {
-                $scope.savedSearches = savedSearches;
-            });
+            $scope.load = function (search) {
+                Market.load(search);
+                $scope.render();
+                $scope.attributes.modified = false;
+                $scope.$broadcast('RangesDefined');
+            };
+        }])
+    .controller("FilterController", ['$scope', 'SavedSearch', '$dialog', 'Market',
+        function ($scope, SavedSearch, $dialog, Market) {
+
+            $scope.isNotHidden = function (range) {
+                return !range.hidden;
+            };
+
+            $scope.orderByWeight = function () {
+                return function (object) {
+                    return object.weight;
+                };
+            };
 
             $scope.openSaveDialog = function () {
                 // If its a new search open the dialog
@@ -251,14 +342,7 @@ angular.module('rescour.app')
                 }
             };
 
-            $scope.orderByWeight = function () {
-                return function (object) {
-                    return object.weight;
-                };
-            };
-
             $scope.saveSearch = function () {
-
                 if (!$scope.attributes.id) {
                     // If no id, then it is a new search
                     $scope.savedSearchDialog
@@ -266,7 +350,8 @@ angular.module('rescour.app')
                         .then(function (settings) {
                             if (settings) {
                                 // Creating in dialog cb so attributes will have finished being edited
-                                var _search = new SavedSearch(angular.extend({}, settings, $scope.attributes));
+                                $scope.attributes = angular.extend($scope.attributes, settings)
+                                var _search = new SavedSearch($scope.attributes);
                                 _search.$save().then(function (response) {
                                     $scope.attributes.id = response.id;
                                     $scope.selectedSearch = _search;
@@ -298,11 +383,6 @@ angular.module('rescour.app')
                 }
             };
 
-            $scope.toggleDiscreet = function (value) {
-                value.isSelected = !value.isSelected;
-                $scope.filter();
-            };
-
             $scope.refreshSearch = function () {
                 if ($scope.selectedSearch) {
                     $scope.loadSearch(_.find($scope.savedSearches, function (saved) {
@@ -318,26 +398,15 @@ angular.module('rescour.app')
                     title: 'Untitled Search'
                 };
 
-                Attributes.load(search);
-                $scope.$broadcast('rangesDefined');
-                $scope.filter();
+                $scope.load(search);
                 $scope.selectedSearch = search;
                 $scope.selectedSearch.isSelected = true;
-                $scope.attributes.modified = false;
-            };
-
-            $scope.hide = function (item) {
-                item.isHidden = !item.isHidden;
-            };
-
-            $scope.favorite = function (item) {
-                item.isFavorite = !item.isFavorite;
             };
         }])
 
-    .controller('SaveSearchDialogController', ['$scope', 'dialog', 'Attributes',
-        function ($scope, dialog, Attributes) {
-            $scope.attributes = Attributes;
+    .controller('SaveSearchDialogController', ['$scope', 'dialog', 'Market',
+        function ($scope, dialog, Market) {
+            $scope.attributes = Market.dimensions;
             $scope.searchSettings = {};
             $scope.close = function () {
                 dialog.close();
@@ -347,145 +416,15 @@ angular.module('rescour.app')
                 dialog.close($scope.searchSettings);
             };
         }])
-    .controller("ListController", ['$scope', 'Items', '$q', '$dialog', 'BrowserDetect', '$_api', '$http',
-        function ($scope, Items, $q, $dialog, BrowserDetect, $_api, $http) {
+    .controller("ListController", ['$scope', '$q', '$dialog', 'BrowserDetect', 'Reports',
+        function ($scope, $q, $dialog, BrowserDetect, Reports) {
             $scope.sortBy = {
                 predicate: '',
                 reverse: false
             };
 
-            $scope.reportDialog = $dialog.dialog({
-                backdrop: true,
-                keyboard: true,
-                backdropClick: true,
-                dialogFade: true,
-                backdropFade: true,
-                templateUrl: '/app/market/' + BrowserDetect.platform + '/views/partials/reports-dialog.html?' + Date.now(),
-                controller: "ReportsDialogController"
-            });
-
-            function sortBy() {
-                if ($scope.sortBy.predicate === this.key) {
-                    $scope.sortBy.reverse = !$scope.sortBy.reverse;
-                } else {
-                    $scope.sortBy.reverse = false;
-                    $scope.sortBy.predicate = this.key;
-
-                    angular.forEach($scope.sortPower.options, function (value, key) {
-                        value.icon = 'icon-long-arrow-down'
-                    });
-                }
-
-                $scope.sortPower.icon = this.icon = $scope.sortBy.reverse ? 'icon-long-arrow-up' : 'icon-long-arrow-down';
-            };
-
-            $scope.sortPower = {
-                toggle: true,
-                icon: 'icon-long-arrow-down',
-                options: {
-                    datePosted: {
-                        action: sortBy,
-                        icon: 'icon-long-arrow-down',
-                        title: 'Date Posted'
-                    },
-                    callForOffers: {
-                        action: sortBy,
-                        icon: 'icon-long-arrow-down',
-                        title: 'Call for Offers'
-                    },
-                    yearBuilt: {
-                        action: sortBy,
-                        icon: 'icon-long-arrow-down',
-                        title: 'Year Built'
-                    },
-                    numUnits: {
-                        action: sortBy,
-                        icon: 'icon-long-arrow-down',
-                        title: 'Number of Units'
-                    }
-                }
-            };
-
-            $scope.reportPower = {
-                icon: 'icon-download-alt',
-                color: 'blue',
-                action: function () {
-                    // filteredItems set inside the HTML
-                    Items.reportItems = $scope.filteredItems;
-                    $scope.reportDialog
-                        .open()
-                        .then(function (settings) {
-                            var defer = $q.defer();
-                            if (settings) {
-                                var path = $_api.path + '/reports/',
-                                    config = angular.extend({
-                                        transformRequest: function (data) {
-                                            return data;
-                                        }
-                                    }, $_api.config),
-                                    body = JSON.stringify({
-                                        ids: settings.ids,
-                                        token: settings.token
-                                    });
-
-                                $http.post(path, body, config).then(
-                                    function (response) {
-                                        console.log(response);
-                                        defer.resolve(response);
-                                    },
-                                    function (response) {
-                                        defer.reject(response);
-                                    }
-                                );
-                            } else {
-                                defer.resolve();
-                            }
-                        });
-                }
-            };
-
-            function show() {
-                Items.render(this.key);
-                $scope.showPower.icon = this.icon;
-            };
-
-            $scope.showPower = {
-                toggle: 'all',
-                icon: 'icon-list',
-                tooltip: {
-                    text: 'Show',
-                    placement: 'bottom'
-                },
-                options: {
-                    all: {
-                        action: show,
-                        icon: 'icon-list',
-                        title: 'All'
-                    },
-                    'favorites': {
-                        action: show,
-                        icon: 'icon-star',
-                        title: 'Favorites'
-                    },
-                    'hidden': {
-                        action: show,
-                        icon: 'icon-ban-circle',
-                        title: 'Hidden'
-                    },
-                    'notes': {
-                        action: show,
-                        icon: 'icon-pencil',
-                        title: 'Notes'
-                    }
-                }
-            };
-
             $scope.panTo = function (item) {
                 $scope.centerMap(item);
-            };
-
-            $scope.getVisibleLength = function () {
-                return Items.visibleIds.length;
             };
 
             $scope.orderNA = function () {
@@ -508,9 +447,29 @@ angular.module('rescour.app')
             $scope.toggleHidden = function (item) {
                 item.toggleHidden();
             };
+
+            $scope.reportDialog = $dialog.dialog({
+                backdrop: true,
+                keyboard: true,
+                backdropClick: true,
+                dialogFade: true,
+                backdropFade: true,
+                templateUrl: '/app/market/' + BrowserDetect.platform + '/views/partials/reports-dialog.html?' + Date.now(),
+                controller: "ReportsDialogController"
+            });
+
+            $scope.reportPower = {
+                icon: 'icon-download-alt',
+                color: 'blue',
+                action: function () {
+                    // filteredItems set inside the HTML
+                    Reports.setItems($scope.filteredItems);
+                    $scope.reportDialog.open();
+                }
+            };
         }])
-    .controller("DetailsController", ['$scope', '$http', '$_api', '$timeout', 'Items', 'activeItem', '$location', 'Finance', 'panes',
-        function ($scope, $http, $_api, $timeout, Items, activeItem, $location, Finance, panes) {
+    .controller("DetailsController", ['$scope', '$http', '$_api', '$timeout', 'activeItem', '$location', 'Finance', 'panes',
+        function ($scope, $http, $_api, $timeout, activeItem, $location, Finance, panes) {
             $scope.newComment = {};
             $scope.panes = panes;
             $scope.newEmail = {};
@@ -606,10 +565,10 @@ angular.module('rescour.app')
                 $scope.current.deleteFinance(finance);
             };
         }])
-    .controller('ReportsDialogController', ['$scope', 'dialog', 'Items', 'User',
-        function ($scope, dialog, Items, User) {
+    .controller('ReportsDialogController', ['$scope', 'dialog', 'Reports', 'User',
+        function ($scope, dialog, Reports, User) {
             $scope.userEmail = User.profile.email;
-            $scope.reportItems = _.map(Items.reportItems,
+            $scope.reportItems = _.map(Reports.getItems(),
                 function (item) {
                     return {
                         id: item.id,
@@ -617,6 +576,7 @@ angular.module('rescour.app')
                         isSelected: true
                     }
                 });
+            
 
             $scope.reportSettings = {};
 
@@ -636,10 +596,16 @@ angular.module('rescour.app')
                     return item.id;
                 });
 
-                dialog.close({
-                    ids: _ids,
-                    token: User.profile.token
-                });
+                Reports.send({ids: _ids, token: User.profile.token})
+                    .then(function () {
+                        dialog.close({
+                            status: "success"
+                        });
+                    }, function () {
+                        dialog.close({
+                            status: "fail"
+                        });
+                    });
             };
         }])
     .controller('FeedbackDialogController', ['$scope', '$http', 'dialog', '$timeout', '$_api',
@@ -659,20 +625,24 @@ angular.module('rescour.app')
 
                     $http.post(path, body, config).then(
                         function (response) {
-                            $scope.alerts = [{
-                                type: 'success',
-                                text: 'Thank you for your feedback!'
-                            }];
+                            $scope.alerts = [
+                                {
+                                    type: 'success',
+                                    text: 'Thank you for your feedback!'
+                                }
+                            ];
 
                             $timeout(function () {
                                 dialog.close();
                             }, 1000);
                         },
                         function (response) {
-                            $scope.alerts = [{
-                                type: 'success',
-                                text: 'Thank you for your feedback!'
-                            }];
+                            $scope.alerts = [
+                                {
+                                    type: 'success',
+                                    text: 'Thank you for your feedback!'
+                                }
+                            ];
                         }
                     );
                 }
@@ -774,8 +744,8 @@ angular.module('rescour.app')
                 }
             };
         }])
-    .directive('map', ['Items', '$compile', '$location', 'BrowserDetect',
-        function (Items, $compile, $location, BrowserDetect) {
+    .directive('map', ['$compile', '$location', 'BrowserDetect', 'Market',
+        function ($compile, $location, BrowserDetect, Market) {
             return {
                 restrict: "A",
                 transclude: true,
@@ -817,6 +787,8 @@ angular.module('rescour.app')
                         })
                     };
 
+                    var items = Market.visibleItems;
+
                     var googleLayer = new L.Google('ROADMAP');
                     map.addLayer(googleLayer);
                     map.addControl(new L.Control.Zoom({ position: 'topright' }));
@@ -854,7 +826,7 @@ angular.module('rescour.app')
                     }
 
                     function initMarkers() {
-                        angular.forEach(Items.items, function (item) {
+                        angular.forEach(scope.items, function (item) {
                             if (item.location) {
                                 item.marker = new L.Marker(new L.LatLng(item.location[0], item.location[1]), { title: item.title, icon: icons[item.getStatusClass()] });
                                 item.marker.on("click", function (e) {
@@ -871,30 +843,76 @@ angular.module('rescour.app')
                                 item.marker.on("mouseover", function (e) {
                                     item.marker.bindPopup(popupTemplate(item), {closeButton: false, minWidth: 325}).openPopup();
                                 });
+
+                                markers.addLayer(item.marker);
+                            }
+                        });
+
+                        map.addLayer(markers);
+                    }
+
+                    function renderFromBounds() {
+                        scope.$apply(function () {
+                            markers.clearLayers();
+                            var bounds = map.getBounds();
+
+                            Market.dimensions.range.latitude.highSelected = bounds._northEast.lat;
+                            Market.dimensions.range.longitude.highSelected = bounds._northEast.lng;
+                            Market.dimensions.range.latitude.lowSelected = bounds._southWest.lng;
+                            Market.dimensions.range.longitude.lowSelected = bounds._southWest.lng;
+
+                            scope.render();
+
+                            for (var i = scope.items.length - 1; i >= 0; i--) {
+                                var _item = scope.items[i];
+                                if (_item.isVisible && _item.location) {
+                                    map.addLayer(_item.marker);
+                                }
                             }
                         });
                     }
 
-                    scope.$watch(function () {
-                        return Items.visibleIds;
-                    }, function () {
-                        // Markers plugin says better performance to clear all markers and recreate
-                        markers.clearLayers();
-                        // Zoom out
-                        map.setView(defaultLatLng, defaultZoom);
+                    map.on('dragend', renderFromBounds);
+                    map.on('zoomend', renderFromBounds);
+//                    scope.$on('UpdateMap', function (e) {
+//                        // Markers plugin says better performance to clear all markers and recreate
+//                        markers.clearLayers();
+//                        // Zoom out
+////                        map.setView(defaultLatLng, defaultZoom);
+//
+//                        // Loop through each item
+//                        _.each(scope.items, function (item) {
+//                            // Check visibility
+//                            if (item.isVisible && item.location) {
+//                                // Initialize new marker at location
+//                                // Add marker to marker group
+//                                markers.addLayer(item.marker);
+//                            }
+//                        });
+//                        // Add marker groups
+//                        map.addLayer(markers);
+//                    });
 
-                        // Loop through each item
-                        _.each(Items.items, function (item) {
-                            // Check visibility
-                            if (item.isVisible && item.location) {
-                                // Initialize new marker at location
-                                // Add marker to marker group
-                                markers.addLayer(item.marker);
-                            }
-                        });
-                        // Add marker groups
-                        map.addLayer(markers);
-                    });
+//                    scope.$watch(function () {
+//                        return Market.visibleIds;
+//                    }, function () {
+//                        // Markers plugin says better performance to clear all markers and recreate
+//                        markers.clearLayers();
+//                        // Zoom out
+//                        map.setView(defaultLatLng, defaultZoom);
+//
+//                        // Loop through each item
+//                        _.each(items, function (item) {
+//                            // Check visibility
+//                            if (item.isVisible && item.location) {
+//                                // Initialize new marker at location
+//                                // Add marker to marker group
+//                                markers.addLayer(item.marker);
+//                            }
+//                        });
+//                        // Add marker groups
+//                        map.addLayer(markers);
+//                    });
 
                     scope.$on('CenterMap', function (event, item) {
                         if (item.marker) {
@@ -908,4 +926,44 @@ angular.module('rescour.app')
                     initMarkers();
                 }
             };
-        }]);
+        }])
+    .directive('slider', ['Market', function (Market) {
+        return {
+            restrict: 'A',
+            link: function (scope, element, attr) {
+                function setupSlider() {
+                    $(element).slider({
+                        range: true,
+                        min: 0,
+                        max: 100,
+                        // Calculate percentages based off what the low selected and high selected are
+                        values: [
+                            parseInt((((scope.range.lowSelected - scope.range.low) / (scope.range.high - scope.range.low)) * 100), 10),
+                            parseInt((((scope.range.highSelected - scope.range.low) / (scope.range.high - scope.range.low)) * 100), 10)
+                        ],
+                        step: 1,
+                        slide: function (event, ui) {
+                            scope.$apply(function () {
+                                scope.range.lowSelected = parseInt((((ui.values[0] / 100) * (scope.range.high - scope.range.low)) + scope.range.low), 10);
+                                scope.range.highSelected = parseInt((((ui.values[1] / 100) * (scope.range.high - scope.range.low)) + scope.range.low), 10);
+                            });
+                        },
+                        stop: function (event, ui) {
+                            scope.$apply(function () {
+                                scope.filter();
+                            });
+
+                            // WHY THE FUCK DO I NEED TO CALL THIS TWICE??
+                            scope.$apply();
+                        }
+                    });
+                }
+
+                scope.$on('RangesDefined', function () {
+                    setupSlider();
+                });
+
+                setupSlider();
+            }
+        };
+    }]);

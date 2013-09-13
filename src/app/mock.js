@@ -491,6 +491,7 @@ angular.module('rescour.mock', ['rescour.app', 'ngMockE2E'])
         });
 
         $httpBackend.whenGET(/views\//).passThrough();
+        $httpBackend.whenGET(/partials\//).passThrough();
         $httpBackend.whenGET(/template\//).passThrough();
     }]);
 

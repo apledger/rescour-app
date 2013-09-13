@@ -50,6 +50,7 @@ angular.module('rescour.market', [])
             }
         }
     })
+
     .factory('Item', ['$_api', '$q', '$http', 'Comment', 'Finance',
         function ($_api, $q, $http, Comment, Finance) {
 

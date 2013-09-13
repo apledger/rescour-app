@@ -4077,6 +4077,27 @@ angular.module('rescour.app')
 
                     };
 
+                    var resetControl = L.control({position: 'topleft'});
+
+                    resetControl.onAdd = function (map) {
+                        this.isVisible = true;
+                        this._div = L.DomUtil.create('div', 'reset-control'); // create a div with a class "info"
+                        this.update();
+                        return this._div;
+                    };
+
+                    resetControl.onRemove = function (map) {
+                        this.isVisible = false;
+                    };
+
+                    // method that we will use to update the control based on feature properties passed
+                    resetControl.update = function (props) {
+                        this._div.innerHTML = props ?
+                            '<h5>' + props.name + ' Listings: ' + props.density + '</h5>' :
+                            '<h5> Select a State </h5>'
+
+                    };
+
                     var legend = L.control({position: 'bottomleft'});
 
                     legend.onAdd = function (map) {
@@ -4102,8 +4123,7 @@ angular.module('rescour.app')
                     var geoLayer;
 
                     function initGeoJsonLayer() {
-                        clearGeoLayers();
-                        markers.clearLayers();
+                        clearLayers();
 
                         function highlightFeature(e) {
                             var layer = e.target;
@@ -4129,9 +4149,6 @@ angular.module('rescour.app')
 
                         function zoomToFeature(e) {
                             map.fitBounds(e.target.getBounds());
-//                            var _state = e.target.feature.properties.name;
-
-//                            renderFromBounds();
                         }
 
                         function onEachFeature(feature, layer) {
@@ -4203,7 +4220,9 @@ angular.module('rescour.app')
                         });
                     }
 
-                    function clearGeoLayers() {
+                    function clearLayers() {
+                        markers.clearLayers();
+
                         if (geoLayer) {
                             map.removeLayer(geoLayer);
                         }
@@ -4216,54 +4235,57 @@ angular.module('rescour.app')
                     }
 
                     function renderFromBounds() {
-                        scope.$apply(function () {
+                        clearLayers();
 
-                            clearGeoLayers();
+                        var bounds = map.getBounds();
+                        Market.dimensions.range.latitude.highSelected = bounds._northEast.lat;
+                        Market.dimensions.range.longitude.highSelected = bounds._northEast.lng;
+                        Market.dimensions.range.latitude.lowSelected = bounds._southWest.lng;
+                        Market.dimensions.range.longitude.lowSelected = bounds._southWest.lng;
 
-                            markers.clearLayers();
+                        scope.render();
 
-                            var bounds = map.getBounds();
-                            Market.dimensions.range.latitude.highSelected = bounds._northEast.lat;
-                            Market.dimensions.range.longitude.highSelected = bounds._northEast.lng;
-                            Market.dimensions.range.latitude.lowSelected = bounds._southWest.lng;
-                            Market.dimensions.range.longitude.lowSelected = bounds._southWest.lng;
-
-                            scope.render();
-
-                            for (var i = scope.items.length - 1; i >= 0; i--) {
-                                var _item = scope.items[i];
-                                if (_item.isVisible && _item.location) {
-                                    markers.addLayer(_item.marker);
-                                }
+                        for (var i = scope.items.length - 1; i >= 0; i--) {
+                            var _item = scope.items[i];
+                            if (_item.isVisible && _item.location) {
+                                markers.addLayer(_item.marker);
                             }
+                        }
 
-                            map.addLayer(markers);
-                        });
+                        map.addLayer(markers);
                     }
 
-                    function renderMap (e) {
+                    function renderMap(e) {
                         var currentZoomLevel = map.getZoom();
                         if (currentZoomLevel < 6) {
-                            if (!map.hasLayer(geoLayer)) {
-                                initGeoJsonLayer();
-                            }
+                            initGeoJsonLayer();
                         } else {
                             renderFromBounds();
                         }
                     }
 
-                    map.on('moveend', renderMap);
+                    function moveEventHandler() {
+                        scope.$apply(renderMap);
+                    }
+
+                    map.on('moveend', moveEventHandler);
 
                     scope.$on('UpdateMap', renderMap);
 
                     scope.$on('CenterMap', function (event, item) {
+                        map.off('moveend', moveEventHandler);
+
                         if (item.marker) {
+                            map.setView(item.location, 11);
+
+                            renderFromBounds();
                             markers.zoomToShowLayer(item.marker, function () {
                                 item.marker.bindPopup(popupTemplate(item), {closeButton: false, minWidth: 325}).openPopup();
                             });
-                            map.panTo(item.location);
+
                         }
 
+                        map.on('moveend', moveEventHandler);
                     });
 
                     initGeoJsonLayer();

@@ -12,7 +12,7 @@ $marketWidth: 402px;
 $headerHeight: 50px;
 $footerHeight: 24px;
 $borderGray: #999;
-
+$gutterWidth: 15px;
 
 @mixin header_text($font_size: 12px){
   font-size: $font_size;
@@ -24,6 +24,10 @@ $borderGray: #999;
 
 @mixin rescourBoxShadow {
   @include box-shadows(0px 0px 1px 1px rgba(80, 84, 92, 0.0980392), 0px 1px 2px 0px rgba(80, 84, 92, 0.498039));
+}
+
+%itemWellShadow {
+  @include box-shadow(#{0 0 2px rgba(0,0,0,0.3), 0 3px 5px rgba(0,0,0,0.2)});
 }
 
 @mixin rescourTabs {

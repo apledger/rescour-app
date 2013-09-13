@@ -21,7 +21,7 @@ $wellBorderRadius: 5px;
 
 .list-status{
   position:relative;
-  margin: 10px 0;
+  margin: 0 0 $gutterWidth 0;
   padding: 10px;
   text-align: center;
   background: $grayLighter;
@@ -30,7 +30,7 @@ $wellBorderRadius: 5px;
 }
 
 .market-list-wrap {
-  padding: 10px;
+  padding: $gutterWidth;
 }
 
 ul {
@@ -41,7 +41,7 @@ ul {
   -webkit-transform: translate3d(0,0,0);
   width: 100%;
   display: block;
-  margin-bottom: 10px;
+  margin-bottom: $gutterWidth;
   position: relative;
   vertical-align: top;
   background-color: white;
@@ -50,7 +50,7 @@ ul {
   @include opacity(100);
   @include border-radius($wellBorderRadius);
   @include box-sizing(border-box);
-  @include box-shadows(0 0 2px rgba(0,0,0,0.3), 0 3px 5px rgba(0,0,0,0.2));
+  @include box-shadow(#{0 0 2px rgba(0,0,0,0.3), 0 3px 5px rgba(0,0,0,0.2)});
 
   &.item-hidden {
     @include transition(opacity 0.35s ease);

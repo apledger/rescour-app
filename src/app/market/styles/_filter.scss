@@ -12,20 +12,12 @@
   .saved-search {
     position: relative;
     display: block;
-    padding: 10px 15px;
+    padding: 0px $gutterWidth 10px $gutterWidth;
     //width: 100%;
     z-index: 5;
     //@include box-sizing(border-box);
   }
 
-  .slider {
-    width: 200px;
-  }
-
-  .ui-widget-header {
-    background: none !important;
-    background-color: $red !important;
-  }
 
   .filter-container {
     @include box-sizing(border-box);
@@ -33,7 +25,7 @@
     overflow: hidden;
     overflow-y: auto;
     height: 100%;
-    padding-top: 10px;
+    padding-top: $gutterWidth;
   }
 
   .nav {
@@ -49,7 +41,7 @@
   }
   .nav-header {
     display: block;
-    padding: 5px 15px 10px 15px;
+    padding: 5px $gutterWidth 10px $gutterWidth;
     line-height: 20px;
     text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
     text-transform: uppercase;
@@ -118,4 +110,24 @@
   .badge-info {
     background-color: $blue;
   }
+
+
+  .slider {
+    width: 200px;
+  }
+
+  .ui-widget-header {
+    background: none !important;
+    background-color: $red !important;
+  }
+
+  .ui-slider { position: relative; text-align: left; @include border-radius(15px);}
+  .ui-slider .ui-slider-handle { position: absolute; z-index: 2; width: 1em; height: 1em; cursor: default; @include border-radius(50%);}
+  .ui-slider .ui-slider-range { position: absolute; z-index: 1; font-size: .7em; display: block; border: 0; background-position: 0 0; }
+
+  .ui-slider-horizontal { height: .8em; }
+  .ui-slider-horizontal .ui-slider-handle { top: -3px; }
+  .ui-slider-horizontal .ui-slider-range { top: 0; height: 100%; }
+  .ui-slider-horizontal .ui-slider-range-min { left: 0; }
+  .ui-slider-horizontal .ui-slider-range-max { right: 0; }
 }

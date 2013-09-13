@@ -150,6 +150,7 @@ module.exports = function (grunt) {
                         'components/**/*',
                         'app-config/**/*',
                         'core/**/*',
+                        'template/**/*',
                         'img/**/*',
                         '*.html*'
                     ]

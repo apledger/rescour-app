@@ -278,7 +278,6 @@ angular.module('rescour.app')
             $scope.render = function () {
                 $scope.items = Market.apply();
                 Market.predict();
-                $scope.$broadcast('UpdateMap');
             };
 
             $scope.$on('$locationChangeSuccess', function (e, newLocation, oldLocation) {
@@ -311,6 +310,7 @@ angular.module('rescour.app')
             $scope.load = function (search) {
                 Market.load(search);
                 $scope.render();
+                $scope.$broadcast('UpdateMap');
                 $scope.attributes.modified = false;
                 $scope.$broadcast('RangesDefined');
             };

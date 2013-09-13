@@ -4024,7 +4024,7 @@ angular.module('rescour.app')
                         defaultZoom = 5,
                         $el = element.find(".map")[0],
                         map = new L.Map($el, { center: defaultLatLng, zoom: defaultZoom, zoomControl: false, attributionControl: false}),
-                        markers = new L.MarkerClusterGroup({disableClusteringAtZoom: 13, spiderfyOnMaxZoom: false, spiderfyDistanceMultiplier: 0.1});
+                        markers = new L.MarkerClusterGroup({disableClusteringAtZoom: 10, spiderfyOnMaxZoom: false, spiderfyDistanceMultiplier: 0.1});
                     // layers: [cloudmade],
 
                     var RescourIcon = L.Icon.extend({
@@ -4059,9 +4059,14 @@ angular.module('rescour.app')
                     var info = L.control({position: 'topleft'});
 
                     info.onAdd = function (map) {
+                        this.isVisible = true;
                         this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
                         this.update();
                         return this._div;
+                    };
+
+                    info.onRemove = function (map) {
+                        this.isVisible = false;
                     };
 
                     // method that we will use to update the control based on feature properties passed
@@ -4072,16 +4077,14 @@ angular.module('rescour.app')
 
                     };
 
-                    info.addTo(map);
-
                     var legend = L.control({position: 'bottomleft'});
 
                     legend.onAdd = function (map) {
-
                         var div = L.DomUtil.create('div', 'info legend'),
                             grades = [0, 25, 50, 100, 200, 500, 1000],
                             labels = [];
 
+                        this.isVisible = true;
                         // loop through our density intervals and generate a label with a colored square for each interval
                         for (var i = 0; i < grades.length; i++) {
                             div.innerHTML +=
@@ -4092,14 +4095,15 @@ angular.module('rescour.app')
                         return div;
                     };
 
-                    legend.addTo(map);
+                    legend.onRemove = function (map) {
+                        this.isVisible = false;
+                    };
 
                     var geoLayer;
 
                     function initGeoJsonLayer() {
-                        if (geoLayer && map.hasLayer(geoLayer)) {
-                            map.removeLayer(geoLayer);
-                        }
+                        clearGeoLayers();
+                        markers.clearLayers();
 
                         function highlightFeature(e) {
                             var layer = e.target;
@@ -4125,6 +4129,9 @@ angular.module('rescour.app')
 
                         function zoomToFeature(e) {
                             map.fitBounds(e.target.getBounds());
+//                            var _state = e.target.feature.properties.name;
+
+//                            renderFromBounds();
                         }
 
                         function onEachFeature(feature, layer) {
@@ -4137,7 +4144,9 @@ angular.module('rescour.app')
 
                         geoLayer = L.geoJson(StatesGeoJson.get(), {style: style, onEachFeature: onEachFeature});
 
-                        map.addLayer(geoLayer);
+                        geoLayer.addTo(map);
+                        info.addTo(map);
+                        legend.addTo(map);
                     }
 
                     scope.showDetails = function (item) {
@@ -4190,19 +4199,30 @@ angular.module('rescour.app')
                                 item.marker.on("mouseover", function (e) {
                                     item.marker.bindPopup(popupTemplate(item), {closeButton: false, minWidth: 325}).openPopup();
                                 });
-
-                                markers.addLayer(item.marker);
                             }
                         });
+                    }
 
-                        map.addLayer(markers);
+                    function clearGeoLayers() {
+                        if (geoLayer) {
+                            map.removeLayer(geoLayer);
+                        }
+                        if (info.isVisible) {
+                            info.removeFrom(map);
+                        }
+                        if (legend.isVisible) {
+                            legend.removeFrom(map);
+                        }
                     }
 
                     function renderFromBounds() {
                         scope.$apply(function () {
-                            markers.clearLayers();
-                            var bounds = map.getBounds();
 
+                            clearGeoLayers();
+
+                            markers.clearLayers();
+
+                            var bounds = map.getBounds();
                             Market.dimensions.range.latitude.highSelected = bounds._northEast.lat;
                             Market.dimensions.range.longitude.highSelected = bounds._northEast.lng;
                             Market.dimensions.range.latitude.lowSelected = bounds._southWest.lng;
@@ -4213,23 +4233,29 @@ angular.module('rescour.app')
                             for (var i = scope.items.length - 1; i >= 0; i--) {
                                 var _item = scope.items[i];
                                 if (_item.isVisible && _item.location) {
-                                    map.addLayer(_item.marker);
+                                    markers.addLayer(_item.marker);
                                 }
                             }
+
+                            map.addLayer(markers);
                         });
                     }
 
-//                    map.on('dragend', renderFromBounds);
-//                    map.on('zoomend', renderFromBounds);
-
-                    scope.$on('UpdateMap', function () {
+                    function renderMap (e) {
                         var currentZoomLevel = map.getZoom();
-                        if (currentZoomLevel <= 6) {
-                            initGeoJsonLayer();
+                        if (currentZoomLevel < 6) {
+                            if (!map.hasLayer(geoLayer)) {
+                                initGeoJsonLayer();
+                            }
                         } else {
-
+                            renderFromBounds();
                         }
-                    })
+                    }
+
+                    map.on('moveend', renderMap);
+
+                    scope.$on('UpdateMap', renderMap);
+
                     scope.$on('CenterMap', function (event, item) {
                         if (item.marker) {
                             markers.zoomToShowLayer(item.marker, function () {
@@ -4239,8 +4265,9 @@ angular.module('rescour.app')
                         }
 
                     });
+
                     initGeoJsonLayer();
-//                    initMarkers();
+                    initMarkers();
                 }
             };
         }])

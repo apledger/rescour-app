@@ -86,7 +86,7 @@ angular.module('rescour.mock', ['rescour.app', 'ngMockE2E'])
             },
             {
                 city: 'Washington DC',
-                region: 'Washington DC',
+                region: 'District of Columbia',
                 location: [38.8900, -77.0300]
             }
         ];

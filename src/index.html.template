@@ -87,6 +87,7 @@
 <script src="/components/spin.js/dist/spin.js"></script>
 <script src="/components/hammerjs/dist/hammer.js"></script>
 <script src="/components/angular-hammerjs/angular-hammer.js"></script>
+<script src="/components/Leaflet.label/dist/leaflet.label.js"></script>
 <script src="/core/user/user.js"></script>
 <script src="/core/auth/auth.js"></script>
 <script src="/core/market/market.js"></script>
@@ -113,6 +114,7 @@
 <script src="/app/account/account.js"></script>
 <script src="/app/login/login.js"></script>
 <script src="/app/market/market.js"></script>
+<script src="/app/market/map.js"></script>
 
 <% if (config.environment == 'local') { %>
     <script src="/app/mock.js"></script>

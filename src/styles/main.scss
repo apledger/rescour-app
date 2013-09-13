@@ -2,14 +2,12 @@
 @import "compass/reset";
 @import "compass_twitter_bootstrap";
 @import "rescour_variables";
-@import "app/market/desktop/styles/market";
-@import "app/market/tablet/styles/market";
-@import "app/login/desktop/styles/login";
-@import "app/account/desktop/styles/account";
+@import "app/market/styles/market";
+@import "app/login/styles/login";
+@import "app/account/styles/account";
 @import "header";
 @import "footer";
 @import "ngform";
-//@import "core/powers/powers";
 @import "powers";
 @import "input_dropdown";
 @import "thotpod_btn";
@@ -167,4 +165,21 @@ body {
 
 .status-unknown-solid {
   background: $grayDark !important;
+}
+
+.leaflet-label-overlay {
+  color: white;
+  font-size: 18px;
+  line-height:0px;
+  margin-top: 9px;
+  position: absolute;
+}
+
+.info {
+  padding: 6px 8px;
+  font: 14px/16px Arial, Helvetica, sans-serif;
+  background: white;
+  background: rgba(255,255,255,0.8);
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  border-radius: 5px;
 }

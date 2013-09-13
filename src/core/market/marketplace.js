@@ -310,6 +310,7 @@ angular.module('rescour.marketplace', ['rescour.config'])
                                     if (predictLength) {
                                         _value.badge = 'badge-success';
                                         _value.predict = "+" + predictLength;
+                                        console.log(typeof _value.predict);
                                     } else {
                                         _value.badge = null;
                                         _value.predict = 0;

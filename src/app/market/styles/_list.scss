@@ -3,7 +3,7 @@
 
 $wellBorderRadius: 5px;
 
-#MarketList {
+#market-list {
   position: absolute;
   left: $filterWidth;
   top: 0;
@@ -17,6 +17,7 @@ $wellBorderRadius: 5px;
   border-left: 1px solid $borderGray;
   @include box-sizing(border-box);
 }
+
 
 .list-status{
   position:relative;
@@ -260,5 +261,20 @@ ul {
       }
 
     }
+  }
+}
+
+.tablet {
+  &#market-list {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+  }
+
+  &.market-controls {
+    left: 0;
+    position: relative;
+    float: left;
   }
 }

@@ -49,7 +49,6 @@
                 <ul class="nav nav-list" ng-repeat="range in attributes.getRange() | orderBy:orderByWeight() | filter:isNotHidden">
                     <li class="nav-header" ng-click="sortBy(range)">
                         {{range.title}} &nbsp;
-                        <sort-arrow></sort-arrow>
                         <div style="float:right;">{{range.lowSelected}} - {{range.highSelected |
                             checkBounds:range.bound}}
                         </div>

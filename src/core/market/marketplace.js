@@ -43,7 +43,6 @@ angular.module('rescour.marketplace', ['rescour.config'])
             this.visibleItems = [];
             this.subsetIds = [];
 
-
             this.getActive = function () {
                 return activeItem;
             };
@@ -117,6 +116,7 @@ angular.module('rescour.marketplace', ['rescour.config'])
                                                 _discreetVal = _item[_discreetKey];
                                             }
                                             self.dimensions.pushDiscreetId(_discreetKey, idPosition, _discreetVal);
+
                                         }
                                     } else {
                                         throw new Error("Cannot find discreet attribute: " + _discreetKey);
@@ -130,9 +130,9 @@ angular.module('rescour.marketplace', ['rescour.config'])
                                         _itemAttr;
 
                                     if (_item.attributes) {
-                                        _itemAttr = _item.attributes.range[_rangeKey] = _.isNumber(_item.attributes.range[_rangeKey]) ? _item.attributes.range[_rangeKey] : 'NA';
+                                        _itemAttr = _item.attributes.range[_rangeKey] = _.isNumber(parseFloat(_item.attributes.range[_rangeKey])) ? _item.attributes.range[_rangeKey] : 'NA';
                                     } else {
-                                        _itemAttr = _item[_rangeKey] = _.isNumber(_item[_rangeKey]) ? _item[_rangeKey] : 'NA'
+                                        _itemAttr = _item[_rangeKey] = _.isNumber(parseFloat(_item[_rangeKey])) ? _item[_rangeKey] : 'NA'
                                     }
 
                                     if (!_rangeAttr.highBound) {
@@ -216,10 +216,14 @@ angular.module('rescour.marketplace', ['rescour.config'])
                                 for (var _rangeKey in dimensions.range) {
                                     if (dimensions.range.hasOwnProperty(_rangeKey)) {
                                         var _rangeAttr = dimensions.range[_rangeKey],
-                                            _currItemAttr = _currItem.attributes.range[_rangeKey];
+                                            _currItemAttr = _currItem.attributes.range[_rangeKey],
+                                            _isWithinLow = (_currItemAttr >= _rangeAttr.lowSelected) || (_rangeAttr.lowSelected == _rangeAttr.lowBound),
+                                            _isWithinHigh = (_currItemAttr <= _rangeAttr.highSelected) || (_rangeAttr.highSelected == _rangeAttr.highBound);
 
-                                        if ((_currItemAttr >= _rangeAttr.lowSelected &&
-                                            _currItemAttr <= _rangeAttr.highSelected) || _currItemAttr === 'NA') {
+                                        // CHeck if lowBound matches lowSelected
+
+                                        if ((_isWithinLow && _isWithinHigh) ||
+                                            _currItemAttr === 'NA') {
                                             _currItem.isVisible = !!(1 & bitSet[i]);
                                         } else {
                                             _currItem.isVisible = false;
@@ -252,7 +256,6 @@ angular.module('rescour.marketplace', ['rescour.config'])
                                     dimensions.visibleIds = setBit(itemIndex, dimensions.visibleIds);
                                     this.visibleIds.push(dimensions.idMap[itemIndex]);
                                     this.visibleItems.push(_currItem);
-
                                 }
                             } else {
                                 _currItem.isVisible = !!(1 & bitSet[i]);
@@ -310,7 +313,6 @@ angular.module('rescour.marketplace', ['rescour.config'])
                                     if (predictLength) {
                                         _value.badge = 'badge-success';
                                         _value.predict = "+" + predictLength;
-                                        console.log(typeof _value.predict);
                                     } else {
                                         _value.badge = null;
                                         _value.predict = 0;
@@ -322,7 +324,7 @@ angular.module('rescour.marketplace', ['rescour.config'])
                                         _value.predict += popcount(dimensions.visibleIds[i] & _value.ids[i]);
                                     }
 
-                                    _value.badge = _value.predict ? 'badge-info': '';
+                                    _value.badge = _value.predict ? 'badge-info' : '';
                                 }
                             }
                         }

@@ -31,7 +31,7 @@ angular.module('rescour.market', [])
         range: {
             'numUnits': {
                 title: 'Number of Units',
-                bound: 500,
+                highBound: 500,
                 weight: 10
             },
             'yearBuilt': {

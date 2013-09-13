@@ -278,6 +278,7 @@ angular.module('rescour.app')
             $scope.render = function () {
                 $scope.items = Market.apply();
                 Market.predict();
+                $scope.$broadcast('UpdateMap');
             };
 
             $scope.$on('$locationChangeSuccess', function (e, newLocation, oldLocation) {

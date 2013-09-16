@@ -242,6 +242,16 @@ module.exports = function (grunt) {
                         src: [
                             'components/**/*'
                         ]
+                    },
+                    {
+                        expand: true,
+                        dot: false,
+                        flatten: false,
+                        cwd: '<%= yeoman.stage %>',
+                        dest: '<%= yeoman.dist %>/dev',
+                        src: [
+                            '**/*.html'
+                        ]
                     }
                 ]
             },
@@ -287,6 +297,16 @@ module.exports = function (grunt) {
                         src: [
                             'components/**/*'
                         ]
+                    },
+                    {
+                        expand: true,
+                        dot: false,
+                        flatten: false,
+                        cwd: '<%= yeoman.stage %>',
+                        dest: '<%= yeoman.dist %>/demo',
+                        src: [
+                            '**/*.html'
+                        ]
                     }
                 ]
             },
@@ -331,6 +351,16 @@ module.exports = function (grunt) {
                         dest: '<%= yeoman.dist %>/prod',
                         src: [
                             'components/**/*'
+                        ]
+                    },
+                    {
+                        expand: true,
+                        dot: false,
+                        flatten: false,
+                        cwd: '<%= yeoman.stage %>',
+                        dest: '<%= yeoman.dist %>/prod',
+                        src: [
+                            '**/*.html'
                         ]
                     }
                 ]
@@ -523,106 +553,6 @@ module.exports = function (grunt) {
                 }
             }
         },
-        htmlmin: {
-            options: {
-                /*removeCommentsFromCDATA: true,
-                 // https://github.com/yeoman/grunt-usemin/issues/44
-                 //collapseWhitespace: true,
-                 collapseBooleanAttributes: true,
-                 removeAttributeQuotes: true,
-                 removeRedundantAttributes: true,
-                 useShortDoctype: true,
-                 removeEmptyAttributes: true,
-                 removeOptionalTags: true*/
-            },
-            dist: {
-                files: [{
-                    expand: true,
-                    cwd: '<%= yeoman.app %>',
-                    src: ['*.html', 'app/**/*.html'],
-                    dest: '<%= yeoman.dist %>'
-                }]
-            },
-            stageDemo: {
-                files: [{
-                    expand: true,
-                    cwd: '<%= yeoman.stage %>',
-                    src: [
-                        '*.html'
-                    ],
-                    dest: '<%= yeoman.dist%>/demo'
-                }]
-            },
-            demo: {
-                files: [
-                    {
-                        expand: true,
-                        cwd: '<%= yeoman.app %>',
-                        src: [
-                            'app/**/*.html',
-                            'template/**/*.html',
-                            'core/**/*.html',
-                            '!components/**/*.html'
-                        ],
-                        dest: '<%= yeoman.dist%>/demo'
-                    },
-                    {
-                        expand: true,
-                        cwd: '<%= yeoman.stage %>',
-                        src: [
-                            '*.html'
-                        ],
-                        dest: '<%= yeoman.dist%>/demo'
-                    }
-                ]
-            },
-            dev: {
-                files: [
-                    {
-                        expand: true,
-                        cwd: '<%= yeoman.app %>',
-                        src: [
-                            'app/**/*.html',
-                            'template/**/*.html',
-                            'core/**/*.html',
-                            '!components/**/*.html'
-                        ],
-                        dest: '<%= yeoman.dist%>/dev'
-                    },
-                    {
-                        expand: true,
-                        cwd: '<%= yeoman.stage %>',
-                        src: [
-                            '*.html'
-                        ],
-                        dest: '<%= yeoman.dist%>/dev'
-                    }
-                ]
-            },
-            prod: {
-                files: [
-                    {
-                        expand: true,
-                        cwd: '<%= yeoman.app %>',
-                        src: [
-                            'app/**/*.html',
-                            'template/**/*.html',
-                            'core/**/*.html',
-                            '!components/**/*.html'
-                        ],
-                        dest: '<%= yeoman.dist%>/prod'
-                    },
-                    {
-                        expand: true,
-                        cwd: '<%= yeoman.stage %>',
-                        src: [
-                            '*.html'
-                        ],
-                        dest: '<%= yeoman.dist%>/prod'
-                    }
-                ]
-            }
-        },
         ngmin: {
             demo: {
                 files: [{
@@ -735,7 +665,6 @@ module.exports = function (grunt) {
         'imagemin:demo',
         'copy:demo',
         'cssmin:demo',
-        'htmlmin:demo',
         'ngmin:demo',
         'uglify:demo',
         'concat:mock',
@@ -756,7 +685,6 @@ module.exports = function (grunt) {
         'imagemin:dev',
         'copy:dev',
         'cssmin:dev',
-        'htmlmin:dev',
         'ngmin:dev',
         'uglify:dev',
         'rev:dev',
@@ -776,7 +704,6 @@ module.exports = function (grunt) {
         'imagemin:prod',
         'copy:prod',
         'cssmin:prod',
-        'htmlmin:prod',
         'ngmin:prod',
         'uglify:prod',
         'rev:prod',

@@ -242,6 +242,16 @@ module.exports = function (grunt) {
                         src: [
                             'components/**/*'
                         ]
+                    },
+                    {
+                        expand: true,
+                        dot: false,
+                        flatten: false,
+                        cwd: '<%= yeoman.stage %>',
+                        dest: '<%= yeoman.dist %>/dev',
+                        src: [
+                            '**/*.html'
+                        ]
                     }
                 ]
             },
@@ -287,6 +297,16 @@ module.exports = function (grunt) {
                         src: [
                             'components/**/*'
                         ]
+                    },
+                    {
+                        expand: true,
+                        dot: false,
+                        flatten: false,
+                        cwd: '<%= yeoman.stage %>',
+                        dest: '<%= yeoman.dist %>/demo',
+                        src: [
+                            '**/*.html'
+                        ]
                     }
                 ]
             },
@@ -331,6 +351,16 @@ module.exports = function (grunt) {
                         dest: '<%= yeoman.dist %>/prod',
                         src: [
                             'components/**/*'
+                        ]
+                    },
+                    {
+                        expand: true,
+                        dot: false,
+                        flatten: false,
+                        cwd: '<%= yeoman.stage %>',
+                        dest: '<%= yeoman.dist %>/prod',
+                        src: [
+                            '**/*.html'
                         ]
                     }
                 ]
@@ -735,7 +765,7 @@ module.exports = function (grunt) {
         'imagemin:demo',
         'copy:demo',
         'cssmin:demo',
-        'htmlmin:demo',
+//        'htmlmin:demo',
         'ngmin:demo',
         'uglify:demo',
         'concat:mock',
@@ -756,7 +786,7 @@ module.exports = function (grunt) {
         'imagemin:dev',
         'copy:dev',
         'cssmin:dev',
-        'htmlmin:dev',
+//        'htmlmin:dev',
         'ngmin:dev',
         'uglify:dev',
         'rev:dev',
@@ -776,7 +806,7 @@ module.exports = function (grunt) {
         'imagemin:prod',
         'copy:prod',
         'cssmin:prod',
-        'htmlmin:prod',
+//        'htmlmin:prod',
         'ngmin:prod',
         'uglify:prod',
         'rev:prod',

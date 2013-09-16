@@ -3,12 +3,12 @@
     <h3 id="myModalLabel">Cancel Subscription</h3>
 </div>
 <div class="modal-body">
-    <form name="formCancelSubscriptionDialog" novalidate="">
+    <form name="formCancelSubscriptionDialog" novalidate>
         <legend>Please Don't Go!</legend>
         <div class="control-group" ng-class="{'success': formCancelSubscriptionDialog.$valid}">
             <div class="control-label">But if you must, please tell us why</div>
             <div class="controls">
-                <textarea name="reason" rows="3" required="" autofocus="" autoselect="" ng-model="cancelFields.reason" class="input-xlarge"></textarea>
+                <textarea name="reason" rows="3" required autofocus autoselect ng-model="cancelFields.reason" class="input-xlarge"></textarea>
                 <span class="help help-inline">
                     <span class="help-error"><i class="icon-exclamation-sign"></i></span>
                     <span class="help-success"><i class="icon-ok-sign"></i></span>

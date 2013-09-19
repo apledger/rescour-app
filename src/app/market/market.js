@@ -36,7 +36,7 @@ angular.module('rescour.app')
                                 }, $_api.config),
                                 batchLimit = 5;
 
-                            function batchNews(limit, offset) {
+                            (function batchNews(limit, offset) {
                                 var path = $_api.path + '/news/?limit=' + limit + (offset ? '&offset=' + offset : '');
 
                                 $http.get(path, config).then(
@@ -53,9 +53,7 @@ angular.module('rescour.app')
                                         defer.reject(response);
                                     }
                                 );
-                            }
-
-                            batchNews(batchLimit);
+                            })(batchLimit);
 
                             return defer.promise;
                         },
@@ -80,7 +78,6 @@ angular.module('rescour.app')
             $scope.browser = BrowserDetect;
             $scope.searchText = {};
             $scope.selectedSearch = null;
-            console.log(news);
             SavedSearch.query().then(function (savedSearches) {
                 $scope.savedSearches = savedSearches;
             });

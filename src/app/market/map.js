@@ -4345,7 +4345,8 @@ angular.module('rescour.app')
                         return popupElement[0];
                     }
 
-                    var newsLayerGroup = L.layerGroup().addTo(map);
+                    var newsLayerGroup = L.layerGroup().addTo(map),
+                        newsToggled = false;
 
                     scope.$on('DisplayNews', function (event) {
                         function randomCoord(lowBound, highBound) {
@@ -4381,10 +4382,14 @@ angular.module('rescour.app')
 
                                 newsLayerGroup.addLayer(_newsMarker);
                             }
+                            newsToggled = true;
                         }
 
-                        if (map.getZoom() > 10) {
+                        if (map.getZoom() > 10 && !newsToggled) {
                             addNewsMarkers(100);
+                        } else {
+                            newsLayerGroup.clearLayers();
+                            newsToggled = false;
                         }
                     });
 

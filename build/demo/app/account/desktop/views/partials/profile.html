@@ -1,15 +1,16 @@
 <div class="container-fluid" ng-controller="AccountProfileController">
     <div class="page-header"><h3>General Profile</h3></div>
-    <div alert="" ng-repeat="alert in accountAlerts" type="alert.type" fade-after="3000">{{alert.msg}}
+    <div alert ng-repeat="alert in accountAlerts" type="alert.type" fade-after="3000">{{alert.msg}}
         <a ng-show="action" href="javascript:" ng-click="goToApp()">Continue to Application</a></div>
     <div class="row-fluid">
-        <form novalidate="" name="formProfile" class="form-horizontal span6">
+        <form novalidate name="formProfile" class="form-horizontal span6">
 
             <div class="control-group">
                 <label class="control-label">First Name</label>
 
                 <div class="controls">
-                    <input name="firstName" type="text" class="input-xlarge" ng-model="user.profile.firstName">
+                    <input name="firstName" type="text" class="input-xlarge"
+                           ng-model="user.profile.firstName">
             <span class="help help-inline">
                 <span class="help-error"><i class="icon-exclamation-sign"></i></span>
             </span>
@@ -19,7 +20,8 @@
                 <label class="control-label">Last Name</label>
 
                 <div class="controls">
-                    <input name="lastName" type="text" class="input-xlarge" ng-model="user.profile.lastName">
+                    <input name="lastName" type="text" class="input-xlarge"
+                           ng-model="user.profile.lastName">
                 <span class="help help-inline">
                     <span class="help-error"><i class="icon-exclamation-sign"></i></span>
                 </span>
@@ -29,7 +31,9 @@
                 <label class="control-label">Email</label>
 
                 <div class="controls">
-                    <input name="username" type="email" class="input-xlarge" ng-model="user.profile.email" required="">
+                    <input name="username" type="email" class="input-xlarge"
+                           ng-model="user.profile.email"
+                           required>
             <span class="help help-inline">
                 <span class="help-success"><i class="icon-ok-sign"></i></span>
                 <span class="help-error"><i class="icon-exclamation-sign"></i></span>
@@ -40,7 +44,9 @@
                 <label class="control-label">Company</label>
 
                 <div class="controls">
-                    <input name="lastName" type="text" class="input-xlarge" ng-model="user.profile.company" required="">
+                    <input name="lastName" type="text" class="input-xlarge"
+                           ng-model="user.profile.company"
+                           required>
             <span class="help help-inline">
                 <span class="help-error"><i class="icon-exclamation-sign"></i></span>
             </span>
@@ -50,7 +56,9 @@
                 <label class="control-label">Phone</label>
 
                 <div class="controls">
-                    <input name="phone" ng-blur="" type="text" class="input-xlarge" ng-model="user.profile.phone" required="">
+                    <input name="phone" ng-blur="" type="text" class="input-xlarge"
+                           ng-model="user.profile.phone"
+                           required>
             <span class="help help-inline">
                 <span class="help-error"><i class="icon-exclamation-sign"></i></span>
             </span>

@@ -9,24 +9,31 @@
             <div power="sortPower"></div>
             <div power="showPower"></div>
             <div class="power-search">
-                <input type="text" ng-model="searchText.title" placeholder="Search">
+                <input type="text" ng-model="searchText.title"
+                       placeholder="Search">
             </div>
         </div>
 
-        <div class="scroll-container" chunk="filteredItems = (items | filter:searchText | limitVisible | orderBy:orderNA():sortBy.reverse)" chunk-size="5">
+        <div class="scroll-container"
+             chunk="filteredItems = (items | filter:searchText | limitVisible | orderBy:orderNA():sortBy.reverse)"
+             chunk-size="5">
             <!--Toggle favorites button-->
             <!--Item boxes display-->
             <div class="market-list-wrap">
                 <div class="list-status">
                     Displaying <strong>{{filteredItems.length}}</strong> Results
                 </div>
-                <div class="item-well" ng-class="{'item-hidden': item.hidden}" ng-repeat="item in chunk" spinner="item.$spinner">
+                <div class="item-well"
+                     ng-class="{'item-hidden': item.hidden}"
+                     ng-repeat="item in chunk"
+                     spinner="item.$spinner">
                     <!--Thumbnail preview button-->
 
                     <!--Top bar of item box-->
                     <div class="dimensions clearfix">
                         <!--Location Button-->
-                        <a href="javascript:" class="btn location {{item.getStatusClass('gradient')}}" ng-class="{'disabled': !item.location}" ah-tap="panTo(item)">
+                        <a href="javascript:" class="btn location {{item.getStatusClass('gradient')}}" ng-class="{'disabled': !item.location}"
+                           ah-tap="panTo(item)">
                             <i class="icon-map-marker"></i>
                         </a>
 
@@ -40,8 +47,9 @@
                         </div>
                     </div>
 
-                    <a href="javascript:" ah-tap="showItemDetails(item, 'pictures')" class="preview" ng-show="!item.hidden">
-                        </a><div class="preview-mask"><i class="icon-search"></i></div>
+                    <a href="javascript:" ah-tap="showItemDetails(item, 'pictures')" class="preview"
+                       ng-show="!item.hidden">
+                        <div class="preview-mask"><i class="icon-search"></i></div>
                         <img ng-src="{{item.thumbnail}}" alt="">
 
                         <div class="preview-caption" ng-class="item.getStatusClass('solid')">
@@ -49,7 +57,7 @@
 
                             <p>View Photos</p>
                         </div>
-                    
+                    </a>
 
                     <div class="description" collapse="item.hidden">
                         <div class="text-container">
@@ -69,12 +77,14 @@
                                 <i class="icon-ban-circle" ng-class="{'red': item.hidden}"></i>
                             </div>
 
-                            <div class="footer-button" ah-tap="showItemDetails(item, 'comments')">
+                            <div class="footer-button"
+                                 ah-tap="showItemDetails(item, 'comments')">
                                 <i class="icon-pencil"></i>
                             </div>
 
                             <!--Contact broker button-->
-                            <div class="footer-button" ah-tap="showItemDetails(item, 'contact')">
+                            <div class="footer-button" ah-tap="showItemDetails(item, 'contact')"
+                                    >
                                 <i class="icon-envelope"></i>
 
                                 <span>{{item.getAttribute('broker')}}</span>
@@ -94,7 +104,7 @@
         </div>
 
         <div class="map-wrap">
-            <div map=""></div>
+            <div map></div>
         </div>
     </div>
     <!--<div map></div>-->

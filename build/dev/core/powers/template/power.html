@@ -1,9 +1,11 @@
 <div class="power power-{{power.float}} {{power.color}} clearfix" ng-class="{'open': power.isOpen, 'disabled': power.isDisabled }">
-    <div class="power-title" ng-class="{'power-icon-dropdown': power.options}" tooltip="{{powerTooltip}}" tooltip-placement="{{powerTooltipPlacement}}">
+    <div class="power-title" ng-class="{'power-icon-dropdown': power.options}" tooltip="{{powerTooltip}}"
+         tooltip-placement="{{powerTooltipPlacement}}">
         <i ng-show="!power.title" ng-class="power.icon"></i>{{power.title}}
     </div>
     <ul class="power-menu">
-        <li ng-repeat="option in power.getOptions() | orderBy:predicate" ng-click="selectOption(option)" ng-class="{'active': (option.isSelected && (power.toggle || option.selectable))}">
+        <li ng-repeat="option in power.getOptions() | orderBy:predicate" ng-click="selectOption(option)"
+            ng-class="{'active': (option.isSelected && (power.toggle || option.selectable))}">
             <i ng-class="option.icon"></i>
             <a href="javascript:">{{option.title}}</a>
         </li>

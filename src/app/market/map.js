@@ -4370,14 +4370,14 @@ angular.module('rescour.app')
                             for (var i = 0; i < num; i++) {
 
                                 var _newsMarker = new L.Marker(new L.LatLng(randomCoord(latLowBound, latHighBound), randomCoord(lngLowBound, lngHighBound)), { title: 'Investor group buys 5-story Fort Worth office building', icon: newsIcon });
-                                (function (m) {
+                                (function (m, i) {
                                     m.on("mouseover", function (e) {
                                         m.bindPopup(newsPopupTemplate({
                                             title: 'News Article ' + i,
                                             link: 'http://www.bizjournals.com/dallas/blog/morning_call/2013/04/investor-group-buys-5-story-fort-worth.html?iana=ind_cre'
-                                        }), {closeButton: false, minWidth: 325}).openPopup();
+                                        }), {closeButton: false, minWidth: 200}).openPopup();
                                     });
-                                })(_newsMarker);
+                                })(_newsMarker, i);
 
                                 newsLayerGroup.addLayer(_newsMarker);
                             }

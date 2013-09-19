@@ -38,8 +38,8 @@ angular.module('rescour.app')
                     }
                 });
         }])
-    .controller('MarketController', ['$scope', '$timeout', '$routeParams', '$location', 'BrowserDetect', 'User', '$dialog', 'Market', 'Reports', 'SavedSearch',
-        function ($scope, $timeout, $routeParams, $location, BrowserDetect, User, $dialog, Market, Reports, SavedSearch) {
+    .controller('MarketController', ['$scope', '$http', '$timeout', '$routeParams', '$location', 'BrowserDetect', 'User', '$dialog', 'Market', 'Reports', 'SavedSearch',
+        function ($scope, $http, $timeout, $routeParams, $location, BrowserDetect, User, $dialog, Market, Reports, SavedSearch) {
             $scope.items = Market.visibleItems;
             $scope.attributes = Market.getDimensions();
             $scope.toggle = 'all';
@@ -224,6 +224,9 @@ angular.module('rescour.app')
                 color: 'blue',
                 action: function () {
                     $scope.$broadcast('DisplayNews');
+                    $http.get('/news/?limit=5&offset=2').then(function(response) {
+                            console.log(response.data);
+                    });
                 }
             };
 

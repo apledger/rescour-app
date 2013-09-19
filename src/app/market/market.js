@@ -218,6 +218,15 @@ angular.module('rescour.app')
                 }
             };
 
+            $scope.newsPower = {
+                float: 'left',
+                icon: 'icon-rss',
+                color: 'blue',
+                action: function () {
+                    $scope.$broadcast('DisplayNews');
+                }
+            };
+
             $scope.sortPower = {
                 toggle: true,
                 icon: 'icon-long-arrow-down',

@@ -3970,7 +3970,6 @@ angular.module('rescour.app')
                 ]}}
             ]};
 
-        console.log(statesKeys);
         statesJson.features = _.reject(statesJson.features, function (feat) {
             return !_.contains(statesKeys, feat.properties.name)
         });
@@ -4276,13 +4275,13 @@ angular.module('rescour.app')
                         scope.render();
                     }
 
-                    function resetBounds () {
+                    function resetBounds() {
                         var bounds = map.getBounds();
                         var _lat = Market.dimensions.range.latitude,
                             _lng = Market.dimensions.range.longitude;
 
-                        _lat.highSelected =  _lat.high;
-                        _lng.highSelected =  _lng.high;
+                        _lat.highSelected = _lat.high;
+                        _lng.highSelected = _lng.high;
                         _lat.lowSelected = _lat.low;
                         _lng.lowSelected = _lng.low;
 
@@ -4334,6 +4333,58 @@ angular.module('rescour.app')
                             markers.zoomToShowLayer(item.marker, function () {
                                 item.marker.bindPopup(popupTemplate(item), {closeButton: false, minWidth: 325}).openPopup();
                             });
+                        }
+                    });
+
+                    function newsPopupTemplate(item) {
+                        var popupTempl = "<div class=\"news-popup-header\"><a target=\"_blank\" href=\""+ item.link + "\">" + "<h5>" + item.title + "</h5>" +
+                            "</a></div>"
+
+                        var popupElement = $compile(popupTempl)(scope);
+
+                        return popupElement[0];
+                    }
+
+                    var newsLayerGroup = L.layerGroup().addTo(map);
+
+                    scope.$on('DisplayNews', function (event) {
+                        function randomCoord(lowBound, highBound) {
+                            return (Math.random() * (highBound - lowBound)) + lowBound;
+                        }
+
+                        var bounds = map.getBounds(),
+                            latHighBound = bounds._northEast.lat,
+                            lngHighBound = bounds._northEast.lng,
+                            latLowBound = bounds._southWest.lat,
+                            lngLowBound = bounds._southWest.lng;
+
+                        function addNewsMarkers(num) {
+                            var newsIcon = L.icon({
+                                iconUrl: 'img/rss1.png',
+                                iconSize: [25, 25],
+                                iconAnchor: [12, 0]
+                            });
+
+                            newsLayerGroup.clearLayers();
+
+                            for (var i = 0; i < num; i++) {
+
+                                var _newsMarker = new L.Marker(new L.LatLng(randomCoord(latLowBound, latHighBound), randomCoord(lngLowBound, lngHighBound)), { title: 'Investor group buys 5-story Fort Worth office building', icon: newsIcon });
+                                (function (m) {
+                                    m.on("mouseover", function (e) {
+                                        m.bindPopup(newsPopupTemplate({
+                                            title: 'News Article ' + i,
+                                            link: 'http://www.bizjournals.com/dallas/blog/morning_call/2013/04/investor-group-buys-5-story-fort-worth.html?iana=ind_cre'
+                                        }), {closeButton: false, minWidth: 325}).openPopup();
+                                    });
+                                })(_newsMarker);
+
+                                newsLayerGroup.addLayer(_newsMarker);
+                            }
+                        }
+
+                        if (map.getZoom() > 10) {
+                            addNewsMarkers(100);
                         }
                     });
 

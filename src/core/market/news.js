@@ -1,4 +1,5 @@
 angular.module('rescour.news', [])
+    .value('NewsZoomThreshold', 10)
     .factory('NewsMarket', ['News',
         function (News) {
             return new thotpod.Marketplace(News);

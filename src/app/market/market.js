@@ -26,37 +26,6 @@ angular.module('rescour.app')
 
                             return defer.promise;
                         },
-//                        news: function ($q, $_api, $http, NewsMarket) {
-//                            var news = [],
-//                                defer = $q.defer(),
-//                                config = angular.extend({
-//                                    transformRequest: function (data) {
-//                                        return data;
-//                                    }
-//                                }, $_api.config),
-//                                batchLimit = 50;
-//
-//                            (function batchNews(limit, offset) {
-//                                var path = $_api.path + '/news/?limit=' + limit + (offset ? '&offset=' + offset : '');
-//
-//                                $http.get(path, config).then(
-//                                    function (response) {
-//                                        if (response.data.length < limit) {
-//                                            news = news.concat(response.data);
-//                                            defer.resolve(news);
-//                                        } else {
-//                                            news = news.concat(response.data);
-//                                            batchNews(limit, response.data[response.data.length - 1].id);
-//                                        }
-//                                    },
-//                                    function (response) {
-//                                        defer.reject(response);
-//                                    }
-//                                );
-//                            })(batchLimit);
-//
-//                            return defer.promise;
-//                        },
                         newsMarket: function ($q, $_api, $http, NewsMarket, News) {
                             var defer = $q.defer();
 
@@ -79,15 +48,22 @@ angular.module('rescour.app')
                     }
                 });
         }])
-    .controller('MarketController', ['$scope', '$timeout', '$routeParams', '$location', 'BrowserDetect', 'User', '$dialog', 'PropertyMarket', 'Reports', 'SavedSearch',
-        function ($scope, $timeout, $routeParams, $location, BrowserDetect, User, $dialog, PropertyMarket, Reports, SavedSearch) {
+    .controller('MarketController', ['$scope', '$timeout', '$routeParams', '$location', 'BrowserDetect', 'User', '$dialog', 'PropertyMarket', 'Reports', 'SavedSearch', 'NewsZoomThreshold',
+        function ($scope, $timeout, $routeParams, $location, BrowserDetect, User, $dialog, PropertyMarket, Reports, SavedSearch, NewsZoomThreshold) {
             $scope.items = PropertyMarket.visibleItems;
             $scope.attributes = PropertyMarket.getDimensions();
             $scope.toggle = 'all';
             $scope.getActive = PropertyMarket.getActive;
             $scope.browser = BrowserDetect;
             $scope.searchText = {};
-            $scope.mapData = {};
+            $scope.mapData = {
+                isNewsDisabled: function () {
+                    return this.zoom < NewsZoomThreshold
+                },
+                newsTooltip: function () {
+                    return this.newsToggled ? 'Hide News' : 'Show News';
+                }
+            };
             $scope.selectedSearch = null;
             SavedSearch.query().then(function (savedSearches) {
                 $scope.savedSearches = savedSearches;
@@ -269,14 +245,8 @@ angular.module('rescour.app')
                 }
             };
 
-            $scope.newsPower = {
-                float: 'left',
-                icon: 'icon-rss',
-                color: 'blue',
-                disableIf: function () {
-                    return $scope.mapData.zoom < 10;
-                },
-                action: function () {
+            $scope.displayNews = function () {
+                if (!$scope.mapData.isNewsDisabled()) {
                     $scope.$broadcast('DisplayNews');
                 }
             };
@@ -525,7 +495,6 @@ angular.module('rescour.app')
 
             $scope.reportPower = {
                 icon: 'icon-download-alt',
-                color: 'blue',
                 action: function () {
                     // filteredItems set inside the HTML
                     Reports.setItems($scope.filteredItems);

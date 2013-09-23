@@ -3985,8 +3985,8 @@ angular.module('rescour.app')
             }
         }
     }])
-    .directive('map', ['$compile', '$location', 'BrowserDetect', 'PropertyMarket', 'StatesGeoJson', 'NewsMarket',
-        function ($compile, $location, BrowserDetect, PropertyMarket, StatesGeoJson, NewsMarket) {
+    .directive('map', ['$compile', '$location', 'BrowserDetect', 'PropertyMarket', 'StatesGeoJson', 'NewsMarket', '$filter',
+        function ($compile, $location, BrowserDetect, PropertyMarket, StatesGeoJson, NewsMarket, $filter) {
             return {
                 restrict: "A",
                 transclude: true,
@@ -4153,7 +4153,6 @@ angular.module('rescour.app')
                         this.isVisible = false;
                     };
                     var newsLayerGroup = L.layerGroup().addTo(map),
-                        newsToggled = false,
                         newsIcon = L.icon({
                             iconUrl: 'img/rss1.png',
                             iconSize: [25, 25],
@@ -4277,7 +4276,7 @@ angular.module('rescour.app')
 
                     function clearNewsLayers() {
                         newsLayerGroup.clearLayers();
-                        newsToggled = false;
+                        scope.mapData.newsToggled = false;
                     }
 
                     function applyBounds(marketplace) {
@@ -4326,9 +4325,9 @@ angular.module('rescour.app')
                         if (currentZoomLevel < 6) {
                             initGeoJsonLayer();
                         } else {
-                            if (currentZoomLevel < 10 && newsToggled) {
+                            if (currentZoomLevel < 10 && scope.mapData.newsToggled) {
                                 clearNewsLayers();
-                            } else if (newsToggled) {
+                            } else if (scope.mapData.newsToggled) {
                                 renderNews();
                             }
                             renderPropertiesFromBounds();
@@ -4360,7 +4359,7 @@ angular.module('rescour.app')
 
                     function newsPopupTemplate(item) {
                         var popupTempl = "<div class=\"news-popup-header\"><a target=\"_blank\" href=\"" + item.link + "\">" + "<h5>" + item.title + "</h5>" +
-                            "</a></div>"
+                            "</a><span>Posted on " + $filter('date')(item.date) + "<span></div>"
 
                         var popupElement = $compile(popupTempl)(scope);
 
@@ -4377,7 +4376,7 @@ angular.module('rescour.app')
                                 var _newsMarker = new L.Marker(new L.LatLng(_news.attributes.range.latitude, _news.attributes.range.longitude), { title: _news.title, icon: newsIcon });
                                 (function (m, news) {
                                     m.on("mouseover", function (e) {
-                                        m.bindPopup(newsPopupTemplate(news), {closeButton: false, minWidth: 200}).openPopup();
+                                        m.bindPopup(newsPopupTemplate(news), {closeButton: false, minWidth: 350}).openPopup();
                                     });
                                 })(_newsMarker, _news);
 
@@ -4391,11 +4390,11 @@ angular.module('rescour.app')
                         clearNewsLayers();
                         applyBounds(NewsMarket);
                         addNewsMarkers(NewsMarket.apply());
-                        newsToggled = true;
+                        scope.mapData.newsToggled = true;
                     }
 
                     scope.$on('DisplayNews', function (e) {
-                        if (!newsToggled) {
+                        if (!scope.mapData.newsToggled) {
                             renderNews();
                         } else {
                             clearNewsLayers();

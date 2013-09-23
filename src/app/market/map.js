@@ -1,6 +1,6 @@
 angular.module('rescour.app')
-    .factory('StatesGeoJson', ['Market', function (Market) {
-        var statesDiscreetValues = Market.dimensions.discreet.state.values,
+    .factory('StatesGeoJson', ['PropertyMarket', function (PropertyMarket) {
+        var statesDiscreetValues = PropertyMarket.dimensions.discreet.state.values,
             statesKeys = _.keys(statesDiscreetValues),
             statesJson = {"type": "FeatureCollection", "features": [
                 {"type": "Feature", "id": "01", "properties": {"name": "Alabama"}, "geometry": {"type": "Polygon", "coordinates": [
@@ -3985,8 +3985,8 @@ angular.module('rescour.app')
             }
         }
     }])
-    .directive('map', ['$compile', '$location', 'BrowserDetect', 'Market', 'StatesGeoJson',
-        function ($compile, $location, BrowserDetect, Market, StatesGeoJson) {
+    .directive('map', ['$compile', '$location', 'BrowserDetect', 'PropertyMarket', 'StatesGeoJson',
+        function ($compile, $location, BrowserDetect, PropertyMarket, StatesGeoJson) {
             return {
                 restrict: "A",
                 transclude: true,
@@ -4264,8 +4264,8 @@ angular.module('rescour.app')
 
                     function applyBounds() {
                         var bounds = map.getBounds();
-                        var _lat = Market.dimensions.range.latitude,
-                            _lng = Market.dimensions.range.longitude;
+                        var _lat = PropertyMarket.dimensions.range.latitude,
+                            _lng = PropertyMarket.dimensions.range.longitude;
 
                         _lat.highSelected = bounds._northEast.lat;
                         _lng.highSelected = bounds._northEast.lng;
@@ -4277,8 +4277,8 @@ angular.module('rescour.app')
 
                     function resetBounds() {
                         var bounds = map.getBounds();
-                        var _lat = Market.dimensions.range.latitude,
-                            _lng = Market.dimensions.range.longitude;
+                        var _lat = PropertyMarket.dimensions.range.latitude,
+                            _lng = PropertyMarket.dimensions.range.longitude;
 
                         _lat.highSelected = _lat.high;
                         _lng.highSelected = _lng.high;

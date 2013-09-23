@@ -80,6 +80,7 @@
 <script src="/components/angular/angular.js"></script>
 <script src="/components/angular-ui/build/angular-ui.js"></script>
 <script src="/components/angular-cookies/angular-cookies.js"></script>
+<script src="/core/market/thotpod.js"></script>
 
 <script src="/components/underscore/underscore.js"></script>
 <script src="/components/angular-ui-bootstrap-bower/ui-bootstrap.js"></script>
@@ -90,8 +91,8 @@
 <script src="/components/Leaflet.label/dist/leaflet.label.js"></script>
 <script src="/core/user/user.js"></script>
 <script src="/core/auth/auth.js"></script>
-<script src="/core/market/market.js"></script>
-<script src="/core/market/marketplace.js"></script>
+<script src="/core/market/property.js"></script>
+
 <script src="/core/market/leaflet-google.js"></script>
 <script src="/core/utility/utility.js"></script>
 <script src="/core/browser-detect/browser-detect.js"></script>

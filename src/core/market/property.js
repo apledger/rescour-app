@@ -9,53 +9,15 @@
 'use strict';
 
 angular.module('rescour.market', [])
-    .value('$dimensions', {
-        discreet: {
-            'broker': {
-                title: 'Broker',
-                weight: 10
-            },
-            'state': {
-                title: 'State',
-                weight: 9
-            },
-            'propertyStatus': {
-                title: 'Property Status',
-                weight: 8
-            },
-            'propertyType': {
-                title: 'Property Type',
-                weight: 7
-            }
-        },
-        range: {
-            'numUnits': {
-                title: 'Number of Units',
-                highBound: 500,
-                weight: 10
-            },
-            'yearBuilt': {
-                title: 'Year Built',
-                weight: 9
-            },
-            'latitude': {
-                title: 'Latitude',
-                weight: 9,
-                hidden: true
-            },
-            'longitude': {
-                title: 'Longitude',
-                weight: 9,
-                hidden: true
-            }
-        }
-    })
-
-    .factory('Item', ['$_api', '$q', '$http', 'Comment', 'Finance',
+    .factory('PropertyMarket', ['Property',
+        function (Property) {
+            return new thotpod.Marketplace(Property);
+        }])
+    .factory('Property', ['$_api', '$q', '$http', 'Comment', 'Finance',
         function ($_api, $q, $http, Comment, Finance) {
 
             // Item constructor
-            var Item = function (data) {
+            var Property = function (data) {
                 if (data.hasOwnProperty('id')) {
                     this.id = data.id;
                 } else {
@@ -96,7 +58,49 @@ angular.module('rescour.market', [])
                 this.attributes.range.longitude = data.address.longitude || 'NA';
             };
 
-            Item.query = function () {
+            Property.$dimensions  = {
+                discreet: {
+                    'broker': {
+                        title: 'Broker',
+                        weight: 10
+                    },
+                    'state': {
+                        title: 'State',
+                        weight: 9
+                    },
+                    'propertyStatus': {
+                        title: 'Property Status',
+                        weight: 8
+                    },
+                    'propertyType': {
+                        title: 'Property Type',
+                        weight: 7
+                    }
+                },
+                range: {
+                    'numUnits': {
+                        title: 'Number of Units',
+                        highBound: 500,
+                        weight: 10
+                    },
+                    'yearBuilt': {
+                        title: 'Year Built',
+                        weight: 9
+                    },
+                    'latitude': {
+                        title: 'Latitude',
+                        weight: 9,
+                        hidden: true
+                    },
+                    'longitude': {
+                        title: 'Longitude',
+                        weight: 9,
+                        hidden: true
+                    }
+                }
+            };
+
+            Property.query = function () {
                 var defer = $q.defer(),
                     config = angular.extend({
                         transformRequest: function (data) {
@@ -113,7 +117,7 @@ angular.module('rescour.market', [])
                 return defer.promise;
             };
 
-            Item.prototype.getDetails = function () {
+            Property.prototype.getDetails = function () {
                 var self = this,
                     defer = $q.defer(),
                     config = angular.extend({
@@ -197,7 +201,7 @@ angular.module('rescour.market', [])
                 return defer.promise;
             };
 
-            Item.prototype.addComment = function (comment) {
+            Property.prototype.addComment = function (comment) {
                 var newComment = new Comment(comment, this);
 
                 newComment.propertyId = newComment.propertyId || this.id;
@@ -211,7 +215,7 @@ angular.module('rescour.market', [])
                 return newComment;
             };
 
-            Item.prototype.deleteComment = function (comment) {
+            Property.prototype.deleteComment = function (comment) {
                 var self = this;
 
                 self.details.comments = _.reject(self.details.comments, function (value) {
@@ -219,7 +223,7 @@ angular.module('rescour.market', [])
                 });
             };
 
-            Item.prototype.addFinance = function (finance) {
+            Property.prototype.addFinance = function (finance) {
                 var newFinance = new Finance(finance, this);
 
                 newFinance.propertyId = newFinance.propertyId || this.id;
@@ -233,7 +237,7 @@ angular.module('rescour.market', [])
                 return newFinance;
             };
 
-            Item.prototype.deleteFinance = function (finance) {
+            Property.prototype.deleteFinance = function (finance) {
                 var self = this;
 
                 if (finance.id) {
@@ -249,7 +253,7 @@ angular.module('rescour.market', [])
                 }
             };
 
-            Item.prototype.toggleFavorites = function () {
+            Property.prototype.toggleFavorites = function () {
                 var defer = $q.defer(),
                     self = this,
                     config = angular.extend({
@@ -273,7 +277,7 @@ angular.module('rescour.market', [])
                 );
             };
 
-            Item.prototype.toggleHidden = function () {
+            Property.prototype.toggleHidden = function () {
                 var defer = $q.defer(),
                     self = this,
                     config = angular.extend({
@@ -297,7 +301,7 @@ angular.module('rescour.market', [])
                 );
             };
 
-            Item.prototype.getAttribute = function (name) {
+            Property.prototype.getAttribute = function (name) {
                 if (this.hasOwnProperty(name)) {
                     return this[name];
                 } else if (this.attributes.discreet.hasOwnProperty(name)) {
@@ -310,7 +314,7 @@ angular.module('rescour.market', [])
                 }
             };
 
-            Item.prototype.getStatusClass = function (type) {
+            Property.prototype.getStatusClass = function (type) {
                 var suffix = (type === 'solid' || type === 'gradient') ? '-' + type : '';
 
                 switch (this.getAttribute('propertyStatus')) {
@@ -330,7 +334,7 @@ angular.module('rescour.market', [])
 
             };
 
-            Item.prototype.getAddress = function () {
+            Property.prototype.getAddress = function () {
                 var addressStr = '';
 
                 if (this.address.street1) {
@@ -348,12 +352,12 @@ angular.module('rescour.market', [])
                 return addressStr;
             };
 
-            Item.prototype.getImages = function () {
+            Property.prototype.getImages = function () {
                 return this.details ? _.map(this.details.images, function (value) {
                     return value;
                 }) : undefined;
             };
-            return Item;
+            return Property;
         }])
     .factory('Reports', ['$_api', '$q', '$http',
         function ($_api, $q, $http) {

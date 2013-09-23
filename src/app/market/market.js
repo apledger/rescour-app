@@ -16,17 +16,17 @@ angular.module('rescour.app')
                     controller: 'MarketController',
                     reloadOnSearch: false,
                     resolve: {
-                        loadItems: function ($q, $_api, $rootScope, Item, Market, $dimensions) {
+                        propertyMarket: function ($q, $_api, $rootScope, Property, PropertyMarket) {
                             var defer = $q.defer();
 
-                            Item.query().then(function (results) {
-                                Market.initialize(results.data.resources, $dimensions, Item);
-                                defer.resolve();
+                            Property.query().then(function (results) {
+                                PropertyMarket.initialize(results.data.resources, Property.$dimensions);
+                                defer.resolve(PropertyMarket);
                             });
 
                             return defer.promise;
                         },
-                        news: function ($q, $_api, $http, Item, Market, $dimensions) {
+                        news: function ($q, $_api, $http, PropertyMarket) {
                             var news = [],
                                 defer = $q.defer(),
                                 config = angular.extend({
@@ -34,7 +34,7 @@ angular.module('rescour.app')
                                         return data;
                                     }
                                 }, $_api.config),
-                                batchLimit = 5;
+                                batchLimit = 50;
 
                             (function batchNews(limit, offset) {
                                 var path = $_api.path + '/news/?limit=' + limit + (offset ? '&offset=' + offset : '');
@@ -57,6 +57,27 @@ angular.module('rescour.app')
 
                             return defer.promise;
                         },
+//                        news: function ($q, $_api, $http, PropertyMarket) {
+//                            var defer = $q.defer(),
+//                                self = this,
+//                                path = $_api.path + '/news/',
+//                                config = angular.extend({
+//                                    transformRequest: function (data) {
+//                                        return data;
+//                                    }
+//                                }, $_api.config);
+//
+//                            $http.get(path, config).then(
+//                                function (response) {
+//                                    defer.resolve(response.resources);
+//                                },
+//                                function (response) {
+//                                    defer.reject(response);
+//                                }
+//                            );
+//
+//                            return defer.promise;
+//                        },
                         loadUser: function (User, $q) {
                             var defer = $q.defer();
                             User.getProfile().then(function (response) {
@@ -69,12 +90,12 @@ angular.module('rescour.app')
                     }
                 });
         }])
-    .controller('MarketController', ['$scope', '$timeout', '$routeParams', '$location', 'BrowserDetect', 'User', '$dialog', 'Market', 'Reports', 'SavedSearch', 'news',
-        function ($scope, $timeout, $routeParams, $location, BrowserDetect, User, $dialog, Market, Reports, SavedSearch, news) {
-            $scope.items = Market.visibleItems;
-            $scope.attributes = Market.getDimensions();
+    .controller('MarketController', ['$scope', '$timeout', '$routeParams', '$location', 'BrowserDetect', 'User', '$dialog', 'PropertyMarket', 'Reports', 'SavedSearch', 'news',
+        function ($scope, $timeout, $routeParams, $location, BrowserDetect, User, $dialog, PropertyMarket, Reports, SavedSearch, news) {
+            $scope.items = PropertyMarket.visibleItems;
+            $scope.attributes = PropertyMarket.getDimensions();
             $scope.toggle = 'all';
-            $scope.getActive = Market.getActive;
+            $scope.getActive = PropertyMarket.getActive;
             $scope.browser = BrowserDetect;
             $scope.searchText = {};
             $scope.selectedSearch = null;
@@ -98,7 +119,7 @@ angular.module('rescour.app')
             };
 
             function show() {
-                Market.subset = this.key;
+                PropertyMarket.subset = this.key;
                 $scope.render();
                 $scope.showPower.icon = this.icon;
                 $scope.$broadcast('UpdateMap');
@@ -123,10 +144,10 @@ angular.module('rescour.app')
                         templateUrl: '/app/market/' + BrowserDetect.platform + '/partials/market-details.html?' + Date.now(),
                         controller: "DetailsController",
                         resolve: {
-                            activeItem: function ($q, Market) {
+                            activeItem: function ($q) {
                                 var deferred = $q.defer();
 
-                                var item = Market.getActive() || {};
+                                var item = PropertyMarket.getActive() || {};
                                 if (!item.hasOwnProperty('details') || _.isEmpty(item.details)) {
                                     item.getDetails().then(function (_item) {
                                         deferred.resolve(_item);
@@ -151,16 +172,16 @@ angular.module('rescour.app')
                     },
                     open: function (item, resolveCb) {
                         if (!item && !view.isOpen()) {
-                            Market.setActive(null);
+                            PropertyMarket.setActive(null);
                         } else if (!item && view.isOpen()) {
                             view.close();
                         } else {
-                            Market.setActive(item);
+                            PropertyMarket.setActive(item);
                             view.setConditionalClass(item.getStatusClass());
                             view
                                 .open()
                                 .then(function () {
-                                    Market.setActive(null);
+                                    PropertyMarket.setActive(null);
                                 })
                                 .then(resolveCb);
                         }
@@ -190,8 +211,8 @@ angular.module('rescour.app')
             })();
 
             function openDetails(id) {
-                if (angular.isObject(Market.items[id])) {
-                    $scope.propertyDetails.open(Market.items[id]).selectPane($location.hash());
+                if (angular.isObject(PropertyMarket.items[id])) {
+                    $scope.propertyDetails.open(PropertyMarket.items[id]).selectPane($location.hash());
                 } else {
                     $scope.propertyDetails.isOpen ? $scope.propertyDetails.close() : null;
                     $location.search('id', null).hash(null);
@@ -209,7 +230,12 @@ angular.module('rescour.app')
                 dialogFade: true,
                 backdropFade: true,
                 templateUrl: '/app/market/desktop/partials/saved-search-dialog.html?' + Date.now(),
-                controller: "SaveSearchDialogController"
+                controller: "SaveSearchDialogController",
+                resolve: {
+                    dimensions: function () {
+                        return PropertyMarket.dimensions;
+                    }
+                }
             });
 
             $scope.feedbackDialog = $dialog.dialog({
@@ -320,8 +346,8 @@ angular.module('rescour.app')
             };
 
             $scope.render = function () {
-                $scope.items = Market.apply();
-                Market.predict();
+                $scope.items = PropertyMarket.apply();
+                PropertyMarket.predict();
             };
 
             $scope.$on('$locationChangeSuccess', function (e, newLocation, oldLocation) {
@@ -341,8 +367,8 @@ angular.module('rescour.app')
 
             $scope.filter = function (discreet, discreetValue) {
                 $scope.searchText = {};
-                $scope.items = Market.apply(discreet, discreetValue);
-                Market.predict();
+                $scope.items = PropertyMarket.apply(discreet, discreetValue);
+                PropertyMarket.predict();
                 $scope.$broadcast('UpdateMap');
                 $scope.attributes.modified = true;
             };
@@ -352,15 +378,15 @@ angular.module('rescour.app')
             };
 
             $scope.load = function (search) {
-                Market.load(search);
+                PropertyMarket.load(search);
                 $scope.render();
                 $scope.$broadcast('UpdateMap');
                 $scope.attributes.modified = false;
                 $scope.$broadcast('RangesDefined');
             };
         }])
-    .controller("FilterController", ['$scope', 'SavedSearch', '$dialog', 'Market',
-        function ($scope, SavedSearch, $dialog, Market) {
+    .controller("FilterController", ['$scope', 'SavedSearch', '$dialog',
+        function ($scope, SavedSearch, $dialog) {
 
             $scope.isNotHidden = function (range) {
                 return !range.hidden;
@@ -449,9 +475,9 @@ angular.module('rescour.app')
             };
         }])
 
-    .controller('SaveSearchDialogController', ['$scope', 'dialog', 'Market',
-        function ($scope, dialog, Market) {
-            $scope.attributes = Market.dimensions;
+    .controller('SaveSearchDialogController', ['$scope', 'dialog', 'dimensions',
+        function ($scope, dialog, dimensions) {
+            $scope.attributes = dimensions;
             $scope.searchSettings = {};
             $scope.close = function () {
                 dialog.close();
@@ -788,7 +814,7 @@ angular.module('rescour.app')
                 }
             };
         }])
-    .directive('slider', ['Market', function (Market) {
+    .directive('slider', function () {
         return {
             restrict: 'A',
             link: function (scope, element, attr) {
@@ -827,4 +853,4 @@ angular.module('rescour.app')
                 setupSlider();
             }
         };
-    }]);
+    });

@@ -21,63 +21,52 @@ angular.module('rescour.app')
 
                             Property.query().then(function (results) {
                                 PropertyMarket.initialize(results.data.resources, Property.$dimensions);
-                                defer.resolve(PropertyMarket);
+                                defer.resolve();
                             });
 
                             return defer.promise;
                         },
-                        news: function ($q, $_api, $http, PropertyMarket) {
-                            var news = [],
-                                defer = $q.defer(),
-                                config = angular.extend({
-                                    transformRequest: function (data) {
-                                        return data;
-                                    }
-                                }, $_api.config),
-                                batchLimit = 50;
-
-                            (function batchNews(limit, offset) {
-                                var path = $_api.path + '/news/?limit=' + limit + (offset ? '&offset=' + offset : '');
-
-                                $http.get(path, config).then(
-                                    function (response) {
-                                        if (response.data.length < limit) {
-                                            news = news.concat(response.data);
-                                            defer.resolve(news);
-                                        } else {
-                                            news = news.concat(response.data);
-                                            batchNews(limit, response.data[response.data.length - 1].id);
-                                        }
-                                    },
-                                    function (response) {
-                                        defer.reject(response);
-                                    }
-                                );
-                            })(batchLimit);
-
-                            return defer.promise;
-                        },
-//                        news: function ($q, $_api, $http, PropertyMarket) {
-//                            var defer = $q.defer(),
-//                                self = this,
-//                                path = $_api.path + '/news/',
+//                        news: function ($q, $_api, $http, NewsMarket) {
+//                            var news = [],
+//                                defer = $q.defer(),
 //                                config = angular.extend({
 //                                    transformRequest: function (data) {
 //                                        return data;
 //                                    }
-//                                }, $_api.config);
+//                                }, $_api.config),
+//                                batchLimit = 50;
 //
-//                            $http.get(path, config).then(
-//                                function (response) {
-//                                    defer.resolve(response.resources);
-//                                },
-//                                function (response) {
-//                                    defer.reject(response);
-//                                }
-//                            );
+//                            (function batchNews(limit, offset) {
+//                                var path = $_api.path + '/news/?limit=' + limit + (offset ? '&offset=' + offset : '');
+//
+//                                $http.get(path, config).then(
+//                                    function (response) {
+//                                        if (response.data.length < limit) {
+//                                            news = news.concat(response.data);
+//                                            defer.resolve(news);
+//                                        } else {
+//                                            news = news.concat(response.data);
+//                                            batchNews(limit, response.data[response.data.length - 1].id);
+//                                        }
+//                                    },
+//                                    function (response) {
+//                                        defer.reject(response);
+//                                    }
+//                                );
+//                            })(batchLimit);
 //
 //                            return defer.promise;
 //                        },
+                        newsMarket: function ($q, $_api, $http, NewsMarket, News) {
+                            var defer = $q.defer();
+
+                            News.query().then(function (results) {
+                                NewsMarket.initialize(results.data.resources, News.$dimensions);
+                                defer.resolve();
+                            });
+
+                            return defer.promise;
+                        },
                         loadUser: function (User, $q) {
                             var defer = $q.defer();
                             User.getProfile().then(function (response) {
@@ -90,14 +79,15 @@ angular.module('rescour.app')
                     }
                 });
         }])
-    .controller('MarketController', ['$scope', '$timeout', '$routeParams', '$location', 'BrowserDetect', 'User', '$dialog', 'PropertyMarket', 'Reports', 'SavedSearch', 'news',
-        function ($scope, $timeout, $routeParams, $location, BrowserDetect, User, $dialog, PropertyMarket, Reports, SavedSearch, news) {
+    .controller('MarketController', ['$scope', '$timeout', '$routeParams', '$location', 'BrowserDetect', 'User', '$dialog', 'PropertyMarket', 'Reports', 'SavedSearch',
+        function ($scope, $timeout, $routeParams, $location, BrowserDetect, User, $dialog, PropertyMarket, Reports, SavedSearch) {
             $scope.items = PropertyMarket.visibleItems;
             $scope.attributes = PropertyMarket.getDimensions();
             $scope.toggle = 'all';
             $scope.getActive = PropertyMarket.getActive;
             $scope.browser = BrowserDetect;
             $scope.searchText = {};
+            $scope.mapData = {};
             $scope.selectedSearch = null;
             SavedSearch.query().then(function (savedSearches) {
                 $scope.savedSearches = savedSearches;
@@ -123,6 +113,10 @@ angular.module('rescour.app')
                 $scope.render();
                 $scope.showPower.icon = this.icon;
                 $scope.$broadcast('UpdateMap');
+            };
+
+            $scope.setZoomLevel = function (zoom) {
+                $scope.mapData.zoom = zoom;
             };
 
             $scope.propertyDetails = (function () {
@@ -279,11 +273,11 @@ angular.module('rescour.app')
                 float: 'left',
                 icon: 'icon-rss',
                 color: 'blue',
+                disableIf: function () {
+                    return $scope.mapData.zoom < 10;
+                },
                 action: function () {
                     $scope.$broadcast('DisplayNews');
-//                    $http.get('/news/?limit=5&offset=2').then(function(response) {
-//                            console.log(response.data);
-//                    });
                 }
             };
 
@@ -367,7 +361,7 @@ angular.module('rescour.app')
 
             $scope.filter = function (discreet, discreetValue) {
                 $scope.searchText = {};
-                $scope.items = PropertyMarket.apply(discreet, discreetValue);
+                $scope.items = PropertyMarket.applyDiscreet(discreet, discreetValue);
                 PropertyMarket.predict();
                 $scope.$broadcast('UpdateMap');
                 $scope.attributes.modified = true;

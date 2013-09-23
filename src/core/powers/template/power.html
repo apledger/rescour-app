@@ -1,4 +1,4 @@
-<div class="power power-{{power.float}} {{power.color}} clearfix" ng-class="{'open': power.isOpen, 'disabled': power.isDisabled }">
+<div class="power power-{{power.float}} {{power.color}} clearfix" ng-class="{'open': power.isOpen, 'disabled': power.disableIf() }">
     <div class="power-title" ng-class="{'power-icon-dropdown': power.options}" tooltip="{{powerTooltip}}"
          tooltip-placement="{{powerTooltipPlacement}}">
         <i ng-show="!power.title" ng-class="power.icon"></i>{{power.title}}

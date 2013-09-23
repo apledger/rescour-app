@@ -342,7 +342,9 @@ var thotpod = (function () {
         return this.items;
     };
 
-    Market.prototype.apply = function (discreet, value) {
+    // TODO: allow option of ignore NA
+
+    Market.prototype.apply = function (opts) {
         var dimensions = this.dimensions,
             items = this.items;
 
@@ -350,11 +352,6 @@ var thotpod = (function () {
         this.visibleIds = [];
         this.visibleItems = [];
         dimensions.visibleIds = [];
-
-        if (discreet && value) {
-            value.isSelected = !value.isSelected;
-            value.isSelected ? discreet.selected++ : discreet.selected--;
-        }
 
         var BIT_SET_LENGTH = Math.ceil(dimensions.idMap.length / 32),
             bitSet = [],
@@ -368,7 +365,6 @@ var thotpod = (function () {
                     var _discreet = dimensions.discreet[attrId],
                         union = 0;
 
-//                            _discreet.excludedRangeIds = [];
                     for (var valueId in _discreet.values) {
                         if (_discreet.values.hasOwnProperty(valueId)) {
                             var _value = _discreet.values[valueId];
@@ -507,6 +503,30 @@ var thotpod = (function () {
                 }
             }
         }
+    };
+
+    Market.prototype.applyDiscreet = function (discreet, value) {
+        if (discreet && value) {
+            value.isSelected = !value.isSelected;
+            value.isSelected ? discreet.selected++ : discreet.selected--;
+        }
+
+        this.apply();
+        this.predict();
+
+        return this.visibleItems;
+    };
+
+    Market.prototype.applyRange = function (rangeKey, low, high) {
+        if (this.dimensions.range.hasOwnProperty(rangeKey)) {
+            var _range = this.dimensions.range[rangeKey];
+            _range.lowSelected = low;
+            _range.highSelected = high;
+        } else {
+            throw new Error ("Cannot find range dimension " + rangeKey);
+        }
+
+        return this;
     };
 
     return {

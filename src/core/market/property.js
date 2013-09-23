@@ -8,7 +8,7 @@
 
 'use strict';
 
-angular.module('rescour.market', [])
+angular.module('rescour.property', [])
     .factory('PropertyMarket', ['Property',
         function (Property) {
             return new thotpod.Marketplace(Property);

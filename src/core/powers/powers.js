@@ -43,6 +43,7 @@ angular.module('rescour.powers', [])
         function ($document, Power, $compile) {
             return {
                 require: '^powers',
+                restrict: 'A',
                 scope: {
                     power: '=',
                     powerTooltip: '@',
@@ -95,11 +96,24 @@ angular.module('rescour.powers', [])
                             if (!_power.isOpen && _power.options) {
                                 e.preventDefault();
                                 e.stopPropagation();
-                                PowersController.open(_power);
+                                if (typeof _power.disableIf == 'function') {
+                                    if (!_power.disableIf()) {
+                                        PowersController.open(_power);
+                                    }
+                                } else if (!_power.disableIf) {
+                                    PowersController.open(_power);
+                                }
                             } else if (_power.action) {
                                 scope.$apply(function () {
-                                    _power.action();
+                                    if (typeof _power.disableIf == 'function') {
+                                        if (!_power.disableIf()) {
+                                            _power.action();
+                                        }
+                                    } else if (!_power.disableIf) {
+                                        _power.action();
+                                    }
                                 });
+
                             }
                         }
                     });

@@ -3985,8 +3985,8 @@ angular.module('rescour.app')
             }
         }
     }])
-    .directive('map', ['$compile', '$location', 'BrowserDetect', 'PropertyMarket', 'StatesGeoJson',
-        function ($compile, $location, BrowserDetect, PropertyMarket, StatesGeoJson) {
+    .directive('map', ['$compile', '$location', 'BrowserDetect', 'PropertyMarket', 'StatesGeoJson', 'NewsMarket',
+        function ($compile, $location, BrowserDetect, PropertyMarket, StatesGeoJson, NewsMarket) {
             return {
                 restrict: "A",
                 transclude: true,
@@ -3999,7 +3999,7 @@ angular.module('rescour.app')
                                     d > 100 ? '#FC4E2A' :
                                         d > 50 ? '#FD8D3C' :
                                             d > 25 ? '#FEB24C' :
-                                                d > 1 ? '#FED976' :
+                                                d > 0 ? '#FED976' :
                                                     '#999';
                     }
 
@@ -4025,6 +4025,12 @@ angular.module('rescour.app')
                         map = new L.Map($el, { center: defaultLatLng, zoom: defaultZoom, zoomControl: false, attributionControl: false}),
                         markers = new L.MarkerClusterGroup({disableClusteringAtZoom: 10, spiderfyOnMaxZoom: false, spiderfyDistanceMultiplier: 0.1});
                     // layers: [cloudmade],
+
+                    scope.$watch(function () {
+                        return map.getZoom()
+                    }, function (newVal) {
+                        scope.setZoomLevel(newVal);
+                    });
 
                     var RescourIcon = L.Icon.extend({
                         options: {
@@ -4129,7 +4135,7 @@ angular.module('rescour.app')
 
                     legend.onAdd = function (map) {
                         var div = L.DomUtil.create('div', 'info legend'),
-                            grades = [0, 1, 25, 50, 100, 200, 500, 1000],
+                            grades = [1, 25, 50, 100, 200, 500, 1000],
                             labels = [];
 
                         this.isVisible = true;
@@ -4146,11 +4152,19 @@ angular.module('rescour.app')
                     legend.onRemove = function (map) {
                         this.isVisible = false;
                     };
+                    var newsLayerGroup = L.layerGroup().addTo(map),
+                        newsToggled = false,
+                        newsIcon = L.icon({
+                            iconUrl: 'img/rss1.png',
+                            iconSize: [25, 25],
+                            iconAnchor: [12, 0]
+                        });
 
                     var geoLayer;
 
                     function initGeoJsonLayer() {
-                        clearLayers();
+                        clearPropertyLayers();
+                        clearNewsLayers();
                         resetBounds();
 
                         function highlightFeature(e) {
@@ -4188,7 +4202,6 @@ angular.module('rescour.app')
                         }
 
                         geoLayer = L.geoJson(StatesGeoJson.get(), {style: style, onEachFeature: onEachFeature});
-
                         geoLayer.addTo(map);
                         info.addTo(map);
                         legend.addTo(map);
@@ -4248,7 +4261,7 @@ angular.module('rescour.app')
                         });
                     }
 
-                    function clearLayers() {
+                    function clearPropertyLayers() {
                         markers.clearLayers();
 
                         if (geoLayer) {
@@ -4262,21 +4275,24 @@ angular.module('rescour.app')
                         }
                     }
 
-                    function applyBounds() {
-                        var bounds = map.getBounds();
-                        var _lat = PropertyMarket.dimensions.range.latitude,
-                            _lng = PropertyMarket.dimensions.range.longitude;
+                    function clearNewsLayers() {
+                        newsLayerGroup.clearLayers();
+                        newsToggled = false;
+                    }
 
-                        _lat.highSelected = bounds._northEast.lat;
-                        _lng.highSelected = bounds._northEast.lng;
-                        _lat.lowSelected = bounds._southWest.lat;
-                        _lng.lowSelected = bounds._southWest.lng;
+                    function applyBounds(marketplace) {
+                        var bounds = map.getBounds(),
+                            latHighBound = bounds._northEast.lat,
+                            lngHighBound = bounds._northEast.lng,
+                            latLowBound = bounds._southWest.lat,
+                            lngLowBound = bounds._southWest.lng;
 
-                        scope.render();
+                        marketplace
+                            .applyRange('latitude', latLowBound, latHighBound)
+                            .applyRange('longitude', lngLowBound, lngHighBound);
                     }
 
                     function resetBounds() {
-                        var bounds = map.getBounds();
                         var _lat = PropertyMarket.dimensions.range.latitude,
                             _lng = PropertyMarket.dimensions.range.longitude;
 
@@ -4298,9 +4314,10 @@ angular.module('rescour.app')
                         map.addLayer(markers);
                     }
 
-                    function renderFromBounds() {
-                        clearLayers();
-                        applyBounds();
+                    function renderPropertiesFromBounds() {
+                        clearPropertyLayers();
+                        applyBounds(PropertyMarket);
+                        scope.render();
                         renderMarkerCluster();
                     }
 
@@ -4309,7 +4326,12 @@ angular.module('rescour.app')
                         if (currentZoomLevel < 6) {
                             initGeoJsonLayer();
                         } else {
-                            renderFromBounds();
+                            if (currentZoomLevel < 10 && newsToggled) {
+                                clearNewsLayers();
+                            } else if (newsToggled) {
+                                renderNews();
+                            }
+                            renderPropertiesFromBounds();
                         }
                     }
 
@@ -4326,7 +4348,7 @@ angular.module('rescour.app')
                             map.off('moveend', moveEventHandler);
 
                             if (map.getZoom() < 6) {
-                                renderFromBounds();
+                                renderPropertiesFromBounds();
                             }
 
                             map.on('moveend', moveEventHandler);
@@ -4337,7 +4359,7 @@ angular.module('rescour.app')
                     });
 
                     function newsPopupTemplate(item) {
-                        var popupTempl = "<div class=\"news-popup-header\"><a target=\"_blank\" href=\""+ item.link + "\">" + "<h5>" + item.title + "</h5>" +
+                        var popupTempl = "<div class=\"news-popup-header\"><a target=\"_blank\" href=\"" + item.link + "\">" + "<h5>" + item.title + "</h5>" +
                             "</a></div>"
 
                         var popupElement = $compile(popupTempl)(scope);
@@ -4345,51 +4367,38 @@ angular.module('rescour.app')
                         return popupElement[0];
                     }
 
-                    var newsLayerGroup = L.layerGroup().addTo(map),
-                        newsToggled = false;
+                    function addNewsMarkers(visibleNews) {
+                        newsLayerGroup.clearLayers();
 
-                    scope.$on('DisplayNews', function (event) {
-                        function randomCoord(lowBound, highBound) {
-                            return (Math.random() * (highBound - lowBound)) + lowBound;
-                        }
+                        for (var newsId in visibleNews) {
+                            if (visibleNews.hasOwnProperty(newsId)) {
+                                var _news = visibleNews[newsId];
 
-                        var bounds = map.getBounds(),
-                            latHighBound = bounds._northEast.lat,
-                            lngHighBound = bounds._northEast.lng,
-                            latLowBound = bounds._southWest.lat,
-                            lngLowBound = bounds._southWest.lng;
-
-                        function addNewsMarkers(num) {
-                            var newsIcon = L.icon({
-                                iconUrl: 'img/rss1.png',
-                                iconSize: [25, 25],
-                                iconAnchor: [12, 0]
-                            });
-
-                            newsLayerGroup.clearLayers();
-
-                            for (var i = 0; i < num; i++) {
-
-                                var _newsMarker = new L.Marker(new L.LatLng(randomCoord(latLowBound, latHighBound), randomCoord(lngLowBound, lngHighBound)), { title: 'Investor group buys 5-story Fort Worth office building', icon: newsIcon });
-                                (function (m, i) {
+                                var _newsMarker = new L.Marker(new L.LatLng(_news.attributes.range.latitude, _news.attributes.range.longitude), { title: _news.title, icon: newsIcon });
+                                (function (m, news) {
                                     m.on("mouseover", function (e) {
-                                        m.bindPopup(newsPopupTemplate({
-                                            title: 'News Article ' + i,
-                                            link: 'http://www.bizjournals.com/dallas/blog/morning_call/2013/04/investor-group-buys-5-story-fort-worth.html?iana=ind_cre'
-                                        }), {closeButton: false, minWidth: 200}).openPopup();
+                                        m.bindPopup(newsPopupTemplate(news), {closeButton: false, minWidth: 200}).openPopup();
                                     });
-                                })(_newsMarker, i);
+                                })(_newsMarker, _news);
 
                                 newsLayerGroup.addLayer(_newsMarker);
                             }
-                            newsToggled = true;
                         }
 
-                        if (map.getZoom() > 10 && !newsToggled) {
-                            addNewsMarkers(100);
+                    }
+
+                    function renderNews() {
+                        clearNewsLayers();
+                        applyBounds(NewsMarket);
+                        addNewsMarkers(NewsMarket.apply());
+                        newsToggled = true;
+                    }
+
+                    scope.$on('DisplayNews', function (e) {
+                        if (!newsToggled) {
+                            renderNews();
                         } else {
-                            newsLayerGroup.clearLayers();
-                            newsToggled = false;
+                            clearNewsLayers();
                         }
                     });
 
@@ -4397,4 +4406,4 @@ angular.module('rescour.app')
                     initMarkers();
                 }
             };
-        }])
+        }]);

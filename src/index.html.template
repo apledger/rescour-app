@@ -92,7 +92,8 @@
 <script src="/core/user/user.js"></script>
 <script src="/core/auth/auth.js"></script>
 <script src="/core/market/property.js"></script>
-
+<script src="/core/market/news.js"></script>
+<script src="/core/market/market.js"></script>
 <script src="/core/market/leaflet-google.js"></script>
 <script src="/core/utility/utility.js"></script>
 <script src="/core/browser-detect/browser-detect.js"></script>

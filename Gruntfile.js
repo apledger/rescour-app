@@ -631,7 +631,7 @@ module.exports = function (grunt) {
         'copy:local',
         'template:local',
         'clean:template',
-        'karma:unit'
+        // 'karma:unit'
     ]);
 
     grunt.registerTask('server', [
@@ -664,7 +664,7 @@ module.exports = function (grunt) {
         'compass:prod',
         'template:demo',
         'clean:template',
-        'karma:unit',
+        // 'karma:unit',
         'useminPrepare',
         'concat:.tmp/scripts/scripts.js',
         'concat:.tmp/styles/main.css',
@@ -684,7 +684,7 @@ module.exports = function (grunt) {
         'compass:prod',
         'template:dev',
         'clean:template',
-        'karma:unit',
+        // 'karma:unit',
         'useminPrepare',
         'concat:.tmp/scripts/scripts.js',
         'concat:.tmp/styles/main.css',
@@ -703,7 +703,7 @@ module.exports = function (grunt) {
         'compass:prod',
         'template:prod',
         'clean:template',
-        'karma:unit',
+        // 'karma:unit',
         'useminPrepare',
         'concat:.tmp/scripts/scripts.js',
         'concat:.tmp/styles/main.css',

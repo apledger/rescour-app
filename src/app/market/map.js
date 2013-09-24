@@ -4354,7 +4354,9 @@ angular.module('rescour.app')
                     });
 
                     map.on('dragstart', function () {
-                        activeMarker.closePopup();
+                        if (activeMarker) {
+                            activeMarker.closePopup();
+                        }
                     });
 
                     scope.$on('UpdateMap', renderMap);

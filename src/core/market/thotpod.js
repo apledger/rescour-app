@@ -204,9 +204,16 @@ var thotpod = (function () {
         return this;
     };
 
-    function Market(Model) {
+    function Market(Model, opts) {
         var activeItem = null,
             prevActive = null;
+
+        angular.extend(this, {
+            sortBy: {
+                predicate: 'datePosted',
+                reverse: false
+            }
+        }, opts);
 
         this.Model = Model;
         this.dimensions = {};
@@ -445,7 +452,7 @@ var thotpod = (function () {
             }
         }
 
-        return this.visibleItems;
+        return this.sortVisibleItems();
     };
 
     Market.prototype.predict = function () {
@@ -505,26 +512,53 @@ var thotpod = (function () {
         }
     };
 
-
     Market.prototype.sortVisibleItems = function (predicate, reverse) {
-        function compare (a, b) {
-            var v1 = a.hasOwnProperty(predicate) ? a[predicate] : a.range.hasOwnProperty(predicate) ? a.range[predicate] : null;
-            var v2 = b.hasOwnProperty(predicate) ? b[predicate] : b.range.hasOwnProperty(predicate) ? b.range[predicate] : null;
+        var _predicate = predicate || this.sortBy.predicate,
+            _reverse = reverse || this.sortBy.reverse,
+            _items = [],
+            _naItems = [];
+
+        if (!_predicate) {
+            return this.visibleItems;
+        }
+
+        function compare(a, b) {
+
+            var v1 = a[_predicate] || a.attributes.range[_predicate] || null;
+            var v2 = b[_predicate] || b.attributes.range[_predicate] || null;
             var t1 = typeof v1;
             var t2 = typeof v2;
 
-            if (v1 == "NA" || v2 == "NA") return -1;
-
             if (t1 == t2) {
-                if (t1 == "string") v1 = v1.toLowerCase();
-                if (t1 == "string") v2 = v2.toLowerCase();
+                if (t1 == 'string') v1 = v1.toLowerCase();
+                if (t1 == 'string') v2 = v2.toLowerCase();
                 if (v1 === v2) return 0;
                 return v1 < v2 ? -1 : 1;
             } else {
-                return t1 < t2 ? -1 : 1;
+                return v1 < v2 ? -1 : 1;
             }
         }
-        this.visibleItems.sort(reverse ? function(a,b){return compare(b,a);} : compare);
+
+        for (var i = this.visibleItems.length - 1; i >= 0; i--) {
+            var _item = this.visibleItems[i];
+            var _attr = _item[_predicate] || _item.attributes.range[_predicate] || null;
+            if (_attr == 'NA') {
+                _naItems.push(_item);
+            } else {
+                _items.push(_item);
+            }
+        }
+
+        _items.sort(_reverse ? compare : function (a, b) {
+            return compare(b, a);
+        });
+
+        this.visibleItems = _items.concat(_naItems);
+
+        this.sortBy = {
+            predicate: _predicate,
+            reverse: _reverse
+        };
 
         return this.visibleItems;
     };
@@ -547,7 +581,7 @@ var thotpod = (function () {
             _range.lowSelected = low;
             _range.highSelected = high;
         } else {
-            throw new Error ("Cannot find range dimension " + rangeKey);
+            throw new Error("Cannot find range dimension " + rangeKey);
         }
 
         return this;

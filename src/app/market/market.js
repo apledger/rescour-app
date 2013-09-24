@@ -61,7 +61,7 @@ angular.module('rescour.app')
                     return this.zoom < NewsZoomThreshold
                 },
                 newsTooltip: function () {
-                    return this.newsToggled ? 'Hide News' : 'Show News';
+                    return this.isNewsDisabled() ? 'Zoom to Show News' : this.newsToggled ? 'Hide News' : 'Show News';
                 }
             };
             $scope.selectedSearch = null;
@@ -82,6 +82,7 @@ angular.module('rescour.app')
                 }
 
                 $scope.sortPower.icon = this.icon = $scope.sortBy.reverse ? 'icon-long-arrow-up' : 'icon-long-arrow-down';
+                $scope.items = PropertyMarket.sortVisibleItems($scope.sortBy.predicate, $scope.sortBy.reverse);
             };
 
             function show() {

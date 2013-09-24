@@ -87,6 +87,10 @@ angular.module('rescour.auth', [])
                 $location.path('/account/welcome');
             });
 
+            $rootScope.$on('auth#forbidden', function () {
+                $location.path('/logout');
+            });
+
             /**
              * On 'event:loginRequest' send credentials to the server.
              */
@@ -156,6 +160,10 @@ angular.module('rescour.auth', [])
                             } else if (message === 'payment authorizing') {
                                 $rootScope.$broadcast('auth#paymentAuthorizing');
                             }
+
+                            return defer.promise;
+                        case 403:
+                            $rootScope.$broadcast('auth#forbidden');
 
                             return defer.promise;
                         default:

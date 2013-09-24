@@ -505,6 +505,12 @@ var thotpod = (function () {
         }
     };
 
+    Market.sortVisibleItems = function (predicate, reverse) {
+        this.visibleItems.sort(function (a, b) {
+
+        })
+    };
+
     Market.prototype.applyDiscreet = function (discreet, value) {
         if (discreet && value) {
             value.isSelected = !value.isSelected;

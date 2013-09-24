@@ -4023,7 +4023,9 @@ angular.module('rescour.app')
                         defaultZoom = 5,
                         $el = element.find(".map")[0],
                         map = new L.Map($el, { center: defaultLatLng, zoom: defaultZoom, zoomControl: false, attributionControl: false}),
-                        markers = new L.MarkerClusterGroup({disableClusteringAtZoom: 10, spiderfyOnMaxZoom: false, spiderfyDistanceMultiplier: 0.1});
+                        markers = new L.MarkerClusterGroup({disableClusteringAtZoom: 10, spiderfyOnMaxZoom: false, spiderfyDistanceMultiplier: 0.1}),
+                        isPopupOpen = false,
+                        activeMarker;
                     // layers: [cloudmade],
 
                     scope.$watch(function () {
@@ -4247,14 +4249,16 @@ angular.module('rescour.app')
                                         if (BrowserDetect.platform !== 'tablet') {
                                             scope.showDetails(item);
                                         } else {
-                                            item.marker.bindPopup(popupTemplate(item), {closeButton: false, minWidth: 325}).openPopup();
+                                            activeMarker = item.marker.bindPopup(popupTemplate(item), {closeButton: false, minWidth: 325}).openPopup();
+
                                         }
                                     });
                                 });
 
                                 // Bind mouseover popup
                                 item.marker.on("mouseover", function (e) {
-                                    item.marker.bindPopup(popupTemplate(item), {closeButton: false, minWidth: 325}).openPopup();
+                                    activeMarker = item.marker.bindPopup(popupTemplate(item), {closeButton: false, minWidth: 325})
+                                        .openPopup();
                                 });
                             }
                         });
@@ -4335,10 +4339,23 @@ angular.module('rescour.app')
                     }
 
                     function moveEventHandler() {
-                        scope.$apply(renderMap);
+                        if (!isPopupOpen) {
+                            scope.$apply(renderMap);
+                        }
                     }
 
                     map.on('moveend', moveEventHandler);
+                    map.on('popupopen', function () {
+                        isPopupOpen = true;
+                    });
+
+                    map.on('popupclose', function () {
+                        isPopupOpen = false;
+                    });
+
+                    map.on('dragstart', function () {
+                        activeMarker.closePopup();
+                    });
 
                     scope.$on('UpdateMap', renderMap);
 
@@ -4376,7 +4393,7 @@ angular.module('rescour.app')
                                 var _newsMarker = new L.Marker(new L.LatLng(_news.attributes.range.latitude, _news.attributes.range.longitude), { title: _news.title, icon: newsIcon });
                                 (function (m, news) {
                                     m.on("mouseover", function (e) {
-                                        m.bindPopup(newsPopupTemplate(news), {closeButton: false, minWidth: 350}).openPopup();
+                                        activeMarker = m.bindPopup(newsPopupTemplate(news), {closeButton: false, minWidth: 350}).openPopup();
                                     });
                                 })(_newsMarker, _news);
 

@@ -31,8 +31,6 @@ angular.module('rescour.news', [])
 
                 angular.copy(opts, self);
                 this.address = this.address || {};
-                console.log(this);
-
                 this.attributes.range.latitude = this.address.latitude || 'NA';
                 this.attributes.range.longitude = this.address.longitude || 'NA';
             };

@@ -164,8 +164,6 @@ angular.module('rescour.auth', [])
                             return defer.promise;
                         case 403:
                             $rootScope.$broadcast('auth#forbidden');
-
-                            return defer.promise;
                         default:
                     }
 

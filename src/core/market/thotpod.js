@@ -505,10 +505,28 @@ var thotpod = (function () {
         }
     };
 
-    Market.sortVisibleItems = function (predicate, reverse) {
-        this.visibleItems.sort(function (a, b) {
 
-        })
+    Market.prototype.sortVisibleItems = function (predicate, reverse) {
+        function compare (a, b) {
+            var v1 = a.hasOwnProperty(predicate) ? a[predicate] : a.range.hasOwnProperty(predicate) ? a.range[predicate] : null;
+            var v2 = b.hasOwnProperty(predicate) ? b[predicate] : b.range.hasOwnProperty(predicate) ? b.range[predicate] : null;
+            var t1 = typeof v1;
+            var t2 = typeof v2;
+
+            if (v1 == "NA" || v2 == "NA") return -1;
+
+            if (t1 == t2) {
+                if (t1 == "string") v1 = v1.toLowerCase();
+                if (t1 == "string") v2 = v2.toLowerCase();
+                if (v1 === v2) return 0;
+                return v1 < v2 ? -1 : 1;
+            } else {
+                return t1 < t2 ? -1 : 1;
+            }
+        }
+        this.visibleItems.sort(reverse ? function(a,b){return compare(b,a);} : compare);
+
+        return this.visibleItems;
     };
 
     Market.prototype.applyDiscreet = function (discreet, value) {

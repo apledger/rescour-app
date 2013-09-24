@@ -56,6 +56,7 @@ angular.module('rescour.app')
             $scope.getActive = PropertyMarket.getActive;
             $scope.browser = BrowserDetect;
             $scope.searchText = {};
+            $scope.sortBy = {};
             $scope.mapData = {
                 isNewsDisabled: function () {
                     return this.zoom < NewsZoomThreshold

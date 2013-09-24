@@ -50,7 +50,7 @@
                     <li class="nav-header" ng-click="sortBy(range)">
                         {{range.title}} &nbsp;
                         <div style="float:right;">{{range.lowSelected}} - {{range.highSelected |
-                            checkBounds:range.bound}}
+                            checkBounds:range.highBound}}
                         </div>
                     </li>
                     <div slider></div>
@@ -179,7 +179,16 @@
     <!--Map-->
     <div class="map-container desktop">
         <div class="powers">
-            <div power="newsPower" tooltip="Display News" tooltip-placement="bottom"></div>
+            <!--<div power="newsPower" tooltip="Display News" tooltip-placement="bottom"></div>-->
+            <div class="power"
+                 ng-class="{'disabled': mapData.isNewsDisabled(), 'blue': mapData.newsToggled}"
+                 ng-click="displayNews()"
+                 tooltip="{{ mapData.newsTooltip() }}"
+                 tooltip-placement="bottom">
+                <div class="power-title">
+                    <i class="icon-rss"></i>
+                </div>
+            </div>
             <div power="mapPower"></div>
         </div>
 

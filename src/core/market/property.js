@@ -60,7 +60,7 @@ angular.module('rescour.property', [])
                         self.attributes.range[key] = parseInt(self.attributes.range[key], 10);
                     }
                 });
-
+                this.attributes.range.daysOnMarket = Math.ceil(Math.abs(Date.now() - (this.attributes.range.datePosted*1000)) / (1000 * 3600 * 24));
                 this.attributes.range.latitude = data.address.latitude || 'NA';
                 this.attributes.range.longitude = data.address.longitude || 'NA';
             };
@@ -92,6 +92,10 @@ angular.module('rescour.property', [])
                     },
                     'yearBuilt': {
                         title: 'Year Built',
+                        weight: 9
+                    },
+                    'daysOnMarket': {
+                        title: 'Days on Market',
                         weight: 9
                     },
                     'latitude': {

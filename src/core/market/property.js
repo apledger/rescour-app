@@ -11,7 +11,12 @@
 angular.module('rescour.property', [])
     .factory('PropertyMarket', ['Property',
         function (Property) {
-            return new thotpod.Marketplace(Property);
+            return new thotpod.Marketplace(Property, {
+                sortBy: {
+                    predicate: 'datePosted',
+                    reverse: false
+                }
+            });
         }])
     .factory('Property', ['$_api', '$q', '$http', 'Comment', 'Finance',
         function ($_api, $q, $http, Comment, Finance) {
@@ -51,6 +56,8 @@ angular.module('rescour.property', [])
                 angular.forEach(this.attributes.range, function (value, key) {
                     if (_.isNaN(parseInt(value, 10)) || !value) {
                         self.attributes.range[key] = 'NA'
+                    } else {
+                        self.attributes.range[key] = parseInt(self.attributes.range[key], 10);
                     }
                 });
 

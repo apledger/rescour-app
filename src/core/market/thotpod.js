@@ -209,10 +209,7 @@ var thotpod = (function () {
             prevActive = null;
 
         angular.extend(this, {
-            sortBy: {
-                predicate: 'datePosted',
-                reverse: false
-            }
+            sortBy: {}
         }, opts);
 
         this.Model = Model;
@@ -316,7 +313,12 @@ var thotpod = (function () {
                                 _itemAttr;
 
                             if (_item.attributes) {
-                                _itemAttr = _item.attributes.range[_rangeKey] = _.isNumber(parseFloat(_item.attributes.range[_rangeKey])) ? _item.attributes.range[_rangeKey] : 'NA';
+                                // TODO: throw error if not NA or a number
+                                if (_.isNumber(_item.attributes.range[_rangeKey]) || _item.attributes.range[_rangeKey] == 'NA') {
+                                    _itemAttr =  _item.attributes.range[_rangeKey];
+                                } else {
+                                    throw new Error("Error initializing " + _item.id + " - " + _rangeKey + ": " + _item.attributes.range[_rangeKey] + " is not a number.");
+                                }
                             } else {
                                 _itemAttr = _item[_rangeKey] = _.isNumber(parseFloat(_item[_rangeKey])) ? _item[_rangeKey] : 'NA'
                             }
@@ -514,7 +516,7 @@ var thotpod = (function () {
 
     Market.prototype.sortVisibleItems = function (predicate, reverse) {
         var _predicate = predicate || this.sortBy.predicate,
-            _reverse = reverse || this.sortBy.reverse,
+            _reverse = typeof reverse == 'undefined' ? this.sortBy.reverse : reverse,
             _items = [],
             _naItems = [];
 
@@ -548,10 +550,11 @@ var thotpod = (function () {
                 _items.push(_item);
             }
         }
-
         _items.sort(_reverse ? compare : function (a, b) {
             return compare(b, a);
         });
+
+
 
         this.visibleItems = _items.concat(_naItems);
 

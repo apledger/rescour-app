@@ -4377,7 +4377,7 @@ angular.module('rescour.app')
                     });
 
                     function newsPopupTemplate(item) {
-                        var popupTempl = "<div class=\"news-popup-header\"><a target=\"_blank\" href=\"" + item.link + "\">" + "<h5>" + item.title + "</h5>" +
+                        var popupTempl = "<div class=\"news-popup-header\"><a target=\"_blank\" href=\"" + item.url + "\">" + "<h5>" + item.title + "</h5>" +
                             "</a><span>Posted on " + $filter('date')(item.date) + "<span></div>"
 
                         var popupElement = $compile(popupTempl)(scope);

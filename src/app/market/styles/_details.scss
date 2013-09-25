@@ -10,6 +10,7 @@ $detailsHeaderColor: $light-gray;
   right: 0;
   left: 0;
   bottom: 0;
+  padding: 0 25px;
   @include rescourTabs;
 
   blockquote, blockquote:hover {
@@ -53,7 +54,7 @@ $detailsHeaderColor: $light-gray;
   }
 
   .page-header {
-    margin: 20px 20px 30px;
+    margin: 15px 0 5px;
     .btn {
       margin-top: 10px;
     }

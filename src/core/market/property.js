@@ -99,7 +99,7 @@ angular.module('rescour.property', [])
                     },
                     'daysOnMarket': {
                         title: 'Days on Market',
-                        weight: 9
+                        weight: 8
                     },
                     'latitude': {
                         title: 'Latitude',

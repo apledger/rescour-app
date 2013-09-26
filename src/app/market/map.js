@@ -4329,7 +4329,6 @@ angular.module('rescour.app')
                     }
 
                     function moveEventHandler() {
-                        console.log("sup");
                         if (!isPopupOpen) {
                             scope.$apply(renderMap);
                         }

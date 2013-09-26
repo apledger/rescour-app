@@ -47,8 +47,9 @@
 
                 <!--Range sliders-->
                 <ul class="nav nav-list" ng-repeat="range in attributes.getRange() | orderBy:orderByWeight() | filter:isNotHidden">
-                    <li class="nav-header" ng-click="sortBy(range)">
+                    <li class="nav-header" ng-click="toggleNA(range)" tooltip="{{ range.excludeNA && 'Show NA' || 'Hide NA' }}" tooltip-placement="right">
                         {{range.title}} &nbsp;
+                        <i class="icon-minus-sign" ng-show="range.excludeNA"></i>
                         <div style="float:right;">{{range.lowSelected}} - {{range.highSelected |
                             checkBounds:range.highBound}}
                         </div>

@@ -364,6 +364,11 @@ angular.module('rescour.app')
                 };
             };
 
+            $scope.toggleNA = function (range) {
+                range.excludeNA = !range.excludeNA;
+                $scope.render();
+            };
+
             $scope.openSaveDialog = function () {
                 // If its a new search open the dialog
                 if ($scope.attributes.modified) {

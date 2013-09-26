@@ -339,6 +339,12 @@ angular.module('rescour.app')
                 $scope.attributes.modified = true;
             };
 
+            $scope.toggleNA = function (range) {
+                range.excludeNA = !range.excludeNA;
+                $scope.render();
+                $scope.$broadcast('UpdateMap');
+            };
+
             $scope.openFeedbackDialog = function () {
                 $scope.feedbackDialog.open();
             };
@@ -364,10 +370,7 @@ angular.module('rescour.app')
                 };
             };
 
-            $scope.toggleNA = function (range) {
-                range.excludeNA = !range.excludeNA;
-                $scope.render();
-            };
+
 
             $scope.openSaveDialog = function () {
                 // If its a new search open the dialog

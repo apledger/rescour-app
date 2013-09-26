@@ -46,9 +46,6 @@ angular.module('rescour.property', [])
                 this.description = this.description || 'No description provided.';
                 this.thumbnail = this.thumbnail || '/img/apt0.jpg';
                 this.location = (data.address.latitude && data.address.longitude) ? [data.address.latitude, data.address.longitude] : null;
-                if (this.attributes.discreet.propertyType == 'Portfolio') {
-                    console.log(this.location);
-                }
 
                 angular.forEach(this.attributes.discreet, function (value, key) {
                     if (!value) {

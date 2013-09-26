@@ -4166,6 +4166,7 @@ angular.module('rescour.app')
                     function initGeoJsonLayer() {
                         clearPropertyLayers();
                         clearNewsLayers();
+                        PropertyMarket.includeNA('latitude').includeNA('longitude');
                         resetBounds();
 
                         function highlightFeature(e) {
@@ -4292,7 +4293,9 @@ angular.module('rescour.app')
 
                         marketplace
                             .applyRange('latitude', latLowBound, latHighBound)
-                            .applyRange('longitude', lngLowBound, lngHighBound);
+                            .applyRange('longitude', lngLowBound, lngHighBound)
+                            .excludeNA('latitude').excludeNA('longitude');
+//                            .addExcludedNA('latitude').addExcludedNA('longitude');
                     }
 
                     function resetBounds() {

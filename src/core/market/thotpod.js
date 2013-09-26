@@ -48,8 +48,7 @@ var thotpod = (function () {
                 visibleIds: []
             },
             rangeDefaults = {
-                ids: [],
-                na: [],
+                excludeNA: false,
                 high: null,
                 low: null
             },
@@ -315,7 +314,7 @@ var thotpod = (function () {
                             if (_item.attributes) {
                                 // TODO: throw error if not NA or a number
                                 if (_.isNumber(_item.attributes.range[_rangeKey]) || _item.attributes.range[_rangeKey] == 'NA') {
-                                    _itemAttr =  _item.attributes.range[_rangeKey];
+                                    _itemAttr = _item.attributes.range[_rangeKey];
                                 } else {
                                     throw new Error("Error initializing " + _item.id + " - " + _rangeKey + ": " + _item.attributes.range[_rangeKey] + " is not a number.");
                                 }
@@ -405,7 +404,7 @@ var thotpod = (function () {
                                 // CHeck if lowBound matches lowSelected
 
                                 if ((_isWithinLow && _isWithinHigh) ||
-                                    _currItemAttr === 'NA') {
+                                    (_currItemAttr === 'NA' && !_rangeAttr.excludeNA)) {
                                     _currItem.isVisible = !!(1 & bitSet[i]);
                                 } else {
                                     _currItem.isVisible = false;
@@ -554,8 +553,6 @@ var thotpod = (function () {
             return compare(b, a);
         });
 
-
-
         this.visibleItems = _items.concat(_naItems);
 
         this.sortBy = {
@@ -587,6 +584,16 @@ var thotpod = (function () {
             throw new Error("Cannot find range dimension " + rangeKey);
         }
 
+        return this;
+    };
+
+    Market.prototype.excludeNA = function (rangeKey) {
+        this.dimensions.range[rangeKey].excludeNA = true;
+        return this;
+    };
+
+    Market.prototype.includeNA = function (rangeKey) {
+        this.dimensions.range[rangeKey].excludeNA = false;
         return this;
     };
 

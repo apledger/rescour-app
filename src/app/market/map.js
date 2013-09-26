@@ -4084,54 +4084,36 @@ angular.module('rescour.app')
 
                     };
 
-                    function resetView() {
-                        map.setView(defaultLatLng, defaultZoom);
-                    }
+                    var resetControl = L.control({position: 'topleft'});
 
-                    var resetControl = L.Control.extend({
-                        options: {
-                            position: 'topleft'
-                        },
-                        onAdd: function (map) {
-                            var zoomName = 'leaflet-control-zoom',
-                                container = L.DomUtil.create('div', zoomName + ' leaflet-bar');
+                    resetControl.onAdd = function (map) {
+                        this.isVisible = true;
+                        this._div = L.DomUtil.create('div', 'info reset-view'); // create a div with a class "info"
 
-                            this._map = map;
-
-                            this._zoomOutButton = this._createButton(
-                                '-', 'Zoom out', zoomName + '-out', container, this._zoomOut, this);
-
-                            this.isVisible = true;
-
-                            return container;
-                        },
-
-                        _zoomOut: function (e) {
-                            this._map.zoomOut(e.shiftKey ? 3 : 1);
-                        },
-
-                        _createButton: function (html, title, className, container, fn, context) {
-                            var link = L.DomUtil.create('a', className, container);
-                            link.innerHTML = html;
-                            link.href = '#';
-                            link.title = title;
-
-                            var stop = L.DomEvent.stopPropagation;
-
-                            L.DomEvent
-                                .on(link, 'click', stop)
-                                .on(link, 'mousedown', stop)
-                                .on(link, 'dblclick', stop)
-                                .on(link, 'click', L.DomEvent.preventDefault)
-                                .on(link, 'click', fn, context);
-
-                            return link;
-                        },
-
-                        onRemove: function (map) {
-                            this.isVisible = false;
+                        var stop = L.DomEvent.stopPropagation;
+                        function resetView () {
+                            map.setView(defaultLatLng, defaultZoom);
                         }
-                    });
+                        L.DomEvent
+                            .on(this._div, 'click', stop)
+                            .on(this._div, 'mousedown', stop)
+                            .on(this._div, 'dblclick', stop)
+                            .on(this._div, 'click', L.DomEvent.preventDefault)
+                            .on(this._div, 'click', resetView, this);
+
+                        this.update();
+                        return this._div;
+                    };
+
+                    resetControl.onRemove = function (map) {
+                        this.isVisible = false;
+                    };
+
+                    // method that we will use to update the control based on feature properties passed
+                    resetControl.update = function (props) {
+                        this._div.innerHTML = '<h5> Reset View </h5>'
+
+                    };
 
                     var legend = L.control({position: 'bottomleft'});
 
@@ -4277,6 +4259,10 @@ angular.module('rescour.app')
                         if (legend.isVisible) {
                             legend.removeFrom(map);
                         }
+
+                        if (resetControl.isVisible) {
+                            resetControl.removeFrom(map);
+                        }
                     }
 
                     function clearNewsLayers() {
@@ -4322,6 +4308,7 @@ angular.module('rescour.app')
 
                     function renderPropertiesFromBounds() {
                         clearPropertyLayers();
+                        resetControl.addTo(map);
                         applyBounds(PropertyMarket);
                         scope.render();
                         renderMarkerCluster();

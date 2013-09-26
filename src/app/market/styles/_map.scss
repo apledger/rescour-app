@@ -1,3 +1,4 @@
+@import "thotpod_btn";
 
 .map.leaflet-container {
   position: absolute;
@@ -7,11 +8,12 @@
   bottom: 0;
   z-index: 1;
 
-  .info {
+  $infoBackgroundColor:  #eee;
+  .info, .reset-view {
     margin: $gutterWidth;
     border-radius: 5px;
     padding: 6px 8px;
-    background-color: #eee !important;
+    background-color:  $infoBackgroundColor !important;
     @extend %itemWellShadow;
     h5 {
       margin: 5px 10px;
@@ -19,6 +21,18 @@
     }
     p {
       font-size: 12px;
+    }
+  }
+
+  .reset-view {
+    cursor: pointer;
+
+    &:hover {
+      background-color:  lighten($infoBackgroundColor, 5%) !important;
+    }
+
+    &:active {
+      background-color:  $infoBackgroundColor !important;
     }
   }
 

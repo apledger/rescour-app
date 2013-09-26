@@ -31,6 +31,12 @@ angular.module('rescour.news', [])
 
                 angular.copy(opts, self);
                 this.address = this.address || {};
+                // Check if http is on URL
+                if (this.url) {
+                    if (this.url.indexOf('http://') == -1) {
+                        this.url = 'http://' + this.url;
+                    }
+                }
                 this.attributes.range.latitude = parseFloat(this.address.latitude) || 'NA';
                 this.attributes.range.longitude = parseFloat(this.address.longitude) || 'NA';
             };

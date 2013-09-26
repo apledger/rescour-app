@@ -4329,6 +4329,7 @@ angular.module('rescour.app')
                     }
 
                     function moveEventHandler() {
+                        console.log("sup");
                         if (!isPopupOpen) {
                             scope.$apply(renderMap);
                         }
@@ -4344,6 +4345,12 @@ angular.module('rescour.app')
                     });
 
                     map.on('dragstart', function () {
+                        if (activeMarker) {
+                            activeMarker.closePopup();
+                        }
+                    });
+
+                    map.on('zoomstart', function () {
                         if (activeMarker) {
                             activeMarker.closePopup();
                         }

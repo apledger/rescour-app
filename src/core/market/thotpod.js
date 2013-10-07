@@ -11,6 +11,48 @@
 // Author: Alan Pledger
 
 var thotpod = (function () {
+    function isArray(value) {
+        return toString.apply(value) == '[object Array]';
+    }
+    function isDate(value){
+        return toString.apply(value) == '[object Date]';
+    }
+    function isObject(value){return value != null && typeof value == 'object';}
+
+    function copy(source, destination){
+        if (!destination) {
+            destination = source;
+            if (source) {
+                if (isArray(source)) {
+                    destination = copy(source, []);
+                } else if (isDate(source)) {
+                    destination = new Date(source.getTime());
+                } else if (isObject(source)) {
+                    destination = copy(source, {});
+                }
+            }
+        } else {
+            if (source === destination) throw Error("Can't copy equivalent objects or arrays");
+            if (isArray(source)) {
+                while(destination.length) {
+                    destination.pop();
+                }
+                for ( var i = 0; i < source.length; i++) {
+                    destination.push(copy(source[i]));
+                }
+            } else {
+                _.forEach(destination, function(value, key){
+                    delete destination[key];
+                });
+                for ( var key in source) {
+                    destination[key] = copy(source[key]);
+                }
+            }
+        }
+        return destination;
+    }
+
+    /** Utility Methods **/
     function setBit(idPos, bitSet) {
         var bitSetIndex = parseInt((idPos / 32), 10);
         bitSet = bitSet || [];
@@ -35,7 +77,7 @@ var thotpod = (function () {
     }
 
     function Dimensions(dimensions) {
-        var defaults = angular.extend({
+        var defaults = _.extend({
                 title: "",
                 discreet: {},
                 range: {},
@@ -54,25 +96,25 @@ var thotpod = (function () {
             },
             self = this;
 
-        angular.copy(defaults, self);
+        copy(defaults, this);
 
         for (var attrID in dimensions.discreet) {
             if (dimensions.discreet.hasOwnProperty(attrID)) {
                 var _attr = dimensions.discreet[attrID],
-                    _discreet = angular.extend(_attr, discreetDefaults);
+                    _discreet = _.extend(_attr, discreetDefaults);
 
                 self.discreet[attrID] = {};
-                angular.copy(_discreet, self.discreet[attrID]);
+                copy(_discreet, self.discreet[attrID]);
             }
         }
 
         for (var attrID in dimensions.range) {
             if (dimensions.range.hasOwnProperty(attrID)) {
                 var _attr = dimensions.range[attrID],
-                    _range = angular.extend(_attr, rangeDefaults);
+                    _range = _.extend(_attr, rangeDefaults);
 
                 self.range[attrID] = {};
-                angular.copy(_range, self.range[attrID]);
+                copy(_range, self.range[attrID]);
             }
         }
     }
@@ -100,7 +142,7 @@ var thotpod = (function () {
     Dimensions.prototype.load = function (search) {
         var self = this;
 
-        var _search = angular.extend({
+        var _search = _.extend({
             title: '',
             discreet: {},
             range: {}
@@ -171,7 +213,7 @@ var thotpod = (function () {
     };
 
     Dimensions.prototype.toArray = function () {
-        var dimensionsArr = angular.extend({}, this, {
+        var dimensionsArr = _.extend({}, this, {
             discreet: _.map(this.discreet, function (val) {
                 return val
             }),
@@ -207,7 +249,7 @@ var thotpod = (function () {
         var activeItem = null,
             prevActive = null;
 
-        angular.extend(this, {
+        _.extend(this, {
             sortBy: {}
         }, opts);
 
@@ -223,7 +265,7 @@ var thotpod = (function () {
         };
 
         this.setActive = function (id) {
-            if (angular.isObject(id)) {
+            if (_.isObject(id)) {
                 prevActive = activeItem;
                 activeItem = id;
                 activeItem.isActive = true;

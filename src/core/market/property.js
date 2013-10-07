@@ -63,6 +63,7 @@ angular.module('rescour.property', [])
                 this.attributes.range.daysOnMarket = Math.ceil(Math.abs(Date.now() - (this.attributes.range.datePosted*1000)) / (1000 * 3600 * 24));
                 this.attributes.range.latitude = data.address.latitude || 'NA';
                 this.attributes.range.longitude = data.address.longitude || 'NA';
+                this.notes = this.hasComments || this.hasFinances;
             };
 
             Property.$dimensions  = {
@@ -223,6 +224,8 @@ angular.module('rescour.property', [])
                     this.details.comments = [newComment];
                 }
 
+                this.notes = true;
+
                 return newComment;
             };
 
@@ -244,6 +247,8 @@ angular.module('rescour.property', [])
                 } else {
                     this.details.finances = [newFinance];
                 }
+
+                this.notes = true;
 
                 return newFinance;
             };

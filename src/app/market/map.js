@@ -4340,6 +4340,7 @@ angular.module('rescour.app')
 
                     map.on('moveend', moveEventHandler);
                     map.on('popupopen', function () {
+                        console.log("sup");
                         isPopupOpen = true;
                     });
 
@@ -4371,7 +4372,7 @@ angular.module('rescour.app')
 
                             map.on('moveend', moveEventHandler);
                             markers.zoomToShowLayer(item.marker, function () {
-                                item.marker.bindPopup(popupTemplate(item), {closeButton: false, minWidth: 325}).openPopup();
+                                activeMarker = item.marker.bindPopup(popupTemplate(item), {closeButton: false, minWidth: 325}).openPopup();
                             });
                         }
                     });

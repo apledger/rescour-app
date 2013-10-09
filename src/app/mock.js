@@ -9,7 +9,7 @@
 angular.module('rescour.mock', ['rescour.app', 'ngMockE2E'])
 // Dummy Calls
     .run(['$httpBackend', '$timeout', function ($httpBackend, $timeout) {
-        var NUM_ITEMS = 500;
+        var NUM_ITEMS = 1000;
 
         var saved = {};
 
@@ -207,7 +207,7 @@ angular.module('rescour.mock', ['rescour.app', 'ngMockE2E'])
 
         var items = {},
             itemDetails = {}
-            news = [];
+            news = {};
 
         function randomDate(start, end) {
             return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()))
@@ -260,23 +260,43 @@ angular.module('rescour.mock', ['rescour.app', 'ngMockE2E'])
                 }
             };
 
-            news.push( {
-                title: 'News Article ' + k,
-                date: randomDate(new Date(2013, 0, 1), new Date()).getTime() / 1000,
+            var randomNewsCity = regionMap[parseInt((Math.random() * regionMap.length), 10)];
+
+            news[k] = {
+                title: 'News: Something happened here!',
+                date: randomDate(new Date(2013, 0, 1), new Date()).getTime(),
                 address: {
                     street1: "152 Dummy St.",
                     street2: "",
                     zip: "30142",
                     state: "GA",
                     city: "Atlanta",
-                    latitude: Math.random() * 0.151 + randomCity.location[0] - 0.075,
-                    longitude: Math.random() * 0.23 + randomCity.location[1] - 0.115
+                    latitude: Math.random() * 0.151 + randomNewsCity.location[0] - 0.075,
+                    longitude: Math.random() * 0.23 + randomNewsCity.location[1] - 0.115
                 },
                 body: "Body of News Article " + k,
-                link: "www.businessinsider.com",
+                url: "www.businessinsider.com",
                 category: "Transactions",
                 id: k
-            } )
+            }
+
+//            news.push( {
+//                title: 'News Article ' + k,
+//                date: randomDate(new Date(2013, 0, 1), new Date()).getTime() / 1000,
+//                address: {
+//                    street1: "152 Dummy St.",
+//                    street2: "",
+//                    zip: "30142",
+//                    state: "GA",
+//                    city: "Atlanta",
+//                    latitude: Math.random() * 0.151 + randomCity.location[0] - 0.075,
+//                    longitude: Math.random() * 0.23 + randomCity.location[1] - 0.115
+//                },
+//                body: "Body of News Article " + k,
+//                link: "www.businessinsider.com",
+//                category: "Transactions",
+//                id: k
+//            } )
 
             itemDetails[k] = {
                 comments: [],
@@ -509,15 +529,19 @@ angular.module('rescour.mock', ['rescour.app', 'ngMockE2E'])
             return [200, { status: "success" }, {}];
         });
 
-        $httpBackend.whenGET(/\/news\/(\?limit=)[0-9]+&(offset=)[0-9]+/).respond(function (method, url, data, headers) {
-            var limit = parseInt(url.split("limit=")[1].split("&")[0]);
-            var offset = parseInt(url.split("offset=")[1].split("&")[0]) + 1;
-            
-            if (limit + offset > news.length) {
-                return [200, news.slice(offset, news.length)]
-            } else {
-                return [200, news.slice(offset, offset + limit)]
-            }
+//        $httpBackend.whenGET(/\/news\/(\?limit=)[0-9]+&(offset=)[0-9]+/).respond(function (method, url, data, headers) {
+//            var limit = parseInt(url.split("limit=")[1].split("&")[0]);
+//            var offset = parseInt(url.split("offset=")[1].split("&")[0]) + 1;
+//
+//            if (limit + offset > news.length) {
+//                return [200, news.slice(offset, news.length)]
+//            } else {
+//                return [200, news.slice(offset, offset + limit)]
+//            }
+//        });
+
+        $httpBackend.whenGET(/\/news\//).respond(function (method, url, data, headers) {
+            return [200, {resources: news}, {}];
         });
 
         $httpBackend.whenGET(/\/news\/(\?limit=)[0-9]+/).respond(function (method, url, data, headers) {

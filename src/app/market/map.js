@@ -4340,7 +4340,6 @@ angular.module('rescour.app')
 
                     map.on('moveend', moveEventHandler);
                     map.on('popupopen', function () {
-                        console.log("sup");
                         isPopupOpen = true;
                     });
 

@@ -1877,6 +1877,46 @@ angular.module('rescour.mock', ['rescour.app', 'ngMockE2E'])
                 city: 'Washington DC',
                 region: 'District of Columbia',
                 location: [38.8900, -77.0300]
+            },
+            {
+                city: 'Newark',
+                region: 'Delaware',
+                location: [39.6792, -75.7581]
+            },
+            {
+                city: 'Baltimore',
+                region: 'Maryland',
+                location: [39.2833, -76.6167]
+            },
+            {
+                city: 'McLean',
+                region: 'Virginia',
+                location: [38.9283, -77.1753]
+            },
+            {
+                city: 'Richmond',
+                region: 'Virginia',
+                location: [37.5410, -77.4329]
+            },
+            {
+                city: 'Louisville',
+                region: 'Kentucky',
+                location: [38.2500, -85.7667]
+            },
+            {
+                city: 'Little Rock',
+                region: 'Arkansas',
+                location: [34.7361, -92.3311]
+            },
+            {
+                city: 'Jackson',
+                region: 'Mississippi',
+                location: [32.2989, -90.1847]
+            },
+            {
+                city: 'New Orleans',
+                region: 'Louisiana',
+                location: [29.9667, 90.0500]
             }
         ];
         var brokerMap = [
@@ -2019,7 +2059,7 @@ angular.module('rescour.mock', ['rescour.app', 'ngMockE2E'])
 
             items[k] = {
                 id: k.toString(),
-                thumbnail: "/img/apt" + parseInt((Math.random() * 10), 10) + ".jpg",
+                thumbnail: "/img/apt" + parseInt((Math.random() * 20), 10) + ".jpg",
                 flyer: "http://www.realtyjuggler.com/FlyersSummary",
                 title: randomDetails.title,
                 description: randomDetails.description,
@@ -2097,12 +2137,31 @@ angular.module('rescour.mock', ['rescour.app', 'ngMockE2E'])
                 ],
                 images: [
                     {
-                        link: '/img/apartment-details-1.jpg',
-                        caption: 'This is the first picture'
+                        link: '/img/apartment-details-1.jpg'
                     },
                     {
-                        link: '/img/apartment-details-2.jpg',
-                        caption: 'This is the second picture'
+                        link: '/img/apartment-details-2.jpg'
+                    },
+                    {
+                        link: '/img/apartment-details-3.jpg'
+                    },
+                    {
+                        link: '/img/apartment-details-4.jpg'
+                    },
+                    {
+                        link: '/img/apartment-details-5.jpg'
+                    },
+                    {
+                        link: '/img/apartment-details-6.jpg'
+                    },
+                    {
+                        link: '/img/apartment-details-7.jpg'
+                    },
+                    {
+                        link: '/img/apartment-details-8.jpg'
+                    },
+                    {
+                        link: '/img/apartment-details-9.jpg'
                     }
                 ],
                 unitMix: [

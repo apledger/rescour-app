@@ -14,12 +14,6 @@
             <strong>{{item.title}}</strong>
         </label></div>
     </form>
-
-
-    <div ui-handsontable minSpareRows="0" datarows="item in reportItems"
-         settings="{manualColumnResize: true, colWidths: [120, 120]}">
-        <datacolumn value="item.title" title="'Title'"></datacolumn>
-    </div>
 </div>
 <div class="modal-footer">
     <button class="btn" ng-click="close()">Close</button>

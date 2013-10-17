@@ -509,7 +509,6 @@ angular.module('rescour.app')
 
             $scope.reportDialog = $dialog.dialog({
                 backdrop: true,
-                dialogClass: 'report-modal',
                 keyboard: true,
                 backdropClick: true,
                 dialogFade: true,

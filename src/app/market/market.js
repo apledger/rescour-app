@@ -449,6 +449,17 @@ angular.module('rescour.app')
                 $scope.selectedSearch = search;
                 $scope.selectedSearch.isSelected = true;
             };
+
+            $scope.deleteSearch = function (search, e) {
+                e.stopPropagation();
+                console.log($scope.savedSearches);
+                search.$delete().then(function () {
+                    $scope.savedSearches = _.reject($scope.savedSearches, function (val) {
+                        return angular.equals(val, search);
+                    });
+                    console.log($scope.savedSearches);
+                });
+            }
         }])
 
     .controller('SaveSearchDialogController', ['$scope', 'dialog', 'dimensions',

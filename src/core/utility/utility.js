@@ -140,50 +140,43 @@ angular.module('rescour.utility', [])
             });
         };
     })
-    .directive('spinner', function () {
+    .directive('spinner', ['$parse', function ($parse) {
         return {
             restrict: 'AC',
             link: function (scope, element, attrs) {
-                var opts = {
-                        small: {
-                            lines: 9, // The number of lines to draw
-                            length: 0, // The length of each line
+                var defaults = {
+                        lines: 9, // The number of lines to draw
+                        length: 0, // The length of each line
+                        corners: 1, // Corner roundness (0..1)
+                        rotate: 37, // The rotation offset
+                        direction: 1, // 1: clockwise, -1: counterclockwise
+                        color: '#555', // #rgb or #rrggbb
+                        speed: 1.0, // Rounds per second
+                        trail: 85, // Afterglow percentage
+                        shadow: false, // Whether to render a shadow
+                        hwaccel: true, // Whether to use hardware acceleration
+                        className: 'spinner', // The CSS class to assign to the spinner
+                        zIndex: 2e9, // The z-index (defaults to 2000000000)
+                        top: 'auto', // Top position relative to parent in px
+                        left: 'auto' // Left position relative to parent in px
+                    },
+                    opts = {
+                        xs: angular.extend({
+                            width: 3, // The line thickness
+                            radius: 6 // The radius of the inner circle
+                        }, defaults),
+                        small: angular.extend({
                             width: 4, // The line thickness
-                            radius: 8, // The radius of the inner circle
-                            corners: 1, // Corner roundness (0..1)
-                            rotate: 37, // The rotation offset
-                            direction: 1, // 1: clockwise, -1: counterclockwise
-                            color: '#555', // #rgb or #rrggbb
-                            speed: 1.0, // Rounds per second
-                            trail: 85, // Afterglow percentage
-                            shadow: false, // Whether to render a shadow
-                            hwaccel: true, // Whether to use hardware acceleration
-                            className: 'spinner', // The CSS class to assign to the spinner
-                            zIndex: 2e9, // The z-index (defaults to 2000000000)
-                            top: 'auto', // Top position relative to parent in px
-                            left: 'auto' // Left position relative to parent in px
-                        },
-                        large: {
-                            lines: 9, // The number of lines to draw
-                            length: 0, // The length of each line
+                            radius: 8 // The radius of the inner circle
+                        }, defaults),
+                        large: angular.extend({
                             width: 12, // The line thickness
-                            radius: 24, // The radius of the inner circle
-                            corners: 1, // Corner roundness (0..1)
-                            rotate: 37, // The rotation offset
-                            direction: 1, // 1: clockwise, -1: counterclockwise
-                            color: '#555', // #rgb or #rrggbb
-                            speed: 1.0, // Rounds per second
-                            trail: 85, // Afterglow percentage
-                            shadow: false, // Whether to render a shadow
-                            hwaccel: true, // Whether to use hardware acceleration
-                            className: 'spinner', // The CSS class to assign to the spinner
-                            zIndex: 2e9, // The z-index (defaults to 2000000000)
-                            top: 'auto', // Top position relative to parent in px
-                            left: 'auto' // Left position relative to parent in px
-                        }
+                            radius: 24 // The radius of the inner circle
+                        }, defaults)
                     },
                     ele = element[0],
-                    spinner = new Spinner(opts[attrs.spinnerSize || 'small']);
+                    userOpts = scope.$eval(attrs.spinnerOptions) || {},
+                    spinner = new Spinner(angular.extend({}, opts[attrs.spinnerSize || 'small'], userOpts));
 
                 scope.$watch(function () {
                     if (scope.$eval(attrs.spinner)) {
@@ -194,7 +187,7 @@ angular.module('rescour.utility', [])
                 });
             }
         };
-    })
+    }])
     .directive('chunk', ['$filter', '$parse', function ($filter, $parse) {
         return {
             link: function (scope, element, attrs) {

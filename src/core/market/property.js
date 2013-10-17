@@ -149,7 +149,6 @@ angular.module('rescour.property', [])
                     locals.finances = response.data.finances;
                     self.details = angular.extend({}, response.data);
 
-
                     self.details.$spinner = false;
                     try {
                         // Initialize Comments
@@ -472,22 +471,24 @@ angular.module('rescour.property', [])
                 return defer.promise;
             };
 
-            SavedSearch.prototype.$save = function () {
+            SavedSearch.prototype.$delete = function () {
                 var defer = $q.defer(),
                     self = this;
                 if (self.id) {
-                    $http.put($_api.path + '/search/' + self.id, JSON.stringify({savedSearch: JSON.stringify(self)}), $_api.config).then(function (response) {
-                        defer.resolve(response.data);
-                    }, function (response) {
-                        defer.reject(response.data);
-                    });
-                } else {
-                    $http.post($_api.path + '/search/', JSON.stringify({savedSearch: JSON.stringify(self)}), $_api.config).then(function (response) {
-                        self.id = response.data.id;
-                        defer.resolve(response.data);
-                    }, function (response) {
-                        defer.reject(response.data);
-                    });
+                    $http(
+                        angular.extend({
+                            method: 'DELETE',
+                            url: $_api.path + '/search/' + self.id,
+                            transformRequest: function (data) {
+                                self.$spinner = true;
+                                return data;
+                            }}, $_api.config))
+                        .then(function (response) {
+                            self.$spinner = false;
+                            defer.resolve(response);
+                        }, function (response) {
+                            defer.reject(response);
+                        });
                 }
                 return defer.promise;
             };

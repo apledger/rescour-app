@@ -129,9 +129,8 @@
     }
 
     li {
-      padding: 5px 15px;
+      padding: 5px 25px 5px 15px;
       word-wrap: break-word;
-
       a {
         text-decoration: none;
         color: $black;
@@ -157,9 +156,40 @@
         }
       }
 
+      .input-dropdown-item-action {
+        position: absolute;
+        top: 5px;
+        right: 0;
+        opacity: 0;
+        width: 20px;
+
+        i {
+          padding: 5px 0 5px 5px;
+        }
+
+        &:hover {
+          background: $red;
+
+          i {
+            color: $white;
+          }
+        }
+
+        &:active {
+          background: darken($red, 10%);
+        }
+      }
+
       &:hover {
         background: $blue;
         cursor: pointer;
+
+        .input-dropdown-item-action {
+          opacity: 1;
+          right: 5px;
+          //@include translate3d(-5px, 0, 0);
+          @include transition(all 0.2s ease);
+        }
 
         a, i {
           color: $white;

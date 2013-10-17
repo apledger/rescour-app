@@ -40,12 +40,11 @@
                         <div class="divider"></div>
                         <li ng-repeat="search in savedSearches | orderBy: 'title'"
                             ng-class="{'active': search.isSelected}"
-                            spinner="search.$spinner" spinner-size="xs" spinner-options="{'color': '#FFF'}"
                             ng-click="loadSearch(search)">
                             <a href="javascript:">{{search.title}}</a>
 
-                            <div class="input-dropdown-item-action" ng-click="deleteSearch(search, $event)" spinner="true" spinner-size="xs" spinner-options="{'color': '#FFF', 'top': '5px'}">
-                                <i class="icon-remove" ng-hide="true"></i>
+                            <div class="input-dropdown-item-action" ng-click="deleteSearch(search, $event)" spinner="search.$spinner" spinner-size="xs" spinner-options="{'color': '#FFF', 'top': '0px'}">
+                                <i class="icon-remove" ng-hide="search.$spinner"></i>
                             </div>
                         </li>
                     </ul>

@@ -452,12 +452,13 @@ angular.module('rescour.app')
 
             $scope.deleteSearch = function (search, e) {
                 e.stopPropagation();
-                console.log($scope.savedSearches);
                 search.$delete().then(function () {
                     $scope.savedSearches = _.reject($scope.savedSearches, function (val) {
                         return angular.equals(val, search);
                     });
-                    console.log($scope.savedSearches);
+                    if ($scope.attributes.id === search.id) {
+                        $scope.attributes.id = undefined;
+                    }
                 });
             }
         }])

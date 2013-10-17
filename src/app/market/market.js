@@ -439,10 +439,12 @@ angular.module('rescour.app')
             };
 
             $scope.loadSearch = function (search) {
+                if ($scope.selectedSearch) {
+                    $scope.selectedSearch.isSelected = false;
+                }
                 search = search || {
                     title: 'Untitled Search'
                 };
-
                 $scope.load(search);
                 $scope.selectedSearch = search;
                 $scope.selectedSearch.isSelected = true;
@@ -495,6 +497,7 @@ angular.module('rescour.app')
 
             $scope.reportDialog = $dialog.dialog({
                 backdrop: true,
+                dialogClass: 'report-modal',
                 keyboard: true,
                 backdropClick: true,
                 dialogFade: true,
@@ -517,11 +520,48 @@ angular.module('rescour.app')
             $scope.newComment = {};
             $scope.panes = panes;
             $scope.newEmail = {};
+            $scope.finance = Finance;
             $scope.valueFormats = Finance.valueFormats;
             $scope.financeFields = Finance.fields;
             $scope.contactAlerts = [];
             $scope.current = activeItem;
             $scope.currentImages = $scope.current.getImages();
+            $scope.currentFinances = activeItem.details.finances;
+            $scope.testItems = [
+                {
+                    id: 1,
+                    name: {
+                        first: "Marcin",
+                        last: "Warpechowski"
+                    },
+                    address: "Marienplatz 11, Munich",
+                    isActive: "Yes",
+                    Product: {
+                        Description: "Big Mac",
+                        Options: [
+                            {Description: "Big Mac"},
+                            {Description: "Big Mac & Co"}
+                        ]
+                    }
+                },
+                {
+                    id: 2,
+                    name: {
+                        first: "Alan",
+                        last: "Pledger"
+                    },
+                    address: "123",
+                    isActive: "Yes",
+                    Product: {
+                        Description: "Big Mac",
+                        Options: [
+                            {Description: "Big Mac"},
+                            {Description: "Big Mac & Co"}
+                        ]
+                    }
+                }
+            ];
+            console.log($scope.current);
 
             $scope.close = function () {
                 $location.search('id', null).hash(null);

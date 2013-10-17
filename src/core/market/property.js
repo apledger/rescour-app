@@ -60,13 +60,13 @@ angular.module('rescour.property', [])
                         self.attributes.range[key] = parseInt(self.attributes.range[key], 10);
                     }
                 });
-                this.attributes.range.daysOnMarket = Math.ceil(Math.abs(Date.now() - (this.attributes.range.datePosted*1000)) / (1000 * 3600 * 24));
+                this.attributes.range.daysOnMarket = Math.ceil(Math.abs(Date.now() - (this.attributes.range.datePosted * 1000)) / (1000 * 3600 * 24));
                 this.attributes.range.latitude = data.address.latitude || 'NA';
                 this.attributes.range.longitude = data.address.longitude || 'NA';
                 this.notes = this.hasComments || this.hasFinances;
             };
 
-            Property.$dimensions  = {
+            Property.$dimensions = {
                 discreet: {
                     'broker': {
                         title: 'Broker',
@@ -138,68 +138,56 @@ angular.module('rescour.property', [])
                             return data;
                         }
                     }, $_api.config),
-                    locals = {
-                        defaultFinances: [
-                            {
-                                name: 'Valuation',
-                                valueFormat: 'currency'
-                            },
-                            {
-                                name: 'Cap Rate',
-                                valueFormat: 'percentage'},
-                            {
-                                name: 'IRR',
-                                valueFormat: 'percentage'
-                            },
-                            {
-                                name: 'Price / Unit',
-                                valueFormat: 'currency'
-                            }
-                        ]
-                    };
+                    locals = {};
+
+                locals.defaultFinances = angular.extend([], Finance.defaults);
 
                 self.details = self.details || {};
 
                 $http.get($_api.path + '/properties/' + this.id, config).then(function (response) {
-                    angular.copy(response.data, self.details);
+                    locals.comments = response.data.comments;
+                    locals.finances = response.data.finances;
+                    self.details = angular.extend({}, response.data);
+
+
                     self.details.$spinner = false;
                     try {
-                        if (angular.isArray(self.details.comments)) {
-                            locals.comments = self.details.comments;
+                        // Initialize Comments
+                        if (angular.isArray(locals.comments)) {
                             self.details.comments = [];
-                            for (var i = 0, len = locals.comments.length; i < len; i++) {
+                            for (var i = 0; i < locals.comments.length; i++) {
                                 self.addComment(locals.comments[i]);
                             }
                         } else {
-                            throw new Error("Comments are not an array");
+                            throw new Error("Comments were not received as Array");
                         }
 
-                        if (angular.isArray(self.details.finances)) {
-                            locals.finances = self.details.finances;
+                        // Initialize Finances
+                        if (angular.isArray(locals.finances)) {
                             self.details.finances = [];
-                            for (var i = 0, len = locals.defaultFinances.length; i < len; i++) {
-                                var _finance = _.find(locals.finances, function (val) {
-                                    return val.name === locals.defaultFinances[i].name;
-                                });
-                                // If can't find default value in current finances, create it
-                                if (!_finance) {
-                                    self.addFinance(locals.defaultFinances[i]);
-                                } else { // Otherwise it's found, just add it
-                                    self.addFinance(_finance);
-                                    // Remove it from locals after adding
-                                    locals.finances = _.reject(locals.finances, function (val) {
-                                        return angular.equals(val, _finance);
-                                    });
-                                }
-                            }
-
-                            // Loop through remaining and add them
-                            for (var i = 0, len = locals.finances.length; i < len; i++) {
-                                self.addFinance(locals.finances[i]);
-                            }
                         } else {
-                            throw new Error("Finances are not an array");
+                            throw new Error("Comments were not received as Array");
                         }
+
+                        (function () {
+                            for (var i = 0; i < Finance.defaults.length; i++) {
+                                var defaultFinanceName = Finance.defaults[i],
+                                    finance = _.findWhere(locals.finances, {name: defaultFinanceName}) || {name: defaultFinanceName};
+
+                                // If a default finance was found in the locals, add to self, remove from locals
+                                self.addFinance(finance);
+                                locals.finances = _.reject(locals.finances, function (val) {
+                                    return angular.equals(finance, val);
+                                });
+                            }
+                        })();
+
+                        (function () {
+                            for (var i = 0; i < locals.finances.length; i++) {
+                                self.addFinance(locals.finances[i]);
+                                Finance.defaults.push(locals.name);
+                            }
+                        })();
                         defer.resolve(self);
                     } catch (e) {
                         defer.reject(response);
@@ -608,6 +596,8 @@ angular.module('rescour.property', [])
                 this.valueFormat = data.valueFormat || 'currency';
                 this.value = data.value ? parseFloat(data.value) : undefined;
             };
+
+            Finance.defaults = ['Valuation', 'Cap Rate', 'IRR', 'Price / Unit'];
 
             Finance.valueFormats = [
                 {icon: '$', valueFormat: 'currency', selected: true},

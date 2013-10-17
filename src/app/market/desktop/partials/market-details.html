@@ -4,7 +4,8 @@
     <h4>{{current.getAddress()}}</h4>
 </div>
 <div tabs ng-cloak>
-<div pane class="container-fluid" select-fn="selectPane(panes[0])" heading="{{panes[0].heading}}" active="panes[0].active">
+<div pane class="container-fluid" select-fn="selectPane(panes[0])" heading="{{panes[0].heading}}"
+     active="panes[0].active">
     <div class="row-fluid">
         <div class="span12">
             <table class="table table-bordered">
@@ -129,6 +130,7 @@
 
             <blockquote ng-repeat="comp in current.details.comps">
                 <p ng-show="comp.title"><strong>{{comp.title}}</strong></p>
+
                 <p ng-show="comp.body">{{comp.body}}</p>
                 <small><cite><a ng-href="{{comp.link}}" target="_blank">View Source</a></cite></small>
             </blockquote>
@@ -198,11 +200,11 @@
             <div img-viewer images="currentImages"></div>
 
             <!--<div carousel no-transition="true">-->
-                <!--<div slide ng-repeat="slide in current.getImages()" active="slide.active">-->
-                    <!--<img ng-src="{{slide.link}}" style="margin:auto;">-->
+            <!--<div slide ng-repeat="slide in current.getImages()" active="slide.active">-->
+            <!--<img ng-src="{{slide.link}}" style="margin:auto;">-->
 
-                    <!--<div class="counter">{{$index + 1}} of {{current.getImages().length}}</div>-->
-                <!--</div>-->
+            <!--<div class="counter">{{$index + 1}} of {{current.getImages().length}}</div>-->
+            <!--</div>-->
             <!--</div>-->
         </div>
         <div class="span8 alert alert-info" ng-show="current.getImages().length == 0">
@@ -301,4 +303,5 @@
         </div>
     </div>
 </div>
+
 </div>

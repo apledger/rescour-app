@@ -47,6 +47,12 @@ module.exports = function (grunt) {
                 ],
                 tasks: ['copy:core']
             },
+            components: {
+                files: [
+                    '<%= yeoman.app %>/components/angular-ui-handsontable/**'
+                ],
+                tasks: ['copy:components']
+            },
             img: {
                 files: [
                     '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
@@ -181,6 +187,17 @@ module.exports = function (grunt) {
                     dest: '<%= yeoman.stage %>',
                     src: [
                         'core/**/*'
+                    ]
+                }]
+            },
+            components: {
+                files: [{
+                    expand: true,
+                    dot: true,
+                    cwd: '<%= yeoman.app %>',
+                    dest: '<%= yeoman.stage %>',
+                    src: [
+                        'components/angular-ui-handsontable/**'
                     ]
                 }]
             },

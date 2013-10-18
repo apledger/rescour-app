@@ -125,7 +125,7 @@ angular.module('rescour.app')
                 ];
                 $scope.selectSubview('subscription');
             } else if ($routeParams.status === 'welcome') {
-                $scope.activePlan = $scope.user.billing.subscription.plan.name;
+                $scope.activePlan = $scope.user.billing.subscription ? $scope.user.billing.subscription.plan.name : 'One Seat License';
                 $scope.accountAlerts = [
                     {
                         type: 'success',
@@ -136,7 +136,7 @@ angular.module('rescour.app')
                 $scope.selectSubview('subscription');
 
             } else {
-                $scope.activePlan = $scope.user.billing.subscription.plan.name;
+                $scope.activePlan = $scope.user.billing.subscription ? $scope.user.billing.subscription.plan.name : 'One Seat License';
                 $scope.selectSubview('accountSettings');
             }
 

@@ -19,8 +19,6 @@ angular.module('rescour.app',
             'rescour.market',
             'rescour.browserDetect',
             'rescour.powers',
-            'rescour.powers',
-            'uiHandsontable',
             'ahTouch'
         ])
     .config(['$routeProvider', '$locationProvider', '$httpProvider', 'BrowserDetectProvider',

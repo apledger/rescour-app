@@ -20,7 +20,7 @@ angular.module('rescour.app',
             'rescour.browserDetect',
             'rescour.powers',
             'rescour.powers',
-            'uiHandsontable',
+            'ngGrid',
             'ahTouch'
         ])
     .config(['$routeProvider', '$locationProvider', '$httpProvider', 'BrowserDetectProvider',

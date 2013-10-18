@@ -10,7 +10,7 @@ angular.module('rescour.app')
     .config(['$routeProvider', 'BrowserDetectProvider',
         function ($routeProvider, BrowserDetectProvider) {
             $routeProvider
-                .when('/market', {
+                .when('/market/', {
                     templateUrl: '/app/market/' + BrowserDetectProvider.platform + '/views/market.html?' + Date.now(),
 //                    templateUrl: '/app/market/tablet/views/market.html?' + Date.now(),
                     controller: 'MarketController',
@@ -44,19 +44,50 @@ angular.module('rescour.app')
                                 defer.reject(response);
                             });
                             return defer.promise;
+                        },
+                        fetchTemplates: function ($templateCache, MarketViews, $http, $q) {
+                            var mapDefer = $q.defer(),
+                                editorDefer = $q.defer(),
+                                promises = [];
+
+                            $http.get(MarketViews.mapListRawPath).then(function (response) {
+                                $templateCache.put('map-list.html', response.data);
+                                mapDefer.resolve();
+                            });
+
+                            $http.get(MarketViews.editorListRawPath).then(function (response) {
+                                $templateCache.put('editor-list.html', response.data);
+                                editorDefer.resolve();
+                            });
+
+                            return $q.all(promises);
                         }
                     }
                 });
         }])
-    .controller('MarketController', ['$scope', '$timeout', '$routeParams', '$location', 'BrowserDetect', 'User', '$dialog', 'PropertyMarket', 'Reports', 'SavedSearch', 'NewsZoomThreshold',
-        function ($scope, $timeout, $routeParams, $location, BrowserDetect, User, $dialog, PropertyMarket, Reports, SavedSearch, NewsZoomThreshold) {
+    .value('MarketViews', {
+        editorListRawPath: '/app/market/desktop/views/editor-list.html?' + Date.now(),
+        mapListRawPath: '/app/market/desktop/views/map-list.html?' + Date.now(),
+        editorList: 'editor-list.html',
+        mapList: 'map-list.html'
+    })
+    .controller('MarketController', ['$scope', '$timeout', '$routeParams', '$location', 'BrowserDetect', 'User', '$dialog', 'PropertyMarket', 'Reports', 'SavedSearch', 'NewsZoomThreshold', 'MarketViews',
+        function ($scope, $timeout, $routeParams, $location, BrowserDetect, User, $dialog, PropertyMarket, Reports, SavedSearch, NewsZoomThreshold, MarketViews) {
             $scope.items = PropertyMarket.visibleItems;
+            $scope.marketListViewPath = MarketViews.editorList;
             $scope.attributes = PropertyMarket.getDimensions();
             $scope.toggle = 'all';
             $scope.getActive = PropertyMarket.getActive;
             $scope.browser = BrowserDetect;
             $scope.searchText = {};
             $scope.sortBy = {};
+            $scope.editorOptions = {
+                data: [{name: "Moroni", age: 50},
+                    {name: "Tiancum", age: 43},
+                    {name: "Jacob", age: 27},
+                    {name: "Nephi", age: 29},
+                    {name: "Enos", age: 34}]
+            };
             $scope.mapData = {
                 isNewsDisabled: function () {
                     return this.zoom < NewsZoomThreshold
@@ -311,6 +342,39 @@ angular.module('rescour.app')
                 }
             };
 
+            $scope.reportDialog = $dialog.dialog({
+                backdrop: true,
+                keyboard: true,
+                backdropClick: true,
+                dialogFade: true,
+                backdropFade: true,
+                templateUrl: '/app/market/' + BrowserDetect.platform + '/partials/reports-dialog.html?' + Date.now(),
+                controller: "ReportsDialogController"
+            });
+
+            $scope.reportPower = {
+                icon: 'icon-download-alt',
+                tooltip: {
+                    text: 'Editor View',
+                    placement: 'bottom'
+                },
+                action: function () {
+                    // filteredItems set inside the HTML
+//                    Reports.setItems($scope.filteredItems);
+//                    $scope.reportDialog.open();
+                    $scope.reportPower.isSelected = !$scope.reportPower.isSelected;
+                    if ($scope.reportPower.isSelected) {
+                        $scope.marketListViewPath = MarketViews.editorList;
+                        this.tooltip.text = 'Map View';
+                    } else {
+                        $scope.marketListViewPath = MarketViews.mapList;
+                        this.tooltip.text = 'Editor View';
+                    }
+
+                    $scope.$broadcast('destroyTooltips');
+                }
+            };
+
             $scope.render = function () {
                 $scope.items = PropertyMarket.apply();
                 PropertyMarket.predict();
@@ -369,8 +433,6 @@ angular.module('rescour.app')
                     return object.weight;
                 };
             };
-
-
 
             $scope.openSaveDialog = function () {
                 // If its a new search open the dialog
@@ -475,8 +537,8 @@ angular.module('rescour.app')
                 dialog.close($scope.searchSettings);
             };
         }])
-    .controller("ListController", ['$scope', '$q', '$dialog', 'BrowserDetect', 'Reports',
-        function ($scope, $q, $dialog, BrowserDetect, Reports) {
+    .controller("ListController", ['$scope', '$q', '$dialog', 'BrowserDetect', 'Reports', '$location', 'MarketViews',
+        function ($scope, $q, $dialog, BrowserDetect, Reports, $location, MarketViews) {
             $scope.sortBy = {
                 predicate: '',
                 reverse: false
@@ -507,24 +569,7 @@ angular.module('rescour.app')
                 item.toggleHidden();
             };
 
-            $scope.reportDialog = $dialog.dialog({
-                backdrop: true,
-                keyboard: true,
-                backdropClick: true,
-                dialogFade: true,
-                backdropFade: true,
-                templateUrl: '/app/market/' + BrowserDetect.platform + '/partials/reports-dialog.html?' + Date.now(),
-                controller: "ReportsDialogController"
-            });
 
-            $scope.reportPower = {
-                icon: 'icon-download-alt',
-                action: function () {
-                    // filteredItems set inside the HTML
-                    Reports.setItems($scope.filteredItems);
-                    $scope.reportDialog.open();
-                }
-            };
         }])
     .controller("DetailsController", ['$scope', '$http', '$_api', '$timeout', 'activeItem', '$location', 'Finance', 'panes',
         function ($scope, $http, $_api, $timeout, activeItem, $location, Finance, panes) {
@@ -877,4 +922,16 @@ angular.module('rescour.app')
                 setupSlider();
             }
         };
-    });
+    })
+    .controller('EditorController', ['$scope',
+        function ($scope) {
+            $scope.editorOptions = {
+                data: [{name: "Moroni", age: 50},
+                    {name: "Tiancum", age: 43},
+                    {name: "Jacob", age: 27},
+                    {name: "Nephi", age: 29},
+                    {name: "Enos", age: 34}]
+            };
+
+            console.log($scope.editorOptions);
+        }]);

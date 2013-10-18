@@ -30,6 +30,14 @@ $gutterWidth: 15px;
   @include box-shadow(#{0 0 2px rgba(0,0,0,0.3), 0 3px 5px rgba(0,0,0,0.2)});
 }
 
+@function rs-darken($baseColor) {
+  @return adjust-color($baseColor, $hue: 14, $saturation: 12, $lightness: -10);
+}
+
+@function rs-border-darken($baseColor) {
+  @return adjust-color($baseColor, $hue: 14, $saturation: 40, $lightness: -18);
+}
+
 @mixin rescourTabs {
 
   .tabbable {

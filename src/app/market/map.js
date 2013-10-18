@@ -4420,8 +4420,10 @@ angular.module('rescour.app')
                         }
                     });
 
-                    initGeoJsonLayer();
-                    initMarkers();
+//                    scope.$on('Initialize Map', function (e) {
+//                        initGeoJsonLayer();
+//                        initMarkers();
+//                    });
                 }
             };
         }]);

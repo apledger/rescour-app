@@ -1,0 +1,118 @@
+<!--LIST BEGIN-->
+<div class="market-list-container" ng-controller="ListController">
+    <div class="powers">
+        <div power="reportPower" power-tooltip="Download Report" power-tooltip-placement="bottom"></div>
+        <div power="sortPower" power-tooltip="Sort" power-tooltip-placement="bottom"></div>
+        <div power="showPower" power-tooltip="Show" power-tooltip-placement="bottom"></div>
+        <div class="power-search">
+            <input type="text" ng-model="searchText.title"
+                   placeholder="Search">
+        </div>
+    </div>
+
+    <div class="scroll-container"
+         chunk="filteredItems = (items | filter:searchText | limitVisible)">
+        <!--chunk="filteredItems = (items | filter:searchText | orderBy:orderNA():sortBy.reverse)">-->
+        <!--Toggle favorites button-->
+        <!--Item boxes display-->
+        <div class="market-list-wrap">
+            <div class="list-status">
+                Displaying <strong>{{filteredItems.length}}</strong> Results
+            </div>
+
+            <div class="item-well"
+                 ng-class="{'item-hidden': item.hidden}"
+                 ng-repeat="item in chunk"
+                 spinner="item.$spinner">
+                <!--Thumbnail preview button-->
+
+                <!--Top bar of item box-->
+                <div class="dimensions clearfix">
+                    <!--Location Button-->
+                    <a href="javascript:" class="btn location {{item.getStatusClass('gradient')}}"
+                       ng-class="{'disabled': !item.location}"
+                       ng-click="panTo(item)" tooltip="{{ item.location && 'Show on Map' || 'Location Unavailable' }}">
+                        <i ng-show="item.location" class="icon-map-marker"></i>
+                        <i ng-show="!item.location" class="icon-exclamation"></i>
+                    </a>
+
+                    <div class="header-container">
+                        <div class="title"><a href="javascript:" ng-click="showItemDetails(item, 'details')">{{item.title
+                            | ellipsis:25}}</a></div>
+                        <div class="ranges">
+                            <span>{{item.getAttribute('numUnits')}}&nbsp;</span>Units.&nbsp;
+                            Built in<span>&nbsp;{{item.getAttribute('yearBuilt')}}</span>.
+                        </div>
+                    </div>
+                </div>
+
+                <a href="javascript:" ng-click="showItemDetails(item, 'pictures')" class="preview"
+                   ng-show="!item.hidden">
+                    <div class="preview-mask"><i class="icon-search"></i></div>
+                    <img ng-src="{{item.thumbnail}}" alt="">
+
+                    <div class="preview-caption" ng-class="item.getStatusClass('solid')">
+                        <h2>{{item.getAttribute('propertyStatus')}}</h2>
+
+                        <p>View Photos</p>
+                    </div>
+                </a>
+
+                <div class="description" collapse="item.hidden">
+                    <div class="text-container">
+                        <p>{{item.description | ellipsis:110}} </p>
+                    </div>
+                </div>
+
+                <div class="footer">
+                    <div class="user-options">
+                        <!--Toggle favorite button-->
+                        <div class="footer-button" tooltip="Add to Favorites" ng-click="toggleFavorites(item)">
+                            <i class="icon-star" ng-class="{'yellow': item.favorites}"></i>
+                        </div>
+
+                        <!--Toggle hidden button-->
+                        <div class="footer-button" tooltip="Hide" ng-click="toggleHidden(item)">
+                            <i class="icon-ban-circle" ng-class="{'red': item.hidden}"></i>
+                        </div>
+
+                        <div class="footer-button" tooltip="Take Notes"
+                             ng-click="showItemDetails(item, 'comments')">
+                            <i class="icon-pencil"></i>
+                        </div>
+
+                        <!--Contact broker button-->
+                        <div class="footer-button" ng-click="showItemDetails(item, 'contact')"
+                             tooltip="Contact Broker">
+                            <i class="icon-envelope"></i>
+
+                            <span>{{item.getAttribute('broker')}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--LIST END-->
+
+<!--Map-->
+<div class="map-container desktop">
+    <div class="powers">
+        <!--<div power="newsPower" tooltip="Display News" tooltip-placement="bottom"></div>-->
+        <div class="power"
+             ng-class="{'disabled': mapData.isNewsDisabled(), 'blue': mapData.newsToggled}"
+             ng-click="displayNews()"
+             tooltip="{{ mapData.newsTooltip() }}"
+             tooltip-placement="bottom">
+            <div class="power-title">
+                <i class="icon-rss"></i>
+            </div>
+        </div>
+        <div power="mapPower"></div>
+    </div>
+
+    <div class="map-wrap">
+        <div map></div>
+    </div>
+</div>

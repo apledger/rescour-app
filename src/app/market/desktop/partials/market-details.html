@@ -66,20 +66,20 @@
                         {{current.getAttribute('propertyType')}}
                     </td>
                 </tr>
-                <tr ng-show="current.details.acres">
+                <tr ng-show="current.acres">
                     <td>
                         <strong>Acres</strong>
                     </td>
                     <td>
-                        {{current.details.acres}}
+                        {{current.acres}}
                     </td>
                 </tr>
-                <tr ng-show="current.details.price">
+                <tr ng-show="current.price">
                     <td>
                         <strong>Price</strong>
                     </td>
                     <td>
-                        {{current.details.price}}
+                        {{current.price}}
                     </td>
                 </tr>
                 <tr>
@@ -87,24 +87,24 @@
                         <strong>Flyer</strong>
                     </td>
                     <td>
-                        <a ng-show="current.details.flyer" target="_blank" ng-href="{{current.details.flyer}}">View</a>
+                        <a ng-show="current.flyer" target="_blank" ng-href="{{current.flyer}}">View</a>
                     </td>
                 </tr>
-                <tr ng-show="current.details.site">
+                <tr ng-show="current.site">
                     <td>
                         <strong>Additional Documentation</strong>
                     </td>
                     <td>
-                        <a ng-show="current.details.site" target="_blank" ng-href="{{current.details.site}}">View</a>
+                        <a ng-show="current.site" target="_blank" ng-href="{{current.site}}">View</a>
                     </td>
                 </tr>
-                <tr ng-show="current.details.portfolio && current.details.portfolio.length > 0">
+                <tr ng-show="current.portfolio && current.portfolio.length > 0">
                     <td>
                         <strong>Portfolio</strong>
                     </td>
                     <td>
                         <ul>
-                            <li ng-repeat="listing in current.details.portfolio">{{listing.title}}</li>
+                            <li ng-repeat="listing in current.portfolio">{{listing.title}}</li>
                         </ul>
                     </td>
                 </tr>
@@ -122,13 +122,13 @@
         </div>
     </div>
 
-    <div class="row-fluid" ng-show="current.details.comps && current.details.comps.length > 0">
+    <div class="row-fluid" ng-show="current.comps && current.comps.length > 0">
         <div class="span12">
             <div class="page-header">
             </div>
             <p class="lead">Comps</p>
 
-            <blockquote ng-repeat="comp in current.details.comps">
+            <blockquote ng-repeat="comp in current.comps">
                 <p ng-show="comp.title"><strong>{{comp.title}}</strong></p>
 
                 <p ng-show="comp.body">{{comp.body}}</p>
@@ -138,7 +138,7 @@
     </div>
 
     <div class="row-fluid">
-        <div class="span12" ng-show="current.details.unitMix">
+        <div class="span12" ng-show="current.unitMix">
             <div class="page-header"></div>
             <p class="lead">Property Unit Mix</p>
             <table class="table table-condensed table-striped">
@@ -152,7 +152,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="mix in current.details.unitMix">
+                <tr ng-repeat="mix in current.unitMix">
                     <td>
                         {{mix.type}}
                     </td>
@@ -176,13 +176,13 @@
     </div>
 
     <div class="row-fluid">
-        <div class="span4" ng-show="current.details.tourDates">
+        <div class="span4" ng-show="current.tourDates">
             <div class="page-header">
             </div>
             <p class="lead">Tour Dates</p>
             <table class="table table-condensed table-striped">
                 <tbody>
-                <tr ng-repeat="tourDate in current.details.tourDates">
+                <tr ng-repeat="tourDate in current.tourDates">
                     <td>
                         {{tourDate.date | date}}
                     </td>
@@ -215,12 +215,12 @@
 
 <div pane class="container-fluid" heading="{{panes[2].heading}}" active="panes[2].active">
     <div alert type="alert.type" fade-after="2000" ng-repeat="alert in contactAlerts">{{alert.msg}}</div>
-    <form class="contact-form" ng-show="current.details.contacts.length > 0">
+    <form class="contact-form" ng-show="current.contacts.length > 0">
         <div class="control-group">
             <div class="control-label">To:</div>
             <div class="controls">
                 <label class="checkbox" ng-class="{'contact-selected': contact.selected}"
-                       ng-repeat="contact in current.details.contacts">
+                       ng-repeat="contact in current.contacts">
                     <input type="checkbox" ng-model="contact.selected">
                     <strong>{{contact.name}}</strong> - <em>{{contact.phone}}</em> - {{contact.email}}
                 </label>
@@ -236,14 +236,14 @@
             <button class="btn" type="submit" ng-click="sendEmail(newEmail)">Send</button>
         </div>
     </form>
-    <div class="alert" ng-show="!current.details.contacts || current.details.contacts.length == 0">
+    <div class="alert" ng-show="!current.contacts || current.contacts.length == 0">
         <strong>Sorry!</strong> We don't
         have any contacts for this listing.
     </div>
 </div>
 
 <div pane class="container-fluid" heading="{{panes[3].heading}}" active="panes[3].active">
-    <div ng-repeat="comment in current.details.comments">
+    <div ng-repeat="comment in current.resources.comments">
         <div class="alert alert-info comment-alert" spinner="comment.$spinner">
             <h5>{{comment.userEmail}} <span>{{comment.timestamp | date}}</span></h5>
 
@@ -271,7 +271,7 @@
         <div class="span12">
             <form novalidate class="form-horizontal">
                 <legend></legend>
-                <div class="control-group" ng-repeat="finance in current.details.finances">
+                <div class="control-group" ng-repeat="finance in current.resources.finances">
                     <a href="javascript:" class="finance-delete" ng-click="deleteFinance(finance)">
                         <i class="icon-remove-sign"></i>
                     </a>

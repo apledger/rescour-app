@@ -4392,7 +4392,7 @@ angular.module('rescour.app')
                             if (visibleNews.hasOwnProperty(newsId)) {
                                 var _news = visibleNews[newsId];
 
-                                var _newsMarker = new L.Marker(new L.LatLng(_news.attributes.range.latitude, _news.attributes.range.longitude), { title: _news.title, icon: newsIcon });
+                                var _newsMarker = new L.Marker(new L.LatLng(_news.latitude, _news.longitude), { title: _news.title, icon: newsIcon });
                                 (function (m, news) {
                                     m.on("mouseover", function (e) {
                                         activeMarker = m.bindPopup(newsPopupTemplate(news), {closeButton: false, minWidth: 350}).openPopup();

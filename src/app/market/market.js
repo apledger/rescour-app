@@ -19,31 +19,27 @@ angular.module('rescour.app')
                         load: function ($q, $_api, $rootScope, Property, PropertyMarket, News, User, NewsMarket, ngProgress) {
                             var propertyDefer = $q.defer(),
                                 newsDefer = $q.defer(),
-                                userDefer = $q.defer(),
-                                loaded = 0;
+                                userDefer = $q.defer();
 
+                            ngProgress.height('4px');
+                            ngProgress.color('#993333');
                             ngProgress.start();
 
                             console.log("starting properties query");
                             Property.query()
                                 .then(function (results) {
                                     ngProgress.set(ngProgress.status() + 10);
-                                    console.log("got properties");
                                     PropertyMarket.initialize(results, Property.$dimensions);
-                                    ngProgress.start();
-                                    console.log("initialized marketplace");
                                     return Property.getResources(PropertyMarket.items);
                                 })
                                 .then(function (results) {
-                                    console.log("got resources");
-                                    ngProgress.set(ngProgress.status() + 10);
+                                    ngProgress.set(ngProgress.status() + 15);
                                     propertyDefer.resolve();
                                 });
 
                             News.query().then(function (results) {
                                 ngProgress.set(ngProgress.status() + 10);
                                 NewsMarket.initialize(results, News.$dimensions);
-                                ngProgress.start();
                                 newsDefer.resolve();
                             });
 

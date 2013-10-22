@@ -176,13 +176,18 @@ angular.module('rescour.utility', [])
                     },
                     ele = element[0],
                     userOpts = scope.$eval(attrs.spinnerOptions) || {},
-                    spinner = new Spinner(angular.extend({}, opts[attrs.spinnerSize || 'small'], userOpts));
+                    spinner = new Spinner(angular.extend({}, opts[attrs.spinnerSize || 'small'], userOpts)),
+                    isSpinning = false;
 
                 scope.$watch(function () {
-                    if (scope.$eval(attrs.spinner)) {
+                    if (scope.$eval(attrs.spinner) && isSpinning === false) {
+                        console.log("sup");
                         spinner.spin(ele);
-                    } else {
+                        console.log(spinner);
+                        isSpinning = true;
+                    } else if (!scope.$eval(attrs.spinner)) {
                         spinner.stop();
+                        isSpinning = false;
                     }
                 });
             }

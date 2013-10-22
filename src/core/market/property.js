@@ -18,8 +18,8 @@ angular.module('rescour.property', [])
                 }
             });
         }])
-    .factory('Property', ['$_api', '$q', '$http', 'Comment', 'Finance', 'Favorite', 'Hidden', '$exceptionHandler',
-        function ($_api, $q, $http, Comment, Finance, Favorite, Hidden, $exceptionHandler) {
+    .factory('Property', ['$_api', '$q', '$http', 'Comment', 'Finance', 'Favorite', 'Hidden', '$exceptionHandler', 'ngProgress',
+        function ($_api, $q, $http, Comment, Finance, Favorite, Hidden, $exceptionHandler, ngProgress) {
 
             // Item constructor
             var Property = function (data) {
@@ -45,8 +45,8 @@ angular.module('rescour.property', [])
                 this.location = (data.address.latitude && data.address.longitude) ? [data.address.latitude, data.address.longitude] : null;
                 this.latitude = parseFloat(data.address.latitude) || 'NA';
                 this.longitude = parseFloat(data.address.longitude) || 'NA';
-                this.yearBuilt = parseInt(this.yearBuilt) || 'NA';
-                this.numUnits = parseInt(this.numUnits) || 'NA';
+                this.yearBuilt = parseInt(this.yearBuilt, 10) || 'NA';
+                this.numUnits = parseInt(this.numUnits, 10) || 'NA';
                 this.daysOnMarket = Math.ceil(Math.abs(Date.now() - (this.id * 1000)) / (1000 * 3600 * 24));
                 this.resources = {};
                 this.favorites = false;
@@ -184,6 +184,7 @@ angular.module('rescour.property', [])
 
                     $http.get(path, config).then(function (response) {
                         items = items.concat(response.data);
+                        ngProgress.set(ngProgress.status() + 1);
 
                         if (response.data.length < limit || response.data.length === 0) {
                             defer.resolve(items);
@@ -586,8 +587,8 @@ angular.module('rescour.property', [])
 
             return SavedSearch;
         }])
-    .factory('Comment', ['$_api', '$q', '$http', 'User',
-        function ($_api, $q, $http, User) {
+    .factory('Comment', ['$_api', '$q', '$http', 'User', 'ngProgress',
+        function ($_api, $q, $http, User, ngProgress) {
 
             var Comment = function (data, property) {
                 data = data || {};
@@ -634,6 +635,7 @@ angular.module('rescour.property', [])
 
                     $http.get(path, config).then(function (response) {
                         items = items.concat(response.data);
+                        ngProgress.set(ngProgress.status() + 1);
 
                         if (response.data.length < limit || response.data.length === 0) {
                             defer.resolve(items);
@@ -686,8 +688,8 @@ angular.module('rescour.property', [])
 
             return Comment;
         }])
-    .factory('Finance', ['$_api', '$q', '$http',
-        function ($_api, $q, $http) {
+    .factory('Finance', ['$_api', '$q', '$http', 'ngProgress',
+        function ($_api, $q, $http, ngProgress) {
 
             var Finance = function (data, property) {
                 data = data || {};
@@ -751,6 +753,7 @@ angular.module('rescour.property', [])
 
                     $http.get(path, config).then(function (response) {
                         items = items.concat(response.data);
+                        ngProgress.set(ngProgress.status() + 1);
 
                         if (response.data.length < limit || response.data.length === 0) {
                             defer.resolve(items);
@@ -849,8 +852,8 @@ angular.module('rescour.property', [])
 
             return Finance;
         }])
-    .factory('Favorite', ['$http', '$q', '$_api',
-        function ($http, $q, $_api) {
+    .factory('Favorite', ['$http', '$q', '$_api', 'ngProgress',
+        function ($http, $q, $_api, ngProgress) {
             var Favorite = function (data) {
                 data = data || {};
                 this.id = data.id;
@@ -877,6 +880,7 @@ angular.module('rescour.property', [])
 
                     $http.get(path, config).then(function (response) {
                         items = items.concat(response.data);
+                        ngProgress.set(ngProgress.status() + 1);
 
                         if (response.data.length < limit || response.data.length === 0) {
                             defer.resolve(items);
@@ -894,8 +898,8 @@ angular.module('rescour.property', [])
 
             return Favorite;
         }])
-    .factory('Hidden', ['$http', '$q', '$_api',
-        function ($http, $q, $_api) {
+    .factory('Hidden', ['$http', '$q', '$_api', 'ngProgress',
+        function ($http, $q, $_api, ngProgress) {
             var Hidden = function (data) {
                 data = data || {};
                 this.id = data.id;
@@ -922,6 +926,7 @@ angular.module('rescour.property', [])
 
                     $http.get(path, config).then(function (response) {
                         items = items.concat(response.data);
+                        ngProgress.set(ngProgress.status() + 1);
 
                         if (response.data.length < limit || response.data.length === 0) {
                             defer.resolve(items);

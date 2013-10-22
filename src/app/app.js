@@ -19,6 +19,7 @@ angular.module('rescour.app',
             'rescour.market',
             'rescour.browserDetect',
             'rescour.powers',
+            'ngProgress',
             'ahTouch'
         ])
     .config(['$routeProvider', '$locationProvider', '$httpProvider', 'BrowserDetectProvider',

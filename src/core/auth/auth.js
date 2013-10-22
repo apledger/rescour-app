@@ -38,7 +38,7 @@ angular.module('rescour.auth', [])
             $rootScope.ping = function () {
                 var defer = $q.defer(),
                     self = this,
-                    path = $_api.path + '/auth/check/',
+                    path = $_api.path + '/auth/user/',
                     config = angular.extend({
                         transformRequest: function (data) {
                             return data;
@@ -115,10 +115,9 @@ angular.module('rescour.auth', [])
                         transformRequest: function (data) {
                             return data;
                         }
-                    }, $_api.config),
-                    body = JSON.stringify({});
+                    }, $_api.config);
 
-                $http.post(path, body, config).then(function (response) {
+                $http.get(path, config).then(function (response) {
                     $rootScope.ping();
                 }, function (response) {
                     $rootScope.ping();

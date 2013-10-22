@@ -19,10 +19,15 @@ angular.module('rescour.app')
                         propertyMarket: function ($q, $_api, $rootScope, Property, PropertyMarket) {
                             var defer = $q.defer();
 
-                            Property.query().then(function (results) {
-                                PropertyMarket.initialize(results.data.resources, Property.$dimensions);
-                                defer.resolve();
-                            });
+                            Property.query()
+                                .then(function (results) {
+                                    PropertyMarket.initialize(results, Property.$dimensions);
+                                    return Property.getResources(PropertyMarket.items);
+                                })
+                                .then(function (results) {
+                                    console.log(results);
+                                    defer.resolve();
+                                });
 
                             return defer.promise;
                         },
@@ -369,8 +374,6 @@ angular.module('rescour.app')
                     return object.weight;
                 };
             };
-
-
 
             $scope.openSaveDialog = function () {
                 // If its a new search open the dialog

@@ -20,7 +20,6 @@ angular.module('rescour.property', [])
         }])
     .factory('Property', ['$_api', '$q', '$http', 'Comment', 'Finance', 'Favorite', 'Hidden', '$exceptionHandler', 'ngProgress',
         function ($_api, $q, $http, Comment, Finance, Favorite, Hidden, $exceptionHandler, ngProgress) {
-
             // Item constructor
             var Property = function (data) {
                 if (data.hasOwnProperty('id')) {

@@ -36,7 +36,6 @@ angular.module('rescour.app')
                                     ngProgress.set(ngProgress.status() + 15);
                                     propertyDefer.resolve();
                                 });
-
                             News.query().then(function (results) {
                                 ngProgress.set(ngProgress.status() + 10);
                                 NewsMarket.initialize(results, News.$dimensions);

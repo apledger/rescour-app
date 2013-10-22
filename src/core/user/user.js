@@ -14,14 +14,16 @@ angular.module('rescour.user', ['ngCookies'])
             this.getProfile = function () {
                 var defer = $q.defer(),
                     self = this,
-                    path = $_api.path + '/auth/users/user/',
+                    path = $_api.path + '/auth/user/',
                     config = angular.extend({
                     }, $_api.config);
 
 
                 $http.get(path, config).then(
                     function (response) {
-                        angular.copy(response.data, self.profile);
+                        console.log(response);
+                        this.id = response.data[0].id;
+                        angular.copy(response.data[0], self.profile);
                         defer.resolve(response);
                     },
                     function (response) {

@@ -18,8 +18,8 @@ angular.module('rescour.property', [])
                 }
             });
         }])
-    .factory('Property', ['$_api', '$q', '$http', 'Comment', 'Finance',
-        function ($_api, $q, $http, Comment, Finance) {
+    .factory('Property', ['$_api', '$q', '$http', 'Comment', 'Finance', 'Favorite', 'Hidden', '$exceptionHandler',
+        function ($_api, $q, $http, Comment, Finance, Favorite, Hidden, $exceptionHandler) {
 
             // Item constructor
             var Property = function (data) {
@@ -112,19 +112,77 @@ angular.module('rescour.property', [])
                 }
             };
 
-            Property.query = function () {
+            Property.getResources = function (properties) {
                 var defer = $q.defer(),
+                    resourceMap = {
+                        hidden: Hidden,
+                        favorites: Favorite,
+                        comments: Comment,
+                        finances: Finance
+                    };
+
+                $q.all([
+                        Hidden.query(),
+                        Favorite.query(),
+                        Comment.query(),
+                        Finance.query()
+                    ])
+                    .then(function (results) {
+                        // Because q.all doesn't support hashes in 1.0.8 we must assume order
+
+                        console.log(results);
+                        angular.forEach(_.keys(resourceMap), function (resourceKey, resourceIndex) {
+                            angular.forEach(results[resourceIndex], function (resource) {
+                                try {
+                                    var propertyId = resource.propertyId,
+                                        resourceId = resource.id,
+                                        resourceModel = resourceMap[resourceKey];
+
+                                    if (properties[propertyId]) {
+                                        var propertyResources = properties[propertyId][resourceKey] = properties[propertyId][resourceKey] || {};
+                                    } else {
+                                        throw new Error("Cannot add " + resourceKey + " to Property ID: " + propertyId + ", does not exist")
+                                    }
+
+                                    propertyResources[resourceId] = new resourceModel(resource);
+                                } catch (e) {
+                                    $exceptionHandler(e);
+                                }
+                            });
+                        });
+
+                        defer.resolve(properties);
+                    });
+
+                return defer.promise;
+            }
+
+            Property.query = function () {
+                var items = [],
+                    defer = $q.defer(),
                     config = angular.extend({
                         transformRequest: function (data) {
                             return data;
                         }
-                    }, $_api.config);
+                    }, $_api.config),
+                    batchLimit = 50;
 
-                $http.get($_api.path + '/properties/', config).then(function (response) {
-                    defer.resolve(response);
-                }, function (response) {
-                    defer.reject(response);
-                });
+                (function batchItems(limit, offset) {
+                    var path = $_api.path + '/properties/' + "?limit=" + limit + (offset ? "&offset=" + offset : "");
+
+                    $http.get(path, config).then(function (response) {
+                        items = items.concat(response.data);
+
+                        if (response.data.length < limit || response.data.length === 0) {
+                            defer.resolve(items);
+                        } else {
+                            batchItems(limit, response.data[response.data.length - 1].id);
+                        }
+                    }, function (response) {
+                        defer.reject(response);
+                    });
+
+                })(batchLimit);
 
                 return defer.promise;
             };
@@ -529,21 +587,52 @@ angular.module('rescour.property', [])
                 this.userEmail = data.userEmail || (User.profile ? User.profile.email : "You");
             };
 
-            Comment.query = function (itemID) {
-                var config = angular.extend({
-                        transformRequest: $_api.loading.none
-                    }, $_api.config),
-                    defer = $q.defer();
+//            Comment.query = function (itemID) {
+//                var config = angular.extend({
+//                        transformRequest: $_api.loading.none
+//                    }, $_api.config),
+//                    defer = $q.defer();
+//
+//                if (typeof itemID !== 'undefined') {
+//                    $http.get($_api.path + '/properties/' + itemID + '/comments/', config).then(function (response) {
+//                        defer.resolve(response.data.items);
+//                    }, function (response) {
+//                        defer.reject(response);
+//                    });
+//                } else {
+//                    throw new Error("Comment.query received undefined itemID");
+//                }
+//
+//                return defer.promise;
+//            };
 
-                if (typeof itemID !== 'undefined') {
-                    $http.get($_api.path + '/properties/' + itemID + '/comments/', config).then(function (response) {
-                        defer.resolve(response.data.items);
+            Comment.query = function () {
+                var items = [],
+                    defer = $q.defer(),
+                    config = angular.extend({
+                        transformRequest: function (data) {
+                            return data;
+                        }
+                    }, $_api.config),
+                    batchLimit = 50,
+                    rootPath = $_api.path + '/comments/';
+
+                (function batchItems(limit, offset) {
+                    var path = rootPath + "?limit=" + limit + (offset ? "&offset=" + offset : "");
+
+                    $http.get(path, config).then(function (response) {
+                        items = items.concat(response.data);
+
+                        if (response.data.length < limit || response.data.length === 0) {
+                            defer.resolve(items);
+                        } else {
+                            batchItems(limit, response.data[response.data.length - 1].id);
+                        }
                     }, function (response) {
                         defer.reject(response);
                     });
-                } else {
-                    throw new Error("Comment.query received undefined itemID");
-                }
+
+                })(batchLimit);
 
                 return defer.promise;
             };
@@ -613,26 +702,57 @@ angular.module('rescour.property', [])
                 "Price / Unit"
             ];
 
-            Finance.query = function () {
-                var config = angular.extend({
-                        transformRequest: $_api.loading.none
-                    }, $_api.config),
-                    defer = $q.defer(),
-                    propertyId = self.propertyId;
+//            Finance.query = function () {
+//                var config = angular.extend({
+//                        transformRequest: $_api.loading.none
+//                    }, $_api.config),
+//                    defer = $q.defer(),
+//                    propertyId = self.propertyId;
+//
+//                if (typeof propertyId !== 'undefined') {
+//                    $http.get($_api.path + '/properties/' + propertyId + '/finances/', config).then(function (response) {
+//                        defer.resolve(response.data.items);
+//                    }, function (response) {
+//                        defer.reject(response);
+//                        //throw new Error("HTTP Error: " + response);
+//                    });
+//                } else {
+//                    throw new Error("Finance.query received undefined itemID");
+//                }
+//
+//                return defer.promise;
+//            };
 
-                if (typeof propertyId !== 'undefined') {
-                    $http.get($_api.path + '/properties/' + propertyId + '/finances/', config).then(function (response) {
-                        defer.resolve(response.data.items);
+            Finance.query = function () {
+                var items = [],
+                    defer = $q.defer(),
+                    config = angular.extend({
+                        transformRequest: function (data) {
+                            return data;
+                        }
+                    }, $_api.config),
+                    batchLimit = 50,
+                    rootPath = $_api.path + '/finances/';
+
+                (function batchItems(limit, offset) {
+                    var path = rootPath + "?limit=" + limit + (offset ? "&offset=" + offset : "");
+
+                    $http.get(path, config).then(function (response) {
+                        items = items.concat(response.data);
+
+                        if (response.data.length < limit || response.data.length === 0) {
+                            defer.resolve(items);
+                        } else {
+                            batchItems(limit, response.data[response.data.length - 1].id);
+                        }
                     }, function (response) {
                         defer.reject(response);
-                        //throw new Error("HTTP Error: " + response);
                     });
-                } else {
-                    throw new Error("Finance.query received undefined itemID");
-                }
+
+                })(batchLimit);
 
                 return defer.promise;
-            };
+            }
 
             Finance.prototype.$save = function () {
                 var defer = $q.defer(),
@@ -716,6 +836,97 @@ angular.module('rescour.property', [])
             };
 
             return Finance;
+        }])
+    .factory('Favorite', ['$http', '$q', '$_api',
+        function ($http, $q, $_api) {
+            var Favorite = function (data) {
+                data = data || {};
+                this.id = data.id;
+                this.propertyId = data.propertyId;
+
+                if (!this.id || !this.propertyId) {
+                    throw new Error("Invalid favorite resource");
+                }
+            };
+
+            Favorite.query = function () {
+                var items = [],
+                    defer = $q.defer(),
+                    config = angular.extend({
+                        transformRequest: function (data) {
+                            return data;
+                        }
+                    }, $_api.config),
+                    batchLimit = 50,
+                    rootPath = $_api.path + '/favorites/';
+
+                (function batchItems(limit, offset) {
+                    var path = rootPath + "?limit=" + limit + (offset ? "&offset=" + offset : "");
+
+                    $http.get(path, config).then(function (response) {
+                        items = items.concat(response.data);
+
+                        if (response.data.length < limit || response.data.length === 0) {
+                            defer.resolve(items);
+                        } else {
+                            batchItems(limit, response.data[response.data.length - 1].id);
+                        }
+                    }, function (response) {
+                        defer.reject(response);
+                    });
+
+                })(batchLimit);
+
+                return defer.promise;
+            };
+
+            return Favorite;
+        }])
+    .factory('Hidden', ['$http', '$q', '$_api',
+        function ($http, $q, $_api) {
+            var Hidden = function (data) {
+                data = data || {};
+                this.id = data.id;
+                this.propertyId = data.propertyId;
+
+                if (!this.id || !this.propertyId) {
+                    throw new Error("Invalid hidden resource");
+                }
+            };
+
+            Hidden.query = function () {
+                var items = [],
+                    defer = $q.defer(),
+                    config = angular.extend({
+                        transformRequest: function (data) {
+                            return data;
+                        }
+                    }, $_api.config),
+                    batchLimit = 50,
+                    rootPath = $_api.path + '/hidden/';
+
+                (function batchItems(limit, offset) {
+                    var path = rootPath + "?limit=" + limit + (offset ? "&offset=" + offset : "");
+
+                    $http.get(path, config).then(function (response) {
+                        items = items.concat(response.data);
+
+                        if (response.data.length < limit || response.data.length === 0) {
+                            defer.resolve(items);
+                        } else {
+                            console.log(response);
+                            batchItems(limit, response.data[response.data.length - 1].id);
+                        }
+                    }, function (response) {
+                        defer.reject(response);
+                    });
+
+                })(batchLimit);
+
+                return defer.promise;
+            };
+
+            return Hidden;
         }])
     .directive('imgViewer', ['$window', function ($document) {
         return{

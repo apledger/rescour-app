@@ -7166,6 +7166,7 @@ function qFactory(nextTick, exceptionHandler) {
 
     if (counter) {
       forEach(promises, function(promise, index) {
+            console.log(index, value);
         ref(promise).then(function(value) {
           if (index in results) return;
           results[index] = value;

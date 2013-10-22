@@ -34,12 +34,15 @@ angular.module('rescour.app')
                                 .then(function (results) {
                                     ngProgress.set(ngProgress.status() + ((100 - ngProgress.status()) * .15));
                                     PropertyMarket.initialize(results, Property.$dimensions);
+                                    ngProgress.start();
+                                    console.log("initialized marketplace");
                                     return Property.getResources(PropertyMarket.items);
                                 })
                                 .then(function (results) {
                                     ngProgress.set(ngProgress.status() + ((100 - ngProgress.status()) * .1));
                                     propertyDefer.resolve();
                                 });
+
                             News.query().then(function (results) {
                                 ngProgress.set(ngProgress.status() + ((100 - ngProgress.status()) * .15));
                                 NewsMarket.initialize(results, News.$dimensions);

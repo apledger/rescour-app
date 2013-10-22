@@ -25,10 +25,15 @@ angular.module('rescour.app')
                             ngProgress.color('#993333');
                             ngProgress.start();
 
+                            ngProgress.start();
+
+                            console.log("starting properties query");
                             Property.query()
                                 .then(function (results) {
                                     ngProgress.set(ngProgress.status() + ((100 - ngProgress.status()) * .15));
                                     PropertyMarket.initialize(results, Property.$dimensions);
+                                    ngProgress.start();
+                                    console.log("initialized marketplace");
                                     return Property.getResources(PropertyMarket.items);
                                 })
                                 .then(function (results) {

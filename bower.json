@@ -21,7 +21,8 @@
     "leaflet.markerclusterer": "latest",
     "hammerjs": "~1.0.5",
     "angular-hammerjs": "latest",
-    "angular-ui-handsontable": "~0.3.17"
+    "angular-ui-handsontable": "~0.3.17",
+    "ngprogress": "~1.0.4"
   },
   "devDependencies": {
     "angular-mocks": "~1.0.7",

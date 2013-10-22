@@ -16,45 +16,52 @@ angular.module('rescour.app')
                     controller: 'MarketController',
                     reloadOnSearch: false,
                     resolve: {
-                        propertyMarket: function ($q, $_api, $rootScope, Property, PropertyMarket) {
-                            var defer = $q.defer();
+                        load: function ($q, $_api, $rootScope, Property, PropertyMarket, News, User, NewsMarket, ngProgress) {
+                            var propertyDefer = $q.defer(),
+                                newsDefer = $q.defer(),
+                                userDefer = $q.defer(),
+                                loaded = 0;
 
+                            ngProgress.start();
+
+                            console.log("starting properties query");
                             Property.query()
                                 .then(function (results) {
+                                    ngProgress.set(ngProgress.status() + 10);
+                                    console.log("got properties");
                                     PropertyMarket.initialize(results, Property.$dimensions);
+                                    ngProgress.start();
+                                    console.log("initialized marketplace");
                                     return Property.getResources(PropertyMarket.items);
                                 })
                                 .then(function (results) {
-                                    console.log(PropertyMarket);
-                                    defer.resolve();
+                                    console.log("got resources");
+                                    ngProgress.set(ngProgress.status() + 10);
+                                    propertyDefer.resolve();
                                 });
 
-                            return defer.promise;
-                        },
-                        newsMarket: function ($q, $_api, $http, NewsMarket, News) {
-                            var defer = $q.defer();
-
                             News.query().then(function (results) {
-                                NewsMarket.initialize(results.data.resources, News.$dimensions);
-                                defer.resolve();
+                                ngProgress.set(ngProgress.status() + 10);
+                                NewsMarket.initialize(results, News.$dimensions);
+                                ngProgress.start();
+                                newsDefer.resolve();
                             });
 
-                            return defer.promise;
-                        },
-                        loadUser: function (User, $q) {
-                            var defer = $q.defer();
                             User.getProfile().then(function (response) {
-                                defer.resolve(response);
+                                ngProgress.set(ngProgress.status() + 10);
+                                userDefer.resolve(response);
                             }, function (response) {
-                                defer.reject(response);
+                                userDefer.reject(response);
                             });
-                            return defer.promise;
+
+                            return $q.all([propertyDefer.promise, newsDefer.promise, userDefer.promise]);
                         }
                     }
                 });
         }])
-    .controller('MarketController', ['$scope', '$timeout', '$routeParams', '$location', 'BrowserDetect', 'User', '$dialog', 'PropertyMarket', 'Reports', 'SavedSearch', 'NewsZoomThreshold',
-        function ($scope, $timeout, $routeParams, $location, BrowserDetect, User, $dialog, PropertyMarket, Reports, SavedSearch, NewsZoomThreshold) {
+    .controller('MarketController', ['$scope', '$timeout', '$routeParams', '$location', 'BrowserDetect', 'User', '$dialog', 'PropertyMarket', 'Reports', 'SavedSearch', 'NewsZoomThreshold', 'ngProgress',
+        function ($scope, $timeout, $routeParams, $location, BrowserDetect, User, $dialog, PropertyMarket, Reports, SavedSearch, NewsZoomThreshold, ngProgress) {
+            ngProgress.complete();
             $scope.items = PropertyMarket.visibleItems;
             $scope.attributes = PropertyMarket.getDimensions();
             $scope.toggle = 'all';

@@ -320,7 +320,7 @@ var thotpod = (function () {
                                 // If items is in attributes {} format
                                 var _discreetVal = _item.attributes.discreet[_discreetKey] = (_item.attributes.discreet[_discreetKey] || 'Unknown');
                                 self.dimensions.pushDiscreetId(_discreetKey, idPosition, _discreetVal);
-                            } else if (typeof _item[_discreetKey] !== 'undefined') {
+                            } else {
                                 if (_.isArray(_item[_discreetKey])) {
                                     for (var i = 0; i < _item[_discreetKey].length; i++) {
                                         var _itemAttr = _item[_discreetKey][i] = _item[_discreetKey][i] || 'Unknown',
@@ -343,10 +343,7 @@ var thotpod = (function () {
                                         _discreetVal = _item[_discreetKey];
                                     }
                                     self.dimensions.pushDiscreetId(_discreetKey, idPosition, _discreetVal);
-
                                 }
-                            } else {
-                                throw new Error("Cannot find discreet attribute: " + _discreetKey);
                             }
                         }
                     }
@@ -356,15 +353,10 @@ var thotpod = (function () {
                             var _rangeAttr = self.dimensions.range[_rangeKey],
                                 _itemAttr;
 
-                            if (_item.attributes) {
-                                // TODO: throw error if not NA or a number
-                                if (_.isNumber(_item.attributes.range[_rangeKey]) || _item.attributes.range[_rangeKey] == 'NA') {
-                                    _itemAttr = _item.attributes.range[_rangeKey];
-                                } else {
-                                    throw new Error("Error initializing " + _item.id + " - " + _rangeKey + ": " + _item.attributes.range[_rangeKey] + " is not a number.");
-                                }
+                            if (_.isNumber(_item[_rangeKey]) || _item[_rangeKey] == 'NA') {
+                                _itemAttr = _item[_rangeKey];
                             } else {
-                                _itemAttr = _item[_rangeKey] = _.isNumber(parseFloat(_item[_rangeKey])) ? _item[_rangeKey] : 'NA'
+                                throw new Error("Error initializing " + _item.id + " - " + _rangeKey + ": " + _item[_rangeKey] + " is not a number.");
                             }
 
                             if (!_rangeAttr.highBound) {
@@ -442,7 +434,7 @@ var thotpod = (function () {
                         for (var _rangeKey in dimensions.range) {
                             if (dimensions.range.hasOwnProperty(_rangeKey)) {
                                 var _rangeAttr = dimensions.range[_rangeKey],
-                                    _currItemAttr = _currItem.attributes.range[_rangeKey],
+                                    _currItemAttr = _currItem[_rangeKey],
                                     _isWithinLow = (_currItemAttr >= _rangeAttr.lowSelected) || (_rangeAttr.lowSelected == _rangeAttr.lowBound),
                                     _isWithinHigh = (_currItemAttr <= _rangeAttr.highSelected) || (_rangeAttr.highSelected == _rangeAttr.highBound);
 
@@ -570,8 +562,8 @@ var thotpod = (function () {
 
         function compare(a, b) {
 
-            var v1 = a[_predicate] || a.attributes.range[_predicate] || null;
-            var v2 = b[_predicate] || b.attributes.range[_predicate] || null;
+            var v1 = a[_predicate] || null;
+            var v2 = b[_predicate] || null;
             var t1 = typeof v1;
             var t2 = typeof v2;
 
@@ -587,7 +579,7 @@ var thotpod = (function () {
 
         for (var i = this.visibleItems.length - 1; i >= 0; i--) {
             var _item = this.visibleItems[i];
-            var _attr = _item[_predicate] || _item.attributes.range[_predicate] || null;
+            var _attr = _item[_predicate] || null;
             if (_attr == 'NA') {
                 _naItems.push(_item);
             } else {

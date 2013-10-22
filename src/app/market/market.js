@@ -25,7 +25,7 @@ angular.module('rescour.app')
                                     return Property.getResources(PropertyMarket.items);
                                 })
                                 .then(function (results) {
-                                    console.log(results);
+                                    console.log(PropertyMarket);
                                     defer.resolve();
                                 });
 

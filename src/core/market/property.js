@@ -29,10 +29,6 @@ angular.module('rescour.property', [])
                     throw new Error("Cannot find id in " + data);
                 }
                 var defaults = {
-                        attributes: {
-                            discreet: {},
-                            range: {}
-                        },
                         address: {
                             street1: 'No address listed'
                         },
@@ -45,25 +41,32 @@ angular.module('rescour.property', [])
                 this.title = this.title || 'Untitled Property';
                 this.description = this.description || 'No description provided.';
                 this.thumbnail = this.thumbnail || '/img/apt0.jpg';
+                this.state = this.address.state;
                 this.location = (data.address.latitude && data.address.longitude) ? [data.address.latitude, data.address.longitude] : null;
-
-                angular.forEach(this.attributes.discreet, function (value, key) {
-                    if (!value) {
-                        self.attributes.discreet[key] = 'Unknown'
-                    }
-                });
-
-                angular.forEach(this.attributes.range, function (value, key) {
-                    if (_.isNaN(parseInt(value, 10)) || !value) {
-                        self.attributes.range[key] = 'NA'
-                    } else {
-                        self.attributes.range[key] = parseInt(self.attributes.range[key], 10);
-                    }
-                });
-                this.attributes.range.daysOnMarket = Math.ceil(Math.abs(Date.now() - (this.attributes.range.datePosted * 1000)) / (1000 * 3600 * 24));
-                this.attributes.range.latitude = data.address.latitude || 'NA';
-                this.attributes.range.longitude = data.address.longitude || 'NA';
-                this.notes = this.hasComments || this.hasFinances;
+                this.latitude = parseFloat(data.address.latitude) || 'NA';
+                this.longitude = parseFloat(data.address.longitude) || 'NA';
+                this.yearBuilt = parseInt(this.yearBuilt) || 'NA';
+                this.numUnits = parseInt(this.numUnits) || 'NA';
+                this.daysOnMarket = Math.ceil(Math.abs(Date.now() - (this.id * 1000)) / (1000 * 3600 * 24));
+                this.resources = {};
+                this.favorites = false;
+                this.hidden = false;
+//                angular.forEach(this.attributes.discreet, function (value, key) {
+//                    if (!value) {
+//                        self.attributes.discreet[key] = 'Unknown'
+//                    }
+//                });
+//
+//                angular.forEach(this.attributes.range, function (value, key) {
+//                    if (_.isNaN(parseInt(value, 10)) || !value) {
+//                        self.attributes.range[key] = 'NA'
+//                    } else {
+//                        self.attributes.range[key] = parseInt(self.attributes.range[key], 10);
+//                    }
+//                });
+//                this.attributes.range.latitude = data.address.latitude || 'NA';
+//                this.attributes.range.longitude = data.address.longitude || 'NA';
+//                this.notes = this.hasComments || this.hasFinances;
             };
 
             Property.$dimensions = {
@@ -95,10 +98,10 @@ angular.module('rescour.property', [])
                         title: 'Year Built',
                         weight: 9
                     },
-                    'daysOnMarket': {
-                        title: 'Days on Market',
-                        weight: 8
-                    },
+//                    'daysOnMarket': {
+//                        title: 'Days on Market',
+//                        weight: 8
+//                    },
                     'latitude': {
                         title: 'Latitude',
                         weight: 9,
@@ -139,12 +142,21 @@ angular.module('rescour.property', [])
                                         resourceModel = resourceMap[resourceKey];
 
                                     if (properties[propertyId]) {
-                                        var propertyResources = properties[propertyId][resourceKey] = properties[propertyId][resourceKey] || {};
+                                        var property = properties[propertyId],
+                                            propertyResources = property.resources[resourceKey] = property.resources[resourceKey] || [];
+
+                                        propertyResources.push(new resourceModel(resource));
+
+                                        if (resourceKey === 'comments' || resourceKey === 'finances') {
+                                            property.notes = true;
+                                        } else {
+                                            property[resourceKey] = true;
+                                        }
                                     } else {
                                         throw new Error("Cannot add " + resourceKey + " to Property ID: " + propertyId + ", does not exist")
                                     }
 
-                                    propertyResources[resourceId] = new resourceModel(resource);
+
                                 } catch (e) {
                                     $exceptionHandler(e);
                                 }
@@ -203,48 +215,48 @@ angular.module('rescour.property', [])
                 self.details = self.details || {};
 
                 $http.get($_api.path + '/properties/' + this.id, config).then(function (response) {
-                    locals.comments = response.data.comments;
-                    locals.finances = response.data.finances;
-                    self.details = angular.extend({}, response.data);
+//                    locals.comments = response.data.comments;
+//                    locals.finances = response.data.finances;
+//                    self.details = angular.extend({}, response.data);
 
                     self.details.$spinner = false;
                     try {
-                        // Initialize Comments
-                        if (angular.isArray(locals.comments)) {
-                            self.details.comments = [];
-                            for (var i = 0; i < locals.comments.length; i++) {
-                                self.addComment(locals.comments[i]);
-                            }
-                        } else {
-                            throw new Error("Comments were not received as Array");
-                        }
-
-                        // Initialize Finances
-                        if (angular.isArray(locals.finances)) {
-                            self.details.finances = [];
-                        } else {
-                            throw new Error("Comments were not received as Array");
-                        }
-
-                        (function () {
-                            for (var i = 0; i < Finance.defaults.length; i++) {
-                                var defaultFinanceName = Finance.defaults[i],
-                                    finance = _.findWhere(locals.finances, {name: defaultFinanceName}) || {name: defaultFinanceName};
-
-                                // If a default finance was found in the locals, add to self, remove from locals
-                                self.addFinance(finance);
-                                locals.finances = _.reject(locals.finances, function (val) {
-                                    return angular.equals(finance, val);
-                                });
-                            }
-                        })();
-
-                        (function () {
-                            for (var i = 0; i < locals.finances.length; i++) {
-                                self.addFinance(locals.finances[i]);
-                                Finance.defaults.push(locals.name);
-                            }
-                        })();
+//                        // Initialize Comments
+//                        if (angular.isArray(locals.comments)) {
+//                            self.details.comments = [];
+//                            for (var i = 0; i < locals.comments.length; i++) {
+//                                self.addComment(locals.comments[i]);
+//                            }
+//                        } else {
+//                            throw new Error("Comments were not received as Array");
+//                        }
+//
+//                        // Initialize Finances
+//                        if (angular.isArray(locals.finances)) {
+//                            self.details.finances = [];
+//                        } else {
+//                            throw new Error("Comments were not received as Array");
+//                        }
+//
+//                        (function () {
+//                            for (var i = 0; i < Finance.defaults.length; i++) {
+//                                var defaultFinanceName = Finance.defaults[i],
+//                                    finance = _.findWhere(locals.finances, {name: defaultFinanceName}) || {name: defaultFinanceName};
+//
+//                                // If a default finance was found in the locals, add to self, remove from locals
+//                                self.addFinance(finance);
+//                                locals.finances = _.reject(locals.finances, function (val) {
+//                                    return angular.equals(finance, val);
+//                                });
+//                            }
+//                        })();
+//
+//                        (function () {
+//                            for (var i = 0; i < locals.finances.length; i++) {
+//                                self.addFinance(locals.finances[i]);
+//                                Finance.defaults.push(locals.name);
+//                            }
+//                        })();
                         defer.resolve(self);
                     } catch (e) {
                         defer.reject(response);
@@ -263,10 +275,10 @@ angular.module('rescour.property', [])
 
                 newComment.propertyId = newComment.propertyId || this.id;
 
-                if (angular.isArray(this.details.comments)) {
-                    this.details.comments.push(newComment);
+                if (angular.isArray(this.resources.comments)) {
+                    this.resources.comments.push(newComment);
                 } else {
-                    this.details.comments = [newComment];
+                    this.resources.comments = [newComment];
                 }
 
                 this.notes = true;
@@ -277,7 +289,7 @@ angular.module('rescour.property', [])
             Property.prototype.deleteComment = function (comment) {
                 var self = this;
 
-                self.details.comments = _.reject(self.details.comments, function (value) {
+                self.resources.comments = _.reject(self.resources.comments, function (value) {
                     return angular.equals(value, comment);
                 });
             };
@@ -287,10 +299,10 @@ angular.module('rescour.property', [])
 
                 newFinance.propertyId = newFinance.propertyId || this.id;
 
-                if (angular.isArray(this.details.finances)) {
-                    this.details.finances.push(newFinance);
+                if (angular.isArray(this.resources.finances)) {
+                    this.resources.finances.push(newFinance);
                 } else {
-                    this.details.finances = [newFinance];
+                    this.resources.finances = [newFinance];
                 }
 
                 this.notes = true;
@@ -303,12 +315,12 @@ angular.module('rescour.property', [])
 
                 if (finance.id) {
                     finance.$delete().then(function (response) {
-                        self.details.finances = _.reject(self.details.finances, function (value) {
+                        self.resources.finances = _.reject(self.resources.finances, function (value) {
                             return angular.equals(value, finance);
                         });
                     });
                 } else {
-                    self.details.finances = _.reject(self.details.finances, function (value) {
+                    self.resources.finances = _.reject(self.resources.finances, function (value) {
                         return angular.equals(value, finance);
                     });
                 }

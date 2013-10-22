@@ -4,8 +4,8 @@ angular.module('rescour.news', [])
         function (News) {
             return new thotpod.Marketplace(News);
         }])
-    .factory('News', ['$_api', '$q', '$http',
-        function ($_api, $q, $http) {
+    .factory('News', ['$_api', '$q', '$http', 'ngProgress',
+        function ($_api, $q, $http, ngProgress) {
 
             // Item constructor
             var News = function (data) {
@@ -17,10 +17,6 @@ angular.module('rescour.news', [])
                 }
 
                 var defaults = {
-                        attributes: {
-                            discreet: {},
-                            range: {}
-                        },
                         address: {
                             street1: 'No address listed'
                         },
@@ -37,9 +33,9 @@ angular.module('rescour.news', [])
                         this.url = 'http://' + this.url;
                     }
                 }
-                this.attributes.discreet.category = this.category;
-                this.attributes.range.latitude = parseFloat(this.address.latitude) || 'NA';
-                this.attributes.range.longitude = parseFloat(this.address.longitude) || 'NA';
+
+                this.latitude = parseFloat(this.address.latitude) || 'NA';
+                this.longitude = parseFloat(this.address.longitude) || 'NA';
             };
 
             News.$dimensions = {
@@ -64,18 +60,33 @@ angular.module('rescour.news', [])
             };
 
             News.query = function () {
-                var defer = $q.defer(),
+                var items = [],
+                    defer = $q.defer(),
                     config = angular.extend({
                         transformRequest: function (data) {
                             return data;
                         }
-                    }, $_api.config);
+                    }, $_api.config),
+                    batchLimit = 50,
+                    rootPath = $_api.path + '/news/';
 
-                $http.get($_api.path + '/news/', config).then(function (response) {
-                    defer.resolve(response);
-                }, function (response) {
-                    defer.reject(response);
-                });
+                (function batchItems(limit, offset) {
+                    var path = rootPath + "?limit=" + limit + (offset ? "&offset=" + offset : "");
+
+                    $http.get(path, config).then(function (response) {
+                        items = items.concat(response.data);
+                        ngProgress.set(ngProgress.status() + 1);
+
+                        if (response.data.length < limit || response.data.length === 0) {
+                            defer.resolve(items);
+                        } else {
+                            batchItems(limit, response.data[response.data.length - 1].id);
+                        }
+                    }, function (response) {
+                        defer.reject(response);
+                    });
+
+                })(batchLimit);
 
                 return defer.promise;
             };

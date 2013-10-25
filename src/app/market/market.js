@@ -33,7 +33,7 @@ angular.module('rescour.app')
                                     return Property.getResources(PropertyMarket.items);
                                 })
                                 .then(function (results) {
-                                    ngProgress.set(ngProgress.status() + 15);
+                                    ngProgress.set(ngProgress.status() + 10);
                                     propertyDefer.resolve();
                                 });
 
@@ -44,7 +44,7 @@ angular.module('rescour.app')
                             });
 
                             User.getProfile().then(function (response) {
-                                ngProgress.set(ngProgress.status() + 10);
+                                ngProgress.set(ngProgress.status() + 5);
                                 userDefer.resolve(response);
                             }, function (response) {
                                 userDefer.reject(response);

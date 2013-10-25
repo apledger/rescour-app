@@ -25,7 +25,6 @@ angular.module('rescour.app')
                             ngProgress.color('#993333');
                             ngProgress.start();
 
-                            console.log("starting properties query");
                             Property.query()
                                 .then(function (results) {
                                     ngProgress.set(ngProgress.status() + 10);
@@ -493,6 +492,7 @@ angular.module('rescour.app')
                     });
                     if ($scope.attributes.id === search.id) {
                         $scope.attributes.id = undefined;
+                        $scope.attributes.title = 'Untitled Search';
                     }
                 });
             }

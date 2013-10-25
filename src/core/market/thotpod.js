@@ -605,16 +605,13 @@ var thotpod = (function () {
         return this.visibleItems;
     };
 
-    Market.prototype.applyDiscreet = function (discreet, value) {
+    Market.prototype.toggleDiscreet = function (discreet, value) {
         if (discreet && value) {
             value.isSelected = !value.isSelected;
             value.isSelected ? discreet.selected++ : discreet.selected--;
         }
 
-        this.apply();
-        this.predict();
-
-        return this.visibleItems;
+        return this;
     };
 
     Market.prototype.applyRange = function (rangeKey, low, high) {

@@ -48,8 +48,8 @@ angular.module('rescour.app')
                     }
                 });
         }])
-    .controller('MarketController', ['$scope', '$timeout', '$routeParams', '$location', 'BrowserDetect', 'User', '$dialog', 'PropertyMarket', 'Reports', 'SavedSearch', 'NewsZoomThreshold',
-        function ($scope, $timeout, $routeParams, $location, BrowserDetect, User, $dialog, PropertyMarket, Reports, SavedSearch, NewsZoomThreshold) {
+    .controller('MarketController', ['$scope', '$timeout', '$routeParams', '$location', 'BrowserDetect', 'User', '$dialog', 'PropertyMarket', 'Reports', 'SavedSearch', 'NewsZoomThreshold', 'NewsMarket',
+        function ($scope, $timeout, $routeParams, $location, BrowserDetect, User, $dialog, PropertyMarket, Reports, SavedSearch, NewsZoomThreshold, NewsMarket) {
             $scope.items = PropertyMarket.visibleItems;
             $scope.attributes = PropertyMarket.getDimensions();
             $scope.toggle = 'all';
@@ -247,6 +247,36 @@ angular.module('rescour.app')
                 }
             };
 
+            $scope.newsDiscreet = NewsMarket.getDimensions().discreet;
+
+            $scope.categoryPower = {
+                title: 'Category',
+                multiSelect: true,
+                options: (function () {
+                    var categoryValueOptions = {};
+                    angular.forEach($scope.newsDiscreet.category.values, function(value, key){
+                        categoryValueOptions[key] = {
+                            title: value.title,
+                            action: function () {
+                                NewsMarket.toggleDiscreet($scope.newsDiscreet.category, value);
+                                $scope.$broadcast('UpdateMap');
+                                NewsMarket.predict();
+                            }
+                        }
+                    });
+
+                    return categoryValueOptions;
+                })()
+            };
+
+            console.log($scope.categoryPower);
+
+            $scope.toggleNewsDiscreet = function (discreet, discreetValue) {
+                NewsMarket.toggleDiscreet(discreet, discreetValue);
+                $scope.$broadcast('UpdateMap');
+                NewsMarket.predict();
+            };
+
             $scope.displayNews = function () {
                 if (!$scope.mapData.isNewsDisabled()) {
                     $scope.$broadcast('DisplayNews');
@@ -333,7 +363,7 @@ angular.module('rescour.app')
 
             $scope.filter = function (discreet, discreetValue) {
                 $scope.searchText = {};
-                $scope.items = PropertyMarket.applyDiscreet(discreet, discreetValue);
+                $scope.items = PropertyMarket.toggleDiscreet(discreet, discreetValue).apply();
                 PropertyMarket.predict();
                 $scope.$broadcast('UpdateMap');
                 $scope.attributes.modified = true;

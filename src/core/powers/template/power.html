@@ -1,4 +1,5 @@
 <div class="power power-{{power.float}} {{power.color}}"
+     ng-hide="powerHide"
      tooltip-placement="{{powerTooltipPlacement}}"
      tooltip="{{powerTooltip}}"
      ng-class="{'open': power.isOpen, 'disabled': power.disableIf() }">
@@ -8,7 +9,7 @@
     </div>
     <ul class="power-menu">
         <li ng-repeat="option in power.getOptions() | orderBy:predicate" ng-click="selectOption(option)"
-            ng-class="{'active': (option.isSelected && (power.toggle || option.selectable))}">
+            ng-class="{'active': (option.isSelected && (power.toggle || power.multiSelect))}">
             <i ng-class="option.icon"></i>
             <a href="javascript:">{{option.title}}</a>
         </li>

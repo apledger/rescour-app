@@ -37,12 +37,18 @@ angular.module('rescour.news', [])
                         this.url = 'http://' + this.url;
                     }
                 }
+                this.attributes.discreet.category = this.category;
                 this.attributes.range.latitude = parseFloat(this.address.latitude) || 'NA';
                 this.attributes.range.longitude = parseFloat(this.address.longitude) || 'NA';
             };
 
             News.$dimensions = {
-                discreet: {},
+                discreet: {
+                    category: {
+                        title: 'Category',
+                        weight: 0
+                    }
+                },
                 range: {
                     'latitude': {
                         title: 'Latitude',

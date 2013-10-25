@@ -47,7 +47,8 @@ angular.module('rescour.powers', [])
                 scope: {
                     power: '=',
                     powerTooltip: '@',
-                    powerTooltipPlacement: '@'
+                    powerTooltipPlacement: '@',
+                    powerHide: '='
                 },
                 replace: true,
                 templateUrl: '/core/powers/template/power.html?v='+Date.now(),
@@ -87,6 +88,8 @@ angular.module('rescour.powers', [])
                             });
                             option.isSelected = true;
                             _power.toggle = option.key;
+                        } else if (_power.multiSelect) {
+                            option.isSelected = !option.isSelected;
                         }
                         option.action();
                     };

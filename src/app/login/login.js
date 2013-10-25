@@ -16,7 +16,7 @@ angular.module('rescour.app')
                 controller: 'LoginController',
                 resolve: {
                     checkUser: function (ngProgress) {
-                        ngProgress.stop();
+                        ngProgress.reset();
 //                        $rootScope.ping().then(function (response) {
 //                            console.log("ping success");
 //                            $location.path('/');

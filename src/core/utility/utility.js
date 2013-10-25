@@ -140,6 +140,24 @@ angular.module('rescour.utility', [])
             });
         };
     })
+    .directive('fadeOut', function () {
+        return function (scope, element, attr) {
+            scope.$watch(attr.fadeOut, function (value) {
+                !!value ? element.fadeOut(500) : element.show();
+            });
+        };
+    })
+    .directive('fadeAfterOn', ['$timeout', function ($timeout) {
+        return {
+            link: function (scope, element, attrs) {
+                if (parseInt(attrs.fadeAfterOn, 10)) {
+                    $timeout(function () {
+                        element.fadeOut(700);
+                    }, attrs.fadeAfter);
+                }
+            }
+        };
+    }])
     .directive('spinner', ['$parse', function ($parse) {
         return {
             restrict: 'AC',

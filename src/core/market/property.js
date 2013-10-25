@@ -514,7 +514,7 @@ angular.module('rescour.property', [])
             SavedSearch.query = function () {
                 var defer = $q.defer(),
                     self = this,
-                    path = $_api.path + '/search/',
+                    path = $_api.path + '/searches/',
                     config = angular.extend({
                         transformRequest: function (data) {
                             return data;
@@ -524,7 +524,7 @@ angular.module('rescour.property', [])
                 $http.get(path, config).then(
                     function (response) {
                         var searches = [];
-                        angular.forEach(response.data.resources, function (value, key) {
+                        angular.forEach(response.data, function (value, key) {
                             try {
                                 searches.push(new SavedSearch(angular.fromJson(value.savedSearch), value.id));
                             } catch (e) {
@@ -548,7 +548,7 @@ angular.module('rescour.property', [])
                     $http(
                         angular.extend({
                             method: 'DELETE',
-                            url: $_api.path + '/search/' + self.id,
+                            url: $_api.path + '/searches/' + self.id,
                             transformRequest: function (data) {
                                 self.$spinner = true;
                                 return data;
@@ -567,13 +567,13 @@ angular.module('rescour.property', [])
                 var defer = $q.defer(),
                     self = this;
                 if (self.id) {
-                    $http.put($_api.path + '/search/' + self.id, JSON.stringify({savedSearch: JSON.stringify(self)}), $_api.config).then(function (response) {
+                    $http.put($_api.path + '/searches/' + self.id, JSON.stringify({savedSearch: JSON.stringify(self)}), $_api.config).then(function (response) {
                         defer.resolve(response.data);
                     }, function (response) {
                         defer.reject(response.data);
                     });
                 } else {
-                    $http.post($_api.path + '/search/', JSON.stringify({savedSearch: JSON.stringify(self)}), $_api.config).then(function (response) {
+                    $http.post($_api.path + '/searches/', JSON.stringify({savedSearch: JSON.stringify(self)}), $_api.config).then(function (response) {
                         self.id = response.data.id;
                         defer.resolve(response.data);
                     }, function (response) {

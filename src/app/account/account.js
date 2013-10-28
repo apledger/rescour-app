@@ -16,31 +16,34 @@ angular.module('rescour.app')
                     templateUrl: '/app/account/desktop/views/account.html?' + Date.now(),
                     controller: 'AccountController',
                     resolve: {
-                        loadUser: function (User, $q) {
+                        loadUser: function (User, $q, ngProgress) {
                             var defer = $q.defer();
+                            ngProgress.reset();
                             User.getProfile().then(function (response) {
+                                ngProgress.complete();
                                 defer.resolve(response);
                             }, function (response) {
                                 defer.reject(response);
                             });
-                            return defer.promise;
-                        },
-                        loadBilling: function (User, $q) {
-                            var defer = $q.defer();
-                            User.getBilling().then(function (response) {
-                                defer.resolve(response);
-                            }, function (response) {
-                                defer.reject(response);
-                            });
-
                             return defer.promise;
                         }
+//                        loadBilling: function (User, $q) {
+//                            var defer = $q.defer();
+//                            User.getBilling().then(function (response) {
+//                                defer.resolve(response);
+//                            }, function (response) {
+//                                defer.reject(response);
+//                            });
+//
+//                            return defer.promise;
+//                        }
                     }
                 });
         }])
     .controller('AccountController', ['$scope', 'loadUser', '$_api', '$http', 'User', '$routeParams', '$rootScope', '$location',
         function ($scope, loadUser, $_api, $http, User, $routeParams, $rootScope, $location) {
             $scope.user = User;
+            console.log($scope.user);
 
             $scope.selectSubview = function (subview) {
                 if (_.isObject(subview)) {
@@ -249,21 +252,14 @@ angular.module('rescour.app')
 
             $scope.addSubscription = function (type) {
                 var token = function (res) {
-                    var path = $_api.path + '/auth/users/user/payment/',
-                        config = angular.extend({
-                            transformRequest: function (data) {
-                                $scope.accountAlerts = [
-                                    {
-                                        type: 'info',
-                                        msg: 'Authorizing...'
-                                    }
-                                ];
-                                return data;
-                            }
-                        }, $_api.config),
-                        body = JSON.stringify({token: res.id});
+                    $scope.accountAlerts = [
+                        {
+                            type: 'info',
+                            msg: 'Authorizing...'
+                        }
+                    ];
 
-                    $http.post(path, body, config).then(function (response) {
+                    $scope.user.addStripe(res.id).then(function (response) {
                         $location.path('/');
                     }, function (response) {
                         if (response.status === 400) {

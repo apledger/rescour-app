@@ -1,3 +1,7 @@
+<div alert ng-repeat="alert in accountAlerts" type="alert.type">
+    {{ alert.msg }}
+</div>
+
 <div class="container-fluid" ng-controller="AccountSubscriptionController">
     <div class="page-header"><h3>Subscribe today to find more deals and improve your productivity.</h3></div>
     <h5>REscour is the only application built specifically for institutional investors trying to find and track multi-family listings.</h5>
@@ -19,9 +23,9 @@
                 <li><i class="icon-ok"></i> Billed monthly</li>
                 <li class="plan-action">
                     <a href="javascript:" ng-show="!activePlan" ng-click="addSubscription('individual')"
-                       class="btn btn-large plan-submit">Start 7 Day Trial</a>
+                       class="btn btn-success plan-submit">Start 7 Day Trial</a>
                     <a href="javascript:" ng-show="activePlan == 'One Seat License'" ng-click="openCancelDialog()"
-                       class="btn btn-large plan-submit plan-cancel">Cancel Subscription</a>
+                       class="btn btn-danger plan-submit plan-cancel">Cancel Subscription</a>
                 </li>
             </ul>
         </div>
@@ -39,7 +43,7 @@
                 <li><i class="icon-ok"></i> Access for up to 3 users</li>
                 <li><i class="icon-plus"></i> $125/additional user/month</li>
                 <li><i class="icon-ok"></i> Billed monthly</li>
-                <li class="plan-action"><a href="javascript:" disabled class="btn btn-large plan-submit">Coming Soon</a>
+                <li class="plan-action"><a href="javascript:" disabled class="btn btn-inverse disabled plan-submit">Coming Soon</a>
                 </li>
             </ul>
         </div>
@@ -57,7 +61,7 @@
                 <li><i class="icon-ok"></i> Access for up to 5 users</li>
                 <li><i class="icon-plus"></i> $75/additional user/month</li>
                 <li><i class="icon-ok"></i> Billed monthly</li>
-                <li class="plan-action"><a href="javascript:" disabled class="btn btn-large plan-submit">Coming Soon</a>
+                <li class="plan-action"><a href="javascript:" disabled class="btn btn-inverse disabled plan-submit">Coming Soon</a>
                 </li>
             </ul>
         </div>
@@ -76,7 +80,7 @@
                 <li><i class="icon-ok"></i> Access for unlimited users</li>
                 <li><i class="icon-ok"></i> No additional user cost</li>
                 <li><i class="icon-ok"></i> Billed monthly</li>
-                <li class="plan-action"><a href="javascript:" disabled class="btn btn-large plan-submit">Coming Soon</a>
+                <li class="plan-action"><a href="javascript:" disabled class="btn btn-inverse disabled plan-submit">Coming Soon</a>
                 </li>
             </ul>
         </div>

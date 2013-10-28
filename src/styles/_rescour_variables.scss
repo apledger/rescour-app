@@ -165,12 +165,12 @@ $gutterWidth: 15px;
     @include transition(all 1s ease);
   }
   .plan-submit {
-    @include buttonBackground(darken($planColor, 15%), darken($planColor, 20%));
+    //@include buttonBackground(darken($planColor, 15%), darken($planColor, 20%));
     font-size: 13px;
     width: 50%;
 
     &.plan-cancel {
-      @include buttonBackground(darken($red, 15%), darken($red, 20%));
+      //@include buttonBackground(darken($red, 15%), darken($red, 20%));
     }
   }
 }

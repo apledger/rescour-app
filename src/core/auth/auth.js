@@ -162,7 +162,8 @@ angular.module('rescour.auth', [])
 
                             return defer.promise;
                         case 403:
-                            $rootScope.$broadcast('auth#forbidden');
+                            $rootScope.$broadcast('auth#paymentRequired');
+                            break;
                         default:
                     }
 

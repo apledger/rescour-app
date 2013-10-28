@@ -27,6 +27,16 @@ angular.module('rescour.app')
                             });
                             return defer.promise;
                         }
+//                        loadBilling: function (User, $q) {
+//                            var defer = $q.defer();
+//                            User.getBilling().then(function (response) {
+//                                defer.resolve(response);
+//                            }, function (response) {
+//                                defer.reject(response);
+//                            });
+//
+//                            return defer.promise;
+//                        }
                     }
                 });
         }])
@@ -249,7 +259,6 @@ angular.module('rescour.app')
     .controller('AccountSubscriptionController', ['$scope', '$_api', '$http', '$q', '$location', '$dialog',
         function ($scope, $_api, $http, $q, $location, $dialog) {
             $scope.creds = {};
-
 
             $scope.addSubscription = function (type) {
                 $scope.confirmPasswordDialog.open().then(function (request) {

@@ -199,9 +199,7 @@ angular.module('rescour.utility', [])
 
                 scope.$watch(function () {
                     if (scope.$eval(attrs.spinner) && isSpinning === false) {
-                        console.log("sup");
                         spinner.spin(ele);
-                        console.log(spinner);
                         isSpinning = true;
                     } else if (!scope.$eval(attrs.spinner)) {
                         spinner.stop();

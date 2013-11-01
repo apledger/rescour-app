@@ -11,6 +11,20 @@
 // Author: Alan Pledger
 
 var thotpod = (function () {
+    var /** holds major version number for IE or NaN for real browsers */
+            msie              = int((/msie (\d+)/.exec(lowercase(navigator.userAgent)) || [])[1]),
+        jqLite,           // delay binding since jQuery could be loaded after us.
+        jQuery,           // delay binding
+        slice             = [].slice,
+        push              = [].push,
+        toString          = Object.prototype.toString,
+
+        /** @name angular */
+            angular           = window.angular || (window.angular = {}),
+        angularModule,
+        nodeName_,
+        uid               = ['0', '0', '0'];
+
     function isArray(value) {
         return toString.apply(value) == '[object Array]';
     }

@@ -264,6 +264,7 @@ angular.module('rescour.app')
                 $scope.confirmPasswordDialog.open().then(function (request) {
                     if (request) {
                         var token = function (res) {
+
                             $scope.accountAlerts = [
                                 {
                                     type: 'info',

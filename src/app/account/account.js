@@ -260,6 +260,7 @@ angular.module('rescour.app')
                     ];
 
                     $scope.user.addStripe(res.id).then(function (response) {
+                        console.log(response);
                         $location.path('/');
                     }, function (response) {
                         if (response.status === 400) {

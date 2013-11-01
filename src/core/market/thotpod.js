@@ -378,7 +378,6 @@ var thotpod = (function () {
                     }
                     idPosition += 1;
                 } catch (e) {
-                    console.log(e.message);
                 }
             }
         }

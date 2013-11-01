@@ -78,7 +78,7 @@ angular.module('rescour.user', ['ngCookies'])
                         token: tok
                     });
                 
-                $http.post(path, body, config).then(
+                $http.put(path, body, config).then(
                     function (response) {
                         defer.resolve(response);
                     },
@@ -93,7 +93,7 @@ angular.module('rescour.user', ['ngCookies'])
             this.getBilling = function () {
                 var defer = $q.defer(),
                     self = this,
-                    path = $_api.path + '/auth/users/user/payment/',
+                    path = $_api.path + '/auth/user/' + self.id + '/payment/',
                     config = angular.extend({
                         transformRequest: function (data) {
                             return data;

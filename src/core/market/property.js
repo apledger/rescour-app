@@ -330,7 +330,6 @@ angular.module('rescour.property', [])
                             defer.reject(response);
                         });
                 }
-
             };
 
             Property.prototype.toggleHidden = function () {

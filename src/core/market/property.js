@@ -155,7 +155,6 @@ angular.module('rescour.property', [])
                                         throw new Error("Cannot add " + resourceKey + " to Property ID: " + propertyId + ", does not exist")
                                     }
 
-
                                 } catch (e) {
                                     $exceptionHandler(e);
                                 }
@@ -327,51 +326,74 @@ angular.module('rescour.property', [])
             };
 
             Property.prototype.toggleFavorites = function () {
-                var defer = $q.defer(),
-                    self = this,
-                    config = angular.extend({
-                        transformRequest: function (data) {
-                            self.$spinner = true;
-                            return data;
-                        }
-                    }, $_api.config),
-                    body = JSON.stringify({value: (!self.favorites).toString()});
+                var self = this;
+                self.$spinner = true;
+                if (self.favorites) {
+                    angular.forEach(self.resources.favorites, function(fav){
+                        var defer = $q.defer();
 
-                $http.post($_api.path + '/properties/' + this.id + '/favorites/', body, config).then(
-                    function (response) {
-                        self.$spinner = false;
-                        self.favorites = !self.favorites;
-                        defer.resolve(response);
-                    },
-                    function (response) {
-                        self.$spinner = false;
-                        defer.reject(response);
-                    }
-                );
+                        fav.$delete().then(function (response) {
+                            self.$spinner = false;
+                            self.favorites = false;
+                            self.resources.favorites = _.without(self.resources.favorites, fav);
+                            console.log(self);
+                            defer.resolve(response);
+                        })
+                    });
+                } else {
+                    var newFavorite = new Favorite({
+                        propertyId: self.id
+                    }),
+                        defer = $q.defer();
+
+                    newFavorite.$save().then(function (response) {
+                            self.$spinner = false;
+                            self.favorites = true;
+                            self.resources.favorites = self.resources.favorites || [];
+                            self.resources.favorites.push(newFavorite);
+                            defer.resolve(response);
+                        },
+                        function (response) {
+                            self.$spinner = false;
+                            defer.reject(response);
+                        });
+                }
+
             };
 
             Property.prototype.toggleHidden = function () {
-                var defer = $q.defer(),
-                    self = this,
-                    config = angular.extend({
-                        transformRequest: function (data) {
-                            self.$spinner = true;
-                            return data;
-                        }
-                    }, $_api.config),
-                    body = JSON.stringify({value: (!self.hidden).toString()});
+                var self = this;
+                self.$spinner = true;
+                if (self.hidden) {
+                    angular.forEach(self.resources.hidden, function(h){
+                        var defer = $q.defer();
 
-                $http.post($_api.path + '/properties/' + this.id + '/hidden/', body, config).then(
-                    function (response) {
-                        self.$spinner = false;
-                        self.hidden = !self.hidden;
-                        defer.resolve(response);
-                    },
-                    function (response) {
-                        self.$spinner = false;
-                        defer.reject(response);
-                    }
-                );
+                        h.$delete().then(function (response) {
+                            self.$spinner = false;
+                            self.hidden = false;
+                            self.resources.hidden = _.without(self.resources.hidden, h);
+                            console.log(self);
+                            defer.resolve(response);
+                        })
+                    });
+                } else {
+                    var newHidden = new Hidden({
+                            propertyId: self.id
+                        }),
+                        defer = $q.defer();
+
+                    newHidden.$save().then(function (response) {
+                            self.$spinner = false;
+                            self.hidden = true;
+                            self.resources.hidden = self.resources.hidden || [];
+                            self.resources.hidden.push(newHidden);
+                            defer.resolve(response);
+                        },
+                        function (response) {
+                            self.$spinner = false;
+                            defer.reject(response);
+                        });
+                }
             };
 
             Property.prototype.getAttribute = function (name) {
@@ -858,7 +880,7 @@ angular.module('rescour.property', [])
                 this.id = data.id;
                 this.propertyId = data.propertyId;
 
-                if (!this.id || !this.propertyId) {
+                if (!this.propertyId) {
                     throw new Error("Invalid favorite resource");
                 }
             };
@@ -895,6 +917,50 @@ angular.module('rescour.property', [])
                 return defer.promise;
             };
 
+            Favorite.prototype.$save = function () {
+                var defer = $q.defer(),
+                    self = this,
+                    path = $_api.path + '/favorites/',
+                    config = angular.extend({
+                        transformRequest: function (data) {
+                            return data;
+                        }
+                    }, $_api.config),
+                    body = JSON.stringify({
+                        propertyId: self.propertyId
+                    });
+
+                $http.post(path, body, config).then(
+                    function (response) {
+                        defer.resolve(response);
+                    },
+                    function (response) {
+                        defer.reject(response);
+                    }
+                );
+
+                return defer.promise;
+            }
+
+            Favorite.prototype.$delete = function () {
+                var self = this,
+                    defer = $q.defer(),
+                    path = $_api.path + '/favorites/' + this.id;
+
+                $http({
+                    method: 'DELETE',
+                    url: path,
+                    headers: {'Content-Type': 'application/json'},
+                    withCredentials: true
+                }).then(function (response) {
+                        defer.resolve(response);
+                    }, function (response) {
+                        defer.reject(response);
+                    })
+
+                return defer.promise;
+            }
+
             return Favorite;
         }])
     .factory('Hidden', ['$http', '$q', '$_api', 'ngProgress',
@@ -904,7 +970,7 @@ angular.module('rescour.property', [])
                 this.id = data.id;
                 this.propertyId = data.propertyId;
 
-                if (!this.id || !this.propertyId) {
+                if (!this.propertyId) {
                     throw new Error("Invalid hidden resource");
                 }
             };
@@ -941,6 +1007,50 @@ angular.module('rescour.property', [])
 
                 return defer.promise;
             };
+
+            Hidden.prototype.$save = function () {
+                var defer = $q.defer(),
+                    self = this,
+                    path = $_api.path + '/hidden/',
+                    config = angular.extend({
+                        transformRequest: function (data) {
+                            return data;
+                        }
+                    }, $_api.config),
+                    body = JSON.stringify({
+                        propertyId: self.propertyId
+                    });
+
+                $http.post(path, body, config).then(
+                    function (response) {
+                        defer.resolve(response);
+                    },
+                    function (response) {
+                        defer.reject(response);
+                    }
+                );
+
+                return defer.promise;
+            }
+
+            Hidden.prototype.$delete = function () {
+                var self = this,
+                    defer = $q.defer(),
+                    path = $_api.path + '/hidden/' + this.id;
+
+                $http({
+                    method: 'DELETE',
+                    url: path,
+                    headers: {'Content-Type': 'application/json'},
+                    withCredentials: true
+                }).then(function (response) {
+                        defer.resolve(response);
+                    }, function (response) {
+                        defer.reject(response);
+                    })
+
+                return defer.promise;
+            }
 
             return Hidden;
         }])

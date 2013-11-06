@@ -608,7 +608,6 @@ angular.module('rescour.app')
                     }
                 }
             ];
-            console.log($scope.current);
 
             $scope.close = function () {
                 $location.search('id', null).hash(null);

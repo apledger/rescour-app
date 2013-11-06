@@ -133,7 +133,6 @@ angular.module('rescour.property', [])
                     .then(function (results) {
                         // Because q.all doesn't support hashes in 1.0.8 we must assume order
 
-                        console.log(results);
                         angular.forEach(_.keys(resourceMap), function (resourceKey, resourceIndex) {
                             angular.forEach(results[resourceIndex], function (resource) {
                                 try {
@@ -271,15 +270,11 @@ angular.module('rescour.property', [])
             };
 
             Property.prototype.addComment = function (comment) {
-                var newComment = new Comment(comment, this);
+                var newComment = new Comment(comment, this.id);
+                console.log(newComment);
 
-                newComment.propertyId = newComment.propertyId || this.id;
-
-                if (angular.isArray(this.resources.comments)) {
-                    this.resources.comments.push(newComment);
-                } else {
-                    this.resources.comments = [newComment];
-                }
+                this.resources.comments = this.resources.comments || [];
+                this.resources.comments.push(newComment);
 
                 this.notes = true;
 
@@ -612,34 +607,20 @@ angular.module('rescour.property', [])
     .factory('Comment', ['$_api', '$q', '$http', 'User', 'ngProgress',
         function ($_api, $q, $http, User, ngProgress) {
 
-            var Comment = function (data, property) {
+            var Comment = function (data, propertyId) {
                 data = data || {};
-                this.text = data.text || "";
-                this.id = data.id || undefined;
-                this.propertyId = data.propertyId || undefined;
-                this.property = property;
-                this.timestamp = data.timestamp || new Date().getTime();
-                this.userEmail = data.userEmail || (User.profile ? User.profile.email : "You");
-            };
+                var opts = angular.extend({
+                    propertyId: propertyId
+                }, data);
 
-//            Comment.query = function (itemID) {
-//                var config = angular.extend({
-//                        transformRequest: $_api.loading.none
-//                    }, $_api.config),
-//                    defer = $q.defer();
-//
-//                if (typeof itemID !== 'undefined') {
-//                    $http.get($_api.path + '/properties/' + itemID + '/comments/', config).then(function (response) {
-//                        defer.resolve(response.data.items);
-//                    }, function (response) {
-//                        defer.reject(response);
-//                    });
-//                } else {
-//                    throw new Error("Comment.query received undefined itemID");
-//                }
-//
-//                return defer.promise;
-//            };
+                angular.copy(opts, this);
+                this.userEmail = data.userEmail || (User.profile ? User.profile.email : "You");
+                console.log(User);
+//                this.text = data.text || "";
+//                this.id = data.id || undefined;
+//                this.propertyId = propertyId || undefined;
+//                this.timestamp = data.timestamp || new Date().getTime();
+            };
 
             Comment.query = function () {
                 var items = [],
@@ -688,13 +669,8 @@ angular.module('rescour.property', [])
                     });
 
                 if (typeof propertyId !== 'undefined') {
-                    $http.post($_api.path + '/properties/' + propertyId + '/comments/', body, config)
+                    $http.post($_api.path + '/comments/', body, config)
                         .then(function (response) {
-                            if (self.property) {
-                                self.property.hasComments = true;
-                            } else {
-                                throw new Error('Comment property has not been defined');
-                            }
                             self.$spinner = false;
                             defer.resolve(response);
                         }, function (response) {

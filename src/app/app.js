@@ -27,6 +27,7 @@ angular.module('rescour.app',
             $httpProvider.defaults.withCredentials = true;
             $locationProvider.html5Mode(true);
 
+            console.log(BrowserDetectProvider);
             $routeProvider.when('/',
                 {
                     redirectTo: '/market/'

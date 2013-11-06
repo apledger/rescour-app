@@ -593,6 +593,11 @@ angular.module('rescour.property', [])
                 this.property = property;
                 this.timestamp = data.timestamp || new Date(parseInt(this.id.toString().slice(0,8), 16)*1000) || new Date().getTime();
                 this.userEmail = data.userEmail || (User.profile ? User.profile.email : "You");
+                console.log(User);
+//                this.text = data.text || "";
+//                this.id = data.id || undefined;
+//                this.propertyId = propertyId || undefined;
+//                this.timestamp = data.timestamp || new Date().getTime();
             };
 
             Comment.query = function () {

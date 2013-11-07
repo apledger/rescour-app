@@ -27,17 +27,17 @@ angular.module('rescour.app')
 
                             Property.query()
                                 .then(function (results) {
-                                    ngProgress.set(ngProgress.status() + 10);
+                                    ngProgress.set(ngProgress.status() + 5);
                                     PropertyMarket.initialize(results, Property.$dimensions);
                                     return Property.getResources(PropertyMarket.items);
                                 })
                                 .then(function (results) {
-                                    ngProgress.set(ngProgress.status() + 10);
+                                    ngProgress.set(ngProgress.status() + 5);
                                     propertyDefer.resolve();
                                 });
 
                             News.query().then(function (results) {
-                                ngProgress.set(ngProgress.status() + 10);
+                                ngProgress.set(ngProgress.status() + 5);
                                 NewsMarket.initialize(results, News.$dimensions);
                                 newsDefer.resolve();
                             });
@@ -275,8 +275,6 @@ angular.module('rescour.app')
                     return categoryValueOptions;
                 })()
             };
-
-            console.log($scope.categoryPower);
 
             $scope.toggleNewsDiscreet = function (discreet, discreetValue) {
                 NewsMarket.toggleDiscreet(discreet, discreetValue);

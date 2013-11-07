@@ -46,26 +46,13 @@ angular.module('rescour.property', [])
                 this.longitude = parseFloat(data.address.longitude) || 'NA';
                 this.yearBuilt = parseInt(this.yearBuilt, 10) || 'NA';
                 this.numUnits = parseInt(this.numUnits, 10) || 'NA';
-                this.daysOnMarket = Math.ceil(Math.abs(Date.now() - (this.id * 1000)) / (1000 * 3600 * 24));
+                this.daysOnMarket = Math.ceil(Math.abs(Date.now() - (this.datePosted * 1000)) / (1000 * 3600 * 24));
                 this.resources = {};
                 this.favorites = false;
                 this.hidden = false;
-//                angular.forEach(this.attributes.discreet, function (value, key) {
-//                    if (!value) {
-//                        self.attributes.discreet[key] = 'Unknown'
-//                    }
-//                });
-//
-//                angular.forEach(this.attributes.range, function (value, key) {
-//                    if (_.isNaN(parseInt(value, 10)) || !value) {
-//                        self.attributes.range[key] = 'NA'
-//                    } else {
-//                        self.attributes.range[key] = parseInt(self.attributes.range[key], 10);
-//                    }
-//                });
-//                this.attributes.range.latitude = data.address.latitude || 'NA';
-//                this.attributes.range.longitude = data.address.longitude || 'NA';
-//                this.notes = this.hasComments || this.hasFinances;
+                if (this.daysOnMarket > 16000) {
+                    console.log(this);
+                }
             };
 
             Property.$dimensions = {
@@ -97,10 +84,10 @@ angular.module('rescour.property', [])
                         title: 'Year Built',
                         weight: 9
                     },
-//                    'daysOnMarket': {
-//                        title: 'Days on Market',
-//                        weight: 8
-//                    },
+                    'daysOnMarket': {
+                        title: 'Days on Market',
+                        weight: 8
+                    },
                     'latitude': {
                         title: 'Latitude',
                         weight: 9,
@@ -147,11 +134,12 @@ angular.module('rescour.property', [])
 
                                         if (resourceKey === 'comments' || resourceKey === 'finances') {
                                             property.notes = true;
+                                            console.log(resource);
                                         } else {
                                             property[resourceKey] = true;
                                         }
                                     } else {
-                                        throw new Error("Cannot add " + resourceKey + " to Property ID: " + propertyId + ", does not exist")
+                                        throw new Error("Cannot add " + resourceKey + ": " + resource.id + " to Property ID: " + propertyId + ", does not exist")
                                     }
 
                                 } catch (e) {
@@ -159,7 +147,6 @@ angular.module('rescour.property', [])
                                 }
                             });
                         });
-
                         defer.resolve(properties);
                     });
 
@@ -270,7 +257,6 @@ angular.module('rescour.property', [])
 
             Property.prototype.addComment = function (comment) {
                 var newComment = new Comment(comment, this.id);
-                console.log(newComment);
 
                 this.resources.comments = this.resources.comments || [];
                 this.resources.comments.push(newComment);
@@ -289,15 +275,10 @@ angular.module('rescour.property', [])
             };
 
             Property.prototype.addFinance = function (finance) {
-                var newFinance = new Finance(finance, this);
+                var newFinance = new Finance(finance, this.id);
 
-                newFinance.propertyId = newFinance.propertyId || this.id;
-
-                if (angular.isArray(this.resources.finances)) {
-                    this.resources.finances.push(newFinance);
-                } else {
-                    this.resources.finances = [newFinance];
-                }
+                this.resources.finances = this.resources.finances || [];
+                this.resources.finances.push(newFinance);
 
                 this.notes = true;
 
@@ -309,14 +290,10 @@ angular.module('rescour.property', [])
 
                 if (finance.id) {
                     finance.$delete().then(function (response) {
-                        self.resources.finances = _.reject(self.resources.finances, function (value) {
-                            return angular.equals(value, finance);
-                        });
+                        self.resources.finances = _.without(self.resources.finances, finance);
                     });
                 } else {
-                    self.resources.finances = _.reject(self.resources.finances, function (value) {
-                        return angular.equals(value, finance);
-                    });
+                    self.resources.finances = _.without(self.resources.finances, finance);
                 }
             };
 
@@ -614,11 +591,6 @@ angular.module('rescour.property', [])
                 this.property = property;
                 this.timestamp = data.timestamp || new Date(parseInt(this.id.toString().slice(0,8), 16)*1000) || new Date().getTime();
                 this.userEmail = data.userEmail || (User.profile ? User.profile.email : "You");
-                console.log(User);
-//                this.text = data.text || "";
-//                this.id = data.id || undefined;
-//                this.propertyId = propertyId || undefined;
-//                this.timestamp = data.timestamp || new Date().getTime();
             };
 
             Comment.query = function () {
@@ -663,9 +635,7 @@ angular.module('rescour.property', [])
                         }
                     }, $_api.config),
                     propertyId = self.propertyId,
-                    body = JSON.stringify({
-                        text: self.text
-                    });
+                    body = JSON.stringify(self);
 
                 if (typeof propertyId !== 'undefined') {
                     $http.post($_api.path + '/comments/', body, config)
@@ -688,14 +658,14 @@ angular.module('rescour.property', [])
     .factory('Finance', ['$_api', '$q', '$http', 'ngProgress',
         function ($_api, $q, $http, ngProgress) {
 
-            var Finance = function (data, property) {
+            var Finance = function (data, propertyId) {
                 data = data || {};
-                this.id = data.id || undefined;
-                this.propertyId = data.propertyId || undefined;
-                this.property = property;
-                this.name = data.name || '';
-                this.valueFormat = data.valueFormat || 'currency';
-                this.value = data.value ? parseFloat(data.value) : undefined;
+                var opts = angular.extend({
+                    propertyId: propertyId,
+                    valueFormat: 'currency'
+                }, data);
+
+                angular.copy(opts, this);
             };
 
             Finance.defaults = ['Valuation', 'Cap Rate', 'IRR', 'Price / Unit'];
@@ -775,22 +745,13 @@ angular.module('rescour.property', [])
                             return data;
                         }
                     }, $_api.config),
-                    body = JSON.stringify({
-                        name: self.name,
-                        value: self.value,
-                        valueFormat: self.valueFormat
-                    }),
+                    body = JSON.stringify(self),
                     propertyId = self.propertyId;
 
                 if (typeof propertyId !== 'undefined') {
                     if (self.id) {
-                        $http.put($_api.path + '/properties/' + propertyId + '/finances/' + self.id, body, config)
+                        $http.put($_api.path + '/finances/' + self.id, body, config)
                             .then(function (response) {
-                                if (self.property) {
-                                    self.property.hasFinances = true;
-                                } else {
-                                    throw new Error('Finance property has not been defined');
-                                }
                                 self.$spinner = false;
                                 defer.resolve(response);
                             }, function (response) {
@@ -798,13 +759,8 @@ angular.module('rescour.property', [])
                                 defer.reject(response);
                             });
                     } else {
-                        $http.post($_api.path + '/properties/' + propertyId + '/finances/', body, config)
+                        $http.post($_api.path + '/finances/', body, config)
                             .then(function (response) {
-                                if (self.property) {
-                                    self.property.hasFinances = true;
-                                } else {
-                                    throw new Error('Finance property has not been defined');
-                                }
                                 self.$spinner = false;
                                 self.id = response.data.id;
                                 defer.resolve(response);
@@ -828,7 +784,7 @@ angular.module('rescour.property', [])
                 if (typeof propertyId !== 'undefined') {
                     $http({
                         method: 'DELETE',
-                        url: $_api.path + '/properties/' + propertyId + '/finances/' + self.id,
+                        url: $_api.path + '/finances/' + self.id,
                         headers: {'Content-Type': 'application/json'},
                         withCredentials: true,
                         transformRequest: function (data) {

@@ -27,23 +27,23 @@ angular.module('rescour.app')
 
                             Property.query()
                                 .then(function (results) {
-                                    ngProgress.set(ngProgress.status() + 5);
+                                    ngProgress.set(ngProgress.status() + ((100 - ngProgress.status()) * .15));
                                     PropertyMarket.initialize(results, Property.$dimensions);
                                     return Property.getResources(PropertyMarket.items);
                                 })
                                 .then(function (results) {
-                                    ngProgress.set(ngProgress.status() + 5);
+                                    ngProgress.set(ngProgress.status() + ((100 - ngProgress.status()) * .1));
                                     propertyDefer.resolve();
                                 });
 
                             News.query().then(function (results) {
-                                ngProgress.set(ngProgress.status() + 5);
+                                ngProgress.set(ngProgress.status() + ((100 - ngProgress.status()) * .15));
                                 NewsMarket.initialize(results, News.$dimensions);
                                 newsDefer.resolve();
                             });
 
                             User.getProfile().then(function (response) {
-                                ngProgress.set(ngProgress.status() + 5);
+                                ngProgress.set(ngProgress.status() + ((100 - ngProgress.status()) * .1));
                                 userDefer.resolve(response);
                             }, function (response) {
                                 userDefer.reject(response);

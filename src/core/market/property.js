@@ -168,7 +168,7 @@ angular.module('rescour.property', [])
 
                     $http.get(path, config).then(function (response) {
                         items = items.concat(response.data);
-                        ngProgress.set(ngProgress.status() + 1);
+                        ngProgress.set(ngProgress.status() + ((100 - ngProgress.status()) * .01));
 
                         if (response.data.length < limit || response.data.length === 0) {
                             defer.resolve(items);
@@ -609,7 +609,7 @@ angular.module('rescour.property', [])
 
                     $http.get(path, config).then(function (response) {
                         items = items.concat(response.data);
-                        ngProgress.set(ngProgress.status() + 1);
+                        ngProgress.set(ngProgress.status() + ((100 - ngProgress.status()) * .05));
 
                         if (response.data.length < limit || response.data.length === 0) {
                             defer.resolve(items);
@@ -720,7 +720,7 @@ angular.module('rescour.property', [])
 
                     $http.get(path, config).then(function (response) {
                         items = items.concat(response.data);
-                        ngProgress.set(ngProgress.status() + 1);
+                        ngProgress.set(ngProgress.status() + ((100 - ngProgress.status()) * .01));
 
                         if (response.data.length < limit || response.data.length === 0) {
                             defer.resolve(items);
@@ -833,7 +833,7 @@ angular.module('rescour.property', [])
 
                     $http.get(path, config).then(function (response) {
                         items = items.concat(response.data);
-                        ngProgress.set(ngProgress.status() + 1);
+                        ngProgress.set(ngProgress.status() + ((100 - ngProgress.status()) * .01));
 
                         if (response.data.length < limit || response.data.length === 0) {
                             defer.resolve(items);
@@ -923,7 +923,7 @@ angular.module('rescour.property', [])
 
                     $http.get(path, config).then(function (response) {
                         items = items.concat(response.data);
-                        ngProgress.set(ngProgress.status() + 1);
+                        ngProgress.set(ngProgress.status() + ((100 - ngProgress.status()) * .01));
 
                         if (response.data.length < limit || response.data.length === 0) {
                             defer.resolve(items);

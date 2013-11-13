@@ -129,20 +129,7 @@ angular.module('rescour.app')
                         controller: "DetailsController",
                         resolve: {
                             activeItem: function ($q) {
-                                var deferred = $q.defer();
-
-                                var item = PropertyMarket.getActive() || {};
-                                if (!item.hasOwnProperty('details') || _.isEmpty(item.details)) {
-                                    item.getDetails().then(function (_item) {
-                                        deferred.resolve(_item);
-                                    }, function () {
-                                        deferred.reject();
-                                    });
-                                } else {
-                                    deferred.resolve(item);
-                                }
-
-                                return deferred.promise;
+                                return PropertyMarket.getActive().getDetails();
                             },
                             panes: function () {
                                 return panes;
@@ -576,42 +563,8 @@ angular.module('rescour.app')
             $scope.financeFields = Finance.fields;
             $scope.contactAlerts = [];
             $scope.current = activeItem;
-            $scope.currentImages = $scope.current.getImages();
-            $scope.currentFinances = activeItem.details.finances;
-            $scope.testItems = [
-                {
-                    id: 1,
-                    name: {
-                        first: "Marcin",
-                        last: "Warpechowski"
-                    },
-                    address: "Marienplatz 11, Munich",
-                    isActive: "Yes",
-                    Product: {
-                        Description: "Big Mac",
-                        Options: [
-                            {Description: "Big Mac"},
-                            {Description: "Big Mac & Co"}
-                        ]
-                    }
-                },
-                {
-                    id: 2,
-                    name: {
-                        first: "Alan",
-                        last: "Pledger"
-                    },
-                    address: "123",
-                    isActive: "Yes",
-                    Product: {
-                        Description: "Big Mac",
-                        Options: [
-                            {Description: "Big Mac"},
-                            {Description: "Big Mac & Co"}
-                        ]
-                    }
-                }
-            ];
+            $scope.currentImages = $scope.current.getImages() || [];
+            $scope.currentFinances = activeItem.resources.finances;
 
             $scope.close = function () {
                 $location.search('id', null).hash(null);

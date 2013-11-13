@@ -11,7 +11,7 @@ angular.module('rescour.user', ['ngCookies'])
             this.profile = {};
             this.billing = {};
 
-            this.getProfile = function () {
+            this.get = function () {
                 var defer = $q.defer(),
                     self = this,
                     path = $_api.path + '/auth/user/',
@@ -21,9 +21,9 @@ angular.module('rescour.user', ['ngCookies'])
 
                 $http.get(path, config).then(
                     function (response) {
-                        console.log(response);
                         self.id = response.data[0].id;
                         angular.copy(response.data[0], self.profile);
+                        self.getBilling();
                         defer.resolve(response);
                     },
                     function (response) {
@@ -65,7 +65,6 @@ angular.module('rescour.user', ['ngCookies'])
             };
             
             this.addStripe = function (tok) {
-                console.log(this);
                 var defer = $q.defer(),
                     self = this,
                     path = $_api.path + '/auth/user/' + self.id + '/payment/',

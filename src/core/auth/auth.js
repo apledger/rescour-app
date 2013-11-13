@@ -130,7 +130,7 @@ angular.module('rescour.auth', [])
                 var resolve = function (response) {
                 }, reject = function (response) {
                     var status = response.status,
-                        message = response.data.status_message;
+                        message = response.data.error.reason;
 
                     switch (status) {
                         case 401:
@@ -147,20 +147,7 @@ angular.module('rescour.auth', [])
                             $rootScope.$broadcast('auth#loginRequired');
                             break;
                         case 402:
-                            var defer = $q.defer(),
-                                req = {
-                                    config: response.config,
-                                    deferred: defer
-                                };
-                            $rootScope.requests401.push(req);
-
-                            if (message === 'payment required') {
-                                $rootScope.$broadcast('auth#paymentRequired');
-                            } else if (message === 'payment authorizing') {
-                                $rootScope.$broadcast('auth#paymentAuthorizing');
-                            }
-
-                            return defer.promise;
+                            $rootScope.$broadcast('auth#paymentRequired');
                         case 403:
                             $rootScope.$broadcast('auth#paymentRequired');
                             break;

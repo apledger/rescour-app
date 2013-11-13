@@ -584,16 +584,19 @@ angular.module('rescour.app')
             };
 
             $scope.sendEmail = function (email) {
-                email.recipients = [];
+                var recipients = [];
 
-                angular.forEach($scope.current.details.contacts, function (value, key) {
+                angular.forEach($scope.current.contacts, function (value, key) {
                     if (value.selected) {
-                        email.recipients.push(value.email);
+                        recipients.push(value.email);
                     }
                 });
 
-                if (email.recipients.length > 0 && email.message) {
-                    var path = $_api.path + '/properties/' + $scope.current.id + '/contact/',
+                email.to = recipients.join(',');
+                email.subject = $scope.current.title + " via REscour.com";
+
+                if (recipients.length > 0 && email.text) {
+                    var path = $_api.path + '/messages/',
                         config = angular.extend({
                             transformRequest: function (data) {
                                 $scope.contactAlerts = [
@@ -609,7 +612,7 @@ angular.module('rescour.app')
 
                     $http.post(path, body, config).then(
                         function (response) {
-                            email.message = "";
+                            email.text = "";
                             $scope.contactAlerts = [
                                 {
                                     type: 'success',

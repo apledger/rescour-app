@@ -50,8 +50,9 @@ angular.module('rescour.property', [])
                 this.resources = {};
                 this.favorites = false;
                 this.hidden = false;
-                if (this.daysOnMarket > 16000) {
-                    console.log(this);
+                this.resources = {
+                    finances: [],
+                    comments: []
                 }
             };
 
@@ -134,7 +135,6 @@ angular.module('rescour.property', [])
 
                                         if (resourceKey === 'comments' || resourceKey === 'finances') {
                                             property.notes = true;
-                                            console.log(resource);
                                         } else {
                                             property[resourceKey] = true;
                                         }
@@ -147,6 +147,7 @@ angular.module('rescour.property', [])
                                 }
                             });
                         });
+
                         defer.resolve(properties);
                     });
 
@@ -185,74 +186,17 @@ angular.module('rescour.property', [])
             };
 
             Property.prototype.getDetails = function () {
-                var self = this,
-                    defer = $q.defer(),
-                    config = angular.extend({
-                        transformRequest: function (data) {
-                            self.details.$spinner = true;
-                            return data;
-                        }
-                    }, $_api.config),
-                    locals = {};
-
-                locals.defaultFinances = angular.extend([], Finance.defaults);
-
-                self.details = self.details || {};
-
-                $http.get($_api.path + '/properties/' + this.id, config).then(function (response) {
-//                    locals.comments = response.data.comments;
-//                    locals.finances = response.data.finances;
-//                    self.details = angular.extend({}, response.data);
-
-                    self.details.$spinner = false;
-                    try {
-//                        // Initialize Comments
-//                        if (angular.isArray(locals.comments)) {
-//                            self.details.comments = [];
-//                            for (var i = 0; i < locals.comments.length; i++) {
-//                                self.addComment(locals.comments[i]);
-//                            }
-//                        } else {
-//                            throw new Error("Comments were not received as Array");
-//                        }
-//
-//                        // Initialize Finances
-//                        if (angular.isArray(locals.finances)) {
-//                            self.details.finances = [];
-//                        } else {
-//                            throw new Error("Comments were not received as Array");
-//                        }
-//
-//                        (function () {
-//                            for (var i = 0; i < Finance.defaults.length; i++) {
-//                                var defaultFinanceName = Finance.defaults[i],
-//                                    finance = _.findWhere(locals.finances, {name: defaultFinanceName}) || {name: defaultFinanceName};
-//
-//                                // If a default finance was found in the locals, add to self, remove from locals
-//                                self.addFinance(finance);
-//                                locals.finances = _.reject(locals.finances, function (val) {
-//                                    return angular.equals(finance, val);
-//                                });
-//                            }
-//                        })();
-//
-//                        (function () {
-//                            for (var i = 0; i < locals.finances.length; i++) {
-//                                self.addFinance(locals.finances[i]);
-//                                Finance.defaults.push(locals.name);
-//                            }
-//                        })();
-                        defer.resolve(self);
-                    } catch (e) {
-                        defer.reject(response);
-                        console.log(e.message);
+                var self = this;
+                angular.forEach(Finance.defaults, function(defaultFinanceName) {
+                    var defaultFinance = _.findWhere(self.resources.finances, {name: defaultFinanceName});
+                    if (!defaultFinance) {
+                        self.resources.finances.push(new Finance({
+                            name: defaultFinanceName
+                        }, self.id));
                     }
-                }, function (response) {
-                    self.details.$spinner = false;
-                    defer.reject(response);
                 });
 
-                return defer.promise;
+                return this;
             };
 
             Property.prototype.addComment = function (comment) {

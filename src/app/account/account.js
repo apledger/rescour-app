@@ -30,11 +30,11 @@ angular.module('rescour.app')
                     }
                 });
         }])
-    .controller('AccountController', ['$scope', 'loadUser', '$_api', '$http', 'User', '$routeParams', '$rootScope', '$location', '$dialog',
-        function ($scope, loadUser, $_api, $http, User, $routeParams, $rootScope, $location, $dialog) {
+    .controller('AccountController', ['$scope', 'loadUser', '$_api', '$http', 'User', '$routeParams', '$rootScope', '$location', '$dialog', 'ngProgress',
+        function ($scope, loadUser, $_api, $http, User, $routeParams, $rootScope, $location, $dialog, ngProgress) {
             $scope.user = User;
-            console.log(User);
 
+            ngProgress.complete();
             $scope.confirmPasswordDialog = $dialog.dialog({
                 backdrop: true,
                 keyboard: true,

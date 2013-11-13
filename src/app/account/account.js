@@ -27,16 +27,6 @@ angular.module('rescour.app')
                             });
                             return defer.promise;
                         }
-//                        loadBilling: function (User, $q) {
-//                            var defer = $q.defer();
-//                            User.getBilling().then(function (response) {
-//                                defer.resolve(response);
-//                            }, function (response) {
-//                                defer.reject(response);
-//                            });
-//
-//                            return defer.promise;
-//                        }
                     }
                 });
         }])

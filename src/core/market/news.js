@@ -90,7 +90,7 @@ angular.module('rescour.news', [])
                     }, $_api.config);
 =======
                     }, $_api.config),
-                    batchLimit = 50,
+                    batchLimit = 500,
                     rootPath = $_api.path + '/news/';
 
                 (function batchItems(limit, offset) {
@@ -98,7 +98,7 @@ angular.module('rescour.news', [])
 
                     $http.get(path, config).then(function (response) {
                         items = items.concat(response.data);
-                        ngProgress.set(ngProgress.status() + 1);
+                        ngProgress.set(ngProgress.status() + 10);
 
                         if (response.data.length < limit || response.data.length === 0) {
                             defer.resolve(items);

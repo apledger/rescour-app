@@ -697,14 +697,18 @@ angular.module('rescour.app')
                     });
             };
         }])
-    .controller('FeedbackDialogController', ['$scope', '$http', 'dialog', '$timeout', '$_api',
-        function ($scope, $http, dialog, $timeout, $_api) {
-            $scope.feedback = {};
+    .controller('FeedbackDialogController', ['$scope', '$http', 'dialog', '$timeout', '$_api', 'User',
+        function ($scope, $http, dialog, $timeout, $_api, User) {
+            console.log(User);
+            $scope.feedback = {
+                to: 'info@rescour.com',
+                subject: User.profile.firstName + " " + User.profile.lastName + " Feedback"
+            };
             $scope.alerts = [];
 
             $scope.sendFeedback = function () {
                 if ($scope.feedback.text) {
-                    var path = $_api.path + '/feedback/',
+                    var path = $_api.path + '/messages/',
                         config = angular.extend({
                             transformRequest: function (data) {
                                 return data;
@@ -714,6 +718,7 @@ angular.module('rescour.app')
 
                     $http.post(path, body, config).then(
                         function (response) {
+                            $scope.feedback.text = "";
                             $scope.alerts = [
                                 {
                                     type: 'success',

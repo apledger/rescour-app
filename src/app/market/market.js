@@ -42,7 +42,7 @@ angular.module('rescour.app')
                                 newsDefer.resolve();
                             });
 
-                            User.getProfile().then(function (response) {
+                            User.get().then(function (response) {
                                 ngProgress.set(ngProgress.status() + ((100 - ngProgress.status()) * .1));
                                 userDefer.resolve(response);
                             }, function (response) {
@@ -436,6 +436,7 @@ angular.module('rescour.app')
                                     $scope.selectedSearch.isSelected = true;
                                     $scope.attributes.modified = false;
                                     $scope.savedSearches.push(_search);
+                                    console.log($scope.attributes, $scope.savedSearches);
                                 });
                             }
                         }, function (response) {
@@ -485,7 +486,7 @@ angular.module('rescour.app')
 
             $scope.deleteSearch = function (search, e) {
                 e.stopPropagation();
-                search.$delete().then(function () {
+                search.$delete().then(function (response) {
                     $scope.savedSearches = _.reject($scope.savedSearches, function (val) {
                         return angular.equals(val, search);
                     });

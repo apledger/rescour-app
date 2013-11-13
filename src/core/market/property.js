@@ -161,14 +161,14 @@ angular.module('rescour.property', [])
                             return data;
                         }
                     }, $_api.config),
-                    batchLimit = 50;
+                    batchLimit = 500;
 
                 (function batchItems(limit, offset) {
                     var path = $_api.path + '/properties/' + "?limit=" + limit + (offset ? "&offset=" + offset : "");
 
                     $http.get(path, config).then(function (response) {
                         items = items.concat(response.data);
-                        ngProgress.set(ngProgress.status() + ((100 - ngProgress.status()) * .01));
+                        ngProgress.set(ngProgress.status() + ((100 - ngProgress.status()) * .1));
 
                         if (response.data.length < limit || response.data.length === 0) {
                             defer.resolve(items);
@@ -301,7 +301,7 @@ angular.module('rescour.property', [])
                 var self = this;
                 self.$spinner = true;
                 if (self.favorites) {
-                    angular.forEach(self.resources.favorites, function(fav){
+                    angular.forEach(self.resources.favorites, function (fav) {
                         var defer = $q.defer();
 
                         fav.$delete().then(function (response) {
@@ -314,8 +314,8 @@ angular.module('rescour.property', [])
                     });
                 } else {
                     var newFavorite = new Favorite({
-                        propertyId: self.id
-                    }),
+                            propertyId: self.id
+                        }),
                         defer = $q.defer();
 
                     newFavorite.$save().then(function (response) {
@@ -337,7 +337,7 @@ angular.module('rescour.property', [])
                 var self = this;
                 self.$spinner = true;
                 if (self.hidden) {
-                    angular.forEach(self.resources.hidden, function(h){
+                    angular.forEach(self.resources.hidden, function (h) {
                         var defer = $q.defer();
 
                         h.$delete().then(function (response) {
@@ -539,14 +539,16 @@ angular.module('rescour.property', [])
                 var defer = $q.defer(),
                     self = this;
                 if (self.id) {
-                    $http(
-                        angular.extend({
-                            method: 'DELETE',
-                            url: $_api.path + '/searches/' + self.id,
-                            transformRequest: function (data) {
-                                self.$spinner = true;
-                                return data;
-                            }}, $_api.config))
+                    $http({
+                        method: 'DELETE',
+                        url: $_api.path + '/searches/' + self.id,
+                        transformRequest: function (data) {
+                            self.$spinner = true;
+                            return data;
+                        },
+                        headers: $_api.config.headers,
+                        withCredentials: true
+                    })
                         .then(function (response) {
                             self.$spinner = false;
                             defer.resolve(response);
@@ -559,7 +561,8 @@ angular.module('rescour.property', [])
 
             SavedSearch.prototype.$save = function () {
                 var defer = $q.defer(),
-                    self = this;
+                    self = this,
+                    config = $_api.config;
                 if (self.id) {
                     $http.put($_api.path + '/searches/' + self.id, JSON.stringify({savedSearch: JSON.stringify(self)}), $_api.config).then(function (response) {
                         defer.resolve(response.data);
@@ -567,7 +570,7 @@ angular.module('rescour.property', [])
                         defer.reject(response.data);
                     });
                 } else {
-                    $http.post($_api.path + '/searches/', JSON.stringify({savedSearch: JSON.stringify(self)}), $_api.config).then(function (response) {
+                    $http.post($_api.path + '/searches/', JSON.stringify({savedSearch: JSON.stringify(self)}), config).then(function (response) {
                         self.id = response.data.id;
                         defer.resolve(response.data);
                     }, function (response) {
@@ -785,7 +788,7 @@ angular.module('rescour.property', [])
                     $http({
                         method: 'DELETE',
                         url: $_api.path + '/finances/' + self.id,
-                        headers: {'Content-Type': 'application/json'},
+                        headers: $_api.config.headers,
                         withCredentials: true,
                         transformRequest: function (data) {
                             self.saving = true;

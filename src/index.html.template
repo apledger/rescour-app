@@ -45,7 +45,6 @@
 </head>
 <body ng-controller="AppController">
 <div class="loading-background" ng-show="loading || failure" ng-cloak>
-
     <div ng-show="loading" class="loading-container" spinner-size="large" spinner="loading" spinner-options="{ top: '70', left: '162' }">
         <img src="/img/logo-medium.png" width="200" alt=""/>
     </div>

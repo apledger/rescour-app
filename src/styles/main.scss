@@ -175,3 +175,9 @@ body {
   position: absolute;
 }
 
+.modal-footer {
+  a {
+    cursor: pointer;
+    margin-right: 15px;
+  }
+}

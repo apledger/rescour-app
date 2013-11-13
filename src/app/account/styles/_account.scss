@@ -1,4 +1,3 @@
-
 .account-container {
   background: $grayLighter;
 
@@ -69,4 +68,10 @@
 
 .plan-unlimited {
   @include plan($gray);
+}
+
+.confirm-password-form {
+  margin: 0;
+
+
 }

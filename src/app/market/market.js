@@ -16,7 +16,7 @@ angular.module('rescour.app')
                     controller: 'MarketController',
                     reloadOnSearch: false,
                     resolve: {
-                        load: function ($q, $_api, $rootScope, Property, PropertyMarket, News, User, NewsMarket, ngProgress) {
+                        load: function ($q, $_api, $rootScope, Property, PropertyMarket, News, User, NewsMarket, ngProgress, $location) {
                             var propertyDefer = $q.defer(),
                                 newsDefer = $q.defer(),
                                 userDefer = $q.defer();

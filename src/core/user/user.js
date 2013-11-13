@@ -74,7 +74,9 @@ angular.module('rescour.user', ['ngCookies'])
                         }
                     }, $_api.config),
                     body = JSON.stringify({
-                        token: tok
+                        card: tok,
+                        plan: 'one_license',
+                        description: 'One Seat License'
                     });
                 
                 $http.put(path, body, config).then(

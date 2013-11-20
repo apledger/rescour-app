@@ -12,7 +12,7 @@ angular.module('rescour.config', [])
     .factory('$_api', function ($http) {
         var url = {
                 dev: '/api',
-                remote: 'http://dev.maasive.net/rescour'
+                remote: 'http://dev.maasive.net/v2/51afcfaa53d4c904b173923d'
             },
             stripeTokens = {
                 test: 'pk_test_wSAqQNQKI7QqPmBpDcQLgGM7',

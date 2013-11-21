@@ -13,24 +13,6 @@ $detailsHeaderColor: $light-gray;
   padding: 0 25px;
   @include rescourTabs;
 
-  .tabbable {
-    position: absolute;
-    top: 120px;
-    left: 20px;
-    right: 20px;
-    bottom: 0;
-
-    .tab-content {
-      position: absolute;
-      overflow-y: scroll;
-      overflow-x: hidden;
-      top: 60px;
-      left: 0;
-      right: 0;
-      bottom: 0;
-    }
-  }
-
   blockquote, blockquote:hover {
     @include transition(border-color 0.2s ease);
   }
@@ -292,14 +274,4 @@ $detailsHeaderColor: $light-gray;
   .form-actions {
     padding-left: 20px;
   }
-}
-
-.rentmetrics-container {
-  position: absolute;
-  overflow-y: scroll;
-  overflow-x: hidden;
-  top: 60px;
-  left: 0;
-  right: 0;
-  bottom: 0;
 }

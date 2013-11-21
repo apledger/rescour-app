@@ -305,9 +305,9 @@
 </div>
 
 <div pane class="container-fluid rentmetrics-container" heading="{{panes[5].heading}}" active="panes[5].active">
-    <div class="row-fluid">
+    <div class="row-fluid" spinner="rentMetrics.$spinner">
         <div class="span12">
-            <div class="well" ng-repeat="comp in rentComps | limit: 10">
+            <div class="well" ng-repeat="comp in rentComps | limitTo: 10">
                 {{ comp }}
             </div>
         </div>

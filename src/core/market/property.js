@@ -935,14 +935,36 @@ angular.module('rescour.property', [])
     .factory('RentMetrics', ['$_api', '$http', '$q', 'ngProgress',
         function ($_api, $http, $q, ngProgress) {
 
+
             var RentMetrics = function (address, limit) {
                 this.address = address.street1 + ' ' + address.city + ',' + address.state;
                 this.comps = [];
                 this.limit = 100;
                 this.averages = {};
+                this.past = 30;
+                this.radius = 3;
+                this.setStartDate();
+            };
+
+            RentMetrics.prototype.setStartDate = function (days) {
+                var currentDate = new Date(Date.now());
+                this.past = days || this.past;
+                currentDate.setDate(currentDate.getDate() - this.past);
+                this.startDate = currentDate.toJSON().split('T')[0];
+                return this;
+            };
+
+            RentMetrics.prototype.getComps = function () {
+                return comps;
             }
 
-            RentMetrics.prototype.query = function () {
+            RentMetrics.prototype.getAverages = function () {
+                return _.map(this.averages, function (val) {
+                    return val;
+                });
+            };
+
+            RentMetrics.prototype.query = function (opts) {
                 var self = this,
                     offset = 0,
                     defer = $q.defer(),
@@ -952,17 +974,21 @@ angular.module('rescour.property', [])
                 ngProgress.height('4px');
                 ngProgress.color('#0088cc');
                 ngProgress.start();
+                self.$spinner = true;
+                self.comps = [];
+                self.averages = {};
                 (function batch(offset) {
                     $http.jsonp('http://www.rentmetrics.com/api/v1/apartments.json?', {
-                        params: {
+                        params: angular.extend(opts || {}, {
                             address: self.address,
                             limit: self.limit,
                             offset: offset,
                             api_token: $_api.rentMetricToken,
-                            include_images: true,
-                            max_distance_mi: 5,
-                            callback: 'JSON_CALLBACK'
-                        },
+                            include_images: false,
+                            max_distance_mi: self.radius,
+                            callback: 'JSON_CALLBACK',
+                            start_date: self.startDate
+                        }),
                         cache: true,
                         headers: {'Content-Type': 'application/json'},
                         withCredentials: true
@@ -980,19 +1006,15 @@ angular.module('rescour.property', [])
                                             break;
                                         }
                                         self.averages[unitType] = self.averages[unitType] || {
-                                            rent: {
-                                                sum: 0,
-                                                count: 0
-                                            },
-                                            sqft: {
-                                                sum: 0,
-                                                count: 0
-                                            }
+                                            bedrooms: unit.bedrooms,
+                                            type: unitType,
+                                            rent: 0,
+                                            sqft: 0,
+                                            count: 0
                                         }
-                                        self.averages[unitType].rent.sum += unit.rent;
-                                        self.averages[unitType].rent.count++;
-                                        self.averages[unitType].sqft.sum += unit.sq_ft;
-                                        self.averages[unitType].sqft.count++;
+                                        self.averages[unitType].rent += unit.rent;
+                                        self.averages[unitType].sqft += unit.sq_ft;
+                                        self.averages[unitType].count++;
                                     } else {
                                         break;
                                     }
@@ -1003,11 +1025,18 @@ angular.module('rescour.property', [])
                                 batch(offset + limit);
                             } else {
                                 ngProgress.complete();
+                                self.$spinner = false;
                                 defer.resolve(self.comps);
                             }
                         }, function (response) {
+                            self.$spinner = false;
                             defer.reject(response);
-                        });
+                        },
+                    function (response) {
+                        self.$spinner = false;
+                        self.error = "Error Loading Comps";
+                        defer.reject(response);
+                    });
                 })(offset || 0);
 
                 return defer.promise;

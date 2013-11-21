@@ -933,8 +933,8 @@ angular.module('rescour.property', [])
 
             return Hidden;
         }])
-    .factory('RentMetrics', ['$_api', '$http', '$q',
-        function ($_api, $http, $q) {
+    .factory('RentMetrics', ['$_api', '$http', '$q', 'ngProgress',
+        function ($_api, $http, $q, ngProgress) {
 
             var RentMetrics = function (address, limit) {
                 this.address = address.street1 + ' ' + address.city + ',' + address.state;
@@ -949,6 +949,10 @@ angular.module('rescour.property', [])
                     defer = $q.defer(),
                     limit = this.limit;
 
+                ngProgress.reset();
+                ngProgress.height('4px');
+                ngProgress.color('#0088cc');
+                ngProgress.start();
                 (function batch(offset) {
                     $http.jsonp('http://www.rentmetrics.com/api/v1/apartments.json?', {
                         params: {
@@ -960,6 +964,7 @@ angular.module('rescour.property', [])
                             max_distance_mi: 5,
                             callback: 'JSON_CALLBACK'
                         },
+                        cache: true,
                         headers: {'Content-Type': 'application/json'},
                         withCredentials: true
                     }).then(function (response) {
@@ -998,6 +1003,7 @@ angular.module('rescour.property', [])
                             if (response.data.offset < response.data.total) {
                                 batch(offset + limit);
                             } else {
+                                ngProgress.complete();
                                 defer.resolve(self.comps);
                             }
                         }, function (response) {

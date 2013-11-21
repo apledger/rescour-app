@@ -236,7 +236,7 @@ angular.module('rescour.utility', [])
                 });
 
                 scope.$watch(function (newScope) {
-                    if (!angular.equals(scope.$eval(attrs.chunk), newScope.visibleItems)) {
+                    if (!angular.equals(scope.$eval(attrs.chunk), visibleItems)) {
                         raw.scrollTop = 0;
                         initChunk();
                     }

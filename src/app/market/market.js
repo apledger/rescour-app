@@ -355,7 +355,12 @@ angular.module('rescour.app')
             };
 
             $scope.$on('$locationChangeSuccess', function (e, newLocation, oldLocation) {
-                openDetails($location.search().id);
+                var activeId = PropertyMarket.getActive() ? PropertyMarket.getActive().id : null;
+                if ($location.search().id === activeId && $location.hash()) {
+                    $scope.propertyDetails.selectPane($location.hash());
+                } else {
+                    openDetails($location.search().id);
+                }
             });
 
             $scope.showItemDetails = function (item, pane) {
@@ -439,7 +444,6 @@ angular.module('rescour.app')
                                     $scope.selectedSearch.isSelected = true;
                                     $scope.attributes.modified = false;
                                     $scope.savedSearches.push(_search);
-                                    console.log($scope.attributes, $scope.savedSearches);
                                 });
                             }
                         }, function (response) {
@@ -577,7 +581,6 @@ angular.module('rescour.app')
             $scope.currentImages = $scope.current.getImages() || [];
             $scope.currentFinances = activeItem.resources.finances;
             $scope.rentComps = RentComps.comps;
-            console.log(RentComps);
 
             $scope.close = function () {
                 $location.search('id', null).hash(null);
@@ -712,7 +715,6 @@ angular.module('rescour.app')
         }])
     .controller('FeedbackDialogController', ['$scope', '$http', 'dialog', '$timeout', '$_api', 'User',
         function ($scope, $http, dialog, $timeout, $_api, User) {
-            console.log(User);
             $scope.feedback = {
                 to: 'info@rescour.com',
                 subject: User.profile.firstName + " " + User.profile.lastName + " Feedback"

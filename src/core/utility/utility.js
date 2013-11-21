@@ -215,13 +215,14 @@ angular.module('rescour.utility', [])
             link: function (scope, element, attrs) {
                 var raw = element[0],
                     currentSlice,
-                    chunkSize = parseInt(attrs.chunkSize, 10) || 10;
+                    chunkSize = parseInt(attrs.chunkSize, 10) || 10,
+                    visibleItems = [];
 
                 function initChunk() {
-                    scope.visibleItems = scope.$eval(attrs.chunk);
+                    visibleItems = scope.$eval(attrs.chunk);
                     // If a filter is provided, apply filter to set and return
                     currentSlice = chunkSize;
-                    scope.chunk = scope.visibleItems.slice(0, chunkSize);
+                    scope.chunk = visibleItems.slice(0, chunkSize);
                 }
 
                 element.bind('scroll', function () {
@@ -230,7 +231,7 @@ angular.module('rescour.utility', [])
                         // increase chunkSize and re-filter
                         scope.$apply(function () {
                             // take next limit
-                            scope.chunk = scope.chunk.concat(scope.visibleItems.slice(currentSlice, currentSlice += chunkSize));
+                            scope.chunk = scope.chunk.concat(visibleItems.slice(currentSlice, currentSlice += chunkSize));
                         });
                     }
                 });

@@ -115,7 +115,8 @@ angular.module('rescour.app')
                         {heading: "Pictures", active: false},
                         {heading: "Contact", active: false},
                         {heading: "Comments", active: false},
-                        {heading: "Finances", active: false}
+                        {heading: "Finances", active: false},
+                        {heading: "RentMetrics", active: false}
                     ],
                     view = $dialog.dialog({
                         backdrop: false,
@@ -133,6 +134,17 @@ angular.module('rescour.app')
                             },
                             panes: function () {
                                 return panes;
+                            },
+                            RentComps: function (RentMetrics, $q) {
+                                var RentComps = new RentMetrics(PropertyMarket.getActive().address),
+                                    defer = $q.defer();
+
+                                RentComps.query()
+                                    .then(function (comps) {
+                                        defer.resolve(RentComps);
+                                    });
+
+                                return defer.promise;
                             }
                         }
                     });
@@ -253,7 +265,7 @@ angular.module('rescour.app')
                 multiSelect: true,
                 options: (function () {
                     var categoryValueOptions = {};
-                    angular.forEach($scope.newsDiscreet.category.values, function(value, key){
+                    angular.forEach($scope.newsDiscreet.category.values, function (value, key) {
                         categoryValueOptions[key] = {
                             title: value.title,
                             action: function () {
@@ -553,8 +565,8 @@ angular.module('rescour.app')
                 }
             };
         }])
-    .controller("DetailsController", ['$scope', '$http', '$_api', '$timeout', 'activeItem', '$location', 'Finance', 'panes',
-        function ($scope, $http, $_api, $timeout, activeItem, $location, Finance, panes) {
+    .controller("DetailsController", ['$scope', '$http', '$_api', '$timeout', 'activeItem', '$location', 'Finance', 'panes', 'RentComps',
+        function ($scope, $http, $_api, $timeout, activeItem, $location, Finance, panes, RentComps) {
             $scope.newComment = {};
             $scope.panes = panes;
             $scope.newEmail = {};
@@ -565,6 +577,8 @@ angular.module('rescour.app')
             $scope.current = activeItem;
             $scope.currentImages = $scope.current.getImages() || [];
             $scope.currentFinances = activeItem.resources.finances;
+            $scope.rentComps = RentComps.comps;
+            console.log(RentComps);
 
             $scope.close = function () {
                 $location.search('id', null).hash(null);

@@ -187,7 +187,7 @@ angular.module('rescour.property', [])
 
             Property.prototype.getDetails = function () {
                 var self = this;
-                angular.forEach(Finance.defaults, function(defaultFinanceName) {
+                angular.forEach(Finance.defaults, function (defaultFinanceName) {
                     var defaultFinance = _.findWhere(self.resources.finances, {name: defaultFinanceName});
                     if (!defaultFinance) {
                         self.resources.finances.push(new Finance({
@@ -932,6 +932,83 @@ angular.module('rescour.property', [])
             }
 
             return Hidden;
+        }])
+    .factory('RentMetrics', ['$_api', '$http', '$q',
+        function ($_api, $http, $q) {
+
+            var RentMetrics = function (address, limit) {
+                this.address = address.street1 + ' ' + address.city + ',' + address.state;
+                this.comps = [];
+                this.limit = 100;
+                this.averages = {};
+            }
+
+            RentMetrics.prototype.query = function () {
+                var self = this,
+                    offset = 0,
+                    defer = $q.defer(),
+                    limit = this.limit;
+
+                (function batch(offset) {
+                    $http.jsonp('http://www.rentmetrics.com/api/v1/apartments.json?', {
+                        params: {
+                            address: self.address,
+                            limit: self.limit,
+                            offset: offset,
+                            api_token: $_api.rentMetricToken,
+                            include_images: true,
+                            max_distance_mi: 5,
+                            callback: 'JSON_CALLBACK'
+                        },
+                        headers: {'Content-Type': 'application/json'},
+                        withCredentials: true
+                    }).then(function (response) {
+                            for (var i = response.data.collection.length - 1; i >= 0; i--) {
+                                var comp = response.data.collection[i];
+                                for (var j = 0; j < comp.latest_prices.length; j++) {
+                                    var unit = comp.latest_prices[j];
+
+                                    if (unit.bedrooms && (unit.full_bathrooms + unit.partial_bathrooms)) {
+                                        var unitType = unit.bedrooms + 'BR/' + (unit.full_bathrooms + (unit.partial_bathrooms * 0.5)) + 'BA';
+
+                                        // Some bedroom and bath data is incorrect, need to omit from average
+                                        if ((unit.full_bathrooms + (unit.partial_bathrooms * 0.5)) > 10 || unit.bedrooms > 10) {
+                                            break;
+                                        }
+                                        self.averages[unitType] = self.averages[unitType] || {
+                                            rent: {
+                                                sum: 0,
+                                                count: 0
+                                            },
+                                            sqft: {
+                                                sum: 0,
+                                                count: 0
+                                            }
+                                        }
+                                        self.averages[unitType].rent.sum += unit.rent;
+                                        self.averages[unitType].rent.count++;
+                                        self.averages[unitType].sqft.sum += unit.sq_ft;
+                                        self.averages[unitType].sqft.count++;
+                                    } else {
+                                        break;
+                                    }
+                                }
+                            }
+                            self.comps = self.comps.concat(response.data.collection);
+                            if (response.data.offset < response.data.total) {
+                                batch(offset + limit);
+                            } else {
+                                defer.resolve(self.comps);
+                            }
+                        }, function (response) {
+                            defer.reject(response);
+                        });
+                })(offset || 0);
+
+                return defer.promise;
+            };
+
+            return RentMetrics;
         }])
     .directive('imgViewer', ['$window', function ($document) {
         return{

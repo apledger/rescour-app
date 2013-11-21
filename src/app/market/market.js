@@ -133,18 +133,20 @@ angular.module('rescour.app')
                             },
                             panes: function () {
                                 return panes;
-                            },
-                            RentComps: function (RentMetrics, $q) {
-                                var RentComps = new RentMetrics(PropertyMarket.getActive().address),
-                                    defer = $q.defer();
-
-                                RentComps.query()
-                                    .then(function (comps) {
-                                        defer.resolve(RentComps);
-                                    });
-
-                                return defer.promise;
                             }
+//                            rentMetrics: function (RentMetrics, $q) {
+//                                var rentMetrics = new RentMetrics(PropertyMarket.getActive().address),
+//                                    defer = $q.defer();
+//
+//                                rentMetrics.query()
+//                                    .then(function (comps) {
+//                                        defer.resolve(rentMetrics);
+//                                    }, function (response) {
+//                                        defer.resolve(rentMetrics);
+//                                    });
+//
+//                                return defer.promise;
+//                            }
                         }
                     });
 
@@ -568,8 +570,8 @@ angular.module('rescour.app')
                 }
             };
         }])
-    .controller("DetailsController", ['$scope', '$http', '$_api', '$timeout', 'activeItem', '$location', 'Finance', 'panes', 'RentComps',
-        function ($scope, $http, $_api, $timeout, activeItem, $location, Finance, panes, RentComps) {
+    .controller("DetailsController", ['$scope', '$http', '$_api', '$timeout', 'activeItem', '$location', 'Finance', 'panes', 'RentMetrics',
+        function ($scope, $http, $_api, $timeout, activeItem, $location, Finance, panes, RentMetrics) {
             $scope.newComment = {};
             $scope.panes = panes;
             $scope.newEmail = {};
@@ -580,14 +582,46 @@ angular.module('rescour.app')
             $scope.current = activeItem;
             $scope.currentImages = $scope.current.getImages() || [];
             $scope.currentFinances = activeItem.resources.finances;
-            $scope.rentComps = RentComps.comps;
+            $scope.rentComps = [];
+            $scope.rentMetricsPastOptions = [30, 60, 90];
+            $scope.rentMetricsRadiusOptions = [5, 10, 25];
+            var rentMetrics = new RentMetrics($scope.current.address),
+                checkRentMetric = function () {
+                    var rentMetricPane = _.find($scope.panes, function (val) {
+                        return val.heading === 'RentMetrics'
+                    });
+
+                    if (rentMetricPane.active && !$scope.rentMetrics) {
+                        $scope.refreshRentComps();
+                    }
+                }
+
+            $scope.setRentCompsPast = function (days) {
+                $scope.rentMetrics.setStartDate(days);
+                $scope.refreshRentComps();
+            };
+
+            $scope.setRentCompsRadius = function (radius) {
+                $scope.rentMetrics.radius = radius;
+                $scope.refreshRentComps();
+            };
+
+            $scope.refreshRentComps = function () {
+                $scope.rentMetrics = rentMetrics;
+                $scope.rentMetrics.query();
+            };
 
             $scope.close = function () {
                 $location.search('id', null).hash(null);
             };
 
+            $scope.$on('$locationChangeSuccess', function () {
+                checkRentMetric();
+            });
+
             $scope.selectPane = function (pane) {
                 $location.hash(pane.heading);
+//                $scope.refreshRentComps();
             };
 
             $scope.addComment = function (comment) {
@@ -670,6 +704,8 @@ angular.module('rescour.app')
             $scope.deleteFinance = function (finance) {
                 $scope.current.deleteFinance(finance);
             };
+
+            checkRentMetric();
         }])
     .controller('ReportsDialogController', ['$scope', 'dialog', 'Reports', 'User',
         function ($scope, dialog, Reports, User) {

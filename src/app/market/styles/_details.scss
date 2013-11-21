@@ -275,3 +275,25 @@ $detailsHeaderColor: $light-gray;
     padding-left: 20px;
   }
 }
+
+.rentmetrics-container {
+  .page-header {
+    line-height: 50px;
+    span {
+      font-size: 18px;
+      color: $grayDark;
+      font-weight: 400;
+    }
+    text-align: center;
+    .input-dropdown {
+      display: inline-block;
+      width: 100px;
+      margin: 0 10px;
+      input {
+        text-align: center;
+        padding-right: 15px;
+        margin-top: -5px;
+      }
+    }
+  }
+}

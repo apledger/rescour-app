@@ -957,7 +957,7 @@ angular.module('rescour.app')
                     }
                 }
 
-                scope.imageUrl = $_api.path + '/files/';
+                scope.imageUrl = $_api.path + '/pictures/';
 
                 viewerCtrl.setSlides(scope.images);
                 viewerCtrl.element = element;

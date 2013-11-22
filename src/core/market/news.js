@@ -66,7 +66,6 @@ angular.module('rescour.news', [])
                         transformRequest: function (data) {
                             return data;
                         }
-<<<<<<< HEAD
                     }, $_api.config),
                     batchLimit = 500,
                     rootPath = $_api.path + '/news/';
@@ -86,29 +85,6 @@ angular.module('rescour.news', [])
                     }, function (response) {
                         defer.reject(response);
                     });
-||||||| merged common ancestors
-                    }, $_api.config);
-=======
-                    }, $_api.config),
-                    batchLimit = 500,
-                    rootPath = $_api.path + '/news/';
-
-                (function batchItems(limit, offset) {
-                    var path = rootPath + "?limit=" + limit + (offset ? "&offset=" + offset : "");
-
-                    $http.get(path, config).then(function (response) {
-                        items = items.concat(response.data);
-                        ngProgress.set(ngProgress.status() + 10);
-
-                        if (response.data.length < limit || response.data.length === 0) {
-                            defer.resolve(items);
-                        } else {
-                            batchItems(limit, response.data[response.data.length - 1].id);
-                        }
-                    }, function (response) {
-                        defer.reject(response);
-                    });
->>>>>>> added progress bar
 
                 })(batchLimit);
 

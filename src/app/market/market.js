@@ -25,11 +25,6 @@ angular.module('rescour.app')
                             ngProgress.color('#993333');
                             ngProgress.start();
 
-                            ngProgress.height('4px');
-                            ngProgress.color('#993333');
-                            ngProgress.start();
-
-                            console.log("starting properties query");
                             Property.query()
                                 .then(function (results) {
                                     ngProgress.set(ngProgress.status() + ((100 - ngProgress.status()) * .15));

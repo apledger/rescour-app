@@ -129,15 +129,7 @@ angular.module('rescour.auth', [])
             return function (promise) {
                 var resolve = function (response) {
                 }, reject = function (response) {
-<<<<<<< HEAD
-                    var status = response.status,
-                        message = response.data.error.reason;
-||||||| merged common ancestors
-                    var status = response.status,
-                        message = response.data.status_message;
-=======
                     var status = response.status;
->>>>>>> ap/rentmetrics
 
                     switch (status) {
                         case 401:
@@ -154,27 +146,8 @@ angular.module('rescour.auth', [])
                             $rootScope.$broadcast('auth#loginRequired');
                             break;
                         case 402:
-<<<<<<< HEAD
-                            $rootScope.$broadcast('auth#paymentRequired');
-||||||| merged common ancestors
-                            var defer = $q.defer(),
-                                req = {
-                                    config: response.config,
-                                    deferred: defer
-                                };
-                            $rootScope.requests401.push(req);
-
-                            if (message === 'payment required') {
-                                $rootScope.$broadcast('auth#paymentRequired');
-                            } else if (message === 'payment authorizing') {
-                                $rootScope.$broadcast('auth#paymentAuthorizing');
-                            }
-
-                            return defer.promise;
-=======
                             $rootScope.$broadcast('auth#paymentRequired');
                             break;
->>>>>>> ap/rentmetrics
                         case 403:
                             $rootScope.$broadcast('auth#paymentRequired');
                             break;

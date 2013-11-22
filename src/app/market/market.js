@@ -269,7 +269,6 @@ angular.module('rescour.app')
                 })()
             };
 
-            console.log($scope.categoryPower);
 
             $scope.toggleNewsDiscreet = function (discreet, discreetValue) {
                 NewsMarket.toggleDiscreet(discreet, discreetValue);
@@ -602,7 +601,6 @@ angular.module('rescour.app')
                     }
                 }
             ];
-            console.log($scope.current);
 
             $scope.close = function () {
                 $location.search('id', null).hash(null);

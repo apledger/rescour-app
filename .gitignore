@@ -9,4 +9,3 @@ tmp
 .editorconfig
 .gitattributes
 libpeerconnection.log
-/build

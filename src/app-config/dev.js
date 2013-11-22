@@ -18,6 +18,9 @@ angular.module('rescour.config', [])
                 test: 'pk_test_wSAqQNQKI7QqPmBpDcQLgGM7',
                 prod: 'pk_live_4TLhgO3Pp1gOdWWmvLVK1PG3'
             },
+            rentMetricTokens = {
+                prod: 'u8LNVTAcLns6ypPmXt82iw'
+            },
             config = {
                 headers: {'Content-Type': 'application/json'},
                 withCredentials: true
@@ -32,6 +35,7 @@ angular.module('rescour.config', [])
             config: config,
             path: url.remote,
             loading: loading,
-            stripeToken: stripeTokens.test
+            stripeToken: stripeTokens.test,
+            rentMetricToken: rentMetricTokens.prod
         };
     });

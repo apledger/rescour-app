@@ -20,6 +20,17 @@ angular.module('rescour.property', [])
         }])
     .factory('Property', ['$_api', '$q', '$http', 'Comment', 'Finance', 'Favorite', 'Hidden', '$exceptionHandler', 'ngProgress',
         function ($_api, $q, $http, Comment, Finance, Favorite, Hidden, $exceptionHandler, ngProgress) {
+            var maasiveDate = (function(){
+                var d = {};
+                d.prettifyDate = function(ts){
+                    var date = new Date((parseFloat(ts)*1000));
+                    return (date.getUTCMonth()+1)+'/'+date.getUTCDate()+'/'+date.getUTCFullYear();
+                };
+                d.parseObjectId = function(objectId){
+                    return parseInt(objectId.toString().slice(0,8), 16);
+                };
+                return d;
+            })();
             // Item constructor
             var Property = function (data) {
                 if (data.hasOwnProperty('id')) {
@@ -46,14 +57,16 @@ angular.module('rescour.property', [])
                 this.longitude = parseFloat(data.address.longitude) || 'NA';
                 this.yearBuilt = parseInt(this.yearBuilt, 10) || 'NA';
                 this.numUnits = parseInt(this.numUnits, 10) || 'NA';
+                this.datePosted = this.datePosted || new Date(parseInt(this.id.toString().slice(0,8), 16));
                 this.daysOnMarket = Math.ceil(Math.abs(Date.now() - (this.datePosted * 1000)) / (1000 * 3600 * 24));
                 this.resources = {};
                 this.favorites = false;
+                this.callforOffers = new Date(this.callforOffers);
                 this.hidden = false;
                 this.resources = {
                     finances: [],
                     comments: []
-                }
+                };
             };
 
             Property.$dimensions = {
@@ -274,6 +287,7 @@ angular.module('rescour.property', [])
                             defer.reject(response);
                         });
                 }
+
             };
 
             Property.prototype.toggleHidden = function () {
@@ -362,11 +376,6 @@ angular.module('rescour.property', [])
                 return addressStr;
             };
 
-            Property.prototype.getImages = function () {
-                return this.details ? _.map(this.details.images, function (value) {
-                    return value;
-                }) : undefined;
-            };
             return Property;
         }])
     .factory('Reports', ['$_api', '$q', '$http',
@@ -531,11 +540,11 @@ angular.module('rescour.property', [])
 
             var Comment = function (data, propertyId) {
                 data = data || {};
-                this.text = data.text || "";
-                this.id = data.id || undefined;
-                this.propertyId = data.propertyId || undefined;
-                this.property = property;
-                this.timestamp = data.timestamp || new Date(parseInt(this.id.toString().slice(0,8), 16)*1000) || new Date().getTime();
+                var opts = angular.extend({
+                    propertyId: propertyId
+                }, data);
+
+                angular.copy(opts, this);
                 this.userEmail = data.userEmail || (User.profile ? User.profile.email : "You");
             };
 

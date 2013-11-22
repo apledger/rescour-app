@@ -11,6 +11,7 @@ if (!window.console.log) window.console.log = function () {
 };
 angular.module('rescour.app',
         [
+            'ui.utils',
             'ui.bootstrap',
             'rescour.config',
             'rescour.auth',

@@ -25,6 +25,10 @@ angular.module('rescour.app')
                             ngProgress.color('#993333');
                             ngProgress.start();
 
+                            if ($location.search().token) {
+                                $location.search('token', null);
+                            }
+
                             Property.query()
                                 .then(function (results) {
                                     ngProgress.set(ngProgress.status() + ((100 - ngProgress.status()) * .15));
@@ -76,6 +80,7 @@ angular.module('rescour.app')
             SavedSearch.query().then(function (savedSearches) {
                 $scope.savedSearches = savedSearches;
             });
+
 
             function sortBy() {
                 if ($scope.sortBy.predicate === this.key) {
@@ -566,8 +571,8 @@ angular.module('rescour.app')
                 }
             };
         }])
-    .controller("DetailsController", ['$scope', '$http', '$_api', '$timeout', 'activeItem', '$location', 'Finance', 'panes', 'RentMetrics',
-        function ($scope, $http, $_api, $timeout, activeItem, $location, Finance, panes, RentMetrics) {
+    .controller("DetailsController", ['$scope', '$http', '$_api', '$timeout', 'activeItem', '$location', 'Finance', 'panes', 'RentMetrics', '$_api',
+        function ($scope, $http, $_api, $timeout, activeItem, $location, Finance, panes, RentMetrics, $_api) {
             $scope.newComment = {};
             $scope.panes = panes;
             $scope.newEmail = {};
@@ -576,7 +581,7 @@ angular.module('rescour.app')
             $scope.financeFields = Finance.fields;
             $scope.contactAlerts = [];
             $scope.current = activeItem;
-            $scope.currentImages = $scope.current.getImages() || [];
+            $scope.currentImages = $scope.current.images || [];
             $scope.currentFinances = activeItem.resources.finances;
             $scope.rentComps = [];
             $scope.rentMetricsPastOptions = [30, 60, 90];
@@ -588,7 +593,8 @@ angular.module('rescour.app')
                     });
 
                     if (rentMetricPane.active && !$scope.rentMetrics) {
-                        $scope.refreshRentComps();
+                        $scope.rentMetrics = rentMetrics;
+                        $scope.rentMetrics.query();
                     }
                 }
 
@@ -603,9 +609,15 @@ angular.module('rescour.app')
             };
 
             $scope.refreshRentComps = function () {
-                $scope.rentMetrics = rentMetrics;
                 $scope.rentMetrics.query();
-            };
+            }
+
+            $scope.keypressBlur = function (e) {
+                // Ugly hack to get around $apply
+                $timeout(function () {
+                    e.currentTarget.blur();
+                }, 0);
+            }
 
             $scope.close = function () {
                 $location.search('id', null).hash(null);
@@ -946,7 +958,7 @@ angular.module('rescour.app')
                     }
                 }
 
-                scope.imageUrl = $_api.path + '/files/';
+                scope.imageUrl = $_api.path + '/pictures/';
 
                 viewerCtrl.setSlides(scope.images);
                 viewerCtrl.element = element;

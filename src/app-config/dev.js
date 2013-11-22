@@ -12,11 +12,14 @@ angular.module('rescour.config', [])
     .factory('$_api', function ($http) {
         var url = {
                 dev: '/api',
-                remote: 'http://dev.maasive.net/rescour'
+                remote: 'http://dev.maasive.net/v2/528a7eae53d4c940a0a4190d'
             },
             stripeTokens = {
                 test: 'pk_test_wSAqQNQKI7QqPmBpDcQLgGM7',
                 prod: 'pk_live_4TLhgO3Pp1gOdWWmvLVK1PG3'
+            },
+            rentMetricTokens = {
+                prod: 'u8LNVTAcLns6ypPmXt82iw'
             },
             config = {
                 headers: {'Content-Type': 'application/json'},
@@ -32,6 +35,7 @@ angular.module('rescour.config', [])
             config: config,
             path: url.remote,
             loading: loading,
-            stripeToken: stripeTokens.test
+            stripeToken: stripeTokens.test,
+            rentMetricToken: rentMetricTokens.prod
         };
     });

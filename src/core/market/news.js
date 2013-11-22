@@ -33,7 +33,6 @@ angular.module('rescour.news', [])
                         this.url = 'http://' + this.url;
                     }
                 }
-
                 this.latitude = parseFloat(this.address.latitude) || 'NA';
                 this.longitude = parseFloat(this.address.longitude) || 'NA';
             };

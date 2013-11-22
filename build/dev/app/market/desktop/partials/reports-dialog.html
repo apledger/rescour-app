@@ -1,0 +1,21 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="close()">&times;</button>
+    <h3 id="myModalLabel">Generate Report</h3>
+</div>
+<div class="modal-body">
+    <p class="">A CSV file with <strong>{{reportLength()}}</strong> listings will be emailed to
+        <strong>{{userEmail}}</strong>.</p>
+
+    <form name="formReportDialog" class="form-horizontal report-form">
+        <div class="report-select-container">
+            <label class="checkbox" ng-class="{'checkbox-selected': item.isSelected}"
+               ng-repeat="item in reportItems">
+            <input type="checkbox" ng-checked="item.isSelected" ng-model="item.isSelected">
+            <strong>{{item.title}}</strong>
+        </label></div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn" ng-click="close()">Close</button>
+    <button class="btn btn-primary" ng-click="save(reportSettings)">Continue</button>
+</div>

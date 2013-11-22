@@ -929,4 +929,57 @@ angular.module('rescour.app')
                 setupSlider();
             }
         };
+    })
+    .directive('imgViewer', ['$_api',
+        function ($_api) {
+        return{
+            restrict: 'EA',
+//            transclude: true,
+//            replace: true,
+            templateUrl: '/template/img-viewer/img-viewer.html',
+            controller: 'viewerCtrl',
+            scope: {
+                images: '='
+            },
+            link: function (scope, element, attr, viewerCtrl) {
+                if (scope.images.length > 0) {
+                    scope.images[0].isActive = true;
+
+                    for (var i = 1; i < scope.images.length; i++) {
+                        var _image = scope.images[i];
+                        _image.isActive = false;
+                    }
+                }
+
+                scope.imageUrl = $_api.path + '/files/';
+
+                viewerCtrl.setSlides(scope.images);
+                viewerCtrl.element = element;
+            }
+        }
+    }])
+    .controller('viewerCtrl', ['$scope', '$timeout',
+        function ($scope, $timeout) {
+            var self = this;
+            $scope.current = 0;
+            self.setSlides = function (slides) {
+                $scope.slides = slides;
+            };
+
+            $scope.prev = function () {
+                $scope.slides[$scope.current].isActive = false;
+                $scope.current = $scope.current == 0 ? $scope.slides.length - 1 : $scope.current -= 1;
+                $scope.slides[$scope.current].isActive = true;
+            };
+
+            $scope.next = function () {
+                $scope.slides[$scope.current].isActive = false;
+                $scope.current = $scope.current == $scope.slides.length - 1 ? $scope.current = 0 : $scope.current += 1;
+                $scope.slides[$scope.current].isActive = true;
+            };
+        }])
+    .filter('checkBounds', function () {
+        return function (input, limit, e) {
+            return input == limit ? input + "+" : input;
+        }
     });

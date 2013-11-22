@@ -81,6 +81,7 @@ angular.module('rescour.app')
                 $scope.savedSearches = savedSearches;
             });
 
+
             function sortBy() {
                 if ($scope.sortBy.predicate === this.key) {
                     $scope.sortBy.reverse = !$scope.sortBy.reverse;
@@ -570,8 +571,8 @@ angular.module('rescour.app')
                 }
             };
         }])
-    .controller("DetailsController", ['$scope', '$http', '$_api', '$timeout', 'activeItem', '$location', 'Finance', 'panes', 'RentMetrics',
-        function ($scope, $http, $_api, $timeout, activeItem, $location, Finance, panes, RentMetrics) {
+    .controller("DetailsController", ['$scope', '$http', '$_api', '$timeout', 'activeItem', '$location', 'Finance', 'panes', 'RentMetrics', '$_api',
+        function ($scope, $http, $_api, $timeout, activeItem, $location, Finance, panes, RentMetrics, $_api) {
             $scope.newComment = {};
             $scope.panes = panes;
             $scope.newEmail = {};
@@ -580,7 +581,7 @@ angular.module('rescour.app')
             $scope.financeFields = Finance.fields;
             $scope.contactAlerts = [];
             $scope.current = activeItem;
-            $scope.currentImages = $scope.current.getImages() || [];
+            $scope.currentImages = $scope.current.images || [];
             $scope.currentFinances = activeItem.resources.finances;
             $scope.rentComps = [];
             $scope.rentMetricsPastOptions = [30, 60, 90];
@@ -592,7 +593,8 @@ angular.module('rescour.app')
                     });
 
                     if (rentMetricPane.active && !$scope.rentMetrics) {
-                        $scope.refreshRentComps();
+                        $scope.rentMetrics = rentMetrics;
+                        $scope.rentMetrics.query();
                     }
                 }
 
@@ -607,9 +609,15 @@ angular.module('rescour.app')
             };
 
             $scope.refreshRentComps = function () {
-                $scope.rentMetrics = rentMetrics;
                 $scope.rentMetrics.query();
-            };
+            }
+
+            $scope.keypressBlur = function (e) {
+                // Ugly hack to get around $apply
+                $timeout(function () {
+                    e.currentTarget.blur();
+                }, 0);
+            }
 
             $scope.close = function () {
                 $location.search('id', null).hash(null);
@@ -621,7 +629,6 @@ angular.module('rescour.app')
 
             $scope.selectPane = function (pane) {
                 $location.hash(pane.heading);
-//                $scope.refreshRentComps();
             };
 
             $scope.addComment = function (comment) {
@@ -928,4 +935,57 @@ angular.module('rescour.app')
                 setupSlider();
             }
         };
+    })
+    .directive('imgViewer', ['$_api',
+        function ($_api) {
+        return{
+            restrict: 'EA',
+//            transclude: true,
+//            replace: true,
+            templateUrl: '/template/img-viewer/img-viewer.html',
+            controller: 'viewerCtrl',
+            scope: {
+                images: '='
+            },
+            link: function (scope, element, attr, viewerCtrl) {
+                if (scope.images.length > 0) {
+                    scope.images[0].isActive = true;
+
+                    for (var i = 1; i < scope.images.length; i++) {
+                        var _image = scope.images[i];
+                        _image.isActive = false;
+                    }
+                }
+
+                scope.imageUrl = $_api.path + '/files/';
+
+                viewerCtrl.setSlides(scope.images);
+                viewerCtrl.element = element;
+            }
+        }
+    }])
+    .controller('viewerCtrl', ['$scope', '$timeout',
+        function ($scope, $timeout) {
+            var self = this;
+            $scope.current = 0;
+            self.setSlides = function (slides) {
+                $scope.slides = slides;
+            };
+
+            $scope.prev = function () {
+                $scope.slides[$scope.current].isActive = false;
+                $scope.current = $scope.current == 0 ? $scope.slides.length - 1 : $scope.current -= 1;
+                $scope.slides[$scope.current].isActive = true;
+            };
+
+            $scope.next = function () {
+                $scope.slides[$scope.current].isActive = false;
+                $scope.current = $scope.current == $scope.slides.length - 1 ? $scope.current = 0 : $scope.current += 1;
+                $scope.slides[$scope.current].isActive = true;
+            };
+        }])
+    .filter('checkBounds', function () {
+        return function (input, limit, e) {
+            return input == limit ? input + "+" : input;
+        }
     });

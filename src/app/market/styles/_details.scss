@@ -136,13 +136,13 @@ $detailsHeaderColor: $light-gray;
 
   .viewer-control {
     position: absolute;
-    top: 0px;
+    top: 0;
     width: 75px;
     height: 100%;
     font-size: 20px;
     color: $grayDarker;
     text-align: center;
-    background: $grayLighter;
+    background: transparent;
     @include border-radius(4px);
     @include opacity(75);
 
@@ -150,7 +150,7 @@ $detailsHeaderColor: $light-gray;
       position: absolute;
       top: 50%;
       left: 50%;
-      margin-top: -20px;
+      margin-top: -10px;
       margin-left: -6px;
     }
 
@@ -165,12 +165,8 @@ $detailsHeaderColor: $light-gray;
 
     &:hover {
       text-decoration: none;
-      background: $gray;
+      background: $grayLighter;
       cursor: pointer;
-
-      i {
-        color: $white;
-      }
     }
   }
 }

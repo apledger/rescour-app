@@ -129,8 +129,7 @@ angular.module('rescour.auth', [])
             return function (promise) {
                 var resolve = function (response) {
                 }, reject = function (response) {
-                    var status = response.status,
-                        message = response.data.error.reason;
+                    var status = response.status;
 
                     switch (status) {
                         case 401:
@@ -148,6 +147,7 @@ angular.module('rescour.auth', [])
                             break;
                         case 402:
                             $rootScope.$broadcast('auth#paymentRequired');
+                            break;
                         case 403:
                             $rootScope.$broadcast('auth#paymentRequired');
                             break;

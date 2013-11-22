@@ -50,12 +50,12 @@
                         {{current.getAttribute('numUnits')}}
                     </td>
                 </tr>
-                <tr ng-hide="current.getAttribute('callForOffers') == 'NA'">
+                <tr ng-show="current.callForOffers">
                     <td>
                         <strong>Call for Offers</strong>
                     </td>
                     <td>
-                        {{current.getAttribute('callForOffers')*1000 | date}}
+                        {{current.callForOffers | date}}
                     </td>
                 </tr>
                 <tr>
@@ -195,9 +195,9 @@
 
 <div pane class="container-fluid picture-container" heading="{{panes[1].heading}}" active="panes[1].active">
     <div class="row-fluid">
-        <div class="span10 offset1" ng-show="current.getImages().length > 0">
+        <div class="span10 offset1" ng-show="current.images.length > 0">
 
-            <div img-viewer images="currentImages"></div>
+            <div img-viewer images="current.images"></div>
 
             <!--<div carousel no-transition="true">-->
             <!--<div slide ng-repeat="slide in current.getImages()" active="slide.active">-->
@@ -314,7 +314,8 @@
                     <input type="text"
                            placeholder="Days"
                            ng-model="rentMetrics.past"
-                           ng-blur="setRentCompsPast()"/>
+                           ui-keypress="{13: 'keypressBlur($event)'}"
+                           ng-blur="refreshRentComps()"/>
                 </div>
                 <span>days within</span>
 
@@ -322,7 +323,8 @@
                     <input type="text"
                            placeholder="Days"
                            ng-model="rentMetrics.radius"
-                           ng-blur="setRentCompsPast()"/>
+                           ui-keypress="{13: 'keypressBlur($event)'}"
+                           ng-blur="refreshRentComps()"/>
 
 
                 </div>
@@ -341,7 +343,7 @@
                     <th>Count</th>
                 </tr>
                 </thead>
-                <tbody spinner="rentMetrics.$spinner">
+                <tbody spinner="rentMetrics.$spinner" spinner-options="{'top': 10}">
                 <tr ng-repeat="average in rentMetrics.getAverages() | orderBy: 'bedrooms'">
                     <td>{{ average.type }}</td>
                     <td>{{ average.rent / average.count | currency }}</td>

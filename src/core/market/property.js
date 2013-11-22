@@ -20,6 +20,17 @@ angular.module('rescour.property', [])
         }])
     .factory('Property', ['$_api', '$q', '$http', 'Comment', 'Finance', 'Favorite', 'Hidden', '$exceptionHandler', 'ngProgress',
         function ($_api, $q, $http, Comment, Finance, Favorite, Hidden, $exceptionHandler, ngProgress) {
+            var maasiveDate = (function(){
+                var d = {};
+                d.prettifyDate = function(ts){
+                    var date = new Date((parseFloat(ts)*1000));
+                    return (date.getUTCMonth()+1)+'/'+date.getUTCDate()+'/'+date.getUTCFullYear();
+                };
+                d.parseObjectId = function(objectId){
+                    return parseInt(objectId.toString().slice(0,8), 16);
+                };
+                return d;
+            })();
             // Item constructor
             var Property = function (data) {
                 if (data.hasOwnProperty('id')) {
@@ -46,14 +57,17 @@ angular.module('rescour.property', [])
                 this.longitude = parseFloat(data.address.longitude) || 'NA';
                 this.yearBuilt = parseInt(this.yearBuilt, 10) || 'NA';
                 this.numUnits = parseInt(this.numUnits, 10) || 'NA';
+                this.datePosted = this.datePosted || new Date(parseInt(this.id.toString().slice(0,8), 16));
                 this.daysOnMarket = Math.ceil(Math.abs(Date.now() - (this.datePosted * 1000)) / (1000 * 3600 * 24));
                 this.resources = {};
                 this.favorites = false;
+                this.callforOffers = new Date(this.callforOffers);
                 this.hidden = false;
                 this.resources = {
                     finances: [],
                     comments: []
-                }
+                };
+
             };
 
             Property.$dimensions = {
@@ -363,11 +377,6 @@ angular.module('rescour.property', [])
                 return addressStr;
             };
 
-            Property.prototype.getImages = function () {
-                return this.details ? _.map(this.details.images, function (value) {
-                    return value;
-                }) : undefined;
-            };
             return Property;
         }])
     .factory('Reports', ['$_api', '$q', '$http',
@@ -1044,54 +1053,4 @@ angular.module('rescour.property', [])
             };
 
             return RentMetrics;
-        }])
-    .directive('imgViewer', ['$window', function ($document) {
-        return{
-            restrict: 'EA',
-//            transclude: true,
-//            replace: true,
-            templateUrl: '/template/img-viewer/img-viewer.html',
-            controller: 'viewerCtrl',
-            scope: {
-                images: '='
-            },
-            link: function (scope, element, attr, viewerCtrl) {
-                if (scope.images.length > 0) {
-                    scope.images[0].isActive = true;
-
-                    for (var i = 1; i < scope.images.length; i++) {
-                        var _image = scope.images[i];
-                        _image.isActive = false;
-                    }
-                }
-
-                viewerCtrl.setSlides(scope.images);
-                viewerCtrl.element = element;
-            }
-        }
-    }])
-    .controller('viewerCtrl', ['$scope', '$timeout',
-        function ($scope, $timeout) {
-            var self = this;
-            $scope.current = 0;
-            self.setSlides = function (slides) {
-                $scope.slides = slides;
-            };
-
-            $scope.prev = function () {
-                $scope.slides[$scope.current].isActive = false;
-                $scope.current = $scope.current == 0 ? $scope.slides.length - 1 : $scope.current -= 1;
-                $scope.slides[$scope.current].isActive = true;
-            };
-
-            $scope.next = function () {
-                $scope.slides[$scope.current].isActive = false;
-                $scope.current = $scope.current == $scope.slides.length - 1 ? $scope.current = 0 : $scope.current += 1;
-                $scope.slides[$scope.current].isActive = true;
-            };
-        }])
-    .filter('checkBounds', function () {
-        return function (input, limit, e) {
-            return input == limit ? input + "+" : input;
-        }
-    });
+        }]);

@@ -50,18 +50,18 @@ angular.module('rescour.property', [])
                 angular.copy(opts, this);
                 this.title = this.title || 'Untitled Property';
                 this.description = this.description || 'No description provided.';
-                this.thumbnail = this.thumbnail || '/img/apt0.jpg';
+                this.thumbnail = this.thumbnail ? $_api.path + '/files/' + this.thumbnail : '/img/apt0.jpg';
                 this.state = this.address.state;
                 this.location = (data.address.latitude && data.address.longitude) ? [data.address.latitude, data.address.longitude] : null;
                 this.latitude = parseFloat(data.address.latitude) || 'NA';
                 this.longitude = parseFloat(data.address.longitude) || 'NA';
                 this.yearBuilt = parseInt(this.yearBuilt, 10) || 'NA';
                 this.numUnits = parseInt(this.numUnits, 10) || 'NA';
-                this.datePosted = this.datePosted || new Date(parseInt(this.id.toString().slice(0,8), 16));
-                this.daysOnMarket = Math.ceil(Math.abs(Date.now() - (this.datePosted * 1000)) / (1000 * 3600 * 24));
+                this.datePosted = this.datePosted ? new Date(this.datePosted) : new Date(parseInt(this.id.toString().slice(0,8), 16) * 1000);
+                this.daysOnMarket = Math.ceil(Math.abs(Date.now() - (this.datePosted.getTime())) / (1000 * 3600 * 24));
                 this.resources = {};
                 this.favorites = false;
-                this.callforOffers = new Date(this.callforOffers);
+                this.callForOffers = this.callForOffers ? new Date(this.callForOffers) : null;
                 this.hidden = false;
                 this.resources = {
                     finances: [],

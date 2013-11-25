@@ -57,7 +57,7 @@ angular.module('rescour.property', [])
                 this.longitude = parseFloat(data.address.longitude) || 'NA';
                 this.yearBuilt = parseInt(this.yearBuilt, 10) || 'NA';
                 this.numUnits = parseInt(this.numUnits, 10) || 'NA';
-                this.datePosted = this.datePosted ? new Date(this.datePosted) : new Date(parseInt(this.id.toString().slice(0,8), 16) * 1000);
+                this.datePosted = this.datePosted ? new Date(this.datePosted * 1000) : new Date(parseInt(this.id.toString().slice(0,8), 16) * 1000);
                 this.daysOnMarket = Math.ceil(Math.abs(Date.now() - (this.datePosted.getTime())) / (1000 * 3600 * 24));
                 this.resources = {};
                 this.favorites = false;

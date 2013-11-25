@@ -20,17 +20,6 @@ angular.module('rescour.property', [])
         }])
     .factory('Property', ['$_api', '$q', '$http', 'Comment', 'Finance', 'Favorite', 'Hidden', '$exceptionHandler', 'ngProgress',
         function ($_api, $q, $http, Comment, Finance, Favorite, Hidden, $exceptionHandler, ngProgress) {
-            var maasiveDate = (function(){
-                var d = {};
-                d.prettifyDate = function(ts){
-                    var date = new Date((parseFloat(ts)*1000));
-                    return (date.getUTCMonth()+1)+'/'+date.getUTCDate()+'/'+date.getUTCFullYear();
-                };
-                d.parseObjectId = function(objectId){
-                    return parseInt(objectId.toString().slice(0,8), 16);
-                };
-                return d;
-            })();
             // Item constructor
             var Property = function (data) {
                 if (data.hasOwnProperty('id')) {
@@ -44,7 +33,7 @@ angular.module('rescour.property', [])
                         },
                         isVisible: true
                     },
-                    opts = angular.extend({}, defaults, data),
+                    opts = _.extend({}, defaults, data),
                     self = this;
 
                 angular.copy(opts, this);
@@ -57,7 +46,7 @@ angular.module('rescour.property', [])
                 this.longitude = parseFloat(data.address.longitude) || 'NA';
                 this.yearBuilt = parseInt(this.yearBuilt, 10) || 'NA';
                 this.numUnits = parseInt(this.numUnits, 10) || 'NA';
-                this.datePosted = this.datePosted ? new Date(this.datePosted) : new Date(parseInt(this.id.toString().slice(0,8), 16) * 1000);
+                this.datePosted = this.datePosted ? new Date(parseInt(this.datePosted, 10)) : new Date(parseInt(this.id.toString().slice(0,8), 16) * 1000);
                 this.daysOnMarket = Math.ceil(Math.abs(Date.now() - (this.datePosted.getTime())) / (1000 * 3600 * 24));
                 this.resources = {};
                 this.favorites = false;

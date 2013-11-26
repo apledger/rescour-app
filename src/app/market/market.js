@@ -985,8 +985,13 @@ angular.module('rescour.app')
                 $scope.slides[$scope.current].isActive = true;
             };
         }])
-    .filter('checkBounds', function () {
+    .filter('checkHighBound', function () {
         return function (input, limit, e) {
             return input == limit ? input + "+" : input;
+        }
+    })
+    .filter('checkLowBound', function () {
+        return function (input, limit, e) {
+            return input == limit ?  "< " + input : input;
         }
     });

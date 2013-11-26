@@ -85,6 +85,7 @@ angular.module('rescour.property', [])
                     },
                     'yearBuilt': {
                         title: 'Year Built',
+                        lowBound: 1930,
                         weight: 9
                     },
                     'daysOnMarket': {

@@ -37,6 +37,9 @@ $lineSpacing: 14px;
   }
 }
 
+
+
+
 .powers {
   @include box-sizing(border-box);
   width: 100%;
@@ -221,5 +224,19 @@ $lineSpacing: 14px;
         }
       }
     }
+  }
+}
+
+
+@-moz-document url-prefix() {
+    .powers .power:not(:first-child) {
+      margin-left: -4px;
+    }
+}
+
+// Styles for IE10
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+  .powers .power:not(:first-child) {
+    margin-left: -4px;
   }
 }

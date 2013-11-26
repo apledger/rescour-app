@@ -50,6 +50,7 @@ $lineSpacing: 14px;
   .power-search {
     position: relative;
     display: inline-block;
+    margin-left: 4px;
 
     input {
       margin: 0;
@@ -121,7 +122,7 @@ $lineSpacing: 14px;
     }
 
     &:not(:first-child) {
-      margin-left: -4px;
+      margin-left: 0px;
     }
 
     &.open {

@@ -1,4 +1,4 @@
-<div class="report-container" ng-controller="ReportCtrl">
+<div id="report-list" ng-controller="ReportCtrl">
     <div class="powers">
         <div class="power"
              ng-class="{'blue': reportPower.isSelected}"
@@ -13,8 +13,40 @@
         <div power="showPower" power-tooltip="Show" power-tooltip-placement="bottom"></div>
         <div class="power-search">
             <input type="text" ng-model="searchText.title"
-                   placeholder="Search">
+                   placeholder="Search {{items.length}} Properties">
         </div>
         <div power="accountPower"></div>
+    </div>
+    <div class="report-container">
+        <div class="scroll-container" chunk="filteredItems = (items | filter:searchText | limitVisible)"
+             chunk-size="100">
+            <div class="container-fluid">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Days on Market</th>
+                        <th>Year Built</th>
+                        <th># Units</th>
+                        <th>Address</th>
+                        <th>Status</th>
+                        <th>Type</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="item in chunk">
+                        <td>{{item.title}}</td>
+                        <td>{{item.daysOnMarket}}</td>
+                        <td>{{item.yearBuilt}}</td>
+                        <td>{{item.numUnits}}</td>
+                        <td>{{item.getAddress()}}</td>
+                        <td>{{item.propertyStatus}}</td>
+                        <td>{{item.propertyType}}</td>
+                    </tr>
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
     </div>
 </div>

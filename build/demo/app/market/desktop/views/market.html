@@ -1,0 +1,98 @@
+<header>
+</header>
+
+<div class="main-container" spinner="getActive().details.$spinner" spinner-size="large">
+<!--FILTERS BEGIN-->
+<div id="Filter" ng-controller="FilterController">
+    <div class="powers">
+        <div class="power power-logo" ng-click="loadSearch()">
+            <img src="/img/logo-small.png" alt="REscour"/>
+        </div>
+    </div>
+    <div class="scroll-container">
+        <div class="filter-container">
+            <div class="saved-search">
+                <div class="input-dropdown">
+                    <div class="input-overlay input-overlay-blue" ng-show="attributes.modified">
+                        <div class="action-btn" ng-click="saveSearch()">
+                            Click to Save
+                        </div>
+                        <div class="left-btn" ng-click="refreshSearch()">
+                            <i class="icon-remove"></i>
+                        </div>
+                    </div>
+
+                    <div class="input-overlay input-overlay-gray" ng-hide="selectedSearch || attributes.modified">
+                        <div class="action-btn">
+                            My Searches
+                        </div>
+                    </div>
+
+                    <input tooltip="Click to Edit" tooltip-placement="bottom" type="text"
+                           placeholder="Untitled Search"
+                           ng-model="attributes.title" saved-search-input ng-readonly="attributes.readonly"/>
+
+                    <!--Dropdown Menu-->
+                    <div class="input-dropdown-btn"><i class="icon-caret-down"></i></div>
+                    <ul class="input-dropdown-menu">
+                        <li ng-click="loadSearch()"><i class="icon-file-text"></i><a href="javascript:">New
+                            Search</a></li>
+                        <div class="divider"></div>
+                        <li ng-repeat="search in savedSearches | orderBy: 'title'"
+                            ng-class="{'active': search.isSelected}"
+                            ng-click="loadSearch(search)">
+                            <a href="javascript:">{{search.title}}</a>
+
+                            <div class="input-dropdown-item-action" ng-click="deleteSearch(search, $event)"
+                                 spinner="search.$spinner" spinner-size="xs"
+                                 spinner-options="{'color': '#FFF', 'top': '0px'}">
+                                <i class="icon-remove" ng-hide="search.$spinner"></i>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!--Range sliders-->
+            <ul class="nav nav-list"
+                ng-repeat="range in attributes.getRange() | orderBy:orderByWeight() | filter:isNotHidden">
+                <li class="nav-header" ng-click="toggleNA(range)"
+                    tooltip="{{ range.excludeNA && 'Show NA' || 'Hide NA' }}" tooltip-placement="right">
+                    {{range.title}} &nbsp;
+                    <i class="icon-minus-sign" ng-show="range.excludeNA"></i>
+
+                    <div style="float:right;">{{range.lowSelected | checkLowBound:range.lowBound}} -
+                        {{range.highSelected | checkHighBound:range.highBound}}
+                    </div>
+                </li>
+                <div slider></div>
+            </ul>
+
+            <!--Discreet Filters-->
+            <div ng-repeat="discreet in attributes.getDiscreet() | orderBy:orderByWeight()">
+                <div class="nav-header" ng-click="discreet.collapse = !discreet.collapse">
+                    {{discreet.title}} &nbsp;
+                    <i ng-class="{'icon-chevron-up': !discreet.collapse, 'icon-chevron-down': discreet.collapse}"
+                       style="float:right;"></i>
+                </div>
+
+                <ul class="nav nav-list" collapse="discreet.collapse">
+                    <li ng-class="{'active': value.isSelected }" ng-repeat="value in discreet.values">
+                        <a ng-click="filter(discreet, value)" href="javascript:">
+                            {{value.title | ellipsis:26}}
+                        <span ng-show="value" class="badge {{value.badge}}"
+                              style="float:right;">{{value.predict}}</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!--FILTERS END-->
+    <div ng-include="marketListViewPath" ng-cloak></div>
+
+<div class="feedback-tab" ng-click="openFeedbackDialog()">
+</div>
+<!--<div map></div>-->
+</div>

@@ -1,0 +1,20 @@
+<div class="report-container" ng-controller="ReportCtrl">
+    <div class="powers">
+        <div class="power"
+             ng-class="{'blue': reportPower.isSelected}"
+             ng-click="reportPower.action()"
+             tooltip="{{ reportPower.tooltip.text }}"
+             tooltip-placement="{{ reportPower.tooltip.placement }}">
+            <div class="power-title">
+                <i class="icon-download-alt"></i>
+            </div>
+        </div>
+        <div power="sortPower" power-tooltip="Sort" power-tooltip-placement="bottom"></div>
+        <div power="showPower" power-tooltip="Show" power-tooltip-placement="bottom"></div>
+        <div class="power-search">
+            <input type="text" ng-model="searchText.title"
+                   placeholder="Search">
+        </div>
+        <div power="accountPower"></div>
+    </div>
+</div>

@@ -3968,7 +3968,7 @@ angular.module('rescour.app')
             ]}}
         ]}
 
-        var statesKeys = _.keys(PropertyMarket.dimensions.discreet.state.values);;
+        var statesKeys = _.keys(PropertyMarket.dimensions.discreet.state.values);
 
         statesJson.features = _.reject(statesJson.features, function (feat) {
             return !_.contains(statesKeys, feat.properties.name)
@@ -3987,8 +3987,8 @@ angular.module('rescour.app')
             }
         }
     }])
-    .directive('map', ['$compile', '$location', 'BrowserDetect', 'PropertyMarket', 'StatesGeoJson', 'NewsMarket', '$filter',
-        function ($compile, $location, BrowserDetect, PropertyMarket, StatesGeoJson, NewsMarket, $filter) {
+    .directive('map', ['$compile', '$location', 'BrowserDetect', 'PropertyMarket', 'StatesGeoJson', 'NewsMarket', '$filter', '$timeout',
+        function ($compile, $location, BrowserDetect, PropertyMarket, StatesGeoJson, NewsMarket, $filter, $timeout) {
             return {
                 restrict: "A",
                 transclude: true,
@@ -4016,6 +4016,21 @@ angular.module('rescour.app')
                         };
                     }
 
+                    function getPropertyBounds() {
+                        var latDimension = PropertyMarket.dimensions.range.latitude,
+                            lngDimension = PropertyMarket.dimensions.range.longitude,
+                            latMaxed = latDimension.highSelected === latDimension.high && latDimension.lowSelected === latDimension.low,
+                            lngMaxed = lngDimension.highSelected === lngDimension.high && lngDimension.lowSelected === lngDimension.low;
+
+                        if (latMaxed && lngMaxed) {
+                            return false;
+                        } else {
+                            var southWest = L.latLng(latDimension.lowSelected, lngDimension.lowSelected),
+                                northEast = L.latLng(latDimension.highSelected, lngDimension.highSelected);
+                            return L.latLngBounds(southWest, northEast)
+                        }
+                    }
+
                     var cloudmadeUrl = 'http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/37875/256/{z}/{x}/{y}.png',
                         openstreetUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
                         otileUrl = 'http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png',
@@ -4024,10 +4039,17 @@ angular.module('rescour.app')
                         defaultLatLng = new L.LatLng(32.0667, -90.3000),
                         defaultZoom = 5,
                         $el = element.find(".map")[0],
-                        map = new L.Map($el, { center: defaultLatLng, zoom: defaultZoom, zoomControl: false, attributionControl: false}),
                         markers = new L.MarkerClusterGroup({disableClusteringAtZoom: 10, spiderfyOnMaxZoom: false, spiderfyDistanceMultiplier: 0.1}),
                         isPopupOpen = false,
-                        activeMarker;
+                        activeMarker,
+                        map, propertyBounds;
+
+                    if (propertyBounds = getPropertyBounds()) {
+                        map = new L.Map($el, {zoomControl: false, attributionControl: false}).fitBounds(L.latLngBounds(propertyBounds));
+                    } else {
+                        map = new L.Map($el, {center: defaultLatLng, zoom: defaultZoom, zoomControl: false, attributionControl: false})
+                    }
+
                     // layers: [cloudmade],
 
                     scope.$watch(function () {
@@ -4285,7 +4307,6 @@ angular.module('rescour.app')
                             .applyRange('latitude', latLowBound, latHighBound)
                             .applyRange('longitude', lngLowBound, lngHighBound)
                             .excludeNA('latitude').excludeNA('longitude');
-//                            .addExcludedNA('latitude').addExcludedNA('longitude');
                     }
 
                     function resetBounds() {

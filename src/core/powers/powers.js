@@ -14,7 +14,9 @@ angular.module('rescour.powers', [])
                 };
 
                 Power.prototype.getOptions = function () {
-                    return _.map(this.options, function (value) { return value });
+                    return _.map(this.options, function (value) {
+                        return value
+                    });
                 };
 
                 return Power;
@@ -51,7 +53,7 @@ angular.module('rescour.powers', [])
                     powerHide: '='
                 },
                 replace: true,
-                templateUrl: '/core/powers/template/power.html?v='+Date.now(),
+                templateUrl: '/core/powers/template/power.html?v=' + Date.now(),
                 link: function (scope, element, attrs, PowersController) {
 
                     var _power = scope.power = new Power(scope.power, element);
@@ -81,7 +83,7 @@ angular.module('rescour.powers', [])
 
                     PowersController.addPower(scope);
 
-                    scope.selectOption = function (option){
+                    scope.selectOption = function (option) {
                         if (_power.toggle) {
                             angular.forEach(_power.options, function (value, key) {
                                 value.isSelected = false;
@@ -127,34 +129,37 @@ angular.module('rescour.powers', [])
                 }
             };
         }])
-    .directive('powers', ['$window', function ($window) {
-        return {
-            restrict: 'C',
-            link: function (scope, element, attrs) {
+    .directive('powers', ['$window', '$timeout',
+        function ($window, $timeout) {
+            return {
+                restrict: 'C',
+                link: function (scope, element, attrs) {
 
-                var elHeight = element.prop('offsetHeight'),
-                    elSibling = element.next(),
-                    elParent = element.parent();
+                    var elHeight = element.prop('offsetHeight'),
+                        elSibling = element.next(),
+                        elParent = element.parent();
 
-                function setHeight(el) {
-                    elHeight = element.prop('offsetHeight');
-                    el.css({
-                        height: elParent.height() - elHeight
+                    function setHeight(el) {
+                        elHeight = element.prop('offsetHeight');
+                        el.css({
+                            height: elParent.height() - elHeight
+                        });
+                    }
+
+                    angular.element($window).bind('resize', function () {
+                        scope.$apply(function () {
+                            scope.$broadcast('window-resized');
+                        });
                     });
-                }
 
-                setHeight(elSibling);
-
-                angular.element($window).bind('resize', function () {
-                    scope.$apply(function () {
-                        scope.$broadcast('window-resized');
+                    scope.$on('window-resized', function () {
+                        setHeight(elSibling);
                     });
-                });
 
-                scope.$on('window-resized', function () {
-                    setHeight(elSibling);
-                });
-            },
-            controller: 'PowersController'
-        }
-    }]);
+                    $timeout(function () {
+                        setHeight(elSibling);
+                    }, 0);
+                },
+                controller: 'PowersController'
+            }
+        }]);

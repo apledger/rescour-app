@@ -54,12 +54,35 @@ angular.module('rescour.app')
                             });
 
                             return $q.all([propertyDefer.promise, newsDefer.promise, userDefer.promise]);
+                        },
+                        fetchTemplates: function ($templateCache, MarketViews, $http, $q) {
+                            var mapDefer = $q.defer(),
+                                editorDefer = $q.defer(),
+                                promises = [];
+
+                            $http.get(MarketViews.mapListRawPath).then(function (response) {
+                                $templateCache.put('map-list.html', response.data);
+                                mapDefer.resolve();
+                            });
+
+                            $http.get(MarketViews.reportListRawPath).then(function (response) {
+                                $templateCache.put('report-list.html', response.data);
+                                editorDefer.resolve();
+                            });
+
+                            return $q.all(promises);
                         }
                     }
                 });
         }])
-    .controller('MarketController', ['$scope', '$timeout', '$routeParams', '$location', 'BrowserDetect', 'User', '$dialog', 'PropertyMarket', 'Reports', 'SavedSearch', 'NewsZoomThreshold', 'ngProgress', 'NewsMarket',
-        function ($scope, $timeout, $routeParams, $location, BrowserDetect, User, $dialog, PropertyMarket, Reports, SavedSearch, NewsZoomThreshold, ngProgress, NewsMarket) {
+    .value('MarketViews', {
+        reportListRawPath: '/app/market/desktop/views/report-list.html?' + Date.now(),
+        mapListRawPath: '/app/market/desktop/views/map-list.html?' + Date.now(),
+        reportList: 'report-list.html',
+        mapList: 'map-list.html'
+    })
+    .controller('MarketController', ['$scope', '$timeout', '$routeParams', '$location', 'BrowserDetect', 'User', '$dialog', 'PropertyMarket', 'Reports', 'SavedSearch', 'NewsZoomThreshold', 'ngProgress', 'NewsMarket', 'MarketViews',
+        function ($scope, $timeout, $routeParams, $location, BrowserDetect, User, $dialog, PropertyMarket, Reports, SavedSearch, NewsZoomThreshold, ngProgress, NewsMarket, MarketViews) {
             ngProgress.complete();
             $scope.items = PropertyMarket.visibleItems;
             $scope.attributes = PropertyMarket.getDimensions();
@@ -68,6 +91,7 @@ angular.module('rescour.app')
             $scope.browser = BrowserDetect;
             $scope.searchText = {};
             $scope.sortBy = {};
+            $scope.marketListViewPath = MarketViews.mapList;
             $scope.mapData = {
                 isNewsDisabled: function () {
                     return this.zoom < NewsZoomThreshold
@@ -80,6 +104,30 @@ angular.module('rescour.app')
             SavedSearch.query().then(function (savedSearches) {
                 $scope.savedSearches = savedSearches;
             });
+
+            $scope.reportPower = {
+                icon: 'icon-download-alt',
+                tooltip: {
+                    text: 'Editor View',
+                    placement: 'bottom'
+                },
+                action: function () {
+                    // filteredItems set inside the HTML
+//                    Reports.setItems($scope.filteredItems);
+//                    $scope.reportDialog.open();
+
+                    $scope.reportPower.isSelected = !$scope.reportPower.isSelected;
+                    if ($scope.reportPower.isSelected) {
+                        $scope.marketListViewPath = MarketViews.reportList;
+                        this.tooltip.text = 'Map View';
+                    } else {
+                        $scope.marketListViewPath = MarketViews.mapList;
+                        this.tooltip.text = 'Editor View';
+                    }
+
+                    $scope.$broadcast('destroyTooltips');
+                }
+            };
 
 
             function sortBy() {
@@ -233,7 +281,7 @@ angular.module('rescour.app')
                 controller: "FeedbackDialogController"
             });
 
-            $scope.mapPower = {
+            $scope.accountPower = {
                 float: 'right',
                 title: User.profile.email,
                 options: {
@@ -562,14 +610,6 @@ angular.module('rescour.app')
                 controller: "ReportsDialogController"
             });
 
-            $scope.reportPower = {
-                icon: 'icon-download-alt',
-                action: function () {
-                    // filteredItems set inside the HTML
-                    Reports.setItems($scope.filteredItems);
-                    $scope.reportDialog.open();
-                }
-            };
         }])
     .controller("DetailsController", ['$scope', '$http', '$_api', '$timeout', 'activeItem', '$location', 'Finance', 'panes', 'RentMetrics', '$_api',
         function ($scope, $http, $_api, $timeout, activeItem, $location, Finance, panes, RentMetrics, $_api) {

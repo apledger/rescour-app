@@ -245,9 +245,9 @@ angular.module('rescour.mock', ['rescour.app', 'ngMockE2E'])
             return details[parseInt((Math.random() * details.length), 10)];
         };
 
-        var items = {},
-            itemDetails = {}
-            news = {};
+        var items = [],
+            itemDetails = {},
+            news = [];
 
         function randomDate(start, end) {
             return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()))
@@ -279,25 +279,21 @@ angular.module('rescour.mock', ['rescour.app', 'ngMockE2E'])
                     street1: "152 Dummy St.",
                     street2: "",
                     zip: "30142",
-                    state: "GA",
+                    state: randomCity.region,
                     city: "Atlanta",
                     latitude: Math.random() * 0.151 + randomCity.location[0] - 0.075,
                     longitude: Math.random() * 0.23 + randomCity.location[1] - 0.115
                 },
-                attributes: {
-                    discreet: {
-                        broker: randomBroker,
-                        state: randomCity.region,
-                        propertyStatus: randomStatus,
-                        propertyType: randomType
-                    },
-                    range: {
-                        yearBuilt: randomYear,
-                        numUnits: randomUnits,
-                        callForOffers: randomDate(new Date(2013, 0, 1), new Date()).getTime() / 1000,
-                        datePosted: randomDate(new Date(2013, 0, 1), new Date()).getTime() / 1000
-                    }
-                }
+                latitude: Math.random() * 0.151 + randomCity.location[0] - 0.075,
+                longitude: Math.random() * 0.23 + randomCity.location[1] - 0.115,
+                broker: randomBroker,
+                state: randomCity.region,
+                propertyStatus: randomStatus,
+                propertyType: randomType,
+                yearBuilt: randomYear,
+                numUnits: randomUnits,
+                callForOffers: randomDate(new Date(2013, 0, 1), new Date()).getTime() / 1000,
+                datePosted: randomDate(new Date(2013, 0, 1), new Date()).getTime()
             };
 
             var randomNewsCity = regionMap[parseInt((Math.random() * regionMap.length), 10)];
@@ -533,10 +529,11 @@ angular.module('rescour.mock', ['rescour.app', 'ngMockE2E'])
 
         $httpBackend.whenGET('/properties/').respond({resources: items});
 
-        $httpBackend.whenGET('/auth/check').respond({user: "Alan"});
-        $httpBackend.whenGET('/auth/users/user/').respond(fakeUser);
+        $httpBackend.whenGET('/auth/user/').respond([{id: "1"}]);
+        $httpBackend.whenGET('/auth/user/1').respond(fakeUser);
+//        $httpBackend.whenGET('/auth/users/user/').respond(fakeUser);
 
-        $httpBackend.whenGET('/auth/users/user/payment/').respond(fakeCustomer);
+        $httpBackend.whenGET('/auth/user/1/payment/').respond(fakeCustomer);
 
         $httpBackend.whenPUT('/auth/users/user/').respond(function (method, url, data, headers) {
             var _saved = angular.fromJson(data);
@@ -544,9 +541,9 @@ angular.module('rescour.mock', ['rescour.app', 'ngMockE2E'])
             return [200, {}, {}];
         });
 
-        $httpBackend.whenGET('/search/').respond({resources: saved});
+        $httpBackend.whenGET('/searches/').respond({resources: saved});
         // adds a new phone to the phones array
-        $httpBackend.whenPOST('/search/').respond(function (method, url, data, headers) {
+        $httpBackend.whenPOST('/searches/').respond(function (method, url, data, headers) {
             var _data = angular.fromJson(data),
                 _saved = {
                     id: Date.now(),
@@ -599,18 +596,54 @@ angular.module('rescour.mock', ['rescour.app', 'ngMockE2E'])
 //            }
 //        });
 
-        $httpBackend.whenGET(/\/news\//).respond(function (method, url, data, headers) {
-            return [200, {resources: news}, {}];
+        $httpBackend.whenGET(/\/properties\/(\?limit=)[0-9]+/).respond(function (method, url, data, headers) {
+            var limit = parseInt(url.split("limit=")[1].split("&")[0]),
+                offset =parseInt(url.split("offset=")[1] ? url.split("offset=")[1].split("&")[0] : 0);
+
+            if (offset + limit + 1 < items.length) {
+                return [200, items.slice(offset === 0 ? 0 : offset + 1, offset + limit + 1)]
+            } else {
+                return [200, items.slice(offset + 1, items.length + 1)]
+            }
         });
 
         $httpBackend.whenGET(/\/news\/(\?limit=)[0-9]+/).respond(function (method, url, data, headers) {
-            var limit = parseInt(url.split("limit=")[1].split("&")[0]);
-            
-            if (limit > news.length) {
-                return [200, news.slice(0, news.length)]
+            var limit = parseInt(url.split("limit=")[1].split("&")[0]),
+                offset =parseInt(url.split("offset=")[1] ? url.split("offset=")[1].split("&")[0] : 0);
+
+            if (offset + limit + 1 < news.length) {
+                return [200, news.slice(offset === 0 ? 0 : offset + 1, offset + limit + 1)]
             } else {
-                return [200, news.slice(0, limit)]
+                return [200, news.slice(offset + 1, news.length + 1)]
             }
+        });
+
+        $httpBackend.whenGET(/\/hidden\/(\?limit=)[0-9]+/).respond(function (method, url, data, headers) {
+            var limit = parseInt(url.split("limit=")[1].split("&")[0]),
+                offset =parseInt(url.split("offset=")[1] ? url.split("offset=")[1].split("&")[0] : 0);
+
+            return [200, [], {}];
+        });
+
+        $httpBackend.whenGET(/\/favorites\/(\?limit=)[0-9]+/).respond(function (method, url, data, headers) {
+            var limit = parseInt(url.split("limit=")[1].split("&")[0]),
+                offset =parseInt(url.split("offset=")[1] ? url.split("offset=")[1].split("&")[0] : 0);
+
+            return [200, [], {}];
+        });
+
+        $httpBackend.whenGET(/\/comments\/(\?limit=)[0-9]+/).respond(function (method, url, data, headers) {
+            var limit = parseInt(url.split("limit=")[1].split("&")[0]),
+                offset =parseInt(url.split("offset=")[1] ? url.split("offset=")[1].split("&")[0] : 0);
+
+            return [200, [], {}];
+        });
+
+        $httpBackend.whenGET(/\/finances\/(\?limit=)[0-9]+/).respond(function (method, url, data, headers) {
+            var limit = parseInt(url.split("limit=")[1].split("&")[0]),
+                offset =parseInt(url.split("offset=")[1] ? url.split("offset=")[1].split("&")[0] : 0);
+
+            return [200, [], {}];
         });
 
         $httpBackend.whenGET(/views\//).passThrough();

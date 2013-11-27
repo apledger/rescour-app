@@ -75,7 +75,6 @@ angular.module('rescour.news', [])
                     $http.get(path, config).then(function (response) {
                         items = items.concat(response.data);
                         ngProgress.set(ngProgress.status() + 10);
-                        console.log(response);
 
                         if (response.data.length < limit || response.data.length === 0) {
                             defer.resolve(items);

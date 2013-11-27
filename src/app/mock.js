@@ -642,10 +642,7 @@ angular.module('rescour.mock', ['rescour.app', 'ngMockE2E'])
             return [200, [], {}];
         });
 
-        $httpBackend.whenPOST(/\/finances\/(\?limit=)[0-9]+/).respond(function (method, url, data, headers) {
-            var limit = parseInt(url.split("limit=")[1].split("&")[0]),
-                offset =parseInt(url.split("offset=")[1] ? url.split("offset=")[1].split("&")[0] : 0);
-
+        $httpBackend.whenPOST(/\/finances\//).respond(function (method, url, data, headers) {
             return [200, [], {}];
         });
 

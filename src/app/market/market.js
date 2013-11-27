@@ -71,6 +71,9 @@ angular.module('rescour.app')
                             });
 
                             return $q.all(promises);
+                        },
+                        defaultFinances: function (Finance){
+                            return Finance.defaults;
                         }
                     }
                 });
@@ -87,8 +90,8 @@ angular.module('rescour.app')
     })
     .controller('MarketController', ['$scope', '$timeout', '$routeParams', '$location',
         'BrowserDetect', 'User', '$dialog', 'PropertyMarket', 'Reports', 'SavedSearch',
-        'NewsZoomThreshold', 'ngProgress', 'NewsMarket', 'MarketViews', 'MarketPartials',
-        function ($scope, $timeout, $routeParams, $location, BrowserDetect, User, $dialog, PropertyMarket, Reports, SavedSearch, NewsZoomThreshold, ngProgress, NewsMarket, MarketViews, MarketPartials) {
+        'NewsZoomThreshold', 'ngProgress', 'NewsMarket', 'MarketViews', 'MarketPartials', 'defaultFinances',
+        function ($scope, $timeout, $routeParams, $location, BrowserDetect, User, $dialog, PropertyMarket, Reports, SavedSearch, NewsZoomThreshold, ngProgress, NewsMarket, MarketViews, MarketPartials, defaultFinances) {
             ngProgress.complete();
             $scope.items = PropertyMarket.visibleItems;
             $scope.attributes = PropertyMarket.getDimensions();
@@ -98,6 +101,8 @@ angular.module('rescour.app')
             $scope.searchText = {};
             $scope.sortBy = {};
             $scope.marketListViewPath = MarketViews.mapList;
+            $scope.defaultFinances = defaultFinances;
+            console.log($scope.defaultFinances);
             $scope.mapData = {
                 isNewsDisabled: function () {
                     return this.zoom < NewsZoomThreshold
@@ -117,28 +122,32 @@ angular.module('rescour.app')
             };
 
             $scope.reportPower = {
-                icon: 'icon-download-alt',
+                icon: 'icon-file-text',
                 tooltip: {
                     text: 'Editor View',
                     placement: 'bottom'
+                },
+                toggle: function () {
+                    this.isSelected = !this.isSelected;
+                    if ($scope.reportPower.isSelected) {
+                        $scope.marketListViewPath = MarketViews.reportList;
+                        this.tooltip.text = 'Map View';
+                        this.icon = 'icon-globe';
+                    } else {
+                        $scope.marketListViewPath = MarketViews.mapList;
+                        this.tooltip.text = 'Editor View';
+                        this.icon = 'icon-file-text';
+                    }
                 },
                 action: function () {
                     // filteredItems set inside the HTML
 //                    Reports.setItems($scope.filteredItems);
 //                    $scope.reportDialog.open();
 
-                    $scope.reportPower.isSelected = !$scope.reportPower.isSelected;
+                   this.toggle();
 
-                    // TODO: Figure out why this is closing
                     if ($scope.propertyDetails.isOpen) {
                         $scope.propertyDetails.close();
-                    }
-                    if ($scope.reportPower.isSelected) {
-                        $scope.marketListViewPath = MarketViews.reportList;
-                        this.tooltip.text = 'Map View';
-                    } else {
-                        $scope.marketListViewPath = MarketViews.mapList;
-                        this.tooltip.text = 'Editor View';
                     }
 
                     $scope.$broadcast('destroyTooltips');

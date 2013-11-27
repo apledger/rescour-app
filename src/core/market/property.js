@@ -58,6 +58,7 @@ angular.module('rescour.property', [])
                     finances: [],
                     comments: []
                 };
+                this.initializeDefaultFinances();
             };
 
             Property.$dimensions = {
@@ -190,7 +191,7 @@ angular.module('rescour.property', [])
                 return defer.promise;
             };
 
-            Property.prototype.getDetails = function () {
+            Property.prototype.initializeDefaultFinances = function () {
                 var self = this;
                 angular.forEach(Finance.defaults, function (defaultFinanceName) {
                     var defaultFinance = _.findWhere(self.resources.finances, {name: defaultFinanceName});

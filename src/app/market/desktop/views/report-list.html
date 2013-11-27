@@ -6,7 +6,7 @@
              tooltip="{{ reportPower.tooltip.text }}"
              tooltip-placement="{{ reportPower.tooltip.placement }}">
             <div class="power-title">
-                <i class="icon-download-alt"></i>
+                <i ng-class="reportPower.icon"></i>
             </div>
         </div>
         <div power="sortPower" power-tooltip="Sort" power-tooltip-placement="bottom"></div>
@@ -20,7 +20,7 @@
     <div class="report-container">
         <div ui-if="propertyDetails.isOpen" ng-include="propertyDetails.templateUrl"></div>
         <div class="scroll-container" chunk="filteredItems = (items | filter:searchText | limitVisible)"
-             chunk-size="100">
+             chunk-size="30">
             <div class="container-fluid">
                 <table class="table table-striped">
                     <thead>
@@ -32,6 +32,7 @@
                         <th>Address</th>
                         <th>Status</th>
                         <th>Type</th>
+                        <th ng-repeat="financeKey in defaultFinances">{{financeKey}}</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -43,6 +44,7 @@
                         <td>{{item.getAddress()}}</td>
                         <td>{{item.propertyStatus}}</td>
                         <td>{{item.propertyType}}</td>
+                        <td ng-repeat="finance in item.resources.finances"><input type="text" ng-model="finance.value" ng-blur="finance.$save()"></td>
                     </tr>
                     </tbody>
                 </table>

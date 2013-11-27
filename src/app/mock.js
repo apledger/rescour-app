@@ -654,6 +654,9 @@ angular.module('rescour.mock', ['rescour.app', 'ngMockE2E'])
         $httpBackend.whenGET(/views\//).passThrough();
         $httpBackend.whenGET(/partials\//).passThrough();
         $httpBackend.whenGET(/template\//).passThrough();
+        $httpBackend.whenJSONP(/rentmetrics/).respond(function () {
+            return [200, {collection: []}, {}];
+        });
     }]);
 
 angular.bootstrap(document, ['rescour.mock']);

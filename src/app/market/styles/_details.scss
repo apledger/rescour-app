@@ -2,13 +2,13 @@ $detailsHeaderColor: $light-gray;
 
 .property-details {
   position: absolute;
-  z-index: 1;
+  z-index: 2;
   background: $light-gray;
   overflow-y: scroll;
   overflow-x: hidden;
-  top: $headerHeight - 5px;
+  top: 0;
   right: 0;
-  left: $filterWidth + $marketWidth;
+  left: 0;
   bottom: 0;
   padding: 0 25px;
   @include rescourTabs;

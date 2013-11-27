@@ -78,11 +78,17 @@ angular.module('rescour.app')
     .value('MarketViews', {
         reportListRawPath: '/app/market/desktop/views/report-list.html?' + Date.now(),
         mapListRawPath: '/app/market/desktop/views/map-list.html?' + Date.now(),
+
         reportList: 'report-list.html',
         mapList: 'map-list.html'
     })
-    .controller('MarketController', ['$scope', '$timeout', '$routeParams', '$location', 'BrowserDetect', 'User', '$dialog', 'PropertyMarket', 'Reports', 'SavedSearch', 'NewsZoomThreshold', 'ngProgress', 'NewsMarket', 'MarketViews',
-        function ($scope, $timeout, $routeParams, $location, BrowserDetect, User, $dialog, PropertyMarket, Reports, SavedSearch, NewsZoomThreshold, ngProgress, NewsMarket, MarketViews) {
+    .value('MarketPartials', {
+        details: '/app/market/desktop/partials/market-details.html?' + Date.now()
+    })
+    .controller('MarketController', ['$scope', '$timeout', '$routeParams', '$location',
+        'BrowserDetect', 'User', '$dialog', 'PropertyMarket', 'Reports', 'SavedSearch',
+        'NewsZoomThreshold', 'ngProgress', 'NewsMarket', 'MarketViews', 'MarketPartials',
+        function ($scope, $timeout, $routeParams, $location, BrowserDetect, User, $dialog, PropertyMarket, Reports, SavedSearch, NewsZoomThreshold, ngProgress, NewsMarket, MarketViews, MarketPartials) {
             ngProgress.complete();
             $scope.items = PropertyMarket.visibleItems;
             $scope.attributes = PropertyMarket.getDimensions();
@@ -104,6 +110,11 @@ angular.module('rescour.app')
             SavedSearch.query().then(function (savedSearches) {
                 $scope.savedSearches = savedSearches;
             });
+
+            $scope.setActive = function (item) {
+                $scope.current = item;
+                PropertyMarket.setActive(item);
+            };
 
             $scope.reportPower = {
                 icon: 'icon-download-alt',
@@ -134,7 +145,6 @@ angular.module('rescour.app')
                 }
             };
 
-
             function sortBy() {
                 if ($scope.sortBy.predicate === this.key) {
                     $scope.sortBy.reverse = !$scope.sortBy.reverse;
@@ -164,57 +174,35 @@ angular.module('rescour.app')
 
             $scope.propertyDetails = (function () {
                 var panes = [
-                        {heading: "Details", active: true},
+                        {heading: "Details", active: false},
                         {heading: "Pictures", active: false},
                         {heading: "Contact", active: false},
                         {heading: "Comments", active: false},
                         {heading: "Finances", active: false},
                         {heading: "RentMetrics", active: false}
                     ],
-                    view = $dialog.dialog({
-                        backdrop: false,
-                        keyboard: false,
-                        backdropClick: true,
-                        dialogClass: 'property-details',
-//                        containerClass: 'map-wrap',
-                        dialogFade: true,
-                        backdropFade: false,
-                        templateUrl: '/app/market/' + BrowserDetect.platform + '/partials/market-details.html?' + Date.now(),
-                        controller: "DetailsController",
-                        resolve: {
-                            activeItem: function ($q) {
-                                return PropertyMarket.getActive().getDetails();
-                            },
-                            panes: function () {
-                                return panes;
-                            }
-                        }
-                    });
+                    view = {
+                        templateUrl: MarketPartials.details
+                    }
 
                 return {
-                    isOpen: function () {
-                        return view.isOpen();
-                    },
-                    open: function (item, resolveCb) {
-                        if (!item && !view.isOpen()) {
-                            PropertyMarket.setActive(null);
-                        } else if (!item && view.isOpen()) {
-                            view.close();
+                    open: function (item, paneHeading) {
+                        if (!item && !view.isOpen) {
+                            $scope.setActive(null);
+                        } else if (!item && view.isOpen) {
+                            this.close();
                         } else {
-                            PropertyMarket.setActive(item);
-                            view.setConditionalClass(item.getStatusClass());
-                            view
-                                .open()
-                                .then(function () {
-                                    PropertyMarket.setActive(null);
-                                })
-                                .then(resolveCb);
+                            this.selectPane(paneHeading);
+                            $scope.setActive(item);
+                            this.isOpen = true;
                         }
 
                         return this;
                     },
-                    close: function (result) {
-                        view.close();
+                    templateUrl: view.templateUrl,
+                    close: function () {
+                        this.isOpen = false;
+                        $scope.setActive(null);
                         return this;
                     },
                     panes: panes,
@@ -234,6 +222,79 @@ angular.module('rescour.app')
                     }
                 };
             })();
+//
+//            $scope.propertyDetails = (function () {
+//                var panes = [
+//                        {heading: "Details", active: true},
+//                        {heading: "Pictures", active: false},
+//                        {heading: "Contact", active: false},
+//                        {heading: "Comments", active: false},
+//                        {heading: "Finances", active: false},
+//                        {heading: "RentMetrics", active: false}
+//                    ],
+//                    view = $dialog.dialog({
+//                        backdrop: false,
+//                        keyboard: false,
+//                        backdropClick: true,
+//                        dialogClass: 'property-details',
+////                        containerClass: 'map-wrap',
+//                        dialogFade: true,
+//                        backdropFade: false,
+//                        templateUrl: '/app/market/' + BrowserDetect.platform + '/partials/market-details.html?' + Date.now(),
+//                        controller: "DetailsController",
+//                        resolve: {
+//                            activeItem: function ($q) {
+//                                return PropertyMarket.getActive().getDetails();
+//                            },
+//                            panes: function () {
+//                                return panes;
+//                            }
+//                        }
+//                    });
+//
+//                return {
+//                    isOpen: function () {
+//                        return view.isOpen();
+//                    },
+//                    open: function (item, resolveCb) {
+//                        if (!item && !view.isOpen()) {
+//                            PropertyMarket.setActive(null);
+//                        } else if (!item && view.isOpen()) {
+//                            view.close();
+//                        } else {
+//                            PropertyMarket.setActive(item);
+//                            view.setConditionalClass(item.getStatusClass());
+//                            view
+//                                .open()
+//                                .then(function () {
+//                                    PropertyMarket.setActive(null);
+//                                })
+//                                .then(resolveCb);
+//                        }
+//
+//                        return this;
+//                    },
+//                    close: function (result) {
+//                        view.close();
+//                        return this;
+//                    },
+//                    panes: panes,
+//                    selectPane: function (paneHeading) {
+//                        paneHeading = (paneHeading && _.find(panes, function (val) {
+//                            return val.heading.toLowerCase() === paneHeading.toLowerCase();
+//                        })) ? paneHeading : panes[0].heading;
+//
+//                        angular.forEach(panes, function (pane) {
+//                            if (pane.heading.toLowerCase() === paneHeading.toLowerCase()) {
+//                                pane.active = true;
+//                            } else {
+//                                pane.active = false;
+//                            }
+//                        });
+//                        return this;
+//                    }
+//                };
+//            })();
 
             function openDetails(id) {
                 if (angular.isObject(PropertyMarket.items[id])) {
@@ -283,7 +344,7 @@ angular.module('rescour.app')
                         title: 'My Account',
                         icon: 'icon-user',
                         action: function () {
-                            if ($scope.propertyDetails.isOpen()) {
+                            if ($scope.propertyDetails.isOpen) {
                                 $scope.propertyDetails.close()
                             }
                             $location.path('/account/').search('id', null).hash(null);
@@ -293,7 +354,7 @@ angular.module('rescour.app')
                         title: 'Logout',
                         icon: 'icon-power-off',
                         action: function () {
-                            if ($scope.propertyDetails.isOpen()) {
+                            if ($scope.propertyDetails.isOpen) {
                                 $scope.propertyDetails.close()
                             }
                             $location.path('/logout').search('id', null).hash(null);
@@ -413,7 +474,7 @@ angular.module('rescour.app')
             };
 
             $scope.centerMap = function (item) {
-                if ($scope.propertyDetails.isOpen()) {
+                if ($scope.propertyDetails.isOpen) {
                     $location.search('id', null).hash(null);
                 }
                 $scope.$broadcast('CenterMap', item);
@@ -605,18 +666,19 @@ angular.module('rescour.app')
             });
 
         }])
-    .controller("DetailsController", ['$scope', '$http', '$_api', '$timeout', 'activeItem', '$location', 'Finance', 'panes', 'RentMetrics', '$_api',
-        function ($scope, $http, $_api, $timeout, activeItem, $location, Finance, panes, RentMetrics, $_api) {
+    .controller("DetailsController", ['$scope', '$http', '$_api', '$timeout', '$location', 'Finance', 'RentMetrics', 'PropertyMarket',
+        function ($scope, $http, $_api, $timeout, $location, Finance, RentMetrics, PropertyMarket) {
             $scope.newComment = {};
-            $scope.panes = panes;
+            $scope.panes = $scope.propertyDetails.panes;
             $scope.newEmail = {};
             $scope.finance = Finance;
             $scope.valueFormats = Finance.valueFormats;
             $scope.financeFields = Finance.fields;
             $scope.contactAlerts = [];
-            $scope.current = activeItem;
+            $scope.current = PropertyMarket.getActive();
+            console.log($scope.current);
             $scope.currentImages = $scope.current.images || [];
-            $scope.currentFinances = activeItem.resources.finances;
+            $scope.currentFinances = $scope.current.resources.finances;
             $scope.rentComps = [];
             $scope.rentMetricsPastOptions = [30, 60, 90];
             $scope.rentMetricsRadiusOptions = [5, 10, 25];
@@ -973,34 +1035,35 @@ angular.module('rescour.app')
     })
     .directive('imgViewer', ['$_api',
         function ($_api) {
-        return{
-            restrict: 'EA',
+            return{
+                restrict: 'EA',
 //            transclude: true,
 //            replace: true,
-            templateUrl: '/template/img-viewer/img-viewer.html',
-            controller: 'viewerCtrl',
-            scope: {
-                images: '='
-            },
-            link: function (scope, element, attr, viewerCtrl) {
-                if (scope.images.length > 0) {
-                    scope.images[0].isActive = true;
+                templateUrl: '/template/img-viewer/img-viewer.html',
+                controller: 'viewerCtrl',
+                scope: {
+                    images: '='
+                },
+                link: function (scope, element, attr, viewerCtrl) {
+                    console.log(scope.images);
+                    if (scope.images.length > 0) {
+                        scope.images[0].isActive = true;
 
-                    for (var i = 1; i < scope.images.length; i++) {
-                        var _image = scope.images[i];
-                        _image.isActive = false;
+                        for (var i = 1; i < scope.images.length; i++) {
+                            var _image = scope.images[i];
+                            _image.isActive = false;
+                        }
                     }
-                }
 
-                if ($_api.env !== 'local') {
-                    scope.imageUrl = $_api.path + '/pictures/';
-                }
+                    if ($_api.env !== 'local') {
+                        scope.imageUrl = $_api.path + '/pictures/';
+                    }
 
-                viewerCtrl.setSlides(scope.images);
-                viewerCtrl.element = element;
+                    viewerCtrl.setSlides(scope.images);
+                    viewerCtrl.element = element;
+                }
             }
-        }
-    }])
+        }])
     .controller('viewerCtrl', ['$scope', '$timeout',
         function ($scope, $timeout) {
             var self = this;
@@ -1028,6 +1091,6 @@ angular.module('rescour.app')
     })
     .filter('checkLowBound', function () {
         return function (input, limit, e) {
-            return input == limit ?  "< " + input : input;
+            return input == limit ? "< " + input : input;
         }
     });

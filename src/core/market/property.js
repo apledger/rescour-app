@@ -1036,10 +1036,12 @@ angular.module('rescour.property', [])
                                 defer.resolve(self.comps);
                             }
                         }, function (response) {
+                            ngProgress.complete();
                             self.$spinner = false;
                             defer.reject(response);
                         },
                     function (response) {
+                        ngProgress.complete();
                         self.$spinner = false;
                         self.error = "Error Loading Comps";
                         defer.reject(response);

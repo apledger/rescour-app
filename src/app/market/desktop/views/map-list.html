@@ -123,6 +123,7 @@
     </div>
 
     <div class="map-wrap">
+        <div ui-if="propertyDetails.isOpen" ng-include="propertyDetails.templateUrl"></div>
         <div map></div>
     </div>
 </div>

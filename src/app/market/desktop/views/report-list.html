@@ -18,6 +18,7 @@
         <div power="accountPower"></div>
     </div>
     <div class="report-container">
+        <div ui-if="propertyDetails.isOpen" ng-include="propertyDetails.templateUrl"></div>
         <div class="scroll-container" chunk="filteredItems = (items | filter:searchText | limitVisible)"
              chunk-size="100">
             <div class="container-fluid">
@@ -35,7 +36,7 @@
                     </thead>
                     <tbody>
                     <tr ng-repeat="item in chunk">
-                        <td>{{item.title}}</td>
+                        <td><a ng-href="?id={{item.id}}#details">{{item.title}}</a></td>
                         <td>{{item.daysOnMarket}}</td>
                         <td>{{item.yearBuilt}}</td>
                         <td>{{item.numUnits}}</td>

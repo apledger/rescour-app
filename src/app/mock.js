@@ -301,31 +301,31 @@ angular.module('rescour.mock', ['rescour.app', 'ngMockE2E'])
                 ],
                 images: [
                     {
-                        link: '/img/apartment-details-1.jpg'
+                        id: '/img/apartment-details-1.jpg'
                     },
                     {
-                        link: '/img/apartment-details-2.jpg'
+                        id: '/img/apartment-details-2.jpg'
                     },
                     {
-                        link: '/img/apartment-details-3.jpg'
+                        id: '/img/apartment-details-3.jpg'
                     },
                     {
-                        link: '/img/apartment-details-4.jpg'
+                        id: '/img/apartment-details-4.jpg'
                     },
                     {
-                        link: '/img/apartment-details-5.jpg'
+                        id: '/img/apartment-details-5.jpg'
                     },
                     {
-                        link: '/img/apartment-details-6.jpg'
+                        id: '/img/apartment-details-6.jpg'
                     },
                     {
-                        link: '/img/apartment-details-7.jpg'
+                        id: '/img/apartment-details-7.jpg'
                     },
                     {
-                        link: '/img/apartment-details-8.jpg'
+                        id: '/img/apartment-details-8.jpg'
                     },
                     {
-                        link: '/img/apartment-details-9.jpg'
+                        id: '/img/apartment-details-9.jpg'
                     }
                 ],
                 unitMix: [
@@ -645,7 +645,12 @@ angular.module('rescour.mock', ['rescour.app', 'ngMockE2E'])
         $httpBackend.whenPOST(/\/finances\//).respond(function (method, url, data, headers) {
             return [200, [], {}];
         });
-
+        $httpBackend.whenPOST(/\/favorites\//).respond(function (method, url, data, headers) {
+            return [200, [], {}];
+        });
+        $httpBackend.whenPOST(/\/hidden\//).respond(function (method, url, data, headers) {
+            return [200, [], {}];
+        });
         $httpBackend.whenGET(/views\//).passThrough();
         $httpBackend.whenGET(/partials\//).passThrough();
         $httpBackend.whenGET(/template\//).passThrough();

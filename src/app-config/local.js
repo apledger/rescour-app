@@ -31,6 +31,7 @@ angular.module('rescour.config', [])
             config: config,
             path: url.local,
             loading: loading,
-            stripeToken: stripeTokens.test
+            stripeToken: stripeTokens.test,
+            env: 'local'
         };
     });

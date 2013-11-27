@@ -39,7 +39,9 @@ angular.module('rescour.property', [])
                 angular.copy(opts, this);
                 this.title = this.title || 'Untitled Property';
                 this.description = this.description || 'No description provided.';
-                this.thumbnail = this.thumbnail ? $_api.path + '/pictures/' + this.thumbnail : '/img/apt0.jpg';
+                if ($_api.env !== 'local') {
+                    this.thumbnail = this.thumbnail ? $_api.path + '/pictures/' + this.thumbnail : '/img/apt0.jpg';
+                }
                 this.state = this.address.state;
                 this.location = (data.address.latitude && data.address.longitude) ? [data.address.latitude, data.address.longitude] : null;
                 this.latitude = parseFloat(data.address.latitude) || 'NA';
@@ -364,6 +366,12 @@ angular.module('rescour.property', [])
                 }
 
                 return addressStr;
+            };
+
+            Property.prototype.getFinance = function (type) {
+                return _.find(this.resources.finances, function (val) {
+                    return val.name === type;
+                });
             };
 
             return Property;

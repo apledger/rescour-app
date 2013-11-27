@@ -293,50 +293,7 @@ angular.module('rescour.mock', ['rescour.app', 'ngMockE2E'])
                 yearBuilt: randomYear,
                 numUnits: randomUnits,
                 callForOffers: randomDate(new Date(2013, 0, 1), new Date()).getTime() / 1000,
-                datePosted: randomDate(new Date(2013, 0, 1), new Date()).getTime()
-            };
-
-            var randomNewsCity = regionMap[parseInt((Math.random() * regionMap.length), 10)];
-
-            news[k] = {
-                title: 'News: Something happened here!',
-                date: randomDate(new Date(2013, 0, 1), new Date()).getTime(),
-                address: {
-                    street1: "152 Dummy St.",
-                    street2: "",
-                    zip: "30142",
-                    state: "GA",
-                    city: "Atlanta",
-                    latitude: Math.random() * 0.151 + randomNewsCity.location[0] - 0.075,
-                    longitude: Math.random() * 0.23 + randomNewsCity.location[1] - 0.115
-                },
-                body: "Body of News Article " + k,
-                url: "www.businessinsider.com",
-                category: "Transactions",
-                id: k
-            }
-
-//            news.push( {
-//                title: 'News Article ' + k,
-//                date: randomDate(new Date(2013, 0, 1), new Date()).getTime() / 1000,
-//                address: {
-//                    street1: "152 Dummy St.",
-//                    street2: "",
-//                    zip: "30142",
-//                    state: "GA",
-//                    city: "Atlanta",
-//                    latitude: Math.random() * 0.151 + randomCity.location[0] - 0.075,
-//                    longitude: Math.random() * 0.23 + randomCity.location[1] - 0.115
-//                },
-//                body: "Body of News Article " + k,
-//                link: "www.businessinsider.com",
-//                category: "Transactions",
-//                id: k
-//            } )
-
-            itemDetails[k] = {
-                comments: [],
-                finances: [],
+                datePosted: randomDate(new Date(2013, 0, 1), new Date()).getTime(),
                 tourDates: [
                     {date: '2013-03-19T04:00:00.000Z'},
                     {date: '2013-03-26T04:00:00.000Z'},
@@ -405,8 +362,47 @@ angular.module('rescour.mock', ['rescour.app', 'ngMockE2E'])
                         email: "sjones@aaarealty.com",
                         phone: "(678)-132-1532"
                     }
-                ]
+                ],
+                resources: {}
             };
+
+            var randomNewsCity = regionMap[parseInt((Math.random() * regionMap.length), 10)];
+
+            news[k] = {
+                title: 'News: Something happened here!',
+                date: randomDate(new Date(2013, 0, 1), new Date()).getTime(),
+                address: {
+                    street1: "152 Dummy St.",
+                    street2: "",
+                    zip: "30142",
+                    state: "GA",
+                    city: "Atlanta",
+                    latitude: Math.random() * 0.151 + randomNewsCity.location[0] - 0.075,
+                    longitude: Math.random() * 0.23 + randomNewsCity.location[1] - 0.115
+                },
+                body: "Body of News Article " + k,
+                url: "www.businessinsider.com",
+                category: "Transactions",
+                id: k
+            }
+
+//            news.push( {
+//                title: 'News Article ' + k,
+//                date: randomDate(new Date(2013, 0, 1), new Date()).getTime() / 1000,
+//                address: {
+//                    street1: "152 Dummy St.",
+//                    street2: "",
+//                    zip: "30142",
+//                    state: "GA",
+//                    city: "Atlanta",
+//                    latitude: Math.random() * 0.151 + randomCity.location[0] - 0.075,
+//                    longitude: Math.random() * 0.23 + randomCity.location[1] - 0.115
+//                },
+//                body: "Body of News Article " + k,
+//                link: "www.businessinsider.com",
+//                category: "Transactions",
+//                id: k
+//            } )
         };
 
         var fakeUser = {
@@ -640,6 +636,13 @@ angular.module('rescour.mock', ['rescour.app', 'ngMockE2E'])
         });
 
         $httpBackend.whenGET(/\/finances\/(\?limit=)[0-9]+/).respond(function (method, url, data, headers) {
+            var limit = parseInt(url.split("limit=")[1].split("&")[0]),
+                offset =parseInt(url.split("offset=")[1] ? url.split("offset=")[1].split("&")[0] : 0);
+
+            return [200, [], {}];
+        });
+
+        $httpBackend.whenPOST(/\/finances\/(\?limit=)[0-9]+/).respond(function (method, url, data, headers) {
             var limit = parseInt(url.split("limit=")[1].split("&")[0]),
                 offset =parseInt(url.split("offset=")[1] ? url.split("offset=")[1].split("&")[0] : 0);
 

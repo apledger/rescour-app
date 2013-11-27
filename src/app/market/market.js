@@ -117,6 +117,11 @@ angular.module('rescour.app')
 //                    $scope.reportDialog.open();
 
                     $scope.reportPower.isSelected = !$scope.reportPower.isSelected;
+
+                    // TODO: Figure out why this is closing
+                    if ($scope.propertyDetails.isOpen) {
+                        $scope.propertyDetails.close();
+                    }
                     if ($scope.reportPower.isSelected) {
                         $scope.marketListViewPath = MarketViews.reportList;
                         this.tooltip.text = 'Map View';
@@ -171,7 +176,7 @@ angular.module('rescour.app')
                         keyboard: false,
                         backdropClick: true,
                         dialogClass: 'property-details',
-                        containerClass: 'map-wrap',
+//                        containerClass: 'map-wrap',
                         dialogFade: true,
                         backdropFade: false,
                         templateUrl: '/app/market/' + BrowserDetect.platform + '/partials/market-details.html?' + Date.now(),
@@ -183,19 +188,6 @@ angular.module('rescour.app')
                             panes: function () {
                                 return panes;
                             }
-//                            rentMetrics: function (RentMetrics, $q) {
-//                                var rentMetrics = new RentMetrics(PropertyMarket.getActive().address),
-//                                    defer = $q.defer();
-//
-//                                rentMetrics.query()
-//                                    .then(function (comps) {
-//                                        defer.resolve(rentMetrics);
-//                                    }, function (response) {
-//                                        defer.resolve(rentMetrics);
-//                                    });
-//
-//                                return defer.promise;
-//                            }
                         }
                     });
 
@@ -253,7 +245,9 @@ angular.module('rescour.app')
             }
 
             if ($location.search().id) {
-                openDetails($location.search().id);
+                $timeout(function () {
+                    openDetails($location.search().id);
+                }, 0);
             }
 
             $scope.savedSearchDialog = $dialog.dialog({
@@ -998,7 +992,9 @@ angular.module('rescour.app')
                     }
                 }
 
-                scope.imageUrl = $_api.path + '/pictures/';
+                if ($_api.env !== 'local') {
+                    scope.imageUrl = $_api.path + '/pictures/';
+                }
 
                 viewerCtrl.setSlides(scope.images);
                 viewerCtrl.element = element;

@@ -27,7 +27,7 @@
                     <thead>
                     <tr>
                         <th>Title</th>
-                        <th>Days on Market</th>
+                        <th>Date Posted</th>
                         <th>Year Built</th>
                         <th># Units</th>
                         <th>Address</th>
@@ -39,7 +39,7 @@
                     <tbody>
                     <tr ng-repeat="item in chunk">
                         <td><a ng-href="?id={{item.id}}#details">{{item.title}}</a></td>
-                        <td>{{item.daysOnMarket}}</td>
+                        <td>{{item.datePosted | date}}</td>
                         <td>{{item.yearBuilt}}</td>
                         <td>{{item.numUnits}}</td>
                         <td>{{item.getAddress()}}</td>

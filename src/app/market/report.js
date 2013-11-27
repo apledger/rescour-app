@@ -2,8 +2,9 @@ angular.module('rescour.app')
     .controller('ReportCtrl', ['$scope', 'Property',
         function ($scope, Property) {
             $scope.convertToCSV = function () {
-                console.log(Property.convertToCSV($scope.filteredItems));
-            }
+                var str = Property.convertToCSV($scope.filteredItems);
+                console.log(str);
+            };
 
             $scope.exportPower = {
                 icon: 'icon-download-alt',

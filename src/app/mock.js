@@ -278,9 +278,9 @@ angular.module('rescour.mock', ['rescour.app', 'ngMockE2E'])
                 address: {
                     street1: "152 Dummy St.",
                     street2: "",
-                    zip: "30142",
+                    zip: 30309,
                     state: randomCity.region,
-                    city: "Atlanta",
+                    city: randomCity.city,
                     latitude: Math.random() * 0.151 + randomCity.location[0] - 0.075,
                     longitude: Math.random() * 0.23 + randomCity.location[1] - 0.115
                 },
@@ -651,12 +651,16 @@ angular.module('rescour.mock', ['rescour.app', 'ngMockE2E'])
         $httpBackend.whenPOST(/\/hidden\//).respond(function (method, url, data, headers) {
             return [200, [], {}];
         });
+        $httpBackend.whenPOST(/\/comments/).respond(function (method, url, data, headers) {
+            return [200, [], {}];
+        });
         $httpBackend.whenGET(/views\//).passThrough();
         $httpBackend.whenGET(/partials\//).passThrough();
         $httpBackend.whenGET(/template\//).passThrough();
-        $httpBackend.whenJSONP(/rentmetrics/).respond(function () {
-            return [200, {collection: []}, {}];
-        });
+//        $httpBackend.whenJSONP(/rentmetrics/).respond(function () {
+//            return [200, {collection: []}, {}];
+//        });
+        $httpBackend.whenJSONP(/rentmetrics/).passThrough();
     }]);
 
 angular.bootstrap(document, ['rescour.mock']);

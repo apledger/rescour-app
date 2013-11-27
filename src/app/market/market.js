@@ -685,7 +685,6 @@ angular.module('rescour.app')
             $scope.financeFields = Finance.fields;
             $scope.contactAlerts = [];
             $scope.current = PropertyMarket.getActive();
-            console.log($scope.current);
             $scope.currentImages = $scope.current.images || [];
             $scope.currentFinances = $scope.current.resources.finances;
             $scope.rentComps = [];
@@ -1054,7 +1053,6 @@ angular.module('rescour.app')
                     images: '='
                 },
                 link: function (scope, element, attr, viewerCtrl) {
-                    console.log(scope.images);
                     if (scope.images.length > 0) {
                         scope.images[0].isActive = true;
 
@@ -1063,6 +1061,7 @@ angular.module('rescour.app')
                             _image.isActive = false;
                         }
                     }
+                    scope.imageUrl = '';
 
                     if ($_api.env !== 'local') {
                         scope.imageUrl = $_api.path + '/pictures/';

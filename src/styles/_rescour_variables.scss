@@ -75,7 +75,10 @@ $gutterWidth: 15px;
         @include translate(0, 5px);
         border-bottom: 1px solid white;
         @include gradient-vertical(#FFFFFF, #FFFFFF);
-        @include transition(all 0.3s ease);
+        transition: transform 0.3s ease;
+        -moz-transition: -moz-transform 0.3s ease;
+        -webkit-transition: -webkit-transform 0.3s ease;
+        -o-transition: -o-transform 0.3s ease;
       }
 
       & > li.active {

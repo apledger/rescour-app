@@ -48,7 +48,7 @@ angular.module('rescour.property', [])
                 this.longitude = parseFloat(data.address.longitude) || 'NA';
                 this.yearBuilt = parseInt(this.yearBuilt, 10) || 'NA';
                 this.numUnits = parseInt(this.numUnits, 10) || 'NA';
-                this.datePosted = this.datePosted ? new Date(parseInt(this.datePosted, 10)) : new Date(parseInt(this.id.toString().slice(0,8), 16) * 1000);
+                this.datePosted = this.datePosted ? new Date(parseInt(this.datePosted, 10)) : new Date(parseInt(this.id.toString().slice(0, 8), 16) * 1000);
                 this.daysOnMarket = Math.ceil(Math.abs(Date.now() - (this.datePosted.getTime())) / (1000 * 3600 * 24));
                 this.resources = {};
                 this.favorites = false;
@@ -192,19 +192,127 @@ angular.module('rescour.property', [])
             };
 
             Property.convertToCSV = function (items) {
-                var array = items;
-                var str = '';
 
-                for (var i = 0; i < array.length; i++) {
+                var reportConfig = [
+                        {
+                            key: 'datePosted',
+                            title: 'Date Posted'
+                        },
+                        {
+                            key: 'broker',
+                            title: 'Broker'
+                        },
+                        {
+                            key: 'title',
+                            title: 'Title'
+                        },
+                        {
+                            key: 'numUnits',
+                            title: 'Num Units'
+                        },
+                        {
+                            key: 'propertyType',
+                            title: 'Property Type'
+                        },
+                        {
+                            key: 'callForOffers',
+                            title: 'Call For Offers'
+                        },
+                        {
+                            key: 'acres',
+                            title: 'Acres'
+                        },
+                        {
+                            key: 'yearBuilt',
+                            title: 'Year Built'
+                        },
+                        {
+                            key: 'propertyType',
+                            title: 'Property Type'
+                        },
+                        {
+                            key: 'callForOffers',
+                            title: 'Call For Offers'
+                        },
+                        {
+                            key: 'address',
+                            title: 'Address',
+                            method: function (item) {
+                                if (!item.getAddress()) throw new Error('Method getAddress is not defined for ' + item);
+                                return item.getAddress();
+                            }
+                        },
+                        {
+                            key: 'tourDates',
+                            title: 'Tour Dates',
+                            fields: ['date']
+                        },
+                        {
+                            key: 'propertyStatus',
+                            title: 'Status'
+                        },
+                        {
+                            key: 'comments',
+                            title: 'Comments',
+                            accessor: 'resources',
+                            fields: ['userEmail', 'text'],
+                            separator: ' - '
+                        },
+                        {
+                            key: 'finances',
+                            title: 'IRR',
+                            accessor: 'resources',
+                            method: function (item) {
+                                if (!item.getFinance) throw new Error('Method getFinance is not defined for ' + item);
+                                return item.getFinance('IRR').value;
+                            }
+                        }
+                    ],
+                    str = '';
+
+                (function setHeaders() {
                     var line = '';
-                    for (var index in array[i]) {
+                    for (var i = 0; i < reportConfig.length; i++) {
+                        var reportFieldConfig = reportConfig[i];
                         if (line != '') line += ','
 
-                        line += array[i][index];
+                        line += reportFieldConfig.title;
                     }
-
                     str += line + '\r\n';
-                }
+                })();
+
+                (function setFields() {
+                    for (var i = 0; i < items.length; i++) {
+                        var line = '',
+                            item = items[i];
+
+                        for (var j = 0; j < reportConfig.length; j++) {
+                            var reportFieldConfig = reportConfig[j],
+                                itemField = reportFieldConfig.accessor ? item[reportFieldConfig.accessor][reportFieldConfig.key] : item[reportFieldConfig.key];
+                            if (line != '') line += ','
+
+                            if (reportFieldConfig.method) {
+                                line += ('"' + reportFieldConfig.method(item) + '"');
+                            } else if (_.isArray(itemField)) {
+                                for (var k = 0; k < itemField.length; k++) {
+                                    var reportArrayObj = itemField[k],
+                                        reportArrayFields = reportFieldConfig.fields || _.keys(reportArrayObj),
+                                        objLineArray = [];
+
+                                    angular.forEach(reportArrayFields, function(fieldKey){
+                                        objLineArray.push(reportArrayObj[fieldKey]);
+                                    });
+
+                                    line += ('"' + objLineArray.join(reportFieldConfig.separator || ' ') + '"');
+                                }
+                            } else {
+                                line += ('"' + itemField || '' + '"');
+                            }
+                        }
+
+                        str += line + '\r\n';
+                    }
+                })();
 
                 return str;
             };
@@ -395,7 +503,8 @@ angular.module('rescour.property', [])
 
             return Property;
         }])
-    .factory('Reports', ['$_api', '$q', '$http',
+    .
+    factory('Reports', ['$_api', '$q', '$http',
         function ($_api, $q, $http) {
             var items;
 
@@ -961,7 +1070,6 @@ angular.module('rescour.property', [])
     .factory('RentMetrics', ['$_api', '$http', '$q', 'ngProgress',
         function ($_api, $http, $q, ngProgress) {
 
-
             var RentMetrics = function (address, limit) {
                 this.address = address.street1 + ' ' + address.city + ',' + address.state;
                 this.comps = [];
@@ -1059,12 +1167,12 @@ angular.module('rescour.property', [])
                             self.$spinner = false;
                             defer.reject(response);
                         },
-                    function (response) {
-                        ngProgress.complete();
-                        self.$spinner = false;
-                        self.error = "Error Loading Comps";
-                        defer.reject(response);
-                    });
+                        function (response) {
+                            ngProgress.complete();
+                            self.$spinner = false;
+                            self.error = "Error Loading Comps";
+                            defer.reject(response);
+                        });
                 })(offset || 0);
 
                 return defer.promise;

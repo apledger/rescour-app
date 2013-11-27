@@ -283,16 +283,12 @@
                                type="text" ng-model="finance.name"
                                typeahead-select="field for field in financeFields | filter:$viewValue">
                         <i class="icon-pencil"></i>
-
                     </div>
 
                     <div class="controls">
-                        <input placeholder="Value" type="text" format-input="{{finance.valueFormat}}" name="value"
+                        <input placeholder="Value" type="text" name="value"
                                ng-blur="saveFinance(finance)" ng-model="finance.value"
                                class="input-large">
-                        <select ng-options="format.valueFormat as format.icon for format in valueFormats"
-                                class="finance-class"
-                                ng-model="finance.valueFormat" ng-change="saveFinance(finance)"></select>
 
                         <div class="control-spinner" spinner="finance.$spinner"></div>
                     </div>

@@ -4255,11 +4255,11 @@ angular.module('rescour.app')
 
                                 var left = element.offset().left - distance,
                                     top = element.offset().top - distance,
-                                    right = left + element.width() + 2 * distance,
-                                    bottom = top + element.height() + 2 * distance,
+                                    right = left + element.width() + distance,
+                                    bottom = top + element.height() + 4 * distance,
                                     x = event.pageX,
                                     y = event.pageY;
-                                console.log(left, top, right, bottom, x, y);
+                                console.log(x, left, right, y, top, bottom);
 
                                 return ( x > left && x < right && y > top && y < bottom );
                             };
@@ -4268,7 +4268,6 @@ angular.module('rescour.app')
                                 if (isNear(activePopup, 50, e.originalEvent)) {
                                     activeMarker.pristine = false;
                                 } else if (!activeMarker.pristine) {
-                                    debugger;
                                     closeActivePopup ();
                                     map.off('mousemove', checkNearPopup);
                                 }

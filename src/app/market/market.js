@@ -716,9 +716,7 @@ angular.module('rescour.app')
             };
 
             $scope.saveFinance = function (finance) {
-                if (finance.value) {
-                    finance.$save();
-                }
+                $scope.current.saveFinance(finance);
             };
 
             $scope.addFinance = function () {

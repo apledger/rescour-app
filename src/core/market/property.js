@@ -398,9 +398,11 @@ angular.module('rescour.property', [])
 
             Property.prototype.saveFinance = function (finance) {
                 var self = this;
-                finance.$save().then(function () {
-                    self.notes = true;
-                });
+                if (finance.value) {
+                    finance.$save().then(function () {
+                        self.notes = true;
+                    });
+                }
             };
 
             Property.prototype.deleteFinance = function (finance) {
@@ -426,7 +428,6 @@ angular.module('rescour.property', [])
                             self.$spinner = false;
                             self.favorites = false;
                             self.resources.favorites = _.without(self.resources.favorites, fav);
-                            console.log(self);
                             defer.resolve(response);
                         })
                     });
@@ -462,7 +463,6 @@ angular.module('rescour.property', [])
                             self.$spinner = false;
                             self.hidden = false;
                             self.resources.hidden = _.without(self.resources.hidden, h);
-                            console.log(self);
                             defer.resolve(response);
                         })
                     });
@@ -572,7 +572,6 @@ angular.module('rescour.property', [])
 
                     $http.post(path, body, config).then(
                         function (response) {
-                            console.log(response);
                             defer.resolve(response);
                         },
                         function (response) {
@@ -1030,7 +1029,6 @@ angular.module('rescour.property', [])
                         if (response.data.length < limit || response.data.length === 0) {
                             defer.resolve(items);
                         } else {
-                            console.log(response);
                             batchItems(limit, response.data[response.data.length - 1].id);
                         }
                     }, function (response) {

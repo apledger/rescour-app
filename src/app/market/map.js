@@ -4417,7 +4417,6 @@ angular.module('rescour.app')
 
                     scope.$on('window-resized', function () {
                         map.invalidateSize();
-                        renderMap();
                     });
 
                     scope.$on('CenterMap', function (event, item) {

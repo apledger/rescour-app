@@ -94,7 +94,6 @@
 <script src="/core/market/property.js"></script>
 <script src="/core/market/news.js"></script>
 <script src="/core/market/market.js"></script>
-<script src="/core/market/leaflet-google.js"></script>
 <script src="/core/utility/utility.js"></script>
 <script src="/core/browser-detect/browser-detect.js"></script>
 <script src="/core/powers/powers.js"></script>
@@ -117,6 +116,7 @@
 <script src="/app/login/login.js"></script>
 <script src="/app/market/market.js"></script>
 <script src="/app/market/map.js"></script>
+<script src="/core/market/leaflet-google.js"></script>
 <script src="/app/market/report.js"></script>
 
 <% if (config.environment == 'local') { %>

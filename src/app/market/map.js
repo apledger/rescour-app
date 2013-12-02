@@ -4041,7 +4041,7 @@ angular.module('rescour.app')
                         $el = element.find(".map")[0],
                         markers = new L.MarkerClusterGroup({disableClusteringAtZoom: 10, spiderfyOnMaxZoom: false, spiderfyDistanceMultiplier: 0.1}),
                         isPopupOpen = false,
-                        activeMarker,
+                        activeMarker, activePopup,
                         map, propertyBounds;
 
                     if (propertyBounds = getPropertyBounds()) {
@@ -4225,7 +4225,7 @@ angular.module('rescour.app')
                         $location.search('id', item.id).hash('pictures');
                     };
 
-                    function popupTemplate(item) {
+                    function propertyPopupTemplate(item) {
                         scope.item = item;
 
                         var popupTempl = "<div><div class=\"popup-striped-container popup-header " + item.getStatusClass('gradient') + "\" ng-click=\"showItemDetails(item)\">" +
@@ -4246,7 +4246,41 @@ angular.module('rescour.app')
 
                         var popupElement = $compile(popupTempl)(scope);
 
-                        return popupElement[0];
+                        return popupElement;
+                    }
+
+                    function openPopup(item, templateFn) {
+                        var checkNearPopup = function (e) {
+                            function isNear(element, distance, event) {
+
+                                var left = element.offset().left - distance,
+                                    top = element.offset().top - distance,
+                                    right = left + element.width() + 2 * distance,
+                                    bottom = top + element.height() + 2 * distance,
+                                    x = event.pageX,
+                                    y = event.pageY;
+                                console.log(left, top, right, bottom, x, y);
+
+                                return ( x > left && x < right && y > top && y < bottom );
+                            };
+
+                            if (activeMarker && activePopup) {
+                                if (isNear(activePopup, 50, e.originalEvent)) {
+                                    activeMarker.pristine = false;
+                                } else if (!activeMarker.pristine) {
+                                    debugger;
+                                    closeActivePopup ();
+                                    map.off('mousemove', checkNearPopup);
+                                }
+                            }
+                        };
+
+                        activePopup = templateFn(item);
+                        activeMarker = item.marker.bindPopup(activePopup[0], {closeButton: false, minWidth: 325});
+
+                        map.on('mousemove', checkNearPopup);
+
+                        return item.marker.openPopup();
                     }
 
                     function initMarkers() {
@@ -4255,19 +4289,13 @@ angular.module('rescour.app')
                                 item.marker = new L.Marker(new L.LatLng(item.location[0], item.location[1]), { title: item.title, icon: icons[item.getStatusClass()] });
                                 item.marker.on("click", function (e) {
                                     scope.$apply(function () {
-                                        if (BrowserDetect.platform !== 'tablet') {
-                                            scope.showDetails(item);
-                                        } else {
-                                            activeMarker = item.marker.bindPopup(popupTemplate(item), {closeButton: false, minWidth: 325}).openPopup();
-
-                                        }
+                                        scope.showDetails(item);
                                     });
                                 });
 
                                 // Bind mouseover popup
-                                item.marker.on("mouseover", function (e) {
-                                    activeMarker = item.marker.bindPopup(popupTemplate(item), {closeButton: false, minWidth: 325})
-                                        .openPopup();
+                                item.marker.on('mouseover', function (e) {
+                                    openPopup(item, propertyPopupTemplate);
                                 });
                             }
                         });
@@ -4340,6 +4368,7 @@ angular.module('rescour.app')
                     }
 
                     function renderMap(e) {
+                        googleLayer._update();
                         var currentZoomLevel = map.getZoom();
                         if (currentZoomLevel < 6) {
                             initGeoJsonLayer();
@@ -4358,8 +4387,16 @@ angular.module('rescour.app')
                             scope.$apply(renderMap);
                         }
                     }
+                    function closeActivePopup () {
+                        if (activeMarker) {
+                            activeMarker.closePopup();
+                            activeMarker = null;
+                            activePopup = null;
+                        }
+                    }
 
-                    map.on('moveend', moveEventHandler);
+                    map.on('dragend', moveEventHandler);
+                    map.on('zoomend', moveEventHandler);
                     map.on('popupopen', function () {
                         isPopupOpen = true;
                     });
@@ -4368,19 +4405,21 @@ angular.module('rescour.app')
                         isPopupOpen = false;
                     });
 
+
                     map.on('dragstart', function () {
-                        if (activeMarker) {
-                            activeMarker.closePopup();
-                        }
+                        closeActivePopup();
                     });
 
                     map.on('zoomstart', function () {
-                        if (activeMarker) {
-                            activeMarker.closePopup();
-                        }
+                        closeActivePopup();
                     });
 
                     scope.$on('UpdateMap', renderMap);
+
+                    scope.$on('window-resized', function () {
+                        map.invalidateSize();
+                        renderMap();
+                    });
 
                     scope.$on('CenterMap', function (event, item) {
                         if (item.marker) {
@@ -4392,7 +4431,8 @@ angular.module('rescour.app')
 
                             map.on('moveend', moveEventHandler);
                             markers.zoomToShowLayer(item.marker, function () {
-                                activeMarker = item.marker.bindPopup(popupTemplate(item), {closeButton: false, minWidth: 325}).openPopup();
+                                openPopup(item, propertyPopupTemplate);
+                                activeMarker.pristine = true;
                             });
                         }
                     });
@@ -4403,26 +4443,19 @@ angular.module('rescour.app')
 
                         var popupElement = $compile(popupTempl)(scope);
 
-                        return popupElement[0];
+                        return popupElement;
                     }
 
                     function addNewsMarkers(visibleNews) {
                         newsLayerGroup.clearLayers();
 
-                        for (var newsId in visibleNews) {
-                            if (visibleNews.hasOwnProperty(newsId)) {
-                                var _news = visibleNews[newsId];
-
-                                var _newsMarker = new L.Marker(new L.LatLng(_news.latitude, _news.longitude), { title: _news.title, icon: newsIcon });
-                                (function (m, news) {
-                                    m.on("mouseover", function (e) {
-                                        activeMarker = m.bindPopup(newsPopupTemplate(news), {closeButton: false, minWidth: 350}).openPopup();
-                                    });
-                                })(_newsMarker, _news);
-
-                                newsLayerGroup.addLayer(_newsMarker);
-                            }
-                        }
+                        angular.forEach(visibleNews, function (news) {
+                            news.marker = new L.Marker(new L.LatLng(news.latitude, news.longitude), { title: news.title, icon: newsIcon });
+                            news.marker.on('mouseover', function (e) {
+                                openPopup(news, newsPopupTemplate);
+                            });
+                            newsLayerGroup.addLayer(news.marker);
+                        });
 
                     }
 

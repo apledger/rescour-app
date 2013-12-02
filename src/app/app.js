@@ -38,8 +38,12 @@ angular.module('rescour.app',
                     redirectTo: '/'
                 });
         }])
-    .controller("AppController", ['$scope', '$rootScope', '$location', '$_api', '$http',
-        function ($scope, $rootScope, $location, $_api, $http) {
+    .controller("AppController", ['$scope', '$rootScope', '$location', '$_api', '$http', '$window',
+        function ($scope, $rootScope, $location, $_api, $http, $window) {
+            angular.element($window).bind('resize', _.debounce(function () {
+                $rootScope.$broadcast('window-resized')
+            }, 150));
+
             $rootScope.$on("$routeChangeStart", function (event, next, current) {
                 $scope.loading = true;
                 $scope.failure = false;

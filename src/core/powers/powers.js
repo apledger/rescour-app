@@ -126,12 +126,6 @@ angular.module('rescour.powers', [])
                         });
                     }
 
-                    angular.element($window).bind('resize', function () {
-                        scope.$apply(function () {
-                            scope.$broadcast('window-resized');
-                        });
-                    });
-
                     scope.$on('window-resized', function () {
                         setHeight(elSibling);
                     });

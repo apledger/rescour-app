@@ -98,6 +98,9 @@ angular.module('rescour.app')
             $scope.searchText = {};
             $scope.sortBy = {};
             $scope.marketListViewPath = MarketViews.mapList;
+            $scope.$on('window-resized', function () {
+                console.log($scope);
+            })
 
             $scope.mapData = {
                 isNewsDisabled: function () {
@@ -375,6 +378,7 @@ angular.module('rescour.app')
 
             $scope.render = function () {
                 $scope.items = PropertyMarket.apply();
+//                console.log($scope.items);
                 PropertyMarket.predict();
             };
 

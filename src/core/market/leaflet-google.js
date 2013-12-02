@@ -123,7 +123,6 @@ L.Google = L.Class.extend({
 
     _update: function() {
         this._resize();
-
         var bounds = this._map.getBounds();
         var ne = bounds.getNorthEast();
         var sw = bounds.getSouthWest();

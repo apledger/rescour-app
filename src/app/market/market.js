@@ -597,7 +597,6 @@ angular.module('rescour.app')
             $scope.valueFormats = Finance.valueFormats;
             $scope.financeFields = Finance.fields;
             $scope.contactAlerts = [];
-            $scope.current = PropertyMarket.getActive();
             $scope.currentImages = $scope.current.images || [];
             $scope.currentFinances = $scope.current.resources.finances;
             $scope.rentComps = [];

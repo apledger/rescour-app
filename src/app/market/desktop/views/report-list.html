@@ -30,7 +30,8 @@
                         <th>Date Posted</th>
                         <th>Year Built</th>
                         <th># Units</th>
-                        <th>Address</th>
+                        <th>City</th>
+                        <th>State</th>
                         <th>Status</th>
                         <th>Type</th>
                         <th ng-repeat="financeKey in defaultFinances">{{financeKey}}</th>
@@ -42,12 +43,13 @@
                         <td>{{item.datePosted | date}}</td>
                         <td>{{item.yearBuilt}}</td>
                         <td>{{item.numUnits}}</td>
-                        <td>{{item.getAddress()}}</td>
-                        <td>{{item.propertyStatus}}</td>
+                        <td>{{item.address.city}}</td>
+                        <td>{{item.address.state}}</td>
+                        <td class="{{item.getStatusClass('text')}}">{{item.propertyStatus}}</td>
                         <td>{{item.propertyType}}</td>
                         <td ng-repeat="finance in item.resources.finances" spinner="finance.$spinner" spinner-size="xs" spinner-options="{left: '41px'}">
                             <input type="text" ng-model="finance.value"
-                                   ng-blur="finance.$save()">
+                                   ng-blur="item.saveFinance(finance)">
                         </td>
                     </tr>
                     </tbody>

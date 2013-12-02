@@ -18,8 +18,8 @@ angular.module('rescour.property', [])
                 }
             });
         }])
-    .factory('Property', ['$_api', '$q', '$http', 'Comment', 'Finance', 'Favorite', 'Hidden', '$exceptionHandler', 'ngProgress',
-        function ($_api, $q, $http, Comment, Finance, Favorite, Hidden, $exceptionHandler, ngProgress) {
+    .factory('Property', ['$_api', '$q', '$http', 'Comment', 'Finance', 'Favorite', 'Hidden', '$exceptionHandler', 'ngProgress', '$filter',
+        function ($_api, $q, $http, Comment, Finance, Favorite, Hidden, $exceptionHandler, ngProgress, $filter) {
             // Item constructor
             var Property = function (data) {
                 if (data.hasOwnProperty('id')) {
@@ -196,7 +196,10 @@ angular.module('rescour.property', [])
                 var reportConfig = [
                         {
                             key: 'datePosted',
-                            title: 'Date Posted'
+                            title: 'Date Posted',
+                            method: function (item) {
+                                return $filter('date')(item.datePosted);
+                            }
                         },
                         {
                             key: 'broker',
@@ -215,20 +218,12 @@ angular.module('rescour.property', [])
                             title: 'Property Type'
                         },
                         {
-                            key: 'callForOffers',
-                            title: 'Call For Offers'
-                        },
-                        {
                             key: 'acres',
                             title: 'Acres'
                         },
                         {
                             key: 'yearBuilt',
                             title: 'Year Built'
-                        },
-                        {
-                            key: 'propertyType',
-                            title: 'Property Type'
                         },
                         {
                             key: 'callForOffers',
@@ -245,7 +240,12 @@ angular.module('rescour.property', [])
                         {
                             key: 'tourDates',
                             title: 'Tour Dates',
-                            fields: ['date']
+                            fields: ['date'],
+                            fieldsFormat: {
+                                date: function (field) {
+                                    return $filter('date')(field);
+                                }
+                            }
                         },
                         {
                             key: 'propertyStatus',
@@ -260,11 +260,38 @@ angular.module('rescour.property', [])
                         },
                         {
                             key: 'finances',
+                            title: 'Valuation',
+                            accessor: 'resources',
+                            method: function (item) {
+                                if (!item.getFinance) throw new Error('Method getFinance is not defined for ' + item);
+                                return item.getFinance('Valuation').value;
+                            }
+                        },
+                        {
+                            key: 'finances',
+                            title: 'Cap Rate',
+                            accessor: 'resources',
+                            method: function (item) {
+                                if (!item.getFinance) throw new Error('Method getFinance is not defined for ' + item);
+                                return item.getFinance('Cap Rate').value;
+                            }
+                        },
+                        {
+                            key: 'finances',
                             title: 'IRR',
                             accessor: 'resources',
                             method: function (item) {
                                 if (!item.getFinance) throw new Error('Method getFinance is not defined for ' + item);
                                 return item.getFinance('IRR').value;
+                            }
+                        },
+                        {
+                            key: 'finances',
+                            title: 'Price / Unit',
+                            accessor: 'resources',
+                            method: function (item) {
+                                if (!item.getFinance) throw new Error('Method getFinance is not defined for ' + item);
+                                return item.getFinance('Price / Unit').value;
                             }
                         }
                     ],
@@ -292,21 +319,29 @@ angular.module('rescour.property', [])
                             if (line != '') line += ','
 
                             if (reportFieldConfig.method) {
-                                line += ('"' + reportFieldConfig.method(item) + '"');
+                                line += '"' + (reportFieldConfig.method(item) || '') + '"';
                             } else if (_.isArray(itemField)) {
+                                var reportArrayLine = '';
+
                                 for (var k = 0; k < itemField.length; k++) {
                                     var reportArrayObj = itemField[k],
                                         reportArrayFields = reportFieldConfig.fields || _.keys(reportArrayObj),
                                         objLineArray = [];
 
-                                    angular.forEach(reportArrayFields, function(fieldKey){
-                                        objLineArray.push(reportArrayObj[fieldKey]);
+                                    if (reportArrayLine != '') reportArrayLine += ', ';
+                                    angular.forEach(reportArrayFields, function (fieldKey) {
+                                        if (reportFieldConfig.fieldsFormat && reportFieldConfig.fieldsFormat.hasOwnProperty(fieldKey)) {
+                                            objLineArray.push(reportFieldConfig.fieldsFormat[fieldKey](reportArrayObj[fieldKey]));
+                                        } else {
+                                            objLineArray.push(reportArrayObj[fieldKey]);
+                                        }
                                     });
 
-                                    line += ('"' + objLineArray.join(reportFieldConfig.separator || ' ') + '"');
+                                    reportArrayLine += objLineArray.join(reportFieldConfig.separator || ' - ');
                                 }
+                                line += ('"' + reportArrayLine + '"');
                             } else {
-                                line += ('"' + itemField || '' + '"');
+                                line += '"' + (itemField || '') + '"';
                             }
                         }
 
@@ -359,6 +394,13 @@ angular.module('rescour.property', [])
                 this.notes = true;
 
                 return newFinance;
+            };
+
+            Property.prototype.saveFinance = function (finance) {
+                var self = this;
+                finance.$save().then(function () {
+                    self.notes = true;
+                });
             };
 
             Property.prototype.deleteFinance = function (finance) {
@@ -458,7 +500,7 @@ angular.module('rescour.property', [])
             };
 
             Property.prototype.getStatusClass = function (type) {
-                var suffix = (type === 'solid' || type === 'gradient') ? '-' + type : '';
+                var suffix = type ? '-' + type : '';
 
                 switch (this.getAttribute('propertyStatus')) {
                     case 'Marketing':
@@ -763,27 +805,6 @@ angular.module('rescour.property', [])
                 "Cap Rate",
                 "Price / Unit"
             ];
-
-//            Finance.query = function () {
-//                var config = angular.extend({
-//                        transformRequest: $_api.loading.none
-//                    }, $_api.config),
-//                    defer = $q.defer(),
-//                    propertyId = self.propertyId;
-//
-//                if (typeof propertyId !== 'undefined') {
-//                    $http.get($_api.path + '/properties/' + propertyId + '/finances/', config).then(function (response) {
-//                        defer.resolve(response.data.items);
-//                    }, function (response) {
-//                        defer.reject(response);
-//                        //throw new Error("HTTP Error: " + response);
-//                    });
-//                } else {
-//                    throw new Error("Finance.query received undefined itemID");
-//                }
-//
-//                return defer.promise;
-//            };
 
             Finance.query = function () {
                 var items = [],

@@ -167,6 +167,23 @@ body {
   background: $grayDark !important;
 }
 
+.status-expired-text {
+  color: $red !important;
+}
+
+.status-marketing-text {
+  color: $green !important;
+}
+
+.status-under-text {
+  color: $orange !important;
+}
+
+.status-unknown-text {
+  color: $grayLight !important;
+}
+
+
 .leaflet-label-overlay {
   color: white;
   font-size: 18px;

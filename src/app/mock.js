@@ -653,6 +653,19 @@ angular.module('rescour.mock', ['rescour.app', 'ngMockE2E'])
         $httpBackend.whenPOST(/\/comments/).respond(function (method, url, data, headers) {
             return [200, [], {}];
         });
+
+        $httpBackend.whenDELETE(/\/finances\//).respond(function (method, url, data, headers) {
+            return [200, [], {}];
+        });
+        $httpBackend.whenDELETE(/\/favorites\//).respond(function (method, url, data, headers) {
+            return [200, [], {}];
+        });
+        $httpBackend.whenDELETE(/\/hidden\//).respond(function (method, url, data, headers) {
+            return [200, [], {}];
+        });
+        $httpBackend.whenDELETE(/\/comments/).respond(function (method, url, data, headers) {
+            return [200, [], {}];
+        });
         $httpBackend.whenGET(/views\//).passThrough();
         $httpBackend.whenGET(/partials\//).passThrough();
         $httpBackend.whenGET(/template\//).passThrough();

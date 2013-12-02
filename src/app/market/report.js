@@ -3,7 +3,7 @@ angular.module('rescour.app')
         function ($scope, Property, Finance) {
             $scope.convertToCSV = function () {
                 var str = Property.convertToCSV($scope.filteredItems);
-                console.log(str);
+                document.location = 'data:text/csv;charset=utf-8,' + encodeURIComponent(str);
             };
 
             $scope.defaultFinances = Finance.defaults;

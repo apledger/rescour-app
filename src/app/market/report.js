@@ -1,16 +1,17 @@
 angular.module('rescour.app')
-    .controller('ReportCtrl', ['$scope', 'Property',
-        function ($scope, Property) {
+    .controller('ReportCtrl', ['$scope', 'Property', 'Finance',
+        function ($scope, Property, Finance) {
             $scope.convertToCSV = function () {
                 var str = Property.convertToCSV($scope.filteredItems);
                 console.log(str);
             };
 
+            $scope.defaultFinances = Finance.defaults;
+
             $scope.exportPower = {
                 icon: 'icon-download-alt',
-                float: 'right',
                 action: function  () {
                     $scope.convertToCSV();
                 }
-            }
+            };
         }]);

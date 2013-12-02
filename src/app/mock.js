@@ -406,15 +406,14 @@ angular.module('rescour.mock', ['rescour.app', 'ngMockE2E'])
         };
 
         var fakeUser = {
-            company: "Fake Company",
-            email: "bob@fakecompany.com",
-            firstName: "Robert",
-            groups: "ListField",
-            lastName: "Frost",
-            password: "myPassword123",
-            phone: "123-456-6754",
-            username: "bob@fakecompany.com",
-            roles: ['staff']
+            company: 'Fake Company',
+            email: 'bob@fakecompany.com',
+            firstName: 'Robert',
+            lastName: 'Frost',
+            phone: '123-456-6754',
+            username: 'bob@fakecompany.com',
+            roles: ['staff'],
+            id: '1'
         };
 
         var fakeCustomer = {
@@ -525,7 +524,7 @@ angular.module('rescour.mock', ['rescour.app', 'ngMockE2E'])
 
         $httpBackend.whenGET('/properties/').respond({resources: items});
 
-        $httpBackend.whenGET('/auth/user/').respond([{id: "1"}]);
+        $httpBackend.whenGET('/auth/user/').respond([fakeUser]);
         $httpBackend.whenGET('/auth/user/1').respond(fakeUser);
 //        $httpBackend.whenGET('/auth/users/user/').respond(fakeUser);
 

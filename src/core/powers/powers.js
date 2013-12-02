@@ -1,26 +1,4 @@
 angular.module('rescour.powers', [])
-    .factory('Power',
-        ['$document', '$window',
-            function ($document, $window) {
-                function Power(opts) {
-                    angular.extend(this, {}, opts);
-                    if (this.options) {
-                        angular.forEach(this.options, function (value, key) {
-                            value.key = key;
-                        });
-                    }
-
-                    this.float = this.float || 'left';
-                };
-
-                Power.prototype.getOptions = function () {
-                    return _.map(this.options, function (value) {
-                        return value
-                    });
-                };
-
-                return Power;
-            }])
     .controller('PowersController', ['$scope', '$rootScope', function ($scope, $rootScope) {
         var powers = [];
 
@@ -41,8 +19,8 @@ angular.module('rescour.powers', [])
             });
         });
     }])
-    .directive('power', ['$document', 'Power', '$compile',
-        function ($document, Power, $compile) {
+    .directive('power', ['$document', '$compile',
+        function ($document, $compile) {
             return {
                 require: '^powers',
                 restrict: 'A',
@@ -55,8 +33,7 @@ angular.module('rescour.powers', [])
                 replace: true,
                 templateUrl: '/core/powers/template/power.html?v=' + Date.now(),
                 link: function (scope, element, attrs, PowersController) {
-
-                    var _power = scope.power = new Power(scope.power, element);
+                    var _power = scope.power;
                     var body = $document.find('body');
                     scope.predicate = 'weight';
 
@@ -93,7 +70,7 @@ angular.module('rescour.powers', [])
                         } else if (_power.multiSelect) {
                             option.isSelected = !option.isSelected;
                         }
-                        option.action();
+                        option.action.call(option);
                     };
 
                     element.bind('click', function (e) {
@@ -123,8 +100,11 @@ angular.module('rescour.powers', [])
                         }
                     });
 
-                    if (_power.toggle && _power.options.hasOwnProperty(_power.toggle)) {
-                        scope.selectOption(_power.options[_power.toggle]);
+                    if (_power.toggle) {
+                        var toggledOption = _.findWhere(_power.options, {key: _power.toggle});
+                        if (toggledOption) {
+                            scope.selectOption(toggledOption);
+                        }
                     }
                 }
             };

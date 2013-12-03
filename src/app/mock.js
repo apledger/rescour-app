@@ -673,6 +673,7 @@ angular.module('rescour.mock', ['rescour.app', 'ngMockE2E'])
 //            return [200, {collection: []}, {}];
 //        });
         $httpBackend.whenJSONP(/rentmetrics/).passThrough();
+        $httpBackend.whenJSONP(/walkscore/).passThrough();
     }]);
 
 angular.bootstrap(document, ['rescour.mock']);

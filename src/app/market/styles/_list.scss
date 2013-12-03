@@ -251,6 +251,10 @@ ul {
         font-weight: normal;
         margin-right: 15px;
 
+        i {
+          cursor: pointer;
+        }
+
         &:hover {
           color: $gray;
         }

@@ -535,7 +535,7 @@ angular.module('rescour.mock', ['rescour.app', 'ngMockE2E'])
             return [200, { status: 'success' }, {}];
         });
 
-        $httpBackend.whenPUT(/\/search\/[0-9]+/).respond(function (method, url, data, headers) {
+        $httpBackend.whenPUT(/\/searches\/[0-9]+/).respond(function (method, url, data, headers) {
             var _data = angular.fromJson(data),
                 _id = url.split("/")[2],
                 _saved = {
@@ -547,6 +547,10 @@ angular.module('rescour.mock', ['rescour.app', 'ngMockE2E'])
             saved[_saved.id] = _saved;
 
             return [200, { id: _saved.id }, {}];
+        });
+
+        $httpBackend.whenDELETE(/\/searches\/[0-9]+/).respond(function (method, url, data, headers) {
+            return [200, {}, {}];
         });
 
         $httpBackend.whenPUT(/\/properties\/\d+\/notes/).respond(function (method, url, data, headers) {

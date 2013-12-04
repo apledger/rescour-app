@@ -428,8 +428,8 @@ angular.module('rescour.app')
                 $scope.$broadcast('RangesDefined');
             };
         }])
-    .controller("FilterController", ['$scope', 'SavedSearch', '$dialog',
-        function ($scope, SavedSearch, $dialog) {
+    .controller("FilterController", ['$scope', 'SavedSearch', '$dialog', 'PropertyMarket',
+        function ($scope, SavedSearch, $dialog, PropertyMarket) {
 
             $scope.savedSearchDialog = $dialog.dialog({
                 backdrop: true,

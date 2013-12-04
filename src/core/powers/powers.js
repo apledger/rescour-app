@@ -121,7 +121,6 @@ angular.module('rescour.powers', [])
 
                     function setHeight(el) {
                         elHeight = element.prop('offsetHeight');
-                        console.log(elHeight, elParent.height());
                         el.css({
                             height: elParent.height() - elHeight
                         });
@@ -132,7 +131,6 @@ angular.module('rescour.powers', [])
                     });
 
                     $timeout(function () {
-                        debugger;
                         setHeight(elSibling);
                     }, 0);
                 },

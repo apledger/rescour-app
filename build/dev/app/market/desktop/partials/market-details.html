@@ -109,6 +109,14 @@
                         </ul>
                     </td>
                 </tr>
+                <tr ng-show="current.walkscore">
+                    <td>
+                        <strong><a href="http://www.walkscore.com/how-it-works.shtml" target="_blank">Walk Score</a>&reg;</a></strong>
+                    </td>
+                    <td>
+                        <a ng-href="{{current.walkscore.ws_link}}" target="_blank">{{current.walkscore.walkscore}}</a> ( {{current.walkscore.description}} )
+                    </td>
+                </tr>
                 </tbody>
             </table>
         </div>

@@ -18,6 +18,9 @@ angular.module('rescour.config', [])
                 test: 'pk_test_wSAqQNQKI7QqPmBpDcQLgGM7',
                 prod: 'pk_live_4TLhgO3Pp1gOdWWmvLVK1PG3'
             },
+            walkScoreTokens = {
+                dev: '53a5a8421f9738c864545e91812e2d98'
+            },
             rentMetricTokens = {
                 prod: 'u8LNVTAcLns6ypPmXt82iw'
             },
@@ -31,11 +34,13 @@ angular.module('rescour.config', [])
                 }
             };
 
+
         return {
             config: config,
             path: url.remote,
             loading: loading,
             stripeToken: stripeTokens.test,
+            walkScoreToken: walkScoreTokens.dev,
             rentMetricToken: rentMetricTokens.prod
         };
     });

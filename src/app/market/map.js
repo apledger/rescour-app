@@ -4259,7 +4259,6 @@ angular.module('rescour.app')
                                     bottom = top + element.height() + 4 * distance,
                                     x = event.pageX,
                                     y = event.pageY;
-                                console.log(x, left, right, y, top, bottom);
 
                                 return ( x > left && x < right && y > top && y < bottom );
                             };

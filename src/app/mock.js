@@ -9,7 +9,7 @@
 angular.module('rescour.mock', ['rescour.app', 'ngMockE2E'])
 // Dummy Calls
     .run(['$httpBackend', '$timeout', function ($httpBackend, $timeout) {
-        var NUM_ITEMS = 1000;
+        var NUM_ITEMS = 1296;
 
         var saved = {};
 
@@ -281,11 +281,9 @@ angular.module('rescour.mock', ['rescour.app', 'ngMockE2E'])
                     zip: 30309,
                     state: randomCity.region,
                     city: randomCity.city,
-                    latitude: Math.random() * 0.151 + randomCity.location[0] - 0.075,
-                    longitude: Math.random() * 0.23 + randomCity.location[1] - 0.115
+                    latitude: Math.random() * 0.40 + randomCity.location[0] - 0.075,
+                    longitude: Math.random() * 0.35 + randomCity.location[1] - 0.105
                 },
-                latitude: Math.random() * 0.151 + randomCity.location[0] - 0.075,
-                longitude: Math.random() * 0.23 + randomCity.location[1] - 0.115,
                 broker: randomBroker,
                 state: randomCity.region,
                 propertyStatus: randomStatus,
@@ -377,8 +375,8 @@ angular.module('rescour.mock', ['rescour.app', 'ngMockE2E'])
                     zip: "30142",
                     state: "GA",
                     city: "Atlanta",
-                    latitude: Math.random() * 0.151 + randomNewsCity.location[0] - 0.075,
-                    longitude: Math.random() * 0.23 + randomNewsCity.location[1] - 0.115
+                    latitude: Math.random() * 0.40 + randomNewsCity.location[0] - 0.075,
+                    longitude: Math.random() * 0.28 + randomNewsCity.location[1] - 0.115
                 },
                 body: "Body of News Article " + k,
                 url: "www.businessinsider.com",
@@ -669,11 +667,14 @@ angular.module('rescour.mock', ['rescour.app', 'ngMockE2E'])
         $httpBackend.whenGET(/views\//).passThrough();
         $httpBackend.whenGET(/partials\//).passThrough();
         $httpBackend.whenGET(/template\//).passThrough();
-//        $httpBackend.whenJSONP(/rentmetrics/).respond(function () {
-//            return [200, {collection: []}, {}];
-//        });
         $httpBackend.whenJSONP(/rentmetrics/).passThrough();
-        $httpBackend.whenJSONP(/walkscore/).passThrough();
+        $httpBackend.whenGET(/walkbitch/).respond(function (method, url, data, headers) {
+            return [200, {
+                walkscore: 58,
+                description: 'Somewhat Walkable',
+                ws_link: 'http://www.walkscore.com/score/31790-US-Highway-19-Harbor-Florida-34684/lat=28.0627457/lng=-82.73907200000001/?utm_source=rescour.com&utm_medium=ws_api&utm_campaign=ws_api'
+            }, {}];
+        });
     }]);
 
 angular.bootstrap(document, ['rescour.mock']);

@@ -616,7 +616,7 @@ angular.module('rescour.app')
                         $scope.rentMetrics = rentMetrics;
                         $scope.rentMetrics.query();
                     }
-                }
+                };
 
             $http.get('http://walkbitch.rescour.com/score?', {
                 params: {

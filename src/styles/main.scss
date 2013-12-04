@@ -198,3 +198,7 @@ body {
     margin-right: 15px;
   }
 }
+
+.icon-button {
+  @include tp-icon-btn($gray);
+}

@@ -77,6 +77,21 @@ $btnBorderRadius: 5px;
   @include tpBtnAnimation($color);
 }
 
+@mixin tp-icon-btn($color: $baseColor) {
+  background: transparent;
+  color: $color;
+  padding: 10px;
+  vertical-align: middle;
+  position: relative;
+  margin: 5px;
+  cursor: pointer;
+
+  &:hover {
+    background: $color;
+    color: white;
+  }
+}
+
 
 .btn {
   @include tpBtn($btnPrimaryBackground);

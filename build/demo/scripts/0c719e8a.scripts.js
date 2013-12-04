@@ -1798,7 +1798,7 @@ window.jasmine && (function(window) {
 angular.module('rescour.mock', ['rescour.app', 'ngMockE2E'])
 // Dummy Calls
     .run(['$httpBackend', '$timeout', function ($httpBackend, $timeout) {
-        var NUM_ITEMS = 1296;
+        var NUM_ITEMS = 2096;
 
         var saved = {};
 
@@ -1939,6 +1939,7 @@ angular.module('rescour.mock', ['rescour.app', 'ngMockE2E'])
             'Brown Realty'
         ];
         var statusMap = ['Marketing', 'Under Contract', 'Under LOI', 'Expired', 'Marketing - Past Due', 'Sold'];
+        var newsCategoryMap = ['Transactions', 'Future Development', 'Under Construction', 'Renovations', 'Newly Completed', 'Financing', 'Other'];
         var generateDetails = function (options) {
             var details = [
                 {
@@ -2080,7 +2081,7 @@ angular.module('rescour.mock', ['rescour.app', 'ngMockE2E'])
                 yearBuilt: randomYear,
                 numUnits: randomUnits,
                 callForOffers: randomDate(new Date(2013, 0, 1), new Date()).getTime() / 1000,
-                datePosted: randomDate(new Date(2013, 0, 1), new Date()).getTime(),
+                datePosted: randomDate(new Date(2013, 7, 1), new Date()).getTime(),
                 tourDates: [
                     {date: '2013-03-19T04:00:00.000Z'},
                     {date: '2013-03-26T04:00:00.000Z'},
@@ -2169,28 +2170,10 @@ angular.module('rescour.mock', ['rescour.app', 'ngMockE2E'])
                 },
                 body: "Body of News Article " + k,
                 url: "www.businessinsider.com",
-                category: "Transactions",
+                category: newsCategoryMap[parseInt((Math.random() * newsCategoryMap.length), 10)],
                 id: k
             }
-
-//            news.push( {
-//                title: 'News Article ' + k,
-//                date: randomDate(new Date(2013, 0, 1), new Date()).getTime() / 1000,
-//                address: {
-//                    street1: "152 Dummy St.",
-//                    street2: "",
-//                    zip: "30142",
-//                    state: "GA",
-//                    city: "Atlanta",
-//                    latitude: Math.random() * 0.151 + randomCity.location[0] - 0.075,
-//                    longitude: Math.random() * 0.23 + randomCity.location[1] - 0.115
-//                },
-//                body: "Body of News Article " + k,
-//                link: "www.businessinsider.com",
-//                category: "Transactions",
-//                id: k
-//            } )
-        };
+        }
 
         var fakeUser = {
             company: 'Fake Company',

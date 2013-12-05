@@ -98,9 +98,6 @@ angular.module('rescour.app')
             $scope.searchText = {};
             $scope.sortBy = {};
             $scope.marketListViewPath = MarketViews.mapList;
-            $scope.$on('window-resized', function () {
-                console.log($scope);
-            })
 
             $scope.mapData = {
                 isNewsDisabled: function () {

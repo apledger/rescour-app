@@ -70,6 +70,7 @@ $btnBorderRadius: 5px;
   text-align: center;
   padding: 0.5em 2em;
   cursor: pointer;
+  outline: 0;
   @include border-radius($btnBorderRadius);
   @include box-sizing(border-box);
   @include transition(all 0.1s);

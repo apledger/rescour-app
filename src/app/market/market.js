@@ -979,19 +979,16 @@ angular.module('rescour.app')
                     images: '='
                 },
                 link: function (scope, element, attr, viewerCtrl) {
-                    if (scope.images.length > 0) {
-                        scope.images[0].isActive = true;
 
-                        for (var i = 1; i < scope.images.length; i++) {
-                            var _image = scope.images[i];
-                            _image.isActive = false;
-                        }
-                    }
                     scope.imageUrl = '';
 
                     if ($_api.env !== 'local') {
                         scope.imageUrl = $_api.path + '/pictures/';
                     }
+
+                    scope.$watch('images', function (newVal) {
+                        viewerCtrl.setSlides(scope.images);
+                    });
 
                     viewerCtrl.setSlides(scope.images);
                     viewerCtrl.element = element;
@@ -1003,7 +1000,16 @@ angular.module('rescour.app')
             var self = this;
             $scope.current = 0;
             self.setSlides = function (slides) {
-                $scope.slides = slides;
+                $scope.slides = slides || [];
+                $scope.current = 0;
+                if ($scope.slides.length > 0) {
+                    $scope.slides[0].isActive = true;
+
+                    for (var i = 1; i < $scope.slides.length; i++) {
+                        var _image = $scope.slides[i];
+                        _image.isActive = false;
+                    }
+                }
             };
 
             $scope.prev = function () {

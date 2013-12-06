@@ -207,16 +207,8 @@
         <div class="span10 offset1" ng-show="current.images.length > 0">
 
             <div img-viewer images="current.images"></div>
-
-            <!--<div carousel no-transition="true">-->
-            <!--<div slide ng-repeat="slide in current.getImages()" active="slide.active">-->
-            <!--<img ng-src="{{slide.link}}" style="margin:auto;">-->
-
-            <!--<div class="counter">{{$index + 1}} of {{current.getImages().length}}</div>-->
-            <!--</div>-->
-            <!--</div>-->
         </div>
-        <div class="span8 alert alert-info" ng-show="current.getImages().length == 0">
+        <div class="alert alert-info" ng-show="current.images.length == 0">
             <strong>Sorry!</strong> We don't have any images for this listing.
         </div>
     </div>

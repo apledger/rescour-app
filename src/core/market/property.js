@@ -58,6 +58,7 @@ angular.module('rescour.property', [])
                     finances: [],
                     comments: []
                 };
+                this.images = this.images || [];
                 this.initializeDefaultFinances();
             };
 

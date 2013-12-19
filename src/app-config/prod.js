@@ -11,7 +11,8 @@
 angular.module('rescour.config', [])
     .factory('$_api', function () {
         var url = {
-                prod: "/api"
+                prod: "/api",
+                stage: 'https://api.maasive.net/v2/52956bfdc3034e4a0fe22ef9'
             },
             stripeTokens = {
                 test: 'pk_test_wSAqQNQKI7QqPmBpDcQLgGM7',
@@ -35,7 +36,7 @@ angular.module('rescour.config', [])
 
         return {
             config: config,
-            path: url.prod,
+            path: url.stage,
             loading: loading,
             stripeToken: stripeTokens.prod,
             walkScoreToken: walkScoreTokens.dev,

@@ -38,7 +38,7 @@ angular.module('rescour.config', [])
             config: config,
             path: url.prod,
             loading: loading,
-            stripeToken: stripeTokens.prod,
+            stripeToken: stripeTokens.test,
             walkScoreToken: walkScoreTokens.dev,
             rentMetricToken: rentMetricTokens.prod
         };

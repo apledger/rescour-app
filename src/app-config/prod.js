@@ -36,7 +36,7 @@ angular.module('rescour.config', [])
 
         return {
             config: config,
-            path: url.stage,
+            path: url.prod,
             loading: loading,
             stripeToken: stripeTokens.prod,
             walkScoreToken: walkScoreTokens.dev,

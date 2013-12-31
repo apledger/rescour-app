@@ -615,20 +615,20 @@ angular.module('rescour.app')
                     }
                 };
 
-            $http.get('http://walkbitch.rescour.com/score?', {
-                params: {
-                    format: 'json',
-                    address: $scope.current.getAddress(),
-                    lat: $scope.current.address.latitude,
-                    lon: $scope.current.address.longitude,
-                    wsapikey: $_api.walkScoreToken
-                },
-                cache: true,
-                headers: {'Content-Type': 'application/json'},
-                withCredentials: true
-            }).then(function (response) {
-                    $scope.current.walkscore = response.data;
-                });
+//            $http.get('http://walkbitch.rescour.com/score?', {
+//                params: {
+//                    format: 'json',
+//                    address: $scope.current.getAddress(),
+//                    lat: $scope.current.address.latitude,
+//                    lon: $scope.current.address.longitude,
+//                    wsapikey: $_api.walkScoreToken
+//                },
+//                cache: true,
+//                headers: {'Content-Type': 'application/json'},
+//                withCredentials: true
+//            }).then(function (response) {
+//                    $scope.current.walkscore = response.data;
+//                });
 
             $scope.setRentCompsPast = function (days) {
                 $scope.rentMetrics.setStartDate(days);

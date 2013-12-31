@@ -142,8 +142,6 @@ angular.module('rescour.property', [])
                                         var property = properties[propertyId],
                                             propertyResources = property.resources[resourceKey] = property.resources[resourceKey] || [];
 
-                                        console.log(property, resource);
-
                                         if (resourceKey === 'finances') {
                                             property.setFinance(resource);
                                         } else {
@@ -155,7 +153,6 @@ angular.module('rescour.property', [])
                                         } else {
                                             property[resourceKey] = true;
                                         }
-
 
                                     } else {
                                         throw new Error("Cannot add " + resourceKey + ": " + resource.id + " to Property ID: " + propertyId + ", does not exist")
@@ -559,10 +556,15 @@ angular.module('rescour.property', [])
             Property.prototype.setFinance = function (finance) {
                 // Check to see if in defaults
                 // If so override
-                var self = this;
-                var defaultFinanceIndex = _.indexOf(_.indexBy(self.resources.finances, 'name'), finance.name);
-                    console.log(defaultFinanceIndex);
-                if (defaultFinanceIndex) {
+                var defaultFinanceIndex = -1;
+
+                for (var i = 0, len = this.resources.finances.length; i < len; i++) {
+                    if (this.resources.finances[i].name === finance.name) {
+                        defaultFinanceIndex = i;
+                        break;
+                    }
+                }
+                if (defaultFinanceIndex > -1) {
                     this.resources.finances[defaultFinanceIndex] = new Finance(finance);
                 } else {
                     // Otherwise push

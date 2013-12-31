@@ -623,7 +623,12 @@ angular.module('rescour.mock', ['rescour.app', 'ngMockE2E'])
             var limit = parseInt(url.split("limit=")[1].split("&")[0]),
                 offset =parseInt(url.split("offset=")[1] ? url.split("offset=")[1].split("&")[0] : 0);
 
-            return [200, [], {}];
+            return [200, [{
+                id: 'finance1',
+                propertyId: '1',
+                value: 5,
+                name: 'Cap Rate'
+            }], {}];
         });
 
         $httpBackend.whenPOST(/\/finances\//).respond(function (method, url, data, headers) {

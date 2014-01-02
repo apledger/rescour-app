@@ -12,7 +12,7 @@
             ng-class="{'active': (option.isSelected && (power.toggle || power.multiSelect))}">
             <i ng-class="option.icon"></i>
             <a href="javascript:">{{option.title}}</a>
-            <span ng-show="option.meta" class="badge {{ option.meta.badge }}">{{ option.meta.predict }}</span>
+            <strong ng-show="option.meta"> ({{ option.meta.predict }})</strong>
         </li>
     </ul>
 </div>

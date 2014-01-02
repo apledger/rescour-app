@@ -4460,6 +4460,7 @@ angular.module('rescour.app')
                         clearNewsLayers();
                         applyBounds(NewsMarket);
                         addNewsMarkers(NewsMarket.apply());
+                        NewsMarket.predict();
                         scope.mapData.newsToggled = true;
                     }
 

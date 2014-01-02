@@ -341,24 +341,68 @@ angular.module('rescour.app')
 
             $scope.newsDiscreet = NewsMarket.getDimensions().discreet;
 
-            $scope.categoryPower = {
+            $scope.newsCategoryPower = {
                 title: 'Category',
                 multiSelect: true,
                 options: (function () {
-                    var categoryValueOptions = {};
+                    var categoryValueOptions = [],
+                        self = this;
                     angular.forEach($scope.newsDiscreet.category.values, function (value, key) {
-                        categoryValueOptions[key] = {
+                        categoryValueOptions.push({
                             title: value.title,
                             action: function () {
                                 NewsMarket.toggleDiscreet($scope.newsDiscreet.category, value);
                                 $scope.$broadcast('UpdateMap');
-                                NewsMarket.predict();
-                            }
-                        }
+                            },
+                            meta: value
+                        })
                     });
 
                     return categoryValueOptions;
                 })()
+            };
+
+            $scope.newsAgePower = {
+                title: 'Date',
+                toggle: 'all',
+                options: [
+                    {
+                        title: 'All Time',
+                        action: function () {
+                            NewsMarket.applyRange('age', null, null);
+                            $scope.$broadcast('UpdateMap');
+                        },
+                        key: 'all'
+                    },
+                    {
+                        title: 'Last 7 Days',
+                        action: function () {
+                            NewsMarket.applyRange('age', 0, 7);
+                            $scope.$broadcast('UpdateMap');
+                        }
+                    },
+                    {
+                        title: 'Last 30 Days',
+                        action: function () {
+                            NewsMarket.applyRange('age', 0, 30);
+                            $scope.$broadcast('UpdateMap');
+                        }
+                    },
+                    {
+                        title: 'Last 90 Days',
+                        action: function () {
+                            NewsMarket.applyRange('age', 0, 90);
+                            $scope.$broadcast('UpdateMap');
+                        }
+                    },
+                    {
+                        title: 'Last 180 Days',
+                        action: function () {
+                            NewsMarket.applyRange('age', 0, 180);
+                            $scope.$broadcast('UpdateMap');
+                        }
+                    }
+                ]
             };
 
             $scope.toggleNewsDiscreet = function (discreet, discreetValue) {

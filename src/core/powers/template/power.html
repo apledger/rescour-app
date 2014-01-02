@@ -8,10 +8,11 @@
         <i ng-show="!power.title" ng-class="power.icon"></i>{{power.title}}
     </div>
     <ul class="power-menu">
-        <li ng-repeat="option in power.options | orderBy:predicate" ng-click="selectOption(option)"
+        <li ng-repeat="option in power.options | orderBy:predicate" ng-click="selectOption(option, $event)"
             ng-class="{'active': (option.isSelected && (power.toggle || power.multiSelect))}">
             <i ng-class="option.icon"></i>
             <a href="javascript:">{{option.title}}</a>
+            <span ng-show="option.meta" class="badge {{ option.meta.badge }}">{{ option.meta.predict }}</span>
         </li>
     </ul>
 </div>

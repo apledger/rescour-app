@@ -60,13 +60,17 @@ angular.module('rescour.powers', [])
 
                     PowersController.addPower(scope);
 
-                    scope.selectOption = function (option) {
+                    scope.selectOption = function (option, e) {
+                        if (_power.multiSelect) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                        }
+
                         if (_power.toggle) {
                             angular.forEach(_power.options, function (value, key) {
                                 value.isSelected = false;
                             });
                             option.isSelected = true;
-                            _power.toggle = option.key;
                         } else if (_power.multiSelect) {
                             option.isSelected = !option.isSelected;
                         }
@@ -95,7 +99,6 @@ angular.module('rescour.powers', [])
                                         _power.action();
                                     }
                                 });
-
                             }
                         }
                     });

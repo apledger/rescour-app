@@ -85,6 +85,7 @@ var thotpod = (function () {
                 discreet: {},
                 range: {},
                 visibleIds: [],
+                excludedVisibleIds: [],
                 idMap: []
             }),
             discreetDefaults = {
@@ -396,6 +397,7 @@ var thotpod = (function () {
         this.visibleIds = [];
         this.visibleItems = [];
         dimensions.visibleIds = [];
+        dimensions.excludedRangeMask = [];
 
         var BIT_SET_LENGTH = Math.ceil(dimensions.idMap.length / 32),
             bitSet = [],
@@ -403,6 +405,7 @@ var thotpod = (function () {
 
         for (i = 0; i < BIT_SET_LENGTH; i++) {
             bitSet.push(~0);
+            dimensions.excludedRangeMask.push(~0);
 
             for (var attrId in dimensions.discreet) {
                 if (dimensions.discreet.hasOwnProperty(attrId)) {
@@ -443,14 +446,15 @@ var thotpod = (function () {
                                     (_currItemAttr === 'NA' && !_rangeAttr.excludeNA)) {
                                     _currItem.isVisible = !!(1 & bitSet[i]);
                                 } else {
+                                    var _mask = ~(1 << p);
                                     _currItem.isVisible = false;
-                                    for (var _discreetKey in dimensions.discreet) {
-                                        if (dimensions.discreet.hasOwnProperty(_discreetKey)) {
-                                            var _discreetAttr = dimensions.discreet[_discreetKey],
-                                                _mask = ~(1 << p);
-                                            _discreetAttr.visibleIds[i] = _discreetAttr.visibleIds[i] & _mask;
-                                        }
-                                    }
+//                                    for (var _discreetKey in dimensions.discreet) {
+//                                        if (dimensions.discreet.hasOwnProperty(_discreetKey)) {
+//                                            var _discreetAttr = dimensions.discreet[_discreetKey];
+//                                            _discreetAttr.visibleIds[i] = _discreetAttr.visibleIds[i] & _mask;
+//                                        }
+//                                    }
+                                    dimensions.excludedRangeMask[i] = dimensions.excludedRangeMask[i] & _mask;
                                     break;
                                 }
                             }
@@ -510,7 +514,7 @@ var thotpod = (function () {
                                 predictBitSet = [];
 
                             for (var i = 0; i < BIT_SET_LENGTH; i++) {
-                                var predictedUnion = _discreet.visibleIds[i] | _value.ids[i];
+                                var predictedUnion = _discreet.visibleIds[i] | _value.ids[i] ;
                                 predictBitSet.push(~0);
 
                                 for (var predictAttrId in dimensions.discreet) {
@@ -525,7 +529,7 @@ var thotpod = (function () {
                                 }
 
                                 // add length from intersected first int]
-                                predictLength += popcount(predictBitSet[i] & _value.ids[i] & this.subsetIds[i]);
+                                predictLength += popcount(predictBitSet[i] & _value.ids[i] & this.subsetIds[i] & dimensions.excludedRangeMask[i]);
                             }
                             if (predictLength) {
                                 _value.badge = 'badge-success';
@@ -611,8 +615,8 @@ var thotpod = (function () {
     Market.prototype.applyRange = function (rangeKey, low, high) {
         if (this.dimensions.range.hasOwnProperty(rangeKey)) {
             var _range = this.dimensions.range[rangeKey];
-            _range.lowSelected = low;
-            _range.highSelected = high;
+            _range.lowSelected = _.isNumber(low) ? low : _range.low;
+            _range.highSelected = _.isNumber(high) ? high: _range.high;
         } else {
             throw new Error("Cannot find range dimension " + rangeKey);
         }

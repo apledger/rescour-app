@@ -35,6 +35,12 @@ angular.module('rescour.news', [])
                 }
                 this.latitude = parseFloat(this.address.latitude) || 'NA';
                 this.longitude = parseFloat(this.address.longitude) || 'NA';
+                if (Date.parse(this.date)) {
+                    this.date = new Date(this.date);
+                } else {
+                    this.date = this.date ? new Date(parseInt(this.date, 10)) : new Date(parseInt(this.id.toString().slice(0, 8), 16) * 1000);
+                }
+                this.age = Math.ceil(Math.abs(Date.now() - (this.date.getTime())) / (1000 * 3600 * 24));
             };
 
             News.$dimensions = {
@@ -54,6 +60,9 @@ angular.module('rescour.news', [])
                         title: 'Longitude',
                         weight: 9,
                         hidden: true
+                    },
+                    'age': {
+                        title: 'Age'
                     }
                 }
             };

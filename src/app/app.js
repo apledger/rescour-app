@@ -11,6 +11,8 @@ if (!window.console.log) window.console.log = function () {
 };
 angular.module('rescour.app',
         [
+            'ui.utils',
+            'ui.if',
             'ui.bootstrap',
             'rescour.config',
             'rescour.auth',
@@ -19,6 +21,7 @@ angular.module('rescour.app',
             'rescour.market',
             'rescour.browserDetect',
             'rescour.powers',
+            'ngProgress',
             'ahTouch'
         ])
     .config(['$routeProvider', '$locationProvider', '$httpProvider', 'BrowserDetectProvider',
@@ -35,8 +38,12 @@ angular.module('rescour.app',
                     redirectTo: '/'
                 });
         }])
-    .controller("AppController", ['$scope', '$rootScope', '$location', '$_api', '$http',
-        function ($scope, $rootScope, $location, $_api, $http) {
+    .controller("AppController", ['$scope', '$rootScope', '$location', '$_api', '$http', '$window',
+        function ($scope, $rootScope, $location, $_api, $http, $window) {
+            angular.element($window).bind('resize', _.debounce(function () {
+                $rootScope.$broadcast('window-resized')
+            }, 150));
+
             $rootScope.$on("$routeChangeStart", function (event, next, current) {
                 $scope.loading = true;
                 $scope.failure = false;

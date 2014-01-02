@@ -17,8 +17,8 @@
     <link rel="stylesheet" href="/components/leaflet/dist/leaflet.css" />
     <link rel="stylesheet" href="/components/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="/components/jquery-ui/themes/ui-lightness/jquery-ui.css"/>
-    <link rel="stylesheet" href="/components/angular-ui-handsontable/dist/angular-ui-handsontable.full.css"/>
     <!-- build:css /styles/main.css -->
+    <link rel="stylesheet" href="/components/ngprogress/ngProgress.css"/>
     <link rel="stylesheet" href="/styles/main.css"/>
     <!-- endbuild -->
     <link rel="icon" type="image/png" href="/img/favicon.png">
@@ -45,7 +45,7 @@
 </head>
 <body ng-controller="AppController">
 <div class="loading-background" ng-show="loading || failure" ng-cloak>
-    <div ng-show="loading" class="loading-container" spinner-size="large" spinner="loading">
+    <div ng-show="loading" class="loading-container" spinner-size="large" spinner="loading" spinner-options="{ top: '70', left: '162' }">
         <img src="/img/logo-medium.png" width="200" alt=""/>
     </div>
     <div ng-show="failure" class="loading-container">
@@ -54,7 +54,6 @@
         <p>Well, this is embarassing.  It seems the content you have requested cannot be loaded.  Our team has been notified and we encourage you to try again later.</p>
     </div>
 </div>
-
 <!--[if lt IE 9]>
 <script src="/components/es5-shim/es5-shim.min.js"></script>
 <script src="/components/json3/lib/json3.min.js"></script>
@@ -79,7 +78,7 @@
 <script src="/components/jquery/jquery.js"></script>
 <script src="/components/jquery-ui/jquery-ui.js"></script>
 <script src="/components/angular/angular.js"></script>
-<script src="/components/angular-ui/build/angular-ui.js"></script>
+<script src="/components/ui-utils/bower_components/angular-ui-docs/build/ui-utils.js"></script>
 <script src="/components/angular-cookies/angular-cookies.js"></script>
 <script src="/core/market/thotpod.js"></script>
 
@@ -89,13 +88,12 @@
 <script src="/components/spin.js/dist/spin.js"></script>
 <script src="/components/hammerjs/dist/hammer.js"></script>
 <script src="/components/angular-hammerjs/angular-hammer.js"></script>
-<script src="/components/angular-ui-handsontable/dist/angular-ui-handsontable.full.js"></script>
+<script src="/components/ngprogress/build/ngProgress.min.js"></script>
 <script src="/core/user/user.js"></script>
 <script src="/core/auth/auth.js"></script>
 <script src="/core/market/property.js"></script>
 <script src="/core/market/news.js"></script>
 <script src="/core/market/market.js"></script>
-<script src="/core/market/leaflet-google.js"></script>
 <script src="/core/utility/utility.js"></script>
 <script src="/core/browser-detect/browser-detect.js"></script>
 <script src="/core/powers/powers.js"></script>
@@ -118,6 +116,8 @@
 <script src="/app/login/login.js"></script>
 <script src="/app/market/market.js"></script>
 <script src="/app/market/map.js"></script>
+<script src="/core/market/leaflet-google.js"></script>
+<script src="/app/market/report.js"></script>
 
 <% if (config.environment == 'local') { %>
     <script src="/app/mock.js"></script>

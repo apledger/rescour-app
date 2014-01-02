@@ -1,24 +1,4 @@
 angular.module('rescour.powers', [])
-    .factory('Power',
-        ['$document', '$window',
-            function ($document, $window) {
-                function Power(opts) {
-                    angular.extend(this, {}, opts);
-                    if (this.options) {
-                        angular.forEach(this.options, function (value, key) {
-                            value.key = key;
-                        });
-                    }
-
-                    this.float = this.float || 'left';
-                };
-
-                Power.prototype.getOptions = function () {
-                    return _.map(this.options, function (value) { return value });
-                };
-
-                return Power;
-            }])
     .controller('PowersController', ['$scope', '$rootScope', function ($scope, $rootScope) {
         var powers = [];
 
@@ -39,8 +19,8 @@ angular.module('rescour.powers', [])
             });
         });
     }])
-    .directive('power', ['$document', 'Power', '$compile',
-        function ($document, Power, $compile) {
+    .directive('power', ['$document', '$compile',
+        function ($document, $compile) {
             return {
                 require: '^powers',
                 restrict: 'A',
@@ -51,10 +31,9 @@ angular.module('rescour.powers', [])
                     powerHide: '='
                 },
                 replace: true,
-                templateUrl: '/core/powers/template/power.html?v='+Date.now(),
+                templateUrl: '/core/powers/template/power.html?v=' + Date.now(),
                 link: function (scope, element, attrs, PowersController) {
-
-                    var _power = scope.power = new Power(scope.power, element);
+                    var _power = scope.power;
                     var body = $document.find('body');
                     scope.predicate = 'weight';
 
@@ -81,7 +60,7 @@ angular.module('rescour.powers', [])
 
                     PowersController.addPower(scope);
 
-                    scope.selectOption = function (option){
+                    scope.selectOption = function (option) {
                         if (_power.toggle) {
                             angular.forEach(_power.options, function (value, key) {
                                 value.isSelected = false;
@@ -91,7 +70,7 @@ angular.module('rescour.powers', [])
                         } else if (_power.multiSelect) {
                             option.isSelected = !option.isSelected;
                         }
-                        option.action();
+                        option.action.call(option);
                     };
 
                     element.bind('click', function (e) {
@@ -121,40 +100,40 @@ angular.module('rescour.powers', [])
                         }
                     });
 
-                    if (_power.toggle && _power.options.hasOwnProperty(_power.toggle)) {
-                        scope.selectOption(_power.options[_power.toggle]);
+                    if (_power.toggle) {
+                        var toggledOption = _.findWhere(_power.options, {key: _power.toggle});
+                        if (toggledOption) {
+                            scope.selectOption(toggledOption);
+                        }
                     }
                 }
             };
         }])
-    .directive('powers', ['$window', function ($window) {
-        return {
-            restrict: 'C',
-            link: function (scope, element, attrs) {
+    .directive('powers', ['$window', '$timeout',
+        function ($window, $timeout) {
+            return {
+                restrict: 'C',
+                link: function (scope, element, attrs) {
 
-                var elHeight = element.prop('offsetHeight'),
-                    elSibling = element.next(),
-                    elParent = element.parent();
+                    var elHeight = element.prop('offsetHeight'),
+                        elSibling = element.next(),
+                        elParent = element.parent();
 
-                function setHeight(el) {
-                    elHeight = element.prop('offsetHeight');
-                    el.css({
-                        height: elParent.height() - elHeight
+                    function setHeight(el) {
+                        elHeight = element.prop('offsetHeight');
+                        el.css({
+                            height: elParent.height() - elHeight
+                        });
+                    }
+
+                    scope.$on('window-resized', function () {
+                        setHeight(elSibling);
                     });
-                }
 
-                setHeight(elSibling);
-
-                angular.element($window).bind('resize', function () {
-                    scope.$apply(function () {
-                        scope.$broadcast('window-resized');
-                    });
-                });
-
-                scope.$on('window-resized', function () {
-                    setHeight(elSibling);
-                });
-            },
-            controller: 'PowersController'
-        }
-    }]);
+                    $timeout(function () {
+                        setHeight(elSibling);
+                    }, 0);
+                },
+                controller: 'PowersController'
+            }
+        }]);

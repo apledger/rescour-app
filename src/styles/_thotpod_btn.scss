@@ -70,11 +70,27 @@ $btnBorderRadius: 5px;
   text-align: center;
   padding: 0.5em 2em;
   cursor: pointer;
+  outline: 0;
   @include border-radius($btnBorderRadius);
   @include box-sizing(border-box);
   @include transition(all 0.1s);
   @include tpBtnBg($color);
   @include tpBtnAnimation($color);
+}
+
+@mixin tp-icon-btn($color: $baseColor) {
+  background: transparent;
+  color: $color;
+  padding: 10px;
+  vertical-align: middle;
+  position: relative;
+  margin: 5px;
+  cursor: pointer;
+
+  &:hover {
+    background: $color;
+    color: white;
+  }
 }
 
 

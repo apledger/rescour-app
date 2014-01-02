@@ -18,9 +18,8 @@ angular.module('rescour.property', [])
                 }
             });
         }])
-    .factory('Property', ['$_api', '$q', '$http', 'Comment', 'Finance',
-        function ($_api, $q, $http, Comment, Finance) {
-
+    .factory('Property', ['$_api', '$q', '$http', 'Comment', 'Finance', 'Favorite', 'Hidden', '$exceptionHandler', 'ngProgress', '$filter',
+        function ($_api, $q, $http, Comment, Finance, Favorite, Hidden, $exceptionHandler, ngProgress, $filter) {
             // Item constructor
             var Property = function (data) {
                 if (data.hasOwnProperty('id')) {
@@ -29,41 +28,42 @@ angular.module('rescour.property', [])
                     throw new Error("Cannot find id in " + data);
                 }
                 var defaults = {
-                        attributes: {
-                            discreet: {},
-                            range: {}
-                        },
                         address: {
                             street1: 'No address listed'
                         },
                         isVisible: true
                     },
-                    opts = angular.extend({}, defaults, data),
+                    opts = _.extend({}, defaults, data),
                     self = this;
 
                 angular.copy(opts, this);
                 this.title = this.title || 'Untitled Property';
                 this.description = this.description || 'No description provided.';
-                this.thumbnail = this.thumbnail || '/img/apt0.jpg';
+                if ($_api.env !== 'local') {
+                    this.thumbnail = this.thumbnail ? $_api.path + '/pictures/' + this.thumbnail : '/img/apt0.jpg';
+                }
+                this.state = this.address.state;
                 this.location = (data.address.latitude && data.address.longitude) ? [data.address.latitude, data.address.longitude] : null;
-
-                angular.forEach(this.attributes.discreet, function (value, key) {
-                    if (!value) {
-                        self.attributes.discreet[key] = 'Unknown'
-                    }
-                });
-
-                angular.forEach(this.attributes.range, function (value, key) {
-                    if (_.isNaN(parseInt(value, 10)) || !value) {
-                        self.attributes.range[key] = 'NA'
-                    } else {
-                        self.attributes.range[key] = parseInt(self.attributes.range[key], 10);
-                    }
-                });
-                this.attributes.range.daysOnMarket = Math.ceil(Math.abs(Date.now() - (this.attributes.range.datePosted * 1000)) / (1000 * 3600 * 24));
-                this.attributes.range.latitude = data.address.latitude || 'NA';
-                this.attributes.range.longitude = data.address.longitude || 'NA';
-                this.notes = this.hasComments || this.hasFinances;
+                this.latitude = parseFloat(data.address.latitude) || 'NA';
+                this.longitude = parseFloat(data.address.longitude) || 'NA';
+                this.yearBuilt = parseInt(this.yearBuilt, 10) || 'NA';
+                this.numUnits = parseInt(this.numUnits, 10) || 'NA';
+                if (Date.parse(this.datePosted)) {
+                    this.datePosted = new Date(this.datePosted);
+                } else {
+                    this.datePosted = this.datePosted ? new Date(parseInt(this.datePosted, 10)) : new Date(parseInt(this.id.toString().slice(0, 8), 16) * 1000);
+                }
+                this.daysOnMarket = Math.ceil(Math.abs(Date.now() - (this.datePosted.getTime())) / (1000 * 3600 * 24));
+                this.resources = {};
+                this.favorites = false;
+                this.callForOffers = this.callForOffers ? new Date(this.callForOffers) : null;
+                this.hidden = false;
+                this.resources = {
+                    finances: [],
+                    comments: []
+                };
+                this.images = this.images || [];
+                this.initializeDefaultFinances();
             };
 
             Property.$dimensions = {
@@ -93,6 +93,7 @@ angular.module('rescour.property', [])
                     },
                     'yearBuilt': {
                         title: 'Year Built',
+                        lowBound: 1930,
                         weight: 9
                     },
                     'daysOnMarket': {
@@ -112,104 +113,274 @@ angular.module('rescour.property', [])
                 }
             };
 
-            Property.query = function () {
+            Property.getResources = function (properties) {
                 var defer = $q.defer(),
-                    config = angular.extend({
-                        transformRequest: function (data) {
-                            return data;
-                        }
-                    }, $_api.config);
+                    resourceMap = {
+                        hidden: Hidden,
+                        favorites: Favorite,
+                        comments: Comment,
+                        finances: Finance
+                    };
 
-                $http.get($_api.path + '/properties/', config).then(function (response) {
-                    defer.resolve(response);
-                }, function (response) {
-                    defer.reject(response);
-                });
+                $q.all([
+                        Hidden.query(),
+                        Favorite.query(),
+                        Comment.query(),
+                        Finance.query()
+                    ])
+                    .then(function (results) {
+                        // Because q.all doesn't support hashes in 1.0.8 we must assume order
+
+                        angular.forEach(_.keys(resourceMap), function (resourceKey, resourceIndex) {
+                            angular.forEach(results[resourceIndex], function (resource) {
+                                try {
+                                    var propertyId = resource.propertyId,
+                                        resourceId = resource.id,
+                                        resourceModel = resourceMap[resourceKey];
+
+                                    if (properties[propertyId]) {
+                                        var property = properties[propertyId],
+                                            propertyResources = property.resources[resourceKey] = property.resources[resourceKey] || [];
+
+                                        if (resourceKey === 'finances') {
+                                            property.setFinance(resource);
+                                        } else {
+                                            propertyResources.push(new resourceModel(resource));
+                                        }
+
+                                        if (resourceKey === 'comments' || resourceKey === 'finances') {
+                                            property.notes = true;
+                                        } else {
+                                            property[resourceKey] = true;
+                                        }
+
+                                    } else {
+                                        throw new Error("Cannot add " + resourceKey + ": " + resource.id + " to Property ID: " + propertyId + ", does not exist")
+                                    }
+
+                                } catch (e) {
+                                    $exceptionHandler(e);
+                                }
+                            });
+                        });
+
+                        defer.resolve(properties);
+                    });
 
                 return defer.promise;
-            };
+            }
 
-            Property.prototype.getDetails = function () {
-                var self = this,
+            Property.query = function () {
+                var items = [],
                     defer = $q.defer(),
                     config = angular.extend({
                         transformRequest: function (data) {
-                            self.details.$spinner = true;
                             return data;
                         }
                     }, $_api.config),
-                    locals = {};
+                    batchLimit = 500;
 
-                locals.defaultFinances = angular.extend([], Finance.defaults);
+                (function batchItems(limit, offset) {
+                    var path = $_api.path + '/properties/' + "?limit=" + limit + (offset ? "&offset=" + offset : "");
 
-                self.details = self.details || {};
+                    $http.get(path, config).then(function (response) {
+                        items = items.concat(response.data);
+                        ngProgress.set(ngProgress.status() + ((100 - ngProgress.status()) * .1));
 
-                $http.get($_api.path + '/properties/' + this.id, config).then(function (response) {
-                    locals.comments = response.data.comments;
-                    locals.finances = response.data.finances;
-                    self.details = angular.extend({}, response.data);
-
-                    self.details.$spinner = false;
-                    try {
-                        // Initialize Comments
-                        if (angular.isArray(locals.comments)) {
-                            self.details.comments = [];
-                            for (var i = 0; i < locals.comments.length; i++) {
-                                self.addComment(locals.comments[i]);
-                            }
+                        if (response.data.length < limit || response.data.length === 0) {
+                            defer.resolve(items);
                         } else {
-                            throw new Error("Comments were not received as Array");
+                            batchItems(limit, response.data[response.data.length - 1].id);
                         }
-
-                        // Initialize Finances
-                        if (angular.isArray(locals.finances)) {
-                            self.details.finances = [];
-                        } else {
-                            throw new Error("Comments were not received as Array");
-                        }
-
-                        (function () {
-                            for (var i = 0; i < Finance.defaults.length; i++) {
-                                var defaultFinanceName = Finance.defaults[i],
-                                    finance = _.findWhere(locals.finances, {name: defaultFinanceName}) || {name: defaultFinanceName};
-
-                                // If a default finance was found in the locals, add to self, remove from locals
-                                self.addFinance(finance);
-                                locals.finances = _.reject(locals.finances, function (val) {
-                                    return angular.equals(finance, val);
-                                });
-                            }
-                        })();
-
-                        (function () {
-                            for (var i = 0; i < locals.finances.length; i++) {
-                                self.addFinance(locals.finances[i]);
-                                Finance.defaults.push(locals.name);
-                            }
-                        })();
-                        defer.resolve(self);
-                    } catch (e) {
+                    }, function (response) {
                         defer.reject(response);
-                        console.log(e.message);
-                    }
-                }, function (response) {
-                    self.details.$spinner = false;
-                    defer.reject(response);
-                });
+                    });
+
+                })(batchLimit);
 
                 return defer.promise;
             };
 
+            Property.convertToCSV = function (items) {
+
+                var reportConfig = [
+                        {
+                            key: 'datePosted',
+                            title: 'Date Posted',
+                            method: function (item) {
+                                return $filter('date')(item.datePosted);
+                            }
+                        },
+                        {
+                            key: 'broker',
+                            title: 'Broker'
+                        },
+                        {
+                            key: 'title',
+                            title: 'Title'
+                        },
+                        {
+                            key: 'numUnits',
+                            title: 'Num Units'
+                        },
+                        {
+                            key: 'propertyType',
+                            title: 'Property Type'
+                        },
+                        {
+                            key: 'acres',
+                            title: 'Acres'
+                        },
+                        {
+                            key: 'yearBuilt',
+                            title: 'Year Built'
+                        },
+                        {
+                            key: 'callForOffers',
+                            title: 'Call For Offers'
+                        },
+                        {
+                            key: 'address',
+                            title: 'Address',
+                            method: function (item) {
+                                if (!item.getAddress()) throw new Error('Method getAddress is not defined for ' + item);
+                                return item.getAddress();
+                            }
+                        },
+                        {
+                            key: 'tourDates',
+                            title: 'Tour Dates',
+                            fields: ['date'],
+                            fieldsFormat: {
+                                date: function (field) {
+                                    return $filter('date')(field);
+                                }
+                            }
+                        },
+                        {
+                            key: 'propertyStatus',
+                            title: 'Status'
+                        },
+                        {
+                            key: 'comments',
+                            title: 'Comments',
+                            accessor: 'resources',
+                            fields: ['userEmail', 'text'],
+                            separator: ' - '
+                        },
+                        {
+                            key: 'finances',
+                            title: 'Valuation',
+                            accessor: 'resources',
+                            method: function (item) {
+                                if (!item.getFinance) throw new Error('Method getFinance is not defined for ' + item);
+                                return item.getFinance('Valuation').value;
+                            }
+                        },
+                        {
+                            key: 'finances',
+                            title: 'Cap Rate',
+                            accessor: 'resources',
+                            method: function (item) {
+                                if (!item.getFinance) throw new Error('Method getFinance is not defined for ' + item);
+                                return item.getFinance('Cap Rate').value;
+                            }
+                        },
+                        {
+                            key: 'finances',
+                            title: 'IRR',
+                            accessor: 'resources',
+                            method: function (item) {
+                                if (!item.getFinance) throw new Error('Method getFinance is not defined for ' + item);
+                                return item.getFinance('IRR').value;
+                            }
+                        },
+                        {
+                            key: 'finances',
+                            title: 'Price / Unit',
+                            accessor: 'resources',
+                            method: function (item) {
+                                if (!item.getFinance) throw new Error('Method getFinance is not defined for ' + item);
+                                return item.getFinance('Price / Unit').value;
+                            }
+                        }
+                    ],
+                    str = '';
+
+                (function setHeaders() {
+                    var line = '';
+                    for (var i = 0; i < reportConfig.length; i++) {
+                        var reportFieldConfig = reportConfig[i];
+                        if (line != '') line += ','
+
+                        line += reportFieldConfig.title;
+                    }
+                    str += line + '\r\n';
+                })();
+
+                (function setFields() {
+                    for (var i = 0; i < items.length; i++) {
+                        var line = '',
+                            item = items[i];
+
+                        for (var j = 0; j < reportConfig.length; j++) {
+                            var reportFieldConfig = reportConfig[j],
+                                itemField = reportFieldConfig.accessor ? item[reportFieldConfig.accessor][reportFieldConfig.key] : item[reportFieldConfig.key];
+                            if (line != '') line += ','
+
+                            if (reportFieldConfig.method) {
+                                line += '"' + (reportFieldConfig.method(item) || '') + '"';
+                            } else if (_.isArray(itemField)) {
+                                var reportArrayLine = '';
+
+                                for (var k = 0; k < itemField.length; k++) {
+                                    var reportArrayObj = itemField[k],
+                                        reportArrayFields = reportFieldConfig.fields || _.keys(reportArrayObj),
+                                        objLineArray = [];
+
+                                    if (reportArrayLine != '') reportArrayLine += ', ';
+                                    angular.forEach(reportArrayFields, function (fieldKey) {
+                                        if (reportFieldConfig.fieldsFormat && reportFieldConfig.fieldsFormat.hasOwnProperty(fieldKey)) {
+                                            objLineArray.push(reportFieldConfig.fieldsFormat[fieldKey](reportArrayObj[fieldKey]));
+                                        } else {
+                                            objLineArray.push(reportArrayObj[fieldKey]);
+                                        }
+                                    });
+
+                                    reportArrayLine += objLineArray.join(reportFieldConfig.separator || ' - ');
+                                }
+                                line += ('"' + reportArrayLine + '"');
+                            } else {
+                                line += '"' + (itemField || '') + '"';
+                            }
+                        }
+
+                        str += line + '\r\n';
+                    }
+                })();
+
+                return str;
+            };
+
+            Property.prototype.initializeDefaultFinances = function () {
+                var self = this;
+                angular.forEach(Finance.defaults, function (defaultFinanceName) {
+                    var defaultFinance = _.findWhere(self.resources.finances, {name: defaultFinanceName});
+                    if (!defaultFinance) {
+                        self.resources.finances.push(new Finance({
+                            name: defaultFinanceName
+                        }, self.id));
+                    }
+                });
+
+                return this;
+            };
+
             Property.prototype.addComment = function (comment) {
-                var newComment = new Comment(comment, this);
+                var newComment = new Comment(comment, this.id);
 
-                newComment.propertyId = newComment.propertyId || this.id;
-
-                if (angular.isArray(this.details.comments)) {
-                    this.details.comments.push(newComment);
-                } else {
-                    this.details.comments = [newComment];
-                }
+                this.resources.comments = this.resources.comments || [];
+                this.resources.comments.push(newComment);
 
                 this.notes = true;
 
@@ -219,25 +390,29 @@ angular.module('rescour.property', [])
             Property.prototype.deleteComment = function (comment) {
                 var self = this;
 
-                self.details.comments = _.reject(self.details.comments, function (value) {
+                self.resources.comments = _.reject(self.resources.comments, function (value) {
                     return angular.equals(value, comment);
                 });
             };
 
             Property.prototype.addFinance = function (finance) {
-                var newFinance = new Finance(finance, this);
+                var newFinance = new Finance(finance, this.id);
 
-                newFinance.propertyId = newFinance.propertyId || this.id;
-
-                if (angular.isArray(this.details.finances)) {
-                    this.details.finances.push(newFinance);
-                } else {
-                    this.details.finances = [newFinance];
-                }
+                this.resources.finances = this.resources.finances || [];
+                this.resources.finances.push(newFinance);
 
                 this.notes = true;
 
                 return newFinance;
+            };
+
+            Property.prototype.saveFinance = function (finance) {
+                var self = this;
+                if (finance.value) {
+                    finance.$save().then(function () {
+                        self.notes = true;
+                    });
+                }
             };
 
             Property.prototype.deleteFinance = function (finance) {
@@ -245,63 +420,80 @@ angular.module('rescour.property', [])
 
                 if (finance.id) {
                     finance.$delete().then(function (response) {
-                        self.details.finances = _.reject(self.details.finances, function (value) {
-                            return angular.equals(value, finance);
-                        });
+                        self.resources.finances = _.without(self.resources.finances, finance);
                     });
                 } else {
-                    self.details.finances = _.reject(self.details.finances, function (value) {
-                        return angular.equals(value, finance);
-                    });
+                    self.resources.finances = _.without(self.resources.finances, finance);
                 }
             };
 
             Property.prototype.toggleFavorites = function () {
-                var defer = $q.defer(),
-                    self = this,
-                    config = angular.extend({
-                        transformRequest: function (data) {
-                            self.$spinner = true;
-                            return data;
-                        }
-                    }, $_api.config),
-                    body = JSON.stringify({value: (!self.favorites).toString()});
+                var self = this;
+                self.$spinner = true;
+                if (self.favorites) {
+                    angular.forEach(self.resources.favorites, function (fav) {
+                        var defer = $q.defer();
 
-                $http.post($_api.path + '/properties/' + this.id + '/favorites/', body, config).then(
-                    function (response) {
-                        self.$spinner = false;
-                        self.favorites = !self.favorites;
-                        defer.resolve(response);
-                    },
-                    function (response) {
-                        self.$spinner = false;
-                        defer.reject(response);
-                    }
-                );
+                        fav.$delete().then(function (response) {
+                            self.$spinner = false;
+                            self.favorites = false;
+                            self.resources.favorites = _.without(self.resources.favorites, fav);
+                            defer.resolve(response);
+                        })
+                    });
+                } else {
+                    var newFavorite = new Favorite({
+                            propertyId: self.id
+                        }),
+                        defer = $q.defer();
+
+                    newFavorite.$save().then(function (response) {
+                            self.$spinner = false;
+                            self.favorites = true;
+                            self.resources.favorites = self.resources.favorites || [];
+                            self.resources.favorites.push(newFavorite);
+                            defer.resolve(response);
+                        },
+                        function (response) {
+                            self.$spinner = false;
+                            defer.reject(response);
+                        });
+                }
+
             };
 
             Property.prototype.toggleHidden = function () {
-                var defer = $q.defer(),
-                    self = this,
-                    config = angular.extend({
-                        transformRequest: function (data) {
-                            self.$spinner = true;
-                            return data;
-                        }
-                    }, $_api.config),
-                    body = JSON.stringify({value: (!self.hidden).toString()});
+                var self = this;
+                self.$spinner = true;
+                if (self.hidden) {
+                    angular.forEach(self.resources.hidden, function (h) {
+                        var defer = $q.defer();
 
-                $http.post($_api.path + '/properties/' + this.id + '/hidden/', body, config).then(
-                    function (response) {
-                        self.$spinner = false;
-                        self.hidden = !self.hidden;
-                        defer.resolve(response);
-                    },
-                    function (response) {
-                        self.$spinner = false;
-                        defer.reject(response);
-                    }
-                );
+                        h.$delete().then(function (response) {
+                            self.$spinner = false;
+                            self.hidden = false;
+                            self.resources.hidden = _.without(self.resources.hidden, h);
+                            defer.resolve(response);
+                        })
+                    });
+                } else {
+                    var newHidden = new Hidden({
+                            propertyId: self.id
+                        }),
+                        defer = $q.defer();
+
+                    newHidden.$save().then(function (response) {
+                            self.$spinner = false;
+                            self.hidden = true;
+                            self.resources.hidden = self.resources.hidden || [];
+                            self.resources.hidden.push(newHidden);
+                            defer.resolve(response);
+                        },
+                        function (response) {
+                            self.$spinner = false;
+                            defer.reject(response);
+                        });
+                }
             };
 
             Property.prototype.getAttribute = function (name) {
@@ -318,7 +510,7 @@ angular.module('rescour.property', [])
             };
 
             Property.prototype.getStatusClass = function (type) {
-                var suffix = (type === 'solid' || type === 'gradient') ? '-' + type : '';
+                var suffix = type ? '-' + type : '';
 
                 switch (this.getAttribute('propertyStatus')) {
                     case 'Marketing':
@@ -355,14 +547,35 @@ angular.module('rescour.property', [])
                 return addressStr;
             };
 
-            Property.prototype.getImages = function () {
-                return this.details ? _.map(this.details.images, function (value) {
-                    return value;
-                }) : undefined;
+            Property.prototype.getFinance = function (type) {
+                return _.find(this.resources.finances, function (val) {
+                    return val.name === type;
+                });
             };
+
+            Property.prototype.setFinance = function (finance) {
+                // Check to see if in defaults
+                // If so override
+                var defaultFinanceIndex = -1;
+
+                for (var i = 0, len = this.resources.finances.length; i < len; i++) {
+                    if (this.resources.finances[i].name === finance.name) {
+                        defaultFinanceIndex = i;
+                        break;
+                    }
+                }
+                if (defaultFinanceIndex > -1) {
+                    this.resources.finances[defaultFinanceIndex] = new Finance(finance);
+                } else {
+                    // Otherwise push
+                    this.resources.finances.push(new Finance(finance));
+                }
+            }
+
             return Property;
         }])
-    .factory('Reports', ['$_api', '$q', '$http',
+    .
+    factory('Reports', ['$_api', '$q', '$http',
         function ($_api, $q, $http) {
             var items;
 
@@ -388,7 +601,6 @@ angular.module('rescour.property', [])
 
                     $http.post(path, body, config).then(
                         function (response) {
-                            console.log(response);
                             defer.resolve(response);
                         },
                         function (response) {
@@ -444,7 +656,7 @@ angular.module('rescour.property', [])
             SavedSearch.query = function () {
                 var defer = $q.defer(),
                     self = this,
-                    path = $_api.path + '/search/',
+                    path = $_api.path + '/searches/',
                     config = angular.extend({
                         transformRequest: function (data) {
                             return data;
@@ -454,7 +666,7 @@ angular.module('rescour.property', [])
                 $http.get(path, config).then(
                     function (response) {
                         var searches = [];
-                        angular.forEach(response.data.resources, function (value, key) {
+                        angular.forEach(response.data, function (value, key) {
                             try {
                                 searches.push(new SavedSearch(angular.fromJson(value.savedSearch), value.id));
                             } catch (e) {
@@ -475,14 +687,16 @@ angular.module('rescour.property', [])
                 var defer = $q.defer(),
                     self = this;
                 if (self.id) {
-                    $http(
-                        angular.extend({
-                            method: 'DELETE',
-                            url: $_api.path + '/search/' + self.id,
-                            transformRequest: function (data) {
-                                self.$spinner = true;
-                                return data;
-                            }}, $_api.config))
+                    $http({
+                        method: 'DELETE',
+                        url: $_api.path + '/searches/' + self.id,
+                        transformRequest: function (data) {
+                            self.$spinner = true;
+                            return data;
+                        },
+                        headers: $_api.config.headers,
+                        withCredentials: true
+                    })
                         .then(function (response) {
                             self.$spinner = false;
                             defer.resolve(response);
@@ -495,15 +709,16 @@ angular.module('rescour.property', [])
 
             SavedSearch.prototype.$save = function () {
                 var defer = $q.defer(),
-                    self = this;
+                    self = this,
+                    config = $_api.config;
                 if (self.id) {
-                    $http.put($_api.path + '/search/' + self.id, JSON.stringify({savedSearch: JSON.stringify(self)}), $_api.config).then(function (response) {
+                    $http.put($_api.path + '/searches/' + self.id, JSON.stringify({savedSearch: JSON.stringify(self)}), $_api.config).then(function (response) {
                         defer.resolve(response.data);
                     }, function (response) {
                         defer.reject(response.data);
                     });
                 } else {
-                    $http.post($_api.path + '/search/', JSON.stringify({savedSearch: JSON.stringify(self)}), $_api.config).then(function (response) {
+                    $http.post($_api.path + '/searches/', JSON.stringify({savedSearch: JSON.stringify(self)}), config).then(function (response) {
                         self.id = response.data.id;
                         defer.resolve(response.data);
                     }, function (response) {
@@ -516,34 +731,47 @@ angular.module('rescour.property', [])
 
             return SavedSearch;
         }])
-    .factory('Comment', ['$_api', '$q', '$http', 'User',
-        function ($_api, $q, $http, User) {
+    .factory('Comment', ['$_api', '$q', '$http', 'User', 'ngProgress',
+        function ($_api, $q, $http, User, ngProgress) {
 
-            var Comment = function (data, property) {
+            var Comment = function (data, propertyId) {
                 data = data || {};
-                this.text = data.text || "";
-                this.id = data.id || undefined;
-                this.propertyId = data.propertyId || undefined;
-                this.property = property;
-                this.timestamp = data.timestamp || (this.id ? new Date(parseInt(this.id.toString().slice(0,8), 16)*1000) : new Date().getTime());
+                var opts = angular.extend({
+                    propertyId: propertyId
+                }, data);
+
+                angular.copy(opts, this);
                 this.userEmail = data.userEmail || (User.profile ? User.profile.email : "You");
             };
 
-            Comment.query = function (itemID) {
-                var config = angular.extend({
-                        transformRequest: $_api.loading.none
+            Comment.query = function () {
+                var items = [],
+                    defer = $q.defer(),
+                    config = angular.extend({
+                        transformRequest: function (data) {
+                            return data;
+                        }
                     }, $_api.config),
-                    defer = $q.defer();
+                    batchLimit = 50,
+                    rootPath = $_api.path + '/comments/';
 
-                if (typeof itemID !== 'undefined') {
-                    $http.get($_api.path + '/properties/' + itemID + '/comments/', config).then(function (response) {
-                        defer.resolve(response.data.items);
+                (function batchItems(limit, offset) {
+                    var path = rootPath + "?limit=" + limit + (offset ? "&offset=" + offset : "");
+
+                    $http.get(path, config).then(function (response) {
+                        items = items.concat(response.data);
+                        ngProgress.set(ngProgress.status() + ((100 - ngProgress.status()) * .05));
+
+                        if (response.data.length < limit || response.data.length === 0) {
+                            defer.resolve(items);
+                        } else {
+                            batchItems(limit, response.data[response.data.length - 1].id);
+                        }
                     }, function (response) {
                         defer.reject(response);
                     });
-                } else {
-                    throw new Error("Comment.query received undefined itemID");
-                }
+
+                })(batchLimit);
 
                 return defer.promise;
             };
@@ -558,18 +786,11 @@ angular.module('rescour.property', [])
                         }
                     }, $_api.config),
                     propertyId = self.propertyId,
-                    body = JSON.stringify({
-                        text: self.text
-                    });
+                    body = JSON.stringify(self);
 
                 if (typeof propertyId !== 'undefined') {
-                    $http.post($_api.path + '/properties/' + propertyId + '/comments/', body, config)
+                    $http.post($_api.path + '/comments/', body, config)
                         .then(function (response) {
-                            if (self.property) {
-                                self.property.hasComments = true;
-                            } else {
-                                throw new Error('Comment property has not been defined');
-                            }
                             self.$spinner = false;
                             defer.resolve(response);
                         }, function (response) {
@@ -585,17 +806,17 @@ angular.module('rescour.property', [])
 
             return Comment;
         }])
-    .factory('Finance', ['$_api', '$q', '$http',
-        function ($_api, $q, $http) {
+    .factory('Finance', ['$_api', '$q', '$http', 'ngProgress',
+        function ($_api, $q, $http, ngProgress) {
 
-            var Finance = function (data, property) {
+            var Finance = function (data, propertyId) {
                 data = data || {};
-                this.id = data.id || undefined;
-                this.propertyId = data.propertyId || undefined;
-                this.property = property;
-                this.name = data.name || '';
-                this.valueFormat = data.valueFormat || 'currency';
-                this.value = data.value ? parseFloat(data.value) : undefined;
+                var opts = angular.extend({
+                    propertyId: propertyId,
+                    valueFormat: 'currency'
+                }, data);
+
+                angular.copy(opts, this);
             };
 
             Finance.defaults = ['Valuation', 'Cap Rate', 'IRR', 'Price / Unit'];
@@ -614,25 +835,36 @@ angular.module('rescour.property', [])
             ];
 
             Finance.query = function () {
-                var config = angular.extend({
-                        transformRequest: $_api.loading.none
-                    }, $_api.config),
+                var items = [],
                     defer = $q.defer(),
-                    propertyId = self.propertyId;
+                    config = angular.extend({
+                        transformRequest: function (data) {
+                            return data;
+                        }
+                    }, $_api.config),
+                    batchLimit = 50,
+                    rootPath = $_api.path + '/finances/';
 
-                if (typeof propertyId !== 'undefined') {
-                    $http.get($_api.path + '/properties/' + propertyId + '/finances/', config).then(function (response) {
-                        defer.resolve(response.data.items);
+                (function batchItems(limit, offset) {
+                    var path = rootPath + "?limit=" + limit + (offset ? "&offset=" + offset : "");
+
+                    $http.get(path, config).then(function (response) {
+                        items = items.concat(response.data);
+                        ngProgress.set(ngProgress.status() + ((100 - ngProgress.status()) * .01));
+
+                        if (response.data.length < limit || response.data.length === 0) {
+                            defer.resolve(items);
+                        } else {
+                            batchItems(limit, response.data[response.data.length - 1].id);
+                        }
                     }, function (response) {
                         defer.reject(response);
-                        //throw new Error("HTTP Error: " + response);
                     });
-                } else {
-                    throw new Error("Finance.query received undefined itemID");
-                }
+
+                })(batchLimit);
 
                 return defer.promise;
-            };
+            }
 
             Finance.prototype.$save = function () {
                 var defer = $q.defer(),
@@ -643,22 +875,13 @@ angular.module('rescour.property', [])
                             return data;
                         }
                     }, $_api.config),
-                    body = JSON.stringify({
-                        name: self.name,
-                        value: self.value,
-                        valueFormat: self.valueFormat
-                    }),
+                    body = JSON.stringify(self),
                     propertyId = self.propertyId;
 
                 if (typeof propertyId !== 'undefined') {
                     if (self.id) {
-                        $http.put($_api.path + '/properties/' + propertyId + '/finances/' + self.id, body, config)
+                        $http.put($_api.path + '/finances/' + self.id, body, config)
                             .then(function (response) {
-                                if (self.property) {
-                                    self.property.hasFinances = true;
-                                } else {
-                                    throw new Error('Finance property has not been defined');
-                                }
                                 self.$spinner = false;
                                 defer.resolve(response);
                             }, function (response) {
@@ -666,13 +889,8 @@ angular.module('rescour.property', [])
                                 defer.reject(response);
                             });
                     } else {
-                        $http.post($_api.path + '/properties/' + propertyId + '/finances/', body, config)
+                        $http.post($_api.path + '/finances/', body, config)
                             .then(function (response) {
-                                if (self.property) {
-                                    self.property.hasFinances = true;
-                                } else {
-                                    throw new Error('Finance property has not been defined');
-                                }
                                 self.$spinner = false;
                                 self.id = response.data.id;
                                 defer.resolve(response);
@@ -696,8 +914,8 @@ angular.module('rescour.property', [])
                 if (typeof propertyId !== 'undefined') {
                     $http({
                         method: 'DELETE',
-                        url: $_api.path + '/properties/' + propertyId + '/finances/' + self.id,
-                        headers: {'Content-Type': 'application/json'},
+                        url: $_api.path + '/finances/' + self.id,
+                        headers: $_api.config.headers,
                         withCredentials: true,
                         transformRequest: function (data) {
                             self.saving = true;
@@ -717,53 +935,296 @@ angular.module('rescour.property', [])
 
             return Finance;
         }])
-    .directive('imgViewer', ['$window', function ($document) {
-        return{
-            restrict: 'EA',
-//            transclude: true,
-//            replace: true,
-            templateUrl: '/template/img-viewer/img-viewer.html',
-            controller: 'viewerCtrl',
-            scope: {
-                images: '='
-            },
-            link: function (scope, element, attr, viewerCtrl) {
-                if (scope.images.length > 0) {
-                    scope.images[0].isActive = true;
+    .factory('Favorite', ['$http', '$q', '$_api', 'ngProgress',
+        function ($http, $q, $_api, ngProgress) {
+            var Favorite = function (data) {
+                data = data || {};
+                this.id = data.id;
+                this.propertyId = data.propertyId;
 
-                    for (var i = 1; i < scope.images.length; i++) {
-                        var _image = scope.images[i];
-                        _image.isActive = false;
-                    }
+                if (!this.propertyId) {
+                    throw new Error("Invalid favorite resource");
                 }
+            };
 
-                viewerCtrl.setSlides(scope.images);
-                viewerCtrl.element = element;
+            Favorite.query = function () {
+                var items = [],
+                    defer = $q.defer(),
+                    config = angular.extend({
+                        transformRequest: function (data) {
+                            return data;
+                        }
+                    }, $_api.config),
+                    batchLimit = 50,
+                    rootPath = $_api.path + '/favorites/';
+
+                (function batchItems(limit, offset) {
+                    var path = rootPath + "?limit=" + limit + (offset ? "&offset=" + offset : "");
+
+                    $http.get(path, config).then(function (response) {
+                        items = items.concat(response.data);
+                        ngProgress.set(ngProgress.status() + ((100 - ngProgress.status()) * .01));
+
+                        if (response.data.length < limit || response.data.length === 0) {
+                            defer.resolve(items);
+                        } else {
+                            batchItems(limit, response.data[response.data.length - 1].id);
+                        }
+                    }, function (response) {
+                        defer.reject(response);
+                    });
+
+                })(batchLimit);
+
+                return defer.promise;
+            };
+
+            Favorite.prototype.$save = function () {
+                var defer = $q.defer(),
+                    self = this,
+                    path = $_api.path + '/favorites/',
+                    config = angular.extend({
+                        transformRequest: function (data) {
+                            return data;
+                        }
+                    }, $_api.config),
+                    body = JSON.stringify({
+                        propertyId: self.propertyId
+                    });
+
+                $http.post(path, body, config).then(
+                    function (response) {
+                        defer.resolve(response);
+                    },
+                    function (response) {
+                        defer.reject(response);
+                    }
+                );
+
+                return defer.promise;
             }
-        }
-    }])
-    .controller('viewerCtrl', ['$scope', '$timeout',
-        function ($scope, $timeout) {
-            var self = this;
-            $scope.current = 0;
-            self.setSlides = function (slides) {
-                $scope.slides = slides;
-            };
 
-            $scope.prev = function () {
-                $scope.slides[$scope.current].isActive = false;
-                $scope.current = $scope.current == 0 ? $scope.slides.length - 1 : $scope.current -= 1;
-                $scope.slides[$scope.current].isActive = true;
-            };
+            Favorite.prototype.$delete = function () {
+                var self = this,
+                    defer = $q.defer(),
+                    path = $_api.path + '/favorites/' + this.id;
 
-            $scope.next = function () {
-                $scope.slides[$scope.current].isActive = false;
-                $scope.current = $scope.current == $scope.slides.length - 1 ? $scope.current = 0 : $scope.current += 1;
-                $scope.slides[$scope.current].isActive = true;
-            };
+                $http({
+                    method: 'DELETE',
+                    url: path,
+                    headers: {'Content-Type': 'application/json'},
+                    withCredentials: true
+                }).then(function (response) {
+                        defer.resolve(response);
+                    }, function (response) {
+                        defer.reject(response);
+                    })
+
+                return defer.promise;
+            }
+
+            return Favorite;
         }])
-    .filter('checkBounds', function () {
-        return function (input, limit, e) {
-            return input == limit ? input + "+" : input;
-        }
-    });
+    .factory('Hidden', ['$http', '$q', '$_api', 'ngProgress',
+        function ($http, $q, $_api, ngProgress) {
+            var Hidden = function (data) {
+                data = data || {};
+                this.id = data.id;
+                this.propertyId = data.propertyId;
+
+                if (!this.propertyId) {
+                    throw new Error("Invalid hidden resource");
+                }
+            };
+
+            Hidden.query = function () {
+                var items = [],
+                    defer = $q.defer(),
+                    config = angular.extend({
+                        transformRequest: function (data) {
+                            return data;
+                        }
+                    }, $_api.config),
+                    batchLimit = 50,
+                    rootPath = $_api.path + '/hidden/';
+
+                (function batchItems(limit, offset) {
+                    var path = rootPath + "?limit=" + limit + (offset ? "&offset=" + offset : "");
+
+                    $http.get(path, config).then(function (response) {
+                        items = items.concat(response.data);
+                        ngProgress.set(ngProgress.status() + ((100 - ngProgress.status()) * .01));
+
+                        if (response.data.length < limit || response.data.length === 0) {
+                            defer.resolve(items);
+                        } else {
+                            batchItems(limit, response.data[response.data.length - 1].id);
+                        }
+                    }, function (response) {
+                        defer.reject(response);
+                    });
+
+                })(batchLimit);
+
+                return defer.promise;
+            };
+
+            Hidden.prototype.$save = function () {
+                var defer = $q.defer(),
+                    self = this,
+                    path = $_api.path + '/hidden/',
+                    config = angular.extend({
+                        transformRequest: function (data) {
+                            return data;
+                        }
+                    }, $_api.config),
+                    body = JSON.stringify({
+                        propertyId: self.propertyId
+                    });
+
+                $http.post(path, body, config).then(
+                    function (response) {
+                        defer.resolve(response);
+                    },
+                    function (response) {
+                        defer.reject(response);
+                    }
+                );
+
+                return defer.promise;
+            }
+
+            Hidden.prototype.$delete = function () {
+                var self = this,
+                    defer = $q.defer(),
+                    path = $_api.path + '/hidden/' + this.id;
+
+                $http({
+                    method: 'DELETE',
+                    url: path,
+                    headers: {'Content-Type': 'application/json'},
+                    withCredentials: true
+                }).then(function (response) {
+                        defer.resolve(response);
+                    }, function (response) {
+                        defer.reject(response);
+                    })
+
+                return defer.promise;
+            }
+
+            return Hidden;
+        }])
+    .factory('RentMetrics', ['$_api', '$http', '$q', 'ngProgress',
+        function ($_api, $http, $q, ngProgress) {
+
+            var RentMetrics = function (address, limit) {
+                this.address = address.street1 + ' ' + address.city + ',' + address.state;
+                this.comps = [];
+                this.limit = 100;
+                this.averages = {};
+                this.past = 30;
+                this.radius = 3;
+                this.setStartDate();
+            };
+
+            RentMetrics.prototype.setStartDate = function (days) {
+                var currentDate = new Date(Date.now());
+                this.past = days || this.past;
+                currentDate.setDate(currentDate.getDate() - this.past);
+                this.startDate = currentDate.toJSON().split('T')[0];
+                return this;
+            };
+
+            RentMetrics.prototype.getComps = function () {
+                return comps;
+            }
+
+            RentMetrics.prototype.getAverages = function () {
+                return _.map(this.averages, function (val) {
+                    return val;
+                });
+            };
+
+            RentMetrics.prototype.query = function (opts) {
+                var self = this,
+                    offset = 0,
+                    defer = $q.defer(),
+                    limit = this.limit;
+
+                ngProgress.reset();
+                ngProgress.height('4px');
+                ngProgress.color('#0088cc');
+                ngProgress.start();
+                self.$spinner = true;
+                self.comps = [];
+                self.averages = {};
+                (function batch(offset) {
+                    $http.jsonp('http://www.rentmetrics.com/api/v1/apartments.json?', {
+                        params: angular.extend(opts || {}, {
+                            address: self.address,
+                            limit: self.limit,
+                            offset: offset,
+                            api_token: $_api.rentMetricToken,
+                            include_images: false,
+                            max_distance_mi: self.radius,
+                            callback: 'JSON_CALLBACK',
+                            start_date: self.startDate
+                        }),
+                        cache: true,
+                        headers: {'Content-Type': 'application/json'},
+                        withCredentials: true
+                    }).then(function (response) {
+                            for (var i = response.data.collection.length - 1; i >= 0; i--) {
+                                var comp = response.data.collection[i];
+                                for (var j = 0; j < comp.latest_prices.length; j++) {
+                                    var unit = comp.latest_prices[j];
+
+                                    if (unit.bedrooms && (unit.full_bathrooms + unit.partial_bathrooms)) {
+                                        var unitType = unit.bedrooms + 'BR/' + (unit.full_bathrooms + (unit.partial_bathrooms * 0.5)) + 'BA';
+
+                                        // Some bedroom and bath data is incorrect, need to omit from average
+                                        if ((unit.full_bathrooms + (unit.partial_bathrooms * 0.5)) > 10 || unit.bedrooms > 10) {
+                                            break;
+                                        }
+                                        self.averages[unitType] = self.averages[unitType] || {
+                                            bedrooms: unit.bedrooms,
+                                            type: unitType,
+                                            rent: 0,
+                                            sqft: 0,
+                                            count: 0
+                                        }
+                                        self.averages[unitType].rent += unit.rent;
+                                        self.averages[unitType].sqft += unit.sq_ft;
+                                        self.averages[unitType].count++;
+                                    } else {
+                                        break;
+                                    }
+                                }
+                            }
+                            self.comps = self.comps.concat(response.data.collection);
+                            if (response.data.offset < response.data.total) {
+                                batch(offset + limit);
+                            } else {
+                                ngProgress.complete();
+                                self.$spinner = false;
+                                defer.resolve(self.comps);
+                            }
+                        }, function (response) {
+                            ngProgress.complete();
+                            self.$spinner = false;
+                            defer.reject(response);
+                        },
+                        function (response) {
+                            ngProgress.complete();
+                            self.$spinner = false;
+                            self.error = "Error Loading Comps";
+                            defer.reject(response);
+                        });
+                })(offset || 0);
+
+                return defer.promise;
+            };
+
+            return RentMetrics;
+        }]);

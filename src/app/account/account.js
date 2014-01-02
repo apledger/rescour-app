@@ -16,31 +16,34 @@ angular.module('rescour.app')
                     templateUrl: '/app/account/desktop/views/account.html?' + Date.now(),
                     controller: 'AccountController',
                     resolve: {
-                        loadUser: function (User, $q) {
+                        loadUser: function (User, $q, ngProgress) {
                             var defer = $q.defer();
-                            User.getProfile().then(function (response) {
+                            ngProgress.reset();
+                            User.get().then(function (response) {
+                                ngProgress.complete();
                                 defer.resolve(response);
                             }, function (response) {
                                 defer.reject(response);
                             });
-                            return defer.promise;
-                        },
-                        loadBilling: function (User, $q) {
-                            var defer = $q.defer();
-                            User.getBilling().then(function (response) {
-                                defer.resolve(response);
-                            }, function (response) {
-                                defer.reject(response);
-                            });
-
                             return defer.promise;
                         }
                     }
                 });
         }])
-    .controller('AccountController', ['$scope', 'loadUser', '$_api', '$http', 'User', '$routeParams', '$rootScope', '$location',
-        function ($scope, loadUser, $_api, $http, User, $routeParams, $rootScope, $location) {
+    .controller('AccountController', ['$scope', 'loadUser', '$_api', '$http', 'User', '$routeParams', '$rootScope', '$location', '$dialog', 'ngProgress',
+        function ($scope, loadUser, $_api, $http, User, $routeParams, $rootScope, $location, $dialog, ngProgress) {
             $scope.user = User;
+
+            ngProgress.complete();
+            $scope.confirmPasswordDialog = $dialog.dialog({
+                backdrop: true,
+                keyboard: true,
+                backdropClick: true,
+                dialogFade: true,
+                backdropFade: true,
+                templateUrl: '/app/account/desktop/views/partials/confirm-password-dialog.html?' + Date.now(),
+                controller: 'ConfirmPasswordDialogCtrl'
+            });
 
             $scope.selectSubview = function (subview) {
                 if (_.isObject(subview)) {
@@ -247,58 +250,67 @@ angular.module('rescour.app')
         function ($scope, $_api, $http, $q, $location, $dialog) {
             $scope.creds = {};
 
-            $scope.addSubscription = function (type) {
-                var token = function (res) {
-                    var path = $_api.path + '/auth/users/user/payment/',
-                        config = angular.extend({
-                            transformRequest: function (data) {
-                                $scope.accountAlerts = [
-                                    {
-                                        type: 'info',
-                                        msg: 'Authorizing...'
-                                    }
-                                ];
-                                return data;
-                            }
-                        }, $_api.config),
-                        body = JSON.stringify({token: res.id});
 
-                    $http.post(path, body, config).then(function (response) {
-                        $location.path('/');
-                    }, function (response) {
-                        if (response.status === 400) {
+            $scope.addSubscription = function (type) {
+                $scope.confirmPasswordDialog.open().then(function (request) {
+                    if (request) {
+                        var token = function (res) {
                             $scope.accountAlerts = [
                                 {
-                                    type: 'error',
-                                    msg: response.data.status_message
+                                    type: 'info',
+                                    msg: 'Authorizing...'
                                 }
                             ];
-                        }
-                    });
-                };
 
-                StripeCheckout.open({
-                    key: $_api.stripeToken,
-                    address: true,
-                    name: 'Rescour',
-                    currency: 'usd',
-                    image: '/img/stripe-icon.png',
-                    description: 'Activate your trial!',
-                    panelLabel: 'Checkout',
-                    token: token
+                            $scope.user.addStripe(res.id)
+                                .then(function (response) {
+                                    return $http(request);
+                                }, function (response) {
+                                    if (response.status === 400) {
+                                        $scope.accountAlerts = [
+                                            {
+                                                type: 'error',
+                                                msg: response.data.status_message
+                                            }
+                                        ];
+                                    }
+                                })
+                                .then(function (response) {
+                                    $location.path('/');
+                                }, function (response) {
+                                    $location.path('/');
+                                });
+                        };
+
+                        StripeCheckout.open({
+                            key: $_api.stripeToken,
+                            address: true,
+                            name: 'Rescour',
+                            currency: 'usd',
+                            image: '/img/stripe-icon.png',
+                            description: 'Activate your trial!',
+                            panelLabel: 'Checkout',
+                            token: token
+                        });
+                    }
+                }, function () {
+                    $location.path('/login');
                 });
+
             };
 
+            $scope.cancelDialog = $dialog.dialog({
+                backdrop: true,
+                keyboard: true,
+                backdropClick: true,
+                dialogFade: true,
+                backdropFade: true,
+                templateUrl: '/app/account/desktop/views/partials/cancel-account-dialog.html?' + Date.now(),
+                controller: 'CancelAccountDialogController'
+            });
+
             $scope.openCancelDialog = function () {
-                $dialog.dialog({
-                    backdrop: true,
-                    keyboard: true,
-                    backdropClick: true,
-                    dialogFade: true,
-                    backdropFade: true,
-                    templateUrl: '/app/account/desktop/views/partials/cancel-account-dialog.html?' + Date.now(),
-                    controller: 'CancelAccountDialogController'
-                }).open()
+                $scope.cancelDialog.open()
                     .then(function (result) {
                         var defer = $q.defer();
                         if (result) {
@@ -334,5 +346,50 @@ angular.module('rescour.app')
                             }
                         ];
                     });
+            };
+        }])
+    .controller('ConfirmPasswordDialogCtrl', ['$scope', 'dialog', 'User', '$_api', '$http', '$timeout',
+        function ($scope, dialog, User, $_api, $http, $timeout) {
+            $scope.creds = {
+                email: User.profile.email
+            };
+
+            $scope.close = function () {
+                dialog.close();
+            };
+
+            $scope.sendPassword = function () {
+                var request = {
+                    method: 'POST',
+                    url: $_api.path + '/auth/login/',
+                    data: JSON.stringify($scope.creds),
+                    headers: $_api.config.headers,
+                    withCredentials: true
+                };
+
+                $scope.alerts = [{
+                    type: 'info',
+                    msg: 'Sending...'
+                }];
+
+                $http(request).then(function (response) {
+                    $scope.alerts = [{
+                        type: 'success',
+                        msg: 'Success!'
+                    }];
+
+                    $timeout(function () {
+                        dialog.close(request);
+                    }, 1000);
+                }, function () {
+                    $scope.alerts = [{
+                        type: 'danger',
+                        msg: 'Invalid Credentials.  Logging out..'
+                    }];
+
+                    $timeout(function () {
+                        dialog.close();
+                    }, 1000);
+                });
             };
         }]);

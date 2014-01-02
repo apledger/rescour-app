@@ -9,7 +9,7 @@
 angular.module('rescour.mock', ['rescour.app', 'ngMockE2E'])
 // Dummy Calls
     .run(['$httpBackend', '$timeout', function ($httpBackend, $timeout) {
-        var NUM_ITEMS = 1000;
+        var NUM_ITEMS = 2096;
 
         var saved = {};
 
@@ -150,6 +150,7 @@ angular.module('rescour.mock', ['rescour.app', 'ngMockE2E'])
             'Brown Realty'
         ];
         var statusMap = ['Marketing', 'Under Contract', 'Under LOI', 'Expired', 'Marketing - Past Due', 'Sold'];
+        var newsCategoryMap = ['Transactions', 'Future Development', 'Under Construction', 'Renovations', 'Newly Completed', 'Financing', 'Other'];
         var generateDetails = function (options) {
             var details = [
                 {
@@ -245,9 +246,9 @@ angular.module('rescour.mock', ['rescour.app', 'ngMockE2E'])
             return details[parseInt((Math.random() * details.length), 10)];
         };
 
-        var items = {},
-            itemDetails = {}
-            news = {};
+        var items = [],
+            itemDetails = {},
+            news = [];
 
         function randomDate(start, end) {
             return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()))
@@ -278,69 +279,20 @@ angular.module('rescour.mock', ['rescour.app', 'ngMockE2E'])
                 address: {
                     street1: "152 Dummy St.",
                     street2: "",
-                    zip: "30142",
-                    state: "GA",
-                    city: "Atlanta",
-                    latitude: Math.random() * 0.151 + randomCity.location[0] - 0.075,
-                    longitude: Math.random() * 0.23 + randomCity.location[1] - 0.115
+                    zip: 30309,
+                    state: randomCity.region,
+                    city: randomCity.city,
+                    latitude: Math.random() * 0.40 + randomCity.location[0] - 0.075,
+                    longitude: Math.random() * 0.35 + randomCity.location[1] - 0.105
                 },
-                attributes: {
-                    discreet: {
-                        broker: randomBroker,
-                        state: randomCity.region,
-                        propertyStatus: randomStatus,
-                        propertyType: randomType
-                    },
-                    range: {
-                        yearBuilt: randomYear,
-                        numUnits: randomUnits,
-                        callForOffers: randomDate(new Date(2013, 0, 1), new Date()).getTime() / 1000,
-                        datePosted: randomDate(new Date(2013, 0, 1), new Date()).getTime() / 1000
-                    }
-                }
-            };
-
-            var randomNewsCity = regionMap[parseInt((Math.random() * regionMap.length), 10)];
-
-            news[k] = {
-                title: 'News: Something happened here!',
-                date: randomDate(new Date(2013, 0, 1), new Date()).getTime(),
-                address: {
-                    street1: "152 Dummy St.",
-                    street2: "",
-                    zip: "30142",
-                    state: "GA",
-                    city: "Atlanta",
-                    latitude: Math.random() * 0.151 + randomNewsCity.location[0] - 0.075,
-                    longitude: Math.random() * 0.23 + randomNewsCity.location[1] - 0.115
-                },
-                body: "Body of News Article " + k,
-                url: "www.businessinsider.com",
-                category: "Transactions",
-                id: k
-            }
-
-//            news.push( {
-//                title: 'News Article ' + k,
-//                date: randomDate(new Date(2013, 0, 1), new Date()).getTime() / 1000,
-//                address: {
-//                    street1: "152 Dummy St.",
-//                    street2: "",
-//                    zip: "30142",
-//                    state: "GA",
-//                    city: "Atlanta",
-//                    latitude: Math.random() * 0.151 + randomCity.location[0] - 0.075,
-//                    longitude: Math.random() * 0.23 + randomCity.location[1] - 0.115
-//                },
-//                body: "Body of News Article " + k,
-//                link: "www.businessinsider.com",
-//                category: "Transactions",
-//                id: k
-//            } )
-
-            itemDetails[k] = {
-                comments: [],
-                finances: [],
+                broker: randomBroker,
+                state: randomCity.region,
+                propertyStatus: randomStatus,
+                propertyType: randomType,
+                yearBuilt: randomYear,
+                numUnits: randomUnits,
+                callForOffers: randomDate(new Date(2013, 0, 1), new Date()).getTime() / 1000,
+                datePosted: randomDate(new Date(2013, 7, 1), new Date()).getTime(),
                 tourDates: [
                     {date: '2013-03-19T04:00:00.000Z'},
                     {date: '2013-03-26T04:00:00.000Z'},
@@ -348,31 +300,31 @@ angular.module('rescour.mock', ['rescour.app', 'ngMockE2E'])
                 ],
                 images: [
                     {
-                        link: '/img/apartment-details-1.jpg'
+                        id: '/img/apartment-details-1.jpg'
                     },
                     {
-                        link: '/img/apartment-details-2.jpg'
+                        id: '/img/apartment-details-2.jpg'
                     },
                     {
-                        link: '/img/apartment-details-3.jpg'
+                        id: '/img/apartment-details-3.jpg'
                     },
                     {
-                        link: '/img/apartment-details-4.jpg'
+                        id: '/img/apartment-details-4.jpg'
                     },
                     {
-                        link: '/img/apartment-details-5.jpg'
+                        id: '/img/apartment-details-5.jpg'
                     },
                     {
-                        link: '/img/apartment-details-6.jpg'
+                        id: '/img/apartment-details-6.jpg'
                     },
                     {
-                        link: '/img/apartment-details-7.jpg'
+                        id: '/img/apartment-details-7.jpg'
                     },
                     {
-                        link: '/img/apartment-details-8.jpg'
+                        id: '/img/apartment-details-8.jpg'
                     },
                     {
-                        link: '/img/apartment-details-9.jpg'
+                        id: '/img/apartment-details-9.jpg'
                     }
                 ],
                 unitMix: [
@@ -409,20 +361,40 @@ angular.module('rescour.mock', ['rescour.app', 'ngMockE2E'])
                         email: "sjones@aaarealty.com",
                         phone: "(678)-132-1532"
                     }
-                ]
+                ],
+                resources: {}
             };
-        };
+
+            var randomNewsCity = regionMap[parseInt((Math.random() * regionMap.length), 10)];
+
+            news[k] = {
+                title: 'News: Something happened here!',
+                date: randomDate(new Date(2013, 0, 1), new Date()).getTime(),
+                address: {
+                    street1: "152 Dummy St.",
+                    street2: "",
+                    zip: "30142",
+                    state: "GA",
+                    city: "Atlanta",
+                    latitude: Math.random() * 0.40 + randomNewsCity.location[0] - 0.075,
+                    longitude: Math.random() * 0.28 + randomNewsCity.location[1] - 0.115
+                },
+                body: "Body of News Article " + k,
+                url: "www.businessinsider.com",
+                category: newsCategoryMap[parseInt((Math.random() * newsCategoryMap.length), 10)],
+                id: k
+            }
+        }
 
         var fakeUser = {
-            company: "Fake Company",
-            email: "bob@fakecompany.com",
-            firstName: "Robert",
-            groups: "ListField",
-            lastName: "Frost",
-            password: "myPassword123",
-            phone: "123-456-6754",
-            username: "bob@fakecompany.com",
-            roles: ['staff']
+            company: 'Fake Company',
+            email: 'bob@fakecompany.com',
+            firstName: 'Robert',
+            lastName: 'Frost',
+            phone: '123-456-6754',
+            username: 'bob@fakecompany.com',
+            roles: ['staff'],
+            id: '1'
         };
 
         var fakeCustomer = {
@@ -533,10 +505,11 @@ angular.module('rescour.mock', ['rescour.app', 'ngMockE2E'])
 
         $httpBackend.whenGET('/properties/').respond({resources: items});
 
-        $httpBackend.whenGET('/auth/check').respond({user: "Alan"});
-        $httpBackend.whenGET('/auth/users/user/').respond(fakeUser);
+        $httpBackend.whenGET('/auth/user/').respond([fakeUser]);
+        $httpBackend.whenGET('/auth/user/1').respond(fakeUser);
+//        $httpBackend.whenGET('/auth/users/user/').respond(fakeUser);
 
-        $httpBackend.whenGET('/auth/users/user/payment/').respond(fakeCustomer);
+        $httpBackend.whenGET('/auth/user/1/payment/').respond(fakeCustomer);
 
         $httpBackend.whenPUT('/auth/users/user/').respond(function (method, url, data, headers) {
             var _saved = angular.fromJson(data);
@@ -544,9 +517,9 @@ angular.module('rescour.mock', ['rescour.app', 'ngMockE2E'])
             return [200, {}, {}];
         });
 
-        $httpBackend.whenGET('/search/').respond({resources: saved});
+        $httpBackend.whenGET('/searches/').respond({resources: saved});
         // adds a new phone to the phones array
-        $httpBackend.whenPOST('/search/').respond(function (method, url, data, headers) {
+        $httpBackend.whenPOST('/searches/').respond(function (method, url, data, headers) {
             var _data = angular.fromJson(data),
                 _saved = {
                     id: Date.now(),
@@ -562,7 +535,7 @@ angular.module('rescour.mock', ['rescour.app', 'ngMockE2E'])
             return [200, { status: 'success' }, {}];
         });
 
-        $httpBackend.whenPUT(/\/search\/[0-9]+/).respond(function (method, url, data, headers) {
+        $httpBackend.whenPUT(/\/searches\/[0-9]+/).respond(function (method, url, data, headers) {
             var _data = angular.fromJson(data),
                 _id = url.split("/")[2],
                 _saved = {
@@ -574,6 +547,10 @@ angular.module('rescour.mock', ['rescour.app', 'ngMockE2E'])
             saved[_saved.id] = _saved;
 
             return [200, { id: _saved.id }, {}];
+        });
+
+        $httpBackend.whenDELETE(/\/searches\/[0-9]+/).respond(function (method, url, data, headers) {
+            return [200, {}, {}];
         });
 
         $httpBackend.whenPUT(/\/properties\/\d+\/notes/).respond(function (method, url, data, headers) {
@@ -599,23 +576,97 @@ angular.module('rescour.mock', ['rescour.app', 'ngMockE2E'])
 //            }
 //        });
 
-        $httpBackend.whenGET(/\/news\//).respond(function (method, url, data, headers) {
-            return [200, {resources: news}, {}];
-        });
+        $httpBackend.whenGET(/\/properties\/(\?limit=)[0-9]+/).respond(function (method, url, data, headers) {
+            var limit = parseInt(url.split("limit=")[1].split("&")[0]),
+                offset =parseInt(url.split("offset=")[1] ? url.split("offset=")[1].split("&")[0] : 0);
 
-        $httpBackend.whenGET(/\/news\/(\?limit=)[0-9]+/).respond(function (method, url, data, headers) {
-            var limit = parseInt(url.split("limit=")[1].split("&")[0]);
-            
-            if (limit > news.length) {
-                return [200, news.slice(0, news.length)]
+            if (offset + limit + 1 < items.length) {
+                return [200, items.slice(offset === 0 ? 0 : offset + 1, offset + limit + 1)]
             } else {
-                return [200, news.slice(0, limit)]
+                return [200, items.slice(offset + 1, items.length + 1)]
             }
         });
 
+        $httpBackend.whenGET(/\/news\/(\?limit=)[0-9]+/).respond(function (method, url, data, headers) {
+            var limit = parseInt(url.split("limit=")[1].split("&")[0]),
+                offset =parseInt(url.split("offset=")[1] ? url.split("offset=")[1].split("&")[0] : 0);
+
+            if (offset + limit + 1 < news.length) {
+                return [200, news.slice(offset === 0 ? 0 : offset + 1, offset + limit + 1)]
+            } else {
+                return [200, news.slice(offset + 1, news.length + 1)]
+            }
+        });
+
+        $httpBackend.whenGET(/\/hidden\/(\?limit=)[0-9]+/).respond(function (method, url, data, headers) {
+            var limit = parseInt(url.split("limit=")[1].split("&")[0]),
+                offset =parseInt(url.split("offset=")[1] ? url.split("offset=")[1].split("&")[0] : 0);
+
+            return [200, [], {}];
+        });
+
+        $httpBackend.whenGET(/\/favorites\/(\?limit=)[0-9]+/).respond(function (method, url, data, headers) {
+            var limit = parseInt(url.split("limit=")[1].split("&")[0]),
+                offset =parseInt(url.split("offset=")[1] ? url.split("offset=")[1].split("&")[0] : 0);
+
+            return [200, [], {}];
+        });
+
+        $httpBackend.whenGET(/\/comments\/(\?limit=)[0-9]+/).respond(function (method, url, data, headers) {
+            var limit = parseInt(url.split("limit=")[1].split("&")[0]),
+                offset =parseInt(url.split("offset=")[1] ? url.split("offset=")[1].split("&")[0] : 0);
+
+            return [200, [], {}];
+        });
+
+        $httpBackend.whenGET(/\/finances\/(\?limit=)[0-9]+/).respond(function (method, url, data, headers) {
+            var limit = parseInt(url.split("limit=")[1].split("&")[0]),
+                offset =parseInt(url.split("offset=")[1] ? url.split("offset=")[1].split("&")[0] : 0);
+
+            return [200, [{
+                id: 'finance1',
+                propertyId: '1',
+                value: 5,
+                name: 'Cap Rate'
+            }], {}];
+        });
+
+        $httpBackend.whenPOST(/\/finances\//).respond(function (method, url, data, headers) {
+            return [200, [], {}];
+        });
+        $httpBackend.whenPOST(/\/favorites\//).respond(function (method, url, data, headers) {
+            return [200, [], {}];
+        });
+        $httpBackend.whenPOST(/\/hidden\//).respond(function (method, url, data, headers) {
+            return [200, [], {}];
+        });
+        $httpBackend.whenPOST(/\/comments/).respond(function (method, url, data, headers) {
+            return [200, [], {}];
+        });
+
+        $httpBackend.whenDELETE(/\/finances\//).respond(function (method, url, data, headers) {
+            return [200, [], {}];
+        });
+        $httpBackend.whenDELETE(/\/favorites\//).respond(function (method, url, data, headers) {
+            return [200, [], {}];
+        });
+        $httpBackend.whenDELETE(/\/hidden\//).respond(function (method, url, data, headers) {
+            return [200, [], {}];
+        });
+        $httpBackend.whenDELETE(/\/comments/).respond(function (method, url, data, headers) {
+            return [200, [], {}];
+        });
         $httpBackend.whenGET(/views\//).passThrough();
         $httpBackend.whenGET(/partials\//).passThrough();
         $httpBackend.whenGET(/template\//).passThrough();
+        $httpBackend.whenJSONP(/rentmetrics/).passThrough();
+        $httpBackend.whenGET(/walkbitch/).respond(function (method, url, data, headers) {
+            return [200, {
+                walkscore: 58,
+                description: 'Somewhat Walkable',
+                ws_link: 'http://www.walkscore.com/score/31790-US-Highway-19-Harbor-Florida-34684/lat=28.0627457/lng=-82.73907200000001/?utm_source=rescour.com&utm_medium=ws_api&utm_campaign=ws_api'
+            }, {}];
+        });
     }]);
 
 angular.bootstrap(document, ['rescour.mock']);

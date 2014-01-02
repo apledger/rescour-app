@@ -140,6 +140,24 @@ angular.module('rescour.utility', [])
             });
         };
     })
+    .directive('fadeOut', function () {
+        return function (scope, element, attr) {
+            scope.$watch(attr.fadeOut, function (value) {
+                !!value ? element.fadeOut(500) : element.show();
+            });
+        };
+    })
+    .directive('fadeAfterOn', ['$timeout', function ($timeout) {
+        return {
+            link: function (scope, element, attrs) {
+                if (parseInt(attrs.fadeAfterOn, 10)) {
+                    $timeout(function () {
+                        element.fadeOut(700);
+                    }, attrs.fadeAfter);
+                }
+            }
+        };
+    }])
     .directive('spinner', ['$parse', function ($parse) {
         return {
             restrict: 'AC',
@@ -176,13 +194,16 @@ angular.module('rescour.utility', [])
                     },
                     ele = element[0],
                     userOpts = scope.$eval(attrs.spinnerOptions) || {},
-                    spinner = new Spinner(angular.extend({}, opts[attrs.spinnerSize || 'small'], userOpts));
+                    spinner = new Spinner(angular.extend({}, opts[attrs.spinnerSize || 'small'], userOpts)),
+                    isSpinning = false;
 
                 scope.$watch(function () {
-                    if (scope.$eval(attrs.spinner)) {
+                    if (scope.$eval(attrs.spinner) && isSpinning === false) {
                         spinner.spin(ele);
-                    } else {
+                        isSpinning = true;
+                    } else if (!scope.$eval(attrs.spinner)) {
                         spinner.stop();
+                        isSpinning = false;
                     }
                 });
             }
@@ -193,13 +214,14 @@ angular.module('rescour.utility', [])
             link: function (scope, element, attrs) {
                 var raw = element[0],
                     currentSlice,
-                    chunkSize = parseInt(attrs.chunkSize, 10) || 10;
+                    chunkSize = parseInt(attrs.chunkSize, 10) || 10,
+                    visibleItems = [];
 
                 function initChunk() {
-                    scope.visibleItems = scope.$eval(attrs.chunk);
+                    visibleItems = scope.$eval(attrs.chunk);
                     // If a filter is provided, apply filter to set and return
                     currentSlice = chunkSize;
-                    scope.chunk = scope.visibleItems.slice(0, chunkSize);
+                    scope.chunk = visibleItems.slice(0, chunkSize);
                 }
 
                 element.bind('scroll', function () {
@@ -208,13 +230,13 @@ angular.module('rescour.utility', [])
                         // increase chunkSize and re-filter
                         scope.$apply(function () {
                             // take next limit
-                            scope.chunk = scope.chunk.concat(scope.visibleItems.slice(currentSlice, currentSlice += chunkSize));
+                            scope.chunk = scope.chunk.concat(visibleItems.slice(currentSlice, currentSlice += chunkSize));
                         });
                     }
                 });
 
                 scope.$watch(function (newScope) {
-                    if (!angular.equals(scope.$eval(attrs.chunk), newScope.visibleItems)) {
+                    if (!angular.equals(scope.$eval(attrs.chunk), visibleItems)) {
                         raw.scrollTop = 0;
                         initChunk();
                     }
@@ -509,3 +531,38 @@ angular.module('rescour.utility', [])
             }
         };
     });
+
+angular.module('ui.if',[]).directive('uiIf', [function () {
+    return {
+        transclude: 'element',
+        priority: 1000,
+        terminal: true,
+        restrict: 'A',
+        compile: function (element, attr, transclude) {
+            return function (scope, element, attr) {
+
+                var childElement;
+                var childScope;
+
+                scope.$watch(attr['uiIf'], function (newValue) {
+                    if (childElement) {
+                        childElement.remove();
+                        childElement = undefined;
+                    }
+                    if (childScope) {
+                        childScope.$destroy();
+                        childScope = undefined;
+                    }
+
+                    if (newValue) {
+                        childScope = scope.$new();
+                        transclude(childScope, function (clone) {
+                            childElement = clone;
+                            element.after(clone);
+                        });
+                    }
+                });
+            };
+        }
+    };
+}]);

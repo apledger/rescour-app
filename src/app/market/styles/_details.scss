@@ -2,7 +2,7 @@ $detailsHeaderColor: $light-gray;
 
 .property-details {
   position: absolute;
-  z-index: 1;
+  z-index: 2;
   background: $light-gray;
   overflow-y: scroll;
   overflow-x: hidden;
@@ -10,7 +10,7 @@ $detailsHeaderColor: $light-gray;
   right: 0;
   left: 0;
   bottom: 0;
-  padding: 0 25px;
+  padding: 0 20px;
   @include rescourTabs;
 
   blockquote, blockquote:hover {
@@ -54,7 +54,7 @@ $detailsHeaderColor: $light-gray;
   }
 
   .page-header {
-    margin: 15px 0 5px;
+    margin: 10px 0 5px;
     .btn {
       margin-top: 10px;
     }
@@ -96,19 +96,20 @@ $detailsHeaderColor: $light-gray;
       text-align: center;
     }
 
-    .viewer-inner{
+    .viewer-inner {
       position: relative;
       height: 400px;
       width: 100%;
       text-align: center;
+    }
 
-      img {
-        position: relative;
-        //max-height: 100%;
-        max-height: 400px !important;
-        max-width: 100%;
-        vertical-align: middle !important;
-      }
+    img {
+      position: relative;
+      //max-height: 100%;
+      max-height: 400px !important;
+      max-width: 100%;
+      width: 100%;
+      vertical-align: middle !important;
     }
   }
 
@@ -136,13 +137,13 @@ $detailsHeaderColor: $light-gray;
 
   .viewer-control {
     position: absolute;
-    top: 0px;
+    top: 0;
     width: 75px;
     height: 100%;
     font-size: 20px;
     color: $grayDarker;
     text-align: center;
-    background: $grayLighter;
+    background: transparent;
     @include border-radius(4px);
     @include opacity(75);
 
@@ -150,7 +151,7 @@ $detailsHeaderColor: $light-gray;
       position: absolute;
       top: 50%;
       left: 50%;
-      margin-top: -20px;
+      margin-top: -10px;
       margin-left: -6px;
     }
 
@@ -165,12 +166,8 @@ $detailsHeaderColor: $light-gray;
 
     &:hover {
       text-decoration: none;
-      background: $gray;
+      background: $grayLighter;
       cursor: pointer;
-
-      i {
-        color: $white;
-      }
     }
   }
 }
@@ -273,5 +270,27 @@ $detailsHeaderColor: $light-gray;
 
   .form-actions {
     padding-left: 20px;
+  }
+}
+
+.rentmetrics-container {
+  .page-header {
+    line-height: 50px;
+    span {
+      font-size: 18px;
+      color: $grayDark;
+      font-weight: 400;
+    }
+    text-align: center;
+    .input-dropdown {
+      display: inline-block;
+      width: 100px;
+      margin: 0 10px;
+      input {
+        text-align: center;
+        padding-right: 15px;
+        margin-top: -5px;
+      }
+    }
   }
 }

@@ -15,7 +15,8 @@ angular.module('rescour.app')
                 templateUrl: '/app/login/desktop/views/login.html?' + Date.now(),
                 controller: 'LoginController',
                 resolve: {
-                    checkUser: function ($rootScope, $location) {
+                    checkUser: function (ngProgress) {
+                        ngProgress.reset();
 //                        $rootScope.ping().then(function (response) {
 //                            console.log("ping success");
 //                            $location.path('/');

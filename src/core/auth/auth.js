@@ -38,7 +38,7 @@ angular.module('rescour.auth', [])
             $rootScope.ping = function () {
                 var defer = $q.defer(),
                     self = this,
-                    path = $_api.path + '/auth/check/',
+                    path = $_api.path + '/auth/user/',
                     config = angular.extend({
                         transformRequest: function (data) {
                             return data;
@@ -115,10 +115,9 @@ angular.module('rescour.auth', [])
                         transformRequest: function (data) {
                             return data;
                         }
-                    }, $_api.config),
-                    body = JSON.stringify({});
+                    }, $_api.config);
 
-                $http.post(path, body, config).then(function (response) {
+                $http.get(path, config).then(function (response) {
                     $rootScope.ping();
                 }, function (response) {
                     $rootScope.ping();
@@ -130,8 +129,7 @@ angular.module('rescour.auth', [])
             return function (promise) {
                 var resolve = function (response) {
                 }, reject = function (response) {
-                    var status = response.status,
-                        message = response.data.status_message;
+                    var status = response.status;
 
                     switch (status) {
                         case 401:
@@ -148,22 +146,11 @@ angular.module('rescour.auth', [])
                             $rootScope.$broadcast('auth#loginRequired');
                             break;
                         case 402:
-                            var defer = $q.defer(),
-                                req = {
-                                    config: response.config,
-                                    deferred: defer
-                                };
-                            $rootScope.requests401.push(req);
-
-                            if (message === 'payment required') {
-                                $rootScope.$broadcast('auth#paymentRequired');
-                            } else if (message === 'payment authorizing') {
-                                $rootScope.$broadcast('auth#paymentAuthorizing');
-                            }
-
-                            return defer.promise;
+                            $rootScope.$broadcast('auth#paymentRequired');
+                            break;
                         case 403:
-                            $rootScope.$broadcast('auth#forbidden');
+                            $rootScope.$broadcast('auth#paymentRequired');
+                            break;
                         default:
                     }
 

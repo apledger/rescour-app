@@ -25,9 +25,6 @@ angular.module('rescour.config', [])
                 headers: {'Content-Type': 'application/json'},
                 withCredentials: true
             },
-            walkScoreTokens = {
-                dev: '53a5a8421f9738c864545e91812e2d98'
-            },
             loading = {
                 none: function (data) {
                     return data;
@@ -39,7 +36,7 @@ angular.module('rescour.config', [])
             path: url.prod,
             loading: loading,
             stripeToken: stripeTokens.prod,
-            walkScoreToken: walkScoreTokens.dev,
+            walkscorePath: 'https://app.rescour.com/score?',
             rentMetricToken: rentMetricTokens.prod
         };
     });

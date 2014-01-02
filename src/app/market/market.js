@@ -257,6 +257,7 @@ angular.module('rescour.app')
                         } else {
                             this.selectPane(paneHeading);
                             $scope.setActive(item);
+                            item.getWalkscore();
                             this.isOpen = true;
                         }
 
@@ -647,31 +648,15 @@ angular.module('rescour.app')
             $scope.rentComps = [];
             $scope.rentMetricsPastOptions = [30, 60, 90];
             $scope.rentMetricsRadiusOptions = [5, 10, 25];
-            var rentMetrics = new RentMetrics($scope.current.address),
-                checkRentMetric = function () {
-                    var rentMetricPane = _.find($scope.panes, function (val) {
-                        return val.heading === 'RentMetrics'
-                    });
-
-                    if (rentMetricPane.active && !$scope.rentMetrics) {
-                        $scope.rentMetrics = rentMetrics;
-                        $scope.rentMetrics.query();
-                    }
-                };
-
-            $http.get('http://app-dev.rescour.com/score?', {
-                params: {
-                    format: 'json',
-                    address: $scope.current.getAddress(),
-                    lat: $scope.current.address.latitude,
-                    lon: $scope.current.address.longitude
-                },
-                cache: true,
-                headers: {'Content-Type': 'application/json'},
-                withCredentials: true
-            }).then(function (response) {
-                    $scope.current.walkscore = response.data;
-                });
+            var checkRentMetric = function () {
+//                var rentMetricPane = _.find($scope.panes, function (val) {
+//                    return val.heading === 'RentMetrics'
+//                });
+//                if (rentMetricPane.active && $scope.current) {
+//                    $scope.rentMetrics = new RentMetrics($scope.current.address);
+//                    $scope.rentMetrics.query();
+//                }
+            };
 
             $scope.setRentCompsPast = function (days) {
                 $scope.rentMetrics.setStartDate(days);
@@ -685,7 +670,7 @@ angular.module('rescour.app')
 
             $scope.refreshRentComps = function () {
                 $scope.rentMetrics.query();
-            }
+            };
 
             $scope.keypressBlur = function (e) {
                 // Ugly hack to get around $apply

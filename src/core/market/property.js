@@ -362,6 +362,28 @@ angular.module('rescour.property', [])
                 return str;
             };
 
+            Property.prototype.getWalkscore = function () {
+                var self = this,
+                    defer = $q.defer();
+
+                $http.get($_api.walkscorePath, {
+                    params: {
+                        format: 'json',
+                        address: self.getAddress(),
+                        lat: self.address.latitude,
+                        lon: self.address.longitude
+                    },
+                    cache: true,
+                    headers: {'Content-Type': 'application/json'},
+                    withCredentials: true
+                }).then(function (response) {
+                        self.walkscore = response.data;
+                        defer.resolve(response);
+                    });
+
+                return defer.promise;
+            }
+
             Property.prototype.initializeDefaultFinances = function () {
                 var self = this;
                 angular.forEach(Finance.defaults, function (defaultFinanceName) {

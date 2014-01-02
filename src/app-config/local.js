@@ -1,4 +1,4 @@
-/**
+ /**
  * Created with JetBrains WebStorm.
  * User: apledger
  * Date: 4/24/13
@@ -20,9 +20,6 @@ angular.module('rescour.config', [])
             rentMetricTokens = {
                 prod: 'u8LNVTAcLns6ypPmXt82iw'
             },
-            walkScoreTokens = {
-                dev: '53a5a8421f9738c864545e91812e2d98'
-            },
             config = {
                 headers: {'Content-Type': 'application/json'},
                 withCredentials: true
@@ -39,7 +36,7 @@ angular.module('rescour.config', [])
             loading: loading,
             stripeToken: stripeTokens.test,
             rentMetricToken: rentMetricTokens.prod,
-            walkScoreToken: walkScoreTokens.dev,
+            walkscorePath: 'http://app-dev.rescour.com/score?',
             env: 'local'
         };
     });

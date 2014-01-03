@@ -208,7 +208,7 @@ angular.module('rescour.property', [])
                             key: 'datePosted',
                             title: 'Date Posted',
                             method: function (item) {
-                                return $filter('date')(item.datePosted);
+                                return $filter('date')(item.datePosted, 'shortDate');
                             }
                         },
                         {
@@ -253,7 +253,7 @@ angular.module('rescour.property', [])
                             fields: ['date'],
                             fieldsFormat: {
                                 date: function (field) {
-                                    return $filter('date')(field);
+                                    return $filter('date')(field, 'shortDate');
                                 }
                             }
                         },

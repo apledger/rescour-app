@@ -243,7 +243,7 @@ angular.module('rescour.property', [])
                             key: 'address',
                             title: 'Address',
                             method: function (item) {
-                                if (!item.getAddress()) throw new Error('Method getAddress is not defined for ' + item);
+                                if (!item.getAddress) throw new Error('Method getAddress is not defined for ' + item.title);
                                 return item.getAddress();
                             }
                         },
@@ -329,27 +329,33 @@ angular.module('rescour.property', [])
                             if (line != '') line += ','
 
                             if (reportFieldConfig.method) {
-                                line += '"' + (reportFieldConfig.method(item) || '') + '"';
+                                try {
+                                    line += '"' + (reportFieldConfig.method(item) || '') + '"';
+                                } catch (e) {}
                             } else if (_.isArray(itemField)) {
                                 var reportArrayLine = '';
 
-                                for (var k = 0; k < itemField.length; k++) {
-                                    var reportArrayObj = itemField[k],
-                                        reportArrayFields = reportFieldConfig.fields || _.keys(reportArrayObj),
-                                        objLineArray = [];
+                                try {
+                                    for (var k = 0; k < itemField.length; k++) {
+                                        var reportArrayObj = itemField[k],
+                                            reportArrayFields = reportFieldConfig.fields || _.keys(reportArrayObj),
+                                            objLineArray = [];
 
-                                    if (reportArrayLine != '') reportArrayLine += ', ';
-                                    angular.forEach(reportArrayFields, function (fieldKey) {
-                                        if (reportFieldConfig.fieldsFormat && reportFieldConfig.fieldsFormat.hasOwnProperty(fieldKey)) {
-                                            objLineArray.push(reportFieldConfig.fieldsFormat[fieldKey](reportArrayObj[fieldKey]));
-                                        } else {
-                                            objLineArray.push(reportArrayObj[fieldKey]);
-                                        }
-                                    });
+                                        if (reportArrayLine != '') reportArrayLine += ', ';
+                                        angular.forEach(reportArrayFields, function (fieldKey) {
+                                            if (reportFieldConfig.fieldsFormat && reportFieldConfig.fieldsFormat.hasOwnProperty(fieldKey)) {
+                                                objLineArray.push(reportFieldConfig.fieldsFormat[fieldKey](reportArrayObj[fieldKey]));
+                                            } else {
+                                                objLineArray.push(reportArrayObj[fieldKey]);
+                                            }
+                                        });
 
-                                    reportArrayLine += objLineArray.join(reportFieldConfig.separator || ' - ');
+                                        reportArrayLine += objLineArray.join(reportFieldConfig.separator || ' - ');
+                                    }
+
+                                    line += ('"' + reportArrayLine + '"');
                                 }
-                                line += ('"' + reportArrayLine + '"');
+                                catch (e) {}
                             } else {
                                 line += '"' + (itemField || '') + '"';
                             }

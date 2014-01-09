@@ -769,7 +769,7 @@ angular.module('rescour.property', [])
                 }, data);
 
                 angular.copy(opts, this);
-                console.log(this);
+                this._createdTs = this._createdTs || Date.now() / 1000;
                 this.userEmail = data.userEmail || (User.profile ? User.profile.email : "You");
             };
 

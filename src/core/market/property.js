@@ -769,6 +769,7 @@ angular.module('rescour.property', [])
                 }, data);
 
                 angular.copy(opts, this);
+                console.log(this);
                 this.userEmail = data.userEmail || (User.profile ? User.profile.email : "You");
             };
 

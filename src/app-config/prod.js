@@ -29,7 +29,8 @@ angular.module('rescour.config', [])
             },
             rentMetrics = {
                 token: 'u8LNVTAcLns6ypPmXt82iw',
-                path: '/rentmetrics?'
+                path: '/rentmetrics?',
+                method: 'GET'
             };
 
         return {

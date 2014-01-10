@@ -19,7 +19,8 @@ angular.module('rescour.config', [])
             },
             rentMetrics = {
                 token: 'u8LNVTAcLns6ypPmXt82iw',
-                path: 'http://www.rentmetrics.com/api/v1/apartments.json?'
+                path: 'http://www.rentmetrics.com/api/v1/apartments.json?',
+                method: 'JSONP'
             },
             config = {
                 headers: {'Content-Type': 'application/json'},

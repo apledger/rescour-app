@@ -649,13 +649,13 @@ angular.module('rescour.app')
             $scope.rentMetricsPastOptions = [30, 60, 90];
             $scope.rentMetricsRadiusOptions = [5, 10, 25];
             var checkRentMetric = function () {
-//                var rentMetricPane = _.find($scope.panes, function (val) {
-//                    return val.heading === 'RentMetrics'
-//                });
-//                if (rentMetricPane.active && $scope.current) {
-//                    $scope.rentMetrics = new RentMetrics($scope.current.address);
-//                    $scope.rentMetrics.query();
-//                }
+                var rentMetricPane = _.find($scope.panes, function (val) {
+                    return val.heading === 'RentMetrics'
+                });
+                if (rentMetricPane.active && $scope.current) {
+                    $scope.rentMetrics = new RentMetrics($scope.current.address);
+                    $scope.rentMetrics.query();
+                }
             };
 
             $scope.setRentCompsPast = function (days) {

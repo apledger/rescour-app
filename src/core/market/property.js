@@ -1199,7 +1199,6 @@ angular.module('rescour.property', [])
                             api_token: $_api.rentMetrics.token,
                             include_images: false,
                             max_distance_mi: self.radius,
-                            callback: 'JSON_CALLBACK',
                             start_date: self.startDate
                         }),
                         cache: true,

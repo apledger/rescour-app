@@ -18,9 +18,6 @@ angular.module('rescour.config', [])
                 test: 'pk_test_wSAqQNQKI7QqPmBpDcQLgGM7',
                 prod: 'pk_live_4TLhgO3Pp1gOdWWmvLVK1PG3'
             },
-            rentMetricTokens = {
-                prod: 'u8LNVTAcLns6ypPmXt82iw'
-            },
             config = {
                 headers: {'Content-Type': 'application/json'},
                 withCredentials: true
@@ -29,6 +26,10 @@ angular.module('rescour.config', [])
                 none: function (data) {
                     return data;
                 }
+            },
+            rentMetrics = {
+                token: 'u8LNVTAcLns6ypPmXt82iw',
+                path: '/rentmetrics?'
             };
 
         return {
@@ -37,6 +38,7 @@ angular.module('rescour.config', [])
             loading: loading,
             stripeToken: stripeTokens.prod,
             walkscorePath: 'https://app.rescour.com/score?',
-            rentMetricToken: rentMetricTokens.prod
+            rentMetrics: rentMetrics
+
         };
     });

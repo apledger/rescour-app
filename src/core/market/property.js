@@ -1189,12 +1189,12 @@ angular.module('rescour.property', [])
                 self.comps = [];
                 self.averages = {};
                 (function batch(offset) {
-                    $http.jsonp('http://www.rentmetrics.com/api/v1/apartments.json?', {
+                    $http.jsonp($_api.rentMetrics.path, {
                         params: angular.extend(opts || {}, {
                             address: self.address,
                             limit: self.limit,
                             offset: offset,
-                            api_token: $_api.rentMetricToken,
+                            api_token: $_api.rentMetrics.token,
                             include_images: false,
                             max_distance_mi: self.radius,
                             callback: 'JSON_CALLBACK',

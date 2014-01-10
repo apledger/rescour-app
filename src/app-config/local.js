@@ -17,8 +17,9 @@ angular.module('rescour.config', [])
                 test: 'pk_test_wSAqQNQKI7QqPmBpDcQLgGM7',
                 prod: 'pk_live_4TLhgO3Pp1gOdWWmvLVK1PG3'
             },
-            rentMetricTokens = {
-                prod: 'u8LNVTAcLns6ypPmXt82iw'
+            rentMetrics = {
+                token: 'u8LNVTAcLns6ypPmXt82iw',
+                path: 'http://www.rentmetrics.com/api/v1/apartments.json?'
             },
             config = {
                 headers: {'Content-Type': 'application/json'},
@@ -35,7 +36,7 @@ angular.module('rescour.config', [])
             path: url.local,
             loading: loading,
             stripeToken: stripeTokens.test,
-            rentMetricToken: rentMetricTokens.prod,
+            rentMetrics: rentMetrics,
             walkscorePath: 'http://app-dev.rescour.com/score?',
             env: 'local'
         };

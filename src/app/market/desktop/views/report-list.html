@@ -29,6 +29,7 @@
                         <th>Title</th>
                         <th>Date Posted</th>
                         <th>Year Built</th>
+                        <th>Broker</th>
                         <th># Units</th>
                         <th>City</th>
                         <th>State</th>
@@ -42,6 +43,7 @@
                         <td><a ng-href="?id={{item.id}}#details">{{item.title}}</a></td>
                         <td>{{item.datePosted | date}}</td>
                         <td>{{item.yearBuilt}}</td>
+                        <td>{{item.broker}}</td>
                         <td>{{item.numUnits}}</td>
                         <td>{{item.address.city}}</td>
                         <td>{{item.address.state}}</td>

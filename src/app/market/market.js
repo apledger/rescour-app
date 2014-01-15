@@ -371,21 +371,16 @@ angular.module('rescour.app')
                         title: 'All Time',
                         action: function () {
                             NewsMarket.applyRange('age', null, null);
+                            $scope.newsAgePower.title = this.title;
                             $scope.$broadcast('UpdateMap');
                         },
                         key: 'all'
                     },
                     {
-                        title: 'Last 7 Days',
-                        action: function () {
-                            NewsMarket.applyRange('age', 0, 7);
-                            $scope.$broadcast('UpdateMap');
-                        }
-                    },
-                    {
                         title: 'Last 30 Days',
                         action: function () {
                             NewsMarket.applyRange('age', 0, 30);
+                            $scope.newsAgePower.title = this.title;
                             $scope.$broadcast('UpdateMap');
                         }
                     },
@@ -393,6 +388,7 @@ angular.module('rescour.app')
                         title: 'Last 90 Days',
                         action: function () {
                             NewsMarket.applyRange('age', 0, 90);
+                            $scope.newsAgePower.title = this.title;
                             $scope.$broadcast('UpdateMap');
                         }
                     },
@@ -400,6 +396,15 @@ angular.module('rescour.app')
                         title: 'Last 180 Days',
                         action: function () {
                             NewsMarket.applyRange('age', 0, 180);
+                            $scope.newsAgePower.title = this.title;
+                            $scope.$broadcast('UpdateMap');
+                        }
+                    },
+                    {
+                        title: 'Last 365 Days',
+                        action: function () {
+                            NewsMarket.applyRange('age', 0, 365);
+                            $scope.newsAgePower.title = this.title;
                             $scope.$broadcast('UpdateMap');
                         }
                     }

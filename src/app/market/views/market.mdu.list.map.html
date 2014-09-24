@@ -1,0 +1,90 @@
+<div class="powers">
+    <div class="power dropdown pull-right">
+        <div class="power__title" dropdown-toggle>
+            <i class="fa fa-globe"></i><span>{{tilesPower.title}}</span>
+        </div>
+
+        <ul class="dropdown__list">
+            <li ng-repeat="option in tilesPower.options"
+                ng-class="{'active': option.isSelected}"
+                ng-click="option.action()">
+l                <a href="javascript:">{{ option.title }}</a>
+            </li>
+        </ul>
+    </div>
+    <!--Pins Dropdown-->
+    <div class="power dropdown"
+         ng-class="{'power--primary': MarketState.map.isPinsToggled}">
+        <div class="power__title" dropdown-toggle>
+            <i class="fa fa-location-arrow"></i><span>My Pins</span>
+        </div>
+        <ul class="dropdown__list">
+            <li ng-click="togglePins($event)"
+                ng-class="{'disabled': MarketState.map.isPinsDisabled()}">
+                <div class="switch-flat">
+                    <label ng-class="{'switch-label-active': MarketState.map.isPinsToggled}">On</label>
+                    <label ng-class="{'switch-label-active': !MarketState.map.isPinsToggled}">Off</label>
+                </div>
+            </li>
+            <li class="dropdown__nested gutter-half-top" ng-if="MarketState.map.isPinsToggled" ng-click="stopPropagation($event)">
+                <a href="javascript:">Type</a>
+                <ul class="dropdown__list dropdown__list--large">
+                    <li ng-repeat="value in PinMarket.dimensions.discrete.type.values"
+                        ng-class="{'active': value.isSelected}"
+                        ng-click="togglePinType($event, value)">
+                        <a href="javascript:">{{ value.title }} <strong class="pull-right">({{ value.predict }})</strong></a>
+                    </li>
+                </ul>
+            </li>
+            <div class="divider"></div>
+            <li ng-click="convertPinsToCSV()" ng-if="MarketState.map.isPinsToggled">
+                <i class="fa fa-download"></i><a href="javascript:">Download</a>
+            </li>
+            <li ng-click="createPin()">
+                <a href="javascript:"><i class="fa fa-plus gutter-right-half"></i>Create Pin</a>
+            </li>
+        </ul>
+    </div>
+
+    <!--News Dropdown-->
+    <div class="power dropdown"
+         ng-class="{'power--primary': MarketState.map.isNewsToggled}">
+        <div class="power__title" dropdown-toggle>
+            <i class="fa fa-rss"></i><span>News</span>
+        </div>
+        <ul class="dropdown__list">
+            <li ng-click="toggleNews($event)"
+                ng-class="{'disabled': MarketState.map.isNewsDisabled()}">
+                <div class="switch-flat">
+                    <label ng-class="{'switch-label-active': MarketState.map.isNewsToggled}">On</label>
+                    <label ng-class="{'switch-label-active': !MarketState.map.isNewsToggled}">Off</label>
+                </div>
+            </li>
+            <li class="dropdown__nested gutter-half-top" ng-if="MarketState.map.isNewsToggled" ng-click="stopPropagation($event)">
+                <a href="javascript:">Category</a>
+                <ul class="dropdown__list dropdown__list--large">
+                    <li ng-repeat="value in NewsMarket.dimensions.discrete.category.values"
+                        ng-class="{'active': value.isSelected}"
+                        ng-click="toggleNewsCategory($event, value)">
+                        <a href="javascript:">{{ value.title }} <strong class="pull-right">({{ value.predict }})</strong></a>
+                    </li>
+                </ul>
+            </li>
+            <li class="dropdown__nested" ng-if="MarketState.map.isNewsToggled" ng-click="stopPropagation($event)">
+                <a href="javascript:">Date Posted</a>
+                <ul class="dropdown__list dropdown__list--large">
+                    <li ng-repeat="option in newsAgePower.options"
+                        ng-class="{'active': option.isSelected}"
+                        ng-click="option.action()">
+                        <a href="javascript:">{{ option.title }}</a>
+                    </li>
+                </ul>
+            </li>
+            <li ng-click="convertNewsToCSV()" ng-if="MarketState.map.isNewsToggled"><i class="fa fa-download"></i><a href="javascript:">Download</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="map-wrap">
+    <div market-map></div>
+</div>

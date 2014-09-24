@@ -1,0 +1,112 @@
+.toggler {
+  position: relative;
+
+  &.toggled {
+    > .toggler__header {
+      color: $gray;
+    }
+
+    .collapse {
+      opacity: 0;
+    }
+  }
+}
+
+.toggler__header {
+  position: relative;
+  cursor: pointer;
+  width: 100%;
+  padding: $grid-gutter-width / 2 $grid-gutter-width;
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+  @include box-shadow(0 1px rgba(0, 0, 0, 0.3));
+  @include transition(all 0.1s ease-out);
+
+  &:active {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    @include box-shadow(0 1px rgba(0, 0, 0, 0.1));
+    @include transition(all 0.1s ease-out);
+  }
+}
+
+.toggler__body {
+  @extend .inner-container;
+}
+
+.toggler__list {
+  padding: ($grid-gutter-width / 2) 0;
+  > li {
+    position: relative;
+    cursor: pointer;
+    padding: ($grid-gutter-width/4) $grid-gutter-width;
+
+    &:hover, &.active {
+      background: rgba(0, 0, 0, 0.3);
+      > a {
+        color: white;
+      }
+    }
+
+    &.active {
+      border-left: 5px solid $brand-primary;
+      @include box-shadow(#{inset 0 1px 1px rgba(0, 0, 0, 0.3)});
+      > a {
+        font-weight: bold;
+      }
+    }
+
+    &:active {
+      background: rgba(0, 0, 0, 0.4);
+    }
+
+    > .badge {
+      position: absolute;
+      // Same as list padding, but -1 for shadow
+      top: ($grid-gutter-width/4) - 1;
+      right: $grid-gutter-width;
+    }
+  }
+}
+
+.toggler--info {
+  > .toggler__header {
+    color: $state-info-text;
+    background: $state-info-bg;
+    text-shadow: 0 1px rgba(0, 0, 0, 0.2);
+
+    &:hover {
+      color: lighten($state-info-text, 5%);
+    }
+
+    &:active {
+      background: darken($gray-dark, 5%);
+    }
+
+  }
+
+  > .toggler__list {
+    color: $gray-lighter;
+    text-shadow: 0 -1px 1px darken($gray-darker, 25%);
+  }
+}
+
+.toggler--inverse {
+  background: $gray-darker;
+  > .toggler__header {
+    color: $gray-light;
+    background: $gray-dark;
+    text-shadow: 0 1px $gray-darker;
+
+    &:hover {
+      color: $gray-lighter;
+    }
+
+    &:active {
+      background: darken($gray-dark, 5%);
+    }
+  }
+
+  > .toggler__list {
+    color: $gray-lighter;
+    text-shadow: 0 -1px 1px darken($gray-darker, 25%);
+  }
+}

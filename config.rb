@@ -7,6 +7,8 @@ sass_dir = "src/styles"
 images_dir = "src/assets/img"
 additional_import_paths = ["src"]
 
+require 'animation'
+
 # You can select your preferred output style here (can be overridden via the command line):
 # output_style = :compressed
 

@@ -1,0 +1,31 @@
+<header class="module__header">
+    <h4>Log In</h4>
+</header>
+<div class="module__body">
+    <form class="form-horizontal">
+        <div alert ng-repeat="alert in loginAlerts" type="{{ alert.type }}">{{ alert.text }}</div>
+
+        <div class="form-group gutter-top">
+            <div class="control-label col-lg-2 col-md-2 col-sm-2">Email</div>
+            <div class="col-lg-9 col-md-9 col-sm-9">
+                <input type="text" tabindex="1" ng-model="creds.email" placeholder="Email" class="form-control">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="control-label col-lg-2 col-md-2 col-sm-2">Password</div>
+            <div class="col-lg-9 col-md-9 col-sm-9">
+                <input type="password" tabindex="2" class="form-control" ng-model="creds.password"
+                       placeholder="Password">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-lg-9 col-lg-offset-2 col-md-9 col-md-offset-2 col-sm-9 col-sm-offset-2">
+                <button class="btn btn-danger" type="submit" ng-click="login()">Sign in</button>
+                <button class="btn btn-danger" ng-click="forgotPassword()">Forgot Password
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

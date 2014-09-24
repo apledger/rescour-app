@@ -1,0 +1,243 @@
+//
+// Utility classes
+// --------------------------------------------------
+
+// Floats
+// -------------------------
+
+.clearfix {
+  @include clearfix;
+}
+
+.center-block {
+  @include center-block;
+}
+
+.inline-block {
+  display: inline-block;
+}
+
+.valign {
+  display: table;
+  height: 100%;
+  width: 100%;
+
+  > * {
+    display: table-cell;
+    vertical-align: middle;
+  }
+}
+
+.center-text {
+  text-align: center;
+}
+
+.right-text {
+  text-align: right;
+}
+
+.pull-right {
+  float: right !important;
+}
+
+.pull-left {
+  float: left !important;
+}
+
+.crosshair {
+  cursor: crosshair !important;
+}
+
+.max-height-150 {
+  max-height: 150px;
+  overflow: scroll;
+}
+
+.caps {
+  text-transform: uppercase;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.light {
+  font-weight: lighter;
+}
+
+.gutter {
+  margin: 20px;
+}
+
+.gutter-3-4-top {
+  margin-top: 15px;
+}
+
+.gutter-top {
+  margin-top: $grid-gutter-width !important;
+}
+
+.gutter-bottom {
+  margin-bottom: $grid-gutter-width !important;
+}
+
+.gutter-left {
+  margin-left: $grid-gutter-width !important;
+}
+
+.gutter-right {
+  margin-right: $grid-gutter-width !important;
+}
+
+.gutter-half-top {
+  margin-top: $grid-gutter-width/2 !important;
+}
+
+.gutter-half-bottom {
+  margin-bottom: $grid-gutter-width/2 !important;
+}
+
+.gutter-half-left {
+  margin-left: $grid-gutter-width/2 !important;
+}
+
+.gutter-half-right {
+  margin-right: $grid-gutter-width/2 !important;
+}
+
+.gutter-cancel {
+  margin: 0 !important;
+}
+
+.gutter-cancel-top {
+  margin-top: 0 !important;
+}
+
+.gutter-cancel-bottom {
+  margin-bottom: 0 !important;
+}
+
+.gutter-cancel-left {
+  margin-left: 0 !important;
+}
+
+.gutter-cancel-right {
+  margin-right: 0 !important;
+}
+
+.pad-cancel-top {
+  padding-top: 0 !important;
+}
+
+.pad-cancel-bottom {
+  padding-bottom: 0 !important;
+}
+
+.pad-cancel-left {
+  padding-left: 0 !important;
+}
+
+.pad-cancel-right {
+  padding-right: 0 !important;
+}
+
+.pad-x--1 {
+  padding-left: $grid-gutter-width;
+  padding-right: $grid-gutter-width;
+}
+
+.pad-y--1 {
+  padding-top: $grid-gutter-width;
+  padding-bottom: $grid-gutter-width;
+}
+
+.cancel-resize {
+  resize: none;
+}
+
+.break-word {
+  word-break: break-all;
+}
+
+// Toggling content
+// -------------------------
+
+// Note: Deprecated .hide in favor of .hidden or .sr-only (as appropriate) in v3.0.1
+.hide {
+  display: none !important;
+}
+
+.show {
+  @include show;
+}
+
+.invisible {
+  visibility: hidden;
+}
+
+.text-hide {
+  @include text-hide;
+}
+
+// Hide from screenreaders and browsers
+//
+// Credit: HTML5 Boilerplate
+
+.hidden {
+  @include hidden;
+}
+
+// For Affix plugin
+// -------------------------
+
+.affix {
+  position: fixed;
+}
+
+.divider {
+  @include nav-divider();
+}
+
+.fill-width {
+  width: 100% !important;
+}
+
+.container {
+  position: relative;
+}
+
+.abs-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
+
+.inner-container {
+  padding: $grid-gutter-width;
+}
+
+.inner-container-cancel {
+  padding: 0 !important;
+}
+
+.inner-half-container {
+  padding: $grid-gutter-width / 2;
+}
+
+.scroll-container {
+  height: 100%;
+  overflow: auto;
+  overflow-x: hidden;
+  position: relative;
+  @include box-sizing(border-box);
+}
+
+.z-1 {
+  z-index: 1;
+}
+
+.z-0 {
+  z-index: 0;
+}

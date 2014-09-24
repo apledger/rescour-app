@@ -9,7 +9,7 @@
 angular.module('rescour.mock', ['rescour.app', 'ngMockE2E'])
 // Dummy Calls
     .run(['$httpBackend', '$timeout', function ($httpBackend, $timeout) {
-        var NUM_ITEMS = 2096;
+        var NUM_ITEMS = 1000;
 
         var saved = {};
 
@@ -151,6 +151,7 @@ angular.module('rescour.mock', ['rescour.app', 'ngMockE2E'])
         ];
         var statusMap = ['Marketing', 'Under Contract', 'Under LOI', 'Expired', 'Marketing - Past Due', 'Sold'];
         var newsCategoryMap = ['Transactions', 'Future Development', 'Under Construction', 'Renovations', 'Newly Completed', 'Financing', 'Other'];
+        var pinTypeMap = ['News', 'School', 'Point of Interest', 'Employer'];
         var generateDetails = function (options) {
             var details = [
                 {
@@ -248,9 +249,10 @@ angular.module('rescour.mock', ['rescour.app', 'ngMockE2E'])
 
         var items = [],
             itemDetails = {},
-            news = [];
+            news = [],
+            pins = [];
 
-        function randomDate(start, end) {
+        function randomDate (start, end) {
             return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()))
         }
 
@@ -271,7 +273,7 @@ angular.module('rescour.mock', ['rescour.app', 'ngMockE2E'])
 
             items[k] = {
                 id: k.toString(),
-                thumbnail: "/img/apt" + parseInt((Math.random() * 19)+1, 10) + ".jpg",
+                thumbnail: "/assets/img/apt" + parseInt((Math.random() * 19) + 1, 10) + ".jpg",
                 flyer: "http://www.realtyjuggler.com/FlyersSummary",
                 title: randomDetails.title,
                 description: randomDetails.description,
@@ -300,31 +302,31 @@ angular.module('rescour.mock', ['rescour.app', 'ngMockE2E'])
                 ],
                 images: [
                     {
-                        id: '/img/apartment-details-1.jpg'
+                        id: '/assets/img/apartment-details-1.jpg'
                     },
                     {
-                        id: '/img/apartment-details-2.jpg'
+                        id: '/assets/img/apartment-details-2.jpg'
                     },
                     {
-                        id: '/img/apartment-details-3.jpg'
+                        id: '/assets/img/apartment-details-3.jpg'
                     },
                     {
-                        id: '/img/apartment-details-4.jpg'
+                        id: '/assets/img/apartment-details-4.jpg'
                     },
                     {
-                        id: '/img/apartment-details-5.jpg'
+                        id: '/assets/img/apartment-details-5.jpg'
                     },
                     {
-                        id: '/img/apartment-details-6.jpg'
+                        id: '/assets/img/apartment-details-6.jpg'
                     },
                     {
-                        id: '/img/apartment-details-7.jpg'
+                        id: '/assets/img/apartment-details-7.jpg'
                     },
                     {
-                        id: '/img/apartment-details-8.jpg'
+                        id: '/assets/img/apartment-details-8.jpg'
                     },
                     {
-                        id: '/img/apartment-details-9.jpg'
+                        id: '/assets/img/apartment-details-9.jpg'
                     }
                 ],
                 unitMix: [
@@ -383,6 +385,26 @@ angular.module('rescour.mock', ['rescour.app', 'ngMockE2E'])
                 url: "www.businessinsider.com",
                 category: newsCategoryMap[parseInt((Math.random() * newsCategoryMap.length), 10)],
                 id: k
+            }
+
+            if (k % 4) {
+                var randomPinCity = regionMap[parseInt((Math.random() * regionMap.length), 10)];
+                pins.push({
+                    title: 'Point of Interest ' + k,
+                    address: {
+                        street1: "152 Dummy St.",
+                        street2: "",
+                        zip: "30142",
+                        state: "GA",
+                        city: "Atlanta",
+                        latitude: Math.random() * 0.40 + randomPinCity.location[0] - 0.075,
+                        longitude: Math.random() * 0.28 + randomPinCity.location[1] - 0.115
+                    },
+                    body: "Body of Pin " + k,
+                    url: "www.cnn.com",
+                    type: pinTypeMap[parseInt((Math.random() * pinTypeMap.length), 10)],
+                    id: k
+                })
             }
         }
 
@@ -565,20 +587,20 @@ angular.module('rescour.mock', ['rescour.app', 'ngMockE2E'])
             return [200, { status: "success" }, {}];
         });
 
-//        $httpBackend.whenGET(/\/news\/(\?limit=)[0-9]+&(offset=)[0-9]+/).respond(function (method, url, data, headers) {
-//            var limit = parseInt(url.split("limit=")[1].split("&")[0]);
-//            var offset = parseInt(url.split("offset=")[1].split("&")[0]) + 1;
-//
-//            if (limit + offset > news.length) {
-//                return [200, news.slice(offset, news.length)]
-//            } else {
-//                return [200, news.slice(offset, offset + limit)]
-//            }
-//        });
+        $httpBackend.whenGET(/\/pins\/(\?limit=)[0-9]+/).respond(function (method, url, data, headers) {
+            var limit = parseInt(url.split("limit=")[1].split("&")[0]),
+                offset = parseInt(url.split("offset=")[1] ? url.split("offset=")[1].split("&")[0] : 0);
+
+            if (offset + limit + 1 < pins.length) {
+                return [200, pins.slice(offset === 0 ? 0 : offset + 1, offset + limit + 1)];
+            } else {
+                return [200, pins.slice(offset + 1, pins.length + 1)];
+            }
+        });
 
         $httpBackend.whenGET(/\/properties\/(\?limit=)[0-9]+/).respond(function (method, url, data, headers) {
             var limit = parseInt(url.split("limit=")[1].split("&")[0]),
-                offset =parseInt(url.split("offset=")[1] ? url.split("offset=")[1].split("&")[0] : 0);
+                offset = parseInt(url.split("offset=")[1] ? url.split("offset=")[1].split("&")[0] : 0);
 
             if (offset + limit + 1 < items.length) {
                 return [200, items.slice(offset === 0 ? 0 : offset + 1, offset + limit + 1)]
@@ -589,7 +611,7 @@ angular.module('rescour.mock', ['rescour.app', 'ngMockE2E'])
 
         $httpBackend.whenGET(/\/news\/(\?limit=)[0-9]+/).respond(function (method, url, data, headers) {
             var limit = parseInt(url.split("limit=")[1].split("&")[0]),
-                offset =parseInt(url.split("offset=")[1] ? url.split("offset=")[1].split("&")[0] : 0);
+                offset = parseInt(url.split("offset=")[1] ? url.split("offset=")[1].split("&")[0] : 0);
 
             if (offset + limit + 1 < news.length) {
                 return [200, news.slice(offset === 0 ? 0 : offset + 1, offset + limit + 1)]
@@ -600,40 +622,65 @@ angular.module('rescour.mock', ['rescour.app', 'ngMockE2E'])
 
         $httpBackend.whenGET(/\/hidden\/(\?limit=)[0-9]+/).respond(function (method, url, data, headers) {
             var limit = parseInt(url.split("limit=")[1].split("&")[0]),
-                offset =parseInt(url.split("offset=")[1] ? url.split("offset=")[1].split("&")[0] : 0);
+                offset = parseInt(url.split("offset=")[1] ? url.split("offset=")[1].split("&")[0] : 0);
 
             return [200, [], {}];
         });
 
         $httpBackend.whenGET(/\/favorites\/(\?limit=)[0-9]+/).respond(function (method, url, data, headers) {
             var limit = parseInt(url.split("limit=")[1].split("&")[0]),
-                offset =parseInt(url.split("offset=")[1] ? url.split("offset=")[1].split("&")[0] : 0);
+                offset = parseInt(url.split("offset=")[1] ? url.split("offset=")[1].split("&")[0] : 0);
 
             return [200, [], {}];
         });
 
         $httpBackend.whenGET(/\/comments\/(\?limit=)[0-9]+/).respond(function (method, url, data, headers) {
             var limit = parseInt(url.split("limit=")[1].split("&")[0]),
-                offset =parseInt(url.split("offset=")[1] ? url.split("offset=")[1].split("&")[0] : 0);
+                offset = parseInt(url.split("offset=")[1] ? url.split("offset=")[1].split("&")[0] : 0);
 
             return [200, [], {}];
         });
 
         $httpBackend.whenGET(/\/finances\/(\?limit=)[0-9]+/).respond(function (method, url, data, headers) {
             var limit = parseInt(url.split("limit=")[1].split("&")[0]),
-                offset =parseInt(url.split("offset=")[1] ? url.split("offset=")[1].split("&")[0] : 0);
+                offset = parseInt(url.split("offset=")[1] ? url.split("offset=")[1].split("&")[0] : 0);
 
-            return [200, [{
-                id: 'finance1',
-                propertyId: '1',
-                value: 5,
-                name: 'Cap Rate'
-            }], {}];
+            return [200, [
+                {
+                    id: 'finance1',
+                    propertyId: '1',
+                    value: 5,
+                    name: 'Cap Rate'
+                }
+            ], {}];
         });
 
-        $httpBackend.whenPOST(/\/finances\//).respond(function (method, url, data, headers) {
+        $httpBackend.whenGET(/\/custom_fields\//).respond(function (method, url, data, headers) {
             return [200, [], {}];
         });
+        $httpBackend.whenPUT(/\/custom_fields\//).respond(function (method, url, data, headers) {
+            return [200, [], {}];
+        });
+        $httpBackend.whenPOST(/\/custom_fields\//).respond(function (method, url, data, headers) {
+            return [200, [], {}];
+        });
+        $httpBackend.whenDELETE(/\/custom_fields\//).respond(function (method, url, data, headers) {
+            return [200, [], {}];
+        });
+
+        $httpBackend.whenGET(/\/custom_field_dimensions\//).respond(function (method, url, data, headers) {
+            return [200, [], {}];
+        });
+        $httpBackend.whenPUT(/\/custom_field_dimensions\//).respond(function (method, url, data, headers) {
+            return [200, [], {}];
+        });
+        $httpBackend.whenPOST(/\/custom_field_dimensions\//).respond(function (method, url, data, headers) {
+            return [200, [], {}];
+        });
+        $httpBackend.whenDELETE(/\/custom_field_dimensions\//).respond(function (method, url, data, headers) {
+            return [200, [], {}];
+        });
+
         $httpBackend.whenPOST(/\/favorites\//).respond(function (method, url, data, headers) {
             return [200, [], {}];
         });
@@ -644,9 +691,20 @@ angular.module('rescour.mock', ['rescour.app', 'ngMockE2E'])
             return [200, [], {}];
         });
 
-        $httpBackend.whenDELETE(/\/finances\//).respond(function (method, url, data, headers) {
+        $httpBackend.whenPOST(/\/pins\//).respond(function (method, url, data, headers) {
+            return [200, {
+                id: Date.now()
+            }, {}];
+        });
+        $httpBackend.whenPUT(/\/pins\//).respond(function (method, url, data, headers) {
+            return [200, {
+                id: url.split('/')[2]
+            }, {}];
+        });
+        $httpBackend.whenDELETE(/\/pins\//).respond(function (method, url, data, headers) {
             return [200, [], {}];
         });
+
         $httpBackend.whenDELETE(/\/favorites\//).respond(function (method, url, data, headers) {
             return [200, [], {}];
         });
@@ -656,10 +714,229 @@ angular.module('rescour.mock', ['rescour.app', 'ngMockE2E'])
         $httpBackend.whenDELETE(/\/comments/).respond(function (method, url, data, headers) {
             return [200, [], {}];
         });
+        $httpBackend.whenGET(/auth\//).respond(function (method, url, data, headers) {
+            return [200, {}, {}];
+        });
+        $httpBackend.whenPOST(/auth\//).respond(function (method, url, data, headers) {
+            return [200, {}, {}];
+        });
+        $httpBackend.whenPUT(/auth\//).respond(function (method, url, data, headers) {
+            return [200, {}, {}];
+        });
         $httpBackend.whenGET(/views\//).passThrough();
-        $httpBackend.whenGET(/partials\//).passThrough();
-        $httpBackend.whenGET(/template\//).passThrough();
-        $httpBackend.whenJSONP(/rentmetrics/).passThrough();
+        $httpBackend.whenGET(/assets\//).passThrough();
+        $httpBackend.whenGET(/templates\//).passThrough();
+        $httpBackend.whenJSONP(/rentmetrics/).respond(function (method, url, data, headers) {
+            return [200, {
+                "collection": [
+                    {
+                        "address": "500 Napa Valley Dr",
+                        "neighborhood": null,
+                        "city": "Little Rock",
+                        "zip_code": "72211-5001",
+                        "state": "AR",
+                        "latitude": 34.759152,
+                        "longitude": -92.411438,
+                        "distance_mi": 2.1835309954641913,
+                        "year_built": 1986,
+                        "features": [
+                            "office",
+                            "dogs",
+                            "laundry_in_unit",
+                            "cats",
+                            "alarm",
+                            "high_ceilings",
+                            "pool",
+                            "air_conditioning",
+                            "view",
+                            "gym",
+                            "fireplace",
+                            "tennis",
+                            "garden",
+                            "walk_in_closets"
+                        ],
+                        "owner": "MAA",
+                        "operator": "MAA",
+                        "name": "Calais Forest Apartments",
+                        "latest_prices": [
+                            {
+                                "bedrooms": 1,
+                                "full_bathrooms": 1,
+                                "partial_bathrooms": 0,
+                                "sq_ft": 565,
+                                "rent": 615,
+                                "rent_per_sq_ft": 1.0884955752212389,
+                                "eff_rent": 615,
+                                "eff_rent_per_sq_ft": 1.0884955752212389,
+                                "rent_posted_date": "2014-01-22",
+                                "concession_type": null,
+                                "concession_value": null
+                            }
+                        ]
+                    },
+                    {
+                        "address": "501 Napa Valley Dr",
+                        "neighborhood": "Walnut Valley",
+                        "city": "Little Rock",
+                        "zip_code": "72211-5002",
+                        "state": "AR",
+                        "latitude": 34.758968,
+                        "longitude": -92.411346,
+                        "distance_mi": 2.193213846555421,
+                        "year_built": 1961,
+                        "features": [
+                            "office",
+                            "laundry_in_unit",
+                            "dogs",
+                            "jacuzzi",
+                            "living_room",
+                            "cats",
+                            "pool",
+                            "pets",
+                            "extract_jacuzzi",
+                            "tub",
+                            "air_conditioning",
+                            "view",
+                            "gym",
+                            "fireplace",
+                            "garden",
+                            "dishwasher"
+                        ],
+                        "owner": "MAA",
+                        "operator": "MAA",
+                        "name": "Napa Valley Apartments",
+                        "latest_prices": [
+                            {
+                                "bedrooms": 2,
+                                "full_bathrooms": 2,
+                                "partial_bathrooms": 0,
+                                "sq_ft": 950,
+                                "rent": 710,
+                                "rent_per_sq_ft": 0.7473684210526316,
+                                "eff_rent": 710,
+                                "eff_rent_per_sq_ft": 0.7473684210526316,
+                                "rent_posted_date": "2014-01-22",
+                                "concession_type": null,
+                                "concession_value": null
+                            }
+                        ]
+                    },
+                    {
+                        "address": "4710 Sam Peck Rd",
+                        "neighborhood": "River Mountain",
+                        "city": "Little Rock",
+                        "zip_code": "72223-5000",
+                        "state": "AR",
+                        "latitude": 34.795561,
+                        "longitude": -92.414904,
+                        "distance_mi": 2.483423981801815,
+                        "year_built": 1995,
+                        "features": [
+                            "dogs",
+                            "laundry_in_unit",
+                            "patio",
+                            "cats",
+                            "pool",
+                            "counters_granite",
+                            "view",
+                            "gym",
+                            "fireplace",
+                            "walk_in_closets",
+                            "balcony",
+                            "storage"
+                        ],
+                        "owner": "MAA",
+                        "operator": "MAA",
+                        "name": "Westside Creek Apartments",
+                        "latest_prices": [
+                            {
+                                "bedrooms": 2,
+                                "full_bathrooms": 2,
+                                "partial_bathrooms": 0,
+                                "sq_ft": 1000,
+                                "rent": 725,
+                                "rent_per_sq_ft": 0.725,
+                                "eff_rent": 725,
+                                "eff_rent_per_sq_ft": 0.725,
+                                "rent_posted_date": "2014-01-25",
+                                "concession_type": null,
+                                "concession_value": null
+                            }
+                        ]
+                    },
+                    {
+                        "address": "512 Green Mountain Dr",
+                        "neighborhood": "Walnut Valley",
+                        "city": "Little Rock",
+                        "zip_code": "72211",
+                        "state": "AR",
+                        "latitude": 34.757953,
+                        "longitude": -92.400235,
+                        "distance_mi": 2.808139117127537,
+                        "year_built": null,
+                        "features": [
+                            "floor_carpet",
+                            "refrigerator",
+                            "ceiling_fan"
+                        ],
+                        "owner": null,
+                        "operator": null,
+                        "name": null,
+                        "latest_prices": [
+                            {
+                                "bedrooms": 2,
+                                "full_bathrooms": 2,
+                                "partial_bathrooms": 0,
+                                "sq_ft": 1060,
+                                "rent": 900,
+                                "rent_per_sq_ft": 0.8490566037735849,
+                                "eff_rent": 900,
+                                "eff_rent_per_sq_ft": 0.8490566037735849,
+                                "rent_posted_date": "2014-01-21",
+                                "concession_type": null,
+                                "concession_value": null
+                            }
+                        ]
+                    },
+                    {
+                        "address": "11114 Beverly Hills Dr",
+                        "neighborhood": "Walnut Valley",
+                        "city": "Little Rock",
+                        "zip_code": "72211-2815",
+                        "state": "AR",
+                        "latitude": 34.757153,
+                        "longitude": -92.397662,
+                        "distance_mi": 2.9642447638442504,
+                        "year_built": 1969,
+                        "features": [
+                            "dishwasher",
+                            "laundry_in_unit"
+                        ],
+                        "owner": null,
+                        "operator": null,
+                        "name": null,
+                        "latest_prices": [
+                            {
+                                "bedrooms": 2,
+                                "full_bathrooms": 1,
+                                "partial_bathrooms": 0,
+                                "sq_ft": 850,
+                                "rent": 625,
+                                "rent_per_sq_ft": 0.7352941176470589,
+                                "eff_rent": 625,
+                                "eff_rent_per_sq_ft": 0.7352941176470589,
+                                "rent_posted_date": "2014-01-29",
+                                "concession_type": null,
+                                "concession_value": null
+                            }
+                        ]
+                    }
+                ],
+                "total": 5,
+                "offset": 5,
+                "limit": 100
+            }, {}]
+        });
         $httpBackend.whenGET(/walkbitch/).respond(function (method, url, data, headers) {
             return [200, {
                 walkscore: 58,

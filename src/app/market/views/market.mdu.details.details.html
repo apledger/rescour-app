@@ -1,0 +1,289 @@
+<div class="row">
+    <div class="col-lg-12">
+        <div class="module module--bordered module--skinny">
+            <header class="module__header">
+                <h5>Details</h5>
+            </header>
+            <div class="module__body">
+                <table class="table table-striped">
+                    <tbody>
+                    <tr ng-if="activeMDU.hasAddress()">
+                        <td>
+                            <strong>Address</strong>
+                        </td>
+                        <td>
+                            <address>
+                                {{ activeMDU.address.street1 }} <br>
+                                <strong>{{ activeMDU.address.city }}, {{ activeMDU.address.state }}</strong> {{ activeMDU.address.zip }}
+                            </address>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Date Posted</strong>
+                        </td>
+                        <td>
+                            {{activeMDU.datePosted| date}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Status</strong>
+                        </td>
+                        <td>
+                            {{activeMDU.propertyStatus}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Broker</strong>
+                        </td>
+                        <td>
+                            {{activeMDU.broker}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Year Built</strong>
+                        </td>
+                        <td>
+                            {{activeMDU.yearBuilt}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Number of Units</strong>
+                        </td>
+                        <td>
+                            {{activeMDU.numberUnits}}
+                        </td>
+                    </tr>
+                    <tr ng-if="activeMDU.callForOffers">
+                        <td>
+                            <strong>Call for Offers</strong>
+                        </td>
+                        <td>
+                            {{activeMDU.callForOffers | date}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Type</strong>
+                        </td>
+                        <td>
+                            {{activeMDU.propertyType}}
+                        </td>
+                    </tr>
+                    <tr ng-if="activeMDU.acres">
+                        <td>
+                            <strong>Acres</strong>
+                        </td>
+                        <td>
+                            {{activeMDU.acres}}
+                        </td>
+                    </tr>
+                    <tr ng-if="activeMDU.price">
+                        <td>
+                            <strong>Price</strong>
+                        </td>
+                        <td>
+                            {{activeMDU.price}}
+                        </td>
+                    </tr>
+                    <tr ng-if="activeMDU.flyer">
+                        <td>
+                            <strong>Flyer</strong>
+                        </td>
+                        <td>
+                            <a target="_blank" ng-href="{{ activeMDU.flyer }}">View</a>
+                        </td>
+                    </tr>
+                    <tr ng-if="activeMDU.page">
+                        <td>
+                            <strong>Additional Documentation</strong>
+                        </td>
+                        <td>
+                            <a target="_blank" ng-href="{{ activeMDU.page }}">View</a>
+                        </td>
+                    </tr>
+                    <tr ng-if="activeMDU.site">
+                        <td>
+                            <strong>Additional Documentation</strong>
+                        </td>
+                        <td>
+                            <a target="_blank" ng-href="{{ activeMDU.site }}">View</a>
+                        </td>
+                    </tr>
+                    <tr ng-if="activeMDU.marketingUrl">
+                        <td>
+                            <strong>Marketing Url</strong>
+                        </td>
+                        <td>
+                            <a target="_blank" ng-href="{{ activeMDU.marketingUrl }}">View</a>
+                        </td>
+                    </tr>
+                    <tr ng-if="activeMDU.walkscore">
+                        <td>
+                            <strong><a href="http://www.walkscore.com/how-it-works.shtml" target="_blank">Walk Score</a>&reg;</a></strong>
+                        </td>
+                        <td>
+                            <a ng-href="{{activeMDU.walkscore.ws_link}}" target="_blank">{{activeMDU.walkscore.walkscore}}</a> ( {{activeMDU.walkscore.description}} )
+                        </td>
+                    </tr>
+                    <tr ng-if="activeMDU.portfolio.length">
+                        <td>
+                            <strong>Portfolio</strong>
+                        </td>
+                        <td>
+                            <ul>
+                                <li ng-repeat="listing in activeMDU.portfolio">{{listing.title}}</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div ng-class="{'col-lg-12': user.customFieldDimensions.length, 'col-lg-6': !user.customFieldDimensions.length}">
+        <div class="module module--bordered module--skinny">
+            <header class="module__header">
+                <h5>Pipeline Fields
+                    <i ng-click="openCustomFieldDimensionsModal()"
+                       class="pull-right fa fa-cog icon-action"></i>
+                </h5>
+            </header>
+            <div class="module__body">
+                <table class="table table-striped">
+                    <tbody>
+                    <tr ng-repeat="customFieldDimension in user.customFieldDimensions">
+                        <td>
+                            <strong>{{ customFieldDimension.title }}</strong>
+                        </td>
+                        <td>
+                            <input type="text" class="table-input"
+                                   placeholder="Click to Edit"
+                                   ng-model="getCustomField(activeMDU, customFieldDimension).title"
+                                   ng-blur="getCustomField(activeMDU, customFieldDimension).save()"/>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6" ng-if="!user.customFieldDimensions.length">
+        <div class="callout callout--right callout--info">
+           <h5 class="gutter-half-bottom"><i class="fa fa-question-circle pull-right"></i> Add Custom Fields to your Pipeline.  Ex:</h5>
+            <div class="row">
+                <ul class="col-lg-6">
+                    <li>Cap Rate</li>
+                    <li>Valuation</li>
+                    <li>Pipeline Status</li>
+                </ul>
+                <ul class="col-lg-6">
+                    <li>IRR</li>
+                    <li>ROI</li>
+                    <li>Price / Unit</li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div ng-class="{'col-lg-8': activeMDU.tourDates.length, 'col-lg-12': !activeMDU.tourDates.length}" class="col-md-12 col-sm-12">
+        <div class="module module--bordered module--skinny">
+            <header class="module__header">
+                <h5>Description</h5>
+            </header>
+            <div class="module__body">
+                <p>{{ activeMDU.description }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4 col-md-12 col-sm-12" ng-if="activeMDU.tourDates.length">
+        <div class="module module--bordered module--skinny">
+            <header class="module__header">
+                <h5>Tour Dates</h5>
+            </header>
+            <div class="module__body">
+                <table class="table table-striped">
+                    <tbody>
+                    <tr ng-repeat="tourDate in activeMDU.tourDates">
+                        <td>
+                            {{tourDate.date | date}}
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" ng-if="activeMDU.unitMixes.length">
+    <div class="col-lg-12">
+        <div class="module module--bordered module--skinny">
+            <header class="module__header">
+                <h5>Unit Mix</h5>
+            </header>
+            <div class="module__body">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Units</th>
+                        <th>Sq Ft</th>
+                        <th>Rent</th>
+                        <th>Rent / Sq Ft</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="mix in activeMDU.unitMixes">
+                        <td>
+                            {{mix.type}}
+                        </td>
+                        <td>
+                            {{mix.units}}
+                        </td>
+                        <td>
+                            {{mix.sqft}}
+                        </td>
+                        <td>
+                            {{mix.rent && (mix.rent | currency) || ""}}
+                            <!--{{mix.rent | currency}}-->
+                        </td>
+                        <td>
+                            {{getRentPerSqFt(mix) && (getRentPerSqFt(mix) | currency) || ""}}
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" ng-if="activeMDU.comps.length">
+    <div class="col-lg-12">
+        <div class="module module--bordered module--skinny">
+            <header class="module__header">
+                <h5>Comps</h5>
+            </header>
+            <div class="module__body">
+                <blockquote ng-repeat="comp in activeMDU.comps">
+                    <h5 class="gutter-half-bottom">{{ comp.title }}</h5>
+                    <p>{{ comp.body }}</p>
+                    <small class="gutter-half-top"><cite><a href="{{ comp.link }}" target="_blank">View Source</a></cite></small>
+                </blockquote>
+            </div>
+        </div>
+    </div>
+</div>

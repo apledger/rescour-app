@@ -1,0 +1,20 @@
+<div class="row" ng-if="!activeMDU.images.length">
+    <div class="col-lg-12">
+        <div class="alert alert-info">
+            Sorry! It appears we are missing pictures for this listing
+        </div>
+    </div>
+</div>
+
+<div class="row" ng-repeat="imageRow in imageRows" ng-if="activeMDU.images.length">
+    <div class="col-lg-3 col-md-6 col-sm-12" ng-repeat="image in imageRow">
+        <div class="module">
+            <div class="preview" ng-click="openCarouselModal(activeMDU.images, image)">
+                <div class="preview__mask">
+                    <i class="fa fa-search"></i>
+                </div>
+                <img class="preview__img" ng-src="{{ activeMDU.imagePath + image.id }}" alt=""/>
+            </div>
+        </div>
+    </div>
+</div>

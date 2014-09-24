@@ -1,19 +1,69 @@
+/** Armoire Specific Variables **/
+
+$market-filter-width: 245px;
+$market-list-width: 402px;
+$header-height: 60px;
+
+/** Vendor **/
+
 @import "compass";
 @import "compass/reset";
-@import "compass_twitter_bootstrap";
-@import "rescour_variables";
-@import "app/market/styles/market";
-@import "app/login/styles/login";
-@import "app/account/styles/account";
-@import "header";
-@import "footer";
-@import "ngform";
-@import "core/powers/powers";
-@import "input_dropdown";
-@import "thotpod_btn";
+@import "animation";
+@import "animation/animate";
+@import "animation/animate/classes";
+@import "components/font-awesome/scss/font-awesome";
+@import "components/hint.css/src/hint";
+
+/** Rescour Global **/
+
+@import "common";
+
+/** Armoire Specific **/
+
+@import "map";
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
+
+body {
+  margin: 0;
+  font-family: $font-family-sans-serif;
+  font-size: $font-size-base;
+  line-height: $line-height;
+  color: $text-color;
+  background:  $body-bg;
+  //overflow-x: hidden;
+  overflow:hidden;
+  //overflow-y: auto;
+}
+
+/** Loading Screen **/
 
 .loading-background {
-  position: absolute; left: 0px; top: 0px; bottom:0px; right: 0px; background: $light-gray; z-index: 5;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  bottom: 0px;
+  right: 0px;
+  z-index: 5;
+  background: $body-bg;
+  @include animation(fadeIn 1s ease);
+
+  &::after {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    bottom: 0px;
+    right: 0px;
+    content: '';
+    z-index: 6;
+    @include background-image(radial-gradient(center, ellipse cover,  rgba(0,0,0,0) 0%,rgba(99,103,105,0.45) 100%));
+  }
+
+  &.ng-hide-add {
+    @include animation(fadeOut 1s ease);
+  }
 }
 
 .loading-container {
@@ -25,94 +75,15 @@
   margin-left: -200px;
   margin-top: -100px;
   text-align: center;
-
-  h4 {
-    text-transform: uppercase;
-    font-weight: normal;
-    font-size: 24px;
-    color: $gray;
-  }
-
-  p {
-    margin-top: 10px;
-    font-size: 14px;
-    color: lighten($gray, 10%);
-  }
-
-  .loading-icon {
-    text-shadow: #666 0 -1px 0;
-    color: $gray;
-  }
-
-  .failure-icon {
-    text-shadow: darken($red, 25%) 0 -1px 0;
-    color: $red;
-    margin-bottom: 1em;
-  }
 }
 
-.origami-left {
-  position: absolute;
-  top: 0;
-  left: 0;
-  background: url(/img/origami_left.png) top left no-repeat;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-}
-
-.origami-right {
-  position: absolute;
-  top: 0;
-  right: 0;
-  background: url(/img/origami_right.png) top right no-repeat;
-  width: 817px;
-  height: 547px;
-  z-index: -1;
-}
-
-
-[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
-  display: none;
-}
-
-header, section, footer {
-  display: block;
-}
-
-body {
-  min-height: 100%;
-  margin: 0;
-  font-size: 14px;
-  line-height: 20px;
-  color: $dark-gray;
-  background-color: $grayLighter;
-}
-
-#Wrapper {
-  position: relative;
-  width: 100%;
-  min-height: 100%;
-  background-color: $light-gray;
-}
-
-.main-container {
-  position: absolute;
-  top: 4px;
-  left: 0;
-  right: 0;
-  bottom: $footerHeight;
-}
-
-.yellow {
-  color: $yellow;
-}
-
-.red {
-  color: $red;
+.account {
+  @extend .market;
+  overflow: scroll;
 }
 
 /* Scroll Bar */
+
 ::-webkit-scrollbar, ::-webkit-scrollbar {
   width: 7px;
   height: 7px;
@@ -120,7 +91,8 @@ body {
 }
 
 ::-webkit-scrollbar-thumb, ::-webkit-scrollbar-thumb {
-  background-color: darken($grayLight, 20%);
+  background-color: $gray-dark;
+
   @include border-radius(5px);
   @include box-shadow(rgba(0, 0, 0, 0.05) -1px 0 7px inset);
 }
@@ -133,72 +105,41 @@ body {
   display: none;
 }
 
+/** Hint Branding **/
 
-.status-expired-gradient {
-  @include tpBtnBg($btnDangerBackground);
+.hint--primary {
+  @include hint-type($gray-darker);
 }
 
-.status-marketing-gradient {
-  @include tpBtnBg($btnSuccessBackground);
+.hint--success {
+  @include hint-type($brand-success);
 }
 
-.status-under-gradient {
-  @include tpBtnBg($btnWarningBackground);
+.hint--error {
+  @include hint-type($brand-danger);
 }
 
-.status-unknown-gradient {
-  @include tpBtnBg($btnInverseBackground);
+.hint--info {
+  @include hint-type($brand-primary);
 }
 
-
-.status-expired-solid {
-  background: $red !important;
-}
-
-.status-marketing-solid {
-  background: $green !important;
-}
-
-.status-under-solid {
-  background: $orange !important;
-}
-
-.status-unknown-solid {
-  background: $grayDark !important;
-}
-
-.status-expired-text {
-  color: $red !important;
-}
-
-.status-marketing-text {
-  color: $green !important;
-}
-
-.status-under-text {
-  color: $orange !important;
-}
-
-.status-unknown-text {
-  color: $grayLight !important;
-}
-
-
-.leaflet-label-overlay {
-  color: white;
-  font-size: 18px;
-  line-height:0px;
-  margin-top: 9px;
-  position: absolute;
-}
-
-.modal-footer {
-  a {
-    cursor: pointer;
-    margin-right: 15px;
+.hint--top {
+  &::before {
+    margin-left: -6px;
   }
 }
 
-.icon-button {
-  @include tp-icon-btn($gray);
+/** Loading Bar Branding **/
+
+#loading-bar .bar {
+  background: $brand-danger;
+}
+
+#loading-bar .peg {
+  @include box-shadow(none !important);
+  @include box-shadow(#{0 0 10px $brand-primary, 0 0 5px $brand-primary});
+}
+
+#IntercomDefaultWidget {
+  bottom: 40px !important;
 }

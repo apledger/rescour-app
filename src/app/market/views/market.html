@@ -1,0 +1,29 @@
+<header class="main-header" ng-controller="AppCtrl">
+    <a ng-click="globalReset()" class="main-logo">
+        <img class="main-logo__img" src="/assets/img/logo-fitted.png" alt="REscour"/>
+    </a>
+    <ul class="header-nav">
+        <li class="header-nav__item">
+            <div class="search">
+                <span class="input-prepend-btn"><i class="fa fa-search"></i></span>
+                <input class="search__input" ng-model="searchText.title" placeholder="Search by Title" type="text"/>
+            </div>
+        </li>
+        <li class="header-nav__item header-nav__item--large">
+            <div class="switch-toggle switch-candy">
+                <input id="mapSwitch" name="view" type="radio" ng-checked="$state.current.data.view == 'map'">
+                <label for="mapSwitch" ng-click="$state.go('market.mdu.list.map')">Map</label>
+
+                <input id="reportSwitch" name="view" type="radio" ng-checked="$state.current.data.view == 'report'">
+                <label for="reportSwitch" ng-click="$state.go('market.mdu.report.grid')">Report</label>
+                <a></a>
+            </div>
+        </li>
+    </ul>
+    <ul class="header-nav pull-right">
+        <li class="header-nav__item header-nav__item--active"><a href="/market">Market</a></li>
+        <li class="header-nav__item hint--left" data-hint="Account"><a href="/account"><i class="fa fa-user header-nav__icon-btn"></i></a></li>
+        <li class="header-nav__item hint--left" data-hint="Logout"><a href="/logout"><i class="fa fa-power-off header-nav__icon-btn"></i></a></li>
+    </ul>
+</header>
+<div ui-view autoscroll="false"></div>

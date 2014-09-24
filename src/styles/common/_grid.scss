@@ -1,0 +1,342 @@
+//
+// Grid system
+// --------------------------------------------------
+
+
+// Grid System
+// -----------
+
+// Centered container element
+@mixin container-fixed() {
+  margin-right: auto;
+  margin-left: auto;
+  padding-left:  ($grid-gutter-width / 2);
+  padding-right: ($grid-gutter-width / 2);
+  padding-top: $grid-gutter-width;
+  @include clearfix;
+}
+
+// Generate the extra small columns
+@mixin make-xs-column($columns, $gutter: $grid-gutter-width) {
+  position: relative;
+  float: left;
+  width: percentage(($columns / $grid-columns));
+// Prevent columns from collapsing when empty
+  min-height: 1px;
+// Inner gutter via padding
+  padding-left:  ($gutter / 2);
+  padding-right: ($gutter / 2);
+}
+
+// Generate the small columns
+@mixin make-sm-column($columns, $gutter: $grid-gutter-width) {
+  position: relative;
+// Prevent columns from collapsing when empty
+  min-height: 1px;
+// Inner gutter via padding
+  padding-left:  ($gutter / 2);
+  padding-right: ($gutter / 2);
+
+// Calculate width based on number of columns available
+  @media (min-width: $screen-sm-min) {
+    float: left;
+    width: percentage(($columns / $grid-columns));
+  }
+}
+
+// Generate the small column offsets
+@mixin make-sm-column-offset($columns) {
+  @media (min-width: $screen-sm-min) {
+    margin-left: percentage(($columns / $grid-columns));
+  }
+}
+@mixin make-sm-column-push($columns) {
+  @media (min-width: $screen-sm-min) {
+    left: percentage(($columns / $grid-columns));
+  }
+}
+@mixin make-sm-column-pull($columns) {
+  @media (min-width: $screen-sm-min) {
+    right: percentage(($columns / $grid-columns));
+  }
+}
+
+// Generate the medium columns
+@mixin make-md-column($columns, $gutter: $grid-gutter-width) {
+  position: relative;
+// Prevent columns from collapsing when empty
+  min-height: 1px;
+// Inner gutter via padding
+  padding-left:  ($gutter / 2);
+  padding-right: ($gutter / 2);
+
+// Calculate width based on number of columns available
+  @media (min-width: $screen-md-min) {
+    float: left;
+    width: percentage(($columns / $grid-columns));
+  }
+}
+
+// Generate the medium column offsets
+@mixin make-md-column-offset($columns) {
+  @media (min-width: $screen-md-min) {
+    margin-left: percentage(($columns / $grid-columns));
+  }
+}
+@mixin make-md-column-push($columns) {
+  @media (min-width: $screen-md) {
+    left: percentage(($columns / $grid-columns));
+  }
+}
+@mixin make-md-column-pull($columns) {
+  @media (min-width: $screen-md-min) {
+    right: percentage(($columns / $grid-columns));
+  }
+}
+
+// Generate the large columns
+@mixin make-lg-column($columns, $gutter: $grid-gutter-width) {
+  position: relative;
+// Prevent columns from collapsing when empty
+  min-height: 1px;
+// Inner gutter via padding
+  padding-left:  ($gutter / 2);
+  padding-right: ($gutter / 2);
+
+// Calculate width based on number of columns available
+  @media (min-width: $screen-lg-min) {
+    float: left;
+    width: percentage(($columns / $grid-columns));
+  }
+}
+
+// Generate the large column offsets
+@mixin make-lg-column-offset($columns) {
+  @media (min-width: $screen-lg-min) {
+    margin-left: percentage(($columns / $grid-columns));
+  }
+}
+@mixin make-lg-column-push($columns) {
+  @media (min-width: $screen-lg-min) {
+    left: percentage(($columns / $grid-columns));
+  }
+}
+@mixin make-lg-column-pull($columns) {
+  @media (min-width: $screen-lg-min) {
+    right: percentage(($columns / $grid-columns));
+  }
+}
+
+// Framework grid generation
+//
+// Used only by Sass Bootstrap to generate the correct number of grid classes given
+// any value of `$grid-columns`.
+
+// Generate selector arrays
+//
+$cols-all:       comma-list();
+$cols-xs:        comma-list();
+$cols-sm:        comma-list();
+$cols-md:        comma-list();
+$cols-lg:        comma-list();
+
+$cols-xs-push:   comma-list();
+$cols-sm-push:   comma-list();
+$cols-md-push:   comma-list();
+$cols-lg-push:   comma-list();
+
+$cols-xs-pull:   comma-list();
+$cols-sm-pull:   comma-list();
+$cols-md-pull:   comma-list();
+$cols-lg-pull:   comma-list();
+
+$cols-xs-offset: comma-list();
+$cols-sm-offset: comma-list();
+$cols-md-offset: comma-list();
+$cols-lg-offset: comma-list();
+
+// Base column classes span from 1-12
+@for $column from 1 through $grid-columns {
+  $cols-xs: append($cols-xs, unquote(".col-xs-#{$column}"), comma);
+  $cols-sm: append($cols-sm, unquote(".col-sm-#{$column}"), comma);
+  $cols-md: append($cols-md, unquote(".col-md-#{$column}"), comma);
+  $cols-lg: append($cols-lg, unquote(".col-lg-#{$column}"), comma);
+
+// last one
+  @if $column == $grid-columns {
+    $cols-groups: $cols-xs, $cols-sm, $cols-md, $cols-lg;
+    @each $group in $cols-groups {
+      $cols-all: append($cols-all, $group, comma);
+    }
+  }
+}
+
+// Push / pull / offset classes span from 0-12
+@for $column from 0 through $grid-columns {
+// Push
+  $cols-xs-push:   append($cols-xs-push,    unquote(".col-xs-push-#{$column}"),   comma);
+  $cols-sm-push:   append($cols-sm-push,    unquote(".col-sm-push-#{$column}"),   comma);
+  $cols-md-push:   append($cols-md-push,    unquote(".col-md-push-#{$column}"),   comma);
+  $cols-lg-push:   append($cols-lg-push,    unquote(".col-lg-push-#{$column}"),   comma);
+
+// Pull
+  $cols-xs-pull:   append($cols-xs-pull,    unquote(".col-xs-pull-#{$column}"),   comma);
+  $cols-sm-pull:   append($cols-sm-pull,    unquote(".col-sm-pull-#{$column}"),   comma);
+  $cols-md-pull:   append($cols-md-pull,    unquote(".col-md-pull-#{$column}"),   comma);
+  $cols-lg-pull:   append($cols-lg-pull,    unquote(".col-lg-pull-#{$column}"),   comma);
+
+// Offset
+  $cols-xs-offset: append($cols-xs-offset,  unquote(".col-xs-offset-#{$column}"), comma);
+  $cols-sm-offset: append($cols-sm-offset,  unquote(".col-sm-offset-#{$column}"), comma);
+  $cols-md-offset: append($cols-md-offset,  unquote(".col-md-offset-#{$column}"), comma);
+  $cols-lg-offset: append($cols-lg-offset,  unquote(".col-lg-offset-#{$column}"), comma);
+}
+
+@mixin make-grid-columns($cols: $cols-all) {
+// Common styles for all sizes of grid columns, widths 1-12
+  @debug #{$cols};
+  #{$cols} {
+    position: relative;
+    // Prevent columns from collapsing when empty
+    min-height: 1px;
+    // Inner gutter via padding
+    //padding-left:  ($grid-gutter-width / 2);
+    //padding-right: ($grid-gutter-width / 2);
+  }
+}
+
+@mixin make-grid-columns-float($class) {
+  $cols-floats: comma-list();
+  @for $column from 1 through ($grid-columns - 1) {
+    $cols-floats: append($cols-floats, unquote(".col-#{$class}-#{$column}"), comma);
+  }
+// 1-11 only (12 doesn't float b/c its full-width)
+  #{$cols-floats} {
+    float: left;
+  }
+}
+
+@mixin calc-grid($column, $class, $type) {
+  $type-class: if($type == width, "-", "-#{$type}-");
+  .col-#{$class}#{$type-class}#{$column} {
+    @if $type == width {
+      width: if($column == $grid-columns, 100%, percentage(($column / $grid-columns)));
+    } @else if $type == push {
+      left: if($column == 0, auto, percentage(($column / $grid-columns)));
+    } @else if $type == pull {
+      right: if($column == 0, auto, percentage(($column / $grid-columns)));
+    } @else if $type == offset {
+      margin-left: if($column == 0, 0, percentage(($column / $grid-columns)));
+    } @else {
+      @warn "Invalid $type parameter passed to @mixin calc-grid().\nExpected: width, push, pull, offset\nActual: #{$type}";
+    }
+
+  }
+}
+
+@mixin make-grid($columns, $class, $type) {
+// widths start at .col-#{$class}-1, offsets/push/pull start at 0
+  $start: if($type == width, 1, 0);
+  @for $column from $start through $columns {
+    @include calc-grid($column, $class, $type);
+  }
+}
+
+//
+// Grid system
+// --------------------------------------------------
+
+
+// Set the container width, and override it for fixed navbars in media queries
+.container {
+  @include container-fixed;
+}
+
+// mobile first defaults
+.row {
+  @include make-row;
+  [class*="col-"] {
+    padding-left:  ($grid-gutter-width / 2);
+    padding-right: ($grid-gutter-width / 2);
+    @include box-sizing(border-box);
+  }
+}
+
+// Common styles for all grid column sizes
+@include make-grid-columns;
+
+
+// Extra small grid
+//
+// Grid classes for extra small devices like smartphones. No offset, push, or
+// pull classes are present here due to the size of the target.
+//
+// Note that `.col-xs-12` doesn't get floated on purpose--there's no need since
+// it's full-width.
+
+@include make-grid-columns-float(xs);
+@include make-grid($grid-columns, xs, width);
+@include make-grid($grid-columns, xs, pull);
+@include make-grid($grid-columns, xs, push);
+@include make-grid($grid-columns, xs, offset);
+
+
+// Small grid
+//
+// Columns, offsets, pushes, and pulls for the small device range, from phones
+// to tablets.
+//
+// Note that `.col-sm-12` doesn't get floated on purpose--there's no need since
+// it's full-width.
+
+@media (min-width: $screen-sm-min) {
+  .container {
+    width: $container-sm;
+  }
+
+  @include make-grid-columns-float(sm);
+  @include make-grid($grid-columns, sm, width);
+  @include make-grid($grid-columns, sm, pull);
+  @include make-grid($grid-columns, sm, push);
+  @include make-grid($grid-columns, sm, offset);
+}
+
+
+// Medium grid
+//
+// Columns, offsets, pushes, and pulls for the desktop device range.
+//
+// Note that `.col-md-12` doesn't get floated on purpose--there's no need since
+// it's full-width.
+
+@media (min-width: $screen-md-min) {
+  .container {
+    width: $container-md;
+  }
+
+  @include make-grid-columns-float(md);
+  @include make-grid($grid-columns, md, width);
+  @include make-grid($grid-columns, md, pull);
+  @include make-grid($grid-columns, md, push);
+  @include make-grid($grid-columns, md, offset);
+}
+
+
+// Large grid
+//
+// Columns, offsets, pushes, and pulls for the large desktop device range.
+//
+// Note that `.col-lg-12` doesn't get floated on purpose--there's no need since
+// it's full-width.
+
+@media (min-width: $screen-lg-min) {
+  .container {
+    width: $container-lg;
+  }
+
+  @include make-grid-columns-float(lg);
+  @include make-grid($grid-columns, lg, width);
+  @include make-grid($grid-columns, lg, pull);
+  @include make-grid($grid-columns, lg, push);
+  @include make-grid($grid-columns, lg, offset);
+}

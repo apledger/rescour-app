@@ -1,0 +1,31 @@
+.icon-nav {
+  font-size: 0;
+  margin: 0 $grid-gutter-width / 2;
+
+  > li {
+    position: relative;
+    color: $gray;
+    cursor: pointer;
+    line-height: 30px;
+    font-weight: normal;
+    display: inline-block;
+    margin-right: $grid-gutter-width / 2;
+    font-size: 13px;
+
+    &:hover {
+      color: $gray;
+    }
+  }
+}
+
+.icon-nav--small {
+  > li {
+    > i {
+      font-size: 14px;
+    }
+
+    > span {
+      font-size: 12px;
+    }
+  }
+}

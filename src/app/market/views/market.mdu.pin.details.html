@@ -1,0 +1,154 @@
+<div class="row">
+    <div class="col-lg-12">
+        <div ng-repeat="alert in pinAlerts" alert type="{{ alert.type }}">{{ alert.msg }}</div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6 col-md-6">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="module module--bordered module--skinny">
+                    <header class="module__header">
+                        <h5>Overview</h5>
+                    </header>
+                    <div class="module__body">
+                        <form>
+                            <div class="row">
+                                <div class="form-group col-lg-6">
+                                    <label class="control-label">Title</label>
+                                    <input class="form-control" type="text" required ng-model="activePin.title"/>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label class="control-label">Type</label>
+                                    <div class="input-dropdown dropdown clearfix gutter-cancel">
+                                        <input class="input-dropdown__input" ng-model="activePin.type" typeahead="type for type in pinTypeahead | filter:$viewValue | limitTo:8" typeahead-editable="false"/>
+                                        <div class="input-dropdown__btn input-dropdown__btn--right input-dropdown__btn--toggle" dropdown-toggle>
+                                            <i class="fa fa-caret-down"></i>
+                                        </div>
+                                        <ul class="dropdown__list">
+                                            <li ng-repeat="type in pinTypes" ng-click="selectPinType(type)" ng-class="{'active': type.title == activePin.type}">
+                                                <a href="javascript:"><i class="fa" ng-class="type.icon"></i>{{ type.title }}</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-lg-12">
+                                    <label class="control-label">URL</label>
+                                    <input class="form-control" type="text" required ng-model="activePin.url"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-lg-12">
+                                    <label class="control-label">Description</label>
+                                    <textarea class="form-control" type="text" required ng-model="activePin.description"></textarea>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="module module--bordered module--skinny">
+                    <header class="module__header">
+                        <h5>{{ activePin.type + ' ' || 'Additional ' }}Details</h5>
+                    </header>
+                    <div class="module__body">
+                        <form>
+                            <div class="row" ng-repeat="field in pinTypes[activePin.type].fields | orderBy:'-weight'">
+                                <div class="form-group col-lg-12">
+                                    <label class="control-label">{{ field.title }}</label>
+                                    <div ng-switch="field.type">
+                                        <input ng-switch-default class="form-control" type="text" ng-model="activePin[field.key]"/>
+                                        <textarea ng-switch-when="textarea" class="form-control" type="text" ng-model="activePin[field.key]"></textarea>
+                                        <div class="input-dropdown dropdown clearfix gutter-cancel" ng-switch-when="dropdown">
+                                            <input class="input-dropdown__input" ng-model="activePin[field.key]" typeahead="option for option in field.options | filter:$viewValue | limitTo:8" typeahead-editable="false"/>
+                                            <div class="input-dropdown__btn input-dropdown__btn--right input-dropdown__btn--toggle" dropdown-toggle>
+                                                <i class="fa fa-caret-down"></i>
+                                            </div>
+                                            <ul class="dropdown__list">
+                                                <li ng-repeat="option in field.options" ng-click="activePin[field.key] = option" ng-class="{'active': option == activePin[field.key]}">
+                                                    <a href="javascript:">{{ option }}</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="btn btn--block btn-danger" ng-click="openConfirmDeletePinModal(activePin)">
+                    Delete Pin
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6 col-md-6 z-1">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="module module--skinny module--bordered">
+                    <header class="module__header">
+                        <h5>Map</h5>
+                    </header>
+                    <div class="module__body inner-container-cancel" square>
+                        <div pin-map></div>
+                        <div class="pin-map-overlay" ng-if="activePin.hasNoLocation()">
+                            <div class="valign">
+                                <h4 class="caps text-color--white center-text">
+                                    Please Enter an Address
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="module module--bordered module--skinny">
+                    <header class="module__header">
+                        <h5>Address</h5>
+                    </header>
+                    <div class="module__body">
+                        <form>
+                            <div class="row">
+                                <div class="form-group col-lg-12">
+                                    <label class="control-label">Street</label>
+                                    <input class="form-control" type="text" ng-model="activePin.address.street1"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-lg-4">
+                                    <label class="control-label">City</label>
+                                    <input class="form-control" type="text" ng-model="activePin.address.city"/>
+                                </div>
+                                <div class="form-group col-lg-4">
+                                    <label class="control-label">State</label>
+                                    <input class="form-control" type="text" ng-model="activePin.address.state"/>
+                                </div>
+                                <div class="form-group col-lg-4">
+                                    <label class="control-label">Zip</label>
+                                    <input class="form-control" type="text" ng-model="activePin.address.zip"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group gutter-cancel-bottom col-lg-12">
+                                    <button class="btn btn--block" ng-click="geocode(activePin)">Find It</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

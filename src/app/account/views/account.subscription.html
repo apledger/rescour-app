@@ -1,0 +1,114 @@
+<div class="module module--bordered" ng-controller="AccountSubscriptionCtrl">
+    <header class="module__header">
+        <h5>Subscribe today to find more deals and improve your productivity</h5>
+    </header>
+    <div class="module__body">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="module module--skinny module--info module--triangle-left">
+                    <header class="module__header">
+                        <h6>Questions?</h6>
+                    </header>
+                    <div class="module__body">
+                        <p>Head over to the <a href="/account/faq"><strong>Frequently Asked Questions</strong></a> section, check out the <a
+                                href="http://demo.rescour.com" target="_blank"><strong>demo application</strong></a>, email us at <a href="mailto:info@rescour.com"><strong>info@rescour.com</strong></a>, or call us at <strong>1-(888)-237-0445</strong></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 col-md-12 col-sm-12">
+                <div class="plan plan-success">
+                    <h3 class="plan__header">Individual</h3>
+
+                    <div class="plan__price">
+                        <div class="amount">
+                            <span class="currency">$</span><span class="currency-amount">449</span>
+
+                            <div class="period">Monthly</div>
+                        </div>
+                    </div>
+                    <ul class="plan__list">
+                        <li><i class="fa fa-check"></i> Access for 1 user</li>
+                        <li><i class="fa fa-plus"></i> $125/additional user/month</li>
+                        <li><i class="fa fa-check"></i> Billed monthly</li>
+                    </ul>
+                    <footer class="plan__footer">
+                        <div href="javascript:" ng-if="!user.isAdmin && !user.isGoodStanding" ng-click="addSubscription('individual')"
+                             class="btn btn-success">Start 7 Day Trial
+                        </div>
+                        <div href="javascript:" ng-if="user.isGoodStanding || user.isAdmin"
+                             ng-click="openCancelDialog()"
+                             class="btn btn-danger">Cancel Subscription
+                        </div>
+                    </footer>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-12 col-sm-12">
+                <div class="plan plan-gray">
+                    <h3 class="plan__header">Group</h3>
+
+                    <div class="plan__price">
+                        <div class="amount">
+                            <span class="currency">$</span><span class="currency-amount">599</span>
+
+                            <div class="period">Monthly</div>
+                        </div>
+                    </div>
+                    <ul class="plan__list">
+                        <li><i class="fa fa-check"></i> Access for up to 3 users</li>
+                        <li><i class="fa fa-plus"></i> $100/additional user/month</li>
+                        <li><i class="fa fa-check"></i> Billed monthly</li>
+                    </ul>
+                    <footer class="plan__footer">
+                        <div class="btn btn-inverse disabled plan-submit">
+                            Coming Soon
+                        </div>
+                    </footer>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 col-md-12 col-sm-12">
+                <div class="plan plan-gray">
+                    <h3 class="plan__header">Enterprise</h3>
+
+                    <div class="plan__price">
+                        <div class="amount">
+                            <span class="currency">$</span><span class="currency-amount">799</span>
+
+                            <div class="period">Monthly</div>
+                        </div>
+                    </div>
+                    <ul class="plan__list">
+                        <li><i class="fa fa-check"></i> Access for up to 5 users</li>
+                        <li><i class="fa fa-plus"></i> $75/additional user/month</li>
+                        <li><i class="fa fa-check"></i> Billed monthly</li>
+                    </ul>
+                    <footer class="plan__footer">
+                        <div class="btn btn-inverse disabled plan-submit">
+                            Coming Soon
+                        </div>
+                    </footer>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-12 col-sm-12">
+                <div class="plan plan-gray">
+                    <h3 class="plan__header">Unlimited</h3>
+
+                    <div class="plan__price">
+                    </div>
+                    <ul class="plan__list">
+                        <li>Custom pricing</li>
+                        <li>Please contact us for details</li>
+                    </ul>
+                    <footer class="plan__footer">
+                        <div class="btn btn-inverse disabled plan-submit">
+                            Coming Soon
+                        </div>
+                    </footer>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

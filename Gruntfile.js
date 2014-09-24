@@ -46,23 +46,17 @@ module.exports = function (grunt) {
                 ],
                 tasks: ['copy:core']
             },
-            components: {
+            assets: {
                 files: [
-                    '<%= yeoman.app %>/components/angular-ui-handsontable/**'
+                    '<%= yeoman.app %>/assets/**/*'
                 ],
-                tasks: ['copy:components']
+                tasks: ['copy:assets']
             },
-            img: {
+            environment: {
                 files: [
-                    '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
+                    '<%= yeoman.app %>/environment/**/*'
                 ],
-                tasks: ['copy:img']
-            },
-            appConfig: {
-                files: [
-                    '<%= yeoman.app %>/app-config/**/*'
-                ],
-                tasks: ['copy:appConfig']
+                tasks: ['copy:environment']
             },
             template: {
                 files: [
@@ -132,7 +126,7 @@ module.exports = function (grunt) {
             options: {
                 sassDir: '<%= yeoman.app %>/styles',
                 cssDir: '<%= yeoman.stage %>/styles',
-                imagesDir: '<%= yeoman.app %>/img',
+                imagesDir: '<%= yeoman.app %>/assets/img',
                 javascriptsDir: '<%= yeoman.app %>/app',
                 importPath: '<%= yeoman.app %>/styles',
                 relativeAssets: true
@@ -160,10 +154,9 @@ module.exports = function (grunt) {
                     src: [
                         'app/**/*',
                         'components/**/*',
-                        'app-config/**/*',
+                        'environment/**/*',
                         'core/**/*',
-                        'template/**/*',
-                        'img/**/*',
+                        'assets/**/*',
                         '*.html*'
                     ]
                 }]
@@ -190,36 +183,25 @@ module.exports = function (grunt) {
                     ]
                 }]
             },
-            components: {
+            assets: {
                 files: [{
                     expand: true,
                     dot: true,
                     cwd: '<%= yeoman.app %>',
                     dest: '<%= yeoman.stage %>',
                     src: [
-                        'components/angular-ui-handsontable/**'
+                        'assets/**/*'
                     ]
                 }]
             },
-            img: {
+            environment: {
                 files: [{
                     expand: true,
                     dot: true,
                     cwd: '<%= yeoman.app %>',
                     dest: '<%= yeoman.stage %>',
                     src: [
-                        'img/**/*'
-                    ]
-                }]
-            },
-            appConfig: {
-                files: [{
-                    expand: true,
-                    dot: true,
-                    cwd: '<%= yeoman.app %>',
-                    dest: '<%= yeoman.stage %>',
-                    src: [
-                        'app-config/**/*'
+                        'environment/**/*'
                     ]
                 }]
             },
@@ -227,13 +209,12 @@ module.exports = function (grunt) {
                 files: [
                     {
                         expand: true,
-                        dot: true,
-                        cwd: './',
+                        dot: false,
+                        flatten: false,
+                        cwd: '<%= yeoman.stage %>',
                         dest: '<%= yeoman.dist %>/dev',
                         src: [
-                            '<%= yeoman.app %>/*.{ico,txt}',
-                            '<%= yeoman.app %>/img/{,*/}*.{gif,webp}',
-                            '<%= yeoman.app %>/styles/fonts/*'
+                            'assets/**/*'
                         ]
                     },
                     {
@@ -263,7 +244,8 @@ module.exports = function (grunt) {
                         cwd: '<%= yeoman.app %>',
                         dest: '<%= yeoman.dist %>/dev',
                         src: [
-                            'components/**/*'
+                            'components/**/*',
+                            '!components/tp-marketplace/**/*'
                         ]
                     },
                     {
@@ -282,13 +264,12 @@ module.exports = function (grunt) {
                 files: [
                     {
                         expand: true,
-                        dot: true,
-                        cwd: './',
+                        dot: false,
+                        flatten: false,
+                        cwd: '<%= yeoman.stage %>',
                         dest: '<%= yeoman.dist %>/demo',
                         src: [
-                            '<%= yeoman.app %>/*.{ico,txt}',
-                            '<%= yeoman.app %>/img/{,*/}*.{gif,webp}',
-                            '<%= yeoman.app %>/styles/fonts/*'
+                            'assets/**/*'
                         ]
                     },
                     {
@@ -318,7 +299,8 @@ module.exports = function (grunt) {
                         cwd: '<%= yeoman.app %>',
                         dest: '<%= yeoman.dist %>/demo',
                         src: [
-                            'components/**/*'
+                            'components/**/*',
+                            '!components/tp-marketplace/**/*'
                         ]
                     },
                     {
@@ -337,13 +319,12 @@ module.exports = function (grunt) {
                 files: [
                     {
                         expand: true,
-                        dot: true,
-                        cwd: './',
+                        dot: false,
+                        flatten: false,
+                        cwd: '<%= yeoman.stage %>',
                         dest: '<%= yeoman.dist %>/prod',
                         src: [
-                            '<%= yeoman.app %>/*.{ico,txt}',
-                            '<%= yeoman.app %>/img/{,*/}*.{gif,webp}',
-                            '<%= yeoman.app %>/styles/fonts/*'
+                            'assets/**/*'
                         ]
                     },
                     {
@@ -373,7 +354,8 @@ module.exports = function (grunt) {
                         cwd: '<%= yeoman.app %>',
                         dest: '<%= yeoman.dist %>/prod',
                         src: [
-                            'components/**/*'
+                            'components/**/*',
+                            '!components/tp-marketplace/**/*'
                         ]
                     },
                     {
@@ -410,17 +392,17 @@ module.exports = function (grunt) {
             }
         },
         template: {
+            mock: {
+                files: {
+                    '.tmp/index.html': './src/index.html.template'
+                },
+                environment: 'mock'
+            },
             local: {
                 files: {
                     '.tmp/index.html': './src/index.html.template'
                 },
                 environment: 'local'
-            },
-            localDev: {
-                files: {
-                    '.tmp/index.html': './src/index.html.template'
-                },
-                environment: 'localDev'
             },
             demo: {
                 files: {
@@ -537,25 +519,25 @@ module.exports = function (grunt) {
             demo: {
                 files: [{
                     expand: true,
-                    cwd: '<%= yeoman.app %>/img',
+                    cwd: '<%= yeoman.app %>/assets/img',
                     src: '{,*/}*.{png,jpg,jpeg}',
-                    dest: '<%= yeoman.dist %>/demo/img'
+                    dest: '<%= yeoman.dist %>/demo/assets/img'
                 }]
             },
             dev: {
                 files: [{
                     expand: true,
-                    cwd: '<%= yeoman.app %>/img',
+                    cwd: '<%= yeoman.app %>/assets/img',
                     src: '{,*/}*.{png,jpg,jpeg}',
-                    dest: '<%= yeoman.dist %>/dev/img'
+                    dest: '<%= yeoman.dist %>/dev/assets/img'
                 }]
             },
             prod: {
                 files: [{
                     expand: true,
-                    cwd: '<%= yeoman.app %>/img',
+                    cwd: '<%= yeoman.app %>/assets/img',
                     src: '{,*/}*.{png,jpg,jpeg}',
-                    dest: '<%= yeoman.dist %>/prod/img'
+                    dest: '<%= yeoman.dist %>/prod/assets/img'
                 }]
             }
         },
@@ -667,11 +649,20 @@ module.exports = function (grunt) {
         'server'
     ]);
 
+    grunt.registerTask('mock', [
+        'clean:local',
+        'compass:dev',
+        'copy:local',
+        'template:mock',
+        'clean:template',
+        'server'
+    ]);
+
     grunt.registerTask('dev', [
         'clean:local',
         'compass:dev',
         'copy:local',
-        'template:localDev',
+        'template:local',
         'clean:template',
         'server'
     ]);

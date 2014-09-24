@@ -1,0 +1,104 @@
+<div class="module module--bordered" ng-controller="AccountChangePasswordCtrl">
+    <header class="module__header">
+        <h5>Change Password</h5>
+    </header>
+    <div class="module__body">
+        <form novalidate name="formChangePassword">
+            <div class="row">
+                <div class="form-group col-lg-6" ng-class="{'has-success': formChangePassword.oldPassword.$valid}">
+                    <label class="control-label">Old Password *</label>
+                    <input type="password"
+                           class="form-control"
+                           name="oldPassword"
+                           ng-model="newPasswordCreds.oldPassword"
+                           required
+                           placeholder="Old password">
+                </div>
+                <div class="col-lg-2" ng-if="formChangePassword.oldPassword.$valid && formChangePassword.oldPassword.$dirty">
+                    <div class="form-hint form-hint--success">
+                        <i class="fa fa-check"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-lg-6" ng-class="{'has-success': formChangePassword.newPassword.$valid}">
+                    <label class="control-label">New Password *</label>
+                    <input type="password"
+                           class="form-control"
+                           focus-on="invalid-password"
+                           required
+                           name="newPassword"
+                           ng-model="newPasswordCreds.newPassword"
+                           password-validate
+                           placeholder="Password">
+                </div>
+                <div class="col-lg-4" ng-if="formChangePassword.newPassword.$invalid && formChangePassword.newPassword.$dirty">
+                    <div class="form-hint form-hint--danger">
+                        <ul>
+                            <li class="form-hint__{{ pwdHasLetter }}">At least <strong>one letter</strong></li>
+                            <li class="form-hint__{{ pwdHasNumber }}">At least <strong>one number</strong></li>
+                            <li class="form-hint__{{ pwdValidLength }}">At least <strong>8 characters</strong></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-2" ng-if="formChangePassword.newPassword.$valid && formChangePassword.newPassword.$dirty">
+                    <div class="form-hint form-hint--success">
+                        <i class="fa fa-check"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-lg-6"  ng-class="{'has-success': formChangePassword.verifyPassword.$valid}">
+                    <label class="control-label">Confirm Password *</label>
+                    <input type="password"
+                           class="form-control"
+                           required
+                           name="verifyPassword"
+                           ng-model="newPasswordCreds.verifyPassword"
+                           placeholder="Confirm"
+                           password-verify="newPasswordCreds.newPassword">
+                </div>
+                <div class="col-lg-4" ng-if="formChangePassword.verifyPassword.$invalid && formChangePassword.verifyPassword.$dirty">
+                    <div class="form-hint form-hint--danger">
+                        <ul>
+                            <li>Passwords must match</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-2" ng-if="formChangePassword.verifyPassword.$valid && formChangePassword.verifyPassword.$dirty">
+                    <div class="form-hint form-hint--success">
+                        <i class="fa fa-check"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-lg-6">
+                    <button class="btn btn-primary" ng-disabled="formChangePassword.$invalid" ng-click="changePassword()">Change Password</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="module module--bordered">
+    <header class="module__header">
+        <h5>Change Email</h5>
+    </header>
+    <div class="module__body">
+        <form novalidate name="formProfile">
+            <div class="row">
+                <div class="form-group col-lg-6">
+                    <label class="control-label">New Email</label>
+                    <input class="form-control"
+                           type="text"
+                           ng-model="user.profile.email"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-lg-6">
+                    <button class="btn btn-danger" ng-click="saveProfile()">Change Email</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

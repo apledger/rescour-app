@@ -1,1 +1,0 @@
-angular.module('rescour.market', ['rescour.property', 'rescour.news']);

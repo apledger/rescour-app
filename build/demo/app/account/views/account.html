@@ -1,0 +1,79 @@
+<header class="main-header" ng-controller="AppCtrl">
+    <a ui-sref="market.mdu.list.map" class="main-logo">
+        <img class="main-logo__img" src="/assets/img/logo-fitted.png" alt="REscour"/>
+    </a>
+    <ul class="header-nav pull-right">
+        <li class="header-nav__item"><a href="/market/mdu/map">Market</a></li>
+        <li class="header-nav__item header-nav__item--active"><a href="/account"><i class="fa fa-user header-nav__icon-btn"></i></a></li>
+        <li class="header-nav__item hint--left" data-hint="Logout"><a href="/logout"><i class="fa fa-power-off header-nav__icon-btn"></i></a></li>
+    </ul>
+</header>
+<div class="account">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-12">
+                <div class="module module--bordered account-sidebar">
+                    <header class="module__header">
+                        <h5>Account</h5>
+                    </header>
+                    <div class="module__body">
+                        <ul class="module__select-list module__select-list--skinny">
+                            <li ui-sref-active="active" ui-sref="account.pane({ pane:'profile' })">
+                                <div class="prepend prepend--bordered">
+                                    <i class="fa fa-user"></i>
+                                </div>
+                                <h5>
+                                    Profile
+                                </h5>
+                            </li>
+                            <li ui-sref-active="active" ui-sref="account.pane({ pane:'settings' })">
+                                <div class="prepend prepend--bordered">
+                                    <i class="fa fa-cog"></i>
+                                </div>
+                                <h5>
+                                    Settings
+                                </h5>
+                            </li>
+                            <li ui-sref-active="active" ui-sref="account.pane({ pane:'billing' })">
+                                <div class="prepend prepend--bordered">
+                                    <i class="fa fa-money"></i>
+                                </div>
+                                <h5>
+                                    Billing
+                                </h5>
+                            </li>
+                            <li ui-sref-active="active" ui-sref="account.pane({ pane:'subscription' })">
+                                <div class="prepend prepend--bordered">
+                                    <i class="fa fa-shopping-cart"></i>
+                                </div>
+                                <h5>
+                                    Subscription
+                                </h5>
+                            </li>
+                            <li ui-sref-active="active" ui-sref="account.pane({ pane:'faq' })">
+                                <div class="prepend prepend--bordered">
+                                    <i class="fa fa-question-circle"></i>
+                                </div>
+                                <h5>
+                                    FAQ
+                                </h5>
+                            </li>
+                            <li ui-sref-active="active" ui-sref="account.pane({ pane:'terms' })">
+                                <div class="prepend prepend--bordered">
+                                    <i class="fa fa-gavel"></i>
+                                </div>
+                                <h5>
+                                    Disclaimer
+                                </h5>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9 col-md-9 col-sm-12">
+                <div ng-repeat="alert in alerts" alert type="{{ alert.type }}" close="clearAlert(alert)">{{ alert.text }}</div>
+                <div ui-view autoscroll="false"></div>
+            </div>
+        </div>
+    </div>
+</div>

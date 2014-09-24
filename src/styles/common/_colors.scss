@@ -1,0 +1,98 @@
+@import "buttons";
+
+@mixin text-hover-color ($color) {
+  color: lighten($color, 5%);
+}
+
+@mixin background-active-color ($color) {
+  color: darken($color, 5%);
+}
+
+.btn-bg--danger {
+  @include tpBtnBg($btn-danger-bg);
+}
+
+.btn-bg--success {
+  @include tpBtnBg($btn-success-bg);
+}
+
+.btn-bg--warning {
+  @include tpBtnBg($btn-warning-bg);
+}
+
+.btn-bg--inverse {
+  @include tpBtnBg($btn-inverse-bg);
+}
+
+.btn-bg--primary {
+  @include tpBtnBg($btn-primary-bg);
+}
+
+.btn-bg--info {
+  @include tpBtnBg($brand-info);
+}
+
+
+.bg-solid--danger {
+  background: $brand-danger !important;
+}
+
+.bg-solid--info {
+  background: $state-info-bg !important;
+}
+
+.bg-solid--success {
+  background: $brand-success !important;
+}
+
+.bg-solid--warning {
+  background: $brand-warning !important;
+}
+
+.bg-solid--inverse {
+  background: $gray-darker !important;
+}
+
+.bg-solid--gray {
+  background: $gray !important;
+}
+
+.bg-solid--white {
+  background: $white !important;
+}
+
+.bg-solid--primary {
+  background: $brand-primary !important;
+}
+
+.bg--textured {
+  background: $body-bg;
+}
+
+.text-color--danger {
+  color: $brand-danger !important;
+}
+
+.text-color--info {
+  color: $state-info-text !important;
+}
+
+.text-color--white {
+  color: $white !important;
+}
+
+.text-color--yellow {
+  color: $yellow !important;
+}
+
+.text-color--success {
+  color: $brand-success !important;
+}
+
+.text-color--warning {
+  color: $brand-warning !important;
+}
+
+.text-color--inverse {
+  color: $gray-darker !important;
+}

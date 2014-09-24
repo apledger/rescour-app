@@ -1,0 +1,25 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="close()">&times;</button>
+    <h4>New Search</h4>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-lg-12">
+            <form name="SaveSearchForm" class="form-horizontal col-lg-12">
+                <div class="form-group" ng-class="{'success': formSaveSearchDialog.$valid}">
+                    <label class="control-label col-lg-2" for="savedSearchTitleInput" >Title</label>
+
+                    <div class="col-lg-8">
+                        <input id="savedSearchTitleInput" type="text" required autofocus autoselect
+                               model-ignore="Untitled Search"
+                               ng-model="searchSettings.title">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn" ng-click="close()">Close</button>
+    <button class="btn btn-primary" ng-click="save()">Save changes</button>
+</div>

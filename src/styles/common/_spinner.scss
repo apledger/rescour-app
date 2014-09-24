@@ -1,0 +1,44 @@
+.spinner {
+  margin: 0 auto;
+  width: 70px;
+  height: 75px;
+  text-align: center;
+  font-size: 10px;
+}
+
+.spinner > div {
+  //background-color: #333;
+  height: 100%;
+  width: 10px;
+  display: inline-block;
+  @include gradient-vertical(desaturate($brand-primary, 95%), $gray-darker);
+  @include box-shadow(0 0 5px rgba(255,255,255,0.65));
+  @include animation(stretchdelay 1.2s infinite ease-in-out);
+  //@extend %dark-bg-divet;
+}
+
+.spinner .rect2 {
+  @include animation-delay(-1.1s);
+}
+
+.spinner .rect3 {
+  @include animation-delay(-1.0s);
+}
+
+.spinner .rect4 {
+  @include animation-delay(-0.9s);
+}
+
+.spinner .rect5 {
+  @include animation-delay(-0.8s);
+}
+
+@include keyframes(stretchdelay) {
+  0%, 40%, 100% {
+    transform: scaleY(0.4);
+    -webkit-transform: scaleY(0.4);
+  }  20% {
+       transform: scaleY(1.0);
+       -webkit-transform: scaleY(1.0);
+     }
+}

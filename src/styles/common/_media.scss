@@ -1,0 +1,23 @@
+/* ====== media ====== */
+.media {
+  position: relative;
+}
+
+.media__bd {
+  overflow: hidden;
+  _overflow: visible;
+  zoom: 1;
+}
+
+.media__img {
+  float: left;
+  margin-right: $grid-gutter-width / 2;
+  > img {
+    display: block;
+  }
+}
+
+.media__img--ext {
+  float: right;
+  margin-left: 10px;
+}

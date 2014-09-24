@@ -1,0 +1,22 @@
+<div class="powers">
+    <div class="power" ui-sref-active="active" ui-sref=".pane({pane: 'details'})">
+        <div class="power__title">
+            <i class="fa fa-bars"></i><span>Details</span>
+        </div>
+    </div>
+</div>
+<div class="scroll-container bg--textured">
+    <div class="module module--transparent module--fat">
+        <header class="module__header bg-solid--primary">
+            <h4 class="text-color--white">
+                {{activePin.title}}
+                <span class="pull-right gutter-3-4-top gutter-left light outline-btn outline-btn--white-primary btn--small"
+                      ng-click="savePin(activePin)">Save</span>
+                <a class="close close--light gutter-top" ng-click="closeDetails()">
+                    <i class="fa fa-times"></i>
+                </a>
+            </h4>
+        </header>
+        <div class="module__body" ui-view autoscroll="false"></div>
+    </div>
+</div>

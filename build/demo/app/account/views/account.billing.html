@@ -1,0 +1,56 @@
+<div class="module module--bordered">
+    <header class="module__header">
+        <h5>Billing</h5>
+    </header>
+    <div class="module__body">
+        <form novalidate name="formProfile">
+            <div class="row">
+                <div class="form-group col-lg-6">
+                    <label>Credit Card</label>
+                    <input type="text" disabled="true"
+                           placeholder="xxxx-xxxx-xxxx-{{user.billing.activeCard.last4}}"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-lg-6">
+                    <label>Street 1</label>
+                    <input type="text" disabled="true"
+                           placeholder="{{user.billing.activeCard.addressLine1}}"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-lg-6">
+                    <label>Street 2</label>
+                    <input type="text" disabled="true"
+                           placeholder="{{user.billing.activeCard.addressLine2}}"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-lg-6">
+                    <label>City</label>
+                    <input type="text" disabled="true"
+                           placeholder="{{user.billing.activeCard.addressCity}}"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-lg-6">
+                    <label>State</label>
+                    <input type="text" disabled="true"
+                           placeholder="{{user.billing.activeCard.addressState}}"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-lg-6">
+                    <label>Zip</label>
+                    <input type="text" disabled="true"
+                           placeholder="{{user.billing.activeCard.addressZip}}"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-lg-6">
+                    <div class="btn btn-primary">Update Billing</div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

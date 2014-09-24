@@ -1,0 +1,38 @@
+.form-hint {
+  display: block;
+  text-transform: uppercase;
+  font-size: $font-size-small;
+  text-align: center;
+  margin-top: $grid-gutter-width / 2;
+  text-shadow: 0 1px rgba(255, 255, 255, 0.3);
+  @include animation(fadeIn 0.2s ease);
+
+  &::after {
+    top: $grid-gutter-width;
+  }
+}
+
+.form-hint--danger,
+.form-hint.ng-dirty{
+  background: $state-danger-bg;
+  padding: $grid-gutter-width;
+  color: $state-danger-text;
+
+  &::after {
+    @include triangle-left(10px, $state-danger-bg);
+  }
+}
+
+.form-hint--success {
+  background: $state-success-bg;
+  padding: $grid-gutter-width;
+  color: $state-success-text;
+
+  &::after {
+    @include triangle-left(10px, $state-success-bg);
+  }
+}
+
+.form-hint__valid {
+  text-decoration: line-through;
+}

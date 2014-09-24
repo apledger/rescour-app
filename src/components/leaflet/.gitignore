@@ -6,4 +6,8 @@ tmp/**/*
 *.iml
 *.sublime-*
 _site
-spec/coverage
+dist/*.js
+coverage/
+*.js.html
+index.html
+.mailmap

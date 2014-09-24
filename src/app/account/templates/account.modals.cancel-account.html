@@ -1,0 +1,21 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="close()">&times;</button>
+    <h4>Cancel Subscription</h4>
+</div>
+<div class="modal-body">
+    <div class="alert" ng-repeat="alert in cancelAccountAlerts" ng-class="alert.type">{{ alert.text }}</div>
+    <form novalidate name="formCancelSubscription">
+        <div class="row">
+            <div class="form-group col-lg-12">
+                <label class="control-label">But if you must, please tell us why</label>
+                <textarea name="reason" rows="8" required autofocus autoselect ng-model="message.text" class="col-lg-12 form-control"></textarea>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-lg-6">
+                <div class="btn btn-primary" ng-disabled="formCancelSubscription.$invalid" ng-click="cancelAccount()">Send</div>
+            </div>
+        </div>
+    </form>
+</div>

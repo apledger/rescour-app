@@ -1,0 +1,29 @@
+<div class="row">
+    <div class="col-lg-8 col-md-12 col-sm-12" ng-if="activeMDU.comments.length">
+        <div class="module module--skinny module--info fade-in-up"
+             ng-class="{'module--triangle-left': !isMyComment(comment), 'module--triangle-right': isMyComment(comment)}"
+             ng-repeat="comment in activeMDU.comments">
+            <header class="module__header">
+                <h5>{{ comment.userEmail }} <span class="pull-right">{{ comment.datePosted | date }}</span></h5>
+            </header>
+            <div class="module__body">
+                <p>{{ comment.text }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 col-sm-12"
+         ng-class="{'col-lg-4': activeMDU.comments.length, 'col-lg-12': !activeMDU.comments.length}" >
+        <div class="module module--bordered module--skinny">
+            <header class="module__header">
+                <h5>Enter Comment</h5>
+            </header>
+            <div class="module__body">
+                <textarea placeholder="Type comment here"
+                          class="module__textarea"
+                          name="commentText"
+                          ng-model="newComment.text"></textarea>
+            </div>
+        </div>
+        <div class="btn btn-primary" ng-click="addComment(newComment)">Comment</div>
+    </div>
+</div>

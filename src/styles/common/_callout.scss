@@ -1,0 +1,49 @@
+.callout.callout--right {
+  display: block;
+  padding: $grid-gutter-width;
+  text-shadow: 0 1px rgba(255, 255, 255, 0.3);
+  background: $gray-light;
+  color: $gray;
+  margin-bottom: $grid-gutter-width;
+  @include animation(fadeIn 0.2s ease);
+
+  &::after {
+    top: $grid-gutter-width / 2;
+    @include triangle-left(10px, $gray-light);
+  }
+}
+
+.callout--right.callout--danger {
+  background: $state-danger-bg;
+  color: $state-danger-text;
+  &::after {
+    @include triangle-left(10px, $state-danger-bg);
+  }
+}
+
+.callout--right.callout--success {
+  background: $state-success-bg;
+  color: $state-success-text;
+
+  &::after {
+    @include triangle-left(10px, $state-success-bg);
+  }
+}
+
+.callout--right.callout--warning {
+  background: $state-warning-bg;
+  color: $state-warning-text;
+
+  &::after {
+    @include triangle-left(10px, $state-warning-bg);
+  }
+}
+
+.callout--right.callout--info {
+  background: $state-info-bg;
+  color: $state-info-text;
+
+  &::after {
+    @include triangle-left(10px, $state-info-bg);
+  }
+}

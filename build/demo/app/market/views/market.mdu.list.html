@@ -1,0 +1,126 @@
+<div class="market__box market__box--middle bg-solid--gray">
+<div class="powers">
+    <div class="power" ng-class="{'power--primary': MarketState.listCollapsed}" ng-click="toggleListCollapsed()">
+        <div class="power__title">
+            <i class="fa"
+               ng-class="{'fa-chevron-right': MarketState.listCollapsed,
+                              'fa-chevron-left': !MarketState.listCollapsed}"></i>
+        </div>
+    </div>
+
+    <div class="power dropdown hint--top" data-hint="Showing {{ subsetPower.title }}">
+        <div class="power__title" dropdown-toggle>
+            <i ng-class="subsetPower.icon"></i>
+        </div>
+
+        <ul class="dropdown__list">
+            <li ng-repeat="option in subsetPower.options"
+                ng-class="{'active': option.isSelected}"
+                ng-click="option.action()">
+                <i ng-class="option.icon"></i>
+                <a href="javascript:">{{ option.title }}</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="power dropdown hint--top"
+         data-hint="{{ (sortPower.reverse && 'Ascending') || 'Descending' }} by {{ sortPower.title }}">
+        <div class="power__title" dropdown-toggle>
+            <i ng-class="sortIcon()"></i>
+        </div>
+
+        <ul class="dropdown__list">
+            <li ng-repeat="option in sortPower.options"
+                ng-class="{'active': option.isSelected}"
+                class="hint--right hint--info"
+                data-hint="{{ (option.isSelected && !sortPower.reverse) && 'Sort Ascending' || 'Sort Descending' }}"
+                ng-click="option.action()">
+                <a href="javascript:">{{ option.title }}</a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="scroll-container"
+     chunk="filteredItems = (MDUMarket.visibleItems | filter:searchText | limitVisible)" chunk-size="7">
+
+    <ul class="inner-container">
+        <li class="card card--rounded">
+            <div class="inner-half-container">
+                <p class="center-text">Displaying <strong>{{filteredItems.length}}</strong> Results</p>
+            </div>
+        </li>
+        <li class="card card--rounded card--sunken card--preview-right toggler"
+            ng-class="{'toggled': item.isHidden}"
+            ng-repeat="item in chunk">
+            <header class="card__header media">
+                <div class="media__img hint--top"
+                     data-hint="{{ item.location && 'Show on Map' || 'Not Available' }}">
+                    <button class="btn btn--square btn-bg--{{ item.getStatus() }}"
+                            ng-class="{'disabled': !item.location}"
+                            ng-click="panTo(item)">
+                        <i ng-show="item.location" class="fa fa-map-marker"></i>
+                        <i ng-show="!item.location" class="fa fa-exclamation"></i>
+                    </button>
+                </div>
+                <div class="media__bd clearfix">
+                    <a href="javascript:"
+                       ui-sref="market.mdu.list.details.pane({itemId: item.id, pane: 'details'})">
+                        {{ item.title | ellipsis:25 }}
+                    </a>
+
+                    <p class="muted small">
+                        <strong>{{ item.numberUnits }} </strong>Units. Built in
+                        <strong>{{ item.yearBuilt }}</strong>.
+                    </p>
+                </div>
+                <a href="javascript:"
+                   ui-sref="market.mdu.list.details.pane({itemId: item.id, pane: 'pictures'})"
+                   class="preview preview--captioned">
+                    <div class="preview__mask">
+                        <i class="fa fa-search"></i>
+                    </div>
+                    <img class="preview__img preview__img--thumb" ng-src="{{item.thumbnail}}" alt="">
+
+                    <div class="preview__caption bg-solid--{{ item.getStatus() }}">
+                        <h3>{{ item.propertyStatus }}</h3>
+
+                        <p>View Photos</p>
+                    </div>
+                </a>
+            </header>
+            <div class="card__body" collapse="item.isHidden">
+                <p>{{item.description | ellipsis: 110}}</p>
+            </div>
+            <footer class="card__footer">
+                <ul class="icon-nav icon-nav--small">
+                    <li class="hint--primary hint--top"
+                        data-hint="Favorite"
+                        ng-click="toggleFavorite(item)">
+                        <i class="fa fa-star" ng-class="{'text-color--yellow': item.isFavorite}"></i>
+                    </li>
+                    <li class="hint--primary hint--top"
+                        data-hint="Hide"
+                        ng-click="toggleHidden(item)">
+                        <i class="fa fa-ban" ng-class="{'text-color--warning': item.isHidden}"></i>
+                    </li>
+                    <li class="hint--primary hint--top"
+                        data-hint="Comment"
+                        ng-click="openMDUDetails(item, 'comments')">
+                        <i class="fa fa-comments"></i>
+                    </li>
+                    <li class="hint--primary hint--top"
+                        data-hint="Contact"
+                        ng-click="openMDUDetails(item, 'contact')">
+                        <i class="fa fa-envelope"></i>
+                        <span>{{ item.broker }}</span>
+                    </li>
+                </ul>
+            </footer>
+        </li>
+    </ul>
+</div>
+</div>
+
+<!--Map-->
+<div class="market__box market__box--right" ui-view></div>

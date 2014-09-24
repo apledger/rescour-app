@@ -1,0 +1,87 @@
+<div class="powers">
+    <div class="power dropdown hint--top" data-hint="Showing {{ subsetPower.title }}">
+        <div class="power__title" dropdown-toggle>
+            <i ng-class="subsetPower.icon"></i>
+        </div>
+
+        <ul class="dropdown__list">
+            <li ng-repeat="option in subsetPower.options"
+                ng-class="{'active': option.isSelected}"
+                ng-click="option.action()">
+                <i ng-class="option.icon"></i>
+                <a href="javascript:">{{ option.title }}</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="power dropdown hint--top"
+         data-hint="{{ (sortPower.reverse && 'Ascending') || 'Descending' }} by {{ sortPower.title }}">
+        <div class="power__title" dropdown-toggle>
+            <i ng-class="sortIcon()"></i>
+        </div>
+
+        <ul class="dropdown__list">
+            <li ng-repeat="option in sortPower.options"
+                ng-class="{'active': option.isSelected}"
+                class="hint--right hint--info"
+                data-hint="{{ (option.isSelected && !sortPower.reverse) && 'Sort Ascending' || 'Sort Descending' }}"
+                ng-click="option.action()">
+                <a href="javascript:">{{ option.title }}</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="power hint--left pull-right" data-hint="Edit Pipeline Fields">
+        <div class="power__title" ng-click="openCustomFieldDimensionsModal()">
+            <i class="fa fa-cog"></i>
+        </div>
+    </div>
+
+    <div class="power hint--top" data-hint="Download CSV">
+        <div class="power__title" ng-click="convertToCSV()">
+            <i class="fa fa-download"></i>
+        </div>
+    </div>
+</div>
+<div class="scroll-container table-horizontal-scroll" chunk="filteredItems = (MDUMarket.visibleItems | filter:searchText)"
+     chunk-size="30">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Title</th>
+            <th>Date Posted</th>
+            <th>Year Built</th>
+            <th>Broker</th>
+            <th>Units</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Status</th>
+            <th>Type</th>
+            <th ng-repeat="customFieldDimension in user.customFieldDimensions">
+                <strong>{{ customFieldDimension.title }}</strong>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="item in chunk">
+            <!--<td><a ui-sref=".details({ itemId: item.id })" >{{item.title}}</a></td>-->
+            <td><a href="javascript:" ui-sref="market.mdu.report.details.pane({itemId: item.id, pane: 'details'})">{{item.title}}</a>
+            </td>
+            <td>{{item.datePosted | date}}</td>
+            <td>{{item.yearBuilt}}</td>
+            <td>{{item.broker}}</td>
+            <td>{{item.numberUnits}}</td>
+            <td>{{item.address.city}}</td>
+            <td>{{item.address.state}}</td>
+            <td class="text-color--{{ item.getStatus() }}">{{item.propertyStatus}}</td>
+            <td>{{item.propertyType}}</td>
+            <td ng-repeat="customFieldDimension in user.customFieldDimensions">
+                <input type="text" class="table-input"
+                       placeholder="Click to Edit"
+                       ng-model="getCustomField(item, customFieldDimension).title"
+                       ng-blur="saveCustomField(item, customFieldDimension)"/>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

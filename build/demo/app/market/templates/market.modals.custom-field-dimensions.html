@@ -1,0 +1,61 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="close()">&times;</button>
+    <h4>Pipeline Fields</h4>
+</div>
+<div class="modal-body">
+    <div ng-repeat="customFieldDimension in user.customFieldDimensions">
+        <div class="row gutter-bottom">
+            <div class="col-lg-1">
+                <i ng-if="!customFieldDimension.editable"
+                   class="icon-btn fa fa-pencil"
+                   ng-click="customFieldDimension.editable = true"></i>
+                <i ng-if="customFieldDimension.editable"
+                   class="icon-btn icon-btn--success fa fa-check"
+                   ng-click="saveCustomFieldDimension(customFieldDimension)"></i>
+            </div>
+            <div class="col-lg-9">
+                <input ng-disabled="!customFieldDimension.editable"
+                       type="text" ng-model="customFieldDimension.title">
+            </div>
+            <div class="col-lg-1">
+                <i ng-if="customFieldDimension.editable" class="icon-btn icon-btn--danger fa fa-times" ng-click="promptRemove(customFieldDimension)"></i>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="alert alert-danger" ng-show="customFieldDimension.removePrompt">
+                    <button type="button" class="close" ng-click="closePrompt(customFieldDimension)">&times;</button>
+                    This will remove all data associated with this field. &nbsp;<a href="javascript:" ng-click="removeCustomFieldDimension(customFieldDimension)">Continue</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row gutter-bottom" ng-repeat="newCustomFieldDimension in newCustomFieldDimensions">
+        <div class="col-lg-1">
+            <i ng-if="!newCustomFieldDimension.editable"
+               class="icon-btn fa fa-pencil"
+               ng-click="newCustomFieldDimension.editable = true"></i>
+            <i ng-if="newCustomFieldDimension.editable"
+               class="icon-btn icon-btn--success fa fa-check"
+               ng-click="saveCustomFieldDimension(newCustomFieldDimension)"></i>
+        </div>
+        <div class="col-lg-9">
+            <input ng-disabled="!newCustomFieldDimension.editable" autofocus
+                   type="text" ng-model="newCustomFieldDimension.title">
+        </div>
+        <div class="col-lg-1">
+            <i ng-if="newCustomFieldDimension.editable"
+               class="icon-btn icon-btn--danger fa fa-times"
+               ng-click="removeNewCustomFieldDimension(newCustomFieldDimension)"></i>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8 col-lg-offset-1">
+            <button class="btn btn-success" ng-click="addCustomFieldDimension()">Add Field</button>
+        </div>
+    </div>
+</div>

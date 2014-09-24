@@ -1,0 +1,107 @@
+$collapsed-width: 51px;
+$footer-height: 20px;
+.market {
+  position: absolute;
+  top: $header-height;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+%scroll-mask {
+  overflow: hidden;
+
+  &::after {
+    content: '';
+    position: absolute;
+    background: rgba(0, 0, 0, 0.5);
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: -10000%;
+    z-index: 5;
+  }
+}
+
+.market--collapsed-left {
+  .market__box--left {
+    > .scroll-container {
+      @extend %scroll-mask;
+    }
+  }
+
+  .market__box--middle,
+  .market__box--middle-fill {
+    left: $collapsed-width;
+    @include box-shadow(-5px 0 5px rgba(0, 0, 0, 0.5));
+  }
+
+  .market__box--right {
+    left: $market-list-width + $collapsed-width;
+  }
+}
+
+.market--collapsed-middle {
+  .market__box--middle {
+    > .scroll-container {
+      @extend %scroll-mask;
+    }
+  }
+  .market__box--right {
+    left: $market-filter-width + $collapsed-width;
+    @include box-shadow(-5px 0 5px rgba(0, 0, 0, 0.5));
+  }
+}
+
+.market--collapsed-middle.market--collapsed-left {
+  .market__box--right {
+    left: $collapsed-width * 2;
+  }
+}
+
+.market__box {
+  position: absolute;
+  top: 0;
+  bottom: $footer-height;
+  z-index: 1;
+  @include box-sizing(border-box);
+  @include transition(all 0.2s ease);
+}
+
+.market__box--middle {
+  left: $market-filter-width;
+  width: $market-list-width;
+}
+
+.market__box--middle-fill {
+  left: $market-filter-width;
+  right: 0;
+}
+
+.market__box--left {
+  left: 0;
+  width: $market-filter-width;
+}
+
+.market__box--right {
+  left: $market-filter-width + $market-list-width;
+  right: 0;
+}
+
+.market__box--light {
+  background: $white;
+}
+
+.market-box--white {
+  background: $white;
+}
+
+.market__footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: $footer-height;
+  background: $gray-lighter;
+  border-top: 1px solid darken($gray-lighter, 10%);
+}

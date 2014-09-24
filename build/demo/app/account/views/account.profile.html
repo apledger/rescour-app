@@ -1,0 +1,38 @@
+<div class="module module--bordered">
+    <header class="module__header">
+        <h5>Public Profile</h5>
+    </header>
+    <div class="module__body">
+        <form novalidate name="formProfile">
+            <div class="row">
+                <div class="form-group col-lg-6">
+                    <label class="control-label">First Name</label>
+                    <input class="form-control" type="text" ng-model="user.profile.firstName"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-lg-6">
+                    <label class="control-label">Last Name</label>
+                    <input class="form-control" type="text" ng-model="user.profile.lastName"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-lg-6">
+                    <label class="control-label">Company</label>
+                    <input class="form-control" type="text" ng-model="user.profile.company"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-lg-6">
+                    <label class="control-label">Phone</label>
+                    <input class="form-control" type="text" ng-model="user.profile.phone"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-lg-6">
+                    <button class="btn btn-primary" ng-click="saveProfile()" ng-disabled="formProfile.$invalid">Update Profile</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

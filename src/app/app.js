@@ -11,49 +11,142 @@ if (!window.console.log) window.console.log = function () {
 };
 angular.module('rescour.app',
         [
+            'ui.router',
             'ui.utils',
-            'ui.if',
             'ui.bootstrap',
+            'ngAnimate',
+            'chieffancypants.loadingBar',
             'rescour.config',
-            'rescour.auth',
-            'rescour.user',
-            'rescour.utility',
-            'rescour.market',
-            'rescour.browserDetect',
-            'rescour.powers',
-            'ngProgress',
-            'ahTouch'
+            'rescour.core',
+            'segmentio'
         ])
-    .config(['$routeProvider', '$locationProvider', '$httpProvider', 'BrowserDetectProvider',
-        function ($routeProvider, $locationProvider, $httpProvider, BrowserDetectProvider) {
-            $httpProvider.defaults.useXDomain = true;
-            $httpProvider.defaults.withCredentials = true;
-            $locationProvider.html5Mode(true);
+    .config(function ($httpProvider, $locationProvider, $urlRouterProvider, $stateProvider, cfpLoadingBarProvider) {
+        $httpProvider.defaults.useXDomain = true;
+        $httpProvider.defaults.withCredentials = true;
+        $httpProvider.defaults.headers.common = {
+            'Content-Type': 'application/json'
+        };
+        $locationProvider.html5Mode(true);
+        cfpLoadingBarProvider.includeSpinner = false;
 
-            $routeProvider.when('/',
-                {
-                    redirectTo: '/market/'
-                })
-                .otherwise({
-                    redirectTo: '/'
-                });
-        }])
-    .controller("AppController", ['$scope', '$rootScope', '$location', '$_api', '$http', '$window',
-        function ($scope, $rootScope, $location, $_api, $http, $window) {
-            angular.element($window).bind('resize', _.debounce(function () {
-                $rootScope.$broadcast('window-resized')
-            }, 150));
+        $urlRouterProvider
+            .when('/', '/market')
+            .when('', '/market');
 
-            $rootScope.$on("$routeChangeStart", function (event, next, current) {
-                $scope.loading = true;
-                $scope.failure = false;
+        $stateProvider.state('home', {
+            url: '',
+            abstact: true,
+            template: "<ui-view></ui-view>",
+            controller: 'AppCtrl',
+            resolve: {
+                CurrentUser: function (User) {
+                    var defer = $q.defer();
+
+                    User.get().then(function (response) {
+                        defer.resolve(response);
+                    }, function (response) {
+                        defer.reject(response);
+                    });
+
+                    return defer.promise;
+                }
+            }
+        });
+
+    })
+    .run(function ($rootScope, $state, $stateParams, segmentio) {
+        $rootScope.$state = $state;
+        $rootScope.$stateParams = $stateParams;
+        $rootScope.rootState = {
+            loading: false,
+            loaded: false,
+            failured: false
+        };
+
+        $rootScope.isRootLoading = function () {
+            return $rootScope.rootState.loading;
+        };
+
+        $rootScope.isRootLoaded = function () {
+            return $rootScope.rootState.loaded;
+        };
+
+        $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+            var toStateRoot = toState.name.split('.')[0],
+                fromStateRoot = fromState.name.split('.')[0];
+
+            if (toStateRoot !== fromStateRoot) {
+                $rootScope.rootState.loading = true;
+                $rootScope.rootState.loaded = false;
+            }
+        });
+
+        $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+            $rootScope.rootState.loading = false;
+            $rootScope.rootState.loaded = true;
+        });
+
+        segmentio.load("ath2m79akg");
+    })
+    .controller('AppCtrl',
+    function ($scope, $modal) {
+        $scope.openFeedbackModal = function () {
+            $modal.open({
+                backdrop: true,
+                keyboard: true,
+                backdropClick: true,
+                dialogFade: true,
+                backdropFade: true,
+                templateUrl: '/app/market/templates/market.modals.feedback.html?v=' + Date.now().feedback,
+                controller: 'FeedbackModalCtrl'
             });
-            $rootScope.$on("$routeChangeSuccess", function (event, current, previous) {
-                $scope.loading = false;
-                $scope.failure = false;
-            });
-            $rootScope.$on("$routeChangeError", function (event, current, previous, rejection) {
-                $scope.loading = false;
-                $scope.failure = true;
-            });
-        }])
+        };
+    })
+    .controller('FeedbackModalCtrl',
+    function ($scope, $http, $modalInstance, $timeout, Environment, User) {
+        $scope.feedback = {
+            to: 'info@rescour.com',
+            subject: User.profile.firstName + " " + User.profile.lastName + " Feedback"
+        };
+        $scope.alerts = [];
+
+        $scope.sendFeedback = function () {
+            if ($scope.feedback.text) {
+                var path = Environment.path + '/messages/',
+                    config = angular.extend({
+                        transformRequest: function (data) {
+                            return data;
+                        }
+                    }, Environment.config),
+                    body = JSON.stringify($scope.feedback);
+
+                $http.post(path, body, config).then(
+                    function (response) {
+                        $scope.feedback.text = "";
+                        $scope.alerts = [
+                            {
+                                type: 'success',
+                                text: 'Thank you for your feedback!'
+                            }
+                        ];
+
+                        $timeout(function () {
+                            $modalInstance.close();
+                        }, 1000);
+                    },
+                    function (response) {
+                        $scope.alerts = [
+                            {
+                                type: 'success',
+                                text: 'Thank you for your feedback!'
+                            }
+                        ];
+                    }
+                );
+            }
+        };
+
+        $scope.close = function () {
+            $modalInstance.close();
+        };
+    });

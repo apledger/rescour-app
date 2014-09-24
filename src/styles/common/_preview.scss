@@ -1,0 +1,95 @@
+.preview {
+  position: relative;
+  cursor: pointer;
+  line-height: 0;
+  background: white;
+  overflow: hidden;
+  z-index: 5;
+  border: 1px solid $gray-light;
+  @include border-radius($border-radius-small);
+  @include transition(height 0.35s ease);
+
+  &:hover {
+    > .preview__mask {
+      background: rgba(0,0,0,0.5);
+      @include transition(all .5s ease);
+      > i {
+        top: 50%;
+        color: white;
+        @include animation(bounceInDown .5s ease);
+      }
+    }
+    > .preview__caption {
+      position: absolute;
+      bottom: 0;
+    }
+  }
+}
+
+.preview--captioned {
+  padding-bottom: $line-height;
+
+  &:hover {
+    .preview__mask > i {
+      top: 25%;
+      @include animation(fadeInDown .5s ease);
+    }
+  }
+}
+
+.preview__img {
+  padding: 5px;
+  @include box-shadow(rgba(0, 0, 0, 0.1) 0 0 2px 0px);
+  @include border-radius($border-radius-small);
+}
+
+.preview__img--thumb {
+  @include square(100px);
+}
+
+.preview__caption {
+  position: absolute;
+  width: 100%;
+  bottom: -22px;
+  background: rgba(0, 0, 0, 1);
+  color: white;
+  text-align: center;
+  z-index: 6;
+  padding-top: $grid-gutter-width / 2;
+  @include transition(all .5s ease);
+
+  > h3 {
+    @include transition(all .5s ease);
+    font-size: 11px;
+    line-height: 12px;
+    font-weight: normal;
+  }
+
+  > p {
+    margin: 15px 0;
+    font-size: 10px;
+  }
+}
+
+.preview__mask {
+  z-index: 5;
+  background: rgba(0, 0, 0, 0.0);
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  text-align: center;
+  @include transition(all .5s ease);
+  @include border-radius($border-radius-small);
+
+  > i {
+    font-size: 36px;
+    color: transparent;
+    top: 0;
+    left: 50%;
+    margin: -18px;
+    position: absolute;
+    @include transition(all .5s ease);
+  }
+}

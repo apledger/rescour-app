@@ -1,0 +1,67 @@
+.ui-widget-content {
+  @extend %dark-bg-divet;
+  background: $gray;
+}
+
+.ui-widget-header {
+  @include gradient-vertical($brand-danger, darken(adjust_hue($brand-danger, 8%), 15%));
+}
+
+.ui-slider {
+  position: relative;
+  text-align: left;
+  @include border-radius(15px);
+
+  .ui-state-default {
+    background: $brand-danger;
+    background: url(/assets/img/slider-handle.png);
+    @include box-shadow(0 1px 4px rgba(0, 0, 0, 0.5));
+  }
+}
+
+.ui-slider-horizontal {
+  height: 10px;
+}
+
+.ui-slider .ui-slider-handle {
+  position: absolute;
+  z-index: 2;
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  outline: 0;
+  margin-left: -8px;
+  border: none;
+  @include border-radius(50%);
+}
+
+.ui-slider .ui-slider-range {
+  position: absolute;
+  z-index: 1;
+  font-size: .7em;
+  display: block;
+  border: 0;
+  background-position: 0 0;
+}
+
+.ui-slider-horizontal .ui-slider-handle {
+  top: -5px;
+}
+
+.ui-slider-horizontal .ui-slider-range {
+  top: 0;
+  height: 100%;
+}
+
+.ui-slider-horizontal .ui-slider-range-min {
+  left: 0;
+}
+
+.ui-slider-horizontal .ui-slider-range-max {
+  right: 0;
+}
+
+.ui-state-focus, .ui-state-hover {
+  border: none;
+
+}

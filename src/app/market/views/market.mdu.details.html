@@ -1,0 +1,35 @@
+<div class="powers">
+    <div class="power" ui-sref-active="active" ui-sref=".pane({pane: 'details'})">
+        <div class="power__title">
+            <i class="fa fa-bars"></i><span>Details</span>
+        </div>
+    </div>
+    <div class="power" ui-sref-active="active" ui-sref=".pane({pane: 'pictures'})">
+        <div class="power__title">
+            <i class="fa fa-picture-o"></i><span>Pictures</span>
+        </div>
+    </div>
+    <div class="power" ui-sref-active="active" ui-sref=".pane({pane: 'contact'})">
+        <div class="power__title">
+            <i class="fa fa-envelope"></i><span>Contact</span>
+        </div>
+    </div>
+    <div class="power" ui-sref-active="active" ui-sref=".pane({pane: 'comments'})">
+        <div class="power__title">
+            <i class="fa fa-comments"></i><span>Comments</span>
+        </div>
+    </div>
+</div>
+<div class="scroll-container bg--textured">
+    <div class="module module--transparent module--fat">
+        <header class="module__header bg-solid--{{ activeMDU.getStatus() }}">
+            <h4 class="text-color--white">{{activeMDU.title}}
+                <i class="fa fa-star gutter-left icon-action--white"
+                        ng-click="toggleFavorite(activeMDU)"
+                        ng-class="{'icon-action--yellow': activeMDU.isFavorite}"></i>
+                <a class="pull-right close close--light gutter-top" ng-click="closeDetails()"><i class="fa fa-times"></i></a></h4>
+        </header>
+
+        <div class="module__body" ui-view autoscroll="false" scrollable></div>
+    </div>
+</div>

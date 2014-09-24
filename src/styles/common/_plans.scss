@@ -1,0 +1,90 @@
+@mixin plan-color($planColor) {
+  background-color: adjust_hue(lighten($planColor, 10%), 10%);
+  border: 1px solid $planColor;
+}
+
+.plan {
+  color: white !important;
+  margin-bottom: $grid-gutter-width;
+
+  @include transition(all 1s ease);
+
+  &:hover {
+    @include transition(all 0.3s ease);
+  }
+}
+
+.plan__price {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  margin: 0 auto;
+  color: $white;
+  background: rgba(0, 0, 0, 0.2);
+  @include box-shadow(inset 0 0 4px rgba(0, 0, 0, 0.2));
+  @include border-radius(50%);
+
+  .amount {
+    position: relative;
+    line-height: 90px;
+    text-align: center;
+
+    .currency {
+      position: absolute;
+      top: -3px;
+      left: 14px;
+      font-size: 16px;
+    }
+
+    .currency-amount {
+      text-align: center;
+      display: inline-block;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .period {
+      font-size: 14px;
+      position: absolute;
+      top: 23px;
+      left: 30px;
+    }
+  }
+}
+
+.plan__footer {
+  margin: ($grid-gutter-width * 1.5) auto;
+  width: 50%;
+  text-align: center;
+}
+
+.plan__header {
+  text-align: center;
+  padding: $grid-gutter-width;
+}
+
+.plan__list {
+  margin-top: $grid-gutter-width;
+  text-align: center;
+
+  li {
+    font-size: 16px;
+    margin-bottom: $grid-gutter-width / 2;
+
+    i {
+      font-size: 12px;
+    }
+  }
+}
+
+.plan-success {
+  @include plan-color($brand-success);
+}
+
+.plan-gray {
+  @include plan-color(lighten($gray, 10%));
+}
+
+.plan-primary {
+  @include plan-color($brand-primary);
+}

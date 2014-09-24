@@ -1,0 +1,78 @@
+.card {
+  position: relative;
+  margin-bottom: $grid-gutter-width;
+  background: $gray-lighter;
+  @include box-shadow(0 2px 1px rgba(0,0,0,0.2));
+
+  &.toggled {
+    @include transition(opacity 0.35s ease);
+    @include opacity(.5);
+    > .card__body {
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+    .preview {
+      display: none;
+    }
+  }
+}
+
+.card__header {
+  width: 100%;
+  position: relative;
+  padding: $grid-gutter-width / 2;
+}
+
+.card--preview-right {
+  > .card__header > .preview {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+  }
+
+  > .card__body {
+    padding-right: 110px + $grid-gutter-width;
+  }
+}
+
+.card--preview-left {
+   > .card__header > .preview {
+     position: absolute;
+     top: 5px;
+     left: 5px;
+   }
+
+   > .card__body {
+     padding-left: 110px;
+   }
+ }
+
+.card__body {
+  background: white;
+  border-top: 1px solid $gray-light;
+  border-bottom: 1px solid $gray-light;
+  padding: ($grid-gutter-width * 3 / 4) $grid-gutter-width;
+}
+
+.card__footer {
+  width: 100%;
+  position: relative;
+}
+
+.card--rounded {
+  @include border-radius($border-radius-base);
+
+  > .card__header {
+    @include border-top-radius($border-radius-base);
+  }
+
+  > .card__footer {
+    @include border-bottom-radius($border-radius-base);
+  }
+}
+
+.card--inverse {
+  > .card__header {
+
+  }
+}

@@ -1,0 +1,82 @@
+.fade {
+  @include opacity(0);
+  @include transition(opacity .15s linear);
+  &.in {
+    @include opacity(100);
+  }
+}
+
+.collapsing {
+  position: relative;
+  height: 0;
+  overflow: hidden;
+  //overflow: visible \9;
+  @include transition(#{height .35s ease, opacity .35s ease});
+  &.in {
+    height: auto;
+  }
+}
+
+.fade-in-up {
+  @include animation(fadeInUp 0.3s ease);
+}
+
+@include keyframes(pulseBlue) {
+  0%, 100% {
+    background-color: $brand-primary;
+  }
+
+  50% {
+    background-color: lighten($brand-primary, 10%);
+  }
+}
+
+@include keyframes(slideInDown) {
+  0% {
+    opacity: 0;
+    @include translateY(-500px);
+  }
+
+  100% {
+    @include translateY(0);
+  }
+}
+
+.repeat-animation.ng-enter-stagger,
+.repeat-animation.ng-leave-stagger,
+.repeat-animation.ng-move-stagger {
+  /* notice how we're using animation instead of transition here */
+  @include animation-delay(0.4s);
+
+  /* yes we still need to do this too */
+  @include animation-duration(0);
+}
+
+.repeat-animation.ng-move,
+.repeat-animation.ng-enter {
+  @include animation(enter_animation 0.3s);
+}
+
+.repeat-animation.ng-leave {
+  @include animation(leave_animation 0.3s);
+}
+
+@-webkit-keyframes enter_animation {
+  from { opacity:0; }
+  to { opacity:1; }
+}
+
+@keyframes enter_animation {
+  from { opacity:0; }
+  to { opacity:1; }
+}
+
+@-webkit-keyframes leave_animation {
+  from { opacity:1; }
+  to { opacity:0; }
+}
+
+@keyframes leave_animation {
+  from { opacity:1; }
+  to { opacity:0; }
+}

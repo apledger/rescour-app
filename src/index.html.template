@@ -8,20 +8,19 @@
     <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <title>REScour | Multi Family Institutional Listing Service</title>
+    <title>REscour | Multi Family Data Platform</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta http-equiv="cache-control" content="no-cache" />
     <meta http-equiv="expires" content="-1" />
     <meta http-equiv="pragma" content="no-cache" />
     <link rel="stylesheet" href="/components/leaflet/dist/leaflet.css" />
-    <link rel="stylesheet" href="/components/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/components/jquery-ui/themes/ui-lightness/jquery-ui.css"/>
+    <!--<link rel="stylesheet" href="/components/jquery-ui/themes/ui-lightness/jquery-ui.css"/>-->
     <!-- build:css /styles/main.css -->
-    <link rel="stylesheet" href="/components/ngprogress/ngProgress.css"/>
+    <link rel="stylesheet" href="/components/angular-loading-bar/build/loading-bar.css"/>
     <link rel="stylesheet" href="/styles/main.css"/>
     <!-- endbuild -->
-    <link rel="icon" type="image/png" href="/img/favicon.png">
+    <link rel="icon" type="image/png" href="/assets/img/icon-fitted-small.png">
 
     <!-- ClickJacking Defense begin (https://www.owasp.org/index.php/Clickjacking_Defense_Cheat_Sheet) -->
     <style id="antiClickjack">
@@ -43,32 +42,26 @@
     </script>
     <!-- ClickJacking Defense end -->
 </head>
-<body ng-controller="AppController">
-<div class="loading-background" ng-show="loading || failure" ng-cloak>
-    <div ng-show="loading" class="loading-container" spinner-size="large" spinner="loading" spinner-options="{ top: '70', left: '162' }">
-        <img src="/img/logo-medium.png" width="200" alt=""/>
-    </div>
-    <div ng-show="failure" class="loading-container">
-        <h4>OOPS!</h4>
-        <i class="failure-icon icon-exclamation-sign icon-4x"></i>
-        <p>Well, this is embarassing.  It seems the content you have requested cannot be loaded.  Our team has been notified and we encourage you to try again later.</p>
+<body>
+<div class="loading-background ng-cloak" ng-hide="isRootLoaded()" ng-cloak>
+    <div class="loading-container">
+        <img src="/assets/img/logo-fitted-small.png" width="200" alt=""/>
+        <div class="spinner">
+            <div class="rect1"></div>
+            <div class="rect2"></div>
+            <div class="rect3"></div>
+            <div class="rect4"></div>
+            <div class="rect5"></div>
+        </div>
     </div>
 </div>
+
 <!--[if lt IE 9]>
 <script src="/components/es5-shim/es5-shim.min.js"></script>
 <script src="/components/json3/lib/json3.min.js"></script>
 <![endif]-->
 
-<div ng-view></div>
-
-<div class="main-footer">
-    <ul>
-        <li>&copy; REscour 2013</li>
-        <li><a href="https://www.rescour.com" target="_blank">Home</a></li>
-        <li><a href="https://www.rescour.com/privacy" target="_blank">Privacy</a></li>
-        <li><a href="https://www.rescour.com/about" target="_blank">Terms</a></li>
-    </ul>
-</div>
+<div ui-view></div>
 
 <script src="https://maps.google.com/maps/api/js?v=3.2&sensor=false"></script>
 <script type="text/javascript" src="/components/leaflet/dist/leaflet.js"></script>
@@ -78,51 +71,69 @@
 <script src="/components/jquery/jquery.js"></script>
 <script src="/components/jquery-ui/jquery-ui.js"></script>
 <script src="/components/angular/angular.js"></script>
-<script src="/components/ui-utils/bower_components/angular-ui-docs/build/ui-utils.js"></script>
-<script src="/components/angular-cookies/angular-cookies.js"></script>
-<script src="/core/market/thotpod.js"></script>
-
+<script src="/components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+<script src="/components/angular-ui-utils/components/angular-ui-docs/build/ui-utils.js"></script>
+<script src="/components/angular-animate/angular-animate.js"></script>
+<script src="/components/angular-ui-router/release/angular-ui-router.js"></script>
+<script src="/components/leaflet-google/leaflet-google.js"></script>
 <script src="/components/underscore/underscore.js"></script>
-<script src="/components/angular-ui-bootstrap-bower/ui-bootstrap.js"></script>
 <script src="/components/leaflet.markerclusterer/dist/leaflet.markercluster.js"></script>
 <script src="/components/spin.js/dist/spin.js"></script>
-<script src="/components/hammerjs/dist/hammer.js"></script>
-<script src="/components/angular-hammerjs/angular-hammer.js"></script>
-<script src="/components/ngprogress/build/ngProgress.min.js"></script>
-<script src="/core/user/user.js"></script>
+<script src="/components/angular-loading-bar/build/loading-bar.js"></script>
+<script src="/components/tp-marketplace/src/marketplace-src.js"></script>
+<script src="/components/angular-segmentio/angular-segmentio.js"></script>
+<script src="/components/jqueryui-touch-punch/jquery.ui.touch-punch.js"></script>
+<!--CORE-->
+<script src="/core/core.js"></script>
+<!--CORE SERVICES-->
+<script src="/core/services/mdu.js"></script>
+<script src="/core/services/saved-search.js"></script>
+<script src="/core/services/news.js"></script>
+<script src="/core/services/user.js"></script>
+<script src="/core/services/comment.js"></script>
+<script src="/core/services/favorite.js"></script>
+<script src="/core/services/hidden.js"></script>
+<script src="/core/services/finance.js"></script>
+<script src="/core/services/message.js"></script>
+<script src="/core/services/custom-field.js"></script>
+<script src="/core/services/custom-field-dimension.js"></script>
+<script src="/core/services/pin.js"></script>
+<script src="/core/services/geocoder.js"></script>
+<!--CORE DIRECTIVES-->
+<script src="/core/directives/directives.js"></script>
+<!--CORE FILTERS-->
+<script src="/core/filters/filters.js"></script>
+<!--CORE MISC-->
 <script src="/core/auth/auth.js"></script>
-<script src="/core/market/property.js"></script>
-<script src="/core/market/news.js"></script>
-<script src="/core/market/market.js"></script>
-<script src="/core/utility/utility.js"></script>
-<script src="/core/browser-detect/browser-detect.js"></script>
 <script src="/core/powers/powers.js"></script>
 
-<% if (config.environment == 'local') { %>
+<% if (config.environment == 'mock') { %>
     <script src="/components/angular-mocks/angular-mocks.js"></script>
-    <script src="/app-config/local.js"></script>
-<% } else if (config.environment == 'localDev') { %>
-    <script src="/app-config/local-dev.js"></script>
+    <script src="/environment/env.mock.js"></script>
+<% } else if (config.environment == 'local') { %>
+    <script src="/environment/env.local.js"></script>
 <% } else if (config.environment == 'demo') { %>
-    <script src="/app-config/local.js"></script>
+    <script src="/environment/env.mock.js"></script>
 <% } else if (config.environment == 'dev') { %>
-    <script src="/app-config/dev.js"></script>
+    <script src="/environment/env.dev.js"></script>
 <% } else if (config.environment == 'prod') { %>
-    <script src="/app-config/prod.js"></script>
+    <script src="/environment/env.prod.js"></script>
 <% } %>
 
 <script src="/app/app.js"></script>
-<script src="/app/account/account.js"></script>
-<script src="/app/login/login.js"></script>
-<script src="/app/market/market.js"></script>
-<script src="/app/market/map.js"></script>
-<script src="/core/market/leaflet-google.js"></script>
-<script src="/app/market/report.js"></script>
+<script src="/app/account/account.config.js"></script>
+<script src="/app/account/account.controllers.js"></script>
+<script src="/app/login/login.config.js"></script>
+<script src="/app/login/login.controllers.js"></script>
+<script src="/app/market/market.services.js"></script>
+<script src="/app/market/market.config.js"></script>
+<script src="/app/market/market.controllers.js"></script>
+<script src="/app/market/market.directives.js"></script>
 
-<% if (config.environment == 'local') { %>
+<% if (config.environment == 'mock') { %>
     <script src="/app/mock.js"></script>
     <script src="http://localhost:35729/livereload.js"></script>
-<% } else if (config.environment == 'localDev') { %>
+<% } else if (config.environment == 'local') { %>
     <script src="/app/bootstrap.js"></script>
     <script src="http://localhost:35729/livereload.js"></script>
 <% } else if (config.environment == 'demo') { %>

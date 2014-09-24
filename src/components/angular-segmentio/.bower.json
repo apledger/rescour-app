@@ -1,0 +1,25 @@
+{
+  "name": "angular-segmentio",
+  "main": "angular-segmentio.js",
+  "dependencies": {
+    "angular": "~1.0.6"
+  },
+  "devDependencies": {
+    "angular-mocks": "~1.0.6"
+  },
+  "ignore": [
+    "test/",
+    "config/"
+  ],
+  "homepage": "https://github.com/arnaudbreton/angular-segmentio",
+  "_release": "560a86b160",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "560a86b16072d4e74548022e0a93869cc9d268ad"
+  },
+  "_source": "git://github.com/arnaudbreton/angular-segmentio.git",
+  "_target": "*",
+  "_originalSource": "angular-segmentio",
+  "_direct": true
+}
